@@ -1,0 +1,48 @@
+﻿@using TotalPortal.Configuration
+
+@model TotalDTO.Commons.IVoidTypeBaseDTO
+
+@Html.HiddenFor(model => model.VoidTypeID)
+@Html.HiddenFor(model => model.Code)
+@Html.HiddenFor(model => model.VoidClassID)
+
+@Html.Hidden("TempName", (@Model != null ? @Model.Name : ""))
+
+
+@Html.LabelFor(model => model.Name)
+<div class="div-input">
+    @Html.EditorFor(d => d.Name)
+</div>
+<div class="div-validation-message">
+    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+</div>
+
+<script type="text/javascript">
+
+    getVoidTypeModelID = function (modelID) {
+        return modelID.substring(0, modelID.length - 4); //At first: Pass: modelID = this.element.attr('id') = 'VoidType_Name', Then: Return: ('VoidType_Name').substring(0, modelID.length - 4) = 'VoidType_'
+    }
+
+    gridEditorVoidTypeSelect = function (e) {
+        var modelID = getVoidTypeModelID(this.element.attr('id'));
+
+        var dataItem = e.sender.dataItem(e.item.index());
+
+        $("#" + modelID + "VoidTypeID").val(dataItem.VoidTypeID);
+        $("#" + modelID + "VoidClassID").val(dataItem.VoidClassID);
+        $("#" + modelID + "Code").val(dataItem.Code);
+        
+        //Remember last AutoComplete value
+        $("#" + modelID + "TempName").val(dataItem.Name);
+        //Trigger change event. This event is not used in this editor template. It will be catch out side of this editor template
+        $("#" + modelID + "VoidTypeID").trigger("change");
+    }
+
+    gridEditorVoidTypeChange = function (e) { } //Keep old selected value. This function is used in detail mode (In conjuction with grid)
+
+    $(".voidTypeBase_AutoComplete").focusout(function (e) { //Keep old selected value. This is used in master mode
+        var modelID = getVoidTypeModelID(this.id);
+        $(this).val($("#" + modelID + "TempName").val());        
+    });
+
+</script>

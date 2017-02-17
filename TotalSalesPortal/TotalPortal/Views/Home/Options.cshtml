@@ -1,0 +1,34 @@
+﻿@model TotalPortal.ViewModels.Home.OptionViewModel
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="div-main" style="margin-top: 100px; margin-left: 100px;">
+        <div class="right-panel" >
+            <div class="form-group">
+                @Html.LabelFor(model => model.GlobalFromDate)
+                <div class="div-input">
+                    @Html.Kendo().DateTimePickerFor(model => model.GlobalFromDate).HtmlAttributes(new { @class = "input-class" })
+                    @Html.ValidationMessageFor(model => model.GlobalFromDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.GlobalToDate)
+                <div class="div-input">
+                    @Html.Kendo().DateTimePickerFor(model => model.GlobalToDate).HtmlAttributes(new { @class = "input-class" })
+                    @Html.ValidationMessageFor(model => model.GlobalToDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-left: 142px; float: left; ">
+                <input type="submit" formaction="@Url.Action("Options", "Home")" value="   OK    " class="k-button custom-button" />
+            </div>
+
+            @Html.Partial("~/Views/Helpers/Bases/_BaseSubmit.cshtml")
+        </div>
+    </div>
+}
+

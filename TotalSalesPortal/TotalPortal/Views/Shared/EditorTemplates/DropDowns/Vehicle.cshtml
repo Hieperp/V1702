@@ -1,0 +1,11 @@
+﻿@model TotalPortal.Areas.Commons.ViewModels.Helpers.IVehicleDropDownViewModel
+
+<div class="form-group">
+    @Html.LabelFor(model => model.VehicleID)
+    <div class="div-input">
+        @Html.Kendo().DropDownListFor(m => m.VehicleID).BindTo(Model.VehicleSelectList).HtmlAttributes(new { @class = "left-panel-input" })
+    </div>
+    <div class="div-validation-message">
+        @Html.ValidationMessageFor(model => model.VehicleID, "", new { @class = "text-danger" })
+    </div>
+</div>

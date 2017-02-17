@@ -1,0 +1,50 @@
+﻿<script src="@Url.Content("~/Scripts/flash.js")"></script>
+
+<!-- Start of document placement code -->
+<script language="JavaScript" type="text/javascript">
+    var width = "100%";
+    var height = "580px";
+    var align = "Middle";
+    var name = "Print2FlashDoc";
+    //var url = "/Content/flash/flicker-gone.swf";
+    window.flashUrl = {
+        userGuide: '@Url.Content("~/Content/Flash/UserGuide.swf")'
+ }
+var flashvars = ""
+
+ var alternateContent = 'This content requires the Adobe Flash Player. It either has not been installed yet or is prohibited by your browser security settings. Either'
+ 	+ ' <a href="http://www.macromedia.com/go/getflash/">click here to get Flash</a> or loosen your browser security restrictions';
+ if(isIE && isWin) alternateContent += ' and then <a href="javascript:document.location.reload()">Refresh</a> this page'
+ alternateContent += '.'
+
+ if(isIE && isWin) {
+     var oeTags = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" '
+     + 'width="'+width+'" height="'+height+'" align="'+align+'" id="'+name+'"'
+     + 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version='+requiredMajorVersion+','+requiredMinorVersion+','+requiredRevision+',0">'
+     + '<param name="movie" value="' + window.flashUrl.userGuide + '" /><param name="quality" value="best" />'
+     + '<param name="allowFullScreen" value="true" />'
+     + '<param name="allowFullScreenInteractive" value="true" />'
+     + '<param name="allowScriptAccess" value="sameDomain" />'
+     + '<param name="FlashVars" value="extName='+name+flashvars+'" />'
+     + alternateContent
+     + '<\/object>';
+     document.write(oeTags);
+     //AddP2FDoc(GetDoc(name));
+   } else if(DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision)) {
+    var oeTags = '<embed src="' + window.flashUrl.userGuide + '" quality="best" '
+     + 'width="'+width+'" height="'+height+'" align="'+align+'" name="'+name+'" '
+     + 'play="true" '
+     + 'loop="false" '
+     + 'quality="best" '
+     + 'allowScriptAccess="sameDomain" allowFullScreen="true" allowFullScreenInteractive="true"'
+     + 'type="application/x-shockwave-flash" '
+     + 'pluginspage="http://www.macromedia.com/go/getflashplayer" '
+     + 'FlashVars="extName='+name+flashvars+'"> '
+     + '<\/embed>'
+     document.write(oeTags);
+     //AddP2FDoc(GetDoc(name));
+   } else document.write(alternateContent);
+</script>
+<noscript>
+    This content requires scripts to be enabled in your browser. Please enable scripts in your browser settings.
+</noscript>

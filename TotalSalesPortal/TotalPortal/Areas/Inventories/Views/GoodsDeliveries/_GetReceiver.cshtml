@@ -1,0 +1,66 @@
+﻿@using TotalPortal.Configuration
+@using TotalModel.Models;
+
+@(Html.Kendo().Grid<PendingHandlingUnitReceiver>()
+    .Name("gridPendingHandlingUnitReceivers")
+
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.ReceiverCode).Title("Mã đơn vị nhận").Width(62);
+        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(150);
+        columns.Bound(c => c.ReceiverVATCode).Title("MST").Width(48);
+        columns.Bound(c => c.ReceiverTelephone).Title("Điện thoại").Width(86);
+        columns.Bound(c => c.ReceiverBillingAddress).Title("Địa chỉ").Width(180);
+    })
+    .ToolBar(toolbar =>
+    {
+        toolbar.Template(@<text>
+            <div class="toolbar" style="float: right;">
+                <label>Nhập mã, tên, MST, hoặc địa chỉ giao hàng</label>
+                <input id="pendingHandlingUnitReceiverFilter" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="pendingHandlingUnitReceiverFilter_KeyUp()" />
+            </div>
+        </text>);
+    })
+    .Scrollable(s => s.Height(SettingsManager.PopupContentHeightLarge))
+    .DataSource(ds => ds.Ajax()
+        .Read(read => read.Action("GetReceivers", "GoodsDeliveryAPIs", new { area = "Inventories" }).Data("onAdditionalGetCustomers"))
+        .ServerOperation(true)
+    )
+    .Selectable()
+)
+
+<script type="text/javascript">
+    function onAdditionalGetCustomers(e) {
+        return {
+            locationID: 1,
+            handlingUnitID: $("#HandlingUnitID").val()
+        };
+    }
+
+    function pendingHandlingUnitReceiverFilter_KeyUp() {
+        var pendingHandlingUnitReceiverFilter = $("#pendingHandlingUnitReceiverFilter").val(), gridDetails = $("#gridPendingHandlingUnitReceivers").data("kendoGrid");
+
+        if (pendingHandlingUnitReceiverFilter && pendingHandlingUnitReceiverFilter.length >= "@SettingsManager.AutoCompleteMinLenght") {
+            gridDetails.dataSource.filter({
+                logic: "or",
+                filters: [
+                    { field: "ReceiverCode", operator: "contains", value: pendingHandlingUnitReceiverFilter },
+                    { field: "ReceiverName", operator: "contains", value: pendingHandlingUnitReceiverFilter },
+                    { field: "ReceiverVATCode", operator: "contains", value: pendingHandlingUnitReceiverFilter },
+                    { field: "ReceiverTelephone", operator: "contains", value: pendingHandlingUnitReceiverFilter },
+                    { field: "ReceiverBillingAddress", operator: "contains", value: pendingHandlingUnitReceiverFilter }
+                ]
+            });
+
+
+        } else {
+            if (gridDetails.dataSource.filter() != undefined)
+                gridDetails.dataSource.filter({});
+        }
+    }
+
+
+    $("#gridPendingHandlingUnitReceivers").dblclick(function (e) {
+        okButton_Click();
+    })
+</script>

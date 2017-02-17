@@ -1,0 +1,132 @@
+﻿@{Layout = "~/Views/Shared/_LayoutPopup.cshtml";}
+
+@model TotalPortal.Areas.Inventories.ViewModels.HandlingUnitViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.HandlingUnitID);
+
+    @Html.HiddenFor(model => model.ShippingAddress);
+    @Html.HiddenFor(model => model.Description);
+    @Html.HiddenFor(model => model.Remarks);
+
+    @Html.HiddenFor(model => model.Customer.CustomerID);
+    @Html.HiddenFor(model => model.Customer.Code);
+    @Html.HiddenFor(model => model.Customer.Name);
+    @Html.HiddenFor(model => model.Customer.VATCode);
+    @Html.HiddenFor(model => model.Customer.Telephone);
+    @Html.HiddenFor(model => model.Customer.BillingAddress);
+    @Html.HiddenFor(model => model.Customer.EntireTerritoryEntireName);
+    @Html.HiddenFor(model => model.Customer.SalespersonID)
+    @Html.HiddenFor(model => model.Customer.SalespersonName)
+
+    @Html.HiddenFor(model => model.Receiver.CustomerID);
+    @Html.HiddenFor(model => model.Receiver.Code);
+    @Html.HiddenFor(model => model.Receiver.Name);
+    @Html.HiddenFor(model => model.Receiver.VATCode);
+    @Html.HiddenFor(model => model.Receiver.Telephone);
+    @Html.HiddenFor(model => model.Receiver.BillingAddress);
+    @Html.HiddenFor(model => model.Receiver.EntireTerritoryEntireName);
+    @Html.HiddenFor(model => model.Receiver.SalespersonID)
+    @Html.HiddenFor(model => model.Receiver.SalespersonName)
+
+    @Html.HiddenFor(model => model.GoodsIssue.GoodsIssueID);
+    @Html.HiddenFor(model => model.GoodsIssue.Reference);
+    @Html.HiddenFor(model => model.GoodsIssue.EntryDate);
+    @Html.HiddenFor(model => model.GoodsIssue.ReceiverCode);
+    @Html.HiddenFor(model => model.GoodsIssue.ReceiverName);
+
+    @Html.HiddenFor(model => model.PackagingStaff.EmployeeID);
+    @Html.HiddenFor(model => model.PackagingStaff.Name);
+
+    @(Html.Kendo().TabStrip()
+        .HtmlAttributes(new { @style = "height: 468px; margin-left: 0px; margin-right: 0px;" })
+        .Name("tabStrip")
+        .Items(tabStrip =>
+        {
+            tabStrip.Add().Text("Chọn phiếu xuất kho")
+                .Selected(true)
+                .Content(@<text>
+                    @Html.Partial("~/Areas/Inventories/Views/HandlingUnits/_GetGoodsIssue.cshtml")
+                </text>);
+
+            tabStrip.Add().Text("Chọn khách hàng")
+                .Content(@<text>
+                    @Html.Partial("~/Areas/Inventories/Views/HandlingUnits/_GetCustomer.cshtml")
+                </text>);
+        })
+    )
+
+
+    <div class="background-bar" style="height: 45px;">
+        <div class="popup-button-bar">
+            <input id="submitCreateWizard" type="submit" formaction="@Url.Action("CreateWizard", "HandlingUnits")" formtarget="_top" style="display:none" />
+
+            <button type="button" class="k-button" onclick="okButton_Click()"> <img src="~/Content/Images/Mains/Size24/Ok-1.png" /> Đóng gói cho khách hàng đang chọn </button>
+            <button type="button" class="k-button" onclick="window.parent.$('#myWindow').data('kendoWindow').close()"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png" /> Thoát </button>
+        </div>
+    </div>
+}
+
+<link href="@Url.Content("~/Content/CustomCss/GeneralPopup.css")" rel="stylesheet" type="text/css" />
+
+
+<script type="text/javascript">
+    function okButton_Click() {
+        handleOKEvent($("#tabStrip").data("kendoTabStrip").select().index());
+    }
+
+    function okWOSelectButton_Click() {
+        handleOKEvent();
+    }
+
+
+    function handleOKEvent(tabIndex) {
+        if (tabIndex === undefined)
+            _setModelInput();
+        else {
+            var selectedGrid = $(tabIndex === 0 ? "#handlingUnitPendingGoodsIssueGrid" : "#handlingUnitPendingCustomerGrid").data("kendoGrid");
+            var selectedDataItem = selectedGrid.dataItem(selectedGrid.select());
+            if (selectedDataItem === undefined)
+                return false;
+
+            _setModelInput(selectedDataItem);
+        }
+        $("#submitCreateWizard").trigger("click");
+
+
+        function _setModelInput(selectedDataItem) {
+            $("#GoodsIssue_GoodsIssueID").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueID === undefined ? null : selectedDataItem.GoodsIssueID);
+            $("#GoodsIssue_Reference").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueReference === undefined ? null : selectedDataItem.GoodsIssueReference);
+            $("#GoodsIssue_EntryDate").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueEntryDate === undefined ? null : kendo.toString(selectedDataItem.GoodsIssueEntryDate, SettingsManager.DateFormat));
+            $("#GoodsIssue_ReceiverCode").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueID === undefined || selectedDataItem.ReceiverCode === undefined ? null : selectedDataItem.ReceiverCode);
+            $("#GoodsIssue_ReceiverName").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueID === undefined || selectedDataItem.ReceiverName === undefined ? null : selectedDataItem.ReceiverName);
+            
+            $("#ShippingAddress").val(selectedDataItem === undefined || selectedDataItem.ShippingAddress === undefined ? null : selectedDataItem.ShippingAddress);
+
+            $("#Description").val(selectedDataItem === undefined || selectedDataItem.Description === undefined ? null : selectedDataItem.Description);
+            $("#Remarks").val(selectedDataItem === undefined || selectedDataItem.Remarks === undefined ? null : selectedDataItem.Remarks);
+
+            $("#Customer_CustomerID").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerID);
+            $("#Customer_Code").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerCode);
+            $("#Customer_Name").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerName);
+            $("#Customer_VATCode").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerVATCode);
+            $("#Customer_Telephone").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerTelephone);
+            $("#Customer_BillingAddress").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerBillingAddress);
+            $("#Customer_EntireTerritoryEntireName").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerEntireTerritoryEntireName);
+
+
+            $("#Receiver_CustomerID").val(selectedDataItem === undefined ? null : selectedDataItem.ReceiverID);
+            $("#Receiver_Code").val(selectedDataItem === undefined ? null : selectedDataItem.ReceiverCode);
+            $("#Receiver_Name").val(selectedDataItem === undefined ? null : selectedDataItem.ReceiverName);
+            $("#Receiver_VATCode").val(selectedDataItem === undefined ? null : selectedDataItem.ReceiverVATCode);
+            $("#Receiver_Telephone").val(selectedDataItem === undefined ? null : selectedDataItem.ReceiverTelephone);
+            $("#Receiver_BillingAddress").val(selectedDataItem === undefined ? null : selectedDataItem.ReceiverBillingAddress);
+            $("#Receiver_EntireTerritoryEntireName").val(selectedDataItem === undefined ? null : selectedDataItem.ReceiverEntireTerritoryEntireName);
+
+        }
+    }
+
+</script>

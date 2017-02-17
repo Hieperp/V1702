@@ -1,0 +1,213 @@
+﻿
+
+
+.div-row {
+    /*clear: both;*/
+    /*float: left;*/
+    /*width: 50%;*/
+    min-height: 30px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.div-row2 {
+    clear: both;
+    /*float: left;*/
+    width: 100%;
+    height: 25px;
+    /*margin-top: 10px;*/
+}
+
+.div-row3 {
+    float: left;
+    height: 25px;
+    /*margin-top: 10px;*/
+}
+
+
+
+.form-group1 {
+    width: 100%;
+    float: left;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.input-class {
+    width: 200px;
+}
+
+.input-class1 {
+    width: 270px;
+}
+
+.input-class2 {
+    width: 729px;
+}
+
+.text-danger {
+}
+
+.div-input {
+    /*width: 100%;*/
+    /*margin-left: 10px;*/
+    /*float: left;*/
+}
+
+
+.control-label1 {
+    text-align: right;
+    margin: 6px 10px 2px 0px;
+    float: left;
+    width: 160px;
+}
+
+.control-label-left {
+    text-align: left;
+    margin: 10px 10px 2px 0px;
+    float: left;
+    width: 200px;
+}
+
+.control-label2 {
+    text-align: left;
+    margin: 5px 5px 2px 5px;
+    float: left;
+    width: 120px;
+}
+
+/*#div-caption{
+    font-size: large;     
+}*/
+
+
+.label-description {
+    font-size: small;
+    font-weight: bold;
+    /*background-color: yellowgreen;*/
+    /*border-radius: 4px;*/
+    padding: 2px;
+    margin: 0;
+}
+
+.div-panel-left {
+    float: left;
+    width: 50%;
+    margin-top: 10px;
+}
+
+.div-panel-right {
+    float: left;
+    width: 50%;
+    margin-top: 10px;
+}
+
+
+.multiline-grid {
+    color: #B2B2B2;
+    /*font-size: smaller;
+    height: 12px;*/
+}
+
+.div-main {
+    width: 1200px;
+}
+
+#popupWindow {
+    position: absolute;
+}
+
+.contract-separator {
+    height: 130px;
+    clear: both;
+}
+
+.customer-lmargin {
+    padding-left: 171px;
+}
+
+.customer-background {
+    background-repeat: no-repeat;
+    background-position: 90px -19px;
+    height: 150px;
+    width: 780px;
+    float: left;
+    margin-top: -30px;
+    z-index: -1;
+    margin-bottom: 10px;
+}
+
+#customer-div {
+    /*background-image: url("../Images/New/customer_div_bg.png");*/
+    /*background-image: url('../Images/Mains/Navigate-right.png');*/
+}
+
+#supplier-div {
+    background-image: url("../Images/New/supplier_div_bg.png");
+}
+
+
+
+.partsinvoice-background1 {
+    background-image: url("../Images/New/palette.png");
+    background-repeat: no-repeat;
+    float: left;
+    width: 126px;
+    height: 126px;
+    text-align: center;
+    margin-top: -7px;
+}
+
+.vehiclesinvoice-background {
+    background-image: url("../Images/New/palette.png");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    float: left;
+    width: 110px;
+    height: 110px;
+    text-align: center;
+    /*margin-top: -30px;*/
+}
+
+.div-in-background {
+    margin-top: 30px;
+}
+
+.warehouse-lmargin {
+    padding-left: 171px;
+}
+
+.warehouse-background {
+    background-repeat: no-repeat;
+    background-position: 90px -19px;
+    height: 150px;
+    width: 780px;
+    float: left;
+    margin-top: -30px;
+    z-index: -1;
+    margin-bottom: 10px;
+}
+
+#warehouse-div {
+    background-image: url("../Images/New/warehouse_div_bg.png");
+}

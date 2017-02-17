@@ -1,0 +1,11 @@
+﻿@model TotalPortal.Areas.Commons.ViewModels.Helpers.IPaymentTermDropDownViewModel
+
+<div class="form-group">
+    @Html.LabelFor(model => model.PaymentTermID, new { @class = "right-panel-label" })
+    <div class="div-input">
+        @Html.Kendo().DropDownListFor(m => m.PaymentTermID).BindTo(Model.PaymentTermSelectList).HtmlAttributes(new { @class = "right-panel-input" })
+    </div>
+    <div class="div-validation-message">
+        @Html.ValidationMessageFor(model => model.PaymentTermID, "", new { @class = "text-danger" })
+    </div>
+</div>

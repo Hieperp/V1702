@@ -1,0 +1,8 @@
+﻿@using TotalPortal.Configuration;
+
+@model DateTime?
+
+@if (Model.HasValue)
+{
+    @Model.Value.ToString(SettingsManager.DateFormat)
+}

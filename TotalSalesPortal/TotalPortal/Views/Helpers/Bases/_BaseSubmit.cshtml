@@ -1,0 +1,36 @@
+﻿@model TotalDTO.BaseDTO
+
+@Html.HiddenFor(model => model.SubmitTypeOption)
+@Html.HiddenFor(model => model.PrintAfterClosedSubmit)
+
+<div id="div-alert">
+    <a href="javascript:void(0)" style="height: 32px;">
+        <img src="~/Content/Images/New/alert1.png" alt="Alert" />
+        <label style="color: #0094ff; font-style: italic; font-family: Monotype Corsiva; " onclick=" alert_click()">Dữ liệu nhập vào chưa đầy đủ hoặc không hợp lệ. Vui lòng nhấn vào đây để xem chi tiết </label>
+    </a>
+</div>
+
+
+
+@Html.ValidationSummary()
+
+@if (!ViewData.ModelMetadata.IsNullableValueType && @ViewData.ModelState.Values.Where(v => v.Errors.Count != 0).Count() > 0)
+{
+    <input type="hidden" id="isValid" value="1" />
+}
+
+<script type="text/javascript">
+    function alert_click() {
+        $('.validation-summary-errors').slideToggle('medium', function () {
+            if ($('.validation-summary-errors').is(':visible'))
+                $('.validation-summary-errors').css('display', 'inline-block');
+        });
+    }
+
+    $(document).ready(function () {
+        if ($("#isValid").val() == 1) {
+            $("#div-alert").css("display", "inline-block");
+        }
+    });
+</script>
+

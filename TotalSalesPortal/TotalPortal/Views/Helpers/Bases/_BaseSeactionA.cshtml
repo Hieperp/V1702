@@ -1,0 +1,27 @@
+﻿@model TotalDTO.BaseDTO
+
+@Html.HiddenFor(model => model.Approved)
+@Html.HiddenFor(model => model.InActive)
+@Html.HiddenFor(model => model.InActiveDate)
+@Html.HiddenFor(model => model.InActivePartial)
+
+<div class="form-group">
+    @Html.LabelFor(model => model.EntryDate)
+    <div class="div-input">
+        @Html.Kendo().DateTimePickerFor(model => model.EntryDate).HtmlAttributes(new { @class = "left-panel-input" })
+    </div>
+    <div class="div-validation-message">
+        @Html.ValidationMessageFor(model => model.EntryDate, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Reference)
+    <div class="div-input">
+        @Html.Kendo().MaskedTextBoxFor(model => model.Reference).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+    </div>
+    <div class="div-validation-message">
+        @Html.ValidationMessageFor(model => model.Reference, "", new { @class = "text-danger" })
+    </div>
+</div>

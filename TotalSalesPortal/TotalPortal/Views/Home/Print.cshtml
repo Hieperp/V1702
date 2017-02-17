@@ -1,0 +1,3 @@
+﻿@using MvcReportViewer;
+
+@Html.MvcReportViewerFluent("/TotalSalesPortal/DeliveryAdviceSumUp").ReportParameters(new { DeliveryAdviceID = 84 }).Attributes(new { Height = 1100, Width = 1150, style = "border: none" }).ControlSettings(new ControlSettings() { ShowParameterPrompts = false })

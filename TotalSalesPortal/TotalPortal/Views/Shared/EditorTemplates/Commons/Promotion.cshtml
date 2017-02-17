@@ -1,0 +1,79 @@
+﻿@using TotalPortal.Configuration
+
+@model TotalDTO.Commons.PromotionDTO
+
+@if (@Model != null)
+{   //This @Model != null check => To ensure there is NO INPUT HTML for any property of PromotionDTO is made in HTML => Then: the model will submit Null to controller
+    //Otherwise, with no check here, all propertis of model will be generated HTML INPUT => Then: the model will submit to controller
+    //If the model is submited to controller, there is nothing wrong! Sure! This will be good! Sure! BUT: ... we now face with the problem of Null value of bool properties (ApplyToAllCustomers, ApplyToAllCommodities). We can have several way to handle this, but: don't waste time for it! Okey!
+    @Html.HiddenFor(model => model.PromotionID)
+    @Html.HiddenFor(model => model.DiscountPercent)
+    @Html.HiddenFor(model => model.ControlFreeQuantity)
+    @Html.HiddenFor(model => model.StartDate)
+    @Html.HiddenFor(model => model.EndDate)
+    @Html.HiddenFor(model => model.ApplyToAllCustomers)
+    @Html.HiddenFor(model => model.ApplyToAllCommodities)
+    @Html.HiddenFor(model => model.Remarks)
+}
+
+@{var showPromotion = @Model != null && @Model.PromotionID != null && @Model.Name != null && @Model.Name != "";}
+
+<div class="right-first-panel" style="display:none;">
+    <div class="form-group" style="margin-top:0px;">
+        <div class="right-panel-label" style="padding-top: 2px;"> <img src="~/Content/Images/Mains/Sale-icon.png" title="Áp dụng chương trình khuyến mãi" />  </div>
+        <div class="div-input">
+            @if (showPromotion)
+            {
+                @Html.Kendo().MaskedTextBoxFor(model => model.Name).HtmlAttributes(new { @class = "right-panel-input", @readonly = "readonly" })
+            }
+            else
+            {
+                @Html.Kendo().MaskedTextBox().Name("PromotionA.Name").Value("Áp dụng tất cả CTKM còn hiệu lực").HtmlAttributes(new { @class = "right-panel-input", @readonly = "readonly" })
+            }
+        </div>
+        @if (showPromotion)
+        {
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        }
+    </div>
+    @if (showPromotion)
+    {
+        <div class="form-group" style="margin-top:0px;">
+            <div class="right-panel-label"> </div>
+            <div> @Html.DisplayFor(m => m.ApplyToAllCustomers) Áp dụng tất cả khách hàng &nbsp &nbsp &nbsp &nbsp @Html.DisplayFor(m => m.ApplyToAllCommodities) Áp dụng tất cả sản phẩm</div>
+        </div>
+    }
+</div>
+
+@if (showPromotion)
+{
+    <div class="right-second-panel" style="width: 32%;display:none;">
+        <div class="form-group" style="margin-top:0px;">
+            <div style="float:left; padding-top: 2px; padding-right: 2px;"> <img src="~/Content/Images/Mains/Sale-Discount.png" title="Tỷ lệ chiết khấu" /> </div> <div class="right-panel-label right-panel-label-larger-width">
+                @Html.DisplayFor(a => a.DiscountPercent)% @if (@Model.ControlFreeQuantity > 0)
+                { <span> [Mua @Model.ControlFreeQuantity.Value.ToString("N0") tặng 1] </span>}
+            </div>
+        </div>
+        <div class="form-group" style="margin-top:0px;">
+            <div style="float:left; padding-top: 2px; padding-right: 2px;"> <img src="~/Content/Images/New/BirthdayIcon.png" title="Thời hạn áp dụng" /> </div> <div class="right-panel-label right-panel-label-larger-width">  @Html.DisplayFor(a => a.StartDate) -> @Html.DisplayFor(a => a.EndDate) </div>
+        </div>
+    </div>
+}
+
+
+<div style="float: right; margin-top: -135px; text-align: center; width: 110px; height: 110px; ">
+    <div style="height: 90px; text-align: center; padding-left: 22px; padding-right: 22px; padding-top: 35px;">
+        @if (showPromotion)
+        {
+            <span> @Html.DisplayFor(a => a.DiscountPercent)% </span>
+            if (@Model.ControlFreeQuantity > 0)
+            { <div> [@Model.ControlFreeQuantity.Value.ToString("N0")+1] </div>}
+        }
+        else
+        {
+            <span> <img src="~/Content/Images/Mains/Blowout-Sale-icon-48.png" title="Áp dụng tổng hợp các chương trình khuyến mãi còn hiệu lực cho khách hàng này" /> </span>
+        }
+    </div>
+</div>

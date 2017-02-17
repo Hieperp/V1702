@@ -1,0 +1,304 @@
+﻿@using TotalPortal.Configuration
+
+@model TotalPortal.Areas.Inventories.ViewModels.HandlingUnitViewModel
+
+<div id="popupWindow"></div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.HandlingUnitID)
+    @Html.HiddenFor(model => model.TotalQuantity)
+    @Html.HiddenFor(model => model.TotalWeight)
+
+    <div class="left-panel">
+
+        @Html.Partial("~/Views/Helpers/Bases/_BaseSeactionA.cshtml")
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RealWeight)
+            <div class="div-input">
+                @Html.Kendo().NumericTextBoxFor(model => model.RealWeight).HtmlAttributes(new { @class = "left-panel-input" }).Events(e => e.Change("UpdateWeightDifference").Spin("UpdateWeightDifference"))
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.RealWeight, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.WeightDifference)
+            <div class="div-input">
+                @Html.Kendo().NumericTextBoxFor(model => model.WeightDifference).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.WeightDifference, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ConsignmentNo)
+            <div class="div-input">
+                @Html.Kendo().NumericTextBoxFor(model => model.ConsignmentNo).Format(@SettingsManager.NumberFormat).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.ConsignmentNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdentificationPerConsignmentNo)
+            <div class="div-input">
+                @Html.Kendo().MaskedTextBoxFor(model => model.IdentificationPerConsignmentNo).HtmlAttributes(new { @class = "left-panel-input text-align-right", @readonly = "readonly" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.IdentificationPerConsignmentNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.EditorFor(d => d.PackagingStaff, new { EmployeeDisplayName = @Model.GetDisplayName(m => m.PackagingStaff) })
+        </div>
+
+        @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PackingMaterial.cshtml")
+                
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Dimension)
+            <div class="div-input">
+                @Html.Kendo().MaskedTextBoxFor(model => model.Dimension).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.Dimension, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+
+    <div class="right-panel">
+        <div style="clear: both; height: 168px;">
+
+            @Html.EditorFor(d => d.Customer, new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Customer) })
+            @Html.EditorFor(d => d.Receiver, new { CustomerDescriptionHidden = "true", CustomerDisplayName = @Model.GetDisplayName(m => m.Receiver), CustomerIcon = "Customer Red 24.png" })
+
+            @Html.EditorFor(d => d.ShippingAddress, new { ShippingAddressReadonly = true })
+
+            <div style="float: right; margin-top: -142px; " title="Phiếu xuất kho">
+                @Html.DisplayFor(d => d.GoodsIssue)
+            </div>
+
+        </div>
+
+        <div class="div-k-grid-detail">
+            @(Html.Kendo().Grid(Model.HandlingUnitViewDetails)
+                .Name("kendoGridDetails")
+                .Columns(columns =>
+                {
+                    columns.Template(t => { }).Title("&nbsp;").ClientTemplate("#= RowNumber(data) #").Width(35);
+
+
+                    columns.Bound(p => p.HandlingUnitDetailID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= HandlingUnitDetailID #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].HandlingUnitDetailID' value='#= HandlingUnitDetailID #' />");
+                    columns.Bound(p => p.HandlingUnitID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= HandlingUnitID #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].HandlingUnitID' value='#= HandlingUnitID #' />");
+
+
+                    columns.Bound(p => p.GoodsIssueID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= GoodsIssueID #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].GoodsIssueID' value='#= GoodsIssueID #' />");
+                    columns.Bound(p => p.GoodsIssueDetailID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= GoodsIssueDetailID #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].GoodsIssueDetailID' value='#= GoodsIssueDetailID #' />");
+
+                    columns.Bound(p => p.GoodsIssueReference).DisplayNameTitle().Filterable(false).Width(60)
+                        .ClientTemplate("#= GoodsIssueReference #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].GoodsIssueReference' value='#= GoodsIssueReference #' />");
+                    columns.Bound(p => p.GoodsIssueEntryDate).DisplayNameTitle().Filterable(false).Width(130)
+                        .ClientTemplate("#= GoodsIssueEntryDate ? kendo.toString(kendo.parseDate(GoodsIssueEntryDate), '" + SettingsManager.DateTimeFormat + "') : '' #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].GoodsIssueEntryDate' value='#= kendo.toString(GoodsIssueEntryDate, '" + SettingsManager.DateTimeFormat + "') #' />");
+                    
+
+                    columns.Bound(p => p.CommodityID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= CommodityID #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].CommodityID' value='#= CommodityID #' />");
+                    columns.Bound(p => p.CommodityCode).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= CommodityCode #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].CommodityCode' value='#= CommodityCode #' />");
+                    columns.Bound(p => p.CommodityName).DisplayNameTitle().Filterable(false).Width(300)
+                        .ClientFooterTemplate("Tổng cộng:")
+                        .ClientTemplate("#= CommodityName #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].CommodityName' value='#= CommodityName #' />");
+
+                    columns.Bound(p => p.CommodityTypeID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= CommodityTypeID #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].CommodityTypeID' value='#= CommodityTypeID #' />");
+
+
+                    columns.Bound(p => p.QuantityRemains).DisplayNameTitle().Filterable(false).Width(50).HtmlAttributes(new { @class = "grid-number-column" })
+                        .Format("{0:n0}")
+                        .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
+                        .ClientTemplate("#= kendo.format('{0:n0}', QuantityRemains) #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].QuantityRemains' value='#= QuantityRemains #' />");
+                    columns.Bound(p => p.Quantity).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(50)
+                        .Format("{0:n0}")
+                        .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
+                        .ClientTemplate("#= kendo.format('{0:n0}', Quantity) #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].Quantity' value='#= Quantity #' />");
+
+
+                    columns.Bound(p => p.UnitWeight).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(90)
+                        .Format("{0:n2}")
+                        .ClientTemplate("#= kendo.format('{0:n2}', UnitWeight) #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].UnitWeight' value='#= UnitWeight #' />");
+
+                    columns.Bound(p => p.Weight).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(90)
+                        .Format("{0:n2}")
+                        .ClientFooterTemplate("#= kendo.format('{0:n2}', sum) #")
+                        .ClientTemplate("#= kendo.format('{0:n2}', Weight) #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].Weight' value='#= Weight #' />");
+
+                    columns.Bound(p => p.Remarks).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= (Remarks == null)? '' : Remarks #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].Remarks' value='#= (Remarks == null) ? '' : Remarks #' />");
+
+                    columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50);
+                })
+                .Filterable()
+                .Navigatable()
+                .ToolBar(toolbar =>
+                {
+                    if (Model.Editable)
+                    {
+                        toolbar.Template(@<text>
+                            <button type="button" class="k-button" onclick="GetPendingGoodsIssueDetails()"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Chọn mặt hàng đóng gói </button>
+                            <button type="button" class="k-button" onclick="copyRemainsToQuantity()"> <img src="~/Content/Images/Mains/Size24/Borderlands-Select-icon-24.png" /> Đóng gói toàn bộ đã số lượng xuất kho </button>
+                        </text>);
+                    }
+                    else
+                    {//Add a functionless button for display purpose only
+                        toolbar.Template(
+                            @<text>
+                                <div>
+                                    @(Html.Kendo().Button()
+                                                        .Name("iconButton")
+                                                        .HtmlAttributes(new { type = "button" })
+                                                        .SpriteCssClass("k-icon k-i-ungroup") //.Content("My button label")
+                                    )
+                                </div>
+                            </text>);
+                    }
+                })
+
+
+                .Editable(editable => { editable.Enabled(Model.Editable); editable.Mode(GridEditMode.InCell).DisplayDeleteConfirmation(true).CreateAt(GridInsertRowPosition.Bottom); })
+                .Selectable(settings =>
+                {
+                    settings.Mode(GridSelectionMode.Multiple);
+                    settings.Type(GridSelectionType.Row);
+                })
+                .Events(events =>
+                {
+                    events.DataBinding(@<text> function(e) {rowNumber = 0;} </text>);
+                })
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .Batch(true)
+                    .ServerOperation(false)
+                    .Model(model =>
+                    {
+                        model.Id(x => x.HandlingUnitDetailID);
+                        model.Field(m => m.HandlingUnitDetailID).DefaultValue(0);
+                        model.Field(m => m.HandlingUnitID).DefaultValue(@Model.HandlingUnitID);
+                    })
+                    .Events(events =>
+                    {
+                        events.Error("kendGrid_ErrorHandler");
+                    })
+                    .Aggregates(a => a.Add(x => x.QuantityRemains).Sum())
+                    .Aggregates(a => a.Add(x => x.Quantity).Sum())
+                    .Aggregates(a => a.Add(x => x.Weight).Sum())
+                )
+            )
+
+        </div>
+
+        <div class="div-k-panel">
+            @(Html.Kendo().PanelBar()
+                .Name("IntroPanelBar")
+                .Items(items =>
+                {
+                    items.Add()
+                        .Text("Thông tin khác")
+                        .Selected(true)
+                        .Expanded(false)
+                        .Content(@<text>
+
+                            <div class="right-first-panel">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Description, new { @class = "right-panel-label" })
+                                    <div class="div-input">
+                                        @Html.Kendo().MaskedTextBoxFor(model => model.Description).HtmlAttributes(new { @class = "right-panel-input" })
+                                    </div>
+                                    <div class="div-validation-message">
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Remarks, new { @class = "right-panel-label" })
+                                    <div class="div-input">
+                                        @Html.Kendo().MaskedTextBoxFor(model => model.Remarks).HtmlAttributes(new { @class = "right-panel-input" })
+                                    </div>
+                                    <div class="div-validation-message">
+                                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="right-second-panel">
+                                @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PreparedPerson.cshtml")
+                                @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/Approver.cshtml")
+                            </div>
+
+                        </text>).HtmlAttributes(new { @class = "panel-class" });
+                })
+            )
+        </div>
+
+        <div class="right-botton-panel">
+            @if (Model.Editable)
+            {
+                @Html.HiddenFor(model => model.PrintAfterClosedSubmit)
+                <button type="submit" class="k-button custom-button SubmitTypeOption-Create" formaction="@Url.Action("Edit", "HandlingUnits")"> <img src="~/Content/Images/New/Save-icon-blue.png" /> Lưu và lập phiếu tiếp theo </button>
+                <button type="submit" class="k-button custom-button SubmitTypeOption-Closed" formaction="@Url.Action("Edit", "HandlingUnits")"> <img src="~/Content/Images/New/save-icon.png" /> Lưu nhãn thùng </button>
+                <button type="submit" class="k-button custom-button SubmitTypeOption-Closed" formaction="@Url.Action("Edit", "HandlingUnits")" onclick="$('#PrintAfterClosedSubmit').val(true);"> <img src="~/Content/Images/New/Actions-document-print-icon.png" /> Lưu và in nhãn thùng</button>
+            }
+            @if (Model.HandlingUnitID > 0)
+            {
+                <button type="button" class="k-button custom-button" onclick="location.href='@Url.Action("Print", "HandlingUnits", new { id = @Model.HandlingUnitID })'"> <img src="~/Content/Images/New/Apps-printer-icon.png" /> In nhãn thùng đã lưu</button>
+            }
+        </div>
+
+        @Html.Partial("~/Views/Helpers/Bases/_BaseSubmit.cshtml")
+
+    </div>
+}
+
+<script src="@Url.Content("~/Scripts/Helpers/KendoGrid/gridHelper.js")"></script>
+
+
+<script type="text/javascript">
+
+    function GetPendingGoodsIssueDetails() {
+        require(["kpopupWindow"], function (kpopupWindow) {
+            var createWizardWindow = new kpopupWindow();
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("GetPendingGoodsIssueDetails", "HandlingUnits", new { area = "Inventories" })", "Chọn phiếu xuất kho", "@SettingsManager.PopupWidthLarge", "@SettingsManager.PopupHeightWithTab");
+        });
+    }
+
+
+    $("#TotalWeight").change(function (e) {
+        UpdateWeightDifference();
+    })
+    function UpdateWeightDifference() {
+        $("#WeightDifference").data("kendoNumericTextBox").value(DoRound($("#RealWeight").val() - $("#TotalWeight").val(), requireConfig.websiteOptions.rndWeight))
+    }
+    
+</script>
+
+<style type="text/css">
+    .k-event {
+        min-height: 48px;
+        height: 48px;
+    }
+</style>
+

@@ -1,0 +1,4 @@
+﻿@using MvcReportViewer;
+@model TotalPortal.ViewModels.Helpers.PrintViewModel
+
+@Html.MvcReportViewerFluent("/TotalBikePortals/AccountInvoiceDetailSheet").ReportParameters(new { AccountInvoiceID = @Model.Id }).Attributes(new { Height = 1100, Width = 1150, style = "border: none" }).ControlSettings(new ControlSettings() { ShowParameterPrompts = false })

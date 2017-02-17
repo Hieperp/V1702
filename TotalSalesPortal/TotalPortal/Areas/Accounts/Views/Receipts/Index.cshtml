@@ -1,0 +1,74 @@
+﻿@using TotalPortal.Configuration
+
+@model TotalPortal.Areas.Accounts.ViewModels.ReceiptViewModel
+
+<div id="popupWindow"></div>
+
+@using (Html.BeginForm())
+{
+    <div>
+        @(Html.Kendo().Grid<TotalModel.Models.ReceiptIndex>()
+        .Name("kendoGridIndex")
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.ReceiptID).DisplayNameTitle().Hidden();
+            columns.Bound(p => p.LocationCode).Title("CN").Width(10);
+            columns.Bound(p => p.Reference).Title("Phiếu").Width(70);
+            columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(40);
+            columns.Bound(p => p.GoodsIssueReference).Title("Phiếu xuất kho").Width(70);
+            columns.Bound(p => p.CustomerDescription).Title("Khách hàng").Width(240);
+            columns.Bound(p => p.TotalDepositAmount).Title("Số lượng").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false);
+            columns.Bound(p => p.TotalUnApplyAmount).Title("Thành tiền").Format("{0:n0}").Width(80).HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false);
+
+            columns.Template(model => null).Width(106)
+                .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Accounts/Receipts", action = "Edit" }) + "/#= ReceiptID #'><span class='k-icon k-edit'></span></a> <a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Accounts/Receipts", action = "Alter" }) + "/#= ReceiptID #'><span class='k-icon k-i-folder-add'></span></a> <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Accounts/Receipts", action = "Delete" }) + "/#= ReceiptID #'><span class='k-icon k-delete'></span></a>");
+        })
+        .ToolBar(toolbar => toolbar.Template("<a class='k-button k-button-icontext k-grid-add' href='javascript:void(0)' onClick='createWizard()'>Lập phiếu thu</a>"))
+        .Pageable()
+        .Groupable()
+        .Filterable()
+        .Selectable()
+        .Sortable()
+        .Events(e =>
+        {
+            e.DataBound("hightLightSelectedRow");
+        })
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("GetReceiptIndexes", "ReceiptAPIs"))
+            .Sort(sort =>
+                {
+                    sort.Add(p => p.EntryDate).Descending();
+                    sort.Add(p => p.ReceiptID).Descending();
+                })
+            .PageSize(20)
+            .Model(model =>
+            {
+                model.Id(x => x.ReceiptID);
+                model.Field(m => m.ReceiptID).DefaultValue(0);
+            })
+            .ServerOperation(true)
+            )
+            .HtmlAttributes(new { @class = "grid-class" })
+        )
+    </div>
+}
+
+
+
+
+<script type="text/javascript">
+    function hightLightSelectedRow(e) {
+        require(["kindexGrid"], function (kindexGrid) {
+            var kindexGridInstance = new kindexGrid("kendoGridIndex");
+            kindexGridInstance.setSelectedRow("ReceiptID", '@ViewBag.SelectedEntityID');
+        });
+    }
+
+    function createWizard() {
+        require(["kpopupWindow"], function (kpopupWindow) {
+            var createWizardWindow = new kpopupWindow();
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "Receipts")", "Chọn phiếu xuất kho", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeightWithTab");
+        });
+    }
+</script>

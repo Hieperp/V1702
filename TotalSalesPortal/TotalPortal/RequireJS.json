@@ -1,0 +1,140 @@
+﻿{
+    "paths": {
+        "superBase": "Controllers/Root/Shared/Commons/superBase",
+        "commonEditBasic": "Controllers/Root/Shared/Edits/commonEditBasic",
+        "commonEditWithDetail": "Controllers/Root/Shared/Edits/commonEditWithDetail",
+
+
+        //Base: gridDatasource => Next to: gridDatasourceQuantity, => then: gridDatasourceAmount, => then: gridDatasourceDiscount, => then: gridDatasourceListedAmount, => then: gridDatasourceFreeQuantity. The later Exemplar inherit from it's super Exemplar
+        "gridDatasource": "Controllers/Root/Shared/Edits/gridDatasource",
+        "gridDatasourceQuantity": "Controllers/Root/Shared/Edits/gridDatasourceQuantity",
+        "gridDatasourceQuantitySubscribe": "Controllers/Root/Shared/Edits/gridDatasourceQuantitySubscribe",
+        "gridDatasourceAmount": "Controllers/Root/Shared/Edits/gridDatasourceAmount",
+        "gridDatasourceAmountSubscribe": "Controllers/Root/Shared/Edits/gridDatasourceAmountSubscribe",
+        "gridDatasourceDiscount": "Controllers/Root/Shared/Edits/gridDatasourceDiscount",
+        "gridDatasourceDiscountSubscribe": "Controllers/Root/Shared/Edits/gridDatasourceDiscountSubscribe",                
+        "gridDatasourceListedAmount": "Controllers/Root/Shared/Edits/gridDatasourceListedAmount",
+        "gridDatasourceListedAmountSubscribe": "Controllers/Root/Shared/Edits/gridDatasourceListedAmountSubscribe",
+        "gridDatasourceFreeQuantity": "Controllers/Root/Shared/Edits/gridDatasourceFreeQuantity",
+        "gridDatasourceFreeQuantitySubscribe": "Controllers/Root/Shared/Edits/gridDatasourceFreeQuantitySubscribe",
+
+        "gridDatasourceWeight": "Controllers/Root/Shared/Edits/gridDatasourceWeight",
+        "gridDatasourceWeightSubscribe": "Controllers/Root/Shared/Edits/gridDatasourceWeightSubscribe",
+
+        "gridEditorTemplate": "Controllers/Root/Shared/Edits/gridEditorTemplate",
+        "gridEditorCommodity": "Controllers/Root/Shared/Edits/gridEditorCommodity",
+        "gridEditorCommodityInvoked": "Controllers/Root/Shared/Edits/gridEditorCommodityInvoked",
+        "gridEditorCommoditiesInWarehouses": "Controllers/Root/Shared/Edits/gridEditorCommoditiesInWarehouses",
+        "gridEditorCommoditiesInWarehousesInvoked": "Controllers/Root/Shared/Edits/gridEditorCommoditiesInWarehousesInvoked",
+        "gridEditorCommoditiesInGoodsReceipts": "Controllers/Root/Shared/Edits/gridEditorCommoditiesInGoodsReceipts",
+        "gridEditorCommoditiesInGoodsReceiptsInvoked": "Controllers/Root/Shared/Edits/gridEditorCommoditiesInGoodsReceiptsInvoked",
+        "gridEditorWarehouse": "Controllers/Root/Shared/Edits/gridEditorWarehouse",
+        "gridEditorWarehouseInvoked": "Controllers/Root/Shared/Edits/gridEditorWarehouseInvoked",
+        "gridEditorVoidType": "Controllers/Root/Shared/Edits/gridEditorVoidType",
+        "gridEditorVoidTypeInvoked": "Controllers/Root/Shared/Edits/gridEditorVoidTypeInvoked",
+
+        "gridWidget": "Controllers/Root/Shared/Edits/gridWidget",
+        "gridWidgetQuantityRemains": "Controllers/Root/Shared/Edits/gridWidgetQuantityRemains",
+        "gridWidgetGoodsReceipt": "Controllers/Root/Shared/Edits/gridWidgetGoodsReceipt",
+        "gridWidgetSubscribeChange": "Controllers/Root/Shared/Edits/gridWidgetSubscribeChange",
+        "gridWidgetQuantityRemainsSubscribeChange": "Controllers/Root/Shared/Edits/gridWidgetQuantityRemainsSubscribeChange",
+        "gridWidgetGoodsReceiptSubscribeChange": "Controllers/Root/Shared/Edits/gridWidgetGoodsReceiptSubscribeChange",
+
+
+        "gridHandleKeyboard": "Controllers/Root/Shared/Edits/gridHandleKeyboard",
+        "gridHandleKeyboardSubscribe": "Controllers/Root/Shared/Edits/gridHandleKeyboardSubscribe",
+
+
+
+        "kindexGrid": "Controllers/Root/Shared/Indexes/kindexGrid",
+        "kenGridValidator": "Controllers/Root/Shared/Validations/kenGridValidator",
+        "kpopupWindow": "Controllers/Root/Shared/Commons/kpopupWindow",
+
+        "kendoWidgetReadonly": "Controllers/Root/Shared/Commons/kendoWidgetReadonly",
+
+
+
+        "xlsxNmvn": "js-xlsx-master/xlsx.Nmvn",
+        "xlsxWorkbook": "js-xlsx-master/xlsx.Workbook",
+
+
+        "xlsx_core_min": "js-xlsx-master/xlsx.core.min",
+        "cpexcel": "js-xlsx-master/cpexcel",
+        "ods": "js-xlsx-master/ods",
+        "jszip": "js-xlsx-master/jszip",
+        "xlsx": "js-xlsx-master/xlsx",
+
+
+
+
+        "jquery": "jquery-3.1.0",
+        "jqMin": "jquery-3.1.0.min",
+        "req1": "req1",
+        "req2": "req2",
+        "jquery-validate": {
+            "path": "jquery.validate",
+            "defaultBundle": "jqValidate"
+        },
+        "jquery-validate-unobtrusive": "jquery.validate.unobtrusive"
+    },
+    "shim": {
+        "jquery-validate": {
+            "deps": [ "jquery" ],
+            "exports": "jqVal"
+        },
+        "jquery-validate-unobtrusive": {
+            "deps": [ "jquery", "jquery-validate" ]
+        },
+        "underscore": {
+            "exports": [ ]
+        },
+
+
+
+        "xlsxNmvn": {
+            "deps": [ "xlsx_core_min", "cpexcel", "ods", "jszip", "xlsx" ]
+
+
+
+
+
+
+        },
+        "map": {
+            "controllers/root/home/complexLoad": {
+                "req1": "req2"
+            }
+        },
+        "bundles": {
+            "jqueryBundle": {
+                "virtual": true,
+                "items": [ "jquery" ]
+            },
+            "jqvalUnobtrusive": [ "jquery-validate-unobtrusive", "jquery-validate" ],
+            "full": {
+                "outputPath": "Bundles\\full.min.js",
+                "items": [
+                    {
+                        "path": "bootstrap",
+                        "compression": "none"
+                    },
+                    {
+                        "path": "amplify",
+                        "compression": "standard"
+                    }
+                ],
+                "includes": [ "jqueryBundle", "jqvalUnobtrusive", "jqValidate" ]
+            }
+        },
+        "autoBundles": {
+            "full": {
+                "outputPath": "bundles\\auto\\",
+                "include": [
+                    {
+                        "directory": "\\controllers\\Root\\"
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,34 @@
+﻿.custom-header {
+    width: 362px;
+}
+
+.dropdown-body {
+    width: 352px;
+}
+
+#CommodityName-list > .dropdown-header > span:first-child {
+    width: 128px;
+}
+
+#CommodityName-list > .dropdown-header > span:last-child {
+    width: 226px;
+}
+
+#CommodityName-list .k-item > .dropdown-body > span:first-child {
+    width: 127px;
+}
+
+#CommodityName-list .k-item > .dropdown-body > span:last-child {
+    width: 220px;
+}
+
+#CommodityName-list h3 {
+    font-size: 1.6em;
+    margin: 0;
+    padding: 0;
+}
+
+#CommodityName-list p {
+    margin: 0;
+    padding: 0;
+}

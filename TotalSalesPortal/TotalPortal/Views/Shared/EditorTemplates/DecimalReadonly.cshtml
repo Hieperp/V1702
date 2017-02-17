@@ -1,0 +1,12 @@
+﻿@using TotalPortal.Configuration
+@model decimal?
+
+@(Html.Kendo().NumericTextBoxFor(m => m)
+      .HtmlAttributes(new { style = "width:100%" })
+      .Min(0)
+      .Spinners(false)
+      .Enable(false)
+      .Format(@SettingsManager.NumberFormat)
+)
+
+

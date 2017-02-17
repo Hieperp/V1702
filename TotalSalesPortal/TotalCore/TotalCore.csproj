@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4D98F613-2E1D-4F45-A862-4CE103BD6766}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TotalCore</RootNamespace>
+    <AssemblyName>TotalCore</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Repositories\Commons\IPackingMaterialRepository.cs" />
+    <Compile Include="Repositories\Commons\IVehicleRepository.cs" />
+    <Compile Include="Repositories\Commons\IVoidTypeRepository.cs" />
+    <Compile Include="Repositories\Inventories\IGoodsDeliveryRepository.cs" />
+    <Compile Include="Repositories\Inventories\IHandlingUnitRepository.cs" />
+    <Compile Include="Repositories\Sessions\IModuleDetailRepository.cs" />
+    <Compile Include="Repositories\Sessions\IModuleRepository.cs" />
+    <Compile Include="Helpers\ISqlRoutines.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Accounts\IAccountInvoiceRepository.cs" />
+    <Compile Include="Repositories\Accounts\IReceiptRepository.cs" />
+    <Compile Include="Repositories\Commons\IAspNetUserRepository.cs" />
+    <Compile Include="Repositories\Commons\ICommodityRepository.cs" />
+    <Compile Include="Repositories\Commons\ICustomerRepository.cs" />
+    <Compile Include="Repositories\Commons\IEmployeeRepository.cs" />
+    <Compile Include="Repositories\Commons\IInventoryRepository.cs" />
+    <Compile Include="Repositories\Commons\IPaymentTermRepository.cs" />
+    <Compile Include="Repositories\Commons\IPromotionRepository.cs" />
+    <Compile Include="Repositories\IBaseRepository.cs" />
+    <Compile Include="Repositories\IGenericAPIRepository.cs" />
+    <Compile Include="Repositories\IGenericRepository.cs" />
+    <Compile Include="Repositories\IGenericWithDetailRepository.cs" />
+    <Compile Include="Repositories\Inventories\IGoodsIssueRepository.cs" />
+    <Compile Include="Repositories\Sales\IDeliveryAdviceRepository.cs" />
+    <Compile Include="Services\Accounts\IAccountInvoiceService.cs" />
+    <Compile Include="Services\Accounts\IReceiptService.cs" />
+    <Compile Include="Services\Commons\ICommodityService.cs" />
+    <Compile Include="Services\Helpers\IHelperService.cs" />
+    <Compile Include="Services\IBaseService.cs" />
+    <Compile Include="Services\IGenericService.cs" />
+    <Compile Include="Services\IGenericWithDetailService.cs" />
+    <Compile Include="Services\IGenericWithViewDetailService.cs" />
+    <Compile Include="Services\Inventories\IGoodsDeliveryService.cs" />
+    <Compile Include="Services\Inventories\IGoodsIssueService.cs" />
+    <Compile Include="Services\Inventories\IHandlingUnitService.cs" />
+    <Compile Include="Services\Sales\IDeliveryAdviceService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TotalBase\TotalBase.csproj">
+      <Project>{d75484bf-0636-4f4e-877c-eee9beb79e28}</Project>
+      <Name>TotalBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TotalDTO\TotalDTO.csproj">
+      <Project>{d05f3ae2-0dc4-4d0b-a8c7-7ff03700e8d2}</Project>
+      <Name>TotalDTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TotalModel\TotalModel.csproj">
+      <Project>{d6e733aa-e68d-4e0f-9fa8-a45f427900c7}</Project>
+      <Name>TotalModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

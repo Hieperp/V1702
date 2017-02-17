@@ -1,0 +1,110 @@
+﻿@using TotalPortal.Configuration;
+
+@{Layout = "~/Views/Shared/_LayoutPopup.cshtml";}
+
+@model TotalPortal.Areas.Sales.ViewModels.DeliveryAdviceViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <input id="preventImplicitSubmission" type="submit" style="display:none" onclick="return false;" />
+
+    @Html.HiddenFor(model => model.Salesperson.EmployeeID);
+    @Html.HiddenFor(model => model.Salesperson.Name);
+
+    @Html.HiddenFor(model => model.Promotion.PromotionID);
+    @Html.HiddenFor(model => model.Promotion.Name);
+    @Html.HiddenFor(model => model.Promotion.StartDate);
+    @Html.HiddenFor(model => model.Promotion.EndDate);
+    @Html.HiddenFor(model => model.Promotion.DiscountPercent);
+    @Html.HiddenFor(model => model.Promotion.ControlFreeQuantity);
+    @Html.HiddenFor(model => model.Promotion.ApplyToAllCustomers);
+    @Html.HiddenFor(model => model.Promotion.ApplyToAllCommodities);
+    @Html.HiddenFor(model => model.Promotion.Remarks);
+
+
+
+    @(Html.Kendo().TabStrip()
+        .HtmlAttributes(new { @style = "height: 468px; margin-left: 0px; margin-right: 0px;" })
+        .Name("tabStrip")
+        .Items(tabStrip =>
+        {
+            tabStrip.Add().Text("Khách hàng không có đặt hàng")
+                .Selected(true)
+                .Content(@<text>
+                    @Html.Partial("~/Areas/Sales/Views/DeliveryAdvices/_SearchCustomer.cshtml")
+                </text>);
+
+            tabStrip.Add().Text("Giao hàng theo đơn đặt hàng")
+                .Content(@<text>
+                    @*@Html.Partial("~/Views/Helpers/Commons/_SearchServiceContract.cshtml")*@
+                </text>);
+        })
+    )
+
+
+    <div class="background-bar" style="height: 45px;">
+        <div class="popup-button-bar">
+            <input id="submitCreateWizard" type="submit" formaction="@Url.Action("CreateWizard", "DeliveryAdvices")" formtarget="_top" style="display:none" />
+
+            <button type="button" class="k-button" onclick="okButton_Click()"> <img src="~/Content/Images/Mains/Size24/Ok-1.png" /> Áp dụng CTKM đang chọn </button>
+            <button type="button" class="k-button" onclick="okWOSelectButton_Click()"> <img src="~/Content/Images/Mains/Size24/Accept-Total.png" /> Áp dụng tất cả CTKM </button>
+            <button type="button" class="k-button" onclick="window.parent.$('#myWindow').data('kendoWindow').close()"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png" /> Thoát </button>
+        </div>
+    </div>
+
+}
+
+<link href="@Url.Content("~/Content/CustomCss/GeneralPopup.css")" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+    function okButton_Click() {
+        handleOKEvent($($("#tabStrip").data("kendoTabStrip").select().index() === 0 ? "#gridPromotion" : "#gridXXXX_ReserveForLater").data("kendoGrid"));
+    }
+
+    function okWOSelectButton_Click() {
+        handleOKEvent();
+    }
+
+    function handleOKEvent(selectedGrid) { //This javascript is now used only here. Later, if it is used somewhere else, it should be break into a standalone js file, and then just only add a link here
+
+        if ($("#Customer_CustomerID").val() === null || $("#Customer_CustomerID").val() === "")
+            return false;
+
+        if (selectedGrid === undefined)
+            _setModelInput();
+        else {
+            var selectedDataItem = selectedGrid.dataItem(selectedGrid.select());
+            if (selectedDataItem === undefined)
+                return false;
+
+            _setModelInput(selectedDataItem);
+        }
+        $("#submitCreateWizard").trigger("click");
+
+
+        function _setModelInput(selectedDataItem) {
+            $("#Salesperson_EmployeeID").val($("#Customer_SalespersonID").val()); //INIT DEFAULT Salesperson_EmployeeID, Salesperson_Name FROM Customer_SalespersonID, Customer_SalespersonName
+            $("#Salesperson_Name").val($("#Customer_SalespersonName").val());
+
+            $("#Promotion_PromotionID").val(selectedDataItem === undefined || selectedDataItem.PromotionID === undefined ? null : selectedDataItem.PromotionID);
+            $("#Promotion_Name").val(selectedDataItem === undefined || selectedDataItem.Name === undefined ? null : selectedDataItem.Name);
+            $("#Promotion_StartDate").val(selectedDataItem === undefined || selectedDataItem.StartDate === undefined ? null : kendo.toString(selectedDataItem.StartDate, SettingsManager.DateTimeFormat));
+            $("#Promotion_EndDate").val(selectedDataItem === undefined || selectedDataItem.EndDate === undefined ? null : kendo.toString(selectedDataItem.EndDate, SettingsManager.DateTimeFormat));
+            $("#Promotion_DiscountPercent").val(selectedDataItem === undefined || selectedDataItem.DiscountPercent === undefined ? null : selectedDataItem.DiscountPercent);
+            $("#Promotion_ControlFreeQuantity").val(selectedDataItem === undefined || selectedDataItem.ControlFreeQuantity === undefined ? null : selectedDataItem.ControlFreeQuantity);
+
+            $("#Promotion_ApplyToAllCustomers").val(selectedDataItem === undefined || selectedDataItem.ApplyToAllCustomers === undefined ? false : selectedDataItem.ApplyToAllCustomers);
+            $("#Promotion_ApplyToAllCommodities").val(selectedDataItem === undefined || selectedDataItem.ApplyToAllCommodities === undefined ? false : selectedDataItem.ApplyToAllCommodities);
+
+            $("#Promotion_Remarks").val(selectedDataItem === undefined || selectedDataItem.Remarks === undefined ? null : selectedDataItem.Remarks);
+        }
+    }
+
+</script>
+
+
+
+
+

@@ -1,0 +1,130 @@
+﻿@using RequireJsNet
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+
+    @Scripts.Render("~/bundles/modernizr")
+
+
+    <!--This bundle was moved by the Telerik VS Extensions for compatibility reasons-->
+    @Scripts.Render("~/bundles/jquery")
+
+
+    <link href="@Url.Content("~/Content/kendo/2014.3.1411/kendo.common.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2014.3.1411/kendo.mobile.all.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2014.3.1411/kendo.dataviz.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2014.3.1411/kendo.bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2014.3.1411/kendo.dataviz.bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    @Styles.Render("~/Content/css")
+    <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/jquery.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/jszip.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/kendo.all.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/kendo.aspnetmvc.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/Nmvns/nmvn-function.js")"></script>
+    <script type="text/javascript" src="@Url.Action("GlobalJavaScriptEnums")"></script>
+
+    @*@{
+            var culture = System.Threading.Thread.CurrentThread.CurrentCulture.ToString();
+        }
+        <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/cultures/kendo.culture." + culture + ".min.js")"></script>
+        <script type="text/javascript">
+            kendo.culture("@culture");        //set current culture script
+        </script>*@
+
+
+    <script type="text/javascript">
+        @*kendo.culture("@culture");        //set current culture script*@
+        window.xlsxUrl = { //init varible with the Url (by Url.Content helper). Because can not use Url.Content helper in pure javascript file
+            xlsxworker: '@Url.Content("~/Scripts/js-xlsx-master/xlsxworker.js")',
+            xlsxworker1: '@Url.Content("~/Scripts/js-xlsx-master/xlsxworker1.js")',
+            xlsxworker2: '@Url.Content("~/Scripts/js-xlsx-master/xlsxworker2.js")'
+        }
+    </script>
+
+
+</head>
+<body>
+
+
+    <div id="header1" style="display:none;">
+        <div id="header">
+            <h1>
+                <a href="~/Home/Index/0">Hàng Việt Nam Chất Lượng Cao &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</a>
+            </h1>
+            <ul id="navlist">
+                @Html.Partial("_LoginPartial")
+            </ul>
+        </div>
+    </div>
+
+
+
+    @if (Request.IsAuthenticated)
+    {
+        <div id="top-menu-container">
+            @{Html.RenderAction("MainMenu", "MenuAPIs", new { area = "" });}
+        </div>
+
+
+        <div id="left-side-navigation">
+            @{Html.RenderAction("TaskMenu", "MenuAPIs", new { area = "" });}
+        </div>
+    }
+
+
+    @Scripts.Render("~/bundles/jqueryval") @*Important: jqueryval should rendered befor RenderRequireJsSetup to make jqueryval work correctly*@
+
+    @*RenderRequireJsSetup should rendered before RenderBody, because somtime we need to use require function directly inside view, for example Import.js of DeliveryAdvice*@
+    @Html.RenderRequireJsSetup(new RequireRendererConfiguration 
+        {
+            // the url from where require.js will be loaded
+            RequireJsUrl = Url.Content("~/Scripts/require.js"), //~/Scripts/Components/RequireJS/require.js
+            // baseUrl to be passed to require.js, will be used when composing urls for scripts
+            BaseUrl = Url.Content("~/Scripts/"),
+            // a list of all the configuration files you want to load
+            ConfigurationFiles = new[] { "~/RequireJS.json" },
+            // root folder for your js controllers, will be used for composing paths to entrypoint
+            EntryPointRoot = "~/Scripts/",
+            // whether we should load overrides or not, used for autoBundles, disabled on debug mode
+            LoadOverrides = true,//!HttpContext.Current.IsDebuggingEnabled
+            // compute the value you want locale to have, used for i18n
+            LocaleSelector = html => System.Threading.Thread.CurrentThread.CurrentUICulture.Name.Split('-')[0],
+            // instance of IRequireJsLogger
+            Logger = null,
+            // extensability point for the config object
+            ProcessConfig = config => { },
+            // extensability point for the options object
+            ProcessOptions = options => { },
+            // value for urlArgs to be passed to require.js, used for versioning
+            UrlArgs = "" //RenderHelper.RenderAppVersion()
+        })
+
+    
+
+
+    <div id="main-body" class="container body-content">
+        @RenderBody()
+        @*Original, jqueryval is rendered here*@
+        <footer style="margin-top: 10px; text-align: right; width: 100%; float: right; font-family: Harlow Solid;">
+            <p>&copy; @DateTime.Now.Year - NMVN Informatics Co., Ltd. Designed by Lê Minh Hiệp, Tel: 0903 880 501, 0919 878 329, Skype: hieperp, Email: hieperp@gmail.com</p>
+        </footer>
+
+    </div>
+
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+
+    @*Original, according to RequireJs document, RenderRequireJsSetup is rendered here*@
+    @*BUT NOW: We move RenderRequireJsSetup before RenderBody, because sometime we need to use require function directly inside view -> so we have to rendered RenderRequireJsSetup before RenderBody, for example Import.js of DeliveryAdvice*@
+
+
+</body>
+</html>

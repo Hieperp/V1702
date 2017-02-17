@@ -1,0 +1,33 @@
+﻿.form-custom {
+    width: 220px;
+    left: 20px;
+}
+
+.control-group {
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.label-group {
+    width: 400px;
+}
+
+.control-label-custom {
+    width: 150px;
+}
+
+.col-custom {
+    width: 400px;
+}
+  
+.div-main{
+    margin-bottom: 5px;
+    margin-left:0px;
+    padding-left:0px;    
+}
+
+.custom-button {
+    float: right;
+    margin-right: 5px;
+}
+

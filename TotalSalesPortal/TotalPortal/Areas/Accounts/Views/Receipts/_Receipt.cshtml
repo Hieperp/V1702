@@ -1,0 +1,214 @@
+﻿@using TotalPortal.Configuration
+@model TotalPortal.Areas.Accounts.ViewModels.ReceiptViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.ReceiptID)
+    @Html.HiddenFor(model => model.TotalReceiptAmount)
+    @Html.HiddenFor(model => model.TotalCashDiscount)
+    @Html.HiddenFor(model => model.TotalFluctuationAmount)
+    @Html.HiddenFor(model => model.TotalDepositAmount)
+
+    <div class="left-panel">
+
+        @Html.Partial("~/Views/Helpers/Bases/_BaseSeactionA.cshtml")
+
+        <div class="form-group">
+            @Html.EditorFor(d => d.Cashier)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PostDate)
+            <div class="div-input">
+                @Html.Kendo().DatePickerFor(model => model.PostDate).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.PostDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+
+    <div class="right-panel">
+
+        <div style="clear: both; height: 127px;">
+            @Html.EditorFor(d => d.Customer)
+
+            @Html.HiddenFor(model => model.GoodsIssueID)
+            @Html.HiddenFor(model => model.GoodsIssueEntryDate)
+
+            @*<div class="contract-separator">
+            @if (Model.GoodsIssueID == 0 || Model.GoodsIssueID == null)
+            {
+                @Html.Partial("~/Views/Purchases/_NoOrderInvoice.cshtml")}
+            else
+            {
+                @Html.Partial("~/Views/Purchases/_OrderInvoice.cshtml")
+            }
+            </div>*@
+
+        </div>
+
+        <div class="div-k-grid-detail">
+            @(Html.Kendo().Grid(Model.ReceiptViewDetails)
+                .Name("kendoGridDetails")
+                .Columns(columns =>
+                {
+                    columns.Template(t => { }).Title("&nbsp;").ClientTemplate("#= RowNumber(data) #").Width(35);
+
+
+                    columns.Bound(p => p.ReceiptDetailID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= ReceiptDetailID #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].ReceiptDetailID' value='#= ReceiptDetailID #' />");
+                    columns.Bound(p => p.ReceiptID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= ReceiptID #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].ReceiptID' value='#= ReceiptID #' />");
+                    columns.Bound(p => p.GoodsIssueID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= GoodsIssueID #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].GoodsIssueID' value='#= GoodsIssueID #' />");
+                        
+
+                    columns.Bound(p => p.GoodsIssueReference).DisplayNameTitle().Filterable(false).Width(90)
+                        .ClientTemplate("#= GoodsIssueReference #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].GoodsIssueReference' value='#= GoodsIssueReference #' />")
+                        .ClientFooterTemplate("Tổng cộng:");
+                    columns.Bound(p => p.GoodsIssueEntryDate).DisplayNameTitle().Filterable(false).Width(160)
+                        .ClientTemplate("#= GoodsIssueEntryDate ? kendo.toString(kendo.parseDate(GoodsIssueEntryDate), '" + SettingsManager.DateTimeFormat + "') : '' #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].GoodsIssueEntryDate' value='#= kendo.toString(GoodsIssueEntryDate, '" + SettingsManager.DateTimeFormat + "') #' />");
+
+                    columns.Bound(p => p.Remarks).DisplayNameTitle().Filterable(false)
+                        .ClientTemplate("#= (Remarks == null)? '' : Remarks #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].Remarks' value='#= (Remarks == null) ? '' : Remarks #' />");
+                    
+                    columns.Bound(p => p.AmountDue).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(100)
+                        .Format("{0:n0}")
+                        .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
+                        .ClientTemplate("#= kendo.format('{0:n0}', AmountDue) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].AmountDue' value='#= AmountDue #' />");
+                    columns.Bound(p => p.FluctuationAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(50).Hidden()
+                        .Format("{0:n0}")
+                        .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
+                        .ClientTemplate("#= kendo.format('{0:n0}', FluctuationAmount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].FluctuationAmount' value='#= FluctuationAmount #' />");
+                    columns.Bound(p => p.CashDiscount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(90).Hidden()
+                        .Format("{0:n0}")
+                        .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
+                        .ClientTemplate("#= kendo.format('{0:n0}', CashDiscount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].CashDiscount' value='#= CashDiscount #' />");
+                    columns.Bound(p => p.ReceiptAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(100)
+                        .Format("{0:n0}")
+                        .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
+                        .ClientTemplate("#= kendo.format('{0:n0}', ReceiptAmount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].ReceiptAmount' value='#= ReceiptAmount #' />");
+
+                    
+
+                    columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50);
+                })
+                .Filterable()
+                .Navigatable()
+
+                .ToolBar(toolbar =>
+                {
+                    //Add a functionless button for display purpose only
+                    toolbar.Template(
+                        @<text>
+                            <div>
+                                @(Html.Kendo().Button()
+                                    .Name("iconButton")
+                                    .HtmlAttributes(new { type = "button" })
+                                    .SpriteCssClass("k-icon k-i-ungroup") //.Content("My button label")
+                                )
+                            </div>
+                        </text>);
+                })
+
+                .Editable(editable => { editable.Enabled(Model.Editable); editable.Mode(GridEditMode.InCell).DisplayDeleteConfirmation(true).CreateAt(GridInsertRowPosition.Bottom); })
+                .Selectable(settings =>
+                {
+                    settings.Mode(GridSelectionMode.Multiple);
+                    settings.Type(GridSelectionType.Row);
+                })
+                .Events(events =>
+                {
+                    events.DataBinding(@<text>function(e){rowNumber = 0;} </text>);
+
+                })
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .Batch(true)
+                    .ServerOperation(false)
+                    .Model(model =>
+                    {
+                        model.Id(x => x.ReceiptDetailID);
+                        model.Field(m => m.ReceiptDetailID).DefaultValue(0);
+                        model.Field(m => m.ReceiptID).DefaultValue(@Model.ReceiptID);
+                    })
+                    .Events(events =>
+                    {
+                        events.Error("kendGrid_ErrorHandler");
+                    })
+                    .Aggregates(a => a.Add(x => x.AmountDue).Sum())
+                    .Aggregates(a => a.Add(x => x.CashDiscount).Sum())
+                    .Aggregates(a => a.Add(x => x.FluctuationAmount).Sum())
+                    .Aggregates(a => a.Add(x => x.ReceiptAmount).Sum())
+                )
+            )
+
+        </div>
+
+        <div class="div-k-panel">
+            @(Html.Kendo().PanelBar()
+                .Name("IntroPanelBar")
+                .Items(items =>
+                {
+                    items.Add()
+                        .Text("Thông tin khác")
+                        .Selected(true)
+                        .Expanded(false)
+                        .Content(@<text>
+
+                            <div class="right-first-panel">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Description, new { @class = "right-panel-label" })
+                                    <div class="div-input">
+                                        @Html.Kendo().MaskedTextBoxFor(model => model.Description).HtmlAttributes(new { @class = "right-panel-input" })
+                                    </div>
+                                    <div class="div-validation-message">
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Remarks, new { @class = "right-panel-label" })
+                                    <div class="div-input">
+                                        @Html.Kendo().MaskedTextBoxFor(model => model.Remarks).HtmlAttributes(new { @class = "right-panel-input" })
+                                    </div>
+                                    <div class="div-validation-message">
+                                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="right-second-panel">
+                                @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PreparedPerson.cshtml")
+                                @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/Approver.cshtml")
+                            </div>
+
+                        </text>).HtmlAttributes(new { @class = "panel-class" });
+                })
+            )
+        </div>
+
+
+        <div class="right-botton-panel">
+            @if (Model.Editable)
+            {
+                @Html.HiddenFor(model => model.PrintAfterClosedSubmit)
+                <button type="submit" formaction="@Url.Action("Edit", "Receipts")" class="k-button custom-button SubmitTypeOption-Closed"> <img src="~/Content/Images/New/save-icon.png" alt="" /> Lưu phiếu </button>
+                <button type="submit" onclick="$('#PrintAfterClosedSubmit').val(true);" formaction="@Url.Action("Edit", "Receipts")" class="k-button custom-button SubmitTypeOption-Closed"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In phiếu thu</button>
+            }
+            else
+            {
+                <button formaction="@Url.Action("Print", "Receipts", new { id = @Model.ReceiptID })" class="k-button custom-button"> <img src="~/Content/Images/New/Apps-printer-icon.png" alt="SavePreview" /> In phiếu thu </button>
+            }
+        </div>
+
+        @Html.Partial("~/Views/Helpers/Bases/_BaseSubmit.cshtml")
+
+    </div>  
+}
+
+<script src="@Url.Content("~/Scripts/Helpers/KendoGrid/gridHelper.js")"></script>

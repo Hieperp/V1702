@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{865951B6-237C-4436-B77C-31CE588B5E52}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TotalService</RootNamespace>
+    <AssemblyName>TotalService</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Accounts\AccountInvoiceService.cs" />
+    <Compile Include="Accounts\ReceiptService.cs" />
+    <Compile Include="BaseService.cs" />
+    <Compile Include="Commons\CommodityService.cs" />
+    <Compile Include="GenericService.cs" />
+    <Compile Include="GenericWithDetailService.cs" />
+    <Compile Include="GenericWithViewDetailService.cs" />
+    <Compile Include="Helpers\HelperService.cs" />
+    <Compile Include="Inventories\GoodsDeliveryService.cs" />
+    <Compile Include="Inventories\GoodsIssueService.cs" />
+    <Compile Include="Inventories\HandlingUnitService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sales\DeliveryAdviceService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TotalBase\TotalBase.csproj">
+      <Project>{d75484bf-0636-4f4e-877c-eee9beb79e28}</Project>
+      <Name>TotalBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TotalCore\TotalCore.csproj">
+      <Project>{4d98f613-2e1d-4f45-a862-4ce103bd6766}</Project>
+      <Name>TotalCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TotalDAL\TotalDAL.csproj">
+      <Project>{a2b10ebe-c273-4e76-a644-ffa1eb39aef3}</Project>
+      <Name>TotalDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TotalDTO\TotalDTO.csproj">
+      <Project>{d05f3ae2-0dc4-4d0b-a8c7-7ff03700e8d2}</Project>
+      <Name>TotalDTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TotalModel\TotalModel.csproj">
+      <Project>{d6e733aa-e68d-4e0f-9fa8-a45f427900c7}</Project>
+      <Name>TotalModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

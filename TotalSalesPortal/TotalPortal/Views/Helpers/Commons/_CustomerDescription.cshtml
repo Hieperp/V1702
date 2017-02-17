@@ -1,0 +1,71 @@
+﻿@using TotalPortal.Configuration
+
+@model TotalDTO.Commons.ICustomerBaseDTO
+
+@if (ViewData["NullCustomer"] == null)
+{
+    @Html.HiddenFor(model => model.Code)
+    @Html.HiddenFor(model => model.Name)
+    @Html.HiddenFor(model => model.OfficialName)
+    @Html.HiddenFor(model => model.Birthday)
+    @Html.HiddenFor(model => model.VATCode)
+    @Html.HiddenFor(model => model.Telephone)
+    @Html.HiddenFor(model => model.BillingAddress)
+    @Html.HiddenFor(model => model.ShippingAddress)
+    @Html.HiddenFor(model => model.TerritoryID)
+    @Html.HiddenFor(model => model.EntireTerritoryEntireName)
+    @Html.HiddenFor(model => model.SalespersonID)
+    @Html.HiddenFor(model => model.SalespersonName)
+    @Html.HiddenFor(model => model.PriceCategoryID)
+    @Html.HiddenFor(model => model.PriceCategoryCode)
+}
+
+@{var modelFullHtmlFieldName = @Html.ViewData.TemplateInfo.GetFullHtmlFieldName("Name"); modelFullHtmlFieldName = modelFullHtmlFieldName.Substring(0, modelFullHtmlFieldName.IndexOf("."));  }
+
+<div class="right-second-panel right-second-panel-small">
+    <div class="form-group">
+        <div style="float:left; padding-top: 2px; padding-right: 2px;">
+            @if (Model == null || (Model.Telephone != null && Model.Telephone != ""))
+            {
+                <img src="~/Content/Images/Mains/Size24/Phone-icon-24.png" title="Điện thoại" />}
+        </div>
+        <div class="right-panel-label right-panel-label-larger-width"> <span id="@(modelFullHtmlFieldName + "_label_Telephone")"> @Html.DisplayFor(a => a.Telephone) </span> </div>
+    </div>
+</div>
+
+<div class="right-first-panel" style="@(ViewData["CustomerDescriptionHidden"] == "true" ? "display: none" : "")">
+    <div class="right-panel-label right-panel-label-double-height" style="padding-top: 2px; padding-right: 2px;"> <span id="customer-description-icon"> <img src="~/Content/Images/New/Address-icon.png" title="Điện thoại" /> </span> </div>
+    <div class="customer-description-label">
+        @if (ViewData["CustomerInfo"] != null)
+        {
+            @ViewData["CustomerInfo"]}
+        else
+        {
+            <span id="@(modelFullHtmlFieldName + "_label_VATCode")"> @Html.DisplayFor(m => m.VATCode) </span> <text>Đ/C:</text> <span id="@(modelFullHtmlFieldName + "_label_BillingAddress")"> @Html.DisplayFor(m => m.BillingAddress) </span> <text>, </text>  <span id="@(modelFullHtmlFieldName + "_label_EntireTerritoryEntireName")"> @Html.DisplayFor(m => m.EntireTerritoryEntireName) </span>}
+    </div>
+</div>
+
+
+<style>
+    .right-second-panel-small {
+        width: 32%;
+    }
+
+    .right-panel-label-larger-width {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .right-panel-label-double-height {
+        height: 39px; /*To reserve height for two line of customer VAT code and address. If height: 20px: just highter than normal a liite ----20px vs 16px---- => so: with one row, the height is the same normal, and then, with two rows: 20px enough for reserve height. If height: 39px; then the height is keep the same for both one and two rows*/
+    }
+
+    .customer-description-label {
+        width: 160%;
+    }
+
+    #customer-description-icon {
+        visibility: hidden;
+    }
+</style>

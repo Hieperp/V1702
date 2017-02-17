@@ -1,0 +1,32 @@
+﻿@*This partial view is used to input data in both master and detail data*@
+@*Detail: This view use event handlers for -Select Event & Change Event- by javascript module load by required js to set and handle data in detail grid datasource*@
+@*Master: This VoidTypeBase.cshtml view is a partial view of another EditorTemplate VoidType.cshtml. Then, it use event handler code directly in VoidType.cshtml file. Note: be careful with js conflict when load event handler files for this Autocomplete*@
+
+@model string
+
+@(Html.Kendo().AutoCompleteFor(m => m)        
+        .DataTextField("Name")
+        .Filter("contains")
+        .Placeholder("Lý do không xuất kho ...")
+        .DataSource(source =>
+        {
+            source.Read(read =>
+            {
+                read.Action("SearchVoidTypes", "VoidTypeAPIs", new { area = "Commons" }).Data(@<text> function(e) {return {searchText: e.filter.filters[0].value};}</text>);//Send parameter to controller search action
+            })
+            .ServerFiltering(true);
+        })
+        .Events(e =>
+        {
+            e.Select("gridEditorVoidTypeSelect");
+            e.Change("gridEditorVoidTypeChange");
+        })
+        .Value(Model)
+        .HtmlAttributes(new { @class = "voidTypeBase_AutoComplete left-panel-input" + (ViewData["VoidTypeClassSpecialEditable"] != null ? (" " + ViewData["VoidTypeClassSpecialEditable"]) : "") })
+)
+
+<script type="text/javascript">
+    $("#VoidTypeName").focus(function (e) {
+        window.VoidTypeNameBeforeChange = $("#VoidTypeName").val();
+    });
+</script>

@@ -1,0 +1,51 @@
+﻿
+@using TotalPortal.Configuration
+@using TotalModel.Models;
+
+@(Html.Kendo().Grid<CustomerReceivable>()
+    .Name("CustomerReceivableGrid")
+
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.CustomerName).Title("Khách hàng").Width(180);
+        columns.Bound(c => c.CustomerAttentionName).Title("Người liên hệ").Width(60);
+        columns.Bound(c => c.CustomerTelephone).Title("Điện thoại").Width(50);
+        columns.Bound(c => c.CustomerBillingAddress).Title("Địa chỉ").Width(180);        
+    })
+    .ToolBar(toolbar =>
+    {
+        toolbar.Template(@<text>
+            <div class="toolbar" style="float: right;">
+                <label>Nhập tên khách hàng:</label>
+                <input id="customerNameSearchBox" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="customerNameSearchBox_KeyUp()" />
+            </div>
+        </text>);
+    })
+    .Scrollable(s => s.Height(SettingsManager.PopupContentHeight))
+    .DataSource(ds => ds.Ajax()
+        .Read(read => read.Action("GetCustomerReceivables", "ReceiptAPIs", new { area = "Accounts" }).Data("onGetCustomerReceivables"))
+        .ServerOperation(true)
+    )
+    .Selectable()
+)
+
+<script type="text/javascript">
+    function onGetCustomerReceivables(e) {
+        return {
+            locationID: window.parent.requireConfig.pageOptions.LocationID,
+            receiptID: $("#ReceiptID").val(),
+            customerName: $("#customerNameSearchBox").val()
+        };
+    }
+
+    function customerNameSearchBox_KeyUp() {
+        if ($("#customerNameSearchBox").val().length === 0 || $("#customerNameSearchBox").val().length >= "@SettingsManager.AutoCompleteMinLenght") {
+            $("#CustomerReceivableGrid").data("kendoGrid").dataSource.read();
+        }
+    }
+
+
+    $("#CustomerReceivableGrid").dblclick(function (e) {
+        okButton_Click();
+    })
+</script>

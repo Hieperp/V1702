@@ -1,0 +1,29 @@
+﻿@using TotalPortal.Configuration
+
+@model TotalDTO.Commons.ICustomerBaseDTO
+
+@if (ViewData["NullCustomer"] == null){
+    @Html.HiddenFor(model => model.CustomerID)}
+
+
+<div class="right-first-panel">
+    <div class="form-group">
+        <div class="right-panel-label right-panel-label-icon-only" style="padding-top: 2px;"> <img src="~/Content/Images/Mains/@(ViewData["CustomerIcon"] != null ? ViewData["CustomerIcon"] : "Customer Blue 24.png")" title="@(ViewData["CustomerDisplayName"] != null ? ViewData["CustomerDisplayName"] : "Khách hàng")" />  </div>
+        <div class="div-input">
+            @if (ViewData["NullCustomer"] == null)
+            {
+                @Html.Kendo().MaskedTextBoxFor(model => model.CodeAndName).HtmlAttributes(new { @class = "right-panel-input", @readonly = "readonly" })
+            }
+            else
+            {
+                @Html.Kendo().MaskedTextBox().Name("NullCustomer_CodeAndName").Value((string)ViewData["NullCustomer"]).HtmlAttributes(new { @class = "right-panel-input", @readonly = "readonly" })
+            }
+        </div>
+        <div class="div-validation-message">
+            @Html.ValidationMessageFor(model => model.CodeAndName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+
+@Html.Partial("~/Views/Helpers/Commons/_CustomerDescription.cshtml")

@@ -1,0 +1,35 @@
+﻿@using TotalPortal.Configuration
+
+@model TotalDTO.Inventories.GoodsIssueBoxDTO
+
+@Html.HiddenFor(model => model.GoodsIssueID)
+@Html.HiddenFor(model => model.EntryDate)
+@Html.HiddenFor(model => model.Reference)
+@Html.HiddenFor(model => model.ReceiverCode)
+@Html.HiddenFor(model => model.ReceiverName)
+
+@if (@Model != null && @Model.GoodsIssueID != null && @Model.Reference != null && @Model.Reference != "")
+{
+    <div id="show-GoodsIssueBox">
+        <div> @Html.DisplayFor(m => m.Reference) </div>
+        <div> @Html.DisplayFor(m => m.EntryDate) </div>
+        <div> @Html.DisplayFor(m => m.ReceiverCode) </div>
+        <div> @Html.DisplayFor(m => m.ReceiverName) </div>
+    </div>
+}
+
+
+<style>    
+#show-GoodsIssueBox {
+    width: 143px; 
+    height: 100px; 
+    padding: 4px;
+    border-style: dotted;
+    border-color: rgb(103, 175, 233);
+    border-width: 1px;
+    border-radius: 10em 0 5em 2em;
+    box-shadow: 0 0 4px 4px rgb(184, 216, 236);
+    background-color: burlywood;
+    text-align: center; 
+}
+</style>

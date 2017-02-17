@@ -1,0 +1,12 @@
+﻿@model TotalPortal.Areas.Commons.ViewModels.Helpers.IApproverDropDownViewModel
+
+<div class="form-group">
+    @Html.LabelFor(model => model.ApproverID, new { @class = "right-panel-label" })
+    <div class="div-input">
+        @Html.Kendo().DropDownListFor(m => m.ApproverID).BindTo(Model.AspNetUserSelectList).HtmlAttributes(new { @class = "right-panel-input" })
+    </div>
+    <div class="div-validation-message">
+        @Html.ValidationMessageFor(model => model.ApproverID, "", new { @class = "text-danger" })
+    </div>
+</div>
+

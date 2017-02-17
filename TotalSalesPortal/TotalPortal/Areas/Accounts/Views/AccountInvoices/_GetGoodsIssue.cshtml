@@ -1,0 +1,69 @@
+﻿@using TotalPortal.Configuration
+@using TotalModel.Models;
+
+@(Html.Kendo().Grid<PendingGoodsIssue>()
+    .Name("pendingGoodsIssueGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.GoodsIssueReference).Title("PXK").Width(35);
+        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày, giờ xuất kho").Width(90).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Bound(c => c.CustomerCode).Title("Mã khách hàng").Width(80);
+        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(160);
+        columns.Bound(c => c.CustomerVATCode).Title("MST").Width(60);
+        columns.Bound(c => c.GoodsIssueReceiverCode).Title("Mã đơn vị nhận").Width(80);
+        columns.Bound(c => c.GoodsIssueReceiverName).Title("Tên đơn vị nhận").Width(150);
+    })
+    .ToolBar(toolbar =>
+    {
+        toolbar.Template(@<text>
+        <div class="toolbar" style="float: right;">
+            <label>Nhập số phiếu xuất kho/ hoặc mã, tên hoặc MST khách hàng hay đơn vị, người nhận hàng</label>
+            <input id="pendingGoodsIssueFilter" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="pendingGoodsIssueFilter_KeyUp()" />
+        </div>
+        </text>);
+    })
+        .Scrollable(s => s.Height(SettingsManager.PopupContentHeight))
+        .DataSource(ds => ds.Ajax()
+            .Read(read => read.Action("GetGoodsIssues", "AccountInvoiceAPIs", new { area = "Accounts" }).Data("onAdditionalGetGoodsIssues"))
+            .ServerOperation(true)
+        )
+        .Selectable()
+)
+
+<script type="text/javascript">
+    function onAdditionalGetGoodsIssues(e) {
+        return {
+            locationID: 1,
+            accountInvoiceID: $("#AccountInvoiceID").val()
+        };
+    }
+
+    function pendingGoodsIssueFilter_KeyUp() {
+        var pendingGoodsIssueFilter = $("#pendingGoodsIssueFilter").val(), gridDetails = $("#pendingGoodsIssueGrid").data("kendoGrid");
+
+        if (pendingGoodsIssueFilter && pendingGoodsIssueFilter.length >= "@SettingsManager.AutoCompleteMinLenght") {
+            gridDetails.dataSource.filter({
+                logic: "or",
+                filters: [
+                    { field: "GoodsIssueReference", operator: "contains", value: pendingGoodsIssueFilter },
+
+                    { field: "CustomerCode", operator: "contains", value: pendingGoodsIssueFilter },
+                    { field: "CustomerName", operator: "contains", value: pendingGoodsIssueFilter },
+                    { field: "CustomerVATCode", operator: "contains", value: pendingGoodsIssueFilter },
+
+                    { field: "GoodsIssueReceiverCode", operator: "contains", value: pendingGoodsIssueFilter },
+                    { field: "GoodsIssueReceiverName", operator: "contains", value: pendingGoodsIssueFilter }
+                ]
+            });
+
+
+        } else {
+            if (gridDetails.dataSource.filter() != undefined)
+                gridDetails.dataSource.filter({});
+        }
+    }
+
+    $("#pendingGoodsIssueGrid").dblclick(function (e) {
+        okButton_Click();
+    })
+</script>

@@ -1,0 +1,68 @@
+﻿@using TotalPortal.Configuration
+@using TotalModel.Models;
+
+@(Html.Kendo().Grid<HandlingUnitPendingGoodsIssue>()
+    .Name("handlingUnitPendingGoodsIssueGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.GoodsIssueReference).Title("PXK").Width(35);
+        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày, giờ xuất kho").Width(90).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Bound(c => c.CustomerCode).Title("Mã khách hàng").Width(80);
+        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(160);
+        columns.Bound(c => c.CustomerVATCode).Title("MST").Width(60);
+        columns.Bound(c => c.ReceiverCode).Title("Mã đơn vị nhận").Width(80);
+        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(150);
+    })
+    .ToolBar(toolbar =>
+    {
+        toolbar.Template(@<text>
+            <div class="toolbar" style="float: right;">
+                <label>Nhập số phiếu xuất kho/ hoặc mã, tên hoặc MST khách hàng hay đơn vị, người nhận hàng</label>
+                <input id="handlingUnitPendingGoodsIssueFilter" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="handlingUnitPendingGoodsIssueFilter_KeyUp()" />
+            </div>
+        </text>);
+    })
+        .Scrollable(s => s.Height(SettingsManager.PopupContentHeight))
+        .DataSource(ds => ds.Ajax()
+            .Read(read => read.Action("GetGoodsIssues", "HandlingUnitAPIs", new { area = "Inventories" }).Data("onAdditionalGetGoodsIssues"))
+            .ServerOperation(true)
+        )
+        .Selectable()
+)
+
+<script type="text/javascript">
+    function onAdditionalGetGoodsIssues(e) {
+        return {
+            locationID: window.parent.requireConfig.pageOptions.LocationID            
+        };
+    }
+
+    function handlingUnitPendingGoodsIssueFilter_KeyUp() {
+        var handlingUnitPendingGoodsIssueFilter = $("#handlingUnitPendingGoodsIssueFilter").val(), gridDetails = $("#handlingUnitPendingGoodsIssueGrid").data("kendoGrid");
+
+        if (handlingUnitPendingGoodsIssueFilter && handlingUnitPendingGoodsIssueFilter.length >= "@SettingsManager.AutoCompleteMinLenght") {
+            gridDetails.dataSource.filter({
+                logic: "or",
+                filters: [
+                    { field: "GoodsIssueReference", operator: "contains", value: handlingUnitPendingGoodsIssueFilter },
+
+                    { field: "CustomerCode", operator: "contains", value: handlingUnitPendingGoodsIssueFilter },
+                    { field: "CustomerName", operator: "contains", value: handlingUnitPendingGoodsIssueFilter },
+                    { field: "CustomerVATCode", operator: "contains", value: handlingUnitPendingGoodsIssueFilter },
+
+                    { field: "ReceiverCode", operator: "contains", value: handlingUnitPendingGoodsIssueFilter },
+                    { field: "ReceiverName", operator: "contains", value: handlingUnitPendingGoodsIssueFilter }
+                ]
+            });
+
+
+        } else {
+            if (gridDetails.dataSource.filter() != undefined)
+                gridDetails.dataSource.filter({});
+        }
+    }
+
+    $("#handlingUnitPendingGoodsIssueGrid").dblclick(function (e) {
+        okButton_Click();
+    })
+</script>

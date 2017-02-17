@@ -1,0 +1,61 @@
+﻿@using TotalPortal.Configuration
+
+@model TotalPortal.Areas.Commons.ViewModels.Helpers.IEmployeeAutoCompleteViewModel
+
+@Html.HiddenFor(model => model.EmployeeID)
+
+<div class="form-group">
+
+    @Html.LabelFor(model => model.EmployeeName)
+    <div class="div-input">
+        @(Html.Kendo().AutoCompleteFor(model => model.EmployeeName)
+            .Name("EmployeeName")
+            .DataTextField("Name")
+            .Filter("contains")
+            .MinLength(SettingsManager.AutoCompleteMinLenght)
+            .Placeholder("Nhập nhân viên thực hiện ...")
+            .DataSource(source =>
+            {
+                source.Read(read =>
+                {
+                    read.Action("SearchEmployees", "EmployeesApi").Data(@<text>
+
+                        function(e) {
+                        return {
+                        locationID: requireConfig.pageOptions.LocationID,
+                        searchText: $("#EmployeeName").data("kendoAutoComplete").value()
+                        };}
+
+                    </text>);
+                })
+                .ServerFiltering(true);
+            })
+                    .Events(e =>
+                    {
+                        e.Select("employeeName_Select");
+                    })
+                    .HtmlAttributes(new { @class = "input-class" })
+        )
+
+        <input id="EmployeeNameTemp" name="EmployeeNameTemp" value="@Model.EmployeeName" type="hidden" class="k-textbox" />
+    </div>
+
+</div>
+
+
+
+<script type="text/javascript">
+
+    $("#EmployeeName").focusout(function () {
+        $("#EmployeeName").val($("#EmployeeNameTemp").val());
+    });
+
+    employeeName_Select = function (e) {
+        var dataItem = e.sender.dataItem(e.item.index());
+
+        $("#EmployeeID").val(dataItem.EmployeeID);
+
+        $("#EmployeeNameTemp").val(dataItem.Name);
+    }
+
+</script>

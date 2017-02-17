@@ -1,0 +1,17 @@
+﻿@model TotalDTO.BaseDTO
+
+@if (Model.Voidable || Model.UnVoidable)
+{
+    <div class="div-button">
+        <button type="submit" form="MainForm" class="k-button custom-button"> <img src="~/Content/Images/Mains/@(@Model.InActive ? "iSync-icon32.png" : "blue-cross-icon32.png")" alt="" /> Xác nhận @(Model.InActive ? "phục hồi" : "hủy") dữ liệu </button>
+    </div>
+}
+else
+{
+    <div id="div-DeleteConfirm">
+        <img src="~/Content/Images/New/alert1.png" alt="Alert" /><label>Dữ liệu này đã bị khóa.</label> 
+    </div>
+}
+
+
+

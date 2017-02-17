@@ -1,0 +1,49 @@
+﻿@using TotalModel.Models;
+@model List<Location>
+
+<div id="div-form">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div style="margin-top:6px;">
+            @foreach (Location location in Model)
+            {
+                <div class="div-panel-right" style="margin-left: 150px;">
+                    <div class="form-group">
+                        @Html.Label(location.OfficialName)
+                        <div class="div-input" style="float: right">
+                            @Html.Kendo().DateTimePicker().Name(location.LocationID.ToString()).Value(location.LockedDate).Events(e => e.Change("LockedDateChange")).HtmlAttributes(new { @class = "input-class", @LocationID = location.LocationID })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+
+
+<script type="text/javascript">
+    function LockedDateChange(e) {
+        var jsonParameters = { "locationID": this.element.attr("id"), "lockedDate": this.value() };
+
+        $.ajax({
+            url: '@Url.Action("LockedDate", "Home")',
+            data: JSON.stringify(jsonParameters),
+            type: 'POST',
+            contentType: 'application/json;',
+            dataType: 'json',
+            success: function (result) {
+                if (result.Success === true) {
+                    window.location = '@Url.Action("LockedDate", "Home")';
+                }
+                else {
+                    alert(result.ex);
+                }
+            }
+        });
+    }
+
+</script>
+

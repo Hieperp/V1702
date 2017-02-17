@@ -1,0 +1,126 @@
+﻿@using Microsoft.AspNet.Identity
+@using TotalPortal.APIs.Sessions
+
+@model IEnumerable<TotalModel.Models.Module>
+
+<div class="MainMenu-left">
+
+    <span id="home-button" style="float: left; margin-top: 11px; margin-left: 4px; margin-right: 4px;">
+        <a href="@Url.Action("index", "Home")"><img src="~/Content/Images/New/menu/menu_xemay.png" title="Trang chủ" alt="Trang chủ" /></a>
+    </span>
+
+    <span style="float: left; margin-top: 13px; margin-right: 4px;">
+        @(Html.Kendo().DropDownList()
+          .Name("CNName")
+          .DataTextField("Text")
+          .DataValueField("Value")
+          .HtmlAttributes(new { @style = "width: 160px; text-align: center; ", @readonly = "readonly" })
+          .BindTo(new List<SelectListItem>()
+          {
+              new SelectListItem() {
+                Text = ViewBag.LocationName, Value = "0"
+              }
+          })
+        )
+    </span>
+
+    <a style="float: left; margin-top: 11px; margin-left: 4px;" href="@Url.Action("Options", "Home")"><img src="~/Content/Images/New/menu/Date-Search-02.png" title="Thay đổi ngày lọc dữ liệu" alt="Thay đổi ngày lọc dữ liệu" /></a>
+    <a style="float: left; margin-top: 9px; margin-left: 8px;" href="@Url.Action("Options", "Home")"> <div>@ViewBag.GlobalFromDate </div> <div>@ViewBag.GlobalToDate </div> </a>
+
+</div>
+
+<div style="float: right; width: 530px;">
+    @(Html.Kendo().Menu()
+        .Name("MainMenu")
+        .HtmlAttributes(new { @style = "width: 480px; height: 0px;" })
+
+        .Items(items =>
+                {
+                    foreach (var item in Model)
+                    {
+                        items.Add()
+                            .Text(item.Description)
+                            .ImageUrl(item.ImageIndex)
+                            .HtmlAttributes(new { @class = "menuModuleItems", @NmvnModuleID = item.ModuleID, @modulename = item.Description });
+                    }
+                })
+        .Events(e => e.Select("selectModule"))
+    )
+
+    <div style="margin-top: 11px;">
+        <span id="up-arrow-container" class="arrow-container" style="display:none;">
+            <a href="javascript:void(0)"><img src="~/Content/Images/New/uparrow1.png" title="Thu gọn" alt="Thu gọn" onclick="collapse_click()" /></a>
+        </span>
+        <span id="down-arrow-container" class="arrow-container">
+            <a href="javascript:void(0)"><img src="~/Content/Images/New/downarrow1.png" title="Mở rộng" alt="Mở rộng" onclick="expand_click()" /></a>
+        </span>
+    </div>
+</div>
+
+@*<div style="width:100%; height: 20px; clear:both; padding: 10px 8px 11px 1px; text-align: left; z-index: 3;">
+    <a class="info-bar1" href="javascript:void(0)" style="color: GrayText;"><img src="~/Content/Images/New/Near-Me_Gray.png" alt=" " /><span>@ViewBag.ModuleName</span></a>
+    <a class="info-bar2" href="@Url.Action("index", ViewBag.TaskController)" title="Trở về" style="color: GrayText;"><img src="~/Content/Images/New/Near-Me_Gray.png" alt=" " /><span>@ViewBag.TaskName</span></a>
+</div>*@
+
+@*@if (Request.IsAuthenticated)
+{
+    @(Html.Kendo().Window()
+        .Name("windowchat")
+        .Title("Chat")
+        .Actions(actions => actions.Custom("custom_minimize").Custom("custom_restore").Pin())
+        .Content(@<text>
+            <label id="lblUserName" style="width:180px;" hidden="hidden">@User.Identity.GetUserName()</label>
+            <textarea style="width:180px; height:180px; margin-left: 2px; border-color: silver; background-color:transparent; color: #222523" readonly="readonly" id="discussion"></textarea>
+            <input type="text" class="k-textbox" id="message" style="width: 180px" />
+            <input type="hidden" style="width:180px;" id="displayname" />
+        </text>)
+                        .Width(200)
+                        .Height(230)
+                        .Pinned(true)
+                        .Draggable(true)
+                        .Visible(false)
+    )
+}*@
+
+<script>
+    function selectModule(e) {
+
+        $("#MainMenu").find(".k-state-selected_1").removeClass("k-state-selected_1");
+        $(e.item).addClass("k-state-selected_1");
+
+        var NmvnModuleID = $(e.item).attr("NmvnModuleID");
+
+        if (NmvnModuleID === "9") {
+            window.open('@Url.Action("Index", "Reports")', "_self");
+        }
+        else {
+            var url = '@Url.Action("TaskMenu", "MenuAPIs", new { moduleID = "module-id" })';
+            url = url.replace("module-id", $(e.item).attr("NmvnModuleID"));
+
+            $('#left-side-navigation').load(url);
+        }
+    }
+
+
+    function collapse_click() {
+        menu_arrow(false);
+    }
+
+    function expand_click() {
+        menu_arrow(true);
+    }
+
+    function menu_arrow(isUp) {
+        if (isUp == true) {
+            $("#header1").slideDown();
+            $("#up-arrow-container").css("display", "inline-block");
+            $("#down-arrow-container").css("display", "none");
+        }
+        else {
+            $("#header1").slideUp();
+            $("#up-arrow-container").css("display", "none");
+            $("#down-arrow-container").css("display", "	inline-block");
+        }
+    }
+
+</script>

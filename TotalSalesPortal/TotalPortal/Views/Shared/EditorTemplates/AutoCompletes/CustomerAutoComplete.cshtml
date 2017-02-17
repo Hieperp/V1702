@@ -1,0 +1,109 @@
+﻿@using TotalPortal.Configuration
+
+@model TotalPortal.Areas.Commons.ViewModels.Helpers.ICustomerAutoCompleteViewModel
+
+@Html.HiddenFor(model => model.CustomerID)
+
+<div class="customer-lmargin" style="padding-top: 60px;">
+    <div class="div-row3">
+        <div class="div-input" style="margin-left: 0px;">
+            @(Html.Kendo().AutoCompleteFor(model => model.CustomerName)
+                .Name("CustomerName")
+                .DataTextField("Name")
+                .Filter("contains")
+                .MinLength(SettingsManager.AutoCompleteMinLenght * 2)
+                .Placeholder("Chọn khách hàng, hoặc shift+ để thêm mới...")
+                .HeaderTemplate("<div class=\"dropdown-header custom-header\">" +
+                        "<span class=\"k-widget k-header\">Tên</span>" +
+                        "<span class=\"k-widget k-header\">Ngày sinh</span>" +
+                        "<span class=\"k-widget k-header\">Điện thoại</span>" +
+                        "<span class=\"k-widget k-header\">Địa chỉ</span>" +
+                        "</div>")
+                .Template("<div class=\"dropdown-body\">" +
+                        "<span class=\"k-state-default\"><p>#: data.Name #</p></span>" +
+                        "<span class=\"k-state-default\"><p>#: kendo.toString(new Date(parseInt(data.Birthday.replace(/[A-Za-z$--/]/g, ''))), '" + SettingsManager.DateFormat + "') #</p></span>" +
+                        "<span class=\"k-state-default\"><p>#: data.Telephone #</p></span>" +
+                        "<span class=\"k-state-default\"><p>#: data.BillingAddress + data.EntireTerritoryEntireName #</p></span>" +
+                        "</div>")
+                .DataSource(source =>
+                {
+                    source.Read(read =>
+                    {
+                        read.Action("SearchCustomersByName", "CustomerAPIs", new { area = "Commons" }).Data(@<text>
+
+                            function(e) {
+                            return {
+                            searchText: $("#CustomerName").data("kendoAutoComplete").value()
+                            };}
+
+                        </text>);//Send parameter to controller search action
+                    })
+                    .ServerFiltering(true);
+                })
+                        .Events(e =>
+                        {
+                            e.Select("customer_Select");
+                            e.DataBound("customersDataBound");
+                        })
+                        .HtmlAttributes(new { @class = "input-class1" })
+            )
+
+            <input id="CustomerNameTemp" name="CustomerNameTemp" value="@Model.CustomerName" type="hidden" class="k-textbox" />
+            <input id="CustomerPopupName" name="CustomerPopupName" value="" type="hidden" class="k-textbox" />
+        </div>
+
+        @*@Html.Partial("~/Views/Helpers/Commons/_CustomerDescription.cshtml")*@
+    </div>
+</div>
+
+@*<link href="@Url.Content("~/Content/CustomCss/GeneralCustomersAutoComplete.css")" rel="stylesheet" type="text/css" />*@
+@*<link href="@Url.Content("~/Content/CustomCss/CustomersAutoComplete.css")" rel="stylesheet" type="text/css" />*@
+
+<script type="text/javascript">
+
+    $("#CustomerName").keypress(function (e) {
+        if (e.charCode == 43) { // 43 = +
+            $("#CustomerPopupName").val($("#CustomerName").val());
+
+            //if (confirm("Bạn có muốn thêm mới khách hàng không?")) {
+            var popupWindow = $("#popupWindow");
+            var mywindow = CreatePopUp("Thêm khách hàng", "468px", "600px", popupWindow);
+
+            if (mywindow != null) {
+                var url = '@Url.Action("CreatePopup", "Customers")';
+                mywindow.center().open();
+                mywindow.refresh(url);
+            }
+            //}
+            return false;
+        }
+    });
+
+    $("#CustomerName").focusout(function () {
+        $("#CustomerName").val($("#CustomerNameTemp").val());
+    });
+
+    customer_Select = function (e) {
+        var dataItem = e.sender.dataItem(e.item.index());
+
+        $("#CustomerID").val(dataItem.CustomerID);
+        $("#CustomerBirthday").val(kendo.toString(new Date(parseInt(dataItem.Birthday.replace(/[A-Za-z$--/]/g, ''))), "@SettingsManager.DateFormat"));
+        $("#CustomerVATCode").val(dataItem.VATCode);
+        $("#CustomerTelephone").val(dataItem.Telephone);
+        $("#CustomerBillingAddress").val(dataItem.BillingAddress);
+        $("#CustomerEntireTerritoryEntireName").val(dataItem.EntireTerritoryEntireName);
+
+        $("#label-birthday").text($("#CustomerBirthday").val());
+        $("#label-telephone").text(dataItem.Telephone);
+        $("#TerritoriesDescriptions").text((dataItem.VATCode != null && dataItem.VATCode != "" ? "MST: " + dataItem.VATCode : "") + " Đ/C: " + dataItem.BillingAddress + ", " + dataItem.EntireTerritoryEntireName);
+
+        $("#CustomerNameTemp").val(dataItem.Name);
+    }
+
+    customersDataBound = function (e) {
+        $(".k-animation-container:has(#CustomerName-list)").css("width", "743");
+        $("#CustomerName-list").css("width", "743");
+        $("#CustomerName-list").css("height", $("#CustomerName-list").height() + 1);
+    }
+
+</script>

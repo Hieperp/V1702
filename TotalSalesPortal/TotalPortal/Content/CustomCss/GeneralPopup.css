@@ -1,0 +1,95 @@
+﻿
+.container {
+        width: 100%;
+        padding: 0px;
+    }
+
+
+.div-popup-button {
+    clear: both;
+    text-align: right;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    margin-right: 15px;
+    position: fixed;
+    bottom: 0;
+    width: 870px;
+}
+
+.popup-button-bar {
+    clear: both;
+    text-align: center;
+    margin-top: 7px;
+    margin-right: 17px;
+    float: right;
+}
+
+
+.background-bar {
+    float: left;
+    margin-top: 1px;
+    background: linear-gradient(#FAFAFA, #EDEDED);
+    width: 100%;
+    height: 52px;
+    position: absolute;
+    bottom: 0px;
+}
+
+
+#tabStrip {
+    border-width: 0px;
+    background-image: none;
+    /*width: 850px;*/
+}
+
+input[type="button"] {
+    height: 30px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.div-tabstrip {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 850px;
+}
+
+.div-notabstrip {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 850px;
+}
+
+
+.tabstrip-workspace {
+    margin-top: 10px;
+    margin-left: 1px;
+    margin-bottom: 7px;
+}
+
+.div-find {
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+
+
+
+
+
+.k-widget.k-tabstrip.k-header ul.k-reset.k-tabstrip-items {
+    padding: 0px;
+    padding-top: 2px;
+}
+
+
+.k-widget.k-tabstrip.k-header .k-content.k-state-active{
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+.k-widget.k-tabstrip.k-header .k-content{
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}

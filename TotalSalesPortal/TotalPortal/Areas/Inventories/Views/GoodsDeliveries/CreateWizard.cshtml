@@ -1,0 +1,83 @@
+﻿@{Layout = "~/Views/Shared/_LayoutPopup.cshtml";}
+
+@model TotalPortal.Areas.Inventories.ViewModels.GoodsDeliveryViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.GoodsDeliveryID);
+
+    @Html.HiddenFor(model => model.Description);
+    @Html.HiddenFor(model => model.Remarks);
+
+    @Html.HiddenFor(model => model.Receiver.CustomerID);
+    @Html.HiddenFor(model => model.Receiver.Code);
+    @Html.HiddenFor(model => model.Receiver.Name);
+    @Html.HiddenFor(model => model.Receiver.VATCode);
+    @Html.HiddenFor(model => model.Receiver.Telephone);
+    @Html.HiddenFor(model => model.Receiver.BillingAddress);
+    @Html.HiddenFor(model => model.Receiver.EntireTerritoryEntireName);
+    @Html.HiddenFor(model => model.Receiver.SalespersonID)
+    @Html.HiddenFor(model => model.Receiver.SalespersonName)
+
+    @Html.HiddenFor(model => model.Driver.EmployeeID);
+    @Html.HiddenFor(model => model.Driver.Name);
+
+    @Html.HiddenFor(model => model.Collector.EmployeeID);
+    @Html.HiddenFor(model => model.Collector.Name);
+    
+    @Html.Partial("~/Areas/Inventories/Views/GoodsDeliveries/_GetReceiver.cshtml")
+    
+    <div class="background-bar" style="height: 45px;">
+        <div class="popup-button-bar">
+            <input id="submitCreateWizard" type="submit" formaction="@Url.Action("CreateWizard", "GoodsDeliveries")" formtarget="_top" style="display:none" />
+
+            <button type="button" class="k-button" onclick="okButton_Click()"> <img src="~/Content/Images/Mains/Size24/Ok-1.png" /> Lập phiếu giao hàng cho đơn vị, người nhận hàng đang chọn </button>
+            <button type="button" class="k-button" onclick="okWOSelectButton_Click()"> <img src="~/Content/Images/Mains/Size24/Accept-Total.png" /> Lập phiếu giao hàng tổng hợp </button>
+            <button type="button" class="k-button" onclick="window.parent.$('#myWindow').data('kendoWindow').close()"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png" /> Thoát </button>
+        </div>
+    </div>
+}
+
+<link href="@Url.Content("~/Content/CustomCss/GeneralPopup.css")" rel="stylesheet" type="text/css" />
+
+
+<script type="text/javascript">
+    function okButton_Click() {
+        handleOKEvent($("#gridPendingHandlingUnitReceivers").data("kendoGrid"));
+    }
+
+    function okWOSelectButton_Click() {
+        handleOKEvent();
+    }
+
+
+    function handleOKEvent(selectedGrid) {
+        if (selectedGrid === undefined)
+            _setModelInput();
+        else {
+            var selectedDataItem = selectedGrid.dataItem(selectedGrid.select());
+            if (selectedDataItem === undefined)
+                return false;
+
+            _setModelInput(selectedDataItem);
+        }
+        $("#submitCreateWizard").trigger("click");
+
+
+        function _setModelInput(selectedDataItem) {
+            $("#Description").val(selectedDataItem === undefined || selectedDataItem.Description === undefined ? null : selectedDataItem.Description);
+            $("#Remarks").val(selectedDataItem === undefined || selectedDataItem.Remarks === undefined ? null : selectedDataItem.Remarks);
+
+            $("#Receiver_CustomerID").val(selectedDataItem === undefined ? null : selectedDataItem.ReceiverID);
+            $("#Receiver_Code").val(selectedDataItem === undefined ? null : selectedDataItem.ReceiverCode);
+            $("#Receiver_Name").val(selectedDataItem === undefined ? null : selectedDataItem.ReceiverName);
+            $("#Receiver_VATCode").val(selectedDataItem === undefined ? null : selectedDataItem.ReceiverVATCode);
+            $("#Receiver_Telephone").val(selectedDataItem === undefined ? null : selectedDataItem.ReceiverTelephone);
+            $("#Receiver_BillingAddress").val(selectedDataItem === undefined ? null : selectedDataItem.ReceiverBillingAddress);
+            $("#Receiver_EntireTerritoryEntireName").val(selectedDataItem === undefined ? null : selectedDataItem.EntireTerritoryEntireName);
+        }
+    }
+
+</script>

@@ -1,0 +1,63 @@
+﻿@using TotalPortal.Configuration
+
+@model TotalDTO.Commons.IEmployeeBaseDTO
+
+@Html.HiddenFor(model => model.EmployeeID)
+
+@Html.Hidden("TempName", (@Model != null ? @Model.Name : ""))
+
+
+@Html.Label((ViewData["EmployeeDisplayName"] != null ? (ViewData["EmployeeDisplayName"]).ToString() : "Tên nhân viên"))
+<div class="div-input">
+
+    @(Html.Kendo().AutoCompleteFor(model => model.Name)
+        .DataTextField("Name")
+        .Filter("contains")
+        .MinLength(SettingsManager.AutoCompleteMinLenght)
+        .Placeholder("Chọn nhân viên...")
+        .DataSource(source =>
+        {
+            source.Read(read =>
+            {
+                read.Action("SearchEmployees", "EmployeeAPIs", new { area = "Commons" }).Data(@<text> function(e) {return {searchText: e.filter.filters[0].value};} </text>);//Send parameter to controller search action
+            })
+            .ServerFiltering(true);
+        })
+                .Events(e =>
+                {
+                    e.Select("employee_Select");
+                })
+                .HtmlAttributes(new { @class = "left-panel-input employeeBase_AutoComplete" })
+    )
+
+</div>
+<div class="div-validation-message">
+    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+</div>
+
+<script type="text/javascript">
+
+    getEmployeeModelID = function (modelID) {
+        return modelID.substring(0, modelID.length - 4); //At first: Pass: modelID = this.element.attr('id') = 'Employee_Name', Then: Return: ('Employee_Name').substring(0, modelID.length - 4) = 'Employee_'
+    }
+
+    employee_Select = function (e) {
+        var modelID = getEmployeeModelID(this.element.attr('id'));
+
+        var dataItem = e.sender.dataItem(e.item.index());
+
+        $("#" + modelID + "EmployeeID").val(dataItem.EmployeeID);
+
+        //Remember last AutoComplete value
+        $("#" + modelID + "TempName").val(dataItem.Name);
+
+        //Trigger change event. This event is not used in this editor template. It will be catch out side of this editor template
+        $("#" + modelID + "EmployeeID").trigger("change");
+    }
+
+    $(".employeeBase_AutoComplete").focusout(function (e) {        
+        var modelID = getEmployeeModelID(this.id);
+        $(this).val($("#" + modelID + "TempName").val());
+    });
+
+</script>

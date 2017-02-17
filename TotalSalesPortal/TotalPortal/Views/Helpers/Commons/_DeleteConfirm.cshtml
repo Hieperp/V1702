@@ -1,0 +1,26 @@
+﻿@model TotalDTO.BaseDTO
+
+<div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        if (Model.Deletable)
+        {
+            <div id="div-DeleteConfirm">
+                <label>Vui lòng xác nhận xóa dữ liệu. Lưu ý: sau khi xóa dữ liệu sẽ không thể phục hồi được.</label>
+                <img src="~/Content/Images/New/alert1.png" alt="Alert" />
+            </div>
+
+            <div class="div-button">
+                <button type="submit" class="k-button custom-button"> <img src="~/Content/Images/New/Delete32m.png" alt="" /> Xác nhận xóa </button>
+            </div>
+        }
+        else
+        {
+            <div id="div-DeleteConfirm">
+                <label>Bạn không được xóa dữ liệu này.</label>
+                <img src="~/Content/Images/New/alert1.png" alt="Alert" />
+            </div>
+        }
+    }
+</div>

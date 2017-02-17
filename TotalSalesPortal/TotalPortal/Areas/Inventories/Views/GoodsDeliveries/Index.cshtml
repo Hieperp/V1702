@@ -1,0 +1,75 @@
+﻿@using TotalPortal.Configuration
+
+<div id="popupWindow"></div>
+
+<div>
+    @(Html.Kendo().Grid<TotalModel.Models.GoodsDeliveryIndex>()
+        .Name("kendoGridIndex")
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.GoodsDeliveryID).DisplayNameTitle().Hidden();
+            columns.Bound(p => p.LocationCode).Title("CN").Width(10);
+            columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(40);
+            columns.Bound(p => p.ReceiverDescription).Title("Khách hàng").Width(350);
+            columns.Bound(p => p.VehicleName).Title("Xe").Width(100);
+            columns.Bound(p => p.CollectorName).Title("NV giao hàng").Width(120);
+            columns.Bound(p => p.Description).Title("Ghi chú").Width(190);
+            columns.Bound(p => p.TotalQuantity).Title("Sl").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).Width(80).Hidden();
+            columns.Bound(p => p.TotalWeight).Title("TL").Format("{0:n2}").HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).Width(60);
+            columns.Bound(p => p.TotalRealWeight).Title("TLTT").Format("{0:n2}").HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).Width(60);
+            
+            columns.Template(model => null).Width(170)
+                .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Inventories/GoodsDeliveries", action = "Edit" }) + "/#= GoodsDeliveryID #'><span class='k-icon k-edit'></span></a> <a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Inventories/GoodsDeliveries", action = "Print" }) + "/#= GoodsDeliveryID #' target='_blank'><span class='k-icon k-i-folder-add'></span></a> <a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Inventories/GoodsDeliveries", action = "PrintDetail" }) + "/#= GoodsDeliveryID #' target='_blank'><span class='k-icon k-i-folder-up'></span></a> <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Inventories/GoodsDeliveries", action = "Delete" }) + "/#= GoodsDeliveryID #'><span class='k-icon k-delete'></span></a>");
+
+        })
+        .ToolBar(toolbar =>
+        {
+            toolbar.Template(@<text> <button type="button" class="k-button" onclick="createWizard()"> <img src="~/Content/Images/Mains/Size24/folder-documents-icon-24.png" /> Lập phiếu giao hàng </button> </text>);
+        })
+
+        .Pageable()
+        .Groupable(g => g.Messages(messages => messages.Empty("Phân nhóm dữ liệu: Kéo và thả tiêu đề một hoặc nhiều cột dữ liệu ngay bên dưới vào đây để phân nhóm hiển thị theo phân cấp của các cột dữ liệu")))
+        .Filterable()
+        .Selectable()
+        .Sortable()
+        .Events(e =>
+        {
+            e.DataBound("hightLightSelectedRow");
+        })
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("GetGoodsDeliveryIndexes", "GoodsDeliveryAPIs", new { area = "Inventories" }))
+            .Sort(sort =>
+                {
+                    sort.Add(p => p.EntryDate).Descending();
+                    sort.Add(p => p.GoodsDeliveryID).Descending();
+                })
+            .PageSize(20)
+            .Model(model =>
+            {
+                model.Id(x => x.GoodsDeliveryID);
+                model.Field(m => m.GoodsDeliveryID).DefaultValue(0);
+            })
+            .ServerOperation(true)
+        )
+        .HtmlAttributes(new { @class = "grid-class" })
+    )
+</div>
+
+
+
+<script type="text/javascript">
+    function hightLightSelectedRow(e) {
+        require(["kindexGrid"], function (kindexGrid) {
+            var kindexGridInstance = new kindexGrid("kendoGridIndex");
+            kindexGridInstance.setSelectedRow("GoodsDeliveryID", @ViewBag.SelectedEntityID);
+        });
+    }
+
+    function createWizard() {
+        require(["kpopupWindow"], function (kpopupWindow) {
+            var createWizardWindow = new kpopupWindow();
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "GoodsDeliveries")", "Chọn đơn vị, người nhận hàng hoặc giao hàng tổng hợp", "@SettingsManager.PopupWidthLarge", "@SettingsManager.PopupHeightWithTab");
+        });
+    }
+</script>
