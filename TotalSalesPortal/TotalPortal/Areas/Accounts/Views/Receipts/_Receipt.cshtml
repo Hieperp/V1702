@@ -56,7 +56,7 @@
                 .Name("kendoGridDetails")
                 .Columns(columns =>
                 {
-                    columns.Template(t => { }).Title("&nbsp;").ClientTemplate("#= RowNumber(data) #").Width(35);
+                    columns.Template(t => { }).Title("&nbsp;").ClientTemplate("#= RowNumber(data) #").HtmlAttributes(new { @class = "grid-column-center" }).Width(35);
 
 
                     columns.Bound(p => p.ReceiptDetailID).DisplayNameTitle().Filterable(false).Hidden()

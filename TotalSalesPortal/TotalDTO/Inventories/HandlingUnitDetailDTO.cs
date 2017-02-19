@@ -25,7 +25,7 @@ namespace TotalDTO.Inventories
         [UIHint("StringReadonly")]
         public string GoodsIssueReference { get; set; }
         [Display(Name = "Ngày, giờ XK")]
-        [UIHint("DateTime")]
+        [UIHint("DateTimeReadonly")]
         public System.DateTime GoodsIssueEntryDate { get; set; }
 
         [UIHint("StringReadonly")]
@@ -35,6 +35,8 @@ namespace TotalDTO.Inventories
         [UIHint("DecimalReadonly")]
         public decimal QuantityRemains { get; set; }
 
+        [UIHint("DecimalWithMinus")]
+        public override decimal Quantity { get; set; }
 
         [Display(Name = "TL chuẩn (g)")]
         [UIHint("DecimalReadonly")] 

@@ -36,7 +36,7 @@
                 .Name("kendoGridDetails")
                 .Columns(columns =>
                 {
-                    columns.Template(t => { }).Title("&nbsp;").ClientTemplate("#= RowNumber(data) #").Width(35);
+                    columns.Template(t => { }).Title("&nbsp;").ClientTemplate("#= RowNumber(data) #").HtmlAttributes(new { @class = "grid-column-center" }).Width(35);
 
 
                     columns.Bound(p => p.GoodsDeliveryDetailID).DisplayNameTitle().Filterable(false).Hidden()
@@ -61,12 +61,15 @@
                         .ClientTemplate("#= ReceiverID #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].ReceiverID' value='#= ReceiverID #' />");
                     columns.Bound(p => p.ReceiverCode).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= ReceiverCode #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].ReceiverCode' value='#= ReceiverCode #' />");
-                    columns.Bound(p => p.ReceiverName).DisplayNameTitle().Filterable(false).Width(200)
-                        .ClientFooterTemplate("Tổng cộng:")
+                    columns.Bound(p => p.ReceiverName).DisplayNameTitle().Filterable(false).Hidden()                        
                         .ClientTemplate("#= ReceiverName #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].ReceiverName' value='#= ReceiverName #' />");
                     columns.Bound(p => p.ShippingAddress).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= ShippingAddress #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].ShippingAddress' value='#= ShippingAddress #' />");
 
+                    columns.Bound(p => p.ReceiverDescription).DisplayNameTitle().Filterable(false).Width(200)
+                        .ClientFooterTemplate("Tổng cộng:")
+                        .ClientTemplate("#= ReceiverDescription #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].ReceiverDescription' value='#= ReceiverDescription #' />");
+                    
                     columns.Bound(p => p.GoodsIssueReferences).DisplayNameTitle().Filterable(false).Width(100)
                         .ClientTemplate("#= GoodsIssueReferences #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].GoodsIssueReferences' value='#= GoodsIssueReferences #' />");
 

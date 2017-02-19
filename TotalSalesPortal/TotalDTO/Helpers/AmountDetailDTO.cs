@@ -18,6 +18,9 @@ namespace TotalDTO.Helpers
     {
         public int CalculatingTypeID { get; set; }
 
+        [UIHint("DecimalWithMinus")]
+        public override decimal Quantity { get; set; }
+
         [Display(Name = "Giá bán")]
         [UIHint("DecimalReadonly")] //[UIHint("Decimal")]
         public virtual decimal UnitPrice { get; set; }

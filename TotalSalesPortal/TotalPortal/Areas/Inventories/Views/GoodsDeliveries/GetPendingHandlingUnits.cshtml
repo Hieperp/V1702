@@ -8,8 +8,8 @@
     .Name("gridPendingHandlingUnits")
     .Columns(columns =>
     {
-        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(100);
-        columns.Bound(c => c.ShippingAddress).Title("Địa chỉ giao hàng").Width(120);
+        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(100);
+        columns.Bound(c => c.ReceiverDescription).Title("Giao hàng").Width(120);
 
         columns.Bound(c => c.GoodsIssueReferences).Title("PXK").Width(100);
         columns.Bound(c => c.EntryDate).Title("Ngày, giờ đóng gói").Width(70).Format("{0:" + SettingsManager.DateTimeFormat + "}");

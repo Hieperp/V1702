@@ -92,7 +92,10 @@ namespace TotalModel.Models
 
 
 
-
+    public partial class PendingHandlingUnit
+    {
+        public string ReceiverDescription { get { return (this.CustomerID == this.ReceiverID ? "" : this.ReceiverName + ", ") + this.ShippingAddress; } }
+    }
 
 
 

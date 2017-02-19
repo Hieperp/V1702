@@ -39,6 +39,10 @@ namespace TotalDTO.Inventories
         [UIHint("StringReadonly")]
         public string ShippingAddress { get; set; }
 
+        [Display(Name = "Giao hàng")]
+        [UIHint("StringReadonly")]
+        public string ReceiverDescription { get { return (this.CustomerID == this.ReceiverID ? "" : this.ReceiverName + ", ") + this.ShippingAddress; } }
+        
         [Display(Name = "PXK")]
         [UIHint("StringReadonly")]
         public string GoodsIssueReferences { get; set; }
@@ -50,9 +54,9 @@ namespace TotalDTO.Inventories
         [UIHint("StringReadonly")]
         public string PrintedLabel { get; set; }
 
-        //[Display(Name = "TL")]
-        //[UIHint("DecimalReadonly")]
-        //public override decimal Quantity { get; set; }
+        [UIHint("DecimalReadonly")]
+        public override decimal Quantity { get; set; }
+
         [Display(Name = "TL")]
         [UIHint("DecimalReadonly")]
         public decimal Weight { get; set; }

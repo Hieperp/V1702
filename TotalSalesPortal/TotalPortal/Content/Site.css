@@ -287,9 +287,8 @@ input[type=text], input[type=password], select {
 
 #div-DeleteConfirm {
     text-align: right;
-    width: 1150px;
-    padding-right: 5px;
-    color: darkred;
+    padding-right: 3px;
+    color: rosybrown;
 }
 
 
@@ -966,7 +965,7 @@ ul.k-panelbar .k-link {
 
 .right-first-panel {
     float: left;
-    width: 55%;    
+    width: 55%;
     box-sizing: border-box;
 }
 
@@ -993,7 +992,7 @@ ul.k-panelbar .k-link {
     /*box-sizing: border-box;*/
 }
 
-.right-panel-input-whole-width{
+.right-panel-input-whole-width {
     width: 84.6%;
 }
 
@@ -1016,7 +1015,7 @@ ul.k-panelbar .k-link {
     box-sizing: border-box;
 }
 
-.right-panel-label-whole-width{
+.right-panel-label-whole-width {
     width: 15.4%;
 }
 

@@ -54,6 +54,8 @@ function handleOKEvent(goodsDeliveryGridDataSource, pendingHandlingUnitDetailGri
         dataRow.ReceiverCode = handlingUnitGridDataItem.ReceiverCode;
         dataRow.ShippingAddress = handlingUnitGridDataItem.ShippingAddress;
 
+        dataRow.ReceiverDescription = (handlingUnitGridDataItem.CustomerID == handlingUnitGridDataItem.ReceiverID ? "" : handlingUnitGridDataItem.ReceiverName + ", ") + handlingUnitGridDataItem.ShippingAddress;
+
         dataRow.GoodsIssueReferences = handlingUnitGridDataItem.GoodsIssueReferences;
         dataRow.HandlingUnitIdentification = handlingUnitGridDataItem.HandlingUnitIdentification;
         dataRow.PrintedLabel = handlingUnitGridDataItem.PrintedLabel;

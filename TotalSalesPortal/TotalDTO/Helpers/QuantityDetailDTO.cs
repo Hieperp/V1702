@@ -32,7 +32,7 @@ namespace TotalDTO.Helpers
 
 
         [Display(Name = "SL")]
-        [UIHint("DecimalWithMinus")]
+        //[UIHint("DecimalWithMinus")]
         [Range(0, 99999999999, ErrorMessage = "Số lượng không hợp lệ")]
         [Required(ErrorMessage = "Vui lòng nhập số lượng")]
         public virtual decimal Quantity { get; set; }
