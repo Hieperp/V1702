@@ -34,6 +34,7 @@
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="GoodsIssueID" Type="int" Nullable="false" />
           <Property Name="GoodsIssueDetailID" Type="int" Nullable="false" />
+          <Property Name="CalculatingTypeID" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="FreeQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="QuantityInvoice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -42,9 +43,13 @@
           <Property Name="DiscountPercent" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="VATPercent" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ListedGrossPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="GrossPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ListedAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ListedVATAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="VATAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ListedGrossAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="GrossAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="IsBonus" Type="bit" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
@@ -65,9 +70,13 @@
           <Property Name="LocationID" Type="int" Nullable="false" />
           <Property Name="ApproverID" Type="int" Nullable="false" />
           <Property Name="TotalQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalListedAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalListedVATAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalVATAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalListedGrossAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalGrossAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="AverageDiscountPercent" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="VATInvoiceNo" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="VATInvoiceDate" Type="datetime" Nullable="false" />
           <Property Name="VATInvoiceSeries" Type="nvarchar" MaxLength="60" Nullable="false" />
@@ -3066,6 +3075,11 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="Decimal" Name="ControlFreeQuantity" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="FreeQuantity" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Int32" Name="GoodsIssueID" Nullable="false" />
+          <Property Type="Int32" Name="CalculatingTypeID" Nullable="false" />
+          <Property Type="Decimal" Name="ListedGrossPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="ListedAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="ListedVATAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="ListedGrossAmount" Nullable="false" Precision="18" Scale="2" />
         </ComplexType>
         <EntityType Name="ReceiptDetail">
           <Key>
@@ -3192,6 +3206,11 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AccountInvoice" Relationship="TotalSalesPortalModel.FK_AccountInvoiceDetails_AccountInvoices" FromRole="AccountInvoiceDetail" ToRole="AccountInvoice" />
           <NavigationProperty Name="GoodsIssueDetail" Relationship="TotalSalesPortalModel.FK_AccountInvoiceDetails_GoodsIssueDetails" FromRole="AccountInvoiceDetail" ToRole="GoodsIssueDetail" />
+          <Property Name="CalculatingTypeID" Type="Int32" Nullable="false" />
+          <Property Name="ListedGrossPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ListedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ListedVATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="AccountInvoice">
           <Key>
@@ -3229,6 +3248,10 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <NavigationProperty Name="Customer" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers" FromRole="AccountInvoice" ToRole="Customer" />
           <NavigationProperty Name="Customer1" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers1" FromRole="AccountInvoice" ToRole="Customer" />
           <NavigationProperty Name="GoodsIssue" Relationship="TotalSalesPortalModel.FK_AccountInvoices_GoodsIssues" FromRole="AccountInvoice" ToRole="GoodsIssue" />
+          <Property Name="TotalListedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalListedVATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="AverageDiscountPercent" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
           </EntityType>
         <Association Name="FK_AccountInvoices_Locations">
           <End Type="TotalSalesPortalModel.Location" Role="Location" Multiplicity="1" />
@@ -3283,6 +3306,11 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="BillingAddress" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="CalculatingTypeID" Nullable="false" />
+          <Property Type="Decimal" Name="ListedGrossPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="ListedAmount" Nullable="false" Precision="1" Scale="1" />
+          <Property Type="Decimal" Name="ListedVATAmount" Nullable="false" Precision="1" Scale="1" />
+          <Property Type="Decimal" Name="ListedGrossAmount" Nullable="false" Precision="1" Scale="1" />
         </ComplexType>
         <ComplexType Name="PendingGoodsIssueConsumer">
           <Property Type="Int32" Name="CustomerID" Nullable="false" />
@@ -4961,6 +4989,11 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
                 <ScalarProperty Name="ControlFreeQuantity" ColumnName="ControlFreeQuantity" />
                 <ScalarProperty Name="FreeQuantity" ColumnName="FreeQuantity" />
                 <ScalarProperty Name="GoodsIssueID" ColumnName="GoodsIssueID" />
+                <ScalarProperty Name="CalculatingTypeID" ColumnName="CalculatingTypeID" />
+                <ScalarProperty Name="ListedGrossPrice" ColumnName="ListedGrossPrice" />
+                <ScalarProperty Name="ListedAmount" ColumnName="ListedAmount" />
+                <ScalarProperty Name="ListedVATAmount" ColumnName="ListedVATAmount" />
+                <ScalarProperty Name="ListedGrossAmount" ColumnName="ListedGrossAmount" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -5091,6 +5124,11 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <EntitySetMapping Name="AccountInvoiceDetails">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.AccountInvoiceDetail">
               <MappingFragment StoreEntitySet="AccountInvoiceDetails">
+                <ScalarProperty Name="ListedGrossAmount" ColumnName="ListedGrossAmount" />
+                <ScalarProperty Name="ListedVATAmount" ColumnName="ListedVATAmount" />
+                <ScalarProperty Name="ListedAmount" ColumnName="ListedAmount" />
+                <ScalarProperty Name="ListedGrossPrice" ColumnName="ListedGrossPrice" />
+                <ScalarProperty Name="CalculatingTypeID" ColumnName="CalculatingTypeID" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="IsBonus" ColumnName="IsBonus" />
                 <ScalarProperty Name="GrossAmount" ColumnName="GrossAmount" />
@@ -5118,6 +5156,10 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <EntitySetMapping Name="AccountInvoices">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.AccountInvoice">
               <MappingFragment StoreEntitySet="AccountInvoices">
+                <ScalarProperty Name="AverageDiscountPercent" ColumnName="AverageDiscountPercent" />
+                <ScalarProperty Name="TotalListedGrossAmount" ColumnName="TotalListedGrossAmount" />
+                <ScalarProperty Name="TotalListedVATAmount" ColumnName="TotalListedVATAmount" />
+                <ScalarProperty Name="TotalListedAmount" ColumnName="TotalListedAmount" />
                 <ScalarProperty Name="GoodsIssueID" ColumnName="GoodsIssueID" />
                 <ScalarProperty Name="ConsumerID" ColumnName="ConsumerID" />
                 <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
@@ -5179,6 +5221,11 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
                 <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
                 <ScalarProperty Name="Reference" ColumnName="Reference" />
                 <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
+                <ScalarProperty Name="CalculatingTypeID" ColumnName="CalculatingTypeID" />
+                <ScalarProperty Name="ListedGrossPrice" ColumnName="ListedGrossPrice" />
+                <ScalarProperty Name="ListedAmount" ColumnName="ListedAmount" />
+                <ScalarProperty Name="ListedVATAmount" ColumnName="ListedVATAmount" />
+                <ScalarProperty Name="ListedGrossAmount" ColumnName="ListedGrossAmount" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

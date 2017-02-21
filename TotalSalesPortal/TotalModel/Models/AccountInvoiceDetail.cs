@@ -35,6 +35,11 @@ namespace TotalModel.Models
         public decimal GrossAmount { get; set; }
         public Nullable<bool> IsBonus { get; set; }
         public string Remarks { get; set; }
+        public int CalculatingTypeID { get; set; }
+        public decimal ListedGrossPrice { get; set; }
+        public decimal ListedAmount { get; set; }
+        public decimal ListedVATAmount { get; set; }
+        public decimal ListedGrossAmount { get; set; }
     
         public virtual AccountInvoice AccountInvoice { get; set; }
         public virtual GoodsIssueDetail GoodsIssueDetail { get; set; }

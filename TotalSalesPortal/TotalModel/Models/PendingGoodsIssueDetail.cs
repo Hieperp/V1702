@@ -41,5 +41,10 @@ namespace TotalModel.Models
         public string ReceiverName { get; set; }
         public string Reference { get; set; }
         public string BillingAddress { get; set; }
+        public int CalculatingTypeID { get; set; }
+        public decimal ListedGrossPrice { get; set; }
+        public decimal ListedAmount { get; set; }
+        public decimal ListedVATAmount { get; set; }
+        public decimal ListedGrossAmount { get; set; }
     }
 }

@@ -47,6 +47,10 @@ namespace TotalModel.Models
         public Nullable<System.DateTime> InActiveDate { get; set; }
         public Nullable<int> ConsumerID { get; set; }
         public Nullable<int> GoodsIssueID { get; set; }
+        public decimal TotalListedAmount { get; set; }
+        public decimal TotalListedVATAmount { get; set; }
+        public decimal TotalListedGrossAmount { get; set; }
+        public decimal AverageDiscountPercent { get; set; }
     
         public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

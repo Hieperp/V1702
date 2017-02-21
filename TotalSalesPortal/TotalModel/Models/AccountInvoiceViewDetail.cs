@@ -36,5 +36,10 @@ namespace TotalModel.Models
         public decimal ControlFreeQuantity { get; set; }
         public decimal FreeQuantity { get; set; }
         public int GoodsIssueID { get; set; }
+        public int CalculatingTypeID { get; set; }
+        public decimal ListedGrossPrice { get; set; }
+        public decimal ListedAmount { get; set; }
+        public decimal ListedVATAmount { get; set; }
+        public decimal ListedGrossAmount { get; set; }
     }
 }

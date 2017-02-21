@@ -10,10 +10,10 @@
             columns.Bound(p => p.GoodsDeliveryID).DisplayNameTitle().Hidden();
             columns.Bound(p => p.LocationCode).Title("CN").Width(10);
             columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(40);
-            columns.Bound(p => p.ReceiverDescription).Title("Khách hàng").Width(350);
+            columns.Bound(p => p.ReceiverDescription).Title("Khách hàng").Width(310);
             columns.Bound(p => p.VehicleName).Title("Xe").Width(100);
-            columns.Bound(p => p.CollectorName).Title("NV giao hàng").Width(120);
-            columns.Bound(p => p.Description).Title("Ghi chú").Width(190);
+            columns.Bound(p => p.CollectorName).Title("NV giao hàng").Width(165);
+            columns.Bound(p => p.Description).Title("Ghi chú").Width(185);
             columns.Bound(p => p.TotalQuantity).Title("Sl").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).Width(80).Hidden();
             columns.Bound(p => p.TotalWeight).Title("TL").Format("{0:n2}").HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).Width(60);
             columns.Bound(p => p.TotalRealWeight).Title("TLTT").Format("{0:n2}").HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).Width(60);

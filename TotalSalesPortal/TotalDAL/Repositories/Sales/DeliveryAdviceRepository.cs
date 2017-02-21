@@ -17,6 +17,11 @@ namespace TotalDAL.Repositories.Sales
         {
             return;
 
+            Helpers.SqlProgrammability.Accounts.AccountInvoice accountInvoice = new Helpers.SqlProgrammability.Accounts.AccountInvoice(totalSalesPortalEntities);
+            accountInvoice.RestoreProcedure();
+
+            
+
             Helpers.SqlProgrammability.Commons.AccessControl accessControl = new Helpers.SqlProgrammability.Commons.AccessControl(totalSalesPortalEntities);
             accessControl.RestoreProcedure();
 
@@ -47,9 +52,6 @@ namespace TotalDAL.Repositories.Sales
             goodsDelivery.RestoreProcedure();
 
 
-
-            Helpers.SqlProgrammability.Accounts.AccountInvoice accountInvoice = new Helpers.SqlProgrammability.Accounts.AccountInvoice(totalSalesPortalEntities);
-            accountInvoice.RestoreProcedure();
 
             Helpers.SqlProgrammability.Accounts.Receipt receipt = new Helpers.SqlProgrammability.Accounts.Receipt(totalSalesPortalEntities);
             receipt.RestoreProcedure();

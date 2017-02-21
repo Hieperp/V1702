@@ -39,10 +39,10 @@ namespace TotalDTO.Helpers
 
             if ((this.ListedPrice != 0 && this.ListedGrossPrice == 0) || (this.ListedPrice == 0 && this.ListedGrossPrice != 0)) yield return new ValidationResult("Lỗi giá gốc sau thuế", new[] { "ListedGrossPrice" });
 
-            if (Math.Round(this.Quantity * this.ListedPrice, GlobalEnums.rndAmount, MidpointRounding.AwayFromZero) != this.ListedAmount) yield return new ValidationResult("Lỗi thành tiền giá gốc", new[] { "ListedAmount" });
-            if (this.CalculatingTypeID != 0 && Math.Round(this.Quantity * this.ListedGrossPrice, GlobalEnums.rndAmount, MidpointRounding.AwayFromZero) != this.ListedGrossAmount) yield return new ValidationResult("Lỗi thành tiền giá gốc sau thuế", new[] { "ListedGrossAmount" });
-            if ((this.CalculatingTypeID == 0 && Math.Round(this.ListedAmount * this.VATPercent / 100, GlobalEnums.rndAmount, MidpointRounding.AwayFromZero) != this.ListedVATAmount) || (this.ListedAmount == 0 && this.ListedVATAmount != 0) || (this.ListedAmount != 0 && this.VATPercent != 0 && this.ListedVATAmount == 0) || (this.ListedAmount != 0 && this.VATPercent == 0 && this.ListedVATAmount != 0)) yield return new ValidationResult("Lỗi tiền thuế giá gốc", new[] { "ListedVATAmount" });
-            if (Math.Round(this.ListedAmount + this.ListedVATAmount, GlobalEnums.rndAmount, MidpointRounding.AwayFromZero) != this.ListedGrossAmount) yield return new ValidationResult("Lỗi thành tiền giá gốc sau thuế", new[] { "ListedGrossAmount" });
+            if (Math.Round(this.Quantity * this.ListedPrice, GlobalEnums.rndAmount, MidpointRounding.AwayFromZero) != this.ListedAmount) yield return new ValidationResult(this.CommodityCode + "Lỗi thành tiền giá gốc", new[] { "ListedAmount" });
+            if (this.CalculatingTypeID != 0 && Math.Round(this.Quantity * this.ListedGrossPrice, GlobalEnums.rndAmount, MidpointRounding.AwayFromZero) != this.ListedGrossAmount) yield return new ValidationResult(this.CommodityCode + "Lỗi thành tiền giá gốc sau thuế", new[] { "ListedGrossAmount" });
+            if ((this.CalculatingTypeID == 0 && Math.Round(this.ListedAmount * this.VATPercent / 100, GlobalEnums.rndAmount, MidpointRounding.AwayFromZero) != this.ListedVATAmount) || (this.ListedAmount == 0 && this.ListedVATAmount != 0) || (this.ListedAmount != 0 && this.VATPercent != 0 && this.ListedVATAmount == 0) || (this.ListedAmount != 0 && this.VATPercent == 0 && this.ListedVATAmount != 0)) yield return new ValidationResult(this.CommodityCode + "Lỗi tiền thuế giá gốc", new[] { "ListedVATAmount" });
+            if (Math.Round(this.ListedAmount + this.ListedVATAmount, GlobalEnums.rndAmount, MidpointRounding.AwayFromZero) != this.ListedGrossAmount) yield return new ValidationResult(this.CommodityCode + "Lỗi thành tiền giá gốc sau thuế", new[] { "ListedGrossAmount" });
 
         }
     }

@@ -52,6 +52,8 @@ function handleOKEvent(accountInvoiceGridDataSource, pendingGoodsIssueDetailGrid
         dataRow.CommodityCode = goodsIssueGridDataItem.CommodityCode;
         dataRow.CommodityTypeID = goodsIssueGridDataItem.CommodityTypeID;
 
+        dataRow.CalculatingTypeID = goodsIssueGridDataItem.CalculatingTypeID;
+
         dataRow.ControlFreeQuantity = goodsIssueGridDataItem.ControlFreeQuantity;
         dataRow.QuantityRemains = goodsIssueGridDataItem.QuantityRemains;
         dataRow.Quantity = goodsIssueGridDataItem.Quantity;
@@ -60,10 +62,14 @@ function handleOKEvent(accountInvoiceGridDataSource, pendingGoodsIssueDetailGrid
         dataRow.ListedPrice = goodsIssueGridDataItem.ListedPrice;
         dataRow.DiscountPercent = goodsIssueGridDataItem.DiscountPercent;
         dataRow.UnitPrice = goodsIssueGridDataItem.UnitPrice;
-        dataRow.VATPercent = goodsIssueGridDataItem.VATPercent;
-        dataRow.GrossPrice = goodsIssueGridDataItem.GrossPrice;
+        dataRow.ListedAmount = goodsIssueGridDataItem.ListedAmount;
         dataRow.Amount = goodsIssueGridDataItem.Amount;
+        dataRow.VATPercent = goodsIssueGridDataItem.VATPercent;
+        dataRow.ListedVATAmount = goodsIssueGridDataItem.ListedVATAmount;                
         dataRow.VATAmount = goodsIssueGridDataItem.VATAmount;
+        dataRow.ListedGrossPrice = goodsIssueGridDataItem.ListedGrossPrice;
+        dataRow.GrossPrice = goodsIssueGridDataItem.GrossPrice;
+        dataRow.ListedGrossAmount = goodsIssueGridDataItem.ListedGrossAmount;
         dataRow.GrossAmount = goodsIssueGridDataItem.GrossAmount;
 
         dataRow.IsBonus = goodsIssueGridDataItem.IsBonus;        
