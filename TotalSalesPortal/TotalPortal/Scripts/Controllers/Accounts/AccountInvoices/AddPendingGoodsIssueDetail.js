@@ -10,10 +10,13 @@ function handleOKEvent(accountInvoiceGridDataSource, pendingGoodsIssueDetailGrid
             if (pendingGoodsIssueDetailGridDataItems[i].IsSelected === true)
                 _setParentInput(accountInvoiceJSON, pendingGoodsIssueDetailGridDataItems[i]);
         }
+
+        accountInvoiceJSON.push(new Object()); //Add a temporary empty row
+
         accountInvoiceGridDataSource.data(accountInvoiceJSON);
 
-        var dataRowTest = accountInvoiceGridDataSource.add({}); //To calculate total
-        accountInvoiceGridDataSource.trigger("change");
+        var rawData = accountInvoiceGridDataSource.data()
+        accountInvoiceGridDataSource.remove(rawData[rawData.length - 1]); //Remove the last row: this is the temporary empty row
 
         cancelButton_Click();
     }
@@ -45,6 +48,8 @@ function handleOKEvent(accountInvoiceGridDataSource, pendingGoodsIssueDetailGrid
 
         dataRow.GoodsIssueID = goodsIssueGridDataItem.GoodsIssueID;
         dataRow.GoodsIssueDetailID = goodsIssueGridDataItem.GoodsIssueDetailID;
+        dataRow.GoodsIssueReference = goodsIssueGridDataItem.GoodsIssueReference;
+        dataRow.GoodsIssueEntryDate = goodsIssueGridDataItem.GoodsIssueEntryDate;
 
         dataRow.CustomerID = goodsIssueGridDataItem.CustomerID;
         dataRow.CommodityID = goodsIssueGridDataItem.CommodityID;

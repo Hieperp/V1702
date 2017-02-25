@@ -10,10 +10,13 @@ function handleOKEvent(accountInvoiceGridDataSource, pendingSalesInvoiceGridData
             if (pendingSalesInvoiceGridDataItems[i].IsSelected === true)
                 _setParentInput(accountInvoiceJSON, pendingSalesInvoiceGridDataItems[i]);
         }
+
+        accountInvoiceJSON.push(new Object()); //Add a temporary empty row
+
         accountInvoiceGridDataSource.data(accountInvoiceJSON);
 
-        var dataRowTest = accountInvoiceGridDataSource.add({}); //To calculate total
-        //accountInvoiceGridDataSource.trigger("change");
+        var rawData = accountInvoiceGridDataSource.data()
+        accountInvoiceGridDataSource.remove(rawData[rawData.length - 1]); //Remove the last row: this is the temporary empty row
 
         cancelButton_Click();
     }

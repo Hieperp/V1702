@@ -8,8 +8,8 @@
     .Name("gridPendingGoodsIssueDetails")
     .Columns(columns =>
     {
-        columns.Bound(c => c.Reference).Title("PXK").Width(35);
-        columns.Bound(c => c.EntryDate).Title("Ngày, giờ xuất kho").Width(80).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Bound(c => c.GoodsIssueReference).Title("PXK").Width(35);
+        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày, giờ xuất kho").Width(80).Format("{0:" + SettingsManager.DateTimeFormat + "}");
         columns.Bound(c => c.CustomerCode).Title("Mã khách hàng").Width(80);
         columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(132);
         columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(132);
@@ -23,7 +23,7 @@
     {
         toolbar.Template(@<text>
             <div class="toolbar" style="float: right;">
-                <label>Nhập số phiếu xuất kho/ hoặc mã, tên khách hàng hay đơn vị, người nhận hàng/ hoặc mã hàng hóa</label>
+                <label>Nhập PXK/ hoặc mã, tên khách hàng hay đơn vị nhận hàng/ hoặc mã hàng hóa</label>
                 <input id="filterText" class="k-textbox" style="text-align: center;" onkeyup="filterText_KeyUp()" />
                 @Html.Kendo().DatePicker().Name("FromDate").Value(DateTime.Today).Events(e => e.Change("reReadPendingGoodsIssueDetails")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:105px" })
                 @Html.Kendo().DatePicker().Name("ToDate").Value(DateTime.Today).Events(e => e.Change("reReadPendingGoodsIssueDetails")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:105px" })
@@ -104,7 +104,7 @@
             gridDetails.dataSource.filter({
                 logic: "or",
                 filters: [
-                    { field: "Reference", operator: "contains", value: filterText },
+                    { field: "GoodsIssueReference", operator: "contains", value: filterText },
 
                     { field: "CustomerCode", operator: "contains", value: filterText },
                     { field: "CustomerName", operator: "contains", value: filterText },

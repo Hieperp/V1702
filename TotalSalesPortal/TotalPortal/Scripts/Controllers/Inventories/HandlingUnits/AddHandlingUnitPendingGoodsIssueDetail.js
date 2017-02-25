@@ -10,10 +10,13 @@ function handleOKEvent(handlingUnitGridDataSource, pendingGoodsIssueDetailGridDa
             if (pendingGoodsIssueDetailGridDataItems[i].IsSelected === true)
                 _setParentInput(handlingUnitJSON, pendingGoodsIssueDetailGridDataItems[i]);
         }
+
+        handlingUnitJSON.push(new Object()); //Add a temporary empty row
+
         handlingUnitGridDataSource.data(handlingUnitJSON);
 
-        var dataRowTest = handlingUnitGridDataSource.add({}); //To calculate total
-        handlingUnitGridDataSource.trigger("change");
+        var rawData = handlingUnitGridDataSource.data()
+        handlingUnitGridDataSource.remove(rawData[rawData.length - 1]); //Remove the last row: this is the temporary empty row
 
         cancelButton_Click();
     }

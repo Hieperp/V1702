@@ -21,5 +21,7 @@ namespace TotalModel.Models
         public string CustomerDescription { get; set; }
         public string Description { get; set; }
         public decimal TotalGrossAmount { get; set; }
+        public decimal TotalQuantity { get; set; }
+        public decimal TotalListedGrossAmount { get; set; }
     }
 }

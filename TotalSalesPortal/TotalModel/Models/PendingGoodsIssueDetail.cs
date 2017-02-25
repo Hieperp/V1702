@@ -13,7 +13,6 @@ namespace TotalModel.Models
     
     public partial class PendingGoodsIssueDetail
     {
-        public System.DateTime EntryDate { get; set; }
         public int GoodsIssueID { get; set; }
         public int GoodsIssueDetailID { get; set; }
         public int CommodityID { get; set; }
@@ -39,12 +38,13 @@ namespace TotalModel.Models
         public Nullable<bool> IsSelected { get; set; }
         public string ReceiverCode { get; set; }
         public string ReceiverName { get; set; }
-        public string Reference { get; set; }
         public string BillingAddress { get; set; }
         public int CalculatingTypeID { get; set; }
         public decimal ListedGrossPrice { get; set; }
         public decimal ListedAmount { get; set; }
         public decimal ListedVATAmount { get; set; }
         public decimal ListedGrossAmount { get; set; }
+        public string GoodsIssueReference { get; set; }
+        public System.DateTime GoodsIssueEntryDate { get; set; }
     }
 }

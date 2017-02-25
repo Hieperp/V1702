@@ -10,10 +10,13 @@ function handleOKEvent(goodsDeliveryGridDataSource, pendingHandlingUnitDetailGri
             if (pendingHandlingUnitDetailGridDataItems[i].IsSelected === true)
                 _setParentInput(goodsDeliveryJSON, pendingHandlingUnitDetailGridDataItems[i]);
         }
+
+        goodsDeliveryJSON.push(new Object()); //Add a temporary empty row
+
         goodsDeliveryGridDataSource.data(goodsDeliveryJSON);
 
-        //var dataRowTest = goodsDeliveryGridDataSource.add({}); //To calculate total
-        //goodsDeliveryGridDataSource.trigger("change");
+        var rawData = goodsDeliveryGridDataSource.data()
+        goodsDeliveryGridDataSource.remove(rawData[rawData.length - 1]); //Remove the last row: this is the temporary empty row
 
         cancelButton_Click();
     }

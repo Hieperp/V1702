@@ -14,7 +14,6 @@ namespace TotalModel.Models
     public partial class GoodsIssueViewDetail
     {
         public int DeliveryAdviceID { get; set; }
-        public System.DateTime DeliveryAdviceDate { get; set; }
         public int GoodsIssueDetailID { get; set; }
         public int GoodsIssueID { get; set; }
         public int DeliveryAdviceDetailID { get; set; }
@@ -50,5 +49,6 @@ namespace TotalModel.Models
         public decimal ListedVATAmount { get; set; }
         public decimal ListedGrossAmount { get; set; }
         public string DeliveryAdviceReference { get; set; }
+        public System.DateTime DeliveryAdviceEntryDate { get; set; }
     }
 }

@@ -18,6 +18,15 @@ namespace TotalDTO.Accounts
         public int GoodsIssueID { get; set; }
         public int GoodsIssueDetailID { get; set; }
 
+        [Display(Name = "PXK")]
+        [UIHint("StringReadonly")]
+        public string GoodsIssueReference { get; set; }
+        [Display(Name = "Ngày XK")]
+        [UIHint("DateTimeReadonly")]
+        public System.DateTime GoodsIssueEntryDate { get; set; }
+
+        [UIHint("StringReadonly")]
+        public override string CommodityName { get; set; }
 
         [Display(Name = "SL ĐH")]
         [UIHint("DecimalReadonly")]
