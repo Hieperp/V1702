@@ -49,7 +49,7 @@
 
     $("#Customer_CustomerID").change(function (e) {
 
-        if (false) //at VCP: don't load Promotion
+        if (true) //at VCP: don't load Promotion
             $("#gridPromotion").data("kendoGrid").dataSource.read();
 
         $("#PriceCategoryID").val($("#Customer_PriceCategoryID").val());

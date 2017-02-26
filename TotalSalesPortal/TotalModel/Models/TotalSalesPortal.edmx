@@ -314,6 +314,7 @@
           <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="EmployeeTypeID" Type="int" Nullable="false" />
           <Property Name="LocationID" Type="int" Nullable="false" />
           <Property Name="Birthday" Type="nvarchar" MaxLength="60" />
           <Property Name="Telephone" Type="nvarchar" MaxLength="60" />
@@ -2710,6 +2711,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <NavigationProperty Name="Receipts" Relationship="TotalSalesPortalModel.FK_Receipts_Employees" FromRole="Employee" ToRole="Receipt" />
           <NavigationProperty Name="HandlingUnits" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Employees" FromRole="Employee" ToRole="HandlingUnit" />
           <NavigationProperty Name="GoodsIssues" Relationship="TotalSalesPortalModel.FK_GoodsIssues_Employees" FromRole="Employee" ToRole="GoodsIssue" />
+          <Property Name="EmployeeTypeID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="EntireTerritory">
           <Key>
@@ -4671,6 +4673,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.Employee">
               <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="EmployeeTypeID" ColumnName="EmployeeTypeID" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Telephone" ColumnName="Telephone" />

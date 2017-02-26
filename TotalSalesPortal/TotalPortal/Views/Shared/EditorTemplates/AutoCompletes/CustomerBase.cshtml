@@ -24,8 +24,8 @@
                         "</div>")
                 .Template("<div class=\"dropdown-body general-custom-body customer-custom-body\">" +
                         "<span class=\"k-state-default\"><p>#: data.CodeAndName #</p></span>" +
-                        "<span class=\"k-state-default\"><p>#: data.VATCode #</p></span>" +
-                        "<span class=\"k-state-default\"><p>#: data.Telephone #</p></span>" +
+                        "<span class=\"k-state-default\"><p>#: data.VATCode == null? '' : data.VATCode #</p></span>" +
+                        "<span class=\"k-state-default\"><p>#: data.Telephone == null? '' : data.Telephone #</p></span>" +
                         "<span class=\"k-state-default\"><p>#: data.BillingAddress + data.EntireTerritoryEntireName #</p></span>" +
                         "</div>")
                 .DataSource(source =>
@@ -92,7 +92,7 @@
 
         //Set display label
         $("#" + modelID + "label_Telephone").text(dataItem.Telephone);
-        $("#" + modelID + "label_VATCode").text(dataItem.VATCode);
+        $("#" + modelID + "label_VATCode").text(dataItem.VATCode == null ? "" : dataItem.VATCode);
         $("#" + modelID + "label_BillingAddress").text(dataItem.BillingAddress);
         $("#" + modelID + "label_EntireTerritoryEntireName").text(dataItem.EntireTerritoryEntireName);
 

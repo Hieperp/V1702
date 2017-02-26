@@ -41,7 +41,7 @@
             @ViewData["CustomerInfo"]}
         else
         {
-            <span id="@(modelFullHtmlFieldName + "_label_VATCode")"> @Html.DisplayFor(m => m.VATCode) </span> <text>Đ/C:</text> <span id="@(modelFullHtmlFieldName + "_label_BillingAddress")"> @Html.DisplayFor(m => m.BillingAddress) </span> <text>, </text>  <span id="@(modelFullHtmlFieldName + "_label_EntireTerritoryEntireName")"> @Html.DisplayFor(m => m.EntireTerritoryEntireName) </span>}
+            <text>@(Model == null || (Model.VATCode != null && Model.VATCode != "") ? "MST: " : "")</text> <span id="@(modelFullHtmlFieldName + "_label_VATCode")"> @Html.DisplayFor(m => m.VATCode) </span> <text>Đ/C:</text> <span id="@(modelFullHtmlFieldName + "_label_BillingAddress")"> @Html.DisplayFor(m => m.BillingAddress) </span> <text>, </text>  <span id="@(modelFullHtmlFieldName + "_label_EntireTerritoryEntireName")"> @Html.DisplayFor(m => m.EntireTerritoryEntireName) </span>}
     </div>
 </div>
 
