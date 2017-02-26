@@ -114,7 +114,7 @@
           <Key>
             <PropertyRef Name="CommodityID" />
           </Key>
-          <Property Name="CommodityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CommodityID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="OfficialCode" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CodePartA" Type="nvarchar" MaxLength="20" Nullable="false" />
