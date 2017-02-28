@@ -49,7 +49,9 @@
 
     $("#Customer_CustomerID").change(function (e) {
 
-        if (true) //at VCP: don't load Promotion
+        //if (window.parent.$("#ShowDiscount") != undefined)
+        //    alert(window.parent.$("#ShowDiscount").val());
+        if (window.parent.$("#ShowDiscount").val() == 'True') //at VCP: don't load Promotion
             $("#gridPromotion").data("kendoGrid").dataSource.read();
 
         $("#PriceCategoryID").val($("#Customer_PriceCategoryID").val());

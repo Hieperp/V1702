@@ -81,7 +81,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
             queryString = queryString + "       IF (@CustomerID IS NULL) ";
             queryString = queryString + "           BEGIN ";
-            queryString = queryString + "               SELECT * FROM Promotions WHERE Promotions.InActive = 0 AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate " + "\r\n"; 
+            queryString = queryString + "               SELECT * FROM Promotions WHERE Promotions.InActive = 0 AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate " + "\r\n";
             queryString = queryString + "           END ";
             queryString = queryString + "       ELSE ";
             queryString = queryString + "           BEGIN ";
@@ -89,7 +89,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + "               DECLARE @CustomerCategoryID int " + "\r\n";
             queryString = queryString + "               SELECT  @CustomerCategoryID = CustomerCategoryID FROM Customers WHERE CustomerID = @CustomerID "; //GET @CustomerCategoryID OF @CustomerID
 
-            queryString = queryString + "               SELECT * FROM Promotions WHERE PromotionID IN " + "\r\n"; 
+            queryString = queryString + "               SELECT * FROM Promotions WHERE PromotionID IN " + "\r\n";
             queryString = queryString + "                  (SELECT Promotions.PromotionID FROM Promotions WHERE Promotions.InActive = 0 AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate AND Promotions.ApplyToAllCustomers = 1 " + "\r\n";
             queryString = queryString + "                   UNION ALL " + "\r\n";
             queryString = queryString + "                   SELECT Promotions.PromotionID FROM Promotions INNER JOIN PromotionCustomers ON Promotions.InActive = 0 AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate AND PromotionCustomers.CustomerID = @CustomerID AND Promotions.PromotionID = PromotionCustomers.PromotionID " + "\r\n";
@@ -123,7 +123,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
 
             string queryString = " @LocationID int, @CustomerID int, @PriceCategoryID int, @PromotionID int, @EntryDate DateTime, @SearchText nvarchar(60) " + (getSavedData ? ", @GoodsIssueID int, @StockTransferID int, @InventoryAdjustmentID int " : "") + "\r\n";
-            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
             queryString = queryString + "       DECLARE @Commodities TABLE (CommodityID int NOT NULL, Code nvarchar(50) NOT NULL, CodePartA nvarchar(20) NOT NULL, CodePartB nvarchar(20) NOT NULL, CodePartC nvarchar(20) NOT NULL, Name nvarchar(200) NOT NULL, GrossPrice decimal(18, 2) NOT NULL, DiscountPercent decimal(18, 2) NOT NULL, ControlFreeQuantity decimal(18, 2) NOT NULL, CommodityTypeID int NOT NULL, CommodityCategoryID int NOT NULL)" + "\r\n";
@@ -153,12 +153,12 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
                     queryString = queryString + "                       UPDATE @Commodities SET DiscountPercent = @DiscountPercent, ControlFreeQuantity = @ControlFreeQuantity "; //All Commodities 
                     queryString = queryString + "                   ELSE ";
                     queryString = queryString + "                       UPDATE @Commodities SET DiscountPercent = @DiscountPercent, ControlFreeQuantity = @ControlFreeQuantity WHERE CommodityID IN (";
-                    queryString = queryString + "                           SELECT CommodityID FROM @Commodities Commodities INNER JOIN PromotionCommodityCodeParts ON PromotionCommodityCodeParts.PromotionID = @PromotionID AND ((Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC) OR (Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND PromotionCommodityCodeParts.CodePartC = N'') OR (Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC AND PromotionCommodityCodeParts.CodePartA = N'')) "; //By CodeParts (BOTH CodePartA AND CodePartB UNION CodePartA Only UNION CodePartB Only)
+                    queryString = queryString + "                           SELECT CommodityID FROM @Commodities Commodities INNER JOIN PromotionCommodityCodeParts ON PromotionCommodityCodeParts.PromotionID = @PromotionID AND ((Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC) OR (Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND PromotionCommodityCodeParts.CodePartC = N'') OR (Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC AND PromotionCommodityCodeParts.CodePartA = N'')) "; //By CodeParts (BOTH CodePartA AND CodePartC UNION CodePartA Only UNION CodePartC Only)
                     queryString = queryString + "                           UNION ALL ";
                     queryString = queryString + "                           SELECT CommodityID FROM PromotionCommodities WHERE PromotionID = @PromotionID"; //Concrete Commodities
                     queryString = queryString + "                           UNION ALL ";
                     queryString = queryString + "                           SELECT  CommodityID FROM @Commodities WHERE CommodityCategoryID IN "; //By CommodityCategories
-                    queryString = queryString + "                                  (SELECT  AncestorCommodityCategories.CommodityCategoryID " ;
+                    queryString = queryString + "                                  (SELECT  AncestorCommodityCategories.CommodityCategoryID ";
                     queryString = queryString + "                                   FROM    PromotionCommodityCategoryies ";
                     queryString = queryString + "                                           INNER JOIN AncestorCommodityCategories ON PromotionCommodityCategoryies.PromotionID = @PromotionID AND PromotionCommodityCategoryies.CommodityCategoryID = AncestorCommodityCategories.AncestorID ";
                     queryString = queryString + "                                  )";
@@ -190,6 +190,15 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
 
 
+                    queryString = queryString + "           DECLARE @PromotionCodeParts TABLE (CommodityID int NOT NULL, DiscountPercent decimal(18, 2) NOT NULL, ControlFreeQuantity decimal(18, 2) NOT NULL, PriorityIndex int NOT NULL)" + "\r\n";
+                    queryString = queryString + "           INSERT INTO @PromotionCodeParts (CommodityID, DiscountPercent, ControlFreeQuantity, PriorityIndex) ";
+                    queryString = queryString + "           SELECT  Commodities.CommodityID, Promotions.DiscountPercent, CASE WHEN Promotions.ControlFreeQuantity = 0 THEN 9999999 ELSE Promotions.ControlFreeQuantity END AS ControlFreeQuantity, CASE WHEN PromotionCommodityCodeParts.CodePartA <> N'' AND PromotionCommodityCodeParts.CodePartC <> N'' THEN 1 ELSE 2 END AS PriorityIndex ";
+                    queryString = queryString + "           FROM    Promotions "; //Get Promotion By CodeParts (BOTH CodePartA AND CodePartC UNION CodePartA Only UNION CodePartC Only. ---BUT---> We set PriorityIndex = 1 when BOTH CodePartA <> N'' AND CodePartA <> N'' to implement the priority for MATCH BOTH CodePartA AND CodePartC than MATCH ONLY CodePartA or CodePartC)
+                    queryString = queryString + "                   INNER JOIN  PromotionCommodityCodeParts ON Promotions.PromotionID IN (SELECT Id FROM dbo.SplitToIntList (@PromotionIDList)) AND Promotions.PromotionID = PromotionCommodityCodeParts.PromotionID ";
+                    queryString = queryString + "                   INNER JOIN  @Commodities Commodities ON (Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC) OR (Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND PromotionCommodityCodeParts.CodePartC = N'') OR (Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC AND PromotionCommodityCodeParts.CodePartA = N'') ";
+
+
+
 
                     queryString = queryString + "           DECLARE @UNIONPromotions TABLE (CommodityID int NOT NULL, DiscountPercent decimal(18, 2) NOT NULL, ControlFreeQuantity decimal(18, 2) NOT NULL)" + "\r\n";
 
@@ -197,11 +206,17 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
                     queryString = queryString + "           SELECT  Commodities.CommodityID, Promotions.DiscountPercent, Promotions.ControlFreeQuantity ";
                     queryString = queryString + "           FROM    Promotions "; //All Commodities 
                     queryString = queryString + "                   CROSS JOIN @Commodities Commodities WHERE Promotions.ApplyToAllCommodities = 1 AND Promotions.PromotionID IN (SELECT Id FROM dbo.SplitToIntList (@PromotionIDList)) ";
-                    queryString = queryString + "           UNION ALL ";
-                    queryString = queryString + "           SELECT  Commodities.CommodityID, Promotions.DiscountPercent, Promotions.ControlFreeQuantity ";
-                    queryString = queryString + "           FROM    Promotions "; //By CodeParts (BOTH CodePartA AND CodePartB UNION CodePartA Only UNION CodePartB Only)
-                    queryString = queryString + "                   INNER JOIN  PromotionCommodityCodeParts ON Promotions.PromotionID IN (SELECT Id FROM dbo.SplitToIntList (@PromotionIDList)) AND Promotions.PromotionID = PromotionCommodityCodeParts.PromotionID ";
-                    queryString = queryString + "                   INNER JOIN  @Commodities Commodities ON (Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC) OR (Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND PromotionCommodityCodeParts.CodePartC = N'') OR (Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC AND PromotionCommodityCodeParts.CodePartA = N'') ";
+
+                    queryString = queryString + "           UNION ALL "; //By CodeParts: Get MAX DiscountPercent per CommodityID with THE SMALLEST PriorityIndex
+                    queryString = queryString + "           SELECT  CommodityID, DiscountPercent, 0 AS ControlFreeQuantity ";
+                    queryString = queryString + "           FROM    (SELECT  CommodityID, DiscountPercent, ControlFreeQuantity, ROW_NUMBER() OVER (PARTITION BY CommodityID ORDER BY PriorityIndex, DiscountPercent DESC) AS RowNo FROM @PromotionCodeParts) OVERPARTITIONDiscountCodeParts ";
+                    queryString = queryString + "           WHERE   RowNo = 1 ";
+
+                    queryString = queryString + "           UNION ALL "; //By CodeParts: Get MIN ControlFreeQuantity per CommodityID with THE SMALLEST PriorityIndex
+                    queryString = queryString + "           SELECT  CommodityID, 0 AS DiscountPercent, ControlFreeQuantity "; //SET ControlFreeQuantity = 9999999 WHEN ControlFreeQuantity = 0 => To sure that we KEEP ROW for each PriorityIndex BUT till order by THE SMALLEST NON-ZERO ControlFreeQuantity ON THE TOP (then RowNo will be 1: RowNo = 1)
+                    queryString = queryString + "           FROM    (SELECT  CommodityID, DiscountPercent, ControlFreeQuantity, ROW_NUMBER() OVER (PARTITION BY CommodityID ORDER BY PriorityIndex, ControlFreeQuantity) AS RowNo FROM @PromotionCodeParts) OVERPARTITIONFreeQuantityCodeParts ";
+                    queryString = queryString + "           WHERE   RowNo = 1 ";
+
                     queryString = queryString + "           UNION ALL ";
                     queryString = queryString + "           SELECT  PromotionCommodities.CommodityID, Promotions.DiscountPercent, Promotions.ControlFreeQuantity ";
                     queryString = queryString + "           FROM    Promotions "; //Concrete Commodities
@@ -220,16 +235,16 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
                     queryString = queryString + "           UPDATE  Commodities SET Commodities.DiscountPercent = OVERPARTITIONPromotions.DiscountPercent "; //UPDATE @Commodities.DiscountPercent BY MAX DiscountPercent
                     queryString = queryString + "           FROM    @Commodities Commodities INNER JOIN ";
                     queryString = queryString + "                   (SELECT CommodityID, DiscountPercent, ROW_NUMBER() OVER (PARTITION BY CommodityID ORDER BY DiscountPercent DESC) AS RowNo ";
-                    queryString = queryString + "                    FROM   @UNIONPromotions ";                                        
+                    queryString = queryString + "                    FROM   @UNIONPromotions ";
                     queryString = queryString + "                   ) OVERPARTITIONPromotions ON Commodities.CommodityID = OVERPARTITIONPromotions.CommodityID AND OVERPARTITIONPromotions.RowNo = 1 ";
 
                     queryString = queryString + "           UPDATE  Commodities SET Commodities.ControlFreeQuantity = OVERPARTITIONPromotions.ControlFreeQuantity "; //UPDATE @Commodities.ControlFreeQuantity BY MIN ControlFreeQuantity
                     queryString = queryString + "           FROM    @Commodities Commodities INNER JOIN ";
                     queryString = queryString + "                   (SELECT CommodityID, ControlFreeQuantity, ROW_NUMBER() OVER (PARTITION BY CommodityID ORDER BY ControlFreeQuantity) AS RowNo ";
-                    queryString = queryString + "                    FROM   @UNIONPromotions ";
+                    queryString = queryString + "                    FROM   @UNIONPromotions WHERE ControlFreeQuantity <> 0 AND ControlFreeQuantity <> 9999999 ";
                     queryString = queryString + "                   ) OVERPARTITIONPromotions ON Commodities.CommodityID = OVERPARTITIONPromotions.CommodityID AND OVERPARTITIONPromotions.RowNo = 1 ";
 
-                    
+
                     queryString = queryString + "       END ";
 
                 }
