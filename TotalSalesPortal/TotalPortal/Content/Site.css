@@ -19,34 +19,20 @@
 
 
 body {
-    font-size: 13.5px;
-    font-family: Cambria;
+    font-size: 13px;
+    font-family: Calibri;
     background-color: #FBF9EF;
     /*background-color: white;           Arial, Helvetica, sans-serif*/
     padding: 0px 0px;
     /*padding: 0px 4%;*/
-    font-weight: lighter;
+    font-weight: normal;
 }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 label { /*override bootstrap label css*/
-    font-weight: lighter;
+    font-weight: normal;
     margin-bottom: 1px;
 }
 
@@ -570,7 +556,7 @@ tr:hover {
 #top-menu-container {
     width: 100%;
     min-width: 1150px;
-    height: 57px;
+    height: 56px;
     clear: both;
     background-color: forestgreen;
     text-align: right;
@@ -579,8 +565,8 @@ tr:hover {
 }
 
 .MainMenu-left {
-    height: 57px;
-    width: 410px;
+    height: 56px;
+    width: 385px;
     float: left;
     background: linear-gradient(#ca4646, darkred); /*linear-gradient(darkred, #66A5C9);*/
 }
@@ -593,11 +579,12 @@ tr:hover {
 
     #MainMenu > .k-item {
         border: 0px;
-        width: 95px;
-        height: 57px;
+        width: 93px;
+        height: 56px;
         /*padding: 2px;*/
         /*font-size: small;*/
-        font-weight: lighter;
+        font-weight: normal;
+        color: wheat;
         /*background-image: url("../Content/Images/New/header_Background.jpg");*/
         background: linear-gradient(#6596a9, #162b33); /*linear-gradient(darkred, #FF954C);*/
     }
@@ -610,7 +597,7 @@ tr:hover {
         #MainMenu > .k-item > .k-link:hover {
             color: yellow;
             background-color: #ca0e0b;
-            height: 53px;
+            height: 52px;
             box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.4) inset;
             -webkit-animation: myfirst 1s; /* Chrome, Safari, Opera */
             animation: myfirst 1s; /*animation: orange-red 4s;*/
@@ -786,9 +773,9 @@ a[class^='info-bar'] {
 }
 
 .arrow-container {
-    /*margin-top: 10px;*/
-    margin-left: 5px;
-    margin-right: 10px;
+    margin-top: 6px;
+    /*margin-left: 5px;*/
+    margin-right: 4px;
     padding-top: 0px;
     float: right;
 }

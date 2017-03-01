@@ -392,6 +392,10 @@
     <Content Include="Content\Images\Menu\Motorcycle-50.png" />
     <Content Include="Content\Images\Menu\Motorcycle-50y.png" />
     <Content Include="Content\Images\Menu\Motorcycle-64.png" />
+    <Content Include="Content\Images\Menu\Navigate-down-icon-16.png" />
+    <Content Include="Content\Images\Menu\Navigate-down-icon-24.png" />
+    <Content Include="Content\Images\Menu\Navigate-up-icon-16.png" />
+    <Content Include="Content\Images\Menu\Navigate-up-icon-24.png" />
     <Content Include="Content\Images\Menu\Overview Pages 2-32.png" />
     <Content Include="Content\Images\Menu\Overview Pages 2-50.png" />
     <Content Include="Content\Images\Menu\Root Server-32.png" />
