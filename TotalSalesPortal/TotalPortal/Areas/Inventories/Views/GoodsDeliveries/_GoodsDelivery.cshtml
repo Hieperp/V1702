@@ -36,8 +36,6 @@
                 .Name("kendoGridDetails")
                 .Columns(columns =>
                 {
-                    columns.Template(t => { }).Title("&nbsp;").ClientTemplate("#= RowNumber(data) #").HtmlAttributes(new { @class = "grid-column-center" }).Width(35);
-
 
                     columns.Bound(p => p.GoodsDeliveryDetailID).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= GoodsDeliveryDetailID #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].GoodsDeliveryDetailID' value='#= GoodsDeliveryDetailID #' />");
@@ -67,7 +65,7 @@
                         .ClientTemplate("#= ShippingAddress #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].ShippingAddress' value='#= ShippingAddress #' />");
 
                     columns.Bound(p => p.ReceiverDescription).DisplayNameTitle().Filterable(false).Width(200)
-                        .ClientFooterTemplate("Tổng cộng:")
+                        .ClientFooterTemplate("Tổng cộng (#= kendo.format('{0:n0}', count) # dòng)")
                         .ClientTemplate("#= ReceiverDescription #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].ReceiverDescription' value='#= ReceiverDescription #' />");
                     
                     columns.Bound(p => p.GoodsIssueReferences).DisplayNameTitle().Filterable(false).Width(100)
@@ -132,10 +130,7 @@
                     settings.Mode(GridSelectionMode.Multiple);
                     settings.Type(GridSelectionType.Row);
                 })
-                .Events(events =>
-                {
-                    events.DataBinding(@<text> function(e) {rowNumber = 0;} </text>);
-                })
+                
                 .DataSource(dataSource => dataSource
                     .Ajax()
                     .Batch(true)
@@ -150,6 +145,7 @@
                     {
                         events.Error("kendGrid_ErrorHandler");
                     })
+                    .Aggregates(a => a.Add(x => x.ReceiverDescription).Count())
                     .Aggregates(a => a.Add(x => x.Quantity).Sum())
                     .Aggregates(a => a.Add(x => x.Weight).Sum())
                     .Aggregates(a => a.Add(x => x.RealWeight).Sum())

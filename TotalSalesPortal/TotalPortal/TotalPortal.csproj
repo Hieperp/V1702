@@ -374,6 +374,8 @@
     <Content Include="Content\Images\Mains\Size24\Truck_Transportation-24.png" />
     <Content Include="Content\Images\Mains\Size24\Users-Exit-icon-24.png" />
     <Content Include="Content\Images\Mains\Users-Exit-icon.png" />
+    <Content Include="Content\Images\Menu\arrow-down-16.png" />
+    <Content Include="Content\Images\Menu\arrow-up-16.png" />
     <Content Include="Content\Images\Menu\Automatic-32.png" />
     <Content Include="Content\Images\Menu\Automotive-32.png" />
     <Content Include="Content\Images\Menu\Bullish-32.png" />

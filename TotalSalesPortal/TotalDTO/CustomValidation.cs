@@ -84,6 +84,30 @@ namespace TotalDTO
 
 
 
+    public class DecimalRequired : System.ComponentModel.DataAnnotations.RequiredAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            decimal d = decimal.MinValue;
+            if (decimal.TryParse(value.ToString(), out d))
+            {
+                if (d == 0.0M)
+                {
+                    return false;
+                }
+            }
+            return base.IsValid(value);
+        }
+    }
+
+
+
+
+
+
+
+
+
 
     /// <summary>
     /// Provides conditional validation based on related property value.

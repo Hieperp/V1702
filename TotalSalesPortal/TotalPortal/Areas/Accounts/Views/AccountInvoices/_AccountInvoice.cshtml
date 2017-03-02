@@ -72,8 +72,6 @@
                 .Name("kendoGridDetails")
                 .Columns(columns =>
                 {
-                    columns.Template(t => { }).Title("&nbsp;").ClientTemplate("#= RowNumber(data) #").HtmlAttributes(new { @class = "grid-column-center" }).Width(35).Hidden();
-
 
                     columns.Bound(p => p.AccountInvoiceDetailID).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= AccountInvoiceDetailID #" + "<input type='hidden' name='AccountInvoiceViewDetails[#= index(data) #].AccountInvoiceDetailID' value='#= AccountInvoiceDetailID #' />");
@@ -98,7 +96,7 @@
                     columns.Bound(p => p.CommodityCode).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= CommodityCode #" + "<input type='hidden' name='AccountInvoiceViewDetails[#= index(data) #].CommodityCode' value='#= CommodityCode #' />");
                     columns.Bound(p => p.CommodityName).DisplayNameTitle().Filterable(false).Width(200)
-                        .ClientFooterTemplate("TC (#= kendo.format('{0:n0}', count) #)")
+                        .ClientFooterTemplate("Tổng cộng (#= kendo.format('{0:n0}', count) # dòng)")
                         .ClientTemplate("#= CommodityName #" + "<input type='hidden' name='AccountInvoiceViewDetails[#= index(data) #].CommodityName' value='#= CommodityName #' />");
 
                     columns.Bound(p => p.CommodityTypeID).DisplayNameTitle().Filterable(false).Hidden()
@@ -222,10 +220,7 @@
                     settings.Mode(GridSelectionMode.Multiple);
                     settings.Type(GridSelectionType.Row);
                 })
-                .Events(events =>
-                {
-                    events.DataBinding(@<text> function(e) {rowNumber = 0;} </text>);
-                })
+                
                 .DataSource(dataSource => dataSource
                     .Ajax()
                     .Batch(true)

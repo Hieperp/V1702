@@ -53,7 +53,7 @@ namespace TotalDTO.Inventories
         [Display(Name = "Trọng lượng thực tế")]
         public decimal RealWeight { get; set; }
         [Display(Name = "Chênh lệch trọng lượng")]
-        public decimal WeightDifference { get; set; }
+        public decimal WeightDifference { get { return this.RealWeight - this.TotalWeight; } }
 
         [Display(Name = "Tổng trọng lượng")]
         public decimal TotalWeight { get; set; }
@@ -65,6 +65,7 @@ namespace TotalDTO.Inventories
             foreach (var result in base.Validate(validationContext)) { yield return result; }
 
             if (this.TotalWeight != this.GetTotalWeight()) yield return new ValidationResult("Lỗi tổng trọng lượng", new[] { "TotalWeight" });
+            if (Math.Abs(this.RealWeight - this.TotalWeight) > (this.TotalWeight * (decimal)0.07 + (decimal)2.5)) yield return new ValidationResult("Chênh lệch không vượt quá: +/-" + (this.TotalWeight * (decimal)0.07 + (decimal)2.5).ToString("0.00"), new[] { "WeightDifference" });
         }
 
 
