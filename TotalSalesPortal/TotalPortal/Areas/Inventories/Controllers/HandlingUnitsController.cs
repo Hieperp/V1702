@@ -25,7 +25,7 @@ namespace TotalPortal.Areas.Inventories.Controllers
 
         protected override HandlingUnitViewModel InitViewModelByCopy(HandlingUnitViewModel simpleViewModel)
         {
-            return new HandlingUnitViewModel() { Customer = simpleViewModel.Customer, Receiver = simpleViewModel.Receiver, ShippingAddress = simpleViewModel.ShippingAddress, GoodsIssue = simpleViewModel.GoodsIssue, PackagingStaff = simpleViewModel.PackagingStaff, PackingMaterialID = simpleViewModel.PackingMaterialID, ConsignmentNo = simpleViewModel.ConsignmentNo };
+            return new HandlingUnitViewModel() { Customer = simpleViewModel.Customer, Receiver = simpleViewModel.Receiver, ShippingAddress = simpleViewModel.ShippingAddress, GoodsIssue = simpleViewModel.GoodsIssue, PackagingStaff = simpleViewModel.PackagingStaff, PackingMaterialID = simpleViewModel.PackingMaterialID, LotNo = simpleViewModel.LotNo };
         }
         
         protected override HandlingUnitViewModel InitViewModelByDefault(HandlingUnitViewModel simpleViewModel)

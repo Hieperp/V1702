@@ -487,7 +487,7 @@
           <Property Name="HandlingUnitID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EntryDate" Type="datetime" Nullable="false" />
           <Property Name="Reference" Type="nvarchar" MaxLength="10" />
-          <Property Name="ConsignmentNo" Type="int" Nullable="false" />
+          <Property Name="LotNo" Type="int" Nullable="false" />
           <Property Name="Identification" Type="int" Nullable="false" />
           <Property Name="CountIdentification" Type="int" Nullable="false" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
@@ -2008,9 +2008,9 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <NavigationProperty Name="OrganizationalUnits" Relationship="TotalSalesPortalModel.FK_OrganizationalUnits_Locations" FromRole="Location" ToRole="OrganizationalUnit" />
           <NavigationProperty Name="Employees" Relationship="TotalSalesPortalModel.FK_Employees_Locations" FromRole="Location" ToRole="Employee" />
           <NavigationProperty Name="AccountInvoices" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Locations" FromRole="Location" ToRole="AccountInvoice" />
-          <NavigationProperty Name="HandlingUnits" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Locations" FromRole="Location" ToRole="HandlingUnit" />
           <NavigationProperty Name="GoodsDeliveries" Relationship="TotalSalesPortalModel.FK_GoodsDeliveries_Locations" FromRole="Location" ToRole="GoodsDelivery" />
           <NavigationProperty Name="DeliveryAdvices" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Locations" FromRole="Location" ToRole="DeliveryAdvice" />
+          <NavigationProperty Name="HandlingUnits" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Locations" FromRole="Location" ToRole="HandlingUnit" />
         </EntityType>
         <EntityType Name="ModuleDetail">
           <Key>
@@ -2288,16 +2288,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <Parameter Name="LocationID" Mode="In" Type="Int32" />
             <Parameter Name="AccountInvoiceID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="HandlingUnits" EntityType="TotalSalesPortalModel.HandlingUnit" />
-          <AssociationSet Name="FK_HandlingUnits_Locations" Association="TotalSalesPortalModel.FK_HandlingUnits_Locations">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="HandlingUnit" EntitySet="HandlingUnits" />
-          </AssociationSet>
           <EntitySet Name="PackingMaterials" EntityType="TotalSalesPortalModel.PackingMaterial" />
-          <AssociationSet Name="FK_HandlingUnits_PackingMaterials" Association="TotalSalesPortalModel.FK_HandlingUnits_PackingMaterials">
-            <End Role="PackingMaterial" EntitySet="PackingMaterials" />
-            <End Role="HandlingUnit" EntitySet="HandlingUnits" />
-          </AssociationSet>
           <FunctionImport Name="GetHandlingUnitIndexes" ReturnType="Collection(TotalSalesPortalModel.HandlingUnitIndex)">
             <Parameter Name="AspUserID" Mode="In" Type="String" />
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
@@ -2314,15 +2305,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <Parameter Name="SaveRelativeOption" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="HandlingUnitDetails" EntityType="TotalSalesPortalModel.HandlingUnitDetail" />
-          <AssociationSet Name="FK_HandlingUnitDetails_HandlingUnits" Association="TotalSalesPortalModel.FK_HandlingUnitDetails_HandlingUnits">
-            <End Role="HandlingUnit" EntitySet="HandlingUnits" />
-            <End Role="HandlingUnitDetail" EntitySet="HandlingUnitDetails" />
-          </AssociationSet>
           <EntitySet Name="GoodsDeliveryDetails" EntityType="TotalSalesPortalModel.GoodsDeliveryDetail" />
-          <AssociationSet Name="FK_GoodsDeliveryDetails_HandlingUnits" Association="TotalSalesPortalModel.FK_GoodsDeliveryDetails_HandlingUnits">
-            <End Role="HandlingUnit" EntitySet="HandlingUnits" />
-            <End Role="GoodsDeliveryDetail" EntitySet="GoodsDeliveryDetails" />
-          </AssociationSet>
           <FunctionImport Name="GetGoodsDeliveryIndexes" ReturnType="Collection(TotalSalesPortalModel.GoodsDeliveryIndex)">
             <Parameter Name="AspUserID" Mode="In" Type="String" />
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
@@ -2447,14 +2430,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <End Role="Customer" EntitySet="Customers" />
             <End Role="GoodsIssue" EntitySet="GoodsIssues" />
           </AssociationSet>
-          <AssociationSet Name="FK_HandlingUnits_Customers" Association="TotalSalesPortalModel.FK_HandlingUnits_Customers">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="HandlingUnit" EntitySet="HandlingUnits" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HandlingUnits_Customers1" Association="TotalSalesPortalModel.FK_HandlingUnits_Customers1">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="HandlingUnit" EntitySet="HandlingUnits" />
-          </AssociationSet>
           <AssociationSet Name="FK_Receipts_Customers" Association="TotalSalesPortalModel.FK_Receipts_Customers">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Receipt" EntitySet="Receipts" />
@@ -2515,10 +2490,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <End Role="GoodsIssueDetail" EntitySet="GoodsIssueDetails" />
             <End Role="HandlingUnitDetail" EntitySet="HandlingUnitDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_HandlingUnits_GoodsIssues" Association="TotalSalesPortalModel.FK_HandlingUnits_GoodsIssues">
-            <End Role="GoodsIssue" EntitySet="GoodsIssues" />
-            <End Role="HandlingUnit" EntitySet="HandlingUnits" />
-          </AssociationSet>
           <AssociationSet Name="FK_ReceiptDetails_GoodsIssues" Association="TotalSalesPortalModel.FK_ReceiptDetails_GoodsIssues">
             <End Role="GoodsIssue" EntitySet="GoodsIssues" />
             <End Role="ReceiptDetail" EntitySet="ReceiptDetails" />
@@ -2530,10 +2501,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <AssociationSet Name="FK_ReceiptDetails_Receipts" Association="TotalSalesPortalModel.FK_ReceiptDetails_Receipts">
             <End Role="Receipt" EntitySet="Receipts" />
             <End Role="ReceiptDetail" EntitySet="ReceiptDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HandlingUnits_Employees" Association="TotalSalesPortalModel.FK_HandlingUnits_Employees">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="HandlingUnit" EntitySet="HandlingUnits" />
           </AssociationSet>
           <AssociationSet Name="FK_GoodsIssues_Employees" Association="TotalSalesPortalModel.FK_GoodsIssues_Employees">
             <End Role="Employee" EntitySet="Employees" />
@@ -2550,6 +2517,39 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="NMVNTaskID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="HandlingUnits" EntityType="TotalSalesPortalModel.HandlingUnit" />
+          <AssociationSet Name="FK_HandlingUnits_Customers" Association="TotalSalesPortalModel.FK_HandlingUnits_Customers">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="HandlingUnit" EntitySet="HandlingUnits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HandlingUnits_Customers1" Association="TotalSalesPortalModel.FK_HandlingUnits_Customers1">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="HandlingUnit" EntitySet="HandlingUnits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HandlingUnits_Employees" Association="TotalSalesPortalModel.FK_HandlingUnits_Employees">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="HandlingUnit" EntitySet="HandlingUnits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoodsDeliveryDetails_HandlingUnits" Association="TotalSalesPortalModel.FK_GoodsDeliveryDetails_HandlingUnits">
+            <End Role="HandlingUnit" EntitySet="HandlingUnits" />
+            <End Role="GoodsDeliveryDetail" EntitySet="GoodsDeliveryDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HandlingUnits_GoodsIssues" Association="TotalSalesPortalModel.FK_HandlingUnits_GoodsIssues">
+            <End Role="GoodsIssue" EntitySet="GoodsIssues" />
+            <End Role="HandlingUnit" EntitySet="HandlingUnits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HandlingUnitDetails_HandlingUnits" Association="TotalSalesPortalModel.FK_HandlingUnitDetails_HandlingUnits">
+            <End Role="HandlingUnit" EntitySet="HandlingUnits" />
+            <End Role="HandlingUnitDetail" EntitySet="HandlingUnitDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HandlingUnits_Locations" Association="TotalSalesPortalModel.FK_HandlingUnits_Locations">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="HandlingUnit" EntitySet="HandlingUnits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HandlingUnits_PackingMaterials" Association="TotalSalesPortalModel.FK_HandlingUnits_PackingMaterials">
+            <End Role="PackingMaterial" EntitySet="PackingMaterials" />
+            <End Role="HandlingUnit" EntitySet="HandlingUnits" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -2709,9 +2709,9 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <NavigationProperty Name="Customers" Relationship="TotalSalesPortalModel.FK_Customers_Employees" FromRole="Employee" ToRole="Customer" />
           <NavigationProperty Name="DeliveryAdvices" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Employees" FromRole="Employee" ToRole="DeliveryAdvice" />
           <NavigationProperty Name="Receipts" Relationship="TotalSalesPortalModel.FK_Receipts_Employees" FromRole="Employee" ToRole="Receipt" />
-          <NavigationProperty Name="HandlingUnits" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Employees" FromRole="Employee" ToRole="HandlingUnit" />
           <NavigationProperty Name="GoodsIssues" Relationship="TotalSalesPortalModel.FK_GoodsIssues_Employees" FromRole="Employee" ToRole="GoodsIssue" />
           <Property Name="EmployeeTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="HandlingUnits" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Employees" FromRole="Employee" ToRole="HandlingUnit" />
         </EntityType>
         <EntityType Name="EntireTerritory">
           <Key>
@@ -3345,64 +3345,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="String" Name="CustomerEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="CustomerBillingAddress" Nullable="false" MaxLength="200" />
         </ComplexType>
-        <EntityType Name="HandlingUnit">
-          <Key>
-            <PropertyRef Name="HandlingUnitID" />
-          </Key>
-          <Property Name="HandlingUnitID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Reference" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerID" Type="Int32" Nullable="false" />
-          <Property Name="ReceiverID" Type="Int32" Nullable="false" />
-          <Property Name="GoodsIssueID" Type="Int32" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="PreparedPersonID" Type="Int32" Nullable="false" />
-          <Property Name="OrganizationalUnitID" Type="Int32" Nullable="false" />
-          <Property Name="LocationID" Type="Int32" Nullable="false" />
-          <Property Name="ApproverID" Type="Int32" Nullable="false" />
-          <Property Name="TotalQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TotalWeight" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EditedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Approved" Type="Boolean" Nullable="false" />
-          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
-          <Property Name="InActive" Type="Boolean" Nullable="false" />
-          <Property Name="InActivePartial" Type="Boolean" Nullable="false" />
-          <Property Name="InActiveDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Locations" FromRole="HandlingUnit" ToRole="Location" />
-          <Property Name="Identification" Type="Int32" Nullable="false" />
-          <Property Name="RealWeight" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="PackingMaterialID" Type="Int32" Nullable="false" />
-          <Property Name="Dimension" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="PackingMaterial" Relationship="TotalSalesPortalModel.FK_HandlingUnits_PackingMaterials" FromRole="HandlingUnit" ToRole="PackingMaterial" />
-          <NavigationProperty Name="HandlingUnitDetails" Relationship="TotalSalesPortalModel.FK_HandlingUnitDetails_HandlingUnits" FromRole="HandlingUnit" ToRole="HandlingUnitDetail" />
-          <Property Name="GoodsDeliveryID" Type="Int32" />
-          <NavigationProperty Name="GoodsDeliveryDetails" Relationship="TotalSalesPortalModel.FK_GoodsDeliveryDetails_HandlingUnits" FromRole="HandlingUnit" ToRole="GoodsDeliveryDetail" />
-          <Property Name="ShippingAddress" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="GoodsIssueReferences" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Customer" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Customers" FromRole="HandlingUnit" ToRole="Customer" />
-          <NavigationProperty Name="Customer1" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Customers1" FromRole="HandlingUnit" ToRole="Customer" />
-          <NavigationProperty Name="GoodsIssue" Relationship="TotalSalesPortalModel.FK_HandlingUnits_GoodsIssues" FromRole="HandlingUnit" ToRole="GoodsIssue" />
-          <Property Name="PackagingStaffID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Employee" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Employees" FromRole="HandlingUnit" ToRole="Employee" />
-          <Property Name="ConsignmentNo" Type="Int32" Nullable="false" />
-          <Property Name="CountIdentification" Type="Int32" Nullable="false" />
-          <Property Name="WeightDifference" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-        </EntityType>
-        <Association Name="FK_HandlingUnits_Locations">
-          <End Type="TotalSalesPortalModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.HandlingUnit" Role="HandlingUnit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="LocationID" />
-            </Principal>
-            <Dependent Role="HandlingUnit">
-              <PropertyRef Name="LocationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="PackingMaterial">
           <Key>
             <PropertyRef Name="PackingMaterialID" />
@@ -3415,18 +3357,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="IsDefault" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="HandlingUnits" Relationship="TotalSalesPortalModel.FK_HandlingUnits_PackingMaterials" FromRole="PackingMaterial" ToRole="HandlingUnit" />
         </EntityType>
-        <Association Name="FK_HandlingUnits_PackingMaterials">
-          <End Type="TotalSalesPortalModel.PackingMaterial" Role="PackingMaterial" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.HandlingUnit" Role="HandlingUnit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PackingMaterial">
-              <PropertyRef Name="PackingMaterialID" />
-            </Principal>
-            <Dependent Role="HandlingUnit">
-              <PropertyRef Name="PackingMaterialID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="HandlingUnitIndex">
           <Property Type="Int32" Name="HandlingUnitID" Nullable="false" />
           <Property Type="DateTime" Name="EntryDate" Nullable="true" />
@@ -3440,11 +3370,11 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="ShippingAddress" Nullable="false" MaxLength="200" />
-          <Property Type="Int32" Name="ConsignmentNo" Nullable="false" />
           <Property Type="Int32" Name="Identification" Nullable="false" />
           <Property Type="Int32" Name="CountIdentification" Nullable="false" />
           <Property Type="String" Name="PackingMaterialCode" Nullable="false" MaxLength="100" />
           <Property Type="Decimal" Name="WeightDifference" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="LotNo" Nullable="false" />
         </ComplexType>
         <ComplexType Name="HandlingUnitViewDetail">
           <Property Type="Int32" Name="HandlingUnitDetailID" Nullable="false" />
@@ -3479,21 +3409,9 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="UnitWeight" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="Weight" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="HandlingUnit" Relationship="TotalSalesPortalModel.FK_HandlingUnitDetails_HandlingUnits" FromRole="HandlingUnitDetail" ToRole="HandlingUnit" />
           <NavigationProperty Name="GoodsIssueDetail" Relationship="TotalSalesPortalModel.FK_HandlingUnitDetails_GoodsIssueDetails" FromRole="HandlingUnitDetail" ToRole="GoodsIssueDetail" />
+          <NavigationProperty Name="HandlingUnit" Relationship="TotalSalesPortalModel.FK_HandlingUnitDetails_HandlingUnits" FromRole="HandlingUnitDetail" ToRole="HandlingUnit" />
         </EntityType>
-        <Association Name="FK_HandlingUnitDetails_HandlingUnits">
-          <End Type="TotalSalesPortalModel.HandlingUnit" Role="HandlingUnit" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.HandlingUnitDetail" Role="HandlingUnitDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="HandlingUnit">
-              <PropertyRef Name="HandlingUnitID" />
-            </Principal>
-            <Dependent Role="HandlingUnitDetail">
-              <PropertyRef Name="HandlingUnitID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="GoodsDeliveryDetail">
           <Key>
             <PropertyRef Name="GoodsDeliveryDetailID" />
@@ -3509,21 +3427,9 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="Weight" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="RealWeight" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="HandlingUnit" Relationship="TotalSalesPortalModel.FK_GoodsDeliveryDetails_HandlingUnits" FromRole="GoodsDeliveryDetail" ToRole="HandlingUnit" />
           <NavigationProperty Name="GoodsDelivery" Relationship="TotalSalesPortalModel.FK_GoodsDeliveryDetails_GoodsDeliveries" FromRole="GoodsDeliveryDetail" ToRole="GoodsDelivery" />
+          <NavigationProperty Name="HandlingUnit" Relationship="TotalSalesPortalModel.FK_GoodsDeliveryDetails_HandlingUnits" FromRole="GoodsDeliveryDetail" ToRole="HandlingUnit" />
         </EntityType>
-        <Association Name="FK_GoodsDeliveryDetails_HandlingUnits">
-          <End Type="TotalSalesPortalModel.HandlingUnit" Role="HandlingUnit" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.GoodsDeliveryDetail" Role="GoodsDeliveryDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="HandlingUnit">
-              <PropertyRef Name="HandlingUnitID" />
-            </Principal>
-            <Dependent Role="GoodsDeliveryDetail">
-              <PropertyRef Name="HandlingUnitID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="GoodsDeliveryIndex">
           <Property Type="Int32" Name="GoodsDeliveryID" Nullable="false" />
           <Property Type="DateTime" Name="EntryDate" Nullable="true" />
@@ -3585,8 +3491,8 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="Boolean" Name="IsSelected" Nullable="true" />
           <Property Type="String" Name="GoodsIssueReferences" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ShippingAddress" Nullable="false" MaxLength="200" />
-          <Property Type="Int32" Name="ConsignmentNo" Nullable="false" />
           <Property Type="String" Name="HandlingUnitIdentification" Nullable="true" MaxLength="61" />
+          <Property Type="Int32" Name="LotNo" Nullable="false" />
         </ComplexType>
         <EntityType Name="GoodsDelivery">
           <Key>
@@ -3795,10 +3701,10 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <NavigationProperty Name="GoodsDeliveries" Relationship="TotalSalesPortalModel.FK_GoodsDeliveries_Customers1" FromRole="Customer" ToRole="GoodsDelivery" />
           <NavigationProperty Name="GoodsIssues" Relationship="TotalSalesPortalModel.FK_GoodsIssues_Customers" FromRole="Customer" ToRole="GoodsIssue" />
           <NavigationProperty Name="GoodsIssues1" Relationship="TotalSalesPortalModel.FK_GoodsIssues_Customers1" FromRole="Customer" ToRole="GoodsIssue" />
-          <NavigationProperty Name="HandlingUnits" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Customers" FromRole="Customer" ToRole="HandlingUnit" />
-          <NavigationProperty Name="HandlingUnits1" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Customers1" FromRole="Customer" ToRole="HandlingUnit" />
           <NavigationProperty Name="Receipts" Relationship="TotalSalesPortalModel.FK_Receipts_Customers" FromRole="Customer" ToRole="Receipt" />
           <NavigationProperty Name="CustomerType" Relationship="TotalSalesPortalModel.FK_Customers_CustomerTypes" FromRole="Customer" ToRole="CustomerType" />
+          <NavigationProperty Name="HandlingUnits" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Customers" FromRole="Customer" ToRole="HandlingUnit" />
+          <NavigationProperty Name="HandlingUnits1" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Customers1" FromRole="Customer" ToRole="HandlingUnit" />
         </EntityType>
         <EntityType Name="DeliveryAdviceDetail">
           <Key>
@@ -3991,7 +3897,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <NavigationProperty Name="Customer1" Relationship="TotalSalesPortalModel.FK_GoodsIssues_Customers1" FromRole="GoodsIssue" ToRole="Customer" />
           <NavigationProperty Name="DeliveryAdvice" Relationship="TotalSalesPortalModel.FK_GoodsIssues_DeliveryAdvices" FromRole="GoodsIssue" ToRole="DeliveryAdvice" />
           <NavigationProperty Name="GoodsIssueDetails" Relationship="TotalSalesPortalModel.FK_GoodsIssueDetails_GoodsIssues" FromRole="GoodsIssue" ToRole="GoodsIssueDetail" />
-          <NavigationProperty Name="HandlingUnits" Relationship="TotalSalesPortalModel.FK_HandlingUnits_GoodsIssues" FromRole="GoodsIssue" ToRole="HandlingUnit" />
           <NavigationProperty Name="ReceiptDetails" Relationship="TotalSalesPortalModel.FK_ReceiptDetails_GoodsIssues" FromRole="GoodsIssue" ToRole="ReceiptDetail" />
           <NavigationProperty Name="Receipts" Relationship="TotalSalesPortalModel.FK_Receipts_GoodsIssues" FromRole="GoodsIssue" ToRole="Receipt" />
           <NavigationProperty Name="Employee" Relationship="TotalSalesPortalModel.FK_GoodsIssues_Employees" FromRole="GoodsIssue" ToRole="Employee" />
@@ -3999,6 +3904,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="TotalListedVATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TotalListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="DeliveryAdviceReferences" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HandlingUnits" Relationship="TotalSalesPortalModel.FK_HandlingUnits_GoodsIssues" FromRole="GoodsIssue" ToRole="HandlingUnit" />
         </EntityType>
         <EntityType Name="Receipt">
           <Key>
@@ -4202,30 +4108,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_HandlingUnits_Customers">
-          <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.HandlingUnit" Role="HandlingUnit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerID" />
-            </Principal>
-            <Dependent Role="HandlingUnit">
-              <PropertyRef Name="CustomerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_HandlingUnits_Customers1">
-          <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.HandlingUnit" Role="HandlingUnit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerID" />
-            </Principal>
-            <Dependent Role="HandlingUnit">
-              <PropertyRef Name="ReceiverID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Receipts_Customers">
           <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
           <End Type="TotalSalesPortalModel.Receipt" Role="Receipt" Multiplicity="*" />
@@ -4406,18 +4288,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_HandlingUnits_GoodsIssues">
-          <End Type="TotalSalesPortalModel.GoodsIssue" Role="GoodsIssue" Multiplicity="0..1" />
-          <End Type="TotalSalesPortalModel.HandlingUnit" Role="HandlingUnit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GoodsIssue">
-              <PropertyRef Name="GoodsIssueID" />
-            </Principal>
-            <Dependent Role="HandlingUnit">
-              <PropertyRef Name="GoodsIssueID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ReceiptDetails_GoodsIssues">
           <End Type="TotalSalesPortalModel.GoodsIssue" Role="GoodsIssue" Multiplicity="1" />
           <End Type="TotalSalesPortalModel.ReceiptDetail" Role="ReceiptDetail" Multiplicity="*" />
@@ -4454,18 +4324,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_HandlingUnits_Employees">
-          <End Type="TotalSalesPortalModel.Employee" Role="Employee" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.HandlingUnit" Role="HandlingUnit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="EmployeeID" />
-            </Principal>
-            <Dependent Role="HandlingUnit">
-              <PropertyRef Name="PackagingStaffID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_GoodsIssues_Employees">
           <End Type="TotalSalesPortalModel.Employee" Role="Employee" Multiplicity="1" />
           <End Type="TotalSalesPortalModel.GoodsIssue" Role="GoodsIssue" Multiplicity="*" />
@@ -4487,6 +4345,148 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             </Principal>
             <Dependent Role="Customer">
               <PropertyRef Name="CustomerTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HandlingUnit">
+          <Key>
+            <PropertyRef Name="HandlingUnitID" />
+          </Key>
+          <Property Name="HandlingUnitID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Reference" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="LotNo" Type="Int32" Nullable="false" />
+          <Property Name="Identification" Type="Int32" Nullable="false" />
+          <Property Name="CountIdentification" Type="Int32" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="ReceiverID" Type="Int32" Nullable="false" />
+          <Property Name="ShippingAddress" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="GoodsIssueID" Type="Int32" />
+          <Property Name="GoodsIssueReferences" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="GoodsDeliveryID" Type="Int32" />
+          <Property Name="PackagingStaffID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="PreparedPersonID" Type="Int32" Nullable="false" />
+          <Property Name="OrganizationalUnitID" Type="Int32" Nullable="false" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="ApproverID" Type="Int32" Nullable="false" />
+          <Property Name="TotalQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalWeight" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="RealWeight" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="WeightDifference" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="PackingMaterialID" Type="Int32" Nullable="false" />
+          <Property Name="Dimension" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EditedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Approved" Type="Boolean" Nullable="false" />
+          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
+          <Property Name="InActive" Type="Boolean" Nullable="false" />
+          <Property Name="InActivePartial" Type="Boolean" Nullable="false" />
+          <Property Name="InActiveDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Customer" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Customers" FromRole="HandlingUnit" ToRole="Customer" />
+          <NavigationProperty Name="Customer1" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Customers1" FromRole="HandlingUnit" ToRole="Customer" />
+          <NavigationProperty Name="Employee" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Employees" FromRole="HandlingUnit" ToRole="Employee" />
+          <NavigationProperty Name="GoodsDeliveryDetails" Relationship="TotalSalesPortalModel.FK_GoodsDeliveryDetails_HandlingUnits" FromRole="HandlingUnit" ToRole="GoodsDeliveryDetail" />
+          <NavigationProperty Name="GoodsIssue" Relationship="TotalSalesPortalModel.FK_HandlingUnits_GoodsIssues" FromRole="HandlingUnit" ToRole="GoodsIssue" />
+          <NavigationProperty Name="HandlingUnitDetails" Relationship="TotalSalesPortalModel.FK_HandlingUnitDetails_HandlingUnits" FromRole="HandlingUnit" ToRole="HandlingUnitDetail" />
+          <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Locations" FromRole="HandlingUnit" ToRole="Location" />
+          <NavigationProperty Name="PackingMaterial" Relationship="TotalSalesPortalModel.FK_HandlingUnits_PackingMaterials" FromRole="HandlingUnit" ToRole="PackingMaterial" />
+        </EntityType>
+        <Association Name="FK_HandlingUnits_Customers">
+          <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.HandlingUnit" Role="HandlingUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="HandlingUnit">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HandlingUnits_Customers1">
+          <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.HandlingUnit" Role="HandlingUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="HandlingUnit">
+              <PropertyRef Name="ReceiverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HandlingUnits_Employees">
+          <End Type="TotalSalesPortalModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.HandlingUnit" Role="HandlingUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="HandlingUnit">
+              <PropertyRef Name="PackagingStaffID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoodsDeliveryDetails_HandlingUnits">
+          <End Type="TotalSalesPortalModel.HandlingUnit" Role="HandlingUnit" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.GoodsDeliveryDetail" Role="GoodsDeliveryDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HandlingUnit">
+              <PropertyRef Name="HandlingUnitID" />
+            </Principal>
+            <Dependent Role="GoodsDeliveryDetail">
+              <PropertyRef Name="HandlingUnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HandlingUnits_GoodsIssues">
+          <End Type="TotalSalesPortalModel.GoodsIssue" Role="GoodsIssue" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.HandlingUnit" Role="HandlingUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GoodsIssue">
+              <PropertyRef Name="GoodsIssueID" />
+            </Principal>
+            <Dependent Role="HandlingUnit">
+              <PropertyRef Name="GoodsIssueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HandlingUnitDetails_HandlingUnits">
+          <End Type="TotalSalesPortalModel.HandlingUnit" Role="HandlingUnit" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.HandlingUnitDetail" Role="HandlingUnitDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HandlingUnit">
+              <PropertyRef Name="HandlingUnitID" />
+            </Principal>
+            <Dependent Role="HandlingUnitDetail">
+              <PropertyRef Name="HandlingUnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HandlingUnits_Locations">
+          <End Type="TotalSalesPortalModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.HandlingUnit" Role="HandlingUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="HandlingUnit">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HandlingUnits_PackingMaterials">
+          <End Type="TotalSalesPortalModel.PackingMaterial" Role="PackingMaterial" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.HandlingUnit" Role="HandlingUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PackingMaterial">
+              <PropertyRef Name="PackingMaterialID" />
+            </Principal>
+            <Dependent Role="HandlingUnit">
+              <PropertyRef Name="PackingMaterialID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5275,45 +5275,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="HandlingUnits">
-            <EntityTypeMapping TypeName="TotalSalesPortalModel.HandlingUnit">
-              <MappingFragment StoreEntitySet="HandlingUnits">
-                <ScalarProperty Name="WeightDifference" ColumnName="WeightDifference" />
-                <ScalarProperty Name="CountIdentification" ColumnName="CountIdentification" />
-                <ScalarProperty Name="ConsignmentNo" ColumnName="ConsignmentNo" />
-                <ScalarProperty Name="PackagingStaffID" ColumnName="PackagingStaffID" />
-                <ScalarProperty Name="GoodsIssueReferences" ColumnName="GoodsIssueReferences" />
-                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
-                <ScalarProperty Name="GoodsDeliveryID" ColumnName="GoodsDeliveryID" />
-                <ScalarProperty Name="Dimension" ColumnName="Dimension" />
-                <ScalarProperty Name="PackingMaterialID" ColumnName="PackingMaterialID" />
-                <ScalarProperty Name="RealWeight" ColumnName="RealWeight" />
-                <ScalarProperty Name="Identification" ColumnName="Identification" />
-                <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
-                <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />
-                <ScalarProperty Name="InActive" ColumnName="InActive" />
-                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
-                <ScalarProperty Name="Approved" ColumnName="Approved" />
-                <ScalarProperty Name="EditedDate" ColumnName="EditedDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="TotalWeight" ColumnName="TotalWeight" />
-                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
-                <ScalarProperty Name="ApproverID" ColumnName="ApproverID" />
-                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
-                <ScalarProperty Name="OrganizationalUnitID" ColumnName="OrganizationalUnitID" />
-                <ScalarProperty Name="PreparedPersonID" ColumnName="PreparedPersonID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="GoodsIssueID" ColumnName="GoodsIssueID" />
-                <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="Reference" ColumnName="Reference" />
-                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
-                <ScalarProperty Name="HandlingUnitID" ColumnName="HandlingUnitID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PackingMaterials">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.PackingMaterial">
               <MappingFragment StoreEntitySet="PackingMaterials">
@@ -5341,11 +5302,11 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
                 <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
-                <ScalarProperty Name="ConsignmentNo" ColumnName="ConsignmentNo" />
                 <ScalarProperty Name="Identification" ColumnName="Identification" />
                 <ScalarProperty Name="CountIdentification" ColumnName="CountIdentification" />
                 <ScalarProperty Name="PackingMaterialCode" ColumnName="PackingMaterialCode" />
                 <ScalarProperty Name="WeightDifference" ColumnName="WeightDifference" />
+                <ScalarProperty Name="LotNo" ColumnName="LotNo" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -5482,8 +5443,8 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
                 <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
                 <ScalarProperty Name="GoodsIssueReferences" ColumnName="GoodsIssueReferences" />
                 <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
-                <ScalarProperty Name="ConsignmentNo" ColumnName="ConsignmentNo" />
                 <ScalarProperty Name="HandlingUnitIdentification" ColumnName="HandlingUnitIdentification" />
+                <ScalarProperty Name="LotNo" ColumnName="LotNo" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -5843,6 +5804,45 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="HandlingUnitEditable" FunctionName="TotalSalesPortalModel.Store.HandlingUnitEditable" />
           <FunctionImportMapping FunctionImportName="GetShowDiscount" FunctionName="TotalSalesPortalModel.Store.GetShowDiscount" />
+          <EntitySetMapping Name="HandlingUnits">
+            <EntityTypeMapping TypeName="TotalSalesPortalModel.HandlingUnit">
+              <MappingFragment StoreEntitySet="HandlingUnits">
+                <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
+                <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />
+                <ScalarProperty Name="InActive" ColumnName="InActive" />
+                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="EditedDate" ColumnName="EditedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Dimension" ColumnName="Dimension" />
+                <ScalarProperty Name="PackingMaterialID" ColumnName="PackingMaterialID" />
+                <ScalarProperty Name="WeightDifference" ColumnName="WeightDifference" />
+                <ScalarProperty Name="RealWeight" ColumnName="RealWeight" />
+                <ScalarProperty Name="TotalWeight" ColumnName="TotalWeight" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="ApproverID" ColumnName="ApproverID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="OrganizationalUnitID" ColumnName="OrganizationalUnitID" />
+                <ScalarProperty Name="PreparedPersonID" ColumnName="PreparedPersonID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PackagingStaffID" ColumnName="PackagingStaffID" />
+                <ScalarProperty Name="GoodsDeliveryID" ColumnName="GoodsDeliveryID" />
+                <ScalarProperty Name="GoodsIssueReferences" ColumnName="GoodsIssueReferences" />
+                <ScalarProperty Name="GoodsIssueID" ColumnName="GoodsIssueID" />
+                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CountIdentification" ColumnName="CountIdentification" />
+                <ScalarProperty Name="Identification" ColumnName="Identification" />
+                <ScalarProperty Name="LotNo" ColumnName="LotNo" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="HandlingUnitID" ColumnName="HandlingUnitID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

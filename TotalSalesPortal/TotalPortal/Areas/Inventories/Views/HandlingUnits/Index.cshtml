@@ -12,7 +12,7 @@
             columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(40).Hidden();
             columns.Bound(p => p.CustomerDescription).Title("KH").Width(410).Hidden();
             columns.Bound(p => p.GoodsIssueReferences).Title("Phiếu xuất kho").Width(200);
-            columns.Bound(p => p.ConsignmentNo).Title("Lô").HtmlAttributes(new { @class = "grid-column-center" }).Filterable(false).Width(115).Width(20);
+            columns.Bound(p => p.LotNo).Title("Lô").HtmlAttributes(new { @class = "grid-column-center" }).Filterable(false).Width(115).Width(20);
             columns.Bound(p => p.PackingMaterialCode).Title("BB").Width(50);
             columns.Bound(p => p.Identification).Title("Stt").HtmlAttributes(new { @class = "grid-column-center" }).Filterable(false).Width(115).Width(20);
             columns.Bound(p => p.CountIdentification).Title("TC").HtmlAttributes(new { @class = "grid-column-center" }).Filterable(false).Width(115).Width(20);
@@ -46,7 +46,7 @@
                     .Read(read => read.Action("GetHandlingUnitIndexes", "HandlingUnitAPIs", new { area = "Inventories" }))
                     .Sort(sort =>
                         {
-                            sort.Add(p => p.ConsignmentNo).Descending();
+                            sort.Add(p => p.LotNo).Descending();
                             sort.Add(p => p.Identification).Descending();
                         })
                     .PageSize(20)

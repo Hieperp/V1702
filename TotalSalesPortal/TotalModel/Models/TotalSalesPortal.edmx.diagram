@@ -41,14 +41,9 @@
         <EntityTypeShape EntityType="TotalSalesPortalModel.AccountInvoice" Width="1.5" PointX="17" PointY="1.875" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_AccountInvoices_Locations" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_AccountInvoiceDetails_AccountInvoices" />
-        <EntityTypeShape EntityType="TotalSalesPortalModel.HandlingUnit" Width="1.5" PointX="24.125" PointY="6.875" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnits_Locations" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.PackingMaterial" Width="1.5" PointX="3.375" PointY="9" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnits_PackingMaterials" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.HandlingUnitDetail" Width="1.5" PointX="26.75" PointY="15.625" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnitDetails_HandlingUnits" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.GoodsDeliveryDetail" Width="1.5" PointX="26.375" PointY="8" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsDeliveryDetails_HandlingUnits" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.GoodsDelivery" Width="1.5" PointX="19.625" PointY="0.75" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsDeliveries_Locations" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsDeliveryDetails_GoodsDeliveries" />
@@ -76,8 +71,6 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsDeliveries_Customers1" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssues_Customers" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssues_Customers1" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnits_Customers" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnits_Customers1" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_Customers" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdviceDetails_DeliveryAdvices" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdviceDetails_VoidTypes" />
@@ -93,13 +86,20 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssueDetails_GoodsIssues" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssueDetails_VoidTypes" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnitDetails_GoodsIssueDetails" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnits_GoodsIssues" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_ReceiptDetails_GoodsIssues" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_GoodsIssues" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_ReceiptDetails_Receipts" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnits_Employees" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssues_Employees" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Customers_CustomerTypes" />
+        <EntityTypeShape EntityType="TotalSalesPortalModel.HandlingUnit" Width="1.5" PointX="23.375" PointY="11.625" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnits_Customers" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnits_Customers1" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnits_Employees" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsDeliveryDetails_HandlingUnits" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnits_GoodsIssues" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnitDetails_HandlingUnits" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnits_Locations" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnits_PackingMaterials" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -26,7 +26,7 @@ namespace TotalModel.Models
         public decimal RealWeight { get; set; }
         public string Remarks { get; set; }
     
-        public virtual HandlingUnit HandlingUnit { get; set; }
         public virtual GoodsDelivery GoodsDelivery { get; set; }
+        public virtual HandlingUnit HandlingUnit { get; set; }
     }
 }

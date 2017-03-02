@@ -40,7 +40,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      HandlingUnits.HandlingUnitID, CAST(HandlingUnits.EntryDate AS DATE) AS EntryDate, HandlingUnits.Reference, Locations.Code AS LocationCode, Customers.Name AS CustomerName, Receivers.Name AS ReceiverName, HandlingUnits.ShippingAddress, HandlingUnits.GoodsIssueReferences, PackingMaterials.Code AS PackingMaterialCode, HandlingUnits.ConsignmentNo, HandlingUnits.Identification, HandlingUnits.CountIdentification, HandlingUnits.Description, HandlingUnits.TotalQuantity, HandlingUnits.TotalWeight, HandlingUnits.RealWeight, HandlingUnits.WeightDifference " + "\r\n";
+            queryString = queryString + "       SELECT      HandlingUnits.HandlingUnitID, CAST(HandlingUnits.EntryDate AS DATE) AS EntryDate, HandlingUnits.Reference, Locations.Code AS LocationCode, Customers.Name AS CustomerName, Receivers.Name AS ReceiverName, HandlingUnits.ShippingAddress, HandlingUnits.GoodsIssueReferences, PackingMaterials.Code AS PackingMaterialCode, HandlingUnits.LotNo, HandlingUnits.Identification, HandlingUnits.CountIdentification, HandlingUnits.Description, HandlingUnits.TotalQuantity, HandlingUnits.TotalWeight, HandlingUnits.RealWeight, HandlingUnits.WeightDifference " + "\r\n";
             queryString = queryString + "       FROM        HandlingUnits " + "\r\n";
             queryString = queryString + "                   INNER JOIN Locations ON HandlingUnits.EntryDate >= @FromDate AND HandlingUnits.EntryDate <= @ToDate AND HandlingUnits.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)TotalBase.Enums.GlobalEnums.NmvnTaskID.HandlingUnit + " AND AccessControls.AccessLevel > 0) AND Locations.LocationID = HandlingUnits.LocationID " + "\r\n";
             queryString = queryString + "                   INNER JOIN PackingMaterials ON HandlingUnits.PackingMaterialID = PackingMaterials.PackingMaterialID " + "\r\n";
@@ -227,13 +227,13 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       DECLARE         @EntryDate DateTime, @CustomerID int, @ReceiverID int, @ShippingAddress nvarchar(200), @ConsignmentNo int; " + "\r\n";
-            queryString = queryString + "       SELECT          @EntryDate = EntryDate, @CustomerID = CustomerID, @ReceiverID = ReceiverID, @ShippingAddress = ShippingAddress, @ConsignmentNo = ConsignmentNo FROM HandlingUnits WHERE HandlingUnitID = @EntityID; " + "\r\n";
+            queryString = queryString + "       DECLARE         @EntryDate DateTime, @CustomerID int, @ReceiverID int, @ShippingAddress nvarchar(200), @LotNo int; " + "\r\n";
+            queryString = queryString + "       SELECT          @EntryDate = EntryDate, @CustomerID = CustomerID, @ReceiverID = ReceiverID, @ShippingAddress = ShippingAddress, @LotNo = LotNo FROM HandlingUnits WHERE HandlingUnitID = @EntityID; " + "\r\n";
 
             queryString = queryString + "       DECLARE         @HandlingUnitID int, @Identification int; " + "\r\n";
             queryString = queryString + "       SET             @Identification = 0; " + "\r\n";
 
-            queryString = queryString + "       DECLARE         CursorEntryDate CURSOR LOCAL FOR SELECT HandlingUnitID FROM HandlingUnits WHERE YEAR(EntryDate) = YEAR(@EntryDate) AND MONTH(EntryDate) = MONTH(@EntryDate) AND DAY(EntryDate) = DAY(@EntryDate) AND CustomerID = @CustomerID AND ReceiverID = @ReceiverID AND ShippingAddress = @ShippingAddress AND ConsignmentNo = @ConsignmentNo AND (@SaveRelativeOption = 1 OR HandlingUnitID <> @EntityID) ORDER BY EntryDate; " + "\r\n";
+            queryString = queryString + "       DECLARE         CursorEntryDate CURSOR LOCAL FOR SELECT HandlingUnitID FROM HandlingUnits WHERE YEAR(EntryDate) = YEAR(@EntryDate) AND MONTH(EntryDate) = MONTH(@EntryDate) AND DAY(EntryDate) = DAY(@EntryDate) AND CustomerID = @CustomerID AND ReceiverID = @ReceiverID AND ShippingAddress = @ShippingAddress AND LotNo = @LotNo AND (@SaveRelativeOption = 1 OR HandlingUnitID <> @EntityID) ORDER BY EntryDate; " + "\r\n";
             queryString = queryString + "       OPEN            CursorEntryDate; " + "\r\n";
             queryString = queryString + "       FETCH NEXT FROM CursorEntryDate INTO @HandlingUnitID; " + "\r\n";
 
@@ -245,7 +245,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "           END " + "\r\n";
 
             queryString = queryString + "       IF  @Identification > 0 " + "\r\n";
-            queryString = queryString + "               UPDATE              HandlingUnits SET CountIdentification = @Identification WHERE YEAR(EntryDate) = YEAR(@EntryDate) AND MONTH(EntryDate) = MONTH(@EntryDate) AND DAY(EntryDate) = DAY(@EntryDate) AND CustomerID = @CustomerID AND ReceiverID = @ReceiverID AND ShippingAddress = @ShippingAddress AND ConsignmentNo = @ConsignmentNo " + "\r\n";
+            queryString = queryString + "               UPDATE              HandlingUnits SET CountIdentification = @Identification WHERE YEAR(EntryDate) = YEAR(@EntryDate) AND MONTH(EntryDate) = MONTH(@EntryDate) AND DAY(EntryDate) = DAY(@EntryDate) AND CustomerID = @CustomerID AND ReceiverID = @ReceiverID AND ShippingAddress = @ShippingAddress AND LotNo = @LotNo " + "\r\n";
 
             queryString = queryString + "       CLOSE           CursorEntryDate;    DEALLOCATE CursorEntryDate; " + "\r\n";
 

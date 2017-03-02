@@ -37,23 +37,23 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ConsignmentNo)
+            @Html.LabelFor(model => model.LotNo)
             <div class="div-input">
-                @Html.Kendo().NumericTextBoxFor(model => model.ConsignmentNo).Format(@SettingsManager.NumberFormat).HtmlAttributes(new { @class = "left-panel-input" })
+                @Html.Kendo().NumericTextBoxFor(model => model.LotNo).Format(@SettingsManager.NumberFormat).HtmlAttributes(new { @class = "left-panel-input" })
             </div>
             <div class="div-validation-message">
-                @Html.ValidationMessageFor(model => model.ConsignmentNo, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.LotNo, "", new { @class = "text-danger" })
             </div>
         </div>
 
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IdentificationPerConsignmentNo)
+            @Html.LabelFor(model => model.IdentificationPerLotNo)
             <div class="div-input">
-                @Html.Kendo().MaskedTextBoxFor(model => model.IdentificationPerConsignmentNo).HtmlAttributes(new { @class = "left-panel-input text-align-right", @readonly = "readonly" })
+                @Html.Kendo().MaskedTextBoxFor(model => model.IdentificationPerLotNo).HtmlAttributes(new { @class = "left-panel-input text-align-right", @readonly = "readonly" })
             </div>
             <div class="div-validation-message">
-                @Html.ValidationMessageFor(model => model.IdentificationPerConsignmentNo, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.IdentificationPerLotNo, "", new { @class = "text-danger" })
             </div>
         </div>
 

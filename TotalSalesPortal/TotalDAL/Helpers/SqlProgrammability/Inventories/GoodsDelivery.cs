@@ -138,14 +138,14 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "       IF (@GoodsDeliveryID <= 0) " + "\r\n";
             queryString = queryString + "               BEGIN " + "\r\n";
             queryString = queryString + "                   " + this.GetPGIDsBuildSQLNew(isReceiverID, isHandlingUnitIDs) + "\r\n";
-            queryString = queryString + "                   ORDER BY Receivers.Name, Receivers.Code, HandlingUnits.EntryDate, HandlingUnits.ConsignmentNo, HandlingUnits.Identification " + "\r\n";
+            queryString = queryString + "                   ORDER BY Receivers.Name, Receivers.Code, HandlingUnits.EntryDate, HandlingUnits.LotNo, HandlingUnits.Identification " + "\r\n";
             queryString = queryString + "               END " + "\r\n";
             queryString = queryString + "       ELSE " + "\r\n";
 
             queryString = queryString + "               IF (@IsReadonly = 1) " + "\r\n";
             queryString = queryString + "                   BEGIN " + "\r\n";
             queryString = queryString + "                       " + this.GetPGIDsBuildSQLEdit(isReceiverID, isHandlingUnitIDs) + "\r\n";
-            queryString = queryString + "                       ORDER BY Receivers.Name, Receivers.Code, HandlingUnits.EntryDate, HandlingUnits.ConsignmentNo, HandlingUnits.Identification " + "\r\n";
+            queryString = queryString + "                       ORDER BY Receivers.Name, Receivers.Code, HandlingUnits.EntryDate, HandlingUnits.LotNo, HandlingUnits.Identification " + "\r\n";
             queryString = queryString + "                   END " + "\r\n";
 
             queryString = queryString + "               ELSE " + "\r\n"; //FULL SELECT FOR EDIT MODE
@@ -154,7 +154,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "                       " + this.GetPGIDsBuildSQLNew(isReceiverID, isHandlingUnitIDs) + "\r\n";
             queryString = queryString + "                       UNION ALL " + "\r\n";
             queryString = queryString + "                       " + this.GetPGIDsBuildSQLEdit(isReceiverID, isHandlingUnitIDs) + "\r\n";
-            queryString = queryString + "                       ORDER BY Receivers.Name, Receivers.Code, HandlingUnits.EntryDate, HandlingUnits.ConsignmentNo, HandlingUnits.Identification " + "\r\n";
+            queryString = queryString + "                       ORDER BY Receivers.Name, Receivers.Code, HandlingUnits.EntryDate, HandlingUnits.LotNo, HandlingUnits.Identification " + "\r\n";
             queryString = queryString + "                   END " + "\r\n";
 
             queryString = queryString + "   END " + "\r\n";
@@ -166,7 +166,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
         {
             string queryString = "";
 
-            queryString = queryString + "       SELECT      HandlingUnits.HandlingUnitID, HandlingUnits.EntryDate, HandlingUnits.GoodsIssueReferences, HandlingUnits.ConsignmentNo, HandlingUnits.Identification, CAST(HandlingUnits.Identification AS varchar) + '/' + CAST(HandlingUnits.CountIdentification AS varchar) AS HandlingUnitIdentification, PackingMaterials.PrintedLabel, HandlingUnits.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, HandlingUnits.ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Receivers.Telephone AS ReceiverTelephone, HandlingUnits.ShippingAddress, " + "\r\n";
+            queryString = queryString + "       SELECT      HandlingUnits.HandlingUnitID, HandlingUnits.EntryDate, HandlingUnits.GoodsIssueReferences, HandlingUnits.LotNo, HandlingUnits.Identification, CAST(HandlingUnits.Identification AS varchar) + '/' + CAST(HandlingUnits.CountIdentification AS varchar) AS HandlingUnitIdentification, PackingMaterials.PrintedLabel, HandlingUnits.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, HandlingUnits.ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Receivers.Telephone AS ReceiverTelephone, HandlingUnits.ShippingAddress, " + "\r\n";
             queryString = queryString + "                   HandlingUnits.TotalQuantity AS Quantity, HandlingUnits.TotalWeight AS Weight, HandlingUnits.RealWeight, CAST(1 AS bit) AS IsSelected " + "\r\n";
 
             queryString = queryString + "       FROM        HandlingUnits " + "\r\n";
@@ -181,7 +181,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
         {
             string queryString = "";
 
-            queryString = queryString + "       SELECT      HandlingUnits.HandlingUnitID, HandlingUnits.EntryDate, HandlingUnits.GoodsIssueReferences, HandlingUnits.ConsignmentNo, HandlingUnits.Identification, CAST(HandlingUnits.Identification AS varchar) + '/' + CAST(HandlingUnits.CountIdentification AS varchar) AS HandlingUnitIdentification, PackingMaterials.PrintedLabel, HandlingUnits.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, HandlingUnits.ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Receivers.Telephone AS ReceiverTelephone, HandlingUnits.ShippingAddress, " + "\r\n";
+            queryString = queryString + "       SELECT      HandlingUnits.HandlingUnitID, HandlingUnits.EntryDate, HandlingUnits.GoodsIssueReferences, HandlingUnits.LotNo, HandlingUnits.Identification, CAST(HandlingUnits.Identification AS varchar) + '/' + CAST(HandlingUnits.CountIdentification AS varchar) AS HandlingUnitIdentification, PackingMaterials.PrintedLabel, HandlingUnits.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, HandlingUnits.ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Receivers.Telephone AS ReceiverTelephone, HandlingUnits.ShippingAddress, " + "\r\n";
             queryString = queryString + "                   HandlingUnits.TotalQuantity AS Quantity, HandlingUnits.TotalWeight AS Weight, HandlingUnits.RealWeight, CAST(1 AS bit) AS IsSelected " + "\r\n";
 
             queryString = queryString + "       FROM        HandlingUnits " + "\r\n";

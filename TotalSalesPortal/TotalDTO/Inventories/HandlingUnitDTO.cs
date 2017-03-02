@@ -34,14 +34,14 @@ namespace TotalDTO.Inventories
         public virtual int PackagingStaffID { get; set; }
 
         [Display(Name = "Số thứ tự lô hàng")]
-        public int ConsignmentNo { get; set; }
+        public int LotNo { get; set; }
         [Display(Name = "Số thứ tự thùng, bao")]
         public int Identification { get; set; }
         [Display(Name = "Tổng số thùng, bao trong lô")]
         public int CountIdentification { get; set; }
 
         [Display(Name = "Số thứ tự thùng, bao")]
-        public string IdentificationPerConsignmentNo { get { return this.Identification.ToString("0") + "/" + this.CountIdentification.ToString("0"); } }
+        public string IdentificationPerLotNo { get { return this.Identification.ToString("0") + "/" + this.CountIdentification.ToString("0"); } }
 
         [Display(Name = "Loại thùng, bao")]
         public int PackingMaterialID { get; set; }

@@ -49,7 +49,6 @@ namespace TotalModel.Models
         public virtual DbSet<VoidType> VoidTypes { get; set; }
         public virtual DbSet<AccountInvoiceDetail> AccountInvoiceDetails { get; set; }
         public virtual DbSet<AccountInvoice> AccountInvoices { get; set; }
-        public virtual DbSet<HandlingUnit> HandlingUnits { get; set; }
         public virtual DbSet<PackingMaterial> PackingMaterials { get; set; }
         public virtual DbSet<HandlingUnitDetail> HandlingUnitDetails { get; set; }
         public virtual DbSet<GoodsDeliveryDetail> GoodsDeliveryDetails { get; set; }
@@ -61,6 +60,7 @@ namespace TotalModel.Models
         public virtual DbSet<GoodsIssueDetail> GoodsIssueDetails { get; set; }
         public virtual DbSet<GoodsIssue> GoodsIssues { get; set; }
         public virtual DbSet<Receipt> Receipts { get; set; }
+        public virtual DbSet<HandlingUnit> HandlingUnits { get; set; }
     
         public virtual ObjectResult<Nullable<int>> GetAccessLevel(Nullable<int> userID, Nullable<int> nMVNTaskID, Nullable<int> organizationalUnitID)
         {

@@ -20,9 +20,9 @@ namespace TotalModel.Models
             this.OrganizationalUnits = new HashSet<OrganizationalUnit>();
             this.Employees = new HashSet<Employee>();
             this.AccountInvoices = new HashSet<AccountInvoice>();
-            this.HandlingUnits = new HashSet<HandlingUnit>();
             this.GoodsDeliveries = new HashSet<GoodsDelivery>();
             this.DeliveryAdvices = new HashSet<DeliveryAdvice>();
+            this.HandlingUnits = new HashSet<HandlingUnit>();
         }
     
         public int LocationID { get; set; }
@@ -44,10 +44,10 @@ namespace TotalModel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HandlingUnit> HandlingUnits { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GoodsDelivery> GoodsDeliveries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DeliveryAdvice> DeliveryAdvices { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HandlingUnit> HandlingUnits { get; set; }
     }
 }

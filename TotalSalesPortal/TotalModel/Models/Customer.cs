@@ -24,9 +24,9 @@ namespace TotalModel.Models
             this.GoodsDeliveries = new HashSet<GoodsDelivery>();
             this.GoodsIssues = new HashSet<GoodsIssue>();
             this.GoodsIssues1 = new HashSet<GoodsIssue>();
+            this.Receipts = new HashSet<Receipt>();
             this.HandlingUnits = new HashSet<HandlingUnit>();
             this.HandlingUnits1 = new HashSet<HandlingUnit>();
-            this.Receipts = new HashSet<Receipt>();
         }
     
         public int CustomerID { get; set; }
@@ -71,11 +71,11 @@ namespace TotalModel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GoodsIssue> GoodsIssues1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Receipt> Receipts { get; set; }
+        public virtual CustomerType CustomerType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HandlingUnit> HandlingUnits { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HandlingUnit> HandlingUnits1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Receipt> Receipts { get; set; }
-        public virtual CustomerType CustomerType { get; set; }
     }
 }

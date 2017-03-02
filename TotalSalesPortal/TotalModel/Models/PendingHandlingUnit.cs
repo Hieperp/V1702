@@ -30,7 +30,7 @@ namespace TotalModel.Models
         public Nullable<bool> IsSelected { get; set; }
         public string GoodsIssueReferences { get; set; }
         public string ShippingAddress { get; set; }
-        public int ConsignmentNo { get; set; }
         public string HandlingUnitIdentification { get; set; }
+        public int LotNo { get; set; }
     }
 }
