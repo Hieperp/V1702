@@ -8,6 +8,8 @@
 {
     @Html.AntiForgeryToken()
 
+    @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
+    
     @Html.HiddenFor(model => model.AccountInvoiceID)
     @Html.HiddenFor(model => model.TotalQuantity)
     @Html.HiddenFor(model => model.TotalFreeQuantity)
@@ -21,7 +23,7 @@
 
     <div class="left-panel">
 
-        @Html.Partial("~/Views/Helpers/Bases/_BaseSeactionA.cshtml")
+        @Html.Partial("~/Views/Helpers/Bases/_BaseSectionLeftA.cshtml")
 
         <div class="form-group">
             @Html.LabelFor(model => model.VATInvoiceDate)

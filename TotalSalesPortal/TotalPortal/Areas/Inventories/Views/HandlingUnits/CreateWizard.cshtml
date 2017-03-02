@@ -6,6 +6,8 @@
 {
     @Html.AntiForgeryToken()
 
+    @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
+    
     @Html.HiddenFor(model => model.HandlingUnitID);
 
     @Html.HiddenFor(model => model.ShippingAddress);

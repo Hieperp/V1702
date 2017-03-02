@@ -8,12 +8,14 @@
 {
     @Html.AntiForgeryToken()
 
+    @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
+    
     @Html.HiddenFor(model => model.GoodsDeliveryID)
 
 
     <div class="left-panel">
 
-        @Html.Partial("~/Views/Helpers/Bases/_BaseSeactionA.cshtml")
+        @Html.Partial("~/Views/Helpers/Bases/_BaseSectionLeftA.cshtml")
 
         @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/Vehicle.cshtml")
 

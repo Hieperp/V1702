@@ -7,7 +7,8 @@
 {
     @Html.AntiForgeryToken()
 
-
+    @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
+    
     @Html.HiddenFor(model => model.GoodsIssueID)
     @Html.HiddenFor(model => model.TotalQuantity)
     @Html.HiddenFor(model => model.TotalFreeQuantity)
@@ -21,7 +22,7 @@
 
     <div class="left-panel">
 
-        @Html.Partial("~/Views/Helpers/Bases/_BaseSeactionA.cshtml")
+        @Html.Partial("~/Views/Helpers/Bases/_BaseSectionLeftA.cshtml")
 
         <div class="form-group">
             @Html.EditorFor(d => d.Storekeeper, new { EmployeeDisplayName = @Model.GetDisplayName(m => m.Storekeeper) })

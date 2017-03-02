@@ -1235,7 +1235,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Helpers\Bases\_BaseSeactionA.cshtml" />
+    <Content Include="Views\Helpers\Bases\_BaseSectionLeftA.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AutoCompletes\_EmployeeAutoComplete.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropDowns\PaymentTerm.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropDowns\Approver.cshtml" />
@@ -1404,6 +1404,7 @@
     <Content Include="Views\Shared\EditorTemplates\Commons\ShippingAddress.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropDowns\Vehicle.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTimeReadonly.cshtml" />
+    <Content Include="Views\Helpers\Bases\_BaseSectionTop.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

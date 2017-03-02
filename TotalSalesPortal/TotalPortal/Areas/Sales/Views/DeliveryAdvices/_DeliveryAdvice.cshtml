@@ -9,7 +9,7 @@
 {
     @Html.AntiForgeryToken()
 
-    <input id="preventImplicitSubmission" type="submit" style="display:none" onclick="return false;" />
+    @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
     
     @Html.HiddenFor(model => model.DeliveryAdviceID)
 
@@ -26,7 +26,7 @@
 
     <div class="left-panel">
 
-        @Html.Partial("~/Views/Helpers/Bases/_BaseSeactionA.cshtml")
+        @Html.Partial("~/Views/Helpers/Bases/_BaseSectionLeftA.cshtml")
 
         <div class="form-group">
             @Html.EditorFor(d => d.Salesperson, new { EmployeeDisplayName = @Model.GetDisplayName(m => m.Salesperson) })
