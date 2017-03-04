@@ -34,6 +34,16 @@ namespace TotalPortal.Areas.Inventories.Controllers
         }
 
 
+        protected override GoodsIssueViewModel InitViewModelByPrior(GoodsIssueViewModel simpleViewModel)
+        {
+            return base.InitViewModelByPrior(simpleViewModel);
+            //if (simpleViewModel.CustomerID > 0 && simpleViewModel.DeliveryAdviceID == null)
+            //{
+
+            //}
+        }
+
+
         protected override GoodsIssueViewModel InitViewModelByDefault(GoodsIssueViewModel simpleViewModel)
         {
             simpleViewModel = base.InitViewModelByDefault(simpleViewModel);

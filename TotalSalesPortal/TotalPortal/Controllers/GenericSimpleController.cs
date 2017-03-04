@@ -88,7 +88,7 @@ namespace TotalPortal.Controllers
             if (!this.isSimpleCreate) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
 
-            return View(this.TailorViewModel(this.InitViewModelByDefault(new TSimpleViewModel()))); //Need to call new TSimpleViewModel() to ensure construct TSimpleViewModel object using Constructor!
+            return View(this.TailorViewModel(this.InitViewModelByPrior(this.InitViewModelByDefault(new TSimpleViewModel())))); //Need to call new TSimpleViewModel() to ensure construct TSimpleViewModel object using Constructor!
         }
 
         [HttpPost]
@@ -141,7 +141,7 @@ namespace TotalPortal.Controllers
             ModelState.Clear(); //Add this on 10-Dec-2016: When using Required attribute for a Nullable<System.DateTime>, the Kendo().DateTimePickerFor can not pass when submit. Don't know why!!!
             //This ModelState.Clear(): may be a very good idea -may be very very good :), because: we don't need to pre check model error here (Note ... Note: right here then, we always to return Edit view to input data, the: the model will be check by edit view)
 
-            return View("Edit", this.TailorViewModel(this.DecorateViewModel(simpleViewModel)));
+            return View("Edit", this.TailorViewModel(this.DecorateViewModel(this.InitViewModelByPrior(simpleViewModel))));
         }
 
 
@@ -506,6 +506,12 @@ namespace TotalPortal.Controllers
 
 
 
+        protected virtual TSimpleViewModel InitViewModelByPrior(TSimpleViewModel simpleViewModel)
+        {
+            return simpleViewModel;
+        }
+
+
         /// <summary>
         /// Init new viewmodel by set default value. Default, this procedure does nothing and just return the passing parameter simpleViewModel.
         /// Each module should override this InitViewModelByDefault to init its's viewmodel accordingly, if needed
@@ -566,12 +572,12 @@ namespace TotalPortal.Controllers
 
             if (forAlter)//NOW THIS GlobalLocked attribute ONLY be considered WHEN ALTER ACTION to USE IN ALTER VIEW: to ALLOW or NOT ALTER.
                 simpleViewModel.GlobalLocked = this.GenericService.GlobalLocked(simpleViewModel);
-            
+
             simpleViewModel.ShowDiscount = this.GenericService.GetShowDiscount();
 
             RequireJsOptions.Add("Editable", simpleViewModel.Editable, RequireJsOptionsScope.Page);
             RequireJsOptions.Add("Deletable", simpleViewModel.Deletable, RequireJsOptionsScope.Page);
-            
+
             simpleViewModel.UserID = this.GenericService.UserID; //CAU LENH NAY TAM THOI DUOC SU DUNG DE SORT USER DROPDWONLIST. SAU NAY NEN LAM CACH KHAC, CACH NAY KHONG HAY
 
             this.viewModelSelectListBuilder.BuildSelectLists(simpleViewModel); //Buil select list for dropdown box using IEnumerable<SelectListItem> (using for short data list only). For the long list, it should use Kendo automplete instead.

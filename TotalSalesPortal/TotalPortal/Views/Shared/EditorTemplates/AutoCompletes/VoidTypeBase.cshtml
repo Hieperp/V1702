@@ -7,7 +7,7 @@
 @(Html.Kendo().AutoCompleteFor(m => m)        
         .DataTextField("Name")
         .Filter("contains")
-        .Placeholder("Lý do không xuất kho ...")
+        .Placeholder("Nhập mã hoặc tên lý do ...")
         .DataSource(source =>
         {
             source.Read(read =>

@@ -81,7 +81,7 @@
             @Html.EditorFor(d => d.Customer, new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Customer) })
             @Html.EditorFor(d => d.Receiver, new { CustomerDescriptionHidden = "true", CustomerDisplayName = @Model.GetDisplayName(m => m.Receiver), CustomerIcon = "Customer Red 24.png" })
 
-            @Html.EditorFor(d => d.ShippingAddress)
+            @Html.EditorFor(d => d.ShippingAddress, new { ShippingAddressReadonly = true })
 
             @Html.EditorFor(d => d.Promotion)
 
