@@ -15,7 +15,7 @@ namespace TotalDAL.Repositories.Sales
         public DeliveryAdviceRepository(TotalSalesPortalEntities totalSalesPortalEntities)
             : base(totalSalesPortalEntities, "DeliveryAdviceEditable", "DeliveryAdviceApproved", null, "DeliveryAdviceVoidable")
         {
-            //return;
+            return;
 
             Helpers.SqlProgrammability.Accounts.AccountInvoice accountInvoice = new Helpers.SqlProgrammability.Accounts.AccountInvoice(totalSalesPortalEntities);
             accountInvoice.RestoreProcedure();

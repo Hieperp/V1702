@@ -2915,6 +2915,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="Boolean" Name="Bookable" Nullable="true" />
           <Property Type="Decimal" Name="DiscountPercent" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="ControlFreeQuantity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="ListedPrice" Nullable="false" Precision="18" Scale="2" />
         </ComplexType>
         <EntityType Name="Promotion">
           <Key>
@@ -4804,6 +4805,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
                 <ScalarProperty Name="Bookable" ColumnName="Bookable" />
                 <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
                 <ScalarProperty Name="ControlFreeQuantity" ColumnName="ControlFreeQuantity" />
+                <ScalarProperty Name="ListedPrice" ColumnName="ListedPrice" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

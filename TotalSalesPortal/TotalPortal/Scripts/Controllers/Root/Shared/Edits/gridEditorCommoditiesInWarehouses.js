@@ -25,14 +25,24 @@
                 currentDataSourceRow.set("WarehouseCode", dataItem.WarehouseCode);
                 currentDataSourceRow.set("QuantityAvailable", dataItem.QuantityAvailable);
                 currentDataSourceRow.set("ControlFreeQuantity", dataItem.ControlFreeQuantity);
-                currentDataSourceRow.set("Quantity", 1);                
+                currentDataSourceRow.set("Quantity", 1);
                 currentDataSourceRow.set("VATPercent", dataItem.VATPercent);
-                currentDataSourceRow.set("GrossPrice", dataItem.GrossPrice);
 
-                if (currentDataSourceRow.ListedPrice != undefined)
-                    currentDataSourceRow.set("ListedPrice", currentDataSourceRow.UnitPrice);
-                if (currentDataSourceRow.ListedGrossPrice != undefined)
-                    currentDataSourceRow.set("ListedGrossPrice", currentDataSourceRow.GrossPrice);
+                if (dataItem.ListedPrice > 0) {
+                    if (currentDataSourceRow.ListedPrice != undefined)
+                        currentDataSourceRow.set("ListedPrice", dataItem.ListedPrice);
+                    else
+                        currentDataSourceRow.set("UnitPrice", dataItem.ListedPrice);
+                }
+                else {
+
+                    currentDataSourceRow.set("GrossPrice", dataItem.GrossPrice);
+
+                    if (currentDataSourceRow.ListedPrice != undefined)
+                        currentDataSourceRow.set("ListedPrice", currentDataSourceRow.UnitPrice);
+                    if (currentDataSourceRow.ListedGrossPrice != undefined)
+                        currentDataSourceRow.set("ListedGrossPrice", currentDataSourceRow.GrossPrice);
+                }
 
                 currentDataSourceRow.set("DiscountPercent", dataItem.DiscountPercent);
 
