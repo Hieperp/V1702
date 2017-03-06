@@ -136,26 +136,26 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + "       IF (@@ROWCOUNT > 0) " + "\r\n";
             {
                 string queryCodePart = "          ( " + "\r\n"; //By CodeParts (TRY TO SEARCH ALL COMBINABLE CASE OF CodePartA, CodePartB AND CodePartA: => WE HAVE 7 CASES)
-                queryCodePart = queryCodePart + "    (Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = N'') " + "\r\n";
-                queryCodePart = queryCodePart + " OR (Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC) " + "\r\n";
-                queryCodePart = queryCodePart + " OR (Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND Commodities.CodePartB = PromotionCommodityCodeParts.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') " + "\r\n";
-                queryCodePart = queryCodePart + " OR (Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND Commodities.CodePartB = PromotionCommodityCodeParts.CodePartB AND Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC) " + "\r\n";
+                queryCodePart = queryCodePart + "    (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = N'') " + "\r\n";
+                queryCodePart = queryCodePart + " OR (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
+                queryCodePart = queryCodePart + " OR (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') " + "\r\n";
+                queryCodePart = queryCodePart + " OR (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
 
-                queryCodePart = queryCodePart + " OR (Commodities.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = N'' AND Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC) " + "\r\n";
-                queryCodePart = queryCodePart + " OR (Commodities.CodePartA = N'' AND Commodities.CodePartB = PromotionCommodityCodeParts.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') " + "\r\n";
-                queryCodePart = queryCodePart + " OR (Commodities.CodePartA = N'' AND Commodities.CodePartB = PromotionCommodityCodeParts.CodePartB AND Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC) " + "\r\n";
+                queryCodePart = queryCodePart + " OR (PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
+                queryCodePart = queryCodePart + " OR (PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') " + "\r\n";
+                queryCodePart = queryCodePart + " OR (PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
                 queryCodePart = queryCodePart + " ) " + "\r\n";
 
 
                 string queryPriority = "          CASE " + "\r\n"; //We set PriorityIndex for each case (1, 2, 3, ...) to implement the priority for EACH MATCH CASE (REASON: most of case, it will match some cases: for example: [CodePartA = A106 AND CodePartC = A3] -> PriorityIndex = 4  versus [CodePartC = A3] only -> PriorityIndex = 7)
-                queryPriority = queryPriority + " WHEN (Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = N'') THEN 4 " + "\r\n";
-                queryPriority = queryPriority + " WHEN (Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC) THEN 2 " + "\r\n";
-                queryPriority = queryPriority + " WHEN (Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND Commodities.CodePartB = PromotionCommodityCodeParts.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') THEN 3 " + "\r\n";
-                queryPriority = queryPriority + " WHEN (Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND Commodities.CodePartB = PromotionCommodityCodeParts.CodePartB AND Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC) THEN 1 " + "\r\n";
+                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = N'') THEN 4 " + "\r\n";
+                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) THEN 2 " + "\r\n";
+                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') THEN 3 " + "\r\n";
+                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) THEN 1 " + "\r\n";
 
-                queryPriority = queryPriority + " WHEN (Commodities.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = N'' AND Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC) THEN 7 " + "\r\n";
-                queryPriority = queryPriority + " WHEN (Commodities.CodePartA = N'' AND Commodities.CodePartB = PromotionCommodityCodeParts.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') THEN 6 " + "\r\n";
-                queryPriority = queryPriority + " WHEN (Commodities.CodePartA = N'' AND Commodities.CodePartB = PromotionCommodityCodeParts.CodePartB AND Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC) THEN 5 " + "\r\n";
+                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) THEN 7 " + "\r\n";
+                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') THEN 6 " + "\r\n";
+                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) THEN 5 " + "\r\n";
                 queryPriority = queryPriority + " END " + "\r\n";
 
 

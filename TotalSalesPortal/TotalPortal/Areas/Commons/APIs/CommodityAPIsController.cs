@@ -87,11 +87,11 @@ namespace TotalPortal.Areas.Commons.APIs
         {
             try
             {
-                var commodityResult = new { CommodityID = 0, CommodityCode = "", CommodityName = "", CommodityTypeID = 0, WarehouseID = 0, WarehouseCode = "", QuantityAvailable = new decimal(0), ControlFreeQuantity = new decimal(0), GrossPrice = new decimal(0), DiscountPercent = new decimal(0), VATPercent = new decimal(0) };
+                var commodityResult = new { CommodityID = 0, CommodityCode = "", CommodityName = "", CommodityTypeID = 0, WarehouseID = 0, WarehouseCode = "", QuantityAvailable = new decimal(0), ControlFreeQuantity = new decimal(0), ListedPrice = new decimal(0), GrossPrice = new decimal(0), DiscountPercent = new decimal(0), VATPercent = new decimal(0) };
 
-                var result = commodityRepository.GetCommodityAvailables(locationID, customerID, priceCategoryID, promotionID, entryDate, searchText).Select(s => new { s.CommodityID, s.CommodityCode, s.CommodityName, s.CommodityTypeID, s.WarehouseID, s.WarehouseCode, s.QuantityAvailable, s.ControlFreeQuantity, s.GrossPrice, s.DiscountPercent, s.VATPercent, s.Bookable });
+                var result = commodityRepository.GetCommodityAvailables(locationID, customerID, priceCategoryID, promotionID, entryDate, searchText).Select(s => new { s.CommodityID, s.CommodityCode, s.CommodityName, s.CommodityTypeID, s.WarehouseID, s.WarehouseCode, s.QuantityAvailable, s.ControlFreeQuantity, s.ListedPrice, s.GrossPrice, s.DiscountPercent, s.VATPercent, s.Bookable });
                 if (result.Count() > 0 && (bool)result.First().Bookable)
-                    commodityResult = new { CommodityID = result.First().CommodityID, CommodityCode = result.First().CommodityCode, CommodityName = result.First().CommodityName, CommodityTypeID = result.First().CommodityTypeID, WarehouseID = result.First().WarehouseID, WarehouseCode = result.First().WarehouseCode, QuantityAvailable = (decimal)result.First().QuantityAvailable, ControlFreeQuantity = (decimal)result.First().ControlFreeQuantity, GrossPrice = (decimal)result.First().GrossPrice, DiscountPercent = (decimal)result.First().DiscountPercent, VATPercent = (decimal)result.First().VATPercent };
+                    commodityResult = new { CommodityID = result.First().CommodityID, CommodityCode = result.First().CommodityCode, CommodityName = result.First().CommodityName, CommodityTypeID = result.First().CommodityTypeID, WarehouseID = result.First().WarehouseID, WarehouseCode = result.First().WarehouseCode, QuantityAvailable = (decimal)result.First().QuantityAvailable, ControlFreeQuantity = (decimal)result.First().ControlFreeQuantity, ListedPrice = (decimal)result.First().ListedPrice, GrossPrice = (decimal)result.First().GrossPrice, DiscountPercent = (decimal)result.First().DiscountPercent, VATPercent = (decimal)result.First().VATPercent };
 
                 return Json(commodityResult, JsonRequestBehavior.AllowGet);
             }

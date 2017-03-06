@@ -59,8 +59,15 @@
 
                         dataRow.set("VATPercent", Math.round(result.VATPercent, 0));
 
-                        dataRow.set("GrossPrice", Math.round(result.GrossPrice, requireConfig.websiteOptions.rndAmount));
-                        dataRow.set("ListedPrice", Math.round(dataRow.UnitPrice, requireConfig.websiteOptions.rndAmount));
+                        if (result.ListedPrice > 0) {
+                            dataRow.set("ListedPrice", Math.round(result.ListedPrice, requireConfig.websiteOptions.rndAmount));
+                        }
+                        else {
+
+                            dataRow.set("GrossPrice", Math.round(result.GrossPrice, requireConfig.websiteOptions.rndAmount));
+                            dataRow.set("ListedPrice", Math.round(dataRow.UnitPrice, requireConfig.websiteOptions.rndAmount));
+                            dataRow.set("ListedGrossPrice", Math.round(dataRow.GrossPrice, requireConfig.websiteOptions.rndAmount));
+                        }
 
                         dataRow.set("DiscountPercent", Math.round(result.DiscountPercent, requireConfig.websiteOptions.rndDiscountPercent));
 
