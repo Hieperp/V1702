@@ -191,6 +191,9 @@
     <Compile Include="Models\PendingDeliveryAdviceCustomer.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PendingDeliveryAdviceDescription.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PendingGoodsIssue.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>

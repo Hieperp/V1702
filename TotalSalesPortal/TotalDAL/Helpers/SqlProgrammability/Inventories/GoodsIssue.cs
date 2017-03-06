@@ -21,6 +21,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             this.GetPendingDeliveryAdvices();
             this.GetPendingDeliveryAdviceCustomers();
 
+            this.GetPendingDeliveryAdviceDescriptions();
+
             this.GetGoodsIssueViewDetails();
 
             this.GoodsIssueSaveRelative();
@@ -92,15 +94,15 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             this.totalSalesPortalEntities.CreateStoredProcedure("GetPendingDeliveryAdviceCustomers", queryString);
         }
 
-        private void GetPending1DeliveryAdviceCustomers()
+        private void GetPendingDeliveryAdviceDescriptions()
         {            
             string queryString = " @LocationID Int, @CustomerID Int, @ReceiverID Int, @ShippingAddress nvarchar(200) " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
-            queryString = queryString + "       SELECT DISTINCT DeliveryAdviceID, Description, Remarks FROM DeliveryAdvices WHERE CustomerID = @CustomerID AND ReceiverID = @ReceiverID AND ShippingAddress = @ShippingAddress AND DeliveryAdviceID IN (SELECT DeliveryAdviceID FROM DeliveryAdviceDetails WHERE LocationID = @LocationID AND Approved = 1 AND InActive = 0 AND InActivePartial = 0 AND InActiveIssue = 0 AND (ROUND(Quantity - QuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0 OR ROUND(FreeQuantity - FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0)) " + "\r\n";
+            queryString = queryString + "       SELECT DeliveryAdviceID, Reference, Description, Remarks FROM DeliveryAdvices WHERE CustomerID = @CustomerID AND ReceiverID = @ReceiverID AND ShippingAddress = @ShippingAddress AND DeliveryAdviceID IN (SELECT DeliveryAdviceID FROM DeliveryAdviceDetails WHERE LocationID = @LocationID AND Approved = 1 AND InActive = 0 AND InActivePartial = 0 AND InActiveIssue = 0 AND (ROUND(Quantity - QuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0 OR ROUND(FreeQuantity - FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0)) " + "\r\n";
 
-            this.totalSalesPortalEntities.CreateStoredProcedure("GetPendingDeliveryAdviceCustomers", queryString);
+            this.totalSalesPortalEntities.CreateStoredProcedure("GetPendingDeliveryAdviceDescriptions", queryString);
         }
 
         #region GetGoodsIssueViewDetails

@@ -1585,6 +1585,12 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
         <Function Name="GetPendingDeliveryAdviceCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetPendingDeliveryAdviceDescriptions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LocationID" Type="int" Mode="In" />
+          <Parameter Name="CustomerID" Type="int" Mode="In" />
+          <Parameter Name="ReceiverID" Type="int" Mode="In" />
+          <Parameter Name="ShippingAddress" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="GetPendingDeliveryAdvices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
         </Function>
@@ -2550,6 +2556,12 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <End Role="PackingMaterial" EntitySet="PackingMaterials" />
             <End Role="HandlingUnit" EntitySet="HandlingUnits" />
           </AssociationSet>
+          <FunctionImport Name="GetPendingDeliveryAdviceDescriptions" ReturnType="Collection(TotalSalesPortalModel.PendingDeliveryAdviceDescription)">
+            <Parameter Name="LocationID" Mode="In" Type="Int32" />
+            <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+            <Parameter Name="ReceiverID" Mode="In" Type="Int32" />
+            <Parameter Name="ShippingAddress" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -4491,6 +4503,12 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="PendingDeliveryAdviceDescription">
+          <Property Type="Int32" Name="DeliveryAdviceID" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5845,6 +5863,16 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetPendingDeliveryAdviceDescriptions" FunctionName="TotalSalesPortalModel.Store.GetPendingDeliveryAdviceDescriptions">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalSalesPortalModel.PendingDeliveryAdviceDescription">
+                <ScalarProperty Name="DeliveryAdviceID" ColumnName="DeliveryAdviceID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

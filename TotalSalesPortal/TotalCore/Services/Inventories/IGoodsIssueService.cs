@@ -8,5 +8,7 @@ namespace TotalCore.Services.Inventories
     public interface IGoodsIssueService : IGenericWithViewDetailService<GoodsIssue, GoodsIssueDetail, GoodsIssueViewDetail, GoodsIssueDTO, GoodsIssuePrimitiveDTO, GoodsIssueDetailDTO>
     {
         ICollection<GoodsIssueViewDetail> GetGoodsIssueViewDetails(int goodsIssueID, int locationID, int deliveryAdviceID, int customerID, int receiverID, string shippingAddress, bool isReadOnly);
+
+        List<PendingDeliveryAdviceDescription> GetDescriptions(int locationID, int customerID, int receiverID, string shippingAddress);
     }
 }

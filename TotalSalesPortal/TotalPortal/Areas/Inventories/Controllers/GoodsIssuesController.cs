@@ -36,11 +36,17 @@ namespace TotalPortal.Areas.Inventories.Controllers
 
         protected override GoodsIssueViewModel InitViewModelByPrior(GoodsIssueViewModel simpleViewModel)
         {
-            return base.InitViewModelByPrior(simpleViewModel);
-            //if (simpleViewModel.CustomerID > 0 && simpleViewModel.DeliveryAdviceID == null)
-            //{
+            simpleViewModel = base.InitViewModelByPrior(simpleViewModel);
+            if (simpleViewModel.CustomerID > 0 && simpleViewModel.DeliveryAdviceID == null)
+            {
+                List<PendingDeliveryAdviceDescription> pendingDeliveryAdviceDescriptions = this.goodsIssueService.GetDescriptions(this.goodsIssueService.LocationID, simpleViewModel.CustomerID, simpleViewModel.ReceiverID, simpleViewModel.ShippingAddress);
 
-            //}
+                string description = ""; string remarks = "";
+                pendingDeliveryAdviceDescriptions.ForEach(e => { description = description + (description != "" ? ", " : "") + e.Reference + ": " + e.Description; remarks = remarks + (remarks != "" ? ", " : "") + e.Reference + ": " + e.Remarks; });
+                simpleViewModel.Description = description; simpleViewModel.Remarks = remarks;
+            }
+
+            return simpleViewModel;
         }
 
 

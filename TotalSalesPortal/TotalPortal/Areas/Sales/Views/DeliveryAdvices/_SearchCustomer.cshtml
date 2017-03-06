@@ -7,11 +7,13 @@
     .Name("gridPromotion")
     .Columns(columns =>
     {
-        columns.Bound(c => c.Code).Title("Mã chương trình").Width(18);
+        columns.Bound(c => c.Code).Title("Mã khuyến mãi").Width(12);
         columns.Bound(c => c.Name).Title("Tên chương trình").Width(35);
 
         columns.Bound(c => c.DiscountPercent).Title("% CK").Width(5).HtmlAttributes(new { @class = "grid-number-column" }).Format("{0:n0}");
-        columns.Bound(c => c.Remarks).Title("Ghi chú").Width(25);
+        columns.Bound(c => c.StartDate).Title("Ngày BĐ").Width(10).Format("{0:" + SettingsManager.DateFormat + "}");
+        columns.Bound(c => c.EndDate).Title("Ngày KT").Width(10).Format("{0:" + SettingsManager.DateFormat + "}");
+        columns.Bound(c => c.Remarks).Title("Ghi chú").Width(30);
     })
     .ToolBar(toolbar =>
         {

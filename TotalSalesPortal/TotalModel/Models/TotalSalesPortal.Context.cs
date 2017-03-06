@@ -865,5 +865,26 @@ namespace TotalModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("GetShowDiscount", userIDParameter, nMVNTaskIDParameter);
         }
+    
+        public virtual ObjectResult<PendingDeliveryAdviceDescription> GetPendingDeliveryAdviceDescriptions(Nullable<int> locationID, Nullable<int> customerID, Nullable<int> receiverID, string shippingAddress)
+        {
+            var locationIDParameter = locationID.HasValue ?
+                new ObjectParameter("LocationID", locationID) :
+                new ObjectParameter("LocationID", typeof(int));
+    
+            var customerIDParameter = customerID.HasValue ?
+                new ObjectParameter("CustomerID", customerID) :
+                new ObjectParameter("CustomerID", typeof(int));
+    
+            var receiverIDParameter = receiverID.HasValue ?
+                new ObjectParameter("ReceiverID", receiverID) :
+                new ObjectParameter("ReceiverID", typeof(int));
+    
+            var shippingAddressParameter = shippingAddress != null ?
+                new ObjectParameter("ShippingAddress", shippingAddress) :
+                new ObjectParameter("ShippingAddress", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingDeliveryAdviceDescription>("GetPendingDeliveryAdviceDescriptions", locationIDParameter, customerIDParameter, receiverIDParameter, shippingAddressParameter);
+        }
     }
 }

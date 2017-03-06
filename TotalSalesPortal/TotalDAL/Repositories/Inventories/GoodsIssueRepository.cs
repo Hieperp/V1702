@@ -14,6 +14,11 @@ namespace TotalDAL.Repositories.Inventories
             : base(totalSalesPortalEntities, "GoodsIssueEditable", "GoodsIssueApproved")
         {
         }
+
+        public List<PendingDeliveryAdviceDescription> GetDescriptions(int locationID, int customerID, int receiverID, string shippingAddress)
+        {
+            return this.TotalSalesPortalEntities.GetPendingDeliveryAdviceDescriptions(locationID, customerID, receiverID, shippingAddress).ToList();
+        }
     }
 
 

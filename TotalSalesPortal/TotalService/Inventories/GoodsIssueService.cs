@@ -31,6 +31,12 @@ namespace TotalService.Inventories
         {
             ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("GoodsIssueID", goodsIssueID), new ObjectParameter("LocationID", locationID), new ObjectParameter("DeliveryAdviceID", deliveryAdviceID), new ObjectParameter("CustomerID", customerID), new ObjectParameter("ReceiverID", receiverID), new ObjectParameter("ShippingAddress", shippingAddress), new ObjectParameter("IsReadOnly", isReadOnly) };
             return this.GetViewDetails(parameters);
-        }        
+        }
+
+        public List<PendingDeliveryAdviceDescription> GetDescriptions(int locationID, int customerID, int receiverID, string shippingAddress)
+        {
+            return this.goodsIssueRepository.GetDescriptions(locationID, customerID, receiverID, shippingAddress);
+        }
+
     }
 }
