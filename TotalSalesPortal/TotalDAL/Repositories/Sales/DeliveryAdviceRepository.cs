@@ -16,10 +16,11 @@ namespace TotalDAL.Repositories.Sales
             : base(totalSalesPortalEntities, "DeliveryAdviceEditable", "DeliveryAdviceApproved", null, "DeliveryAdviceVoidable")
         {
 
+            return;
+
             Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);
             saleReports.RestoreProcedure();
 
-            return;
 
             Helpers.SqlProgrammability.Accounts.AccountInvoice accountInvoice = new Helpers.SqlProgrammability.Accounts.AccountInvoice(totalSalesPortalEntities);
             accountInvoice.RestoreProcedure();
