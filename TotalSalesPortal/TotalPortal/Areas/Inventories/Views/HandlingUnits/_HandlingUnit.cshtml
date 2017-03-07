@@ -118,11 +118,11 @@
 
                     columns.Bound(p => p.CommodityID).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= CommodityID #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].CommodityID' value='#= CommodityID #' />");
-                    columns.Bound(p => p.CommodityCode).DisplayNameTitle().Filterable(false).Hidden()
-                        .ClientTemplate("#= CommodityCode #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].CommodityCode' value='#= CommodityCode #' />");
-                    columns.Bound(p => p.CommodityName).DisplayNameTitle().Filterable(false).Width(300)
-                        .ClientFooterTemplate("Tổng cộng (#= kendo.format('{0:n0}', count) # dòng)")
+                    columns.Bound(p => p.CommodityName).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= CommodityName #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].CommodityName' value='#= CommodityName #' />");
+                    columns.Bound(p => p.CommodityCode).DisplayNameTitle().Filterable(false).Width(300)
+                        .ClientFooterTemplate("Tổng cộng (#= kendo.format('{0:n0}', count) # dòng)")
+                        .ClientTemplate("#= CommodityCode #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].CommodityCode' value='#= CommodityCode #' />");
 
                     columns.Bound(p => p.CommodityTypeID).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= CommodityTypeID #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].CommodityTypeID' value='#= CommodityTypeID #' />");
@@ -200,7 +200,7 @@
                     {
                         events.Error("kendGrid_ErrorHandler");
                     })
-                    .Aggregates(a => a.Add(x => x.CommodityName).Count())
+                    .Aggregates(a => a.Add(x => x.CommodityCode).Count())
                     .Aggregates(a => a.Add(x => x.QuantityRemains).Sum())
                     .Aggregates(a => a.Add(x => x.Quantity).Sum())
                     .Aggregates(a => a.Add(x => x.Weight).Sum())

@@ -29,7 +29,7 @@ namespace TotalDTO.Inventories
         public System.DateTime GoodsIssueEntryDate { get; set; }
 
         [UIHint("StringReadonly")]
-        public override string CommodityName { get; set; }
+        public override string CommodityCode { get; set; }
 
         [Display(Name = "SL XK")]
         [UIHint("DecimalReadonly")]

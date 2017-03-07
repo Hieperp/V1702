@@ -21,7 +21,7 @@ namespace TotalDTO.Inventories
         public string DeliveryAdviceReference { get; set; }
 
         [UIHint("StringReadonly")]
-        public override string CommodityName { get; set; }
+        public override string CommodityCode { get; set; }
 
 
         [Display(Name = "SL ĐN")]

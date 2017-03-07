@@ -26,7 +26,7 @@ namespace TotalDTO.Accounts
         public System.DateTime GoodsIssueEntryDate { get; set; }
 
         [UIHint("StringReadonly")]
-        public override string CommodityName { get; set; }
+        public override string CommodityCode { get; set; }
 
         [Display(Name = "SL ĐH")]
         [UIHint("DecimalReadonly")]

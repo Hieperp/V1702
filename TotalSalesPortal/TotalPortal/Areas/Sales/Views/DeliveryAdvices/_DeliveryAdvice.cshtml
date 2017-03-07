@@ -102,15 +102,15 @@
 
                     columns.Bound(p => p.CommodityID).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= CommodityID #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].CommodityID' value='#= CommodityID #' />");
-                    columns.Bound(p => p.CommodityCode).DisplayNameTitle().Filterable(false).Width(90).HtmlAttributes(new { style = "" }).Hidden()
-                        .ClientTemplate("#= CommodityCode #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].CommodityCode' value='#= CommodityCode #' />");
-                    columns.Bound(p => p.CommodityName).DisplayNameTitle().Filterable(false).Width(200)
+                    columns.Bound(p => p.CommodityName).DisplayNameTitle().Filterable(false).Width(90).HtmlAttributes(new { style = "" }).Hidden()
+                        .ClientTemplate("#= CommodityName #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].CommodityName' value='#= CommodityName #' />");
+                    columns.Bound(p => p.CommodityCode).DisplayNameTitle().Filterable(false).Width(200)
                         .ClientFooterTemplate("Tổng cộng (#= kendo.format('{0:n0}', count) # dòng)")
-                        .ClientTemplate("<div> #= CommodityName #</div>" +
+                        .ClientTemplate("<div> #= CommodityCode #</div>" +
                         //"<div> #= '[' ##= WarehouseCode ##= ']' #</div>" +
                                 "<div> #= (VoidTypeName == null)? '' : VoidTypeName #</div>" +
                                 "<div class = 'isBonus'> #= (IsBonus == true) ? '[Quà tặng]' : '' #</div>" +
-                                "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].CommodityName' value='#= CommodityName #' />");
+                                "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].CommodityCode' value='#= CommodityCode #' />");
 
                     columns.Bound(p => p.CommodityTypeID).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= CommodityTypeID #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].CommodityTypeID' value='#= CommodityTypeID #' />");
@@ -286,7 +286,7 @@
                     {
                         events.Error("kendGrid_ErrorHandler");
                     })
-                    .Aggregates(a => a.Add(x => x.CommodityName).Count())
+                    .Aggregates(a => a.Add(x => x.CommodityCode).Count())
                     .Aggregates(a => a.Add(x => x.Quantity).Sum())
                     .Aggregates(a => a.Add(x => x.FreeQuantity).Sum())
                     .Aggregates(a => a.Add(x => x.DiscountPercent).Average())

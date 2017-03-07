@@ -16,7 +16,7 @@ namespace TotalDTO.Inventories
         public int HandlingUnitID { get; set; }
 
         public override int CommodityID { get { return 1; } }
-        public override string CommodityName { get { return "#"; } }
+        public override string CommodityCode { get { return "#"; } }
         public override int CommodityTypeID { get { return 1; } }
 
 

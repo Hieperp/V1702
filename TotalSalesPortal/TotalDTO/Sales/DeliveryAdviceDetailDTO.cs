@@ -52,7 +52,7 @@ namespace TotalDTO.Sales
         public Nullable<int> PromotionID { get; set; }
 
         [UIHint("AutoCompletes/CommodityAvailable")]
-        public override string CommodityName { get; set; }
+        public override string CommodityCode { get; set; }
 
         [UIHint("DecimalReadonly")]
         public override decimal FreeQuantity { get; set; }
