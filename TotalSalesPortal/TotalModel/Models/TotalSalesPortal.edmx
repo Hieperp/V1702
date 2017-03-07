@@ -189,6 +189,8 @@
           <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="OfficialName" Type="nvarchar" MaxLength="150" />
+          <Property Name="VendorCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="VendorCategory" Type="nvarchar" MaxLength="80" />
           <Property Name="PriceCategoryID" Type="int" Nullable="false" />
           <Property Name="SalespersonID" Type="int" Nullable="false" />
           <Property Name="CustomerCategoryID" Type="int" Nullable="false" />
@@ -3718,6 +3720,8 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <NavigationProperty Name="CustomerType" Relationship="TotalSalesPortalModel.FK_Customers_CustomerTypes" FromRole="Customer" ToRole="CustomerType" />
           <NavigationProperty Name="HandlingUnits" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Customers" FromRole="Customer" ToRole="HandlingUnit" />
           <NavigationProperty Name="HandlingUnits1" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Customers1" FromRole="Customer" ToRole="HandlingUnit" />
+          <Property Name="VendorCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="VendorCategory" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="DeliveryAdviceDetail">
           <Key>
@@ -5590,6 +5594,8 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.Customer">
               <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="VendorCategory" ColumnName="VendorCategory" />
+                <ScalarProperty Name="VendorCode" ColumnName="VendorCode" />
                 <ScalarProperty Name="IsFemale" ColumnName="IsFemale" />
                 <ScalarProperty Name="IsSupplier" ColumnName="IsSupplier" />
                 <ScalarProperty Name="IsCustomer" ColumnName="IsCustomer" />

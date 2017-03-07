@@ -89,7 +89,7 @@ label { /*override bootstrap label css*/
 #header {
     float: left;
     width: 100%;
-    margin-left: 10px;
+    padding-left: 10px;
     /*border-bottom: 1px dotted #5D5A53;*/
     /*margin-bottom: 5px;*/
 }
@@ -132,6 +132,11 @@ ul {
 }
 
 /******************** Top Navigation ************************/
+
+.navbar-right {
+    margin: 0px;
+}
+
 ul#navlist {
     float: right;
 }

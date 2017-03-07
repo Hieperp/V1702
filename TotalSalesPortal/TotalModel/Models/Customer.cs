@@ -52,6 +52,8 @@ namespace TotalModel.Models
         public bool IsCustomer { get; set; }
         public bool IsSupplier { get; set; }
         public bool IsFemale { get; set; }
+        public string VendorCode { get; set; }
+        public string VendorCategory { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }
