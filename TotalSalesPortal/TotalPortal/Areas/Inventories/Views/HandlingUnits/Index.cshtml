@@ -11,12 +11,12 @@
             columns.Bound(p => p.LocationCode).Title("CN").Width(1);
             columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(40).Hidden();
             columns.Bound(p => p.CustomerDescription).Title("KH").Width(410).Hidden();
-            columns.Bound(p => p.GoodsIssueReferences).Title("Phiếu xuất kho").Width(200);
-            columns.Bound(p => p.LotNo).Title("Lô").HtmlAttributes(new { @class = "grid-column-center" }).Filterable(false).Width(115).Width(20);
+            columns.Bound(p => p.GoodsIssueReferences).Title("Phiếu xuất kho").Width(90);
+            columns.Bound(p => p.LotNo).Title("Lô").HtmlAttributes(new { @class = "grid-column-center" }).Filterable(false).Width(115).Width(20).Sortable(false);
             columns.Bound(p => p.PackingMaterialCode).Title("BB").Width(50);
-            columns.Bound(p => p.Identification).Title("Stt").HtmlAttributes(new { @class = "grid-column-center" }).Filterable(false).Width(115).Width(20);
+            columns.Bound(p => p.Identification).Title("Stt").HtmlAttributes(new { @class = "grid-column-center" }).Filterable(false).Width(115).Width(20).Sortable(false);
             columns.Bound(p => p.CountIdentification).Title("TC").HtmlAttributes(new { @class = "grid-column-center" }).Filterable(false).Width(115).Width(20);
-            columns.Bound(p => p.Description).Title("Diễn giải").Filterable(false).Width(120);
+            columns.Bound(p => p.Description).Title("Diễn giải").Filterable(false).Width(230);
             columns.Bound(p => p.TotalQuantity).Title("SL").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).Width(20);
             columns.Bound(p => p.TotalWeight).Title("TL").Format("{0:n2}").HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).Width(20);
             columns.Bound(p => p.RealWeight).Title("TL TT").Format("{0:n2}").HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).Width(20);
@@ -46,8 +46,9 @@
                     .Read(read => read.Action("GetHandlingUnitIndexes", "HandlingUnitAPIs", new { area = "Inventories" }))
                     .Sort(sort =>
                         {
-                            sort.Add(p => p.LotNo).Descending();
-                            sort.Add(p => p.Identification).Descending();
+                            sort.Add(p => p.GoodsIssueID);
+                            sort.Add(p => p.LotNo);
+                            sort.Add(p => p.Identification);
                         })
                     .PageSize(20)
                     .Model(model =>

@@ -30,5 +30,6 @@ namespace TotalModel.Models
         public string PackingMaterialCode { get; set; }
         public decimal WeightDifference { get; set; }
         public int LotNo { get; set; }
+        public Nullable<int> GoodsIssueID { get; set; }
     }
 }
