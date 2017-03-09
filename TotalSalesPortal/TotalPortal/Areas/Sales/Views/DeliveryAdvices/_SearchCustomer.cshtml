@@ -22,7 +22,7 @@
                     @Html.EditorFor(d => d.Customer, "AutoCompletes/CustomerBase", new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Customer) })
                     @Html.EditorFor(d => d.Receiver, "AutoCompletes/CustomerBase", new { CustomerDescriptionHidden = "true", CustomerDisplayName = @Model.GetDisplayName(m => m.Receiver), CustomerIcon = "Customer Red 24.png" })
 
-                    @Html.EditorFor(d => d.ShippingAddress, new { ShippingAddressReadonly = true })
+                    @Html.EditorFor(d => d.ShippingAddress)
 
                     @Html.Partial("~/Views/Helpers/Commons/_PriceCategory.cshtml")
 
