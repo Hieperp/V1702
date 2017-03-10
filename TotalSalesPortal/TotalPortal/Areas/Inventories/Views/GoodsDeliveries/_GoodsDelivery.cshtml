@@ -29,7 +29,7 @@
     </div>
 
     <div class="right-panel">
-        <div style="clear: both; height: 87px;">
+        <div style="clear: both; height: 96px;">
             @Html.EditorFor(d => d.Receiver, new { CustomerDisplayName = @Model.GetDisplayName(m => m.Receiver), CustomerIcon = "Customer Red 24.png", NullCustomer = (Model.ReceiverID > 0 ? null : "Giao hàng tổng hợp của nhiều khách hàng"), CustomerInfo = (Model.ReceiverID > 0 ? null : "Chi tiết địa chỉ giao hàng căn cứ phiếu xuất kho của từng khách hàng") })
         </div>
 

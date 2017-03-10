@@ -80,7 +80,7 @@
     </div>
 
     <div class="right-panel">
-        <div style="clear: both; height: 168px;">
+        <div style="clear: both; height: 177px;">
 
             @Html.EditorFor(d => d.Customer, new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Customer) })
             @Html.EditorFor(d => d.Receiver, new { CustomerDescriptionHidden = "true", CustomerDisplayName = @Model.GetDisplayName(m => m.Receiver), CustomerIcon = "Customer Red 24.png" })
