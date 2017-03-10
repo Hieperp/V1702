@@ -19,7 +19,7 @@
 
 
 body {
-    font-size: 13px;
+    font-size: 15px;
     font-family: Calibri;
     background-color: #FBF9EF;
     /*background-color: white;           Arial, Helvetica, sans-serif*/
@@ -37,7 +37,7 @@ label { /*override bootstrap label css*/
 }
 
 #main-body {
-    margin-left: 70px;
+    margin-left: 75px;
     padding-top: 15px;
     padding-right: 0px;
 }
@@ -467,8 +467,8 @@ tr:hover {
 }
 
 #grouplist > li {
-    height: 66px;
-    width: 70px;
+    height: 71px;
+    width: 76px;
     margin-top: 1px;
     margin-bottom: 1px;
 }
@@ -561,7 +561,7 @@ tr:hover {
 #top-menu-container {
     width: 100%;
     min-width: 1150px;
-    height: 56px;
+    height: 62px;
     clear: both;
     background-color: forestgreen;
     text-align: right;
@@ -570,8 +570,8 @@ tr:hover {
 }
 
 .MainMenu-left {
-    height: 56px;
-    width: 385px;
+    height: 62px;
+    width: 425px;
     float: left;
     background: linear-gradient(#ca4646, darkred); /*linear-gradient(darkred, #66A5C9);*/
 }
@@ -585,7 +585,7 @@ tr:hover {
     #MainMenu > .k-item {
         border: 0px;
         width: 93px;
-        height: 56px;
+        height: 62px;
         /*padding: 2px;*/
         /*font-size: small;*/
         font-weight: normal;
@@ -602,7 +602,7 @@ tr:hover {
         #MainMenu > .k-item > .k-link:hover {
             color: yellow;
             background-color: #ca0e0b;
-            height: 52px;
+            height: 58px;
             box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.4) inset;
             -webkit-animation: myfirst 1s; /* Chrome, Safari, Opera */
             animation: myfirst 1s; /*animation: orange-red 4s;*/

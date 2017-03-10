@@ -3,7 +3,7 @@
 @Html.HiddenFor(model => model.PriceCategoryID)
 @Html.HiddenFor(model => model.PriceCategoryCode)
 
-<div id="show-current-PriceCategory" style="float: right; margin-top: -150px; text-align: center; width: 110px; height: 110px; " title="Bảng giá, chính sách khuyến mãi hiện tại áp dụng cho đơn hàng">
+<div id="show-current-PriceCategory" style="float: right; margin-top: -155px; text-align: center; width: 110px; height: 110px; " title="Bảng giá, chính sách khuyến mãi hiện tại áp dụng cho đơn hàng">    @* margin-top: -150px;    *@
     <div style="height: 90px; padding-left: 22px; padding-right: 22px; padding-top: 32px;"> <span id="label_PriceCategoryCode"> @Html.DisplayFor(m => m.PriceCategoryCode) </span></div>
     <div class="div-validation-message">
         @Html.ValidationMessageFor(model => model.PriceCategoryCode, "", new { @class = "text-danger" })
