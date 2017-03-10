@@ -1,4 +1,59 @@
-﻿* {
+﻿
+
+/*
+ These are the values of CSS need to be considered when change font to Calibri 13px
+       
+ .MainMenu-left {
+    height: 56px;
+	width: 385px;
+}
+
+
+body {
+    font-size: 13px;
+
+
+
+#top-menu-container {
+    height: 56px;
+}
+
+
+
+#MainMenu > .k-item {
+        height: 56px;        
+    }
+
+
+
+
+
+#MainMenu > .k-item > .k-link:hover {
+            
+            height: 52px; //Tuc 56-4 pixel
+            
+        }
+
+
+#main-body {
+    margin-left: 70px;
+}
+
+#grouplist > li {
+    height: 66px;
+    width: 70px;
+}*/
+
+
+
+
+
+
+
+
+
+
+* {
     margin: 0px;
     padding: 0px;
     border: none;
@@ -956,7 +1011,18 @@ ul.k-panelbar .k-link {
 
 .right-top-panel{
     clear: both; 
+}
+
+.right-top-panel-H1{
     height: 177px;
+}
+
+.right-top-panel-H2{
+    height: 134px;
+}
+
+.right-top-panel-H3{
+    height: 96px;
 }
 
 .right-first-panel {

@@ -5,12 +5,11 @@
     .Name("pendingDeliveryAdviceGrid")
     .Columns(columns =>
     {
-        columns.Bound(c => c.DeliveryAdviceReference).Title("Số phiếu").Width(30);
-        columns.Bound(c => c.DeliveryAdviceEntryDate).Title("Ngày").Width(70).Format("{0:" + SettingsManager.DateTimeFormat + "}");
-        columns.Bound(c => c.CustomerName).Title("Khách hàng").Width(170);
-        columns.Bound(c => c.ReceiverCode).Title("Mã ĐVN").Width(60);
-        columns.Bound(c => c.ReceiverName).Title("Đơn vị nhận").Width(170);
-        columns.Bound(c => c.Description).Title("Ghi chú").Width(70);
+        columns.Bound(c => c.DeliveryAdviceReference).Title("Số phiếu").Width(40);
+        columns.Bound(c => c.DeliveryAdviceEntryDate).Title("Ngày").Width(80).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Bound(c => c.CustomerName).Title("Khách hàng").Width(150);
+        columns.Bound(c => c.ReceiverDescription).Title("Giao hàng").Width(200);
+        columns.Bound(c => c.Description).Title("Ghi chú").Width(100);
     })
     .ToolBar(toolbar =>
     {

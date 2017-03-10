@@ -80,7 +80,7 @@
     </div>
 
     <div class="right-panel">
-        <div style="clear: both; height: 177px;">
+        <div class="right-top-panel right-top-panel-H1">
 
             @Html.EditorFor(d => d.Customer, new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Customer) })
             @Html.EditorFor(d => d.Receiver, new { CustomerDescriptionHidden = "true", CustomerDisplayName = @Model.GetDisplayName(m => m.Receiver), CustomerIcon = "Customer Red 24.png" })
@@ -110,9 +110,9 @@
                     columns.Bound(p => p.GoodsIssueDetailID).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= GoodsIssueDetailID #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].GoodsIssueDetailID' value='#= GoodsIssueDetailID #' />");
 
-                    columns.Bound(p => p.GoodsIssueReference).DisplayNameTitle().Filterable(false).Width(60)
+                    columns.Bound(p => p.GoodsIssueReference).DisplayNameTitle().Filterable(false).Width(50)
                         .ClientTemplate("#= GoodsIssueReference #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].GoodsIssueReference' value='#= GoodsIssueReference #' />");
-                    columns.Bound(p => p.GoodsIssueEntryDate).DisplayNameTitle().Filterable(false).Width(130)
+                    columns.Bound(p => p.GoodsIssueEntryDate).DisplayNameTitle().Filterable(false).Width(150)
                         .ClientTemplate("#= GoodsIssueEntryDate ? kendo.toString(kendo.parseDate(GoodsIssueEntryDate), '" + SettingsManager.DateTimeFormat + "') : '' #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].GoodsIssueEntryDate' value='#= kendo.toString(GoodsIssueEntryDate, '" + SettingsManager.DateTimeFormat + "') #' />");
                     
 
@@ -150,7 +150,7 @@
                     columns.Bound(p => p.Remarks).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= (Remarks == null)? '' : Remarks #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].Remarks' value='#= (Remarks == null) ? '' : Remarks #' />");
 
-                    columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50);
+                    columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(40);
                 })
                 .Filterable()
                 .Navigatable()

@@ -47,7 +47,16 @@ namespace TotalModel.Models
 
 
 
+    public partial class PendingDeliveryAdvice
+    {
+        public string ReceiverDescription { get { return (this.CustomerID != this.ReceiverID ? this.ReceiverName + ", " : "") + this.ShippingAddress; } }
+    }
 
+    public partial class PendingDeliveryAdviceCustomer
+    {
+        public string ReceiverDescription { get { return (this.CustomerID != this.ReceiverID ? this.ReceiverName + ", " : "") + this.ShippingAddress; } }
+    }
+    
     public partial class HandlingUnitIndex
     {
         public string CustomerDescription { get { return this.CustomerName + (this.CustomerName != this.ReceiverName ? ", Người nhận: " + this.ReceiverName : "") + ", Giao hàng: " + this.ShippingAddress; } }

@@ -45,7 +45,7 @@ namespace TotalDTO.Inventories
 
         [Display(Name = "Loại thùng, bao")]
         public int PackingMaterialID { get; set; }
-        [Display(Name = "Quy cách, kích thước thùng, bao")]
+        [Display(Name = "Quy cách, kích thước")]
         public string Dimension { get; set; }
 
         public string GoodsIssueReferences { get; set; }

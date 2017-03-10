@@ -34,7 +34,7 @@
                 </div>
             </text>);
         })
-        .Scrollable(s => s.Height(214))
+        .Scrollable(s => s.Height(209))
         .DataSource(ds => ds.Ajax()
         .Read(read => read.Action("GetPromotionByCustomers", "PromotionAPIs", new { area = "Commons" }).Data("onGetPromotionByCustomers"))
         .ServerOperation(true))

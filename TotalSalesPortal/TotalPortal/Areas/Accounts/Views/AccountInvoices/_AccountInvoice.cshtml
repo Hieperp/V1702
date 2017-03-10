@@ -58,7 +58,7 @@
     </div>
 
     <div class="right-panel">
-        <div style="clear: both; height: 136px;">
+        <div class="right-top-panel right-top-panel-H2">
             @Html.EditorFor(d => d.Customer, new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Customer) })
             @*@Html.EditorFor(d => d.Consumer, new { CustomerDescriptionHidden = "true", CustomerDisplayName = @Model.GetDisplayName(m => m.Consumer), CustomerIcon = "Customer Red 24.png" })*@
 
