@@ -46,7 +46,7 @@
 
                 currentDataSourceRow.set("DiscountPercent", dataItem.DiscountPercent);
 
-                window.commodityNameBeforeChange = dataItem.CommodityName;
+                window.commodityCodeBeforeChange = dataItem.CommodityCode;
             }
             else
                 e.preventDefault();
@@ -57,7 +57,7 @@
 
 
     definedExemplar.prototype.handleChange = function (e) {
-        this._setEditorValue("CommodityName", window.commodityNameBeforeChange);
+        this._setEditorValue("CommodityCode", window.commodityCodeBeforeChange);
     };
 
 

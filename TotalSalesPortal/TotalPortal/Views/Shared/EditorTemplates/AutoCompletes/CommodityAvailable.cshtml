@@ -3,8 +3,8 @@
 @model string
 
 @(Html.Kendo().AutoCompleteFor(m => m)
-        .Name("CommodityName")
-        .DataTextField("CommodityName")
+        .Name("CommodityCode")
+        .DataTextField("CommodityCode")
         .Filter("contains")
         .MinLength(SettingsManager.AutoCompleteMinLenght)
         .Placeholder("Nhập tên hoặc mã hàng ...")
@@ -33,7 +33,7 @@
                     priceCategoryID: $("#PriceCategoryID").val(),
                     promotionID: $("#Promotion_PromotionID").val(),
                     entryDate: $("#EntryDate").data("kendoDateTimePicker").value().toUTCString(),
-                    searchText: $("#CommodityName").data("kendoAutoComplete").value()
+                    searchText: $("#CommodityCode").data("kendoAutoComplete").value()
                     };}
 
                 </text>);
@@ -52,8 +52,8 @@
 )
 
 <script type="text/javascript">
-    $("#CommodityName").focus(function (e) {
-        window.commodityNameBeforeChange = $("#CommodityName").val();
+    $("#CommodityCode").focus(function (e) {
+        window.commodityCodeBeforeChange = $("#CommodityCode").val();
     });
 </script>
 
@@ -111,10 +111,10 @@
 
 
 /*#region styles for each use of the Editor tenplate CommodityAvailable.cshtml*/    
-#CommodityName-list .k-item {
+#CommodityCode-list .k-item {
     white-space: nowrap;
 }
-    /*CURRENT: Editor tenplate CommodityAvailable.cshtml bind with model CommodityName => the autocomplete editor ID will be #CommodityName */
+    /*CURRENT: Editor tenplate CommodityAvailable.cshtml bind with model CommodityCode => the autocomplete editor ID will be #CommodityCode */
     /*LATER: if this Editor tenplate CommodityAvailable.cshtml is used for another model, Ex model: XyzName => the ID will be #XyzName, then new css will be add. for this example #XyzName-list .k-item {padding: 0px; white-space: nowrap;} */
 
 /*#endregion */
