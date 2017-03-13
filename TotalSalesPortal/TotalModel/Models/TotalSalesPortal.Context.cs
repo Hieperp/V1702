@@ -886,5 +886,14 @@ namespace TotalModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingDeliveryAdviceDescription>("GetPendingDeliveryAdviceDescriptions", locationIDParameter, customerIDParameter, receiverIDParameter, shippingAddressParameter);
         }
+    
+        public virtual ObjectResult<Nullable<bool>> GetShowDiscountByCustomer(Nullable<int> customerID)
+        {
+            var customerIDParameter = customerID.HasValue ?
+                new ObjectParameter("CustomerID", customerID) :
+                new ObjectParameter("CustomerID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("GetShowDiscountByCustomer", customerIDParameter);
+        }
     }
 }

@@ -10,6 +10,7 @@ using TotalBase.Enums;
 using TotalModel.Models;
 
 using TotalCore.Services.Sales;
+using TotalCore.Repositories.Commons;
 
 using TotalDTO.Sales;
 
@@ -23,9 +24,12 @@ namespace TotalPortal.Areas.Sales.Controllers
 {
     public class DeliveryAdvicesController : GenericViewDetailController<DeliveryAdvice, DeliveryAdviceDetail, DeliveryAdviceViewDetail, DeliveryAdviceDTO, DeliveryAdvicePrimitiveDTO, DeliveryAdviceDetailDTO, DeliveryAdviceViewModel>
     {
-        public DeliveryAdvicesController(IDeliveryAdviceService deliveryAdviceService, IDeliveryAdviceViewModelSelectListBuilder deliveryAdviceViewModelSelectListBuilder)
+        private readonly ICustomerRepository customerRepository;
+
+        public DeliveryAdvicesController(IDeliveryAdviceService deliveryAdviceService, IDeliveryAdviceViewModelSelectListBuilder deliveryAdviceViewModelSelectListBuilder, ICustomerRepository customerRepository)
             : base(deliveryAdviceService, deliveryAdviceViewModelSelectListBuilder, true)
         {
+            this.customerRepository = customerRepository;
         }
 
         public override void AddRequireJsOptions()
@@ -37,6 +41,14 @@ namespace TotalPortal.Areas.Sales.Controllers
             commodityTypeIDList.Append(","); commodityTypeIDList.Append((int)GlobalEnums.CommodityTypeID.Consumables);
 
             RequireJsOptions.Add("commodityTypeIDList", commodityTypeIDList.ToString(), RequireJsOptionsScope.Page);
+        }
+
+        protected override bool GetShowDiscount(DeliveryAdviceViewModel simpleViewModel)
+        {
+            if (base.GetShowDiscount(simpleViewModel))
+                return true;
+            else
+                return this.customerRepository.GetShowDiscount(simpleViewModel.CustomerID);
         }
 
 

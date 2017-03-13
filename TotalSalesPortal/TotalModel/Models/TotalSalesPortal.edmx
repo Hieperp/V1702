@@ -180,6 +180,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="AncestorID" Type="int" />
           <Property Name="PriceCategoryID" Type="int" Nullable="false" />
+          <Property Name="ShowDiscount" Type="bit" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Customers">
@@ -1644,6 +1645,9 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="NMVNTaskID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetShowDiscountByCustomer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CustomerID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetUnApprovalPermitted" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="NMVNTaskID" Type="int" Mode="In" />
@@ -2565,6 +2569,9 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <Parameter Name="ReceiverID" Mode="In" Type="Int32" />
             <Parameter Name="ShippingAddress" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="GetShowDiscountByCustomer" ReturnType="Collection(Boolean)">
+            <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -2693,6 +2700,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <NavigationProperty Name="CustomerCategory1" Relationship="TotalSalesPortalModel.FK_CustomerCategories_CustomerCategories" FromRole="CustomerCategory1" ToRole="CustomerCategory" />
           <Property Name="PriceCategoryID" Type="Int32" Nullable="false" />
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ShowDiscount" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="CustomerType">
           <Key>
@@ -4678,6 +4686,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <EntitySetMapping Name="CustomerCategories">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.CustomerCategory">
               <MappingFragment StoreEntitySet="CustomerCategories">
+                <ScalarProperty Name="ShowDiscount" ColumnName="ShowDiscount" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="PriceCategoryID" ColumnName="PriceCategoryID" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
@@ -5884,6 +5893,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetShowDiscountByCustomer" FunctionName="TotalSalesPortalModel.Store.GetShowDiscountByCustomer" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

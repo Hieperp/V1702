@@ -58,6 +58,15 @@ namespace TotalDAL.Repositories.Commons
 
             return suppliers;
         }
+
+        public bool GetShowDiscount(int customerID)
+        {
+            if (customerID == null || customerID == 0 ) return false;
+
+            bool? showDiscount = this.TotalSalesPortalEntities.GetShowDiscountByCustomer(customerID).Single();
+            return showDiscount == null ? false : (bool)showDiscount;
+        }
+
     }
 }
 

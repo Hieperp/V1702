@@ -12,5 +12,7 @@ namespace TotalCore.Repositories.Commons
 
         IList<Customer> GetAllCustomers();
         IList<Customer> GetAllSuppliers();
+
+        bool GetShowDiscount(int customerID);
     }
 }

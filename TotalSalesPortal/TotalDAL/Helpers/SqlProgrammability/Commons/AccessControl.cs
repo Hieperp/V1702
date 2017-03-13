@@ -22,6 +22,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             this.GetUnVoidablePermitted();
 
             this.GetShowDiscount();
+            this.GetShowDiscountByCustomer();
             this.UpdateLockedDate();
         }
 
@@ -112,6 +113,17 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             queryString = queryString + "       WHERE       UserID = @UserID AND NMVNTaskID = @NMVNTaskID " + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetShowDiscount", queryString);
+        }
+
+        private void GetShowDiscountByCustomer()
+        {
+            string queryString = " @CustomerID Int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "       SELECT      CAST(MAX(CAST(CustomerCategories.ShowDiscount AS Int)) AS Bit) AS ShowDiscount FROM Customers INNER JOIN CustomerCategories ON Customers.CustomerID = @CustomerID AND Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("GetShowDiscountByCustomer", queryString);
         }
 
         private void UpdateLockedDate()

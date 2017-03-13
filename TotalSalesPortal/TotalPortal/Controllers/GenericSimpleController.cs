@@ -573,7 +573,7 @@ namespace TotalPortal.Controllers
             if (forAlter)//NOW THIS GlobalLocked attribute ONLY be considered WHEN ALTER ACTION to USE IN ALTER VIEW: to ALLOW or NOT ALTER.
                 simpleViewModel.GlobalLocked = this.GenericService.GlobalLocked(simpleViewModel);
 
-            simpleViewModel.ShowDiscount = this.GenericService.GetShowDiscount();
+            simpleViewModel.ShowDiscount = this.GetShowDiscount(simpleViewModel);
 
             RequireJsOptions.Add("Editable", simpleViewModel.Editable, RequireJsOptionsScope.Page);
             RequireJsOptions.Add("Deletable", simpleViewModel.Deletable, RequireJsOptionsScope.Page);
@@ -586,6 +586,10 @@ namespace TotalPortal.Controllers
         }
 
 
+        protected virtual bool GetShowDiscount(TSimpleViewModel simpleViewModel)
+        {
+            return this.GenericService.GetShowDiscount();
+        }
 
 
         #region GetViewModel
