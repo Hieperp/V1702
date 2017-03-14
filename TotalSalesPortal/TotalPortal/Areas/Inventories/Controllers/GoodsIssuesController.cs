@@ -3,6 +3,7 @@
 using TotalModel.Models;
 
 using TotalDTO.Inventories;
+using TotalCore.Repositories.Commons;
 using TotalCore.Services.Inventories;
 
 using TotalPortal.Controllers;
@@ -17,12 +18,14 @@ namespace TotalPortal.Areas.Inventories.Controllers
 {
     public class GoodsIssuesController : GenericViewDetailController<GoodsIssue, GoodsIssueDetail, GoodsIssueViewDetail, GoodsIssueDTO, GoodsIssuePrimitiveDTO, GoodsIssueDetailDTO, GoodsIssueViewModel>
     {
+        private readonly ICustomerRepository customerRepository;
         private readonly IGoodsIssueService goodsIssueService;
 
-        public GoodsIssuesController(IGoodsIssueService goodsIssueService, IGoodsIssueViewModelSelectListBuilder goodsIssueViewModelSelectListBuilder)
+        public GoodsIssuesController(IGoodsIssueService goodsIssueService, IGoodsIssueViewModelSelectListBuilder goodsIssueViewModelSelectListBuilder, ICustomerRepository customerRepository)
             : base(goodsIssueService, goodsIssueViewModelSelectListBuilder, true)
         {
             this.goodsIssueService = goodsIssueService;
+            this.customerRepository = customerRepository;
         }
 
 
@@ -33,6 +36,10 @@ namespace TotalPortal.Areas.Inventories.Controllers
             return goodsIssueViewDetails;
         }
 
+        protected override bool GetShowDiscount(GoodsIssueViewModel simpleViewModel)
+        {
+            return base.GetShowDiscount(simpleViewModel) || this.customerRepository.GetShowDiscount(simpleViewModel == null ? 0 : simpleViewModel.CustomerID);
+        }
 
         protected override GoodsIssueViewModel InitViewModelByPrior(GoodsIssueViewModel simpleViewModel)
         {

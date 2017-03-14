@@ -45,10 +45,7 @@ namespace TotalPortal.Areas.Sales.Controllers
 
         protected override bool GetShowDiscount(DeliveryAdviceViewModel simpleViewModel)
         {
-            if (base.GetShowDiscount(simpleViewModel))
-                return true;
-            else
-                return this.customerRepository.GetShowDiscount(simpleViewModel.CustomerID);
+            return base.GetShowDiscount(simpleViewModel) || this.customerRepository.GetShowDiscount(simpleViewModel == null ? 0 : simpleViewModel.CustomerID);
         }
 
 
