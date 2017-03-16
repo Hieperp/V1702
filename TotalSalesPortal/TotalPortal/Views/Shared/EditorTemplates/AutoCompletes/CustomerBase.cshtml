@@ -18,14 +18,10 @@
                 .Placeholder((ViewData["CustomerDisplayName"] != null ? (ViewData["CustomerDisplayName"]).ToString() : "Vui lòng chọn khách hàng"))
                 .HeaderTemplate("<div class=\"dropdown-header general-custom-header customer-custom-header\">" +
                         "<span class=\"k-widget k-header\">Tên</span>" +
-                        "<span class=\"k-widget k-header\">MST</span>" +
-                        "<span class=\"k-widget k-header\">Điện thoại</span>" +
                         "<span class=\"k-widget k-header\">Địa chỉ</span>" +
                         "</div>")
                 .Template("<div class=\"dropdown-body general-custom-body customer-custom-body\">" +
                         "<span class=\"k-state-default\"><p>#: data.CodeAndName #</p></span>" +
-                        "<span class=\"k-state-default\"><p>#: data.VATCode == null? '' : data.VATCode #</p></span>" +
-                        "<span class=\"k-state-default\"><p>#: data.Telephone == null? '' : data.Telephone #</p></span>" +
                         "<span class=\"k-state-default\"><p>#: data.BillingAddress + data.EntireTerritoryEntireName #</p></span>" +
                         "</div>")
                 .DataSource(source =>
@@ -125,19 +121,11 @@
 
 
     .customer-custom-header > span:first-child {
-        width: 290px;
-    }
-
-    .customer-custom-header > span:nth-child(2) {
-        width: 100px;
-    }
-
-    .customer-custom-header > span:nth-child(3) {
-        width: 115px;
+        width: 505px;
     }
 
     .customer-custom-header > span:last-child {
-        width: 241px;
+        width: 241px; /*241px*/
     }
 
 
@@ -146,19 +134,11 @@
 
 
     .k-item > .customer-custom-body > span:first-child {
-        width: 270px;
-    }
-
-    .k-item > .customer-custom-body > span:nth-child(2) {
-        width: 80px;
-    }
-
-    .k-item > .customer-custom-body > span:nth-child(3) {
-        width: 115px;
+        width: 495px;
     }
 
     .k-item > .customer-custom-body > span:last-child {
-        width: 254px;
+        width: 224px;
     }
 
     /*#endregion */
