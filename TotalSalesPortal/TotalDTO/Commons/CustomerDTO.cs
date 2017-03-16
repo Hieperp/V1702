@@ -30,7 +30,7 @@ namespace TotalDTO.Commons
         string SalespersonName { get; set; }
         int PriceCategoryID { get; set; }
         string PriceCategoryCode { get; set; }
-
+        bool ShowDiscount { get; set; }
     }
 
     public class CustomerBaseDTO : BaseDTO, ICustomerBaseDTO
@@ -79,6 +79,8 @@ namespace TotalDTO.Commons
         public int PriceCategoryID { get; set; }
         [Display(Name = "Bảng giá")]
         public string PriceCategoryCode { get; set; }
+
+        public bool ShowDiscount { get; set; }
     }
 
 

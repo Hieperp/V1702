@@ -849,6 +849,18 @@ warning 6035: The relationship 'FK_AccountInvoices_AspNetUsers2' has columns tha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Customers_CustomerCategories">
+          <End Role="CustomerCategories" Type="Self.CustomerCategories" Multiplicity="1" />
+          <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerCategories">
+              <PropertyRef Name="CustomerCategoryID" />
+            </Principal>
+            <Dependent Role="Customers">
+              <PropertyRef Name="CustomerCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Customers_CustomerTypes">
           <End Role="CustomerTypes" Type="Self.CustomerTypes" Multiplicity="1" />
           <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
@@ -1786,6 +1798,10 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <End Role="CustomerCategories" EntitySet="CustomerCategories" />
             <End Role="CustomerCategories1" EntitySet="CustomerCategories" />
           </AssociationSet>
+          <AssociationSet Name="FK_Customers_CustomerCategories" Association="Self.FK_Customers_CustomerCategories">
+            <End Role="CustomerCategories" EntitySet="CustomerCategories" />
+            <End Role="Customers" EntitySet="Customers" />
+          </AssociationSet>
           <AssociationSet Name="FK_Customers_CustomerTypes" Association="Self.FK_Customers_CustomerTypes">
             <End Role="CustomerTypes" EntitySet="CustomerTypes" />
             <End Role="Customers" EntitySet="Customers" />
@@ -2570,8 +2586,12 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <Parameter Name="ShippingAddress" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetShowDiscountByCustomer" ReturnType="Collection(Boolean)">
-            <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+          <Parameter Name="CustomerID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="FK_Customers_CustomerCategories" Association="TotalSalesPortalModel.FK_Customers_CustomerCategories">
+            <End Role="CustomerCategory" EntitySet="CustomerCategories" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -2701,6 +2721,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="PriceCategoryID" Type="Int32" Nullable="false" />
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ShowDiscount" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Customers" Relationship="TotalSalesPortalModel.FK_Customers_CustomerCategories" FromRole="CustomerCategory" ToRole="Customer" />
         </EntityType>
         <EntityType Name="CustomerType">
           <Key>
@@ -3733,6 +3754,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <NavigationProperty Name="HandlingUnits1" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Customers1" FromRole="Customer" ToRole="HandlingUnit" />
           <Property Name="VendorCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="VendorCategory" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CustomerCategory" Relationship="TotalSalesPortalModel.FK_Customers_CustomerCategories" FromRole="Customer" ToRole="CustomerCategory" />
         </EntityType>
         <EntityType Name="DeliveryAdviceDetail">
           <Key>
@@ -4524,6 +4546,18 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
         </ComplexType>
+        <Association Name="FK_Customers_CustomerCategories">
+          <End Type="TotalSalesPortalModel.CustomerCategory" Role="CustomerCategory" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerCategory">
+              <PropertyRef Name="CustomerCategoryID" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="CustomerCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

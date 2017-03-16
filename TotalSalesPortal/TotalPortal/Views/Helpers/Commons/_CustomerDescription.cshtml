@@ -18,6 +18,7 @@
     @Html.HiddenFor(model => model.SalespersonName)
     @Html.HiddenFor(model => model.PriceCategoryID)
     @Html.HiddenFor(model => model.PriceCategoryCode)
+    @Html.HiddenFor(model => model.ShowDiscount)
 }
 
 @{var modelFullHtmlFieldName = @Html.ViewData.TemplateInfo.GetFullHtmlFieldName("Name"); modelFullHtmlFieldName = modelFullHtmlFieldName.Substring(0, modelFullHtmlFieldName.IndexOf("."));  }

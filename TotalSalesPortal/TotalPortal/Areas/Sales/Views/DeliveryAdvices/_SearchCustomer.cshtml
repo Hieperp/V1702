@@ -45,16 +45,14 @@
 <script type="text/javascript">
     function onGetPromotionByCustomers(e) {
         return {
-            customerID: $("#Customer_CustomerID").val()
+            customerID: (($("#ShowDiscount").val() == 'True' || $("#Customer_ShowDiscount").val() == 'true')? $("#Customer_CustomerID").val() : 0)
         };
     }
 
     $("#Customer_CustomerID").change(function (e) {
+        
+        $("#gridPromotion").data("kendoGrid").dataSource.read();
 
-        //if (window.parent.$("#ShowDiscount") != undefined)
-        //    alert(window.parent.$("#ShowDiscount").val());
-        if (window.parent.$("#ShowDiscount").val() == 'True') //at VCP: don't load Promotion
-            $("#gridPromotion").data("kendoGrid").dataSource.read();
 
         $("#PriceCategoryID").val($("#Customer_PriceCategoryID").val());
         $("#PriceCategoryCode").val($("#Customer_PriceCategoryCode").val());
@@ -100,7 +98,10 @@
         $("#ShippingAddress").val($("#Receiver_ShippingAddress").val() != "" ? $("#Receiver_ShippingAddress").val() : $("#Receiver_BillingAddress").val());
     }
 
-    $("#gridPromotion").dblclick(function (e) {
-        okButton_Click();
-    })
+
+    //At VCP DON'T ALLOW SELECT BY SINGLE PROMOTION
+    //$("#gridPromotion").dblclick(function (e) {
+    //    okButton_Click(); 
+    //})
+
 </script>

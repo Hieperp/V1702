@@ -79,5 +79,6 @@ namespace TotalModel.Models
         public virtual ICollection<HandlingUnit> HandlingUnits { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HandlingUnit> HandlingUnits1 { get; set; }
+        public virtual CustomerCategory CustomerCategory { get; set; }
     }
 }

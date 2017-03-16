@@ -26,7 +26,7 @@ namespace TotalDAL.Repositories.Commons
         public IList<Customer> SearchCustomers(string searchText)
         {
             this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = false;
-            List<Customer> customers = this.TotalSalesPortalEntities.Customers.Include(e => e.EntireTerritory).Include(pr => pr.PriceCategory).Include(ep => ep.Employee).Where(w => w.IsCustomer && (w.Code.Contains(searchText) || w.Name.Contains(searchText) || w.OfficialName.Contains(searchText))).OrderByDescending(or => or.CustomerID).Take(20).ToList();
+            List<Customer> customers = this.TotalSalesPortalEntities.Customers.Include(ca => ca.CustomerCategory).Include(e => e.EntireTerritory).Include(pr => pr.PriceCategory).Include(ep => ep.Employee).Where(w => w.IsCustomer && (w.Code.Contains(searchText) || w.Name.Contains(searchText) || w.OfficialName.Contains(searchText))).OrderByDescending(or => or.CustomerID).Take(30).ToList();
             this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = true;
 
             return customers;
