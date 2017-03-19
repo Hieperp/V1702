@@ -8,14 +8,14 @@
     .Name("gridPendingGoodsIssueDetails")
     .Columns(columns =>
     {
-        columns.Bound(c => c.GoodsIssueReference).Title("PXK").Width(35);
-        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày, giờ xuất kho").Width(80).Format("{0:" + SettingsManager.DateTimeFormat + "}");
-        columns.Bound(c => c.CustomerCode).Title("Mã khách hàng").Width(80);
-        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(132);
-        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(132);
-        columns.Bound(c => c.CommodityCode).Title("Mã hàng").Width(90);
-        columns.Bound(c => c.QuantityRemains).Title("SLXK").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" });
-        columns.Bound(c => c.FreeQuantityRemains).Title("SLQT").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" });
+        columns.Bound(c => c.GoodsIssueReference).Title("PXK").Width(30);
+        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày, giờ xuất kho").Width(70).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Bound(c => c.CustomerCode).Title("Mã kh").Width(60);
+        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(100);
+        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(100);
+        columns.Bound(c => c.CommodityCode).Title("Mã hàng").Width(60);
+        columns.Bound(c => c.QuantityRemains).Title("SL").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" });
+        columns.Bound(c => c.FreeQuantityRemains).Title("QT").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" });
 
         columns.Template(t => { }).Title("&nbsp;").ClientTemplate("<input class='IsSelected' #= IsSelected ? checked='checked':'' #  type='checkbox' />").Width(15);
     })
@@ -23,10 +23,10 @@
     {
         toolbar.Template(@<text>
             <div class="toolbar" style="float: right;">
-                <label>Nhập PXK/ hoặc mã, tên khách hàng hay đơn vị nhận hàng/ hoặc mã hàng hóa</label>
+                <label>Nhập PXK/ hoặc mã, tên khách hàng, đơn vị nhận/ hoặc mã hàng hóa</label>
                 <input id="filterText" class="k-textbox" style="text-align: center;" onkeyup="filterText_KeyUp()" />
-                @Html.Kendo().DatePicker().Name("FromDate").Value(DateTime.Today).Events(e => e.Change("reReadPendingGoodsIssueDetails")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:105px" })
-                @Html.Kendo().DatePicker().Name("ToDate").Value(DateTime.Today).Events(e => e.Change("reReadPendingGoodsIssueDetails")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:105px" })
+                @Html.Kendo().DatePicker().Name("FromDate").Value(DateTime.Today).Events(e => e.Change("reReadPendingGoodsIssueDetails")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" })
+                @Html.Kendo().DatePicker().Name("ToDate").Value(DateTime.Today).Events(e => e.Change("reReadPendingGoodsIssueDetails")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" })
 
                 @(Html.Kendo().DropDownList()
                     .Name("CommodityTypeID")
@@ -57,6 +57,7 @@
                     accountInvoiceID: window.parent.$("#AccountInvoiceID").val(),
                     goodsIssueID: window.parent.$("#GoodsIssue_GoodsIssueID").val(),
                     customerID: window.parent.$("#Consumer_CustomerID").val(),
+                    receiverID: window.parent.$("#Receiver_CustomerID").val(),
                     commodityTypeID: $("#CommodityTypeID").val(),
                     locationID: window.parent.requireConfig.pageOptions.LocationID,
                     fromDate: $("#FromDate").val(),

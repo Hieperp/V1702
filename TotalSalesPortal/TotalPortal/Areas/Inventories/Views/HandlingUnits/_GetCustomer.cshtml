@@ -23,7 +23,7 @@
     .Scrollable(s => s.Height(SettingsManager.PopupContentHeight))
     .DataSource(ds => ds.Ajax()
         .Read(read => read.Action("GetCustomers", "HandlingUnitAPIs", new { area = "Inventories" }).Data("onAdditionalGetCustomers"))
-        .ServerOperation(true)
+        .ServerOperation(false)
     )
     .Selectable()
 )

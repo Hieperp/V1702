@@ -44,23 +44,30 @@ namespace TotalPortal.Areas.Accounts.APIs
 
 
 
-
-        public JsonResult GetConsumers([DataSourceRequest] DataSourceRequest dataSourceRequest, int? locationID, int? accountInvoiceID)
+        public JsonResult GetGoodsIssues([DataSourceRequest] DataSourceRequest dataSourceRequest, int? locationID)
         {
-            var result = this.accountInvoiceAPIRepository.GetConsumers(locationID, accountInvoiceID);
+            var result = this.accountInvoiceAPIRepository.GetGoodsIssues(locationID);
             return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetGoodsIssues([DataSourceRequest] DataSourceRequest dataSourceRequest, int? locationID, int? accountInvoiceID)
+        public JsonResult GetConsumers([DataSourceRequest] DataSourceRequest dataSourceRequest, int? locationID)
         {
-            var result = this.accountInvoiceAPIRepository.GetGoodsIssues(locationID, accountInvoiceID);
+            var result = this.accountInvoiceAPIRepository.GetConsumers(locationID);
             return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
         }
 
-
-        public JsonResult GetPendingGoodsIssueDetails([DataSourceRequest] DataSourceRequest dataSourceRequest, int? accountInvoiceID, int? goodsIssueID, int? customerID, int? commodityTypeID, int? locationID, DateTime fromDate, DateTime toDate, string goodsIssueDetailIDs, bool isReadonly)
+        public JsonResult GetReceivers([DataSourceRequest] DataSourceRequest dataSourceRequest, int? locationID)
         {
-            var result = this.accountInvoiceAPIRepository.GetPendingGoodsIssueDetails(accountInvoiceID, goodsIssueID, customerID, commodityTypeID, User.Identity.GetUserId(), locationID, fromDate, toDate.AddHours(23).AddMinutes(59).AddSeconds(59), goodsIssueDetailIDs, false);
+            var result = this.accountInvoiceAPIRepository.GetReceivers(locationID);
+            return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
+        }
+
+        
+
+
+        public JsonResult GetPendingGoodsIssueDetails([DataSourceRequest] DataSourceRequest dataSourceRequest, int? accountInvoiceID, int? goodsIssueID, int? customerID, int? receiverID, int? commodityTypeID, int? locationID, DateTime fromDate, DateTime toDate, string goodsIssueDetailIDs, bool isReadonly)
+        {
+            var result = this.accountInvoiceAPIRepository.GetPendingGoodsIssueDetails(accountInvoiceID, goodsIssueID, customerID, receiverID, commodityTypeID, User.Identity.GetUserId(), locationID, fromDate, toDate.AddHours(23).AddMinutes(59).AddSeconds(59), goodsIssueDetailIDs, false);
             return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
         }
 

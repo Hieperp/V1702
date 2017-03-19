@@ -44,12 +44,12 @@
     <div class="right-panel">
         <div class="right-top-panel right-top-panel-H1">
 
-            @Html.EditorFor(d => d.Customer, new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Customer) })
-            @Html.EditorFor(d => d.Receiver, new { CustomerDescriptionHidden = "true", CustomerDisplayName = @Model.GetDisplayName(m => m.Receiver), CustomerIcon = "Customer Red 24.png" })
+            @Html.EditorFor(d => d.Customer, new { CustomerDescriptionHidden = "true", CustomerDisplayName = @Model.GetDisplayName(m => m.Customer) })
+            @Html.EditorFor(d => d.Receiver, new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Receiver), CustomerIcon = "Customer Red 24.png" })
 
             @Html.EditorFor(d => d.ShippingAddress, new { ShippingAddressReadonly = true })
 
-            <div style="float: right; margin-top: -142px; " title="Phiếu đề nghị giao hàng">
+            <div style="float: right; margin-top: -156px; " title="Phiếu đề nghị giao hàng">
                 @Html.DisplayFor(d => d.DeliveryAdvice)
             </div>
 

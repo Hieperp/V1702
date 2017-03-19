@@ -51,6 +51,7 @@ namespace TotalModel.Models
         public decimal TotalListedVATAmount { get; set; }
         public decimal TotalListedGrossAmount { get; set; }
         public decimal AverageDiscountPercent { get; set; }
+        public Nullable<int> ReceiverID { get; set; }
     
         public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -58,5 +59,6 @@ namespace TotalModel.Models
         public virtual Customer Customer { get; set; }
         public virtual Customer Customer1 { get; set; }
         public virtual GoodsIssue GoodsIssue { get; set; }
+        public virtual Customer Customer2 { get; set; }
     }
 }

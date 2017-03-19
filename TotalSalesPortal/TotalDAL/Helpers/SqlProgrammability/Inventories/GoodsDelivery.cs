@@ -92,7 +92,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "       SELECT          Receivers.CustomerID AS ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Receivers.VATCode AS ReceiverVATCode, Receivers.AttentionName AS ReceiverAttentionName, Receivers.Telephone AS ReceiverTelephone, Receivers.BillingAddress AS ReceiverBillingAddress, EntireTerritories.EntireName AS EntireTerritoryEntireName " + "\r\n";
             queryString = queryString + "       FROM            Customers Receivers " + "\r\n";
-            queryString = queryString + "                       INNER JOIN EntireTerritories ON CustomerID IN (SELECT ReceiverID FROM HandlingUnits WHERE LocationID = @LocationID AND GoodsDeliveryID IS NULL) AND Receivers.TerritoryID = EntireTerritories.TerritoryID " + "\r\n";
+            queryString = queryString + "                       INNER JOIN EntireTerritories ON Receivers.CustomerID IN (SELECT ReceiverID FROM HandlingUnits WHERE LocationID = @LocationID AND GoodsDeliveryID IS NULL) AND Receivers.TerritoryID = EntireTerritories.TerritoryID " + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetPendingHandlingUnitReceivers", queryString);
         }

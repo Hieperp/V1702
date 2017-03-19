@@ -63,6 +63,7 @@
           <Property Name="Reference" Type="nvarchar" MaxLength="10" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="ConsumerID" Type="int" />
+          <Property Name="ReceiverID" Type="int" />
           <Property Name="GoodsIssueID" Type="int" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="PreparedPersonID" Type="int" Nullable="false" />
@@ -762,6 +763,18 @@ warning 6035: The relationship 'FK_AccountInvoices_AspNetUsers2' has columns tha
             </Principal>
             <Dependent Role="AccountInvoices">
               <PropertyRef Name="ConsumerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountInvoices_Customers2">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+          <End Role="AccountInvoices" Type="Self.AccountInvoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="AccountInvoices">
+              <PropertyRef Name="ReceiverID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1612,13 +1625,13 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
         </Function>
         <Function Name="GetPendingGoodsIssueConsumers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
-          <Parameter Name="AccountInvoiceID" Type="int" Mode="In" />
         </Function>
         <Function Name="GetPendingGoodsIssueDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AccountInvoiceID" Type="int" Mode="In" />
           <Parameter Name="LocationID" Type="int" Mode="In" />
           <Parameter Name="GoodsIssueID" Type="int" Mode="In" />
           <Parameter Name="CustomerID" Type="int" Mode="In" />
+          <Parameter Name="ReceiverID" Type="int" Mode="In" />
           <Parameter Name="CommodityTypeID" Type="int" Mode="In" />
           <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
           <Parameter Name="FromDate" Type="datetime" Mode="In" />
@@ -1626,9 +1639,11 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Parameter Name="GoodsIssueDetailIDs" Type="varchar" Mode="In" />
           <Parameter Name="IsReadonly" Type="bit" Mode="In" />
         </Function>
+        <Function Name="GetPendingGoodsIssueReceivers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LocationID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetPendingGoodsIssues" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
-          <Parameter Name="AccountInvoiceID" Type="int" Mode="In" />
         </Function>
         <Function Name="GetPendingHandlingUnitReceivers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
@@ -1767,6 +1782,10 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <End Role="AccountInvoices" EntitySet="AccountInvoices" />
           </AssociationSet>
           <AssociationSet Name="FK_AccountInvoices_Customers1" Association="Self.FK_AccountInvoices_Customers1">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="AccountInvoices" EntitySet="AccountInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoices_Customers2" Association="Self.FK_AccountInvoices_Customers2">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="AccountInvoices" EntitySet="AccountInvoices" />
           </AssociationSet>
@@ -2302,6 +2321,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <Parameter Name="LocationID" Mode="In" Type="Int32" />
             <Parameter Name="GoodsIssueID" Mode="In" Type="Int32" />
             <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+            <Parameter Name="ReceiverID" Mode="In" Type="Int32" />
             <Parameter Name="CommodityTypeID" Mode="In" Type="Int32" />
             <Parameter Name="AspUserID" Mode="In" Type="String" />
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
@@ -2310,12 +2330,10 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <Parameter Name="IsReadonly" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="GetPendingGoodsIssueConsumers" ReturnType="Collection(TotalSalesPortalModel.PendingGoodsIssueConsumer)">
-            <Parameter Name="LocationID" Mode="In" Type="Int32" />
-            <Parameter Name="AccountInvoiceID" Mode="In" Type="Int32" />
+          <Parameter Name="LocationID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetPendingGoodsIssues" ReturnType="Collection(TotalSalesPortalModel.PendingGoodsIssue)">
-            <Parameter Name="LocationID" Mode="In" Type="Int32" />
-            <Parameter Name="AccountInvoiceID" Mode="In" Type="Int32" />
+          <Parameter Name="LocationID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="PackingMaterials" EntityType="TotalSalesPortalModel.PackingMaterial" />
           <FunctionImport Name="GetHandlingUnitIndexes" ReturnType="Collection(TotalSalesPortalModel.HandlingUnitIndex)">
@@ -2591,6 +2609,13 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <AssociationSet Name="FK_Customers_CustomerCategories" Association="TotalSalesPortalModel.FK_Customers_CustomerCategories">
             <End Role="CustomerCategory" EntitySet="CustomerCategories" />
             <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <FunctionImport Name="GetPendingGoodsIssueReceivers" ReturnType="Collection(TotalSalesPortalModel.PendingGoodsIssueReceiver)">
+          <Parameter Name="LocationID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <AssociationSet Name="FK_AccountInvoices_Customers2" Association="TotalSalesPortalModel.FK_AccountInvoices_Customers2">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
@@ -3100,6 +3125,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="TotalQuantity" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="TotalListedGrossAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="DateTime" Name="VATInvoiceDate" Nullable="false" Precision="23" />
         </ComplexType>
         <ComplexType Name="AccountInvoiceViewDetail">
           <Property Type="Int32" Name="AccountInvoiceDetailID" Nullable="false" />
@@ -3304,6 +3330,8 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="TotalListedVATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TotalListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="AverageDiscountPercent" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="ReceiverID" Type="Int32" />
+          <NavigationProperty Name="Customer2" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers2" FromRole="AccountInvoice" ToRole="Customer" />
           </EntityType>
         <Association Name="FK_AccountInvoices_Locations">
           <End Type="TotalSalesPortalModel.Location" Role="Location" Multiplicity="1" />
@@ -3755,6 +3783,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="VendorCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="VendorCategory" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CustomerCategory" Relationship="TotalSalesPortalModel.FK_Customers_CustomerCategories" FromRole="Customer" ToRole="CustomerCategory" />
+          <NavigationProperty Name="AccountInvoices2" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers2" FromRole="Customer" ToRole="AccountInvoice" />
         </EntityType>
         <EntityType Name="DeliveryAdviceDetail">
           <Key>
@@ -4558,6 +4587,28 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="PendingGoodsIssueReceiver">
+          <Property Type="Int32" Name="ReceiverID" Nullable="false" />
+          <Property Type="String" Name="ReceiverCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReceiverVATCode" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ReceiverAttentionName" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ReceiverTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
+        </ComplexType>
+        <Association Name="FK_AccountInvoices_Customers2">
+          <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="AccountInvoice">
+              <PropertyRef Name="ReceiverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5040,6 +5091,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
                 <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
                 <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
                 <ScalarProperty Name="TotalListedGrossAmount" ColumnName="TotalListedGrossAmount" />
+                <ScalarProperty Name="VATInvoiceDate" ColumnName="VATInvoiceDate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -5238,6 +5290,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <EntitySetMapping Name="AccountInvoices">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.AccountInvoice">
               <MappingFragment StoreEntitySet="AccountInvoices">
+                <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
                 <ScalarProperty Name="AverageDiscountPercent" ColumnName="AverageDiscountPercent" />
                 <ScalarProperty Name="TotalListedGrossAmount" ColumnName="TotalListedGrossAmount" />
                 <ScalarProperty Name="TotalListedVATAmount" ColumnName="TotalListedVATAmount" />
@@ -5928,6 +5981,20 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetShowDiscountByCustomer" FunctionName="TotalSalesPortalModel.Store.GetShowDiscountByCustomer" />
+          <FunctionImportMapping FunctionImportName="GetPendingGoodsIssueReceivers" FunctionName="TotalSalesPortalModel.Store.GetPendingGoodsIssueReceivers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalSalesPortalModel.PendingGoodsIssueReceiver">
+                <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
+                <ScalarProperty Name="ReceiverCode" ColumnName="ReceiverCode" />
+                <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
+                <ScalarProperty Name="ReceiverVATCode" ColumnName="ReceiverVATCode" />
+                <ScalarProperty Name="ReceiverAttentionName" ColumnName="ReceiverAttentionName" />
+                <ScalarProperty Name="ReceiverTelephone" ColumnName="ReceiverTelephone" />
+                <ScalarProperty Name="ReceiverBillingAddress" ColumnName="ReceiverBillingAddress" />
+                <ScalarProperty Name="ReceiverEntireTerritoryEntireName" ColumnName="ReceiverEntireTerritoryEntireName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

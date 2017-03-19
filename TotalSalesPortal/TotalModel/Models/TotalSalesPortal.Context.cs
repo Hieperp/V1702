@@ -592,7 +592,7 @@ namespace TotalModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GoodsIssueToggleApproved", entityIDParameter, approvedParameter);
         }
     
-        public virtual ObjectResult<PendingGoodsIssueDetail> GetPendingGoodsIssueDetails(Nullable<int> accountInvoiceID, Nullable<int> locationID, Nullable<int> goodsIssueID, Nullable<int> customerID, Nullable<int> commodityTypeID, string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, string goodsIssueDetailIDs, Nullable<bool> isReadonly)
+        public virtual ObjectResult<PendingGoodsIssueDetail> GetPendingGoodsIssueDetails(Nullable<int> accountInvoiceID, Nullable<int> locationID, Nullable<int> goodsIssueID, Nullable<int> customerID, Nullable<int> receiverID, Nullable<int> commodityTypeID, string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, string goodsIssueDetailIDs, Nullable<bool> isReadonly)
         {
             var accountInvoiceIDParameter = accountInvoiceID.HasValue ?
                 new ObjectParameter("AccountInvoiceID", accountInvoiceID) :
@@ -609,6 +609,10 @@ namespace TotalModel.Models
             var customerIDParameter = customerID.HasValue ?
                 new ObjectParameter("CustomerID", customerID) :
                 new ObjectParameter("CustomerID", typeof(int));
+    
+            var receiverIDParameter = receiverID.HasValue ?
+                new ObjectParameter("ReceiverID", receiverID) :
+                new ObjectParameter("ReceiverID", typeof(int));
     
             var commodityTypeIDParameter = commodityTypeID.HasValue ?
                 new ObjectParameter("CommodityTypeID", commodityTypeID) :
@@ -634,33 +638,25 @@ namespace TotalModel.Models
                 new ObjectParameter("IsReadonly", isReadonly) :
                 new ObjectParameter("IsReadonly", typeof(bool));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingGoodsIssueDetail>("GetPendingGoodsIssueDetails", accountInvoiceIDParameter, locationIDParameter, goodsIssueIDParameter, customerIDParameter, commodityTypeIDParameter, aspUserIDParameter, fromDateParameter, toDateParameter, goodsIssueDetailIDsParameter, isReadonlyParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingGoodsIssueDetail>("GetPendingGoodsIssueDetails", accountInvoiceIDParameter, locationIDParameter, goodsIssueIDParameter, customerIDParameter, receiverIDParameter, commodityTypeIDParameter, aspUserIDParameter, fromDateParameter, toDateParameter, goodsIssueDetailIDsParameter, isReadonlyParameter);
         }
     
-        public virtual ObjectResult<PendingGoodsIssueConsumer> GetPendingGoodsIssueConsumers(Nullable<int> locationID, Nullable<int> accountInvoiceID)
+        public virtual ObjectResult<PendingGoodsIssueConsumer> GetPendingGoodsIssueConsumers(Nullable<int> locationID)
         {
             var locationIDParameter = locationID.HasValue ?
                 new ObjectParameter("LocationID", locationID) :
                 new ObjectParameter("LocationID", typeof(int));
     
-            var accountInvoiceIDParameter = accountInvoiceID.HasValue ?
-                new ObjectParameter("AccountInvoiceID", accountInvoiceID) :
-                new ObjectParameter("AccountInvoiceID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingGoodsIssueConsumer>("GetPendingGoodsIssueConsumers", locationIDParameter, accountInvoiceIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingGoodsIssueConsumer>("GetPendingGoodsIssueConsumers", locationIDParameter);
         }
     
-        public virtual ObjectResult<PendingGoodsIssue> GetPendingGoodsIssues(Nullable<int> locationID, Nullable<int> accountInvoiceID)
+        public virtual ObjectResult<PendingGoodsIssue> GetPendingGoodsIssues(Nullable<int> locationID)
         {
             var locationIDParameter = locationID.HasValue ?
                 new ObjectParameter("LocationID", locationID) :
                 new ObjectParameter("LocationID", typeof(int));
     
-            var accountInvoiceIDParameter = accountInvoiceID.HasValue ?
-                new ObjectParameter("AccountInvoiceID", accountInvoiceID) :
-                new ObjectParameter("AccountInvoiceID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingGoodsIssue>("GetPendingGoodsIssues", locationIDParameter, accountInvoiceIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingGoodsIssue>("GetPendingGoodsIssues", locationIDParameter);
         }
     
         public virtual ObjectResult<HandlingUnitIndex> GetHandlingUnitIndexes(string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
@@ -894,6 +890,15 @@ namespace TotalModel.Models
                 new ObjectParameter("CustomerID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("GetShowDiscountByCustomer", customerIDParameter);
+        }
+    
+        public virtual ObjectResult<PendingGoodsIssueReceiver> GetPendingGoodsIssueReceivers(Nullable<int> locationID)
+        {
+            var locationIDParameter = locationID.HasValue ?
+                new ObjectParameter("LocationID", locationID) :
+                new ObjectParameter("LocationID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingGoodsIssueReceiver>("GetPendingGoodsIssueReceivers", locationIDParameter);
         }
     }
 }

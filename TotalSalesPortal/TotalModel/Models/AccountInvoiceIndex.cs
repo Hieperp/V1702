@@ -23,5 +23,6 @@ namespace TotalModel.Models
         public decimal TotalGrossAmount { get; set; }
         public decimal TotalQuantity { get; set; }
         public decimal TotalListedGrossAmount { get; set; }
+        public System.DateTime VATInvoiceDate { get; set; }
     }
 }

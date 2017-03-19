@@ -6,12 +6,10 @@
 
     .Columns(columns =>
     {
-        columns.Bound(c => c.CustomerCode).Title("Mã khách hàng").Width(80);
-        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(160);
-        columns.Bound(c => c.CustomerVATCode).Title("MST").Width(50);
-        columns.Bound(c => c.CustomerTelephone).Title("Điện thoại").Width(56);
-        columns.Bound(c => c.CustomerBillingAddress).Title("Địa chỉ").Width(180);
-        columns.Bound(c => c.CustomerEntireTerritoryEntireName).Title("Địa bàn").Width(70);
+        columns.Bound(c => c.CustomerCode).Title("Mã khách hàng").Width(70);
+        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(230);
+        columns.Bound(c => c.CustomerVATCode).Title("MST").Width(70);
+        columns.Bound(c => c.CustomerBillingAddress).Title("Địa chỉ").Width(230);
     })
     .ToolBar(toolbar =>
     {
@@ -25,7 +23,7 @@
     .Scrollable(s => s.Height(SettingsManager.PopupContentHeight))
     .DataSource(ds => ds.Ajax()
         .Read(read => read.Action("GetConsumers", "AccountInvoiceAPIs", new { area = "Accounts" }).Data("onAdditionalGetConsumers"))
-        .ServerOperation(true)
+        .ServerOperation(false)
     )
     .Selectable()
 )
@@ -33,8 +31,7 @@
 <script type="text/javascript">
     function onAdditionalGetConsumers(e) {
         return {
-            locationID: 1,
-            accountInvoiceID: $("#AccountInvoiceID").val()
+            locationID: window.parent.requireConfig.pageOptions.LocationID
         };
     }
 

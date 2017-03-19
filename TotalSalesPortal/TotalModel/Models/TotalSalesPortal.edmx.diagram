@@ -101,6 +101,7 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnits_Locations" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnits_PackingMaterials" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Customers_CustomerCategories" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_AccountInvoices_Customers2" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

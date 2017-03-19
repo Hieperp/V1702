@@ -6,12 +6,9 @@
     .Columns(columns =>
     {
         columns.Bound(c => c.GoodsIssueReference).Title("PXK").Width(35);
-        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày, giờ xuất kho").Width(90).Format("{0:" + SettingsManager.DateTimeFormat + "}");
-        columns.Bound(c => c.CustomerCode).Title("Mã khách hàng").Width(80);
-        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(160);
-        columns.Bound(c => c.CustomerVATCode).Title("MST").Width(60);
-        columns.Bound(c => c.GoodsIssueReceiverCode).Title("Mã đơn vị nhận").Width(80);
-        columns.Bound(c => c.GoodsIssueReceiverName).Title("Tên đơn vị nhận").Width(150);
+        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày, giờ xuất kho").Width(85).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(240);
+        columns.Bound(c => c.GoodsIssueReceiverName).Title("Tên đơn vị nhận").Width(240);
     })
     .ToolBar(toolbar =>
     {
@@ -25,7 +22,7 @@
         .Scrollable(s => s.Height(SettingsManager.PopupContentHeight))
         .DataSource(ds => ds.Ajax()
             .Read(read => read.Action("GetGoodsIssues", "AccountInvoiceAPIs", new { area = "Accounts" }).Data("onAdditionalGetGoodsIssues"))
-            .ServerOperation(true)
+            .ServerOperation(false)
         )
         .Selectable()
 )
@@ -33,8 +30,7 @@
 <script type="text/javascript">
     function onAdditionalGetGoodsIssues(e) {
         return {
-            locationID: 1,
-            accountInvoiceID: $("#AccountInvoiceID").val()
+            locationID: window.parent.requireConfig.pageOptions.LocationID
         };
     }
 

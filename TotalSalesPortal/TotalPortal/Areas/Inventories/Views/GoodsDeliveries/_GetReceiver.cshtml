@@ -24,7 +24,7 @@
     .Scrollable(s => s.Height(SettingsManager.PopupContentHeightLarge))
     .DataSource(ds => ds.Ajax()
         .Read(read => read.Action("GetReceivers", "GoodsDeliveryAPIs", new { area = "Inventories" }).Data("onAdditionalGetCustomers"))
-        .ServerOperation(true)
+        .ServerOperation(false)
     )
     .Selectable()
 )
@@ -32,7 +32,7 @@
 <script type="text/javascript">
     function onAdditionalGetCustomers(e) {
         return {
-            locationID: 1,
+            locationID: window.parent.requireConfig.pageOptions.LocationID,
             handlingUnitID: $("#HandlingUnitID").val()
         };
     }

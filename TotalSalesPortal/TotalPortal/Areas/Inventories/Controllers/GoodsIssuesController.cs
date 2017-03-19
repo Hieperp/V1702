@@ -49,7 +49,13 @@ namespace TotalPortal.Areas.Inventories.Controllers
                 List<PendingDeliveryAdviceDescription> pendingDeliveryAdviceDescriptions = this.goodsIssueService.GetDescriptions(this.goodsIssueService.LocationID, simpleViewModel.CustomerID, simpleViewModel.ReceiverID, simpleViewModel.ShippingAddress);
 
                 string description = ""; string remarks = "";
-                pendingDeliveryAdviceDescriptions.ForEach(e => { description = description + (description != "" ? ", " : "") + e.Reference + ": " + e.Description; remarks = remarks + (remarks != "" ? ", " : "") + e.Reference + ": " + e.Remarks; });
+                pendingDeliveryAdviceDescriptions.ForEach(e =>
+                {
+                    if (e.Description != null && e.Description != "")
+                        description = description + (description != "" ? ", " : "") + e.Reference + ": " + e.Description;
+                    if (e.Remarks != null && e.Remarks != "")
+                        remarks = remarks + (remarks != "" ? ", " : "") + e.Reference + ": " + e.Remarks;
+                });
                 simpleViewModel.Description = description; simpleViewModel.Remarks = remarks;
             }
 

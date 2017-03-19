@@ -1,0 +1,66 @@
+﻿@using TotalPortal.Configuration
+@using TotalModel.Models;
+
+@(Html.Kendo().Grid<PendingGoodsIssueReceiver>()
+    .Name("pendingGoodsIssueReceiverGrid")
+
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.ReceiverCode).Title("Mã đơn vị nhận").Width(70);
+        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(230);
+        columns.Bound(c => c.ReceiverVATCode).Title("MST").Width(70);
+        columns.Bound(c => c.ReceiverBillingAddress).Title("Địa chỉ").Width(230);
+    })
+    .ToolBar(toolbar =>
+    {
+        toolbar.Template(@<text>
+            <div class="toolbar" style="float: right;">
+                <label>Nhập mã, tên, MST, địa chỉ, hoặc địa bàn đơn vị nhận</label>
+                <input id="pendingGoodsIssueReceiverFilter" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="pendingGoodsIssueReceiverFilter_KeyUp()" />
+            </div>
+        </text>);
+    })
+    .Scrollable(s => s.Height(SettingsManager.PopupContentHeight))
+    .DataSource(ds => ds.Ajax()
+        .Read(read => read.Action("GetReceivers", "AccountInvoiceAPIs", new { area = "Accounts" }).Data("onAdditionalGetReceivers"))
+        .ServerOperation(false)
+    )
+    .Selectable()
+)
+
+<script type="text/javascript">
+    function onAdditionalGetReceivers(e) {
+        return {
+            locationID: window.parent.requireConfig.pageOptions.LocationID
+        };
+    }
+
+    function pendingGoodsIssueReceiverFilter_KeyUp() {
+        var pendingGoodsIssueReceiverFilter = $("#pendingGoodsIssueReceiverFilter").val(), gridDetails = $("#pendingGoodsIssueReceiverGrid").data("kendoGrid");
+
+        if (pendingGoodsIssueReceiverFilter && pendingGoodsIssueReceiverFilter.length >= "@SettingsManager.AutoCompleteMinLenght") {
+            gridDetails.dataSource.filter({
+                logic: "or",
+                filters: [
+                    { field: "ReceiverCode", operator: "contains", value: pendingGoodsIssueReceiverFilter },
+                    { field: "ReceiverName", operator: "contains", value: pendingGoodsIssueReceiverFilter },
+                    { field: "ReceiverVATCode", operator: "contains", value: pendingGoodsIssueReceiverFilter },
+                    { field: "ReceiverTelephone", operator: "contains", value: pendingGoodsIssueReceiverFilter },
+                    { field: "ReceiverBillingAddress", operator: "contains", value: pendingGoodsIssueReceiverFilter },
+                    { field: "ReceiverEntireTerritoryEntireName", operator: "contains", value: pendingGoodsIssueReceiverFilter }
+                ]
+            });
+
+
+        } else {
+            if (gridDetails.dataSource.filter() != undefined)
+                gridDetails.dataSource.filter({});
+        }
+    }
+
+
+    $("#pendingGoodsIssueReceiverGrid").dblclick(function (e) {
+        okButton_Click();
+    })
+</script>
+

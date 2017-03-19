@@ -7,7 +7,7 @@
     @Html.AntiForgeryToken()
 
     @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
-    
+
     @Html.HiddenFor(model => model.AccountInvoiceID);
 
     @Html.HiddenFor(model => model.Description);
@@ -33,12 +33,23 @@
     @Html.HiddenFor(model => model.Consumer.SalespersonID)
     @Html.HiddenFor(model => model.Consumer.SalespersonName)
 
+    @Html.HiddenFor(model => model.Receiver.CustomerID);
+    @Html.HiddenFor(model => model.Receiver.Code);
+    @Html.HiddenFor(model => model.Receiver.Name);
+    @Html.HiddenFor(model => model.Receiver.VATCode);
+    @Html.HiddenFor(model => model.Receiver.Telephone);
+    @Html.HiddenFor(model => model.Receiver.BillingAddress);
+    @Html.HiddenFor(model => model.Receiver.EntireTerritoryEntireName);
+    @Html.HiddenFor(model => model.Receiver.SalespersonID)
+    @Html.HiddenFor(model => model.Receiver.SalespersonName)
+
     @Html.HiddenFor(model => model.GoodsIssue.GoodsIssueID);
     @Html.HiddenFor(model => model.GoodsIssue.Reference);
     @Html.HiddenFor(model => model.GoodsIssue.EntryDate);
     @Html.HiddenFor(model => model.GoodsIssue.ReceiverCode);
     @Html.HiddenFor(model => model.GoodsIssue.ReceiverName);
 
+    @Html.HiddenFor(model => model.VATInvoiceSeries);
 
     @(Html.Kendo().TabStrip()
         .HtmlAttributes(new { @style = "height: 468px; margin-left: 0px; margin-right: 0px;" })
@@ -51,6 +62,11 @@
                     @Html.Partial("~/Areas/Accounts/Views/AccountInvoices/_GetGoodsIssue.cshtml")
                 </text>);
 
+            tabStrip.Add().Text("Chọn đơn vị nhận hàng")
+                    .Content(@<text>
+                    @Html.Partial("~/Areas/Accounts/Views/AccountInvoices/_GetReceiver.cshtml")
+                    </text>);
+        
             tabStrip.Add().Text("Chọn khách hàng")
                 .Content(@<text>
                     @Html.Partial("~/Areas/Accounts/Views/AccountInvoices/_GetConsumer.cshtml")
@@ -63,9 +79,9 @@
         <div class="popup-button-bar">
             <input id="submitCreateWizard" type="submit" formaction="@Url.Action("CreateWizard", "AccountInvoices")" formtarget="_top" style="display:none" />
 
-            <button type="button" class="k-button" onclick="okButton_Click()"> <img src="~/Content/Images/Mains/Size24/Ok-1.png"/> Xuất hóa đơn khách hàng đang chọn </button>
-            <button type="button" class="k-button" onclick="okWOSelectButton_Click()"> <img src="~/Content/Images/Mains/Size24/Accept-Total.png"/> Xuất hóa đơn tổng hợp </button>            
-            <button type="button" class="k-button" onclick="window.parent.$('#myWindow').data('kendoWindow').close()"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png"/> Thoát </button>
+            <button type="button" class="k-button" onclick="okButton_Click()"> <img src="~/Content/Images/Mains/Size24/Ok-1.png" /> Xuất hóa đơn khách hàng đang chọn </button>
+            <button type="button" class="k-button" onclick="okWOSelectButton_Click()"> <img src="~/Content/Images/Mains/Size24/Accept-Total.png" /> Xuất hóa đơn tổng hợp </button>
+            <button type="button" class="k-button" onclick="window.parent.$('#myWindow').data('kendoWindow').close()"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png" /> Thoát </button>
         </div>
     </div>
 }
@@ -82,12 +98,12 @@
         handleOKEvent();
     }
 
-    
+
     function handleOKEvent(tabIndex) {
         if (tabIndex === undefined)
             _setModelInput();
         else {
-            var selectedGrid = $(tabIndex === 0 ? "#pendingGoodsIssueGrid" : "#pendingGoodsIssueConsumerGrid").data("kendoGrid");
+            var selectedGrid = $(tabIndex === 0 ? "#pendingGoodsIssueGrid" : (tabIndex === 1 ? "#pendingGoodsIssueReceiverGrid" : "#pendingGoodsIssueConsumerGrid")).data("kendoGrid");
             var selectedDataItem = selectedGrid.dataItem(selectedGrid.select());
             if (selectedDataItem === undefined)
                 return false;
@@ -107,23 +123,30 @@
             $("#Description").val(selectedDataItem === undefined || selectedDataItem.Description === undefined ? null : selectedDataItem.Description);
             $("#Remarks").val(selectedDataItem === undefined || selectedDataItem.Remarks === undefined ? null : selectedDataItem.Remarks);
 
-            $("#Customer_CustomerID").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerID);
-            $("#Customer_Code").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerCode);
-            $("#Customer_Name").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerName);
-            $("#Customer_VATCode").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerVATCode);
-            $("#Customer_Telephone").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerTelephone);
-            $("#Customer_BillingAddress").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerBillingAddress);
-            $("#Customer_EntireTerritoryEntireName").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerEntireTerritoryEntireName);
+            $("#Customer_CustomerID").val(selectedDataItem === undefined ? null : (selectedDataItem.CustomerID != undefined ? selectedDataItem.CustomerID : selectedDataItem.ReceiverID));
+            $("#Customer_Code").val(selectedDataItem === undefined ? null : (selectedDataItem.CustomerCode != undefined ? selectedDataItem.CustomerCode : selectedDataItem.ReceiverCode));
+            $("#Customer_Name").val(selectedDataItem === undefined ? null : (selectedDataItem.CustomerName != undefined ? selectedDataItem.CustomerName : selectedDataItem.ReceiverName));
+            $("#Customer_VATCode").val(selectedDataItem === undefined ? null : (selectedDataItem.CustomerVATCode != undefined ? selectedDataItem.CustomerVATCode : selectedDataItem.ReceiverVATCode));
+            $("#Customer_Telephone").val(selectedDataItem === undefined ? null : (selectedDataItem.CustomerTelephone != undefined ? selectedDataItem.CustomerTelephone : selectedDataItem.ReceiverTelephone));
+            $("#Customer_BillingAddress").val(selectedDataItem === undefined ? null : (selectedDataItem.CustomerBillingAddress != undefined ? selectedDataItem.CustomerBillingAddress : selectedDataItem.ReceiverBillingAddress));
+            $("#Customer_EntireTerritoryEntireName").val(selectedDataItem === undefined ? null : (selectedDataItem.CustomerEntireTerritoryEntireName != undefined ? selectedDataItem.CustomerEntireTerritoryEntireName : selectedDataItem.ReceiverEntireTerritoryEntireName));
 
 
-            $("#Consumer_CustomerID").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerID);
-            $("#Consumer_Code").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerCode);
-            $("#Consumer_Name").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerName);
-            $("#Consumer_VATCode").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerVATCode);
-            $("#Consumer_Telephone").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerTelephone);
-            $("#Consumer_BillingAddress").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerBillingAddress);
-            $("#Consumer_EntireTerritoryEntireName").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerEntireTerritoryEntireName);
+            $("#Consumer_CustomerID").val(selectedDataItem === undefined || selectedDataItem.CustomerID === undefined ? null : selectedDataItem.CustomerID);
+            $("#Consumer_Code").val(selectedDataItem === undefined || selectedDataItem.CustomerCode === undefined ? null : selectedDataItem.CustomerCode);
+            $("#Consumer_Name").val(selectedDataItem === undefined || selectedDataItem.CustomerName === undefined ? null : selectedDataItem.CustomerName);
+            $("#Consumer_VATCode").val(selectedDataItem === undefined || selectedDataItem.CustomerVATCode === undefined ? null : selectedDataItem.CustomerVATCode);
+            $("#Consumer_Telephone").val(selectedDataItem === undefined || selectedDataItem.CustomerTelephone === undefined ? null : selectedDataItem.CustomerTelephone);
+            $("#Consumer_BillingAddress").val(selectedDataItem === undefined || selectedDataItem.CustomerBillingAddress === undefined ? null : selectedDataItem.CustomerBillingAddress);
+            $("#Consumer_EntireTerritoryEntireName").val(selectedDataItem === undefined || selectedDataItem.CustomerEntireTerritoryEntireName === undefined ? null : selectedDataItem.CustomerEntireTerritoryEntireName);
 
+            $("#Receiver_CustomerID").val(selectedDataItem === undefined || selectedDataItem.ReceiverID === undefined ? null : selectedDataItem.ReceiverID);
+            $("#Receiver_Code").val(selectedDataItem === undefined || selectedDataItem.ReceiverCode === undefined ? null : selectedDataItem.ReceiverCode);
+            $("#Receiver_Name").val(selectedDataItem === undefined || selectedDataItem.ReceiverName === undefined ? null : selectedDataItem.ReceiverName);
+            $("#Receiver_VATCode").val(selectedDataItem === undefined || selectedDataItem.ReceiverVATCode === undefined ? null : selectedDataItem.ReceiverVATCode);
+            $("#Receiver_Telephone").val(selectedDataItem === undefined || selectedDataItem.ReceiverTelephone === undefined ? null : selectedDataItem.ReceiverTelephone);
+            $("#Receiver_BillingAddress").val(selectedDataItem === undefined || selectedDataItem.ReceiverBillingAddress === undefined ? null : selectedDataItem.ReceiverBillingAddress);
+            $("#Receiver_EntireTerritoryEntireName").val(selectedDataItem === undefined || selectedDataItem.ReceiverEntireTerritoryEntireName === undefined ? null : selectedDataItem.ReceiverEntireTerritoryEntireName);
         }
     }
 

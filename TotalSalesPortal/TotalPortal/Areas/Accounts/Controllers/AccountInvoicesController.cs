@@ -9,6 +9,7 @@ using TotalCore.Services.Accounts;
 using TotalPortal.Controllers;
 using TotalPortal.Areas.Accounts.ViewModels;
 using TotalPortal.Areas.Accounts.Builders;
+using TotalPortal.Areas.Accounts.Controllers.Sessions;
 
 
 namespace TotalPortal.Areas.Accounts.Controllers
@@ -28,14 +29,31 @@ namespace TotalPortal.Areas.Accounts.Controllers
             return base.GetShowDiscount(simpleViewModel) || this.customerRepository.GetShowDiscount(simpleViewModel == null ? 0 : simpleViewModel.CustomerID);
         }
 
-        public ActionResult PrintDetail(int? id)
+        protected override AccountInvoiceViewModel InitViewModelByDefault(AccountInvoiceViewModel simpleViewModel)
         {
-            return View(InitPrintViewModel(id));
+            simpleViewModel = base.InitViewModelByDefault(simpleViewModel);
+
+            if (simpleViewModel.VATInvoiceSeries == null)
+                simpleViewModel.VATInvoiceSeries = AccountInvoiceSession.GetVATInvoiceSeries(this.HttpContext);
+
+            return simpleViewModel;
+        }
+
+        protected override void BackupViewModelToSession(AccountInvoiceViewModel simpleViewModel)
+        {
+            base.BackupViewModelToSession(simpleViewModel);
+            AccountInvoiceSession.SetVATInvoiceSeries(this.HttpContext, simpleViewModel.VATInvoiceSeries);
         }
 
         public virtual ActionResult GetPendingGoodsIssueDetails()
         {
             return View();
         }
+
+        public ActionResult PrintDetail(int? id)
+        {
+            return View(InitPrintViewModel(id));
+        }
+
     }  
 }

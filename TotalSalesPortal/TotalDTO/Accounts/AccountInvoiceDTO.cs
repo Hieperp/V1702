@@ -24,6 +24,7 @@ namespace TotalDTO.Accounts
 
         public virtual int CustomerID { get; set; }
         public virtual Nullable<int> ConsumerID { get; set; }
+        public virtual Nullable<int> ReceiverID { get; set; }
         public virtual Nullable<int> GoodsIssueID { get; set; }
 
         [Display(Name = "Số hóa đơn")]
@@ -32,6 +33,7 @@ namespace TotalDTO.Accounts
         [Display(Name = "Số seri")]
         [Required(ErrorMessage = "Vui lòng nhập số seri")]
         public string VATInvoiceSeries { get; set; }
+        [UIHint("Date")]
         [Display(Name = "Ngày hóa đơn")]
         [Required(ErrorMessage = "Vui lòng nhập ngày hóa đơn")]
         public Nullable<System.DateTime> VATInvoiceDate { get; set; }
@@ -57,6 +59,10 @@ namespace TotalDTO.Accounts
         public override Nullable<int> ConsumerID { get { return (this.Consumer != null ? (this.Consumer.CustomerID > 0 ? (Nullable<int>)this.Consumer.CustomerID : null) : null); } }
         [UIHint("Commons/CustomerBase")]
         public CustomerBaseDTO Consumer { get; set; }
+
+        public override Nullable<int> ReceiverID { get { return (this.Receiver != null ? (this.Receiver.CustomerID > 0 ? (Nullable<int>)this.Receiver.CustomerID : null) : null); } }
+        [UIHint("Commons/CustomerBase")]
+        public CustomerBaseDTO Receiver { get; set; }
 
         public override Nullable<int> GoodsIssueID { get { return (this.GoodsIssue != null ? (Nullable<int>)this.GoodsIssue.GoodsIssueID : null); } }
         [UIHint("Commons/GoodsIssueBox")]

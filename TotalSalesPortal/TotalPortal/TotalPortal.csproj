@@ -211,6 +211,7 @@
     <Compile Include="Areas\Accounts\Builders\ReceiptViewModelSelectListBuilder.cs" />
     <Compile Include="Areas\Accounts\Controllers\AccountInvoicesController.cs" />
     <Compile Include="Areas\Accounts\Controllers\ReceiptsController.cs" />
+    <Compile Include="Areas\Accounts\Controllers\Sessions\AccountInvoiceSession.cs" />
     <Compile Include="Areas\Accounts\ViewModels\AccountInvoiceViewModel.cs" />
     <Compile Include="Areas\Accounts\ViewModels\ReceiptViewModel.cs" />
     <Compile Include="Areas\Commons\APIs\CommodityAPIsController.cs" />
@@ -331,8 +332,11 @@
     <Content Include="Content\Images\Mains\contacts-icon-32.png" />
     <Content Include="Content\Images\Mains\Cross-icon-cancel32.png" />
     <Content Include="Content\Images\Mains\Cross-icon-cancel64.png" />
+    <Content Include="Content\Images\Mains\Customer Black 24.png.png" />
     <Content Include="Content\Images\Mains\Customer Blue 24.png" />
+    <Content Include="Content\Images\Mains\Customer Orange 24.png" />
     <Content Include="Content\Images\Mains\Customer Red 24.png" />
+    <Content Include="Content\Images\Mains\Customer White 24.png" />
     <Content Include="Content\Images\Mains\data-add-icon-32.png" />
     <Content Include="Content\Images\Mains\folder-documents-icon-32.png" />
     <Content Include="Content\Images\Mains\iSync-icon32.png" />
@@ -922,6 +926,7 @@
     <Content Include="Areas\Inventories\Views\GoodsDeliveries\Print.cshtml" />
     <Content Include="Areas\Inventories\Views\HandlingUnits\Print.cshtml" />
     <Content Include="Areas\Sales\Views\DeliveryAdvices\Delete.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountInvoices\_GetReceiver.cshtml" />
     <None Include="Properties\PublishProfiles\VCP.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
