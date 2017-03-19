@@ -19,8 +19,8 @@
         {
             toolbar.Template(@<text>
                 <div class="toolbar" style="height: 168px; margin-top: 13px; margin-right: 13px;">
-                    @Html.EditorFor(d => d.Customer, "AutoCompletes/CustomerBase", new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Customer) })
-                    @Html.EditorFor(d => d.Receiver, "AutoCompletes/CustomerBase", new { CustomerDescriptionHidden = "true", CustomerDisplayName = @Model.GetDisplayName(m => m.Receiver), CustomerIcon = "Customer Red 24.png" })
+                    @Html.EditorFor(d => d.Customer, "AutoCompletes/CustomerBase", new { CustomerDescriptionHidden = "true", CustomerDisplayName = @Model.GetDisplayName(m => m.Customer) })
+                    @Html.EditorFor(d => d.Receiver, "AutoCompletes/CustomerBase", new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Receiver), CustomerIcon = "Customer Red 24.png" })
 
                     @Html.EditorFor(d => d.ShippingAddress)
 
