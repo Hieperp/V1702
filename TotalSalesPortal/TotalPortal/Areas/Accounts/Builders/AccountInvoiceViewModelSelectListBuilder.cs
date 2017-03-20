@@ -11,22 +11,12 @@ namespace TotalPortal.Areas.Accounts.Builders
     {
     }
 
-    public class AccountInvoiceViewModelSelectListBuilder : IAccountInvoiceViewModelSelectListBuilder
+    public class AccountInvoiceViewModelSelectListBuilder : A02ViewModelSelectListBuilder<AccountInvoiceViewModel>, IAccountInvoiceViewModelSelectListBuilder
     {
-        private readonly IAspNetUserRepository aspNetUserRepository;
-        private readonly IAspNetUserSelectListBuilder aspNetUserSelectListBuilder;
-
-        public AccountInvoiceViewModelSelectListBuilder(IAspNetUserSelectListBuilder aspNetUserSelectListBuilder, IAspNetUserRepository aspNetUserRepository)
+        public AccountInvoiceViewModelSelectListBuilder(IAspNetUserSelectListBuilder aspNetUserSelectListBuilder, IAspNetUserRepository aspNetUserRepository, IPaymentTermSelectListBuilder paymentTermSelectListBuilder, IPaymentTermRepository paymentTermRepository)
+            : base(aspNetUserSelectListBuilder, aspNetUserRepository, paymentTermSelectListBuilder, paymentTermRepository)
         {
-            this.aspNetUserRepository = aspNetUserRepository;
-            this.aspNetUserSelectListBuilder = aspNetUserSelectListBuilder;
         }
-
-        public void BuildSelectLists(AccountInvoiceViewModel accountInvoiceViewModel)
-        {
-            accountInvoiceViewModel.AspNetUserSelectList = aspNetUserSelectListBuilder.BuildSelectListItemsForAspNetUsers(aspNetUserRepository.GetAllAspNetUsers(), accountInvoiceViewModel.UserID);
-        }
-
     }
 
 }

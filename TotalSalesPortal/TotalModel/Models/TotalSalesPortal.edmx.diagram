@@ -102,6 +102,9 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnits_PackingMaterials" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Customers_CustomerCategories" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_AccountInvoices_Customers2" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_AccountInvoices_PaymentTerms" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_CustomerCategories_PaymentTerms" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssues_PaymentTerms" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

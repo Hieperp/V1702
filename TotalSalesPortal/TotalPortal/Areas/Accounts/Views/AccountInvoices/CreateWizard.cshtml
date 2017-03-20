@@ -10,6 +10,7 @@
 
     @Html.HiddenFor(model => model.AccountInvoiceID);
 
+    @Html.HiddenFor(model => model.PaymentTermID);
     @Html.HiddenFor(model => model.Description);
     @Html.HiddenFor(model => model.Remarks);
 
@@ -120,6 +121,7 @@
             $("#GoodsIssue_ReceiverCode").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueReceiverCode === undefined ? null : selectedDataItem.GoodsIssueReceiverCode);
             $("#GoodsIssue_ReceiverName").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueReceiverName === undefined ? null : selectedDataItem.GoodsIssueReceiverName);
 
+            $("#PaymentTermID").val(selectedDataItem === undefined || selectedDataItem.PaymentTermID === undefined ? null : selectedDataItem.PaymentTermID);
             $("#Description").val(selectedDataItem === undefined || selectedDataItem.Description === undefined ? null : selectedDataItem.Description);
             $("#Remarks").val(selectedDataItem === undefined || selectedDataItem.Remarks === undefined ? null : selectedDataItem.Remarks);
 

@@ -35,5 +35,6 @@ namespace TotalModel.Models
         public string CustomerBillingAddress { get; set; }
         public string ReceiverBillingAddress { get; set; }
         public string ShippingAddress { get; set; }
+        public int PaymentTermID { get; set; }
     }
 }

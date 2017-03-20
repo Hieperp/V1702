@@ -58,6 +58,7 @@ namespace TotalModel.Models
         public decimal TotalListedVATAmount { get; set; }
         public decimal TotalListedGrossAmount { get; set; }
         public string DeliveryAdviceReferences { get; set; }
+        public int PaymentTermID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }
@@ -73,5 +74,6 @@ namespace TotalModel.Models
         public virtual Employee Employee { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HandlingUnit> HandlingUnits { get; set; }
+        public virtual PaymentTerm PaymentTerm { get; set; }
     }
 }

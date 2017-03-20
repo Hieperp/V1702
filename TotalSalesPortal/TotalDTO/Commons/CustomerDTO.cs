@@ -28,6 +28,7 @@ namespace TotalDTO.Commons
         string EntireTerritoryEntireName { get; set; }
         int SalespersonID { get; set; }
         string SalespersonName { get; set; }
+        int PaymentTermID { get; set; }
         int PriceCategoryID { get; set; }
         string PriceCategoryCode { get; set; }
         bool ShowDiscount { get; set; }
@@ -74,13 +75,14 @@ namespace TotalDTO.Commons
         [Display(Name = "Tên nhân viên")]
         public virtual string SalespersonName { get; set; }
 
+        [Display(Name = "Phương thức thanh toán")]
+        public int PaymentTermID { get; set; }
+
         [Required]
         [Display(Name = "Bảng giá")]
         public int PriceCategoryID { get; set; }
         [Display(Name = "Bảng giá")]
         public string PriceCategoryCode { get; set; }
-
-        public bool ShowDiscount { get; set; }
     }
 
 

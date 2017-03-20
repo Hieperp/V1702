@@ -11,6 +11,8 @@
     @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
 
     @Html.HiddenFor(model => model.ShowDiscount);
+
+    @Html.HiddenFor(model => model.PaymentTermID);
     
     @Html.HiddenFor(model => model.Salesperson.EmployeeID);
     @Html.HiddenFor(model => model.Salesperson.Name);
@@ -87,6 +89,9 @@
 
 
         function _setModelInput(selectedDataItem) {
+
+            $("#PaymentTermID").val($("#Customer_PaymentTermID").val());
+
             $("#Salesperson_EmployeeID").val($("#Customer_SalespersonID").val()); //INIT DEFAULT Salesperson_EmployeeID, Salesperson_Name FROM Customer_SalespersonID, Customer_SalespersonName
             $("#Salesperson_Name").val($("#Customer_SalespersonName").val());
 

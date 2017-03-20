@@ -21,5 +21,6 @@ namespace TotalModel.Models
         public string CustomerTelephone { get; set; }
         public string CustomerEntireTerritoryEntireName { get; set; }
         public string CustomerBillingAddress { get; set; }
+        public int PaymentTermID { get; set; }
     }
 }

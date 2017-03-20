@@ -28,11 +28,13 @@ namespace TotalModel.Models
         public int PriceCategoryID { get; set; }
         public string Code { get; set; }
         public bool ShowDiscount { get; set; }
+        public int PaymentTermID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustomerCategory> CustomerCategories1 { get; set; }
         public virtual CustomerCategory CustomerCategory1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer> Customers { get; set; }
+        public virtual PaymentTerm PaymentTerm { get; set; }
     }
 }

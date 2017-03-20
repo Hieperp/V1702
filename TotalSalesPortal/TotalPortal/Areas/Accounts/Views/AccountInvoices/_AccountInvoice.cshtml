@@ -94,7 +94,7 @@
 
                     columns.Bound(p => p.GoodsIssueReference).DisplayNameTitle().Filterable(false).Width(60).Hidden(@Model.GoodsIssue != null && @Model.GoodsIssue.GoodsIssueID != null ? true : false)
                         .ClientTemplate("#= GoodsIssueReference #" + "<input type='hidden' name='AccountInvoiceViewDetails[#= index(data) #].GoodsIssueReference' value='#= GoodsIssueReference #' />");
-                    columns.Bound(p => p.GoodsIssueEntryDate).DisplayNameTitle().Filterable(false).Width(130).Hidden(@Model.GoodsIssue != null && @Model.GoodsIssue.GoodsIssueID != null ? true : false)
+                    columns.Bound(p => p.GoodsIssueEntryDate).DisplayNameTitle().Filterable(false).Width(90).Hidden(@Model.GoodsIssue != null && @Model.GoodsIssue.GoodsIssueID != null ? true : false)
                         .ClientTemplate("#= GoodsIssueEntryDate ? kendo.toString(kendo.parseDate(GoodsIssueEntryDate), '" + SettingsManager.DateFormat + "') : '' #" + "<input type='hidden' name='AccountInvoiceViewDetails[#= index(data) #].GoodsIssueEntryDate' value='#= kendo.toString(GoodsIssueEntryDate, '" + SettingsManager.DateFormat + "') #' />");
 
 
@@ -283,7 +283,9 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
+                                @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PaymentTerm.cshtml")
+
+                                @*<div class="form-group">
                                     @Html.LabelFor(model => model.Remarks, new { @class = "right-panel-label" })
                                     <div class="div-input">
                                         @Html.Kendo().MaskedTextBoxFor(model => model.Remarks).HtmlAttributes(new { @class = "right-panel-input" })
@@ -291,7 +293,7 @@
                                     <div class="div-validation-message">
                                         @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
                                     </div>
-                                </div>
+                                </div>*@
                             </div>
 
                             <div class="right-second-panel">

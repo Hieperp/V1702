@@ -40,6 +40,7 @@ namespace TotalDTO.Inventories
         public virtual int StorekeeperID { get; set; }
 
         [Display(Name = "Phương thức TT")]
+        [UIHint("DropDowns/PaymentTerm")]
         public int PaymentTermID { get; set; }
 
         public override void PerformPresaveRule()

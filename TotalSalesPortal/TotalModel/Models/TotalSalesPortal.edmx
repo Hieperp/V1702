@@ -70,6 +70,7 @@
           <Property Name="OrganizationalUnitID" Type="int" Nullable="false" />
           <Property Name="LocationID" Type="int" Nullable="false" />
           <Property Name="ApproverID" Type="int" Nullable="false" />
+          <Property Name="PaymentTermID" Type="int" Nullable="false" />
           <Property Name="TotalQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalListedAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -181,6 +182,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="AncestorID" Type="int" />
           <Property Name="PriceCategoryID" Type="int" Nullable="false" />
+          <Property Name="PaymentTermID" Type="int" Nullable="false" />
           <Property Name="ShowDiscount" Type="bit" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
         </EntityType>
@@ -448,6 +450,7 @@
           <Property Name="OrganizationalUnitID" Type="int" Nullable="false" />
           <Property Name="LocationID" Type="int" Nullable="false" />
           <Property Name="ApproverID" Type="int" Nullable="false" />
+          <Property Name="PaymentTermID" Type="int" Nullable="false" />
           <Property Name="TotalQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalFreeQuantity" Type="decimal" Precision="18" Scale="2" />
           <Property Name="TotalListedAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -802,6 +805,18 @@ warning 6035: The relationship 'FK_AccountInvoices_AspNetUsers2' has columns tha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AccountInvoices_PaymentTerms">
+          <End Role="PaymentTerms" Type="Self.PaymentTerms" Multiplicity="1" />
+          <End Role="AccountInvoices" Type="Self.AccountInvoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTerms">
+              <PropertyRef Name="PaymentTermID" />
+            </Principal>
+            <Dependent Role="AccountInvoices">
+              <PropertyRef Name="PaymentTermID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Commodities_CommodityCategories">
           <End Role="CommodityCategories" Type="Self.CommodityCategories" Multiplicity="1" />
           <End Role="Commodities" Type="Self.Commodities" Multiplicity="*" />
@@ -859,6 +874,18 @@ warning 6035: The relationship 'FK_AccountInvoices_AspNetUsers2' has columns tha
             </Principal>
             <Dependent Role="CustomerCategories1">
               <PropertyRef Name="AncestorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerCategories_PaymentTerms">
+          <End Role="PaymentTerms" Type="Self.PaymentTerms" Multiplicity="1" />
+          <End Role="CustomerCategories" Type="Self.CustomerCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTerms">
+              <PropertyRef Name="PaymentTermID" />
+            </Principal>
+            <Dependent Role="CustomerCategories">
+              <PropertyRef Name="PaymentTermID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1273,6 +1300,18 @@ warning 6035: The relationship 'FK_GoodsDeliveries_AspNetUsers2' has columns tha
             </Principal>
             <Dependent Role="GoodsIssues">
               <PropertyRef Name="StorekeeperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoodsIssues_PaymentTerms">
+          <End Role="PaymentTerms" Type="Self.PaymentTerms" Multiplicity="1" />
+          <End Role="GoodsIssues" Type="Self.GoodsIssues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTerms">
+              <PropertyRef Name="PaymentTermID" />
+            </Principal>
+            <Dependent Role="GoodsIssues">
+              <PropertyRef Name="PaymentTermID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1797,6 +1836,10 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <End Role="Locations" EntitySet="Locations" />
             <End Role="AccountInvoices" EntitySet="AccountInvoices" />
           </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoices_PaymentTerms" Association="Self.FK_AccountInvoices_PaymentTerms">
+            <End Role="PaymentTerms" EntitySet="PaymentTerms" />
+            <End Role="AccountInvoices" EntitySet="AccountInvoices" />
+          </AssociationSet>
           <AssociationSet Name="FK_Commodities_CommodityCategories" Association="Self.FK_Commodities_CommodityCategories">
             <End Role="CommodityCategories" EntitySet="CommodityCategories" />
             <End Role="Commodities" EntitySet="Commodities" />
@@ -1816,6 +1859,10 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <AssociationSet Name="FK_CustomerCategories_CustomerCategories" Association="Self.FK_CustomerCategories_CustomerCategories">
             <End Role="CustomerCategories" EntitySet="CustomerCategories" />
             <End Role="CustomerCategories1" EntitySet="CustomerCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerCategories_PaymentTerms" Association="Self.FK_CustomerCategories_PaymentTerms">
+            <End Role="PaymentTerms" EntitySet="PaymentTerms" />
+            <End Role="CustomerCategories" EntitySet="CustomerCategories" />
           </AssociationSet>
           <AssociationSet Name="FK_Customers_CustomerCategories" Association="Self.FK_Customers_CustomerCategories">
             <End Role="CustomerCategories" EntitySet="CustomerCategories" />
@@ -1947,6 +1994,10 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           </AssociationSet>
           <AssociationSet Name="FK_GoodsIssues_Employees" Association="Self.FK_GoodsIssues_Employees">
             <End Role="Employees" EntitySet="Employees" />
+            <End Role="GoodsIssues" EntitySet="GoodsIssues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoodsIssues_PaymentTerms" Association="Self.FK_GoodsIssues_PaymentTerms">
+            <End Role="PaymentTerms" EntitySet="PaymentTerms" />
             <End Role="GoodsIssues" EntitySet="GoodsIssues" />
           </AssociationSet>
           <AssociationSet Name="FK_HandlingUnitDetails_GoodsIssueDetails" Association="Self.FK_HandlingUnitDetails_GoodsIssueDetails">
@@ -2617,6 +2668,18 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <End Role="Customer" EntitySet="Customers" />
             <End Role="AccountInvoice" EntitySet="AccountInvoices" />
           </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoices_PaymentTerms" Association="TotalSalesPortalModel.FK_AccountInvoices_PaymentTerms">
+            <End Role="PaymentTerm" EntitySet="PaymentTerms" />
+            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerCategories_PaymentTerms" Association="TotalSalesPortalModel.FK_CustomerCategories_PaymentTerms">
+            <End Role="PaymentTerm" EntitySet="PaymentTerms" />
+            <End Role="CustomerCategory" EntitySet="CustomerCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoodsIssues_PaymentTerms" Association="TotalSalesPortalModel.FK_GoodsIssues_PaymentTerms">
+            <End Role="PaymentTerm" EntitySet="PaymentTerms" />
+            <End Role="GoodsIssue" EntitySet="GoodsIssues" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -2747,6 +2810,8 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ShowDiscount" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Customers" Relationship="TotalSalesPortalModel.FK_Customers_CustomerCategories" FromRole="CustomerCategory" ToRole="Customer" />
+          <Property Name="PaymentTermID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PaymentTerm" Relationship="TotalSalesPortalModel.FK_CustomerCategories_PaymentTerms" FromRole="CustomerCategory" ToRole="PaymentTerm" />
         </EntityType>
         <EntityType Name="CustomerType">
           <Key>
@@ -2809,6 +2874,9 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="IsDefault" Type="Boolean" Nullable="false" />
           <Property Name="CalculateID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DeliveryAdvices" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_PaymentTerms" FromRole="PaymentTerm" ToRole="DeliveryAdvice" />
+          <NavigationProperty Name="AccountInvoices" Relationship="TotalSalesPortalModel.FK_AccountInvoices_PaymentTerms" FromRole="PaymentTerm" ToRole="AccountInvoice" />
+          <NavigationProperty Name="CustomerCategories" Relationship="TotalSalesPortalModel.FK_CustomerCategories_PaymentTerms" FromRole="PaymentTerm" ToRole="CustomerCategory" />
+          <NavigationProperty Name="GoodsIssues" Relationship="TotalSalesPortalModel.FK_GoodsIssues_PaymentTerms" FromRole="PaymentTerm" ToRole="GoodsIssue" />
         </EntityType>
         <EntityType Name="Territory">
           <Key>
@@ -3089,6 +3157,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="String" Name="CustomerBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ShippingAddress" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="PaymentTermID" Nullable="false" />
         </ComplexType>
         <ComplexType Name="PendingDeliveryAdvice">
           <Property Type="Int32" Name="DeliveryAdviceID" Nullable="false" />
@@ -3113,6 +3182,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="String" Name="CustomerBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ShippingAddress" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="PaymentTermID" Nullable="false" />
         </ComplexType>
         <ComplexType Name="AccountInvoiceIndex">
           <Property Type="Int32" Name="AccountInvoiceID" Nullable="false" />
@@ -3332,6 +3402,8 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="AverageDiscountPercent" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
           <Property Name="ReceiverID" Type="Int32" />
           <NavigationProperty Name="Customer2" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers2" FromRole="AccountInvoice" ToRole="Customer" />
+          <Property Name="PaymentTermID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PaymentTerm" Relationship="TotalSalesPortalModel.FK_AccountInvoices_PaymentTerms" FromRole="AccountInvoice" ToRole="PaymentTerm" />
           </EntityType>
         <Association Name="FK_AccountInvoices_Locations">
           <End Type="TotalSalesPortalModel.Location" Role="Location" Multiplicity="1" />
@@ -3401,6 +3473,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="String" Name="CustomerTelephone" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="CustomerEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="CustomerBillingAddress" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="PaymentTermID" Nullable="false" />
         </ComplexType>
         <ComplexType Name="PendingGoodsIssue">
           <Property Type="Int32" Name="GoodsIssueID" Nullable="false" />
@@ -3418,6 +3491,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="String" Name="CustomerTelephone" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="CustomerEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="CustomerBillingAddress" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="PaymentTermID" Nullable="false" />
         </ComplexType>
         <EntityType Name="PackingMaterial">
           <Key>
@@ -3984,6 +4058,8 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="TotalListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="DeliveryAdviceReferences" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="HandlingUnits" Relationship="TotalSalesPortalModel.FK_HandlingUnits_GoodsIssues" FromRole="GoodsIssue" ToRole="HandlingUnit" />
+          <Property Name="PaymentTermID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PaymentTerm" Relationship="TotalSalesPortalModel.FK_GoodsIssues_PaymentTerms" FromRole="GoodsIssue" ToRole="PaymentTerm" />
         </EntityType>
         <EntityType Name="Receipt">
           <Key>
@@ -4596,6 +4672,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="String" Name="ReceiverTelephone" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
+          <Property Type="Int32" Name="PaymentTermID" Nullable="false" />
         </ComplexType>
         <Association Name="FK_AccountInvoices_Customers2">
           <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="0..1" />
@@ -4606,6 +4683,42 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             </Principal>
             <Dependent Role="AccountInvoice">
               <PropertyRef Name="ReceiverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountInvoices_PaymentTerms">
+          <End Type="TotalSalesPortalModel.PaymentTerm" Role="PaymentTerm" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTerm">
+              <PropertyRef Name="PaymentTermID" />
+            </Principal>
+            <Dependent Role="AccountInvoice">
+              <PropertyRef Name="PaymentTermID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerCategories_PaymentTerms">
+          <End Type="TotalSalesPortalModel.PaymentTerm" Role="PaymentTerm" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.CustomerCategory" Role="CustomerCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTerm">
+              <PropertyRef Name="PaymentTermID" />
+            </Principal>
+            <Dependent Role="CustomerCategory">
+              <PropertyRef Name="PaymentTermID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoodsIssues_PaymentTerms">
+          <End Type="TotalSalesPortalModel.PaymentTerm" Role="PaymentTerm" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.GoodsIssue" Role="GoodsIssue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTerm">
+              <PropertyRef Name="PaymentTermID" />
+            </Principal>
+            <Dependent Role="GoodsIssue">
+              <PropertyRef Name="PaymentTermID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4771,6 +4884,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <EntitySetMapping Name="CustomerCategories">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.CustomerCategory">
               <MappingFragment StoreEntitySet="CustomerCategories">
+                <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
                 <ScalarProperty Name="ShowDiscount" ColumnName="ShowDiscount" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="PriceCategoryID" ColumnName="PriceCategoryID" />
@@ -5042,6 +5156,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
                 <ScalarProperty Name="CustomerBillingAddress" ColumnName="CustomerBillingAddress" />
                 <ScalarProperty Name="ReceiverBillingAddress" ColumnName="ReceiverBillingAddress" />
                 <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -5070,6 +5185,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
                 <ScalarProperty Name="CustomerBillingAddress" ColumnName="CustomerBillingAddress" />
                 <ScalarProperty Name="ReceiverBillingAddress" ColumnName="ReceiverBillingAddress" />
                 <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -5290,6 +5406,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <EntitySetMapping Name="AccountInvoices">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.AccountInvoice">
               <MappingFragment StoreEntitySet="AccountInvoices">
+                <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
                 <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
                 <ScalarProperty Name="AverageDiscountPercent" ColumnName="AverageDiscountPercent" />
                 <ScalarProperty Name="TotalListedGrossAmount" ColumnName="TotalListedGrossAmount" />
@@ -5375,6 +5492,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
                 <ScalarProperty Name="CustomerTelephone" ColumnName="CustomerTelephone" />
                 <ScalarProperty Name="CustomerEntireTerritoryEntireName" ColumnName="CustomerEntireTerritoryEntireName" />
                 <ScalarProperty Name="CustomerBillingAddress" ColumnName="CustomerBillingAddress" />
+                <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -5396,6 +5514,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
                 <ScalarProperty Name="CustomerTelephone" ColumnName="CustomerTelephone" />
                 <ScalarProperty Name="CustomerEntireTerritoryEntireName" ColumnName="CustomerEntireTerritoryEntireName" />
                 <ScalarProperty Name="CustomerBillingAddress" ColumnName="CustomerBillingAddress" />
+                <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -5861,6 +5980,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <EntitySetMapping Name="GoodsIssues">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.GoodsIssue">
               <MappingFragment StoreEntitySet="GoodsIssues">
+                <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
                 <ScalarProperty Name="DeliveryAdviceReferences" ColumnName="DeliveryAdviceReferences" />
                 <ScalarProperty Name="TotalListedGrossAmount" ColumnName="TotalListedGrossAmount" />
                 <ScalarProperty Name="TotalListedVATAmount" ColumnName="TotalListedVATAmount" />
@@ -5992,6 +6112,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
                 <ScalarProperty Name="ReceiverTelephone" ColumnName="ReceiverTelephone" />
                 <ScalarProperty Name="ReceiverBillingAddress" ColumnName="ReceiverBillingAddress" />
                 <ScalarProperty Name="ReceiverEntireTerritoryEntireName" ColumnName="ReceiverEntireTerritoryEntireName" />
+                <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

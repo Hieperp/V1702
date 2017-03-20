@@ -1,5 +1,4 @@
 ﻿using TotalCore.Repositories.Commons;
-using TotalCore.Repositories.Inventories;
 
 using TotalPortal.Builders;
 using TotalPortal.Areas.Commons.Builders;
@@ -11,27 +10,21 @@ namespace TotalPortal.Areas.Inventories.Builders
     {
     }
 
-    public class GoodsDeliveryViewModelSelectListBuilder : IGoodsDeliveryViewModelSelectListBuilder
+    public class GoodsDeliveryViewModelSelectListBuilder : A01ViewModelSelectListBuilder<GoodsDeliveryViewModel>, IGoodsDeliveryViewModelSelectListBuilder
     {
-        private readonly IAspNetUserRepository aspNetUserRepository;
-        private readonly IAspNetUserSelectListBuilder aspNetUserSelectListBuilder;
-
         private readonly IVehicleSelectListBuilder vehicleSelectListBuilder;
         private readonly IVehicleRepository vehicleRepository;
 
         public GoodsDeliveryViewModelSelectListBuilder(IAspNetUserSelectListBuilder aspNetUserSelectListBuilder, IAspNetUserRepository aspNetUserRepository, IVehicleSelectListBuilder vehicleSelectListBuilder, IVehicleRepository vehicleRepository)
+            : base(aspNetUserSelectListBuilder, aspNetUserRepository)
         {
-            this.aspNetUserRepository = aspNetUserRepository;
-            this.aspNetUserSelectListBuilder = aspNetUserSelectListBuilder;
-
             this.vehicleSelectListBuilder = vehicleSelectListBuilder;
             this.vehicleRepository = vehicleRepository;
         }
 
-        public void BuildSelectLists(GoodsDeliveryViewModel goodsDeliveryViewModel)
+        public override void BuildSelectLists(GoodsDeliveryViewModel goodsDeliveryViewModel)
         {
-            goodsDeliveryViewModel.AspNetUserSelectList = aspNetUserSelectListBuilder.BuildSelectListItemsForAspNetUsers(aspNetUserRepository.GetAllAspNetUsers(), goodsDeliveryViewModel.UserID);
-            goodsDeliveryViewModel.VehicleSelectList = vehicleSelectListBuilder.BuildSelectListItemsForVehicles(vehicleRepository.GetAllVehicles());
+            goodsDeliveryViewModel.VehicleSelectList = this.vehicleSelectListBuilder.BuildSelectListItemsForVehicles(this.vehicleRepository.GetAllVehicles());
         }
 
     }

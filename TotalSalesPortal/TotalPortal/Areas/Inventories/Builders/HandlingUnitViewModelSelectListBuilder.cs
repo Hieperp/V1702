@@ -1,5 +1,4 @@
 ﻿using TotalCore.Repositories.Commons;
-using TotalCore.Repositories.Inventories;
 
 using TotalPortal.Builders;
 using TotalPortal.Areas.Commons.Builders;
@@ -11,25 +10,21 @@ namespace TotalPortal.Areas.Inventories.Builders
     {
     }
 
-    public class HandlingUnitViewModelSelectListBuilder : IHandlingUnitViewModelSelectListBuilder
+    public class HandlingUnitViewModelSelectListBuilder : A01ViewModelSelectListBuilder<HandlingUnitViewModel>, IHandlingUnitViewModelSelectListBuilder
     {
         private readonly IPackingMaterialSelectListBuilder packingMaterialSelectListBuilder;
         private readonly IPackingMaterialRepository packingMaterialRepository;
-        private readonly IAspNetUserRepository aspNetUserRepository;
-        private readonly IAspNetUserSelectListBuilder aspNetUserSelectListBuilder;
 
-        public HandlingUnitViewModelSelectListBuilder(IPackingMaterialSelectListBuilder packingMaterialSelectListBuilder, IPackingMaterialRepository packingMaterialRepository, IAspNetUserSelectListBuilder aspNetUserSelectListBuilder, IAspNetUserRepository aspNetUserRepository)
+        public HandlingUnitViewModelSelectListBuilder(IAspNetUserSelectListBuilder aspNetUserSelectListBuilder, IAspNetUserRepository aspNetUserRepository, IPackingMaterialSelectListBuilder packingMaterialSelectListBuilder, IPackingMaterialRepository packingMaterialRepository)
+            : base(aspNetUserSelectListBuilder, aspNetUserRepository)
         {
             this.packingMaterialSelectListBuilder = packingMaterialSelectListBuilder;
             this.packingMaterialRepository = packingMaterialRepository;
-            this.aspNetUserRepository = aspNetUserRepository;
-            this.aspNetUserSelectListBuilder = aspNetUserSelectListBuilder;
         }
 
-        public void BuildSelectLists(HandlingUnitViewModel handlingUnitViewModel)
+        public override void BuildSelectLists(HandlingUnitViewModel handlingUnitViewModel)
         {
-            handlingUnitViewModel.PackingMaterialSelectList = packingMaterialSelectListBuilder.BuildSelectListItemsForPackingMaterials(packingMaterialRepository.GetAllPackingMaterials());
-            handlingUnitViewModel.AspNetUserSelectList = aspNetUserSelectListBuilder.BuildSelectListItemsForAspNetUsers(aspNetUserRepository.GetAllAspNetUsers(), handlingUnitViewModel.UserID);
+            handlingUnitViewModel.PackingMaterialSelectList = this.packingMaterialSelectListBuilder.BuildSelectListItemsForPackingMaterials(this.packingMaterialRepository.GetAllPackingMaterials());
         }
 
     }
