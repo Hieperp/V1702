@@ -27,6 +27,9 @@ namespace TotalDTO.Accounts
         public virtual Nullable<int> ReceiverID { get; set; }
         public virtual Nullable<int> GoodsIssueID { get; set; }
 
+        [Display(Name = "Phương thức TT")]
+        public int PaymentTermID { get; set; }
+
         [Display(Name = "Số hóa đơn")]
         [Required(ErrorMessage = "Vui lòng nhập số hóa đơn")]
         public string VATInvoiceNo { get; set; }

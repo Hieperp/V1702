@@ -36,7 +36,7 @@ namespace TotalDTO.Accounts
         [UIHint("DecimalReadonly")]
         public decimal FreeQuantityRemains { get; set; }
 
-        [UIHint("DecimalReadonly")]
+        [UIHint("Decimal")]
         public override decimal DiscountPercent { get; set; }
         [UIHint("DecimalReadonly")]
         public override decimal UnitPrice { get; set; }

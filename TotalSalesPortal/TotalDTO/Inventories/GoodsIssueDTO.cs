@@ -39,6 +39,9 @@ namespace TotalDTO.Inventories
 
         public virtual int StorekeeperID { get; set; }
 
+        [Display(Name = "Phương thức TT")]
+        public int PaymentTermID { get; set; }
+
         public override void PerformPresaveRule()
         {
             base.PerformPresaveRule();

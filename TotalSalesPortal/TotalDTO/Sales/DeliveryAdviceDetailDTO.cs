@@ -35,7 +35,9 @@ namespace TotalDTO.Sales
         public int ReceiverID { get; set; }
         public int SalespersonID { get; set; }
 
-        
+
+        [UIHint("DecimalReadonly")]
+        public override decimal DiscountPercent { get; set; }
 
         public string VoidTypeCode { get; set; }
         [Display(Name = "Lý do")]
