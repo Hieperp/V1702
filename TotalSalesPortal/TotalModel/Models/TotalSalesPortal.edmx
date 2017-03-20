@@ -35,6 +35,7 @@
           <Property Name="GoodsIssueID" Type="int" Nullable="false" />
           <Property Name="GoodsIssueDetailID" Type="int" Nullable="false" />
           <Property Name="CalculatingTypeID" Type="int" Nullable="false" />
+          <Property Name="CommodityID" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="FreeQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="QuantityInvoice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -721,6 +722,18 @@
             </Principal>
             <Dependent Role="AccountInvoiceDetails">
               <PropertyRef Name="AccountInvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountInvoiceDetails_Commodities">
+          <End Role="Commodities" Type="Self.Commodities" Multiplicity="1" />
+          <End Role="AccountInvoiceDetails" Type="Self.AccountInvoiceDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commodities">
+              <PropertyRef Name="CommodityID" />
+            </Principal>
+            <Dependent Role="AccountInvoiceDetails">
+              <PropertyRef Name="CommodityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1812,6 +1825,10 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <End Role="AccountInvoices" EntitySet="AccountInvoices" />
             <End Role="AccountInvoiceDetails" EntitySet="AccountInvoiceDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoiceDetails_Commodities" Association="Self.FK_AccountInvoiceDetails_Commodities">
+            <End Role="Commodities" EntitySet="Commodities" />
+            <End Role="AccountInvoiceDetails" EntitySet="AccountInvoiceDetails" />
+          </AssociationSet>
           <AssociationSet Name="FK_AccountInvoiceDetails_GoodsIssueDetails" Association="Self.FK_AccountInvoiceDetails_GoodsIssueDetails">
             <End Role="GoodsIssueDetails" EntitySet="GoodsIssueDetails" />
             <End Role="AccountInvoiceDetails" EntitySet="AccountInvoiceDetails" />
@@ -2680,6 +2697,10 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <End Role="PaymentTerm" EntitySet="PaymentTerms" />
             <End Role="GoodsIssue" EntitySet="GoodsIssues" />
           </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoiceDetails_Commodities" Association="TotalSalesPortalModel.FK_AccountInvoiceDetails_Commodities">
+            <End Role="Commodity" EntitySet="Commodities" />
+            <End Role="AccountInvoiceDetail" EntitySet="AccountInvoiceDetails" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -2763,6 +2784,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="CodePartD" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DeliveryAdviceDetails" Relationship="TotalSalesPortalModel.FK_DeliveryAdviceDetails_Commodities" FromRole="Commodity" ToRole="DeliveryAdviceDetail" />
           <NavigationProperty Name="GoodsIssueDetails" Relationship="TotalSalesPortalModel.FK_GoodsIssueDetails_Commodities" FromRole="Commodity" ToRole="GoodsIssueDetail" />
+          <NavigationProperty Name="AccountInvoiceDetails" Relationship="TotalSalesPortalModel.FK_AccountInvoiceDetails_Commodities" FromRole="Commodity" ToRole="AccountInvoiceDetail" />
         </EntityType>
         <EntityType Name="CommodityCategory">
           <Key>
@@ -3359,6 +3381,8 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="ListedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="ListedVATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="ListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CommodityID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Commodity" Relationship="TotalSalesPortalModel.FK_AccountInvoiceDetails_Commodities" FromRole="AccountInvoiceDetail" ToRole="Commodity" />
         </EntityType>
         <EntityType Name="AccountInvoice">
           <Key>
@@ -4722,6 +4746,18 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AccountInvoiceDetails_Commodities">
+          <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.AccountInvoiceDetail" Role="AccountInvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commodity">
+              <PropertyRef Name="CommodityID" />
+            </Principal>
+            <Dependent Role="AccountInvoiceDetail">
+              <PropertyRef Name="CommodityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5374,6 +5410,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <EntitySetMapping Name="AccountInvoiceDetails">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.AccountInvoiceDetail">
               <MappingFragment StoreEntitySet="AccountInvoiceDetails">
+                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
                 <ScalarProperty Name="ListedGrossAmount" ColumnName="ListedGrossAmount" />
                 <ScalarProperty Name="ListedVATAmount" ColumnName="ListedVATAmount" />
                 <ScalarProperty Name="ListedAmount" ColumnName="ListedAmount" />

@@ -40,8 +40,10 @@ namespace TotalModel.Models
         public decimal ListedAmount { get; set; }
         public decimal ListedVATAmount { get; set; }
         public decimal ListedGrossAmount { get; set; }
+        public int CommodityID { get; set; }
     
         public virtual AccountInvoice AccountInvoice { get; set; }
         public virtual GoodsIssueDetail GoodsIssueDetail { get; set; }
+        public virtual Commodity Commodity { get; set; }
     }
 }

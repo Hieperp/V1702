@@ -105,6 +105,7 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_AccountInvoices_PaymentTerms" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_CustomerCategories_PaymentTerms" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssues_PaymentTerms" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_AccountInvoiceDetails_Commodities" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
