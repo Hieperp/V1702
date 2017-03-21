@@ -59,10 +59,10 @@ namespace TotalModel.Models
         public decimal ListedGrossAmount { get; set; }
         public int CalculatingTypeID { get; set; }
     
-        public virtual Commodity Commodity { get; set; }
         public virtual DeliveryAdvice DeliveryAdvice { get; set; }
         public virtual VoidType VoidType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GoodsIssueDetail> GoodsIssueDetails { get; set; }
+        public virtual Commodity Commodity { get; set; }
     }
 }

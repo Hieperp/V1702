@@ -33,7 +33,6 @@ namespace TotalModel.Models
         public virtual DbSet<Module> Modules { get; set; }
         public virtual DbSet<OrganizationalUnit> OrganizationalUnits { get; set; }
         public virtual DbSet<OrganizationalUnitUser> OrganizationalUnitUsers { get; set; }
-        public virtual DbSet<Commodity> Commodities { get; set; }
         public virtual DbSet<CommodityCategory> CommodityCategories { get; set; }
         public virtual DbSet<CommodityType> CommodityTypes { get; set; }
         public virtual DbSet<CustomerCategory> CustomerCategories { get; set; }
@@ -61,6 +60,7 @@ namespace TotalModel.Models
         public virtual DbSet<GoodsIssue> GoodsIssues { get; set; }
         public virtual DbSet<Receipt> Receipts { get; set; }
         public virtual DbSet<HandlingUnit> HandlingUnits { get; set; }
+        public virtual DbSet<Commodity> Commodities { get; set; }
     
         public virtual ObjectResult<Nullable<int>> GetAccessLevel(Nullable<int> userID, Nullable<int> nMVNTaskID, Nullable<int> organizationalUnitID)
         {

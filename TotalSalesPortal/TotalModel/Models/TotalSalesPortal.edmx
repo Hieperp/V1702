@@ -117,7 +117,7 @@
           <Key>
             <PropertyRef Name="CommodityID" />
           </Key>
-          <Property Name="CommodityID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CommodityID" Type="int" Nullable="false" />
           <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="OfficialCode" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CodePartA" Type="nvarchar" MaxLength="20" Nullable="false" />
@@ -2185,7 +2185,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <Parameter Name="NMVNTaskID" Mode="In" Type="Int32" />
             <Parameter Name="OrganizationalUnitID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="Commodities" EntityType="TotalSalesPortalModel.Commodity" />
           <EntitySet Name="CommodityCategories" EntityType="TotalSalesPortalModel.CommodityCategory" />
           <EntitySet Name="CommodityTypes" EntityType="TotalSalesPortalModel.CommodityType" />
           <EntitySet Name="CustomerCategories" EntityType="TotalSalesPortalModel.CustomerCategory" />
@@ -2194,14 +2193,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <EntitySet Name="EntireTerritories" EntityType="TotalSalesPortalModel.EntireTerritory" />
           <EntitySet Name="PaymentTerms" EntityType="TotalSalesPortalModel.PaymentTerm" />
           <EntitySet Name="Territories" EntityType="TotalSalesPortalModel.Territory" />
-          <AssociationSet Name="FK_Commodities_CommodityCategories" Association="TotalSalesPortalModel.FK_Commodities_CommodityCategories">
-            <End Role="CommodityCategory" EntitySet="CommodityCategories" />
-            <End Role="Commodity" EntitySet="Commodities" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Commodities_CommodityTypes" Association="TotalSalesPortalModel.FK_Commodities_CommodityTypes">
-            <End Role="CommodityType" EntitySet="CommodityTypes" />
-            <End Role="Commodity" EntitySet="Commodities" />
-          </AssociationSet>
           <AssociationSet Name="FK_CommodityCategories_CommodityCategories" Association="TotalSalesPortalModel.FK_CommodityCategories_CommodityCategories">
             <End Role="CommodityCategory" EntitySet="CommodityCategories" />
             <End Role="CommodityCategory1" EntitySet="CommodityCategories" />
@@ -2505,14 +2496,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <End Role="GoodsIssue" EntitySet="GoodsIssues" />
             <End Role="AccountInvoice" EntitySet="AccountInvoices" />
           </AssociationSet>
-          <AssociationSet Name="FK_DeliveryAdviceDetails_Commodities" Association="TotalSalesPortalModel.FK_DeliveryAdviceDetails_Commodities">
-            <End Role="Commodity" EntitySet="Commodities" />
-            <End Role="DeliveryAdviceDetail" EntitySet="DeliveryAdviceDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GoodsIssueDetails_Commodities" Association="TotalSalesPortalModel.FK_GoodsIssueDetails_Commodities">
-            <End Role="Commodity" EntitySet="Commodities" />
-            <End Role="GoodsIssueDetail" EntitySet="GoodsIssueDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_Customers_Employees" Association="TotalSalesPortalModel.FK_Customers_Employees">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="Customer" EntitySet="Customers" />
@@ -2697,9 +2680,26 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             <End Role="PaymentTerm" EntitySet="PaymentTerms" />
             <End Role="GoodsIssue" EntitySet="GoodsIssues" />
           </AssociationSet>
+          <EntitySet Name="Commodities" EntityType="TotalSalesPortalModel.Commodity" />
           <AssociationSet Name="FK_AccountInvoiceDetails_Commodities" Association="TotalSalesPortalModel.FK_AccountInvoiceDetails_Commodities">
             <End Role="Commodity" EntitySet="Commodities" />
             <End Role="AccountInvoiceDetail" EntitySet="AccountInvoiceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commodities_CommodityCategories" Association="TotalSalesPortalModel.FK_Commodities_CommodityCategories">
+            <End Role="CommodityCategory" EntitySet="CommodityCategories" />
+            <End Role="Commodity" EntitySet="Commodities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commodities_CommodityTypes" Association="TotalSalesPortalModel.FK_Commodities_CommodityTypes">
+            <End Role="CommodityType" EntitySet="CommodityTypes" />
+            <End Role="Commodity" EntitySet="Commodities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryAdviceDetails_Commodities" Association="TotalSalesPortalModel.FK_DeliveryAdviceDetails_Commodities">
+            <End Role="Commodity" EntitySet="Commodities" />
+            <End Role="DeliveryAdviceDetail" EntitySet="DeliveryAdviceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoodsIssueDetails_Commodities" Association="TotalSalesPortalModel.FK_GoodsIssueDetails_Commodities">
+            <End Role="Commodity" EntitySet="Commodities" />
+            <End Role="GoodsIssueDetail" EntitySet="GoodsIssueDetails" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
@@ -2746,46 +2746,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Commodity">
-          <Key>
-            <PropertyRef Name="CommodityID" />
-          </Key>
-          <Property Name="CommodityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="OfficialCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="OfficialName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="OriginalName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PreviousCommodityID" Type="Int32" />
-          <Property Name="CommodityCategoryID" Type="Int32" Nullable="false" />
-          <Property Name="CommodityTypeID" Type="Int32" Nullable="false" />
-          <Property Name="SupplierID" Type="Int32" Nullable="false" />
-          <Property Name="PiecePerPack" Type="Int32" />
-          <Property Name="QuantityAlert" Type="Int32" />
-          <Property Name="ListedPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="GrossPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="PurchaseUnit" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="SalesUnit" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Packing" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="Origin" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="Weight" Type="Double" />
-          <Property Name="LeadTime" Type="Double" />
-          <Property Name="HSCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="IsRegularCheckUps" Type="Boolean" Nullable="false" />
-          <Property Name="Discontinue" Type="Boolean" />
-          <Property Name="Specifycation" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Remarks" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="InActive" Type="Boolean" />
-          <NavigationProperty Name="CommodityCategory" Relationship="TotalSalesPortalModel.FK_Commodities_CommodityCategories" FromRole="Commodity" ToRole="CommodityCategory" />
-          <NavigationProperty Name="CommodityType" Relationship="TotalSalesPortalModel.FK_Commodities_CommodityTypes" FromRole="Commodity" ToRole="CommodityType" />
-          <Property Name="CodePartA" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="CodePartB" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="CodePartC" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="CodePartD" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="DeliveryAdviceDetails" Relationship="TotalSalesPortalModel.FK_DeliveryAdviceDetails_Commodities" FromRole="Commodity" ToRole="DeliveryAdviceDetail" />
-          <NavigationProperty Name="GoodsIssueDetails" Relationship="TotalSalesPortalModel.FK_GoodsIssueDetails_Commodities" FromRole="Commodity" ToRole="GoodsIssueDetail" />
-          <NavigationProperty Name="AccountInvoiceDetails" Relationship="TotalSalesPortalModel.FK_AccountInvoiceDetails_Commodities" FromRole="Commodity" ToRole="AccountInvoiceDetail" />
-        </EntityType>
         <EntityType Name="CommodityCategory">
           <Key>
             <PropertyRef Name="CommodityCategoryID" />
@@ -2801,9 +2761,9 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="VATPercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="ClearancePercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Commodities" Relationship="TotalSalesPortalModel.FK_Commodities_CommodityCategories" FromRole="CommodityCategory" ToRole="Commodity" />
           <NavigationProperty Name="CommodityCategories1" Relationship="TotalSalesPortalModel.FK_CommodityCategories_CommodityCategories" FromRole="CommodityCategory" ToRole="CommodityCategory1" />
           <NavigationProperty Name="CommodityCategory1" Relationship="TotalSalesPortalModel.FK_CommodityCategories_CommodityCategories" FromRole="CommodityCategory1" ToRole="CommodityCategory" />
+          <NavigationProperty Name="Commodities" Relationship="TotalSalesPortalModel.FK_Commodities_CommodityCategories" FromRole="CommodityCategory" ToRole="Commodity" />
         </EntityType>
         <EntityType Name="CommodityType">
           <Key>
@@ -2814,9 +2774,9 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="AncestorID" Type="Int32" />
           <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Commodities" Relationship="TotalSalesPortalModel.FK_Commodities_CommodityTypes" FromRole="CommodityType" ToRole="Commodity" />
           <NavigationProperty Name="CommodityTypes1" Relationship="TotalSalesPortalModel.FK_CommodityTypes_CommodityTypes" FromRole="CommodityType" ToRole="CommodityType1" />
           <NavigationProperty Name="CommodityType1" Relationship="TotalSalesPortalModel.FK_CommodityTypes_CommodityTypes" FromRole="CommodityType1" ToRole="CommodityType" />
+          <NavigationProperty Name="Commodities" Relationship="TotalSalesPortalModel.FK_Commodities_CommodityTypes" FromRole="CommodityType" ToRole="Commodity" />
         </EntityType>
         <EntityType Name="CustomerCategory">
           <Key>
@@ -2911,30 +2871,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <NavigationProperty Name="Territories1" Relationship="TotalSalesPortalModel.FK_Territories_Territories" FromRole="Territory" ToRole="Territory1" />
           <NavigationProperty Name="Territory1" Relationship="TotalSalesPortalModel.FK_Territories_Territories" FromRole="Territory1" ToRole="Territory" />
         </EntityType>
-        <Association Name="FK_Commodities_CommodityCategories">
-          <End Type="TotalSalesPortalModel.CommodityCategory" Role="CommodityCategory" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CommodityCategory">
-              <PropertyRef Name="CommodityCategoryID" />
-            </Principal>
-            <Dependent Role="Commodity">
-              <PropertyRef Name="CommodityCategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Commodities_CommodityTypes">
-          <End Type="TotalSalesPortalModel.CommodityType" Role="CommodityType" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CommodityType">
-              <PropertyRef Name="CommodityTypeID" />
-            </Principal>
-            <Dependent Role="Commodity">
-              <PropertyRef Name="CommodityTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CommodityCategories_CommodityCategories">
           <End Type="TotalSalesPortalModel.CommodityCategory" Role="CommodityCategory" Multiplicity="0..1" />
           <End Type="TotalSalesPortalModel.CommodityCategory" Role="CommodityCategory1" Multiplicity="*" />
@@ -3920,7 +3856,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="InActivePartial" Type="Boolean" Nullable="false" />
           <Property Name="InActivePartialDate" Type="DateTime" Precision="3" />
           <Property Name="InActiveIssue" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Commodity" Relationship="TotalSalesPortalModel.FK_DeliveryAdviceDetails_Commodities" FromRole="DeliveryAdviceDetail" ToRole="Commodity" />
           <NavigationProperty Name="DeliveryAdvice" Relationship="TotalSalesPortalModel.FK_DeliveryAdviceDetails_DeliveryAdvices" FromRole="DeliveryAdviceDetail" ToRole="DeliveryAdvice" />
           <NavigationProperty Name="VoidType" Relationship="TotalSalesPortalModel.FK_DeliveryAdviceDetails_VoidTypes" FromRole="DeliveryAdviceDetail" ToRole="VoidType" />
           <NavigationProperty Name="GoodsIssueDetails" Relationship="TotalSalesPortalModel.FK_GoodsIssueDetails_DeliveryAdviceDetails" FromRole="DeliveryAdviceDetail" ToRole="GoodsIssueDetail" />
@@ -3929,6 +3864,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="ListedVATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="ListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="CalculatingTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Commodity" Relationship="TotalSalesPortalModel.FK_DeliveryAdviceDetails_Commodities" FromRole="DeliveryAdviceDetail" ToRole="Commodity" />
         </EntityType>
         <EntityType Name="DeliveryAdvice">
           <Key>
@@ -4024,7 +3960,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="InActivePartial" Type="Boolean" Nullable="false" />
           <Property Name="InActivePartialDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AccountInvoiceDetails" Relationship="TotalSalesPortalModel.FK_AccountInvoiceDetails_GoodsIssueDetails" FromRole="GoodsIssueDetail" ToRole="AccountInvoiceDetail" />
-          <NavigationProperty Name="Commodity" Relationship="TotalSalesPortalModel.FK_GoodsIssueDetails_Commodities" FromRole="GoodsIssueDetail" ToRole="Commodity" />
           <NavigationProperty Name="DeliveryAdviceDetail" Relationship="TotalSalesPortalModel.FK_GoodsIssueDetails_DeliveryAdviceDetails" FromRole="GoodsIssueDetail" ToRole="DeliveryAdviceDetail" />
           <NavigationProperty Name="GoodsIssue" Relationship="TotalSalesPortalModel.FK_GoodsIssueDetails_GoodsIssues" FromRole="GoodsIssueDetail" ToRole="GoodsIssue" />
           <NavigationProperty Name="VoidType" Relationship="TotalSalesPortalModel.FK_GoodsIssueDetails_VoidTypes" FromRole="GoodsIssueDetail" ToRole="VoidType" />
@@ -4034,6 +3969,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Name="ListedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="ListedVATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="ListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Commodity" Relationship="TotalSalesPortalModel.FK_GoodsIssueDetails_Commodities" FromRole="GoodsIssueDetail" ToRole="Commodity" />
         </EntityType>
         <EntityType Name="GoodsIssue">
           <Key>
@@ -4164,30 +4100,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             </Principal>
             <Dependent Role="AccountInvoice">
               <PropertyRef Name="GoodsIssueID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DeliveryAdviceDetails_Commodities">
-          <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.DeliveryAdviceDetail" Role="DeliveryAdviceDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Commodity">
-              <PropertyRef Name="CommodityID" />
-            </Principal>
-            <Dependent Role="DeliveryAdviceDetail">
-              <PropertyRef Name="CommodityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GoodsIssueDetails_Commodities">
-          <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.GoodsIssueDetail" Role="GoodsIssueDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Commodity">
-              <PropertyRef Name="CommodityID" />
-            </Principal>
-            <Dependent Role="GoodsIssueDetail">
-              <PropertyRef Name="CommodityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4746,6 +4658,46 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Commodity">
+          <Key>
+            <PropertyRef Name="CommodityID" />
+          </Key>
+          <Property Name="CommodityID" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OfficialCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CodePartA" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CodePartB" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CodePartC" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CodePartD" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="OfficialName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="OriginalName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PreviousCommodityID" Type="Int32" />
+          <Property Name="CommodityCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="CommodityTypeID" Type="Int32" Nullable="false" />
+          <Property Name="SupplierID" Type="Int32" Nullable="false" />
+          <Property Name="PiecePerPack" Type="Int32" />
+          <Property Name="QuantityAlert" Type="Int32" />
+          <Property Name="ListedPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="GrossPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="PurchaseUnit" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="SalesUnit" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Packing" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Origin" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Weight" Type="Double" />
+          <Property Name="LeadTime" Type="Double" />
+          <Property Name="HSCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsRegularCheckUps" Type="Boolean" Nullable="false" />
+          <Property Name="Discontinue" Type="Boolean" />
+          <Property Name="Specifycation" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="InActive" Type="Boolean" />
+          <NavigationProperty Name="AccountInvoiceDetails" Relationship="TotalSalesPortalModel.FK_AccountInvoiceDetails_Commodities" FromRole="Commodity" ToRole="AccountInvoiceDetail" />
+          <NavigationProperty Name="CommodityCategory" Relationship="TotalSalesPortalModel.FK_Commodities_CommodityCategories" FromRole="Commodity" ToRole="CommodityCategory" />
+          <NavigationProperty Name="CommodityType" Relationship="TotalSalesPortalModel.FK_Commodities_CommodityTypes" FromRole="Commodity" ToRole="CommodityType" />
+          <NavigationProperty Name="DeliveryAdviceDetails" Relationship="TotalSalesPortalModel.FK_DeliveryAdviceDetails_Commodities" FromRole="Commodity" ToRole="DeliveryAdviceDetail" />
+          <NavigationProperty Name="GoodsIssueDetails" Relationship="TotalSalesPortalModel.FK_GoodsIssueDetails_Commodities" FromRole="Commodity" ToRole="GoodsIssueDetail" />
+        </EntityType>
         <Association Name="FK_AccountInvoiceDetails_Commodities">
           <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
           <End Type="TotalSalesPortalModel.AccountInvoiceDetail" Role="AccountInvoiceDetail" Multiplicity="*" />
@@ -4754,6 +4706,54 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
               <PropertyRef Name="CommodityID" />
             </Principal>
             <Dependent Role="AccountInvoiceDetail">
+              <PropertyRef Name="CommodityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Commodities_CommodityCategories">
+          <End Type="TotalSalesPortalModel.CommodityCategory" Role="CommodityCategory" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommodityCategory">
+              <PropertyRef Name="CommodityCategoryID" />
+            </Principal>
+            <Dependent Role="Commodity">
+              <PropertyRef Name="CommodityCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Commodities_CommodityTypes">
+          <End Type="TotalSalesPortalModel.CommodityType" Role="CommodityType" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommodityType">
+              <PropertyRef Name="CommodityTypeID" />
+            </Principal>
+            <Dependent Role="Commodity">
+              <PropertyRef Name="CommodityTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryAdviceDetails_Commodities">
+          <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.DeliveryAdviceDetail" Role="DeliveryAdviceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commodity">
+              <PropertyRef Name="CommodityID" />
+            </Principal>
+            <Dependent Role="DeliveryAdviceDetail">
+              <PropertyRef Name="CommodityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoodsIssueDetails_Commodities">
+          <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.GoodsIssueDetail" Role="GoodsIssueDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commodity">
+              <PropertyRef Name="CommodityID" />
+            </Principal>
+            <Dependent Role="GoodsIssueDetail">
               <PropertyRef Name="CommodityID" />
             </Dependent>
           </ReferentialConstraint>
@@ -4853,42 +4853,6 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <FunctionImportMapping FunctionImportName="GetAccessLevel" FunctionName="TotalSalesPortalModel.Store.GetAccessLevel" />
           <FunctionImportMapping FunctionImportName="GetApprovalPermitted" FunctionName="TotalSalesPortalModel.Store.GetApprovalPermitted" />
           <FunctionImportMapping FunctionImportName="GetUnApprovalPermitted" FunctionName="TotalSalesPortalModel.Store.GetUnApprovalPermitted" />
-          <EntitySetMapping Name="Commodities">
-            <EntityTypeMapping TypeName="TotalSalesPortalModel.Commodity">
-              <MappingFragment StoreEntitySet="Commodities">
-                <ScalarProperty Name="CodePartD" ColumnName="CodePartD" />
-                <ScalarProperty Name="CodePartC" ColumnName="CodePartC" />
-                <ScalarProperty Name="CodePartB" ColumnName="CodePartB" />
-                <ScalarProperty Name="CodePartA" ColumnName="CodePartA" />
-                <ScalarProperty Name="InActive" ColumnName="InActive" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="Specifycation" ColumnName="Specifycation" />
-                <ScalarProperty Name="Discontinue" ColumnName="Discontinue" />
-                <ScalarProperty Name="IsRegularCheckUps" ColumnName="IsRegularCheckUps" />
-                <ScalarProperty Name="HSCode" ColumnName="HSCode" />
-                <ScalarProperty Name="LeadTime" ColumnName="LeadTime" />
-                <ScalarProperty Name="Weight" ColumnName="Weight" />
-                <ScalarProperty Name="Origin" ColumnName="Origin" />
-                <ScalarProperty Name="Packing" ColumnName="Packing" />
-                <ScalarProperty Name="SalesUnit" ColumnName="SalesUnit" />
-                <ScalarProperty Name="PurchaseUnit" ColumnName="PurchaseUnit" />
-                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
-                <ScalarProperty Name="ListedPrice" ColumnName="ListedPrice" />
-                <ScalarProperty Name="QuantityAlert" ColumnName="QuantityAlert" />
-                <ScalarProperty Name="PiecePerPack" ColumnName="PiecePerPack" />
-                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
-                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
-                <ScalarProperty Name="CommodityCategoryID" ColumnName="CommodityCategoryID" />
-                <ScalarProperty Name="PreviousCommodityID" ColumnName="PreviousCommodityID" />
-                <ScalarProperty Name="OriginalName" ColumnName="OriginalName" />
-                <ScalarProperty Name="OfficialName" ColumnName="OfficialName" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="OfficialCode" ColumnName="OfficialCode" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CommodityCategories">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.CommodityCategory">
               <MappingFragment StoreEntitySet="CommodityCategories">
@@ -6153,6 +6117,42 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Commodities">
+            <EntityTypeMapping TypeName="TotalSalesPortalModel.Commodity">
+              <MappingFragment StoreEntitySet="Commodities">
+                <ScalarProperty Name="InActive" ColumnName="InActive" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Specifycation" ColumnName="Specifycation" />
+                <ScalarProperty Name="Discontinue" ColumnName="Discontinue" />
+                <ScalarProperty Name="IsRegularCheckUps" ColumnName="IsRegularCheckUps" />
+                <ScalarProperty Name="HSCode" ColumnName="HSCode" />
+                <ScalarProperty Name="LeadTime" ColumnName="LeadTime" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Origin" ColumnName="Origin" />
+                <ScalarProperty Name="Packing" ColumnName="Packing" />
+                <ScalarProperty Name="SalesUnit" ColumnName="SalesUnit" />
+                <ScalarProperty Name="PurchaseUnit" ColumnName="PurchaseUnit" />
+                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
+                <ScalarProperty Name="ListedPrice" ColumnName="ListedPrice" />
+                <ScalarProperty Name="QuantityAlert" ColumnName="QuantityAlert" />
+                <ScalarProperty Name="PiecePerPack" ColumnName="PiecePerPack" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
+                <ScalarProperty Name="CommodityCategoryID" ColumnName="CommodityCategoryID" />
+                <ScalarProperty Name="PreviousCommodityID" ColumnName="PreviousCommodityID" />
+                <ScalarProperty Name="OriginalName" ColumnName="OriginalName" />
+                <ScalarProperty Name="OfficialName" ColumnName="OfficialName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CodePartD" ColumnName="CodePartD" />
+                <ScalarProperty Name="CodePartC" ColumnName="CodePartC" />
+                <ScalarProperty Name="CodePartB" ColumnName="CodePartB" />
+                <ScalarProperty Name="CodePartA" ColumnName="CodePartA" />
+                <ScalarProperty Name="OfficialCode" ColumnName="OfficialCode" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

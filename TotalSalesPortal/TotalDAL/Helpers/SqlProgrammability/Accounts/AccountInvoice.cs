@@ -28,6 +28,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
             this.AccountInvoicePostSaveValidate();
 
             this.AccountInvoiceInitReference();
+
+            this.AccountInvoiceSheet();
         }
 
         private void GetAccountInvoiceIndexes()
@@ -316,5 +318,33 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
             SimpleInitReference simpleInitReference = new SimpleInitReference("AccountInvoices", "AccountInvoiceID", "Reference", ModelSettingManager.ReferenceLength, ModelSettingManager.ReferencePrefix(GlobalEnums.NmvnTaskID.AccountInvoice));
             this.totalSalesPortalEntities.CreateTrigger("AccountInvoiceInitReference", simpleInitReference.CreateQuery());
         }
+
+        private void AccountInvoiceSheet()
+        {
+            string queryString = " @AccountInvoiceID int " + "\r\n";
+            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       DECLARE         @LocalAccountInvoiceID int    SET @LocalAccountInvoiceID = @AccountInvoiceID" + "\r\n";
+
+            queryString = queryString + "       SELECT          AccountInvoices.AccountInvoiceID, AccountInvoices.EntryDate, AccountInvoices.Reference, AccountInvoices.VATInvoiceNo, AccountInvoices.VATInvoiceDate, " + "\r\n";
+            queryString = queryString + "                       Customers.CustomerID, Customers.OfficialName, Customers.VATCode, Customers.BillingAddress, PaymentTerms.Name, " + "\r\n";
+            queryString = queryString + "                       AccountInvoiceCollections.AccountInvoiceDetailID, AccountInvoiceCollections.Freebie, Commodities.CommodityID, Commodities.Code, Commodities.CodePartA, Commodities.CodePartB, Commodities.OfficialName, " + "\r\n";
+            queryString = queryString + "                       AccountInvoiceCollections.Quantity, AccountInvoiceCollections.ListedPrice, AccountInvoiceCollections.DiscountPercent, AccountInvoiceCollections.UnitPrice, AccountInvoiceCollections.VATPercent, AccountInvoiceCollections.Amount, AccountInvoiceCollections.VATAmount, AccountInvoiceCollections.GrossAmount " + "\r\n";
+
+            queryString = queryString + "       FROM            (SELECT AccountInvoiceID, AccountInvoiceDetailID, CommodityID, Quantity, ListedPrice, DiscountPercent, UnitPrice, VATPercent, Amount, VATAmount, GrossAmount, 0 AS Freebie FROM AccountInvoiceDetails WHERE AccountInvoiceID = @LocalAccountInvoiceID " + "\r\n";
+            queryString = queryString + "                       UNION ALL " + "\r\n";
+            queryString = queryString + "                       SELECT AccountInvoiceID, AccountInvoiceDetailID, CommodityID, FreeQuantity AS Quantity, 0 AS ListedPrice, 0 AS DiscountPercent, 0 AS UnitPrice, 0 AS VATPercent, 0 AS Amount, 0 AS VATAmount, 0 AS GrossAmount, 1 AS Freebie FROM AccountInvoiceDetails WHERE AccountInvoiceID = @LocalAccountInvoiceID AND FreeQuantity <> 0) AS AccountInvoiceCollections " + "\r\n";
+            queryString = queryString + "                       INNER JOIN AccountInvoices ON AccountInvoiceCollections.AccountInvoiceID = AccountInvoices.AccountInvoiceID " + "\r\n";
+            queryString = queryString + "                       INNER JOIN Customers ON AccountInvoices.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                       INNER JOIN PaymentTerms ON AccountInvoices.PaymentTermID = PaymentTerms.PaymentTermID " + "\r\n";
+            queryString = queryString + "                       INNER JOIN Commodities ON AccountInvoiceCollections.CommodityID = Commodities.CommodityID " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("AccountInvoiceSheet", queryString);
+        }
+
     }
 }
