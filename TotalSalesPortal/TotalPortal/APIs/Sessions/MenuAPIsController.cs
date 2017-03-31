@@ -78,7 +78,7 @@ namespace TotalPortal.APIs.Sessions
 
 
 
-            var moduleMaster = moduleRepository.GetAllModules();
+            var moduleMaster = moduleRepository.GetAllModules().OrderByDescending(p => p.SerialID);
 
             return PartialView(moduleMaster);
         }

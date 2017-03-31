@@ -24,11 +24,12 @@
         toolbar.Template(@<text>
             <div class="toolbar" style="float: right;">
                 <label>Nhập PXK/ hoặc mã, tên khách hàng, đơn vị nhận/ hoặc mã hàng hóa</label>
-                <input id="filterText" class="k-textbox" style="text-align: center;" onkeyup="filterText_KeyUp()" />
-                @Html.Kendo().DatePicker().Name("FromDate").Value(DateTime.Today).Events(e => e.Change("reReadPendingGoodsIssueDetails")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" })
-                @Html.Kendo().DatePicker().Name("ToDate").Value(DateTime.Today).Events(e => e.Change("reReadPendingGoodsIssueDetails")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" })
+                <input id="filterText" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="filterText_KeyUp()" />
+                <span id="filterExtended" style="display: none;" >
+                    @Html.Kendo().DatePicker().Name("FromDate").Value(DateTime.Today).Events(e => e.Change("reReadPendingGoodsIssueDetails")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" })
+                    @Html.Kendo().DatePicker().Name("ToDate").Value(DateTime.Today).Events(e => e.Change("reReadPendingGoodsIssueDetails")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" })
 
-                @(Html.Kendo().DropDownList()
+                    @(Html.Kendo().DropDownList()
                     .Name("CommodityTypeID")
                     .DataTextField("Text")
                     .DataValueField("Value")
@@ -41,8 +42,8 @@
                       })
                     .Events(e => e.Change("reReadPendingGoodsIssueDetails"))
                     .HtmlAttributes(new { @style = "padding-right: 13px;" })
-                )
-
+                    )
+                </span>
             </div>
         </text>);
     })
@@ -81,6 +82,13 @@
 <script src="@Url.Content("~/Scripts/Controllers/Accounts/AccountInvoices/AddPendingGoodsIssueDetail.js")"></script>
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        if (window.parent.$("#Consumer_CustomerID").val() == undefined && window.parent.$("#Receiver_CustomerID").val() == undefined) {
+            document.getElementById('filterText').style.margin = '0px';
+            document.getElementById('filterExtended').style.display = 'inline';
+        }
+    });
+
     function okButton_Click() {
         handleOKEvent(window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource, $("#gridPendingGoodsIssueDetails").data("kendoGrid").dataSource);
     }

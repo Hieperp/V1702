@@ -30,6 +30,16 @@
 </div>
 
 <div style="float: right; width: 485px;">
+
+    <div style="float: right; margin-top: 11px; ">
+        <span id="up-arrow-container" class="arrow-container" style="display:none;">
+            <a href="javascript:void(0)"><img src="~/Content/Images/Menu/arrow-up-16.png" thu gọn" alt="Thu gọn" onclick="collapse_click()" /></a>
+        </span>
+        <span id="down-arrow-container" class="arrow-container">
+            <a href="javascript:void(0)"><img src="~/Content/Images/Menu/arrow-down-16.png" title="Mở rộng" alt="Mở rộng" onclick="expand_click()" /></a>
+        </span>
+    </div>
+
     @(Html.Kendo().Menu()
         .Name("MainMenu")
         .HtmlAttributes(new { @style = "width: 480px; height: 0px;" })
@@ -46,15 +56,7 @@
                 })
         .Events(e => e.Select("selectModule"))
     )
-
-    <div style="margin-top: 11px; ">
-        <span id="up-arrow-container" class="arrow-container" style="display:none;">
-            <a href="javascript:void(0)"><img src="~/Content/Images/Menu/arrow-up-16.png"Thu gọn" alt="Thu gọn" onclick="collapse_click()" /></a>
-        </span>
-        <span id="down-arrow-container" class="arrow-container">
-            <a href="javascript:void(0)"><img src="~/Content/Images/Menu/arrow-down-16.png" title="Mở rộng" alt="Mở rộng" onclick="expand_click()" /></a>
-        </span>
-    </div>
+    
 </div>
 
 @*<div style="width:100%; height: 20px; clear:both; padding: 10px 8px 11px 1px; text-align: left; z-index: 3;">
@@ -124,3 +126,12 @@
     }
 
 </script>
+
+<style>
+    
+ul.k-widget.k-menu-horizontal > .k-item
+{
+    float: right;
+}
+
+</style>

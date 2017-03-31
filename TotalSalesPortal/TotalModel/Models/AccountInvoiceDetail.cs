@@ -41,6 +41,9 @@ namespace TotalModel.Models
         public decimal ListedVATAmount { get; set; }
         public decimal ListedGrossAmount { get; set; }
         public int CommodityID { get; set; }
+        public decimal ControlFreeQuantity { get; set; }
+        public bool Approved { get; set; }
+        public bool InActive { get; set; }
     
         public virtual AccountInvoice AccountInvoice { get; set; }
         public virtual GoodsIssueDetail GoodsIssueDetail { get; set; }

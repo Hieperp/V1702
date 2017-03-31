@@ -322,24 +322,30 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
         private void AccountInvoiceSheet()
         {
             string queryString = " @AccountInvoiceID int " + "\r\n";
-            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
             queryString = queryString + "       DECLARE         @LocalAccountInvoiceID int    SET @LocalAccountInvoiceID = @AccountInvoiceID" + "\r\n";
-
+            queryString = queryString + "       DECLARE         @CustomerCategoryID int    SELECT  @CustomerCategoryID = Customers.CustomerCategoryID FROM AccountInvoices INNER JOIN Customers ON AccountInvoices.AccountInvoiceID = @LocalAccountInvoiceID AND AccountInvoices.CustomerID = Customers.CustomerID " + "\r\n";
+            
             queryString = queryString + "       SELECT          AccountInvoices.AccountInvoiceID, AccountInvoices.EntryDate, AccountInvoices.Reference, AccountInvoices.VATInvoiceNo, AccountInvoices.VATInvoiceDate, " + "\r\n";
-            queryString = queryString + "                       Customers.CustomerID, Customers.OfficialName, Customers.VATCode, Customers.BillingAddress, PaymentTerms.Name, " + "\r\n";
-            queryString = queryString + "                       AccountInvoiceCollections.AccountInvoiceDetailID, AccountInvoiceCollections.Freebie, Commodities.CommodityID, Commodities.Code, Commodities.CodePartA, Commodities.CodePartB, Commodities.OfficialName, " + "\r\n";
-            queryString = queryString + "                       AccountInvoiceCollections.Quantity, AccountInvoiceCollections.ListedPrice, AccountInvoiceCollections.DiscountPercent, AccountInvoiceCollections.UnitPrice, AccountInvoiceCollections.VATPercent, AccountInvoiceCollections.Amount, AccountInvoiceCollections.VATAmount, AccountInvoiceCollections.GrossAmount " + "\r\n";
+            queryString = queryString + "                       Customers.CustomerID, Customers.OfficialName AS CustomerOfficialName, Customers.VATCode, Customers.BillingAddress, PaymentTerms.Name AS PaymentTermName, " + "\r\n";
+            queryString = queryString + "                       AccountInvoiceCollections.AccountInvoiceDetailID, AccountInvoiceCollections.IsFreebie, Commodities.CommodityID, Commodities.Code, Commodities.CodePartA, Commodities.CodePartB, CommoditySKU.CodeSKU, Commodities.OfficialName, Commodities.SalesUnit, " + "\r\n";
+            queryString = queryString + "                       AccountInvoiceCollections.Quantity, AccountInvoiceCollections.ListedPrice, AccountInvoiceCollections.ListedAmount, AccountInvoiceCollections.DiscountPercent, AccountInvoiceCollections.UnitPrice, AccountInvoiceCollections.Amount, AccountInvoiceCollections.VATPercent, AccountInvoiceCollections.VATAmount, AccountInvoiceCollections.GrossAmount, " + "\r\n";
+            queryString = queryString + "                       AccountInvoices.TotalQuantity, AccountInvoices.TotalAmount, AccountInvoices.TotalVATAmount, AccountInvoices.TotalGrossAmount, dbo.SayVND(AccountInvoices.TotalGrossAmount) AS TotalGrossAmountInWords, AccountInvoices.Remarks AS DiscountDescription " + "\r\n";
 
-            queryString = queryString + "       FROM            (SELECT AccountInvoiceID, AccountInvoiceDetailID, CommodityID, Quantity, ListedPrice, DiscountPercent, UnitPrice, VATPercent, Amount, VATAmount, GrossAmount, 0 AS Freebie FROM AccountInvoiceDetails WHERE AccountInvoiceID = @LocalAccountInvoiceID " + "\r\n";
+            queryString = queryString + "       FROM            (SELECT AccountInvoiceID, AccountInvoiceDetailID, CommodityID, Quantity, ListedPrice, ListedAmount, DiscountPercent, UnitPrice, Amount, VATPercent, VATAmount, GrossAmount, 0 AS IsFreebie FROM AccountInvoiceDetails WHERE AccountInvoiceID = @LocalAccountInvoiceID " + "\r\n";
             queryString = queryString + "                       UNION ALL " + "\r\n";
-            queryString = queryString + "                       SELECT AccountInvoiceID, AccountInvoiceDetailID, CommodityID, FreeQuantity AS Quantity, 0 AS ListedPrice, 0 AS DiscountPercent, 0 AS UnitPrice, 0 AS VATPercent, 0 AS Amount, 0 AS VATAmount, 0 AS GrossAmount, 1 AS Freebie FROM AccountInvoiceDetails WHERE AccountInvoiceID = @LocalAccountInvoiceID AND FreeQuantity <> 0) AS AccountInvoiceCollections " + "\r\n";
+            queryString = queryString + "                       SELECT AccountInvoiceID, AccountInvoiceDetailID, CommodityID, FreeQuantity AS Quantity, 0 AS ListedPrice, 0 AS ListedAmount, 0 AS DiscountPercent, 0 AS UnitPrice, 0 AS Amount, 0 AS VATPercent, 0 AS VATAmount, 0 AS GrossAmount, 1 AS IsFreebie FROM AccountInvoiceDetails WHERE AccountInvoiceID = @LocalAccountInvoiceID AND FreeQuantity <> 0 " + "\r\n";
+            queryString = queryString + "                       UNION ALL " + "\r\n";
+            queryString = queryString + "                       SELECT AccountInvoiceID, -1 AS AccountInvoiceDetailID, -1 AS CommodityID, 0 AS Quantity, 0 AS ListedPrice, TotalListedAmount - TotalAmount AS ListedAmount, 0 AS DiscountPercent, 0 AS UnitPrice, 0 AS Amount, 0 AS VATPercent, 0 AS VATAmount, 0 AS GrossAmount, 2 AS IsFreebie FROM AccountInvoices WHERE AccountInvoiceID = @LocalAccountInvoiceID AND TotalListedAmount <> TotalAmount) AS AccountInvoiceCollections " + "\r\n";
+            
             queryString = queryString + "                       INNER JOIN AccountInvoices ON AccountInvoiceCollections.AccountInvoiceID = AccountInvoices.AccountInvoiceID " + "\r\n";
             queryString = queryString + "                       INNER JOIN Customers ON AccountInvoices.CustomerID = Customers.CustomerID " + "\r\n";
             queryString = queryString + "                       INNER JOIN PaymentTerms ON AccountInvoices.PaymentTermID = PaymentTerms.PaymentTermID " + "\r\n";
-            queryString = queryString + "                       INNER JOIN Commodities ON AccountInvoiceCollections.CommodityID = Commodities.CommodityID " + "\r\n";
+            queryString = queryString + "                       LEFT JOIN Commodities ON AccountInvoiceCollections.CommodityID = Commodities.CommodityID " + "\r\n";
+            queryString = queryString + "                       LEFT JOIN CommoditySKU ON CommoditySKU.CustomerCategoryID = @CustomerCategoryID AND Commodities.CodePartA = CommoditySKU.CodePartA AND Commodities.CodePartB = CommoditySKU.CodePartB " + "\r\n";
 
             queryString = queryString + "    END " + "\r\n";
 

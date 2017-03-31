@@ -66,10 +66,15 @@ body {
     box-sizing: border-box;
 }*/
 
-@media (min-width: 1280px) {
+/*@media (min-width: 1280px) {
     .container {
         width: 1190px;
     }
+}*/
+
+/*70 left menu, 11 space for right padding*/
+.container {
+    width: calc(100% - 81px); 
 }
 
 
@@ -615,7 +620,6 @@ tr:hover {
 
 #top-menu-container {
     width: 100%;
-    min-width: 1150px;
     height: 58px;
     clear: both;
     background-color: forestgreen;

@@ -11,6 +11,7 @@
     @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
 
     @Html.HiddenFor(model => model.AccountInvoiceID)
+    
     @Html.HiddenFor(model => model.TotalQuantity)
     @Html.HiddenFor(model => model.TotalFreeQuantity)
     @Html.HiddenFor(model => model.TotalListedAmount)
@@ -69,7 +70,7 @@
                 @Html.EditorFor(d => d.Consumer, new { CustomerDescriptionHidden = "true", CustomerDisplayName = @Model.GetDisplayName(m => m.Consumer), NullCustomer = (Model.ConsumerID > 0 ? null : "Xuất HĐ từ dữ liệu bán hàng tổng hợp của nhiều khách hàng") })}
 
 
-            <div style="float: right; margin-top: -106px; " title="Phiếu xuất kho">
+            <div style="float: right; margin-top: -70px; " title="Phiếu xuất kho">
                 @Html.DisplayFor(d => d.GoodsIssue)
             </div>
         </div>
@@ -192,7 +193,7 @@
                     columns.Bound(p => p.IsBonus).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= (IsBonus == null)? '' : IsBonus #" + "<input type='hidden' name='AccountInvoiceViewDetails[#= index(data) #].IsBonus' value='#= (IsBonus == null) ? '' : IsBonus #' />");
 
-                    //columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50);
+                    columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(40);
                 })
                 .Filterable()
                 .Navigatable()
@@ -315,7 +316,7 @@
             }
             else
             {
-                <button type="button" class="k-button custom-button" onclick="location.href='@Url.Action("PrintDetail", "AccountInvoices", new { id = @Model.AccountInvoiceID })'"> <img src="~/Content/Images/New/Apps-printer-icon.png" /> In bảng kê</button>
+                @*<button type="button" class="k-button custom-button" onclick="location.href='@Url.Action("PrintDetail", "AccountInvoices", new { id = @Model.AccountInvoiceID })'"> <img src="~/Content/Images/New/Apps-printer-icon.png" /> In bảng kê</button>*@
                 <button type="button" class="k-button custom-button" onclick="location.href='@Url.Action("Print", "AccountInvoices", new { id = @Model.AccountInvoiceID })'"> <img src="~/Content/Images/New/Apps-printer-icon.png" /> In hóa đơn</button>
             }
         </div>

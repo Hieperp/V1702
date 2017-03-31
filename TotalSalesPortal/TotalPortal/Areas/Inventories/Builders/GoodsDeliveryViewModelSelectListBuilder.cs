@@ -24,6 +24,7 @@ namespace TotalPortal.Areas.Inventories.Builders
 
         public override void BuildSelectLists(GoodsDeliveryViewModel goodsDeliveryViewModel)
         {
+            base.BuildSelectLists(goodsDeliveryViewModel);
             goodsDeliveryViewModel.VehicleSelectList = this.vehicleSelectListBuilder.BuildSelectListItemsForVehicles(this.vehicleRepository.GetAllVehicles());
         }
 

@@ -53,6 +53,7 @@ namespace TotalModel.Models
         public decimal AverageDiscountPercent { get; set; }
         public Nullable<int> ReceiverID { get; set; }
         public int PaymentTermID { get; set; }
+        public decimal TotalFreeQuantity { get; set; }
     
         public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

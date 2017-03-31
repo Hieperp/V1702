@@ -24,6 +24,7 @@ namespace TotalPortal.Areas.Inventories.Builders
 
         public override void BuildSelectLists(HandlingUnitViewModel handlingUnitViewModel)
         {
+            base.BuildSelectLists(handlingUnitViewModel);
             handlingUnitViewModel.PackingMaterialSelectList = this.packingMaterialSelectListBuilder.BuildSelectListItemsForPackingMaterials(this.packingMaterialRepository.GetAllPackingMaterials());
         }
 
