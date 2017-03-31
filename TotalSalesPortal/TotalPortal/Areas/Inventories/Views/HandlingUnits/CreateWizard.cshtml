@@ -37,8 +37,8 @@
     @Html.HiddenFor(model => model.GoodsIssue.GoodsIssueID);
     @Html.HiddenFor(model => model.GoodsIssue.Reference);
     @Html.HiddenFor(model => model.GoodsIssue.EntryDate);
-    @Html.HiddenFor(model => model.GoodsIssue.ReceiverCode);
-    @Html.HiddenFor(model => model.GoodsIssue.ReceiverName);
+    @Html.HiddenFor(model => model.GoodsIssue.CustomerCode);
+    @Html.HiddenFor(model => model.GoodsIssue.CustomerName);
 
     @Html.HiddenFor(model => model.PackagingStaff.EmployeeID);
     @Html.HiddenFor(model => model.PackagingStaff.Name);
@@ -103,8 +103,8 @@
             $("#GoodsIssue_GoodsIssueID").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueID === undefined ? null : selectedDataItem.GoodsIssueID);
             $("#GoodsIssue_Reference").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueReference === undefined ? null : selectedDataItem.GoodsIssueReference);
             $("#GoodsIssue_EntryDate").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueEntryDate === undefined ? null : kendo.toString(selectedDataItem.GoodsIssueEntryDate, SettingsManager.DateFormat));
-            $("#GoodsIssue_ReceiverCode").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueID === undefined || selectedDataItem.ReceiverCode === undefined ? null : selectedDataItem.ReceiverCode);
-            $("#GoodsIssue_ReceiverName").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueID === undefined || selectedDataItem.ReceiverName === undefined ? null : selectedDataItem.ReceiverName);
+            $("#GoodsIssue_CustomerCode").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueID === undefined || selectedDataItem.CustomerCode === undefined ? null : selectedDataItem.CustomerCode);
+            $("#GoodsIssue_CustomerName").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueID === undefined || selectedDataItem.CustomerName === undefined ? null : selectedDataItem.CustomerName);
             
             $("#ShippingAddress").val(selectedDataItem === undefined || selectedDataItem.ShippingAddress === undefined ? null : selectedDataItem.ShippingAddress);
 

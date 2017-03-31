@@ -6,11 +6,11 @@
     .Columns(columns =>
     {
         columns.Bound(c => c.GoodsIssueReference).Title("PXK").Width(40);
-        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày, giờ xuất kho").Width(90).Format("{0:" + SettingsManager.DateTimeFormat + "}");
-        columns.Bound(c => c.CustomerCode).Title("Mã khách hàng").Width(80);
+        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày, giờ xuất kho").Width(100).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Bound(c => c.CustomerCode).Title("Mã khách hàng").Width(75);
         columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(150);
         columns.Bound(c => c.CustomerVATCode).Title("MST").Width(60);
-        columns.Bound(c => c.ReceiverCode).Title("Mã đơn vị nhận").Width(80);
+        columns.Bound(c => c.ReceiverCode).Title("Mã đơn vị nhận").Width(75);
         columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(150);
     })
     .ToolBar(toolbar =>

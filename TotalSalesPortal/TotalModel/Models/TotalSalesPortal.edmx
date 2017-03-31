@@ -3152,12 +3152,15 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="VATInvoiceNo" Nullable="false" MaxLength="60" />
           <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="CustomerDescription" Nullable="false" MaxLength="305" />
           <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
           <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="TotalQuantity" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="TotalListedGrossAmount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="DateTime" Name="VATInvoiceDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="BillingAddress" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="GoodsIssueReference" Nullable="true" MaxLength="10" />
+          <Property Type="DateTime" Name="GoodsIssueEntryDate" Nullable="true" Precision="23" />
         </ComplexType>
         <ComplexType Name="AccountInvoiceViewDetail">
           <Property Type="Int32" Name="AccountInvoiceDetailID" Nullable="false" />
@@ -3449,17 +3452,17 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="DateTime" Name="GoodsIssueEntryDate" Nullable="false" Precision="23" />
           <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="GoodsIssueReceiverCode" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="GoodsIssueReceiverName" Nullable="false" MaxLength="100" />
-          <Property Type="Int32" Name="CustomerID" Nullable="false" />
-          <Property Type="String" Name="CustomerCode" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="CustomerVATCode" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="CustomerAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="CustomerTelephone" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="CustomerEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
-          <Property Type="String" Name="CustomerBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="Int32" Name="PaymentTermID" Nullable="false" />
+          <Property Type="Int32" Name="ReceiverID" Nullable="false" />
+          <Property Type="String" Name="ReceiverCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReceiverVATCode" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ReceiverAttentionName" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ReceiverTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
+          <Property Type="String" Name="GoodsIssueCustomerCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="GoodsIssueCustomerName" Nullable="false" MaxLength="100" />
         </ComplexType>
         <EntityType Name="PackingMaterial">
           <Key>
@@ -5210,12 +5213,15 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
                 <ScalarProperty Name="Reference" ColumnName="Reference" />
                 <ScalarProperty Name="VATInvoiceNo" ColumnName="VATInvoiceNo" />
                 <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
-                <ScalarProperty Name="CustomerDescription" ColumnName="CustomerDescription" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
                 <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
                 <ScalarProperty Name="TotalListedGrossAmount" ColumnName="TotalListedGrossAmount" />
                 <ScalarProperty Name="VATInvoiceDate" ColumnName="VATInvoiceDate" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
+                <ScalarProperty Name="GoodsIssueReference" ColumnName="GoodsIssueReference" />
+                <ScalarProperty Name="GoodsIssueEntryDate" ColumnName="GoodsIssueEntryDate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -5517,17 +5523,17 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
                 <ScalarProperty Name="GoodsIssueEntryDate" ColumnName="GoodsIssueEntryDate" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="GoodsIssueReceiverCode" ColumnName="GoodsIssueReceiverCode" />
-                <ScalarProperty Name="GoodsIssueReceiverName" ColumnName="GoodsIssueReceiverName" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="CustomerVATCode" ColumnName="CustomerVATCode" />
-                <ScalarProperty Name="CustomerAttentionName" ColumnName="CustomerAttentionName" />
-                <ScalarProperty Name="CustomerTelephone" ColumnName="CustomerTelephone" />
-                <ScalarProperty Name="CustomerEntireTerritoryEntireName" ColumnName="CustomerEntireTerritoryEntireName" />
-                <ScalarProperty Name="CustomerBillingAddress" ColumnName="CustomerBillingAddress" />
                 <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
+                <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
+                <ScalarProperty Name="ReceiverCode" ColumnName="ReceiverCode" />
+                <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
+                <ScalarProperty Name="ReceiverVATCode" ColumnName="ReceiverVATCode" />
+                <ScalarProperty Name="ReceiverAttentionName" ColumnName="ReceiverAttentionName" />
+                <ScalarProperty Name="ReceiverTelephone" ColumnName="ReceiverTelephone" />
+                <ScalarProperty Name="ReceiverBillingAddress" ColumnName="ReceiverBillingAddress" />
+                <ScalarProperty Name="ReceiverEntireTerritoryEntireName" ColumnName="ReceiverEntireTerritoryEntireName" />
+                <ScalarProperty Name="GoodsIssueCustomerCode" ColumnName="GoodsIssueCustomerCode" />
+                <ScalarProperty Name="GoodsIssueCustomerName" ColumnName="GoodsIssueCustomerName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

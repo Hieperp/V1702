@@ -41,10 +41,11 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      AccountInvoices.AccountInvoiceID, CAST(AccountInvoices.EntryDate AS DATE) AS EntryDate, AccountInvoices.Reference, AccountInvoices.VATInvoiceNo, AccountInvoices.VATInvoiceDate, Locations.Code AS LocationCode, Customers.Name + ',    ' + Customers.BillingAddress AS CustomerDescription, AccountInvoices.Description, AccountInvoices.TotalQuantity, AccountInvoices.TotalListedGrossAmount, AccountInvoices.TotalGrossAmount " + "\r\n";
-            queryString = queryString + "       FROM        AccountInvoices INNER JOIN" + "\r\n";
-            queryString = queryString + "                   Locations ON AccountInvoices.EntryDate >= @FromDate AND AccountInvoices.EntryDate <= @ToDate AND AccountInvoices.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)TotalBase.Enums.GlobalEnums.NmvnTaskID.AccountInvoice + " AND AccessControls.AccessLevel > 0) AND Locations.LocationID = AccountInvoices.LocationID INNER JOIN " + "\r\n";
-            queryString = queryString + "                   Customers ON AccountInvoices.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "       SELECT      AccountInvoices.AccountInvoiceID, CAST(AccountInvoices.EntryDate AS DATE) AS EntryDate, AccountInvoices.Reference, AccountInvoices.VATInvoiceNo, AccountInvoices.VATInvoiceDate, Locations.Code AS LocationCode, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.EntryDate AS GoodsIssueEntryDate, Customers.Name AS CustomerName, Customers.BillingAddress, AccountInvoices.Description, AccountInvoices.TotalQuantity, AccountInvoices.TotalListedGrossAmount, AccountInvoices.TotalGrossAmount " + "\r\n";
+            queryString = queryString + "       FROM        AccountInvoices " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Locations ON AccountInvoices.EntryDate >= @FromDate AND AccountInvoices.EntryDate <= @ToDate AND AccountInvoices.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)TotalBase.Enums.GlobalEnums.NmvnTaskID.AccountInvoice + " AND AccessControls.AccessLevel > 0) AND Locations.LocationID = AccountInvoices.LocationID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers ON AccountInvoices.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                   LEFT JOIN  GoodsIssues ON AccountInvoices.GoodsIssueID = GoodsIssues.GoodsIssueID " + "\r\n";
             queryString = queryString + "       " + "\r\n";
 
             queryString = queryString + "    END " + "\r\n";
@@ -89,14 +90,14 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
             string queryString = " @LocationID int " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
-            queryString = queryString + "       SELECT          Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.VATCode AS CustomerVATCode, Customers.AttentionName AS CustomerAttentionName, Customers.Telephone AS CustomerTelephone, Customers.BillingAddress AS CustomerBillingAddress, CustomerEntireTerritories.EntireName AS CustomerEntireTerritoryEntireName, " + "\r\n";
+            queryString = queryString + "       SELECT          Receivers.CustomerID AS ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Receivers.VATCode AS ReceiverVATCode, Receivers.AttentionName AS ReceiverAttentionName, Receivers.Telephone AS ReceiverTelephone, Receivers.BillingAddress AS ReceiverBillingAddress, ReceiverEntireTerritories.EntireName AS ReceiverEntireTerritoryEntireName, " + "\r\n";
             queryString = queryString + "                       GoodsIssues.GoodsIssueID, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.EntryDate AS GoodsIssueEntryDate, GoodsIssues.PaymentTermID, GoodsIssues.Description, GoodsIssues.Remarks, " + "\r\n";
-            queryString = queryString + "                       Receivers.Code AS GoodsIssueReceiverCode, Receivers.Name AS GoodsIssueReceiverName " + "\r\n";
+            queryString = queryString + "                       Customers.Code AS GoodsIssueCustomerCode, Customers.Name AS GoodsIssueCustomerName " + "\r\n";
 
             queryString = queryString + "       FROM            GoodsIssues " + "\r\n";
             queryString = queryString + "                       INNER JOIN Customers ON GoodsIssues.GoodsIssueID IN (SELECT GoodsIssueID FROM GoodsIssueDetails WHERE Approved = 1 AND LocationID = @LocationID AND ROUND(Quantity - QuantityInvoice, " + (int)GlobalEnums.rndQuantity + ") > 0 OR ROUND(FreeQuantity - FreeQuantityInvoice, " + (int)GlobalEnums.rndQuantity + ") > 0) AND GoodsIssues.CustomerID = Customers.CustomerID " + "\r\n";
-            queryString = queryString + "                       INNER JOIN EntireTerritories CustomerEntireTerritories ON Customers.TerritoryID = CustomerEntireTerritories.TerritoryID " + "\r\n";
             queryString = queryString + "                       INNER JOIN Customers Receivers ON GoodsIssues.ReceiverID = Receivers.CustomerID " + "\r\n";
+            queryString = queryString + "                       INNER JOIN EntireTerritories ReceiverEntireTerritories ON Receivers.TerritoryID = ReceiverEntireTerritories.TerritoryID " + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetPendingGoodsIssues", queryString);
         }

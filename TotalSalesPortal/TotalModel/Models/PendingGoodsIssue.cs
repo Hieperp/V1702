@@ -18,16 +18,16 @@ namespace TotalModel.Models
         public System.DateTime GoodsIssueEntryDate { get; set; }
         public string Description { get; set; }
         public string Remarks { get; set; }
-        public string GoodsIssueReceiverCode { get; set; }
-        public string GoodsIssueReceiverName { get; set; }
-        public int CustomerID { get; set; }
-        public string CustomerCode { get; set; }
-        public string CustomerName { get; set; }
-        public string CustomerVATCode { get; set; }
-        public string CustomerAttentionName { get; set; }
-        public string CustomerTelephone { get; set; }
-        public string CustomerEntireTerritoryEntireName { get; set; }
-        public string CustomerBillingAddress { get; set; }
         public int PaymentTermID { get; set; }
+        public int ReceiverID { get; set; }
+        public string ReceiverCode { get; set; }
+        public string ReceiverName { get; set; }
+        public string ReceiverVATCode { get; set; }
+        public string ReceiverAttentionName { get; set; }
+        public string ReceiverTelephone { get; set; }
+        public string ReceiverBillingAddress { get; set; }
+        public string ReceiverEntireTerritoryEntireName { get; set; }
+        public string GoodsIssueCustomerCode { get; set; }
+        public string GoodsIssueCustomerName { get; set; }
     }
 }

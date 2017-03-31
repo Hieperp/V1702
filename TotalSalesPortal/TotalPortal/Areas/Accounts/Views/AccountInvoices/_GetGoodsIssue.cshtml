@@ -7,8 +7,8 @@
     {
         columns.Bound(c => c.GoodsIssueReference).Title("PXK").Width(35);
         columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày, giờ xuất kho").Width(85).Format("{0:" + SettingsManager.DateTimeFormat + "}");
-        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(240);
-        columns.Bound(c => c.GoodsIssueReceiverName).Title("Tên đơn vị nhận").Width(240);
+        columns.Bound(c => c.GoodsIssueCustomerName).Title("Tên khách hàng").Width(240);
+        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(240);
     })
     .ToolBar(toolbar =>
     {
@@ -43,12 +43,12 @@
                 filters: [
                     { field: "GoodsIssueReference", operator: "contains", value: pendingGoodsIssueFilter },
 
-                    { field: "CustomerCode", operator: "contains", value: pendingGoodsIssueFilter },
-                    { field: "CustomerName", operator: "contains", value: pendingGoodsIssueFilter },
-                    { field: "CustomerVATCode", operator: "contains", value: pendingGoodsIssueFilter },
+                    { field: "ReceiverCode", operator: "contains", value: pendingGoodsIssueFilter },
+                    { field: "ReceiverName", operator: "contains", value: pendingGoodsIssueFilter },
+                    { field: "ReceiverVATCode", operator: "contains", value: pendingGoodsIssueFilter },
 
-                    { field: "GoodsIssueReceiverCode", operator: "contains", value: pendingGoodsIssueFilter },
-                    { field: "GoodsIssueReceiverName", operator: "contains", value: pendingGoodsIssueFilter }
+                    { field: "GoodsIssueCustomerCode", operator: "contains", value: pendingGoodsIssueFilter },
+                    { field: "GoodsIssueCustomerName", operator: "contains", value: pendingGoodsIssueFilter }
                 ]
             });
 

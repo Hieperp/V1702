@@ -18,11 +18,14 @@ namespace TotalModel.Models
         public string Reference { get; set; }
         public string VATInvoiceNo { get; set; }
         public string LocationCode { get; set; }
-        public string CustomerDescription { get; set; }
         public string Description { get; set; }
         public decimal TotalGrossAmount { get; set; }
         public decimal TotalQuantity { get; set; }
         public decimal TotalListedGrossAmount { get; set; }
         public System.DateTime VATInvoiceDate { get; set; }
+        public string CustomerName { get; set; }
+        public string BillingAddress { get; set; }
+        public string GoodsIssueReference { get; set; }
+        public Nullable<System.DateTime> GoodsIssueEntryDate { get; set; }
     }
 }

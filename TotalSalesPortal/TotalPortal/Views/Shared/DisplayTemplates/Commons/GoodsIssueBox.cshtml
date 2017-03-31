@@ -5,16 +5,15 @@
 @Html.HiddenFor(model => model.GoodsIssueID)
 @Html.HiddenFor(model => model.EntryDate)
 @Html.HiddenFor(model => model.Reference)
-@Html.HiddenFor(model => model.ReceiverCode)
-@Html.HiddenFor(model => model.ReceiverName)
+@Html.HiddenFor(model => model.CustomerCode)
+@Html.HiddenFor(model => model.CustomerName)
 
 @if (@Model != null && @Model.GoodsIssueID != null && @Model.Reference != null && @Model.Reference != "")
 {
     <div id="show-GoodsIssueBox">
         <div> @Html.DisplayFor(m => m.Reference) </div>
         <div> @Html.DisplayFor(m => m.EntryDate) </div>
-        @*<div> @Html.DisplayFor(m => m.ReceiverCode) </div>*@
-        <div> @Html.DisplayFor(m => m.ReceiverName) </div>
+        <div> @Html.DisplayFor(m => m.CustomerName) </div>
     </div>
 }
 
