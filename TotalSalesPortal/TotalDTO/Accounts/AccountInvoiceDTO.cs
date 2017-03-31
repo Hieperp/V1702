@@ -44,9 +44,7 @@ namespace TotalDTO.Accounts
         public override void PerformPresaveRule()
         {
             base.PerformPresaveRule();
-            string discountDescription = "";
-            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; if (e.DiscountPercent > 0 && discountDescription.IndexOf(e.DiscountPercent.ToString("0")) < 0) discountDescription = discountDescription + (discountDescription != "" ? ", " : "") + e.DiscountPercent.ToString("0") + "%"; });
-            if (discountDescription != "") this.Remarks = discountDescription;
+            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; });
         }
     }
 
