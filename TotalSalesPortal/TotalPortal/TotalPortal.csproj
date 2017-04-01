@@ -937,6 +937,7 @@
     <Content Include="Scripts\Controllers\Accounts\AccountInvoices\Delete.js" />
     <Content Include="Scripts\Controllers\Accounts\AccountInvoices\Edit.js" />
     <Content Include="Scripts\Controllers\Accounts\AccountInvoices\Index.js" />
+    <Content Include="Scripts\Controllers\Accounts\AccountInvoices\Print.js" />
     <Content Include="Scripts\Controllers\Accounts\Receipts\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Accounts\Receipts\Delete.js" />
     <Content Include="Scripts\Controllers\Accounts\Receipts\Edit.js" />
