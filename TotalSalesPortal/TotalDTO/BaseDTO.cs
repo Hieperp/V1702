@@ -61,6 +61,8 @@ namespace TotalDTO
         public virtual bool PrintAfterClosedSubmit { get; set; }
         public GlobalEnums.SubmitTypeOption SubmitTypeOption { get; set; }
 
+        public virtual int PrintOptionID { get; set; }
+
 
         
         public virtual void PerformPresaveRule() { }

@@ -21,6 +21,8 @@
     @Html.HiddenFor(model => model.TotalListedGrossAmount)
     @Html.HiddenFor(model => model.TotalGrossAmount)
     @Html.HiddenFor(model => model.AverageDiscountPercent)
+    
+    @Html.HiddenFor(model => model.PrintOptionID)
 
     <div class="left-panel">
 
@@ -312,7 +314,8 @@
             {
                 @Html.HiddenFor(model => model.PrintAfterClosedSubmit)
                 <button type="submit" class="k-button custom-button SubmitTypeOption-Closed" formaction="@Url.Action("Edit", "AccountInvoices")"> <img src="~/Content/Images/New/save-icon.png" /> Lưu hóa đơn </button>
-                <button type="submit" class="k-button custom-button SubmitTypeOption-Closed" formaction="@Url.Action("Edit", "AccountInvoices")" onclick="$('#PrintAfterClosedSubmit').val(true);"> <img src="~/Content/Images/New/Apps-printer-icon.png" /> In hóa đơn</button>
+                <button type="submit" class="k-button custom-button SubmitTypeOption-Closed" formaction="@Url.Action("Edit", "AccountInvoices")" onclick="$('#PrintAfterClosedSubmit').val(true); $('#PrintOptionID').val(0);"> <img src="~/Content/Images/New/Apps-printer-icon.png" /> In hóa đơn</button>
+                <button type="submit" class="k-button custom-button SubmitTypeOption-Closed" formaction="@Url.Action("Edit", "AccountInvoices")" onclick="$('#PrintAfterClosedSubmit').val(true); $('#PrintOptionID').val(1);"> <img src="~/Content/Images/New/Apps-printer-icon.png" /> In hóa đơn chi tiết chiết khấu</button>
             }
             else
             {

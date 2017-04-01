@@ -198,7 +198,10 @@ namespace TotalPortal.Controllers
                     return CreateWizard(createWizardViewModel);
                 }
             else
+            {
+                if (simpleViewModel.PrintAfterClosedSubmit) this.TempData["PrintOptionID"] = simpleViewModel.PrintOptionID;
                 return RedirectToAction(simpleViewModel.SubmitTypeOption == GlobalEnums.SubmitTypeOption.Save ? "Edit" : simpleViewModel.PrintAfterClosedSubmit ? "Print" : "Index", new { id = simpleViewModel.GetID() });
+            }
         }
 
 
@@ -626,6 +629,8 @@ namespace TotalPortal.Controllers
         protected virtual PrintViewModel InitPrintViewModel(int? id)
         {
             PrintViewModel printViewModel = new PrintViewModel() { Id = id != null ? (int)id : 0 };
+            if (this.TempData["PrintOptionID"] != null)
+                printViewModel.PrintOptionID = (int) this.TempData["PrintOptionID"];
             return printViewModel;
         }
 
