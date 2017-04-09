@@ -45,24 +45,34 @@
 
 
     definedExemplar.prototype._updateTotalToFooterTemplate = function (fieldName, aggregateFunction) {//Refresh FooterTemplate for display
-
-        var footerRow = $(".k-footer-template").children("td");
-
-        if (footerRow != undefined) {//Footer found
-            var foundItem = function (that) { //Found column + footerTemplate (search by fieldName)
-                for (var i = 0; i < that._kenGrid.columns.length; i++) {
-                    if (that._kenGrid.columns[i].field === fieldName) {
-                        if (that._kenGrid.columns[i].footerTemplate != undefined)
-                            return { footerCell: footerRow.eq(i), format: that._kenGrid.columns[i].format != undefined ? that._kenGrid.columns[i].format : "{0:n}" };
-                        else
-                            return;
-                    }
-                }
-            }(this)
-
-            if (foundItem != undefined)
-                foundItem.footerCell.html(kendo.format(foundItem.format, this._kenGrid.dataSource.aggregates()[fieldName][aggregateFunction]));
+        //Best way to refresh aggregates: This is the official way advised by KENDO to refresh aggregates.
+        //http://www.telerik.com/forums/best-way-to-refresh-aggregates
+        //Kendo: Assuming that you are using client-side operations, the aggregates will automatically be recalculated by the dataSource on change so it should be simpler to just update the displayed aggregates than to rebind the grid and then to restore its previous state. I created an example that demonstrates redrawing just the group footers and the grid footer.
+        //http://dojo.telerik.com/@SiliconSoul/ICIpe
+        //FROM NOW - APRIL-2017: WE WILL USE THIS OFFICIAL CODE FROM KENDO SUPPORT FOR OUR SOLUTION
+        var footerTemplate = this._kenGrid.footer.find(".k-footer-template");
+        if (footerTemplate != undefined) {//Footer template found
+            footerTemplate.replaceWith(this._kenGrid.footerTemplate(this._kenGrid.dataSource.aggregates()));
         }
+
+        //The following is old code, developed by LE MINH HIEP in early 2016. This works very well, EXCEPT: It can only refresh SINGLE AGGREGATE FORUMLA PER COLUMN (*******Upto now - April-2017 - it still works very well for TotalBikePortals + TotalSalesPortal*******)
+        //var footerRow = $(".k-footer-template").children("td");
+
+        //if (footerRow != undefined) {//Footer found
+        //    var foundItem = function (that) { //Found column + footerTemplate (search by fieldName)
+        //        for (var i = 0; i < that._kenGrid.columns.length; i++) {
+        //            if (that._kenGrid.columns[i].field === fieldName) {
+        //                if (that._kenGrid.columns[i].footerTemplate != undefined)
+        //                    return { footerCell: footerRow.eq(i), format: that._kenGrid.columns[i].format != undefined ? that._kenGrid.columns[i].format : "{0:n}" };
+        //                else
+        //                    return;
+        //            }
+        //        }
+        //    }(this)
+
+        //    if (foundItem != undefined)
+        //        foundItem.footerCell.html(kendo.format(foundItem.format, this._kenGrid.dataSource.aggregates()[fieldName][aggregateFunction]));
+        //}
     }
 
 
