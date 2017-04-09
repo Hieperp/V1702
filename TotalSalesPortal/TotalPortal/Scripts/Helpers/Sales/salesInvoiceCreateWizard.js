@@ -9,7 +9,7 @@ function handleOKEvent(selectedGrid) {
         _setParentInput();
     else {
         var selectedDataItem = selectedGrid.dataItem(selectedGrid.select());
-        if (selectedDataItem === undefined)
+        if (selectedDataItem === undefined || selectedDataItem === null)
             return false;
 
         _setParentInput(selectedDataItem);

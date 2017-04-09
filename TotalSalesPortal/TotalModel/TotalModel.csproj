@@ -86,6 +86,9 @@
     <Compile Include="Models\CommodityType.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CreditNote.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Customer.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
@@ -173,6 +176,9 @@
     <Compile Include="Models\ModuleDetail.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MonetaryAccount.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\OrganizationalUnit.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
@@ -183,6 +189,9 @@
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PaymentTerm.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PendingCustomerCredit.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PendingDeliveryAdvice.cs">
@@ -228,6 +237,9 @@
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReceiptViewDetail.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesReturn.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Territory.cs">

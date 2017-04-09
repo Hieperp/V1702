@@ -24,5 +24,8 @@ namespace TotalModel.Models
         public string Remarks { get; set; }
         public System.DateTime GoodsIssueEntryDate { get; set; }
         public string GoodsIssueReference { get; set; }
+        public string Description { get; set; }
+        public decimal CashDiscount { get; set; }
+        public decimal FluctuationAmount { get; set; }
     }
 }

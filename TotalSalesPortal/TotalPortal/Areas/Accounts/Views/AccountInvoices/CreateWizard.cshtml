@@ -106,7 +106,7 @@
         else {
             var selectedGrid = $(tabIndex === 0 ? "#pendingGoodsIssueGrid" : (tabIndex === 1 ? "#pendingGoodsIssueReceiverGrid" : "#pendingGoodsIssueConsumerGrid")).data("kendoGrid");
             var selectedDataItem = selectedGrid.dataItem(selectedGrid.select());
-            if (selectedDataItem === undefined)
+            if (selectedDataItem === undefined || selectedDataItem === null)
                 return false;
 
             _setModelInput(selectedDataItem);

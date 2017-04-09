@@ -30,36 +30,36 @@
             {
                 toolbar.Template(@<text> <button type="button" class="k-button" onclick="createWizard()"> <img src="~/Content/Images/Mains/Size24/folder-documents-icon-24.png" /> Lập đề nghị giao hàng </button> </text>);
             })
-                    .Pageable()
-                    .Groupable(g => g.Messages(messages => messages.Empty("Phân nhóm dữ liệu: Kéo và thả tiêu đề một hoặc nhiều cột dữ liệu ngay bên dưới vào đây để phân nhóm hiển thị theo phân cấp của các cột dữ liệu")))
-                    .Filterable()
-                    .Selectable()
-                    .Sortable()
-                    .Events(e =>
+            .Pageable()
+            .Groupable(g => g.Messages(messages => messages.Empty("Phân nhóm dữ liệu: Kéo và thả tiêu đề một hoặc nhiều cột dữ liệu ngay bên dưới vào đây để phân nhóm hiển thị theo phân cấp của các cột dữ liệu")))
+            .Filterable()
+            .Selectable()
+            .Sortable()
+            .Events(e =>
+            {
+                e.DataBound("hightLightSelectedRow");
+            })
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(read => read.Action("GetDeliveryAdviceIndexes", "DeliveryAdviceAPIs", new { area = "Sales" }))
+                .Sort(sort =>
                     {
-                        e.DataBound("hightLightSelectedRow");
+                        sort.Add(p => p.EntryDate).Descending();
+                        sort.Add(p => p.DeliveryAdviceID).Descending();
                     })
-                    .DataSource(dataSource => dataSource
-                        .Ajax()
-                        .Read(read => read.Action("GetDeliveryAdviceIndexes", "DeliveryAdviceAPIs", new { area = "Sales" }))
-                        .Sort(sort =>
-                            {
-                                sort.Add(p => p.EntryDate).Descending();
-                                sort.Add(p => p.DeliveryAdviceID).Descending();
-                            })
-                        .PageSize(20)
-                        .Model(model =>
-                        {
-                            model.Id(x => x.DeliveryAdviceID);
-                            model.Field(m => m.DeliveryAdviceID).DefaultValue(0);
-                        })
-                        .ServerOperation(true)
-                        .Aggregates(a => a.Add(x => x.GrandTotalQuantity).Sum())
-                        .Aggregates(a => a.Add(x => x.GrandTotalQuantityIssue).Sum())
-                        .Aggregates(a => a.Add(x => x.TotalListedGrossAmount).Sum())
-                        .Aggregates(a => a.Add(x => x.TotalGrossAmount).Sum())
-                        )
-                    .HtmlAttributes(new { @class = "grid-class" }))
+                .PageSize(20)
+                .Model(model =>
+                {
+                    model.Id(x => x.DeliveryAdviceID);
+                    model.Field(m => m.DeliveryAdviceID).DefaultValue(0);
+                })
+                .ServerOperation(true)
+                .Aggregates(a => a.Add(x => x.GrandTotalQuantity).Sum())
+                .Aggregates(a => a.Add(x => x.GrandTotalQuantityIssue).Sum())
+                .Aggregates(a => a.Add(x => x.TotalListedGrossAmount).Sum())
+                .Aggregates(a => a.Add(x => x.TotalGrossAmount).Sum())
+                )
+            .HtmlAttributes(new { @class = "grid-class" }))
 </div>
 
 

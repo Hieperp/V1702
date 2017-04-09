@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using TotalModel;
 using TotalModel.Helpers;
 using TotalDTO.Helpers;
+using System.Collections.Generic;
 
 namespace TotalDTO.Sales
 {
@@ -22,8 +23,15 @@ namespace TotalDTO.Sales
 
         public override decimal Quantity { get; set; }
 
-        [GenericCompare(CompareToPropertyName = "QuantityAvailable", OperatorName = GenericCompareOperator.LessThanOrEqual, ErrorMessage = "Số lượng xuất không được lớn hơn số lượng tồn kho")]
-        public decimal BookingQuantity { get { return this.Quantity + this.FreeQuantity; } }
+        //[GenericCompare(CompareToPropertyName = "QuantityAvailable", OperatorName = GenericCompareOperator.LessThanOrEqual, ErrorMessage = "Số lượng xuất không được lớn hơn số lượng tồn kho")]
+        //public decimal BookingQuantity { get { return this.Quantity + this.FreeQuantity; } }
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            foreach (var result in base.Validate(validationContext)) { yield return result; }
+
+            if (this.QuantityAvailable < (this.Quantity + this.FreeQuantity)) yield return new ValidationResult("Số lượng xuất không được lớn hơn số lượng tồn kho [" + this.CommodityName + "]", new[] { "Quantity" });
+        }
     }
 
     public class SaleDetailDTO : StockableDetailDTO

@@ -28,7 +28,7 @@ namespace TotalModel
         protected BaseModel() { this.EntryDate = DateTime.Now; }
 
 
-        [UIHint("StringReadonly")]
+        [UIHint("DateTimeReadonly")]
         [Display(Name = "Ngày lập")]
         [Required(ErrorMessage = "Vui lòng nhập ngày lập")]
         public DateTime? EntryDate { get; set; }

@@ -25,5 +25,9 @@ namespace TotalModel.Models
         public string CustomerName { get; set; }
         public string CustomerCode { get; set; }
         public string CustomerBillingAddress { get; set; }
+        public string CustomerVATCode { get; set; }
+        public string ReceiverCode { get; set; }
+        public string ReceiverName { get; set; }
+        public Nullable<int> MonetaryAccountID { get; set; }
     }
 }

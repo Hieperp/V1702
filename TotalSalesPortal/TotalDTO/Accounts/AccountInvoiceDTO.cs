@@ -67,7 +67,7 @@ namespace TotalDTO.Accounts
         [UIHint("Commons/CustomerBase")]
         public CustomerBaseDTO Receiver { get; set; }
 
-        public override Nullable<int> GoodsIssueID { get { return (this.GoodsIssue != null ? (Nullable<int>)this.GoodsIssue.GoodsIssueID : null); } }
+        public override Nullable<int> GoodsIssueID { get { return (this.GoodsIssue != null ? this.GoodsIssue.GoodsIssueID : null); } }
         [UIHint("Commons/GoodsIssueBox")]
         public GoodsIssueBoxDTO GoodsIssue { get; set; }
 

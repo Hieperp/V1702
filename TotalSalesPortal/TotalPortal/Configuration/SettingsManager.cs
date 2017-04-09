@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.Globalization;
+using TotalBase.Enums;
 
 namespace TotalPortal.Configuration
 {
@@ -15,7 +16,7 @@ namespace TotalPortal.Configuration
         public static string DateFormat = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
         public static string TimeFormat = CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern;
         public static string DateTimeFormat = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " + CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern;
-        
+
         public static string NumberFormat = "{0:n0}";
         public static string YearMonthPattern = CultureInfo.CurrentCulture.DateTimeFormat.YearMonthPattern;
         public static int GridPopupHeight = 263;
@@ -56,6 +57,7 @@ namespace TotalPortal.Configuration
                 return shortDatePattern;
             }
         }
+    
     }
 
     public class MySettingsManager

@@ -212,6 +212,7 @@
     <Compile Include="Areas\Accounts\Controllers\AccountInvoicesController.cs" />
     <Compile Include="Areas\Accounts\Controllers\ReceiptsController.cs" />
     <Compile Include="Areas\Accounts\Controllers\Sessions\AccountInvoiceSession.cs" />
+    <Compile Include="Areas\Accounts\Controllers\Sessions\ReceiptSession.cs" />
     <Compile Include="Areas\Accounts\ViewModels\AccountInvoiceViewModel.cs" />
     <Compile Include="Areas\Accounts\ViewModels\ReceiptViewModel.cs" />
     <Compile Include="Areas\Commons\APIs\CommodityAPIsController.cs" />
@@ -219,9 +220,11 @@
     <Compile Include="Areas\Commons\APIs\EmployeeAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\VoidTypeAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\PromotionAPIsController.cs" />
+    <Compile Include="Areas\Commons\Builders\IMonetaryAccountSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\IPackingMaterialSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\IVehicleSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\CommonsAreaRegistration.cs" />
+    <Compile Include="Areas\Commons\ViewModels\Helpers\IMonetaryAccountDropDownViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\Helpers\IPackingMaterialDropDownViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\Helpers\IVehicleDropDownViewModel.cs" />
     <Compile Include="Areas\Inventories\APIs\GoodsDeliveryAPIsController.cs" />
@@ -370,6 +373,8 @@
     <Content Include="Content\Images\Mains\Size24\Map-pin-16.png" />
     <Content Include="Content\Images\Mains\Size24\Map-pin-20.png" />
     <Content Include="Content\Images\Mains\Size24\Map-pin-24.png" />
+    <Content Include="Content\Images\Mains\Size24\money-bag-icon-16.png" />
+    <Content Include="Content\Images\Mains\Size24\money-icon-24.png" />
     <Content Include="Content\Images\Mains\Size24\Ok-1.png" />
     <Content Include="Content\Images\Mains\Size24\Phone-icon-24.png" />
     <Content Include="Content\Images\Mains\Size24\select-by-color-icon-24.png" />
@@ -927,6 +932,7 @@
     <Content Include="Areas\Inventories\Views\HandlingUnits\Print.cshtml" />
     <Content Include="Areas\Sales\Views\DeliveryAdvices\Delete.cshtml" />
     <Content Include="Areas\Accounts\Views\AccountInvoices\_GetReceiver.cshtml" />
+    <Content Include="Areas\Accounts\Views\Receipts\CreateReceipt.cshtml" />
     <None Include="Properties\PublishProfiles\VCP.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -980,6 +986,8 @@
     <Content Include="Scripts\Controllers\Root\Shared\Edits\gridDatasourceListedAmountSubscribe.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Edits\gridDatasourceQuantity.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Edits\gridDatasourceQuantitySubscribe.js" />
+    <Content Include="Scripts\Controllers\Root\Shared\Edits\gridDatasourceReceipt.js" />
+    <Content Include="Scripts\Controllers\Root\Shared\Edits\gridDatasourceReceiptSubscribe.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Edits\gridDatasourceWeight.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Edits\gridDatasourceWeightSubscribe.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Edits\gridEditorCommoditiesInGoodsReceipts.js" />
@@ -1000,6 +1008,7 @@
     <Content Include="Scripts\Controllers\Root\Shared\Edits\gridWidgetGoodsReceiptSubscribeChange.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Edits\gridWidgetQuantityRemains.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Edits\gridWidgetQuantityRemainsSubscribeChange.js" />
+    <Content Include="Scripts\Controllers\Root\Shared\Edits\gridWidgetReceiptSubscribeChange.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Edits\gridWidgetSubscribeChange.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Indexes\kindexGrid.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Validations\kenGridValidator.js" />
@@ -1411,6 +1420,8 @@
     <Content Include="Views\Shared\EditorTemplates\DropDowns\Vehicle.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTimeReadonly.cshtml" />
     <Content Include="Views\Helpers\Bases\_BaseSectionTop.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Commons\ReceiptBox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DropDowns\MonetaryAccount.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

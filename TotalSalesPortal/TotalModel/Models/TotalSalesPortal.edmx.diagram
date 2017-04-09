@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d15db0f3b87b40d8a37bac669a0fa729" Name="Diagram1" ZoomLevel="19">
+      <Diagram DiagramId="d15db0f3b87b40d8a37bac669a0fa729" Name="Diagram1" ZoomLevel="34">
         <EntityTypeShape EntityType="TotalSalesPortalModel.AspNetUser" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.Location" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.ModuleDetail" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
@@ -31,7 +31,6 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_Warehouses_Locations" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.Promotion" Width="1.5" PointX="0.75" PointY="9" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.PriceCategory" Width="1.5" PointX="7" PointY="5.875" />
-        <EntityTypeShape EntityType="TotalSalesPortalModel.ReceiptDetail" Width="1.5" PointX="21.125" PointY="6.125" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.AccessControl" Width="1.5" PointX="9.375" PointY="11.75" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.VoidType" Width="1.5" PointX="11.375" PointY="24.75" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.AccountInvoiceDetail" Width="1.5" PointX="0.75" PointY="13.75" />
@@ -53,7 +52,6 @@
         <EntityTypeShape EntityType="TotalSalesPortalModel.DeliveryAdvice" Width="1.5" PointX="14.5" PointY="9.25" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.GoodsIssueDetail" Width="1.5" PointX="19" PointY="18.625" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.GoodsIssue" Width="1.5" PointX="16.75" PointY="10" />
-        <EntityTypeShape EntityType="TotalSalesPortalModel.Receipt" Width="1.5" PointX="19" PointY="10.625" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_AccountInvoiceDetails_GoodsIssueDetails" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_AccountInvoices_Customers" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_AccountInvoices_Customers1" />
@@ -66,7 +64,6 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsDeliveries_Customers1" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssues_Customers" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssues_Customers1" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_Customers" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdviceDetails_DeliveryAdvices" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdviceDetails_VoidTypes" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssueDetails_DeliveryAdviceDetails" />
@@ -77,13 +74,9 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdvices_Promotions" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdvices_VoidTypes" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssues_DeliveryAdvices" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_Employees" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssueDetails_GoodsIssues" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssueDetails_VoidTypes" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_HandlingUnitDetails_GoodsIssueDetails" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_ReceiptDetails_GoodsIssues" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_GoodsIssues" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_ReceiptDetails_Receipts" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssues_Employees" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Customers_CustomerTypes" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.HandlingUnit" Width="1.5" PointX="23.375" PointY="11.625" />
@@ -106,6 +99,20 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_Commodities_CommodityTypes" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdviceDetails_Commodities" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssueDetails_Commodities" />
+        <EntityTypeShape EntityType="TotalSalesPortalModel.CreditNote" Width="1.5" PointX="19.75" PointY="29.375" />
+        <EntityTypeShape EntityType="TotalSalesPortalModel.ReceiptDetail" Width="1.5" PointX="19" PointY="13.125" />
+        <EntityTypeShape EntityType="TotalSalesPortalModel.Receipt" Width="1.5" PointX="22" PointY="2.5" />
+        <EntityTypeShape EntityType="TotalSalesPortalModel.SalesReturn" Width="1.5" PointX="19.75" PointY="35.25" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_CreditNotes" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_Customers" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_Employees" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_ReceiptDetails_GoodsIssues" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_GoodsIssues" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_ReceiptDetails_Receipts" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_Receipts" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_SalesReturns" />
+        <EntityTypeShape EntityType="TotalSalesPortalModel.MonetaryAccount" Width="1.5" PointX="28.75" PointY="4.75" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_MonetaryAccounts" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

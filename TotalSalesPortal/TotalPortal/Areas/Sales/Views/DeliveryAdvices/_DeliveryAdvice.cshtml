@@ -135,7 +135,8 @@
 
                     columns.Bound(p => p.Quantity).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(50)
                         .Format("{0:n0}")
-                        .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
+                        .ClientFooterTemplate("<div>Min: #= kendo.format('{0:n0}', sum) #</div><div>Max: #= data.Amount.sum #</div><div>Max: #= data.Amount.sum - (-data.Amount.sum * 0.1) #</div>")
+                        //.ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', Quantity) #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].Quantity' value='#= Quantity #' />");
 
 

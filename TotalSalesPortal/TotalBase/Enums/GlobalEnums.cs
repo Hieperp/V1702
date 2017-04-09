@@ -52,6 +52,10 @@
             Receipt = 8059,
 
 
+            SalesReturn = 8038,
+            CreditNote = 8060,
+
+
             GoodsReceipt = 8077,
             InventoryAdjustment = 8078,
             VehicleAdjustment = 8078008,
@@ -119,6 +123,13 @@
         };
 
 
+        public enum ReceiptTypeID
+        {
+            ReceiveMoney = 1,
+            ApplyCredit = 2
+        };
+
+
         public enum UpdateWarehouseBalanceOption
         {
             Add = 1,
@@ -133,4 +144,19 @@
             Editable = 2
         };
     }
+
+
+    public static class GlobalReceiptTypeID
+    {
+        public static int ApplyCredit { get { return (int)GlobalEnums.ReceiptTypeID.ApplyCredit; } }
+        public static int ReceiveMoney { get { return (int)GlobalEnums.ReceiptTypeID.ReceiveMoney; } }
+    }
+
+    public static class GlobalCreditTypeID
+    {
+        public static int AdvanceReceipt { get { return (int)GlobalEnums.NmvnTaskID.Receipt; } }
+        public static int SalesReturn { get { return (int)GlobalEnums.NmvnTaskID.SalesReturn; } }
+        public static int CreditNote { get { return (int)GlobalEnums.NmvnTaskID.CreditNote; } }
+    }
+
 }

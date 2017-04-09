@@ -80,7 +80,7 @@
             _setModelInput();
         else {
             var selectedDataItem = selectedGrid.dataItem(selectedGrid.select());
-            if (selectedDataItem === undefined)
+            if (selectedDataItem === undefined || selectedDataItem === null)
                 return false;
 
             _setModelInput(selectedDataItem);

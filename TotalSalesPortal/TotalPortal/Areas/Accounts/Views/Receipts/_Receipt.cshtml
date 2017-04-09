@@ -1,4 +1,6 @@
-﻿@using TotalPortal.Configuration
+﻿@using TotalBase.Enums;
+@using TotalPortal.Configuration
+
 @model TotalPortal.Areas.Accounts.ViewModels.ReceiptViewModel
 
 @using (Html.BeginForm())
@@ -6,51 +8,108 @@
     @Html.AntiForgeryToken()
 
     @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
-    
+
     @Html.HiddenFor(model => model.ReceiptID)
+    @Html.HiddenFor(model => model.ReceiptTypeID)   
+
     @Html.HiddenFor(model => model.TotalReceiptAmount)
     @Html.HiddenFor(model => model.TotalCashDiscount)
     @Html.HiddenFor(model => model.TotalFluctuationAmount)
-    @Html.HiddenFor(model => model.TotalDepositAmount)
 
+    @Html.HiddenFor(model => model.TotalReceiptAmountSaved)
+    @Html.HiddenFor(model => model.TotalFluctuationAmountSaved)
+    
     <div class="left-panel">
 
         @Html.Partial("~/Views/Helpers/Bases/_BaseSectionLeftA.cshtml")
 
+        @if (@Model.ReceiptTypeID == GlobalReceiptTypeID.ReceiveMoney)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.TotalDepositAmount)
+                <div class="div-input">
+                    @Html.Kendo().NumericTextBoxFor(model => model.TotalDepositAmount).Format(@SettingsManager.NumberFormat).HtmlAttributes(new { @class = "left-panel-input" }).Events(e => e.Change("Bxx").Spin("Bxx"))
+                </div>
+                <div class="div-validation-message">
+                    @Html.ValidationMessageFor(model => model.TotalDepositAmount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+
+
+        @if (@Model.ReceiptTypeID == GlobalReceiptTypeID.ApplyCredit)
+        {
+            <div class="form-group">
+                @Html.Label(@Model.CreditAmountLabel)
+                <div class="div-input">
+                    @Html.Kendo().NumericTextBoxFor(model => model.CreditAmount).Format(@SettingsManager.NumberFormat).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+                </div>
+                <div class="div-validation-message">
+                    @Html.ValidationMessageFor(model => model.CreditAmount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CreditAmountApplied)
+                <div class="div-input">
+                    @Html.Kendo().NumericTextBoxFor(model => model.CreditAmountApplied).Format(@SettingsManager.NumberFormat).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+                </div>
+                <div class="div-validation-message">
+                    @Html.ValidationMessageFor(model => model.CreditAmountApplied, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label(@Model.CreditAmountPendingLabel)
+                <div class="div-input">
+                    @Html.Kendo().NumericTextBoxFor(model => model.CreditAmountPending).Format(@SettingsManager.NumberFormat).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+                </div>
+                <div class="div-validation-message">
+                    @Html.ValidationMessageFor(model => model.CreditAmountPending, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+
         <div class="form-group">
-            @Html.EditorFor(d => d.Cashier)
+            @Html.LabelFor(model => model.TotalAmountDifference)
+            <div class="div-input">
+                @Html.Kendo().NumericTextBoxFor(model => model.TotalAmountDifference).Format(@SettingsManager.NumberFormat).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.TotalAmountDifference, "", new { @class = "text-danger" })
+            </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PostDate)
-            <div class="div-input">
-                @Html.Kendo().DatePickerFor(model => model.PostDate).HtmlAttributes(new { @class = "left-panel-input" })
-            </div>
-            <div class="div-validation-message">
-                @Html.ValidationMessageFor(model => model.PostDate, "", new { @class = "text-danger" })
-            </div>
+            @Html.EditorFor(d => d.Cashier)
         </div>
 
     </div>
 
     <div class="right-panel">
 
-        <div style="clear: both; height: 127px;">
+        <div class="right-top-panel right-top-panel-H2">
             @Html.EditorFor(d => d.Customer)
 
-            @Html.HiddenFor(model => model.GoodsIssueID)
-            @Html.HiddenFor(model => model.GoodsIssueEntryDate)
+            <div class="right-first-panel">
+                @if (@Model.ReceiptTypeID == GlobalReceiptTypeID.ReceiveMoney)
+                {
+                    @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/MonetaryAccount.cshtml")}
 
-            @*<div class="contract-separator">
-            @if (Model.GoodsIssueID == 0 || Model.GoodsIssueID == null)
-            {
-                @Html.Partial("~/Views/Purchases/_NoOrderInvoice.cshtml")}
-            else
-            {
-                @Html.Partial("~/Views/Purchases/_OrderInvoice.cshtml")
-            }
-            </div>*@
-
+                @if (@Model.ReceiptTypeID == GlobalReceiptTypeID.ApplyCredit)
+                {
+                    @Html.DisplayFor(d => d.AdvanceReceipt)
+                    <div class="form-group">
+                        <div class="right-panel-label"> <img src="~/Content/Images/Mains/Size24/money-bag-icon-16.png" /> @Html.Label(@Model.CreditTypeName) </div>
+                        <div class="div-input">
+                            @Html.Kendo().MaskedTextBox().Name("PromotionA.Name").Value("Số phiếu thu: " + @Model.CreditTypeReference + ", ngày: " + @Model.CreditTypeDate.ToString(SettingsManager.DateFormat)).HtmlAttributes(new { @class = "right-panel-input", @readonly = "readonly" })
+                        </div>
+                    </div>
+                }
+            </div>
+            <div style="float: right; margin-top: -70px; " title="Phiếu xuất kho">
+                @Html.DisplayFor(d => d.GoodsIssue, new { ShowByReceiver = true })
+            </div>
         </div>
 
         <div class="div-k-grid-detail">
@@ -67,7 +126,7 @@
                         .ClientTemplate("#= ReceiptID #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].ReceiptID' value='#= ReceiptID #' />");
                     columns.Bound(p => p.GoodsIssueID).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= GoodsIssueID #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].GoodsIssueID' value='#= GoodsIssueID #' />");
-                        
+
 
                     columns.Bound(p => p.GoodsIssueReference).DisplayNameTitle().Filterable(false).Width(90)
                         .ClientTemplate("#= GoodsIssueReference #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].GoodsIssueReference' value='#= GoodsIssueReference #' />")
@@ -75,9 +134,13 @@
                     columns.Bound(p => p.GoodsIssueEntryDate).DisplayNameTitle().Filterable(false).Width(160)
                         .ClientTemplate("#= GoodsIssueEntryDate ? kendo.toString(kendo.parseDate(GoodsIssueEntryDate), '" + SettingsManager.DateTimeFormat + "') : '' #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].GoodsIssueEntryDate' value='#= kendo.toString(GoodsIssueEntryDate, '" + SettingsManager.DateTimeFormat + "') #' />");
 
-                    columns.Bound(p => p.Remarks).DisplayNameTitle().Filterable(false)
-                        .ClientTemplate("#= (Remarks == null)? '' : Remarks #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].Remarks' value='#= (Remarks == null) ? '' : Remarks #' />");
-                    
+                    columns.Bound(p => p.Description).DisplayNameTitle().Filterable(false)
+                        .ClientTemplate("#= (Description == null)? '' : Description #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].Description' value='#= (Description == null) ? '' : Description #' />");
+
+                    columns.Bound(p => p.TotalGrossAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(100)
+                        .Format("{0:n0}")
+                        .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
+                        .ClientTemplate("#= kendo.format('{0:n0}', TotalGrossAmount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].TotalGrossAmount' value='#= TotalGrossAmount #' />");
                     columns.Bound(p => p.AmountDue).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(100)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
@@ -86,7 +149,7 @@
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', FluctuationAmount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].FluctuationAmount' value='#= FluctuationAmount #' />");
-                    columns.Bound(p => p.CashDiscount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(90).Hidden()
+                    columns.Bound(p => p.CashDiscount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(90)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', CashDiscount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].CashDiscount' value='#= CashDiscount #' />");
@@ -95,7 +158,7 @@
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', ReceiptAmount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].ReceiptAmount' value='#= ReceiptAmount #' />");
 
-                    
+
 
                     columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50);
                 })
@@ -104,17 +167,25 @@
 
                 .ToolBar(toolbar =>
                 {
-                    //Add a functionless button for display purpose only
-                    toolbar.Template(
-                        @<text>
-                            <div>
-                                @(Html.Kendo().Button()
-                                    .Name("iconButton")
-                                    .HtmlAttributes(new { type = "button" })
-                                    .SpriteCssClass("k-icon k-i-ungroup") //.Content("My button label")
-                                )
-                            </div>
+                    if (Model.Editable)
+                    {
+                        toolbar.Template(@<text>
+                            <button type="button" class="k-button" onclick="A()"> <img src="~/Content/Images/Mains/Size24/Borderlands-Select-icon-24.png" /> @(Model.ReceiptTypeID == GlobalReceiptTypeID.ReceiveMoney? "Cấn trừ số tiền thanh toán": Model.CreditTypeName) vào chi tiết công nợ</button>
                         </text>);
+                    }
+                    else
+                    {//Add a functionless button for display purpose only
+                        toolbar.Template(
+                            @<text>
+                                <div>
+                                    @(Html.Kendo().Button()
+                                        .Name("iconButton")
+                                        .HtmlAttributes(new { type = "button" })
+                                        .SpriteCssClass("k-icon k-i-ungroup") //.Content("My button label")
+                                    )
+                                </div>
+                            </text>);
+                    }
                 })
 
                 .Editable(editable => { editable.Enabled(Model.Editable); editable.Mode(GridEditMode.InCell).DisplayDeleteConfirmation(true).CreateAt(GridInsertRowPosition.Bottom); })
@@ -142,6 +213,7 @@
                     {
                         events.Error("kendGrid_ErrorHandler");
                     })
+                    .Aggregates(a => a.Add(x => x.TotalGrossAmount).Sum())
                     .Aggregates(a => a.Add(x => x.AmountDue).Sum())
                     .Aggregates(a => a.Add(x => x.CashDiscount).Sum())
                     .Aggregates(a => a.Add(x => x.FluctuationAmount).Sum())
@@ -210,7 +282,37 @@
 
         @Html.Partial("~/Views/Helpers/Bases/_BaseSubmit.cshtml")
 
-    </div>  
+    </div>
 }
+
+
+
+<script type="text/javascript">
+
+    $("#TotalReceiptAmount").change(function (e) {
+        updateTotalAmountDifference();
+    })
+    function updateTotalAmountDifference() {
+        $("#TotalAmountDifference").data("kendoNumericTextBox").value(DoRound(($("#ReceiptTypeID").val() == "@GlobalReceiptTypeID.ReceiveMoney" ? $("#TotalDepositAmount").val() : $("#CreditAmountPending").val()) - $("#TotalReceiptAmount").val() - $("#TotalFluctuationAmount").val(), requireConfig.websiteOptions.rndAmount))
+    }
+
+    function Bxx() {
+        if (($("#TotalReceiptAmount").val() == 0 && $("#TotalFluctuationAmount").val() == 0) || ($("#TotalDepositAmount").val() != -(-$("#TotalReceiptAmount").val() - $("#TotalFluctuationAmount").val()) && confirm("Vui lòng nhấn OK để phần mềm phân bổ lại số tiền thu được vô chi tiết công nợ, hoặc nhấn Cancel để bỏ qua.")))
+            copyAmountDueToReceiptAmount($("#TotalDepositAmount").val()); //COPY copyAmountDueToReceiptAmount IN TWO CASE: There is no detail row receipted before (TotalReceiptAmount + TotalFluctuationAmount) OR WHEN input new TotalDepositAmount value:  TotalDepositAmount <> (TotalReceiptAmount + TotalFluctuationAmount)
+
+        updateTotalAmountDifference();
+    }
+    function A() {
+        //COPY AmountDueToReceiptAmount, WITH a parameter: a pre-defined totalReceiptAmount value. There are two case of totalReceiptAmount: IF GlobalReceiptTypeID.ReceiveMoney THEN TotalDepositAmount ELSE CreditAmountPending
+        copyAmountDueToReceiptAmount($("#ReceiptTypeID").val() == "@GlobalReceiptTypeID.ReceiveMoney" ? ($("#TotalDepositAmount").val() == 0 ? undefined : $("#TotalDepositAmount").val()) : $("#CreditAmountPending").val());
+
+        if ($("#ReceiptTypeID").val() == "@GlobalReceiptTypeID.ReceiveMoney" && $("#TotalDepositAmount").val() == 0) { //UPDATE TotalDepositAmount ONLY WHEN GlobalReceiptTypeID.ReceiveMoney
+            $("#TotalDepositAmount").data("kendoNumericTextBox").value(DoRound(-(-$("#TotalReceiptAmount").val() - $("#TotalFluctuationAmount").val()), requireConfig.websiteOptions.rndAmount));
+            $("#TotalDepositAmount").data("kendoNumericTextBox").trigger("change");
+        }
+    }
+</script>
+
+
 
 <script src="@Url.Content("~/Scripts/Helpers/KendoGrid/gridHelper.js")"></script>

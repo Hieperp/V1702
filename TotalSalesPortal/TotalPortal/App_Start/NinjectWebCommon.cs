@@ -126,6 +126,7 @@ namespace TotalPortal.App_Start
 
                 kernel.Bind<IAspNetUserSelectListBuilder>().To<AspNetUserSelectListBuilder>();
                 kernel.Bind<IPaymentTermSelectListBuilder>().To<PaymentTermSelectListBuilder>();
+                kernel.Bind<IMonetaryAccountSelectListBuilder>().To<MonetaryAccountSelectListBuilder>();
                 kernel.Bind<IPackingMaterialSelectListBuilder>().To<PackingMaterialSelectListBuilder>();
                 kernel.Bind<IVehicleSelectListBuilder>().To<VehicleSelectListBuilder>();
 
@@ -138,6 +139,7 @@ namespace TotalPortal.App_Start
                 kernel.Bind<IVoidTypeRepository>().To<VoidTypeRepository>();
                 kernel.Bind<IPromotionRepository>().To<PromotionRepository>();
                 kernel.Bind<IPaymentTermRepository>().To<PaymentTermRepository>();
+                kernel.Bind<IMonetaryAccountRepository>().To<MonetaryAccountRepository>();
                 kernel.Bind<IPackingMaterialRepository>().To<PackingMaterialRepository>();
                 kernel.Bind<IVehicleRepository>().To<VehicleRepository>();
 

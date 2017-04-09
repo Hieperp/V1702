@@ -14,20 +14,22 @@ namespace TotalPortal.Areas.Accounts.Builders
     }
 
 
-    public class ReceiptViewModelSelectListBuilder : IReceiptViewModelSelectListBuilder
+    public class ReceiptViewModelSelectListBuilder : A01ViewModelSelectListBuilder<ReceiptViewModel>, IReceiptViewModelSelectListBuilder
     {
-        private readonly IAspNetUserRepository aspNetUserRepository;
-        private readonly IAspNetUserSelectListBuilder aspNetUserSelectListBuilder;
+        private readonly IMonetaryAccountSelectListBuilder monetaryAccountSelectListBuilder;
+        private readonly IMonetaryAccountRepository monetaryAccountRepository;
 
-        public ReceiptViewModelSelectListBuilder(IAspNetUserSelectListBuilder aspNetUserSelectListBuilder, IAspNetUserRepository aspNetUserRepository)
+        public ReceiptViewModelSelectListBuilder(IAspNetUserSelectListBuilder aspNetUserSelectListBuilder, IAspNetUserRepository aspNetUserRepository, IMonetaryAccountSelectListBuilder monetaryAccountSelectListBuilder, IMonetaryAccountRepository monetaryAccountRepository)
+            : base(aspNetUserSelectListBuilder, aspNetUserRepository)
         {
-            this.aspNetUserRepository = aspNetUserRepository;
-            this.aspNetUserSelectListBuilder = aspNetUserSelectListBuilder;
+            this.monetaryAccountSelectListBuilder = monetaryAccountSelectListBuilder;
+            this.monetaryAccountRepository = monetaryAccountRepository;
         }
 
         public void BuildSelectLists(ReceiptViewModel receiptViewModel)
         {
-            receiptViewModel.AspNetUserSelectList = aspNetUserSelectListBuilder.BuildSelectListItemsForAspNetUsers(aspNetUserRepository.GetAllAspNetUsers(), receiptViewModel.UserID);
+            base.BuildSelectLists(receiptViewModel);
+            receiptViewModel.MonetaryAccountSelectList = this.monetaryAccountSelectListBuilder.BuildSelectListItemsForMonetaryAccounts(this.monetaryAccountRepository.GetAllMonetaryAccounts());
         }
     }
 

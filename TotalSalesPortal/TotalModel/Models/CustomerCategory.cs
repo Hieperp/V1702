@@ -29,6 +29,7 @@ namespace TotalModel.Models
         public string Code { get; set; }
         public bool ShowDiscount { get; set; }
         public int PaymentTermID { get; set; }
+        public int MonetaryAccountID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustomerCategory> CustomerCategories1 { get; set; }

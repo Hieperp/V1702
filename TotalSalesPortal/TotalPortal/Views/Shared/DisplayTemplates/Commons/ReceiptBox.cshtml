@@ -1,0 +1,10 @@
+﻿@using TotalPortal.Configuration
+
+@model TotalDTO.Accounts.IReceiptBoxDTO
+
+@Html.HiddenFor(model => model.ReceiptID)
+@Html.HiddenFor(model => model.EntryDate)
+@Html.HiddenFor(model => model.Reference)
+@Html.HiddenFor(model => model.TotalDepositAmount)
+@Html.HiddenFor(model => model.TotalReceiptAmount)
+@Html.HiddenFor(model => model.TotalFluctuationAmount)

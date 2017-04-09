@@ -12,18 +12,26 @@
         .Columns(columns =>
         {
             columns.Bound(p => p.ReceiptID).DisplayNameTitle().Hidden();
-            columns.Bound(p => p.LocationCode).Title("CN").Width(10);
-            columns.Bound(p => p.Reference).Title("Phiếu").Width(70);
-            columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(40);
-            columns.Bound(p => p.GoodsIssueReference).Title("Phiếu xuất kho").Width(70);
-            columns.Bound(p => p.CustomerDescription).Title("Khách hàng").Width(240);
-            columns.Bound(p => p.TotalDepositAmount).Title("Số lượng").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false);
-            columns.Bound(p => p.TotalUnApplyAmount).Title("Thành tiền").Format("{0:n0}").Width(80).HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false);
+            columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(20);
+            columns.Bound(p => p.Reference).Title("#").Width(10).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Accounts/Receipts", action = "Edit" }) + "/#= ReceiptID #'>#=Reference#</a>"); 
+            columns.Bound(p => p.CustomerName).Title("Khách hàng").Width(180);
+            columns.Bound(p => p.GoodsIssueReferences).Title("PXK").Width(160);
+            columns.Bound(p => p.DebitAccountType).Title("TM/CK").Width(10);
+            columns.Bound(p => p.DebitAccountCode).Title("CTCN").Width(20);
+            columns.Bound(p => p.DebitAccountDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(20);
 
-            columns.Template(model => null).Width(106)
-                .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Accounts/Receipts", action = "Edit" }) + "/#= ReceiptID #'><span class='k-icon k-edit'></span></a> <a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Accounts/Receipts", action = "Alter" }) + "/#= ReceiptID #'><span class='k-icon k-i-folder-add'></span></a> <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Accounts/Receipts", action = "Delete" }) + "/#= ReceiptID #'><span class='k-icon k-delete'></span></a>");
+            columns.Bound(p => p.TotalDepositAmount).Title("Thanh toán").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
+            columns.Bound(p => p.TotalReceiptAmount).Title("Cấn trừ").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
+            columns.Bound(p => p.TotalCashDiscount).Title("Ck TT").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
+            columns.Bound(p => p.TotalDepositAmountPending).Title("Còn lại").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).Filterable(false).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
+
+            columns.Template(model => null).Width(90)
+                .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Accounts/Receipts", action = "Edit" }) + "/#= ReceiptID #'><span class='k-icon k-edit'></span></a> <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Accounts/Receipts", action = "Delete" }) + "/#= ReceiptID #'><span class='k-icon k-delete'></span></a>");
         })
-        .ToolBar(toolbar => toolbar.Template("<a class='k-button k-button-icontext k-grid-add' href='javascript:void(0)' onClick='createWizard()'>Lập phiếu thu</a>"))
+        .ToolBar(toolbar =>
+            {
+                toolbar.Template(@<text> <button type="button" class="k-button" onclick="createWizard()"> <img src="~/Content/Images/Mains/Size24/folder-documents-icon-24.png" /> Lập phiếu thu, hoặc phiếu cấn trừ công nợ </button> </text>);
+            })        
         .Pageable()
         .Groupable()
         .Filterable()
@@ -48,6 +56,10 @@
                 model.Field(m => m.ReceiptID).DefaultValue(0);
             })
             .ServerOperation(true)
+            .Aggregates(a => a.Add(x => x.TotalDepositAmount).Sum())
+            .Aggregates(a => a.Add(x => x.TotalReceiptAmount).Sum())
+            .Aggregates(a => a.Add(x => x.TotalCashDiscount).Sum())
+            .Aggregates(a => a.Add(x => x.TotalDepositAmountPending).Sum())
             )
             .HtmlAttributes(new { @class = "grid-class" })
         )
@@ -68,7 +80,7 @@
     function createWizard() {
         require(["kpopupWindow"], function (kpopupWindow) {
             var createWizardWindow = new kpopupWindow();
-            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "Receipts")", "Chọn phiếu xuất kho", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeightWithTab");
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "Receipts")", "Chọn phiếu xuất kho, hoặc khách hàng, sau đó chọn phiếu cấn trừ công nợ (nếu có)", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeightWithTab");
         });
     }
 </script>

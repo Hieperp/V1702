@@ -10,7 +10,8 @@ namespace TotalCore.Repositories.Accounts
 
     public interface IReceiptAPIRepository : IGenericAPIRepository
     {
-        ICollection<GoodsIssueReceivable> GetGoodsIssueReceivables(int locationID, int? receiptID, string goodsIssueReference);
-        ICollection<CustomerReceivable> GetCustomerReceivables(int locationID, int? receiptID, string customerName);
+        ICollection<GoodsIssueReceivable> GetGoodsIssueReceivables(int locationID);
+        ICollection<CustomerReceivable> GetCustomerReceivables(int locationID);
+        ICollection<PendingCustomerCredit> GetPendingCustomerCredits(int locationID, int customerID);
     }
 }

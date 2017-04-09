@@ -9,7 +9,7 @@ function handleOKEvent(tabIndex) {
 
     var selectedGrid = $(tabIndex === 0 ? "#getPurchaseInvoicesGrid" : "#getStockTransfersGrid").data("kendoGrid");
     var selectedDataItem = selectedGrid.dataItem(selectedGrid.select());
-    if (selectedDataItem === undefined)
+    if (selectedDataItem === undefined || selectedDataItem === null)
         return false;
 
     _setParentInput(selectedDataItem);

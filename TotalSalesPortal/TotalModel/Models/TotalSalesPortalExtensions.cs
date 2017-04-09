@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
 using TotalModel.Helpers;
 
 namespace TotalModel.Models
@@ -56,7 +56,7 @@ namespace TotalModel.Models
     {
         public string ReceiverDescription { get { return (this.CustomerID != this.ReceiverID ? this.ReceiverName + ", " : "") + this.ShippingAddress; } }
     }
-    
+
     public partial class HandlingUnitIndex
     {
         public string CustomerDescription { get { return this.CustomerName + (this.CustomerName != this.ReceiverName ? ", Người nhận: " + this.ReceiverName : "") + ", Giao hàng: " + this.ShippingAddress; } }
@@ -124,12 +124,22 @@ namespace TotalModel.Models
         public int GetID() { return this.AccountInvoiceDetailID; }
     }
 
+    public partial class ReceiptIndex
+    {
+        public string DebitAccountType { get { return (this.MonetaryAccountCode != null ? this.MonetaryAccountCode : (this.AdvanceReceiptReference != null ? "CT TT" : (this.SalesReturnReference != null ? "CT TH" : "CT CK"))); } }
+        public string DebitAccountCode { get { return (this.MonetaryAccountCode != null ? null : (this.AdvanceReceiptReference != null ? this.AdvanceReceiptReference : (this.SalesReturnReference != null ? this.SalesReturnReference : this.CreditNoteReference))); } }
+        public Nullable<System.DateTime> DebitAccountDate { get { return (this.MonetaryAccountCode != null ? null : (this.AdvanceReceiptDate != null ? this.AdvanceReceiptDate : (this.SalesReturnDate != null ? this.SalesReturnDate : this.CreditNoteDate))); } }
+    }
 
     public partial class Receipt : IPrimitiveEntity, IBaseEntity, IBaseDetailEntity<ReceiptDetail>
     {
         public int GetID() { return this.ReceiptID; }
 
+        public virtual Receipt AdvanceReceipt { get { return this.Receipt1; } }
         public virtual Employee Cashier { get { return this.Employee; } }
+
+        public decimal TotalReceiptAmountSaved { get { return this.TotalReceiptAmount; } }
+        public decimal TotalFluctuationAmountSaved { get { return this.TotalFluctuationAmount; } }
 
         public ICollection<ReceiptDetail> GetDetails() { return this.ReceiptDetails; }
     }

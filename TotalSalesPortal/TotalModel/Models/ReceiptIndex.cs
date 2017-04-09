@@ -17,11 +17,20 @@ namespace TotalModel.Models
         public Nullable<System.DateTime> EntryDate { get; set; }
         public string Reference { get; set; }
         public string LocationCode { get; set; }
-        public string CustomerDescription { get; set; }
-        public string GoodsIssueReference { get; set; }
-        public Nullable<System.DateTime> GoodsIssueEntryDate { get; set; }
         public decimal TotalDepositAmount { get; set; }
-        public Nullable<decimal> TotalUnApplyAmount { get; set; }
         public string Description { get; set; }
+        public string CustomerName { get; set; }
+        public string GoodsIssueReferences { get; set; }
+        public string ReceiptTypeCode { get; set; }
+        public string MonetaryAccountCode { get; set; }
+        public string AdvanceReceiptReference { get; set; }
+        public Nullable<System.DateTime> AdvanceReceiptDate { get; set; }
+        public string SalesReturnReference { get; set; }
+        public Nullable<System.DateTime> SalesReturnDate { get; set; }
+        public string CreditNoteReference { get; set; }
+        public Nullable<System.DateTime> CreditNoteDate { get; set; }
+        public decimal TotalReceiptAmount { get; set; }
+        public decimal TotalCashDiscount { get; set; }
+        public Nullable<decimal> TotalDepositAmountPending { get; set; }
     }
 }

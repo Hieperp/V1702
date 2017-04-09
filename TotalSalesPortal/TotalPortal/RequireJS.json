@@ -21,6 +21,10 @@
         "gridDatasourceWeight": "Controllers/Root/Shared/Edits/gridDatasourceWeight",
         "gridDatasourceWeightSubscribe": "Controllers/Root/Shared/Edits/gridDatasourceWeightSubscribe",
 
+        "gridDatasourceReceipt": "Controllers/Root/Shared/Edits/gridDatasourceReceipt",
+        "gridDatasourceReceiptSubscribe": "Controllers/Root/Shared/Edits/gridDatasourceReceiptSubscribe",
+
+
         "gridEditorTemplate": "Controllers/Root/Shared/Edits/gridEditorTemplate",
         "gridEditorCommodity": "Controllers/Root/Shared/Edits/gridEditorCommodity",
         "gridEditorCommodityInvoked": "Controllers/Root/Shared/Edits/gridEditorCommodityInvoked",
@@ -39,6 +43,7 @@
         "gridWidgetSubscribeChange": "Controllers/Root/Shared/Edits/gridWidgetSubscribeChange",
         "gridWidgetQuantityRemainsSubscribeChange": "Controllers/Root/Shared/Edits/gridWidgetQuantityRemainsSubscribeChange",
         "gridWidgetGoodsReceiptSubscribeChange": "Controllers/Root/Shared/Edits/gridWidgetGoodsReceiptSubscribeChange",
+        "gridWidgetReceiptSubscribeChange": "Controllers/Root/Shared/Edits/gridWidgetReceiptSubscribeChange",
 
 
         "gridHandleKeyboard": "Controllers/Root/Shared/Edits/gridHandleKeyboard",

@@ -26,14 +26,19 @@ namespace TotalDAL.Repositories.Accounts
         {
         }
 
-        public ICollection<GoodsIssueReceivable> GetGoodsIssueReceivables(int locationID, int? receiptID, string goodsIssueReference)
+        public ICollection<GoodsIssueReceivable> GetGoodsIssueReceivables(int locationID)
         {
-            return this.TotalSalesPortalEntities.GetGoodsIssueReceivables(locationID, receiptID, goodsIssueReference).ToList();
+            return this.TotalSalesPortalEntities.GetGoodsIssueReceivables(locationID).ToList();
         }
 
-        public ICollection<CustomerReceivable> GetCustomerReceivables(int locationID, int? receiptID, string customerName)
+        public ICollection<CustomerReceivable> GetCustomerReceivables(int locationID)
         {
-            return this.TotalSalesPortalEntities.GetCustomerReceivables(locationID, receiptID, customerName).ToList();
+            return this.TotalSalesPortalEntities.GetCustomerReceivables(locationID).ToList();
         }
+
+        public ICollection<PendingCustomerCredit> GetPendingCustomerCredits(int locationID, int customerID)
+        {
+            return this.TotalSalesPortalEntities.GetPendingCustomerCredits(locationID, customerID).ToList();
+        }        
     }
 }

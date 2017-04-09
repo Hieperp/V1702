@@ -103,10 +103,15 @@ namespace TotalDTO.Inventories
         [Display(Name = "Ngày xuất kho")]
         DateTime? EntryDate { get; set; }
 
-        [Display(Name = "Mã đơn vị, người nhận hàng")]
+        [Display(Name = "Mã khách hàng")]
         string CustomerCode { get; set; }
-        [Display(Name = "Tên đơn vị, người nhận hàng")]
+        [Display(Name = "Tên khách hàng")]
         string CustomerName { get; set; }
+
+        [Display(Name = "Mã đơn vị, người nhận hàng")]
+        string ReceiverCode { get; set; }
+        [Display(Name = "Tên đơn vị, người nhận hàng")]
+        string ReceiverName { get; set; }
     }
 
     public class GoodsIssueBoxDTO : IGoodsIssueBoxDTO
@@ -117,6 +122,9 @@ namespace TotalDTO.Inventories
 
         public string CustomerCode { get; set; }
         public string CustomerName { get; set; }
+
+        public string ReceiverCode { get; set; }
+        public string ReceiverName { get; set; }
     }
 
 

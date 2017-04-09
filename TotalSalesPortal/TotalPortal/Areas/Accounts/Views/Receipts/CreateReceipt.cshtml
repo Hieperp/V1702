@@ -1,0 +1,186 @@
+﻿@using TotalBase.Enums;
+@using TotalModel.Models;
+@using TotalPortal.Configuration
+
+@{Layout = "~/Views/Shared/_LayoutPopup.cshtml";}
+
+@model TotalPortal.Areas.Accounts.ViewModels.ReceiptViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
+
+    @Html.HiddenFor(model => model.ReceiptID);
+
+    @Html.HiddenFor(model => model.ReceiptTypeID);
+    @Html.HiddenFor(model => model.MonetaryAccountID);
+    
+    @Html.HiddenFor(model => model.GoodsIssue.GoodsIssueID);
+    @Html.HiddenFor(model => model.GoodsIssue.Reference);
+    @Html.HiddenFor(model => model.GoodsIssue.EntryDate);
+    @Html.HiddenFor(model => model.GoodsIssue.ReceiverCode);
+    @Html.HiddenFor(model => model.GoodsIssue.ReceiverName);
+    
+    @Html.HiddenFor(model => model.Description);
+    @Html.HiddenFor(model => model.Remarks);
+
+    @Html.HiddenFor(model => model.Customer.CustomerID);
+    @Html.HiddenFor(model => model.Customer.Code);
+    @Html.HiddenFor(model => model.Customer.Name);
+    @Html.HiddenFor(model => model.Customer.VATCode);
+    @Html.HiddenFor(model => model.Customer.Telephone);
+    @Html.HiddenFor(model => model.Customer.BillingAddress);
+    @Html.HiddenFor(model => model.Customer.EntireTerritoryEntireName);
+    @Html.HiddenFor(model => model.Customer.SalespersonID)
+    @Html.HiddenFor(model => model.Customer.SalespersonName)
+
+    @Html.HiddenFor(model => model.AdvanceReceipt.ReceiptID);
+    @Html.HiddenFor(model => model.AdvanceReceipt.EntryDate);
+    @Html.HiddenFor(model => model.AdvanceReceipt.Reference);
+    @Html.HiddenFor(model => model.AdvanceReceipt.TotalDepositAmount);
+    @Html.HiddenFor(model => model.AdvanceReceipt.TotalReceiptAmount);
+    @Html.HiddenFor(model => model.AdvanceReceipt.TotalFluctuationAmount);
+
+    @Html.HiddenFor(model => model.SalesReturn.SalesReturnID);
+    @Html.HiddenFor(model => model.SalesReturn.EntryDate);
+    @Html.HiddenFor(model => model.SalesReturn.Reference);
+    @Html.HiddenFor(model => model.SalesReturn.TotalGrossAmount);
+    @Html.HiddenFor(model => model.SalesReturn.TotalReceiptAmount);
+    @Html.HiddenFor(model => model.SalesReturn.TotalFluctuationAmount);
+
+    @Html.HiddenFor(model => model.CreditNote.CreditNoteID);
+    @Html.HiddenFor(model => model.CreditNote.EntryDate);
+    @Html.HiddenFor(model => model.CreditNote.Reference);
+    @Html.HiddenFor(model => model.CreditNote.TotalCreditAmount);
+    @Html.HiddenFor(model => model.CreditNote.TotalReceiptAmount);
+    @Html.HiddenFor(model => model.CreditNote.TotalFluctuationAmount);
+
+    @Html.HiddenFor(model => model.Cashier.EmployeeID);
+    @Html.HiddenFor(model => model.Cashier.Name);
+    
+    @(Html.Kendo().Grid<PendingCustomerCredit>()
+        .Name("pendingCustomerCreditGrid")
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.Reference).Title("Phiếu XK").Width(50);
+            columns.Bound(c => c.EntryDate).Title("Ngày").Width(90).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+            columns.Bound(c => c.CreditTypeName).Title("TT/ TH/ CK").Width(80);
+            columns.Bound(c => c.Description).Title("Diễn giải").Width(210);
+            columns.Bound(c => c.TotalCreditAmount).Title("Số tiền TT/ TH/ CK").Width(60).Format("{0:n0}").Width(80).HtmlAttributes(new { @class = "grid-number-column" });
+            columns.Bound(c => c.TotalCreditAmountPending).Title("Số tiền còn lại").Width(60).Format("{0:n0}").Width(80).HtmlAttributes(new { @class = "grid-number-column" });
+        })
+        .ToolBar(toolbar =>
+        {
+            toolbar.Template(@<text>
+                <div class="toolbar" style="float: right;">
+                    <label>Nhập số chứng từ, hoặc loại chứng từ, diễn giải:</label>
+                    <input id="pendingCustomerCreditFilter" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="pendingCustomerCreditFilter_KeyUp()" />
+                </div>
+            </text>);
+        })
+                .Scrollable(s => s.Height(SettingsManager.PopupContentHeightLarge))
+                .DataSource(ds => ds.Ajax()
+                    .Read(read => read.Action("GetPendingCustomerCredits", "ReceiptAPIs", new { area = "Accounts" }).Data("onGetPendingCustomerCredits"))
+                    .ServerOperation(false)
+                )
+                .Selectable()
+        )
+
+
+
+
+    <div class="background-bar" style="height: 45px;">
+        <div class="popup-button-bar">
+            <input id="submitCreateWizard" type="submit" formaction="@Url.Action("CreateWizard", "Receipts")" formtarget="_top" style="display:none" />
+
+            <button type="button" class="k-button" onclick="handleOKEvent()"> <img src="~/Content/Images/Mains/Size24/Accept-Total.png" /> Cấn trừ công nợ bằng chứng từ đang chọn </button>
+            <button type="button" class="k-button" onclick="window.parent.$('#myWindow').data('kendoWindow').close()"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png" /> Thoát </button>
+        </div>
+    </div>
+
+}
+
+<link href="@Url.Content("~/Content/CustomCss/GeneralPopup.css")" rel="stylesheet" type="text/css" />
+
+
+<script type="text/javascript">
+    function onGetPendingCustomerCredits(e) {
+        return {
+            locationID: window.parent.requireConfig.pageOptions.LocationID,
+            customerID: $("#Customer_CustomerID").val()
+        };
+    }
+
+    function handleOKEvent() {
+        var selectedGrid = $("#pendingCustomerCreditGrid").data("kendoGrid");
+        var selectedDataItem = selectedGrid.dataItem(selectedGrid.select());
+        
+        if (selectedDataItem === undefined || selectedDataItem === null)
+            return false;
+        
+        _setModelInput(selectedDataItem);
+
+        $("#submitCreateWizard").trigger("click");
+
+
+        function _setModelInput(selectedDataItem) {
+
+            if (selectedDataItem != undefined && selectedDataItem.CreditTypeID == "@GlobalCreditTypeID.AdvanceReceipt") {
+                $("#AdvanceReceipt_ReceiptID").val(selectedDataItem.ReceiptCreditID);
+                $("#AdvanceReceipt_EntryDate").val(kendo.toString(selectedDataItem.EntryDate, SettingsManager.DateFormat));
+                $("#AdvanceReceipt_Reference").val(selectedDataItem.Reference);
+                $("#AdvanceReceipt_TotalDepositAmount").val(selectedDataItem.TotalCreditAmount);
+                $("#AdvanceReceipt_TotalReceiptAmount").val(selectedDataItem.TotalReceiptAmount);
+                $("#AdvanceReceipt_TotalFluctuationAmount").val(selectedDataItem.TotalFluctuationAmount);
+            }
+            if (selectedDataItem != undefined && selectedDataItem.CreditTypeID == "@GlobalCreditTypeID.SalesReturn") {
+                $("#SalesReturn_SalesReturnID").val(selectedDataItem.ReceiptCreditID);
+                $("#SalesReturn_EntryDate").val(kendo.toString(selectedDataItem.EntryDate, SettingsManager.DateFormat));
+                $("#SalesReturn_Reference").val(selectedDataItem.Reference);
+                $("#SalesReturn_TotalCrossAmount").val(selectedDataItem.TotalCreditAmount);
+                $("#SalesReturn_TotalReceiptAmount").val(selectedDataItem.TotalReceiptAmount);
+                $("#SalesReturn_TotalFluctuationAmount").val(selectedDataItem.TotalFluctuationAmount);
+            }
+            if (selectedDataItem != undefined && selectedDataItem.CreditTypeID == "@GlobalCreditTypeID.CreditNote") {
+                $("#CreditNote_CreditNoteID").val(selectedDataItem.ReceiptCreditID);
+                $("#CreditNote_EntryDate").val(kendo.toString(selectedDataItem.EntryDate, SettingsManager.DateFormat));
+                $("#CreditNote_Reference").val(selectedDataItem.Reference);
+                $("#CreditNote_TotalCreditAmount").val(selectedDataItem.TotalCreditAmount);
+                $("#CreditNote_TotalReceiptAmount").val(selectedDataItem.TotalReceiptAmount);
+                $("#CreditNote_TotalFluctuationAmount").val(selectedDataItem.TotalFluctuationAmount);
+            }
+        }
+    }
+
+
+    $("#pendingCustomerCreditGrid").dblclick(function (e) {
+        handleOKEvent();
+    })
+
+
+    function pendingCustomerCreditFilter_KeyUp() {
+        var pendingCustomerCreditFilter = $("#pendingCustomerCreditFilter").val(), gridDetails = $("#pendingCustomerCreditGrid").data("kendoGrid");
+
+        if (pendingCustomerCreditFilter && pendingCustomerCreditFilter.length >= "@SettingsManager.AutoCompleteMinLenght") {
+            gridDetails.dataSource.filter({
+                logic: "or",
+                filters: [
+                    { field: "Reference", operator: "contains", value: pendingCustomerCreditFilter },
+
+                    { field: "CreditTypeName", operator: "contains", value: pendingCustomerCreditFilter },
+                    { field: "CustomerName", operator: "contains", value: pendingCustomerCreditFilter },
+
+                    { field: "Description", operator: "contains", value: pendingCustomerCreditFilter }
+                ]
+            });
+
+
+        } else {
+            if (gridDetails.dataSource.filter() != undefined)
+                gridDetails.dataSource.filter({});
+        }
+    }
+
+</script>

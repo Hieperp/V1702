@@ -14,7 +14,7 @@ namespace TotalDTO.Accounts
 
         public int GoodsIssueID { get; set; }
         [Display(Name = "Ngày giao hàng")]
-        [UIHint("DateTime")]
+        [UIHint("DateTimeReadonly")]
         public System.DateTime GoodsIssueEntryDate { get; set; }
         [Display(Name = "Số phiếu")]
         [UIHint("StringReadonly")]
@@ -29,6 +29,10 @@ namespace TotalDTO.Accounts
         public string CustomerOfficialName { get; set; }
 
         public int CashierID { get; set; }
+
+        [Display(Name = "Diễn giải")]
+        [UIHint("StringReadonly")]
+        public string Description { get; set; }
 
         [Display(Name = "Số tiền bán hàng")]
         [UIHint("DecimalReadonly")]
@@ -48,6 +52,6 @@ namespace TotalDTO.Accounts
         public decimal ReceiptAmount { get; set; }
 
         [GenericCompare(CompareToPropertyName = "AmountDue", OperatorName = GenericCompareOperator.LessThanOrEqual, ErrorMessage = "Số tiền cấn trừ không vượt số lượng phải thu")]
-        public decimal ApplyAmount { get { return (this.ReceiptAmount + this.CashDiscount + this.FluctuationAmount); } }
+        public decimal ApplyAmount { get { return (this.ReceiptAmount + this.CashDiscount); } }
     }
 }

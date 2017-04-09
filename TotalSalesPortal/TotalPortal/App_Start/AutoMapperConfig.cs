@@ -67,6 +67,10 @@ namespace TotalPortal.App_Start
                 cfg.CreateMap<ReceiptViewDetail, ReceiptDetailDTO>();
                 cfg.CreateMap<ReceiptDetailDTO, ReceiptDetail>();
 
+                cfg.CreateMap<Receipt, ReceiptBoxDTO>();
+                cfg.CreateMap<SalesReturn, SalesReturnBoxDTO>();
+                cfg.CreateMap<CreditNote, CreditNoteBoxDTO>();
+
                 cfg.CreateMap<Employee, EmployeeBaseDTO>();
                 cfg.CreateMap<Customer, CustomerBaseDTO>();
                 cfg.CreateMap<Promotion, PromotionDTO>();

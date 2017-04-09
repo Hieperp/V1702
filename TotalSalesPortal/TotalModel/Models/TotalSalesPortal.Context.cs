@@ -43,7 +43,6 @@ namespace TotalModel.Models
         public virtual DbSet<Territory> Territories { get; set; }
         public virtual DbSet<Promotion> Promotions { get; set; }
         public virtual DbSet<PriceCategory> PriceCategories { get; set; }
-        public virtual DbSet<ReceiptDetail> ReceiptDetails { get; set; }
         public virtual DbSet<AccessControl> AccessControls { get; set; }
         public virtual DbSet<VoidType> VoidTypes { get; set; }
         public virtual DbSet<AccountInvoiceDetail> AccountInvoiceDetails { get; set; }
@@ -58,9 +57,13 @@ namespace TotalModel.Models
         public virtual DbSet<DeliveryAdvice> DeliveryAdvices { get; set; }
         public virtual DbSet<GoodsIssueDetail> GoodsIssueDetails { get; set; }
         public virtual DbSet<GoodsIssue> GoodsIssues { get; set; }
-        public virtual DbSet<Receipt> Receipts { get; set; }
         public virtual DbSet<HandlingUnit> HandlingUnits { get; set; }
         public virtual DbSet<Commodity> Commodities { get; set; }
+        public virtual DbSet<CreditNote> CreditNotes { get; set; }
+        public virtual DbSet<ReceiptDetail> ReceiptDetails { get; set; }
+        public virtual DbSet<Receipt> Receipts { get; set; }
+        public virtual DbSet<SalesReturn> SalesReturns { get; set; }
+        public virtual DbSet<MonetaryAccount> MonetaryAccounts { get; set; }
     
         public virtual ObjectResult<Nullable<int>> GetAccessLevel(Nullable<int> userID, Nullable<int> nMVNTaskID, Nullable<int> organizationalUnitID)
         {
@@ -364,38 +367,22 @@ namespace TotalModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AccountInvoiceViewDetail>("GetAccountInvoiceViewDetails", accountInvoiceIDParameter);
         }
     
-        public virtual ObjectResult<CustomerReceivable> GetCustomerReceivables(Nullable<int> locationID, Nullable<int> receiptID, string customerName)
+        public virtual ObjectResult<CustomerReceivable> GetCustomerReceivables(Nullable<int> locationID)
         {
             var locationIDParameter = locationID.HasValue ?
                 new ObjectParameter("LocationID", locationID) :
                 new ObjectParameter("LocationID", typeof(int));
     
-            var receiptIDParameter = receiptID.HasValue ?
-                new ObjectParameter("ReceiptID", receiptID) :
-                new ObjectParameter("ReceiptID", typeof(int));
-    
-            var customerNameParameter = customerName != null ?
-                new ObjectParameter("CustomerName", customerName) :
-                new ObjectParameter("CustomerName", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CustomerReceivable>("GetCustomerReceivables", locationIDParameter, receiptIDParameter, customerNameParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CustomerReceivable>("GetCustomerReceivables", locationIDParameter);
         }
     
-        public virtual ObjectResult<GoodsIssueReceivable> GetGoodsIssueReceivables(Nullable<int> locationID, Nullable<int> receiptID, string goodsIssueReference)
+        public virtual ObjectResult<GoodsIssueReceivable> GetGoodsIssueReceivables(Nullable<int> locationID)
         {
             var locationIDParameter = locationID.HasValue ?
                 new ObjectParameter("LocationID", locationID) :
                 new ObjectParameter("LocationID", typeof(int));
     
-            var receiptIDParameter = receiptID.HasValue ?
-                new ObjectParameter("ReceiptID", receiptID) :
-                new ObjectParameter("ReceiptID", typeof(int));
-    
-            var goodsIssueReferenceParameter = goodsIssueReference != null ?
-                new ObjectParameter("GoodsIssueReference", goodsIssueReference) :
-                new ObjectParameter("GoodsIssueReference", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GoodsIssueReceivable>("GetGoodsIssueReceivables", locationIDParameter, receiptIDParameter, goodsIssueReferenceParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GoodsIssueReceivable>("GetGoodsIssueReceivables", locationIDParameter);
         }
     
         public virtual ObjectResult<ReceiptIndex> GetReceiptIndexes(string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
@@ -899,6 +886,19 @@ namespace TotalModel.Models
                 new ObjectParameter("LocationID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingGoodsIssueReceiver>("GetPendingGoodsIssueReceivers", locationIDParameter);
+        }
+    
+        public virtual ObjectResult<PendingCustomerCredit> GetPendingCustomerCredits(Nullable<int> locationID, Nullable<int> customerID)
+        {
+            var locationIDParameter = locationID.HasValue ?
+                new ObjectParameter("LocationID", locationID) :
+                new ObjectParameter("LocationID", typeof(int));
+    
+            var customerIDParameter = customerID.HasValue ?
+                new ObjectParameter("CustomerID", customerID) :
+                new ObjectParameter("CustomerID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingCustomerCredit>("GetPendingCustomerCredits", locationIDParameter, customerIDParameter);
         }
     }
 }

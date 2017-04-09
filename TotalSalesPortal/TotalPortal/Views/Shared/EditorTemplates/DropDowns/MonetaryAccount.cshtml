@@ -1,0 +1,11 @@
+﻿@model TotalPortal.Areas.Commons.ViewModels.Helpers.IMonetaryAccountDropDownViewModel
+
+<div class="form-group">
+    @Html.LabelFor(model => model.MonetaryAccountID, new { @class = "right-panel-label" })
+    <div class="div-input">
+        @Html.Kendo().DropDownListFor(m => m.MonetaryAccountID).BindTo(Model.MonetaryAccountSelectList).HtmlAttributes(new { @class = "right-panel-input" })
+    </div>
+    <div class="div-validation-message">
+        @Html.ValidationMessageFor(model => model.MonetaryAccountID, "", new { @class = "text-danger" })
+    </div>
+</div>

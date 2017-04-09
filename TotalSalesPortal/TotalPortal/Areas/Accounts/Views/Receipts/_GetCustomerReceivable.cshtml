@@ -3,21 +3,21 @@
 @using TotalModel.Models;
 
 @(Html.Kendo().Grid<CustomerReceivable>()
-    .Name("CustomerReceivableGrid")
+    .Name("customerReceivableGrid")
 
     .Columns(columns =>
     {
-        columns.Bound(c => c.CustomerName).Title("Khách hàng").Width(180);
-        columns.Bound(c => c.CustomerAttentionName).Title("Người liên hệ").Width(60);
-        columns.Bound(c => c.CustomerTelephone).Title("Điện thoại").Width(50);
-        columns.Bound(c => c.CustomerBillingAddress).Title("Địa chỉ").Width(180);        
+        columns.Bound(c => c.CustomerName).Title("Khách hàng").Width(80);
+        columns.Bound(c => c.CustomerAttentionName).Title("Người liên hệ").Width(50);
+        columns.Bound(c => c.CustomerTelephone).Title("Điện thoại").Width(60);
+        columns.Bound(c => c.CustomerBillingAddress).Title("Địa chỉ").Width(90);        
     })
     .ToolBar(toolbar =>
     {
         toolbar.Template(@<text>
             <div class="toolbar" style="float: right;">
-                <label>Nhập tên khách hàng:</label>
-                <input id="customerNameSearchBox" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="customerNameSearchBox_KeyUp()" />
+                <label>Nhập tên, MST, số điện thoại, người liên hệ, địa chỉ khách hàng:</label>
+                <input id="customerReceivableFilter" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="customerReceivableFilter_KeyUp()" />
             </div>
         </text>);
     })
@@ -34,18 +34,36 @@
         return {
             locationID: window.parent.requireConfig.pageOptions.LocationID,
             receiptID: $("#ReceiptID").val(),
-            customerName: $("#customerNameSearchBox").val()
+            customerName: $("#customerReceivableFilter").val()
         };
     }
 
-    function customerNameSearchBox_KeyUp() {
-        if ($("#customerNameSearchBox").val().length === 0 || $("#customerNameSearchBox").val().length >= "@SettingsManager.AutoCompleteMinLenght") {
-            $("#CustomerReceivableGrid").data("kendoGrid").dataSource.read();
+
+    function customerReceivableFilter_KeyUp() {
+        var customerReceivableFilter = $("#customerReceivableFilter").val(), gridDetails = $("#customerReceivableGrid").data("kendoGrid");
+
+        if (customerReceivableFilter && customerReceivableFilter.length >= "@SettingsManager.AutoCompleteMinLenght") {
+            gridDetails.dataSource.filter({
+                logic: "or",
+                filters: [
+                    { field: "CustomerCode", operator: "contains", value: customerReceivableFilter },
+                    { field: "CustomerName", operator: "contains", value: customerReceivableFilter },
+                    { field: "CustomerVATCode", operator: "contains", value: customerReceivableFilter },
+                    { field: "CustomerBillingAddress", operator: "contains", value: customerReceivableFilter },
+                    { field: "CustomerTelephone", operator: "contains", value: customerReceivableFilter },
+                    { field: "CustomerAttentionName", operator: "contains", value: customerReceivableFilter }
+                ]
+            });
+
+
+        } else {
+            if (gridDetails.dataSource.filter() != undefined)
+                gridDetails.dataSource.filter({});
         }
     }
 
 
-    $("#CustomerReceivableGrid").dblclick(function (e) {
+    $("#customerReceivableGrid").dblclick(function (e) {
         okButton_Click();
     })
 </script>

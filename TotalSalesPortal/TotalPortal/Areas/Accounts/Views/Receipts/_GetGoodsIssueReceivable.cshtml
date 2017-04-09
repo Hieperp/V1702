@@ -2,21 +2,21 @@
 @using TotalModel.Models;
 
 @(Html.Kendo().Grid<GoodsIssueReceivable>()
-    .Name("GoodsIssueReceivableGrid")
+    .Name("goodsIssueReceivableGrid")
     .Columns(columns =>
     {
         columns.Bound(c => c.GoodsIssueReference).Title("Phiếu XK").Width(40);
         columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày").Width(90).Format("{0:" + SettingsManager.DateTimeFormat + "}");
-        columns.Bound(c => c.CustomerName).Title("Khách hàng").Width(150);
-        columns.Bound(c => c.CustomerBillingAddress).Title("Địa chỉ").Width(180);
-        columns.Bound(c => c.Description).Title("Diễn giải").Width(60);
+        columns.Bound(c => c.CustomerName).Title("Khách hàng").Width(120);
+        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(120);
+        columns.Bound(c => c.Description).Title("Diễn giải").Width(190);
     })
     .ToolBar(toolbar =>
     {
         toolbar.Template(@<text>
             <div class="toolbar" style="float: right;">
-                <label>Nhập số phiếu xuất kho:</label>
-                <input id="goodsIssueReferenceSearchBox" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="goodsIssueReferenceSearchBox_KeyUp()" />
+                <label>Nhập số phiếu xuất kho, hoặc tên, địa chỉ khách hàng:</label>
+                <input id="goodsIssueReceivableFilter" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="goodsIssueReceivableFilter_KeyUp()" />
             </div>
         </text>);
     })
@@ -33,17 +33,38 @@
         return {
             locationID: window.parent.requireConfig.pageOptions.LocationID,
             receiptID: $("#ReceiptID").val(),
-            goodsIssueReference: $("#goodsIssueReferenceSearchBox").val()
+            goodsIssueReference: $("#goodsIssueReceivableFilter").val()
         };
     }
 
-    function goodsIssueReferenceSearchBox_KeyUp() {
-        if ($("#goodsIssueReferenceSearchBox").val().length === 0 || $("#goodsIssueReferenceSearchBox").val().length >= "@SettingsManager.AutoCompleteMinLenght") {
-            $("#GoodsIssueReceivableGrid").data("kendoGrid").dataSource.read();
+
+    function goodsIssueReceivableFilter_KeyUp() {
+        var goodsIssueReceivableFilter = $("#goodsIssueReceivableFilter").val(), gridDetails = $("#goodsIssueReceivableGrid").data("kendoGrid");
+
+        if (goodsIssueReceivableFilter && goodsIssueReceivableFilter.length >= "@SettingsManager.AutoCompleteMinLenght") {
+            gridDetails.dataSource.filter({
+                logic: "or",
+                filters: [
+                    { field: "GoodsIssueReference", operator: "contains", value: goodsIssueReceivableFilter },
+
+                    { field: "CustomerCode", operator: "contains", value: goodsIssueReceivableFilter },
+                    { field: "CustomerName", operator: "contains", value: goodsIssueReceivableFilter },
+                    { field: "CustomerVATCode", operator: "contains", value: goodsIssueReceivableFilter },
+                    { field: "CustomerBillingAddress", operator: "contains", value: goodsIssueReceivableFilter },
+
+                    { field: "Description", operator: "contains", value: goodsIssueReceivableFilter }
+                ]
+            });
+
+
+        } else {
+            if (gridDetails.dataSource.filter() != undefined)
+                gridDetails.dataSource.filter({});
         }
     }
 
-    $("#GoodsIssueReceivableGrid").dblclick(function (e) {
+
+    $("#goodsIssueReceivableGrid").dblclick(function (e) {
         okButton_Click();
     })
 </script>

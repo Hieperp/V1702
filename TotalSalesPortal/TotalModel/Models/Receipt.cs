@@ -18,13 +18,18 @@ namespace TotalModel.Models
         public Receipt()
         {
             this.ReceiptDetails = new HashSet<ReceiptDetail>();
+            this.Receipts1 = new HashSet<Receipt>();
         }
     
         public int ReceiptID { get; set; }
         public System.DateTime EntryDate { get; set; }
         public string Reference { get; set; }
-        public Nullable<int> GoodsIssueID { get; set; }
+        public int ReceiptTypeID { get; set; }
+        public Nullable<int> AdvanceReceiptID { get; set; }
+        public Nullable<int> SalesReturnID { get; set; }
+        public Nullable<int> CreditNoteID { get; set; }
         public int CustomerID { get; set; }
+        public Nullable<int> GoodsIssueID { get; set; }
         public int CashierID { get; set; }
         public Nullable<System.DateTime> PostDate { get; set; }
         public int UserID { get; set; }
@@ -45,11 +50,19 @@ namespace TotalModel.Models
         public bool InActive { get; set; }
         public bool InActivePartial { get; set; }
         public Nullable<System.DateTime> InActiveDate { get; set; }
+        public Nullable<int> MonetaryAccountID { get; set; }
+        public string GoodsIssueReferences { get; set; }
     
+        public virtual CreditNote CreditNote { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual GoodsIssue GoodsIssue { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReceiptDetail> ReceiptDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Receipt> Receipts1 { get; set; }
+        public virtual Receipt Receipt1 { get; set; }
+        public virtual SalesReturn SalesReturn { get; set; }
+        public virtual MonetaryAccount MonetaryAccount { get; set; }
     }
 }
