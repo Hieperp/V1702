@@ -39,7 +39,7 @@ namespace TotalModel.Models
         public int LocationID { get; set; }
         public int ApproverID { get; set; }
         public decimal TotalQuantity { get; set; }
-        public Nullable<decimal> TotalFreeQuantity { get; set; }
+        public decimal TotalFreeQuantity { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal TotalVATAmount { get; set; }
         public decimal TotalGrossAmount { get; set; }
@@ -59,7 +59,8 @@ namespace TotalModel.Models
         public decimal TotalListedGrossAmount { get; set; }
         public string DeliveryAdviceReferences { get; set; }
         public int PaymentTermID { get; set; }
-        public Nullable<decimal> TotalCashDiscount { get; set; }
+        public decimal TotalCashDiscount { get; set; }
+        public decimal VATPercent { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }

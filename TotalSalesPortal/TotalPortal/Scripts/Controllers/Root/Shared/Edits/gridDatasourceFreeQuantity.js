@@ -12,10 +12,10 @@
 
 
 
-    definedExemplar.prototype._removeTotalToModelProperty = function () {
+    definedExemplar.prototype._removeTotalToModelProperty = function (dataRow) {
         this._updateTotalToModelProperty("TotalFreeQuantity", "FreeQuantity", "sum", requireConfig.websiteOptions.rndQuantity, false);
 
-        definedExemplar._super._removeTotalToModelProperty.call(this);
+        definedExemplar._super._removeTotalToModelProperty.call(this, dataRow);
     }
 
 

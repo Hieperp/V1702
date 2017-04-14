@@ -3,6 +3,7 @@
     public static class GlobalEnums
     {
         public static int CalculatingTypeID = 0;
+        public static bool VATbyRow = false;
 
         public static int rndQuantity = 0;
         public static int rndAmount = 0;

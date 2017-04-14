@@ -61,6 +61,7 @@ namespace TotalModel.Models
         public decimal TotalListedAmount { get; set; }
         public decimal TotalListedVATAmount { get; set; }
         public decimal TotalListedGrossAmount { get; set; }
+        public decimal VATPercent { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Customer Customer1 { get; set; }

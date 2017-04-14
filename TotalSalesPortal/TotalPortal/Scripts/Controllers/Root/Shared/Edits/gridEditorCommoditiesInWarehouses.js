@@ -26,7 +26,8 @@
                 currentDataSourceRow.set("QuantityAvailable", dataItem.QuantityAvailable);
                 currentDataSourceRow.set("ControlFreeQuantity", dataItem.ControlFreeQuantity);
                 currentDataSourceRow.set("Quantity", 1);
-                currentDataSourceRow.set("VATPercent", dataItem.VATPercent);
+                
+                currentDataSourceRow.set("VATPercent", currentDataSourceRow.VATbyRow === true ? dataItem.VATPercent : $("#VATPercent").val());
 
                 if (dataItem.ListedPrice > 0) {
                     if (currentDataSourceRow.ListedPrice != undefined)

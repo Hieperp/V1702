@@ -58,6 +58,7 @@ namespace TotalModel.Models
         public decimal ListedVATAmount { get; set; }
         public decimal ListedGrossAmount { get; set; }
         public int CalculatingTypeID { get; set; }
+        public bool VATbyRow { get; set; }
     
         public virtual DeliveryAdvice DeliveryAdvice { get; set; }
         public virtual VoidType VoidType { get; set; }

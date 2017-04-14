@@ -12,12 +12,17 @@
 
 
 
-    definedExemplar.prototype._removeTotalToModelProperty = function () {
+    definedExemplar.prototype._removeTotalToModelProperty = function (dataRow) {
         this._updateTotalToModelProperty("TotalAmount", "Amount", "sum", requireConfig.websiteOptions.rndAmount, false);
-        this._updateTotalToModelProperty("TotalVATAmount", "VATAmount", "sum", requireConfig.websiteOptions.rndAmount, false);
-        this._updateTotalToModelProperty("TotalGrossAmount", "GrossAmount", "sum", requireConfig.websiteOptions.rndAmount, false);
 
-        definedExemplar._super._removeTotalToModelProperty.call(this);
+        if (dataRow != null && dataRow.VATbyRow == true) {
+            this._updateTotalToModelProperty("TotalVATAmount", "VATAmount", "sum", requireConfig.websiteOptions.rndAmount, false);
+            this._updateTotalToModelProperty("TotalGrossAmount", "GrossAmount", "sum", requireConfig.websiteOptions.rndAmount, false);
+        }
+        else
+            this._updateTotalVATAmountToModelProperty();
+
+        definedExemplar._super._removeTotalToModelProperty.call(this, dataRow);
     }
 
 
@@ -62,20 +67,25 @@
             this._updateRowGrossAmount(dataRow);
 
         this._updateTotalToModelProperty("TotalAmount", "Amount", "sum", requireConfig.websiteOptions.rndAmount);
+
+        if (dataRow.VATbyRow == false)
+            this._updateTotalVATAmountToModelProperty();
     }
 
     definedExemplar.prototype._changeVATAmount = function (dataRow) {
         if (dataRow.CalculatingTypeID == 0)
             this._updateRowGrossAmount(dataRow);
 
-        this._updateTotalToModelProperty("TotalVATAmount", "VATAmount", "sum", requireConfig.websiteOptions.rndAmount);
+        if (dataRow.VATbyRow == true)
+            this._updateTotalToModelProperty("TotalVATAmount", "VATAmount", "sum", requireConfig.websiteOptions.rndAmount);
     }
 
     definedExemplar.prototype._changeGrossAmount = function (dataRow) {
         if (dataRow.CalculatingTypeID != 0)
             this._updateRowVATAmount(dataRow);
 
-        this._updateTotalToModelProperty("TotalGrossAmount", "GrossAmount", "sum", requireConfig.websiteOptions.rndAmount);
+        if (dataRow.VATbyRow == true)
+            this._updateTotalToModelProperty("TotalGrossAmount", "GrossAmount", "sum", requireConfig.websiteOptions.rndAmount);
     }
 
 
@@ -104,6 +114,19 @@
 
     definedExemplar.prototype._updateRowGrossAmount = function (dataRow) {
         dataRow.set("GrossAmount", this._round((dataRow.CalculatingTypeID == 0 ? dataRow.Amount + dataRow.VATAmount : dataRow.Quantity * dataRow.GrossPrice), requireConfig.websiteOptions.rndAmount));
+    }
+
+
+
+
+
+
+    definedExemplar.prototype._updateTotalVATAmountToModelProperty = function () { //NOW: Not called by VATPercent changed. LATER: Should implement js to call this when VATPercent changed
+        $("#TotalVATAmount").val(this._round($("#TotalAmount").val() * $("#VATPercent").val() / 100, requireConfig.websiteOptions.rndAmount));
+        $("#TotalGrossAmount").val(this._round($("#TotalAmount").val() - (-$("#TotalVATAmount").val()), requireConfig.websiteOptions.rndAmount));
+
+        $("#TotalVATAmount").trigger("change"); //Raise Change event for the BOM because sometime we need to Listening for Change event of model total property. Ex: We listening for Change Events on TotalWeight to update WeightDifference, ...
+        $("#TotalGrossAmount").trigger("change"); //Raise Change event for the BOM because sometime we need to Listening for Change event of model total property. Ex: We listening for Change Events on TotalWeight to update WeightDifference, ...
     }
 
 

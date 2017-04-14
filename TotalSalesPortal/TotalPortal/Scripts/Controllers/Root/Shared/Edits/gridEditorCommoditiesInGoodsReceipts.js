@@ -30,9 +30,11 @@
             currentDataSourceRow.set("EngineCode", dataItem.EngineCode);
             currentDataSourceRow.set("ColorCode", dataItem.ColorCode);
             currentDataSourceRow.set("QuantityAvailable", dataItem.QuantityAvailable);
-            currentDataSourceRow.set("Quantity", 1);            
-            currentDataSourceRow.set("VATPercent", dataItem.VATPercent);
-            currentDataSourceRow.set("GrossPrice", dataItem.GrossPrice);            
+            currentDataSourceRow.set("Quantity", 1);
+
+            currentDataSourceRow.set("VATPercent", currentDataSourceRow.VATbyRow === true ? dataItem.VATPercent : $("#VATPercent").val());
+
+            currentDataSourceRow.set("GrossPrice", dataItem.GrossPrice);
 
             if (currentDataSourceRow.ListedPrice != undefined)
                 currentDataSourceRow.set("ListedPrice", currentDataSourceRow.UnitPrice);

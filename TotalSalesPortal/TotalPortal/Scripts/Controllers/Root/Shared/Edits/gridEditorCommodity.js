@@ -21,7 +21,9 @@
             currentDataSourceRow.set("CommodityName", dataItem.Name);
             currentDataSourceRow.set("CommodityTypeID", dataItem.CommodityTypeID);
             currentDataSourceRow.set("Quantity", 1);
-            currentDataSourceRow.set("VATPercent", dataItem.VATPercent);
+
+            currentDataSourceRow.set("VATPercent", currentDataSourceRow.VATbyRow === true ? dataItem.VATPercent : $("#VATPercent").val());
+
             currentDataSourceRow.set("GrossPrice", dataItem.GrossPrice);
 
             if (currentDataSourceRow.ListedPrice != undefined)

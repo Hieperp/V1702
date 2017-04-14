@@ -8,6 +8,8 @@ namespace TotalDTO.Helpers
 {
     public interface IVATAmountDetailDTO : IAmountDetailDTO
     {
+        bool VATbyRow { get; set; }
+
         decimal VATPercent { get; set; }
         decimal GrossPrice { get; set; }
         decimal VATAmount { get; set; }
@@ -16,6 +18,8 @@ namespace TotalDTO.Helpers
 
     public abstract class VATAmountDetailDTO : AmountDetailDTO, IVATAmountDetailDTO
     {
+        public bool VATbyRow { get; set; }
+
         [Display(Name = "VAT")]
         [UIHint("DecimalReadonly")]
         public decimal VATPercent { get; set; }

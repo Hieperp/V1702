@@ -44,6 +44,7 @@ namespace TotalModel.Models
         public decimal ControlFreeQuantity { get; set; }
         public bool Approved { get; set; }
         public bool InActive { get; set; }
+        public bool VATbyRow { get; set; }
     
         public virtual AccountInvoice AccountInvoice { get; set; }
         public virtual GoodsIssueDetail GoodsIssueDetail { get; set; }

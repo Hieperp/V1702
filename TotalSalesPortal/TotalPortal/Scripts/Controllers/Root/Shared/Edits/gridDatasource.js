@@ -8,7 +8,7 @@
     definedExemplar.prototype.handleDataSourceChange = function (e) {
         if (e.action != undefined) {
             if (e.action == "remove") {
-                this._removeTotalToModelProperty();
+                this._removeTotalToModelProperty(e.items.length >= 1 ? e.items[0] : null);
             }
             else {
                 if (this["_change" + e.field] != undefined) {
@@ -24,7 +24,7 @@
 
 
 
-    definedExemplar.prototype._removeTotalToModelProperty = function () {
+    definedExemplar.prototype._removeTotalToModelProperty = function (dataRow) {
 
     }
 

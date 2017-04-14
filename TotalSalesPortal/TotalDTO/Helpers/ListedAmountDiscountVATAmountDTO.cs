@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
+using TotalBase.Enums;
 
 namespace TotalDTO.Helpers
 {
@@ -26,8 +29,23 @@ namespace TotalDTO.Helpers
         }
 
         protected virtual decimal GetTotalListedAmount() { return this.DtoDetails().Select(o => o.ListedAmount).Sum(); }
-        protected virtual decimal GetTotalListedVATAmount() { return this.DtoDetails().Select(o => o.ListedVATAmount).Sum(); }
-        protected virtual decimal GetTotalListedGrossAmount() { return this.DtoDetails().Select(o => o.ListedGrossAmount).Sum(); }
+        
+        protected virtual decimal GetTotalListedVATAmount()
+        {
+            if (GlobalEnums.VATbyRow)
+                return this.DtoDetails().Select(o => o.ListedVATAmount).Sum();
+            else
+                return Math.Round(this.GetTotalListedAmount() * this.VATPercent / 100, GlobalEnums.rndAmount, MidpointRounding.AwayFromZero);
+        }
+
+        protected virtual decimal GetTotalListedGrossAmount()
+        {
+            if (GlobalEnums.VATbyRow)
+                return this.DtoDetails().Select(o => o.ListedGrossAmount).Sum();
+            else
+                return Math.Round(this.GetTotalListedAmount() + this.GetTotalListedVATAmount(), GlobalEnums.rndAmount, MidpointRounding.AwayFromZero);
+        }
+
     }
 
 }

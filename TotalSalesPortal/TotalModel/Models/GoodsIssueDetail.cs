@@ -60,6 +60,7 @@ namespace TotalModel.Models
         public decimal ListedAmount { get; set; }
         public decimal ListedVATAmount { get; set; }
         public decimal ListedGrossAmount { get; set; }
+        public bool VATbyRow { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountInvoiceDetail> AccountInvoiceDetails { get; set; }
