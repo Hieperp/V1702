@@ -18,6 +18,6 @@ namespace TotalCore.Repositories.Accounts
         IEnumerable<PendingGoodsIssueReceiver> GetReceivers(int? locationID);
         IEnumerable<PendingGoodsIssue> GetGoodsIssues(int? locationID);
 
-        IEnumerable<PendingGoodsIssueDetail> GetPendingGoodsIssueDetails(int? accountInvoiceID, int? goodsIssueID, int? customerID, int? receiverID, int? commodityTypeID, string aspUserID, int? locationID, DateTime fromDate, DateTime toDate, string goodsIssueDetailIDs, bool isReadonly);
+        IEnumerable<PendingGoodsIssueDetail> GetPendingGoodsIssueDetails(int? accountInvoiceID, int? goodsIssueID, int? customerID, int? receiverID, decimal? vatPercent, int? commodityTypeID, string aspUserID, int? locationID, DateTime fromDate, DateTime toDate, string goodsIssueDetailIDs, bool isReadonly);
     }
 }

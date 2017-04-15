@@ -11,6 +11,7 @@
     @Html.HiddenFor(model => model.AccountInvoiceID);
 
     @Html.HiddenFor(model => model.PaymentTermID);
+    @Html.HiddenFor(model => model.VATPercent);
     @Html.HiddenFor(model => model.Description);
     @Html.HiddenFor(model => model.Remarks);
 
@@ -122,6 +123,7 @@
             $("#GoodsIssue_CustomerName").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueCustomerName === undefined ? null : selectedDataItem.GoodsIssueCustomerName);
 
             $("#PaymentTermID").val(selectedDataItem === undefined || selectedDataItem.PaymentTermID === undefined ? null : selectedDataItem.PaymentTermID);
+            $("#VATPercent").val(selectedDataItem === undefined || selectedDataItem.VATPercent === undefined ? 10 : selectedDataItem.VATPercent); //IMPORTANT NOTE: NOW: 15-APR-2017: WHEN okWOSelectButton_Click => selectedDataItem === undefined => DEFAULT VATPercent WILL BE 10, SO THE PENDING GoodsIssue WITH VATPercent <> 0 WILL NEVER BE INVOICED. LATER: WE SHOULD IMPROVE THIS: TO ALLOW USER TO SELECT DIFFERENT VATPercent FROM A COMOBO LIST BEFORE CONTINUE 
             $("#Description").val(selectedDataItem === undefined || selectedDataItem.Description === undefined ? null : selectedDataItem.Description);
             $("#Remarks").val(selectedDataItem === undefined || selectedDataItem.Remarks === undefined ? null : selectedDataItem.Remarks);
 

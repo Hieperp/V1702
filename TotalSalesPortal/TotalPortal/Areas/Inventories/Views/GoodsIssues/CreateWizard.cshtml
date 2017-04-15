@@ -12,6 +12,7 @@
 
     @Html.HiddenFor(model => model.ShippingAddress);
     @Html.HiddenFor(model => model.PaymentTermID);
+    @Html.HiddenFor(model => model.VATPercent);
     @Html.HiddenFor(model => model.Description);
     @Html.HiddenFor(model => model.Remarks);
 
@@ -103,6 +104,7 @@
             $("#ShippingAddress").val(selectedDataItem === undefined || selectedDataItem.ShippingAddress === undefined ? null : selectedDataItem.ShippingAddress);
 
             $("#PaymentTermID").val(selectedDataItem === undefined || selectedDataItem.PaymentTermID === undefined ? null : selectedDataItem.PaymentTermID);
+            $("#VATPercent").val(selectedDataItem === undefined || selectedDataItem.VATPercent === undefined ? null : selectedDataItem.VATPercent);
             $("#Description").val(selectedDataItem === undefined || selectedDataItem.Description === undefined ? null : selectedDataItem.Description);
             $("#Remarks").val(selectedDataItem === undefined || selectedDataItem.Remarks === undefined ? null : selectedDataItem.Remarks);
 

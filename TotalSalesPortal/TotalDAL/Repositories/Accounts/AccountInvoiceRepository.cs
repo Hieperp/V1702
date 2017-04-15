@@ -57,10 +57,10 @@ namespace TotalDAL.Repositories.Accounts
 
 
 
-        public IEnumerable<PendingGoodsIssueDetail> GetPendingGoodsIssueDetails(int? accountInvoiceID, int? goodsIssueID, int? customerID, int? receiverID, int? commodityTypeID, string aspUserID, int? locationID, DateTime fromDate, DateTime toDate, string goodsIssueDetailIDs, bool isReadonly)
+        public IEnumerable<PendingGoodsIssueDetail> GetPendingGoodsIssueDetails(int? accountInvoiceID, int? goodsIssueID, int? customerID, int? receiverID, decimal? vatPercent, int? commodityTypeID, string aspUserID, int? locationID, DateTime fromDate, DateTime toDate, string goodsIssueDetailIDs, bool isReadonly)
         {
             this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = false;
-            IEnumerable<PendingGoodsIssueDetail> pendingGoodsIssueDetails = base.TotalSalesPortalEntities.GetPendingGoodsIssueDetails(accountInvoiceID, locationID, goodsIssueID, customerID, receiverID, commodityTypeID, aspUserID, fromDate, toDate, goodsIssueDetailIDs, isReadonly).ToList();
+            IEnumerable<PendingGoodsIssueDetail> pendingGoodsIssueDetails = base.TotalSalesPortalEntities.GetPendingGoodsIssueDetails(accountInvoiceID, locationID, goodsIssueID, customerID, receiverID, vatPercent, commodityTypeID, aspUserID, fromDate, toDate, goodsIssueDetailIDs, isReadonly).ToList();
             this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = true;
 
             return pendingGoodsIssueDetails;

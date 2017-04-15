@@ -31,7 +31,7 @@ namespace TotalPortal.Areas.Inventories.Controllers
 
         protected override ICollection<GoodsIssueViewDetail> GetEntityViewDetails(GoodsIssueViewModel goodsIssueViewModel)
         {
-            ICollection<GoodsIssueViewDetail> goodsIssueViewDetails = this.goodsIssueService.GetGoodsIssueViewDetails(goodsIssueViewModel.GoodsIssueID, this.goodsIssueService.LocationID, goodsIssueViewModel.DeliveryAdviceID == null ? 0 : (int)goodsIssueViewModel.DeliveryAdviceID, goodsIssueViewModel.CustomerID, goodsIssueViewModel.ReceiverID, goodsIssueViewModel.ShippingAddress, false);
+            ICollection<GoodsIssueViewDetail> goodsIssueViewDetails = this.goodsIssueService.GetGoodsIssueViewDetails(goodsIssueViewModel.GoodsIssueID, this.goodsIssueService.LocationID, goodsIssueViewModel.DeliveryAdviceID == null ? 0 : (int)goodsIssueViewModel.DeliveryAdviceID, goodsIssueViewModel.CustomerID, goodsIssueViewModel.ReceiverID, goodsIssueViewModel.ShippingAddress, goodsIssueViewModel.VATPercent, false);
 
             return goodsIssueViewDetails;
         }
@@ -46,7 +46,7 @@ namespace TotalPortal.Areas.Inventories.Controllers
             simpleViewModel = base.InitViewModelByPrior(simpleViewModel);
             if (simpleViewModel.CustomerID > 0 && simpleViewModel.DeliveryAdviceID == null)
             {
-                List<PendingDeliveryAdviceDescription> pendingDeliveryAdviceDescriptions = this.goodsIssueService.GetDescriptions(this.goodsIssueService.LocationID, simpleViewModel.CustomerID, simpleViewModel.ReceiverID, simpleViewModel.ShippingAddress);
+                List<PendingDeliveryAdviceDescription> pendingDeliveryAdviceDescriptions = this.goodsIssueService.GetDescriptions(this.goodsIssueService.LocationID, simpleViewModel.CustomerID, simpleViewModel.ReceiverID, simpleViewModel.ShippingAddress, simpleViewModel.VATPercent);
 
                 string description = ""; string remarks = "";
                 pendingDeliveryAdviceDescriptions.ForEach(e =>

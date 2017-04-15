@@ -29,5 +29,6 @@ namespace TotalModel.Models
         public string ReceiverEntireTerritoryEntireName { get; set; }
         public string GoodsIssueCustomerCode { get; set; }
         public string GoodsIssueCustomerName { get; set; }
+        public decimal VATPercent { get; set; }
     }
 }

@@ -80,17 +80,17 @@
                     columns.Bound(p => p.HandlingUnitIdentification).DisplayNameTitle().Filterable(false).Width(30)
                         .ClientTemplate("#= HandlingUnitIdentification #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].HandlingUnitIdentification' value='#= HandlingUnitIdentification #' />");
                     
-                    columns.Bound(p => p.Quantity).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(50)
+                    columns.Bound(p => p.Quantity).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(50)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', Quantity) #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].Quantity' value='#= Quantity #' />");
 
-                    columns.Bound(p => p.Weight).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(50)
+                    columns.Bound(p => p.Weight).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(50)
                         .Format("{0:n2}")
                         .ClientFooterTemplate("#= kendo.format('{0:n2}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n2}', Weight) #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].Weight' value='#= Weight #' />");
 
-                    columns.Bound(p => p.RealWeight).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(50)
+                    columns.Bound(p => p.RealWeight).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(50)
                         .Format("{0:n2}")
                         .ClientFooterTemplate("#= kendo.format('{0:n2}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n2}', RealWeight) #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].RealWeight' value='#= RealWeight #' />");
@@ -98,7 +98,7 @@
                     columns.Bound(p => p.Remarks).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= (Remarks == null)? '' : Remarks #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].Remarks' value='#= (Remarks == null) ? '' : Remarks #' />");
 
-                    columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50);
+                    columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50).HtmlAttributes(new { @class = "grid-column-center" });
                 })
                 .Filterable()
                 .Navigatable()

@@ -14,8 +14,8 @@
         columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(100);
         columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(100);
         columns.Bound(c => c.CommodityCode).Title("Mã hàng").Width(60);
-        columns.Bound(c => c.QuantityRemains).Title("SL").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" });
-        columns.Bound(c => c.FreeQuantityRemains).Title("QT").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" });
+        columns.Bound(c => c.QuantityRemains).Title("SL").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"});
+        columns.Bound(c => c.FreeQuantityRemains).Title("QT").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"});
 
         columns.Template(t => { }).Title("&nbsp;").ClientTemplate("<input class='IsSelected' #= IsSelected ? checked='checked':'' #  type='checkbox' />").Width(15);
     })
@@ -59,6 +59,7 @@
                     goodsIssueID: window.parent.$("#GoodsIssue_GoodsIssueID").val(),
                     customerID: window.parent.$("#Consumer_CustomerID").val(),
                     receiverID: window.parent.$("#Receiver_CustomerID").val(),
+                    vatPercent: window.parent.$("#VATPercent").val(),
                     commodityTypeID: $("#CommodityTypeID").val(),
                     locationID: window.parent.requireConfig.pageOptions.LocationID,
                     fromDate: $("#FromDate").val(),

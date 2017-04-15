@@ -58,6 +58,7 @@ function handleOKEvent(accountInvoiceGridDataSource, pendingGoodsIssueDetailGrid
         dataRow.CommodityTypeID = goodsIssueGridDataItem.CommodityTypeID;
 
         dataRow.CalculatingTypeID = goodsIssueGridDataItem.CalculatingTypeID;
+        dataRow.VATbyRow = goodsIssueGridDataItem.VATbyRow;
 
         dataRow.ControlFreeQuantity = goodsIssueGridDataItem.ControlFreeQuantity;
         dataRow.QuantityRemains = goodsIssueGridDataItem.QuantityRemains;

@@ -50,5 +50,6 @@ namespace TotalModel.Models
         public decimal ListedGrossAmount { get; set; }
         public string DeliveryAdviceReference { get; set; }
         public System.DateTime DeliveryAdviceEntryDate { get; set; }
+        public bool VATbyRow { get; set; }
     }
 }

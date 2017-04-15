@@ -68,8 +68,8 @@
             columns.Bound(c => c.EntryDate).Title("Ngày").Width(90).Format("{0:" + SettingsManager.DateTimeFormat + "}");
             columns.Bound(c => c.CreditTypeName).Title("TT/ TH/ CK").Width(80);
             columns.Bound(c => c.Description).Title("Diễn giải").Width(210);
-            columns.Bound(c => c.TotalCreditAmount).Title("Số tiền TT/ TH/ CK").Width(60).Format("{0:n0}").Width(80).HtmlAttributes(new { @class = "grid-number-column" });
-            columns.Bound(c => c.TotalCreditAmountPending).Title("Số tiền còn lại").Width(60).Format("{0:n0}").Width(80).HtmlAttributes(new { @class = "grid-number-column" });
+            columns.Bound(c => c.TotalCreditAmount).Title("Số tiền TT/ TH/ CK").Width(60).Format("{0:n0}").Width(80).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"});
+            columns.Bound(c => c.TotalCreditAmountPending).Title("Số tiền còn lại").Width(60).Format("{0:n0}").Width(80).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"});
         })
         .ToolBar(toolbar =>
         {

@@ -137,30 +137,30 @@
                     columns.Bound(p => p.Description).DisplayNameTitle().Filterable(false)
                         .ClientTemplate("#= (Description == null)? '' : Description #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].Description' value='#= (Description == null) ? '' : Description #' />");
 
-                    columns.Bound(p => p.TotalGrossAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(100)
+                    columns.Bound(p => p.TotalGrossAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(100)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', TotalGrossAmount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].TotalGrossAmount' value='#= TotalGrossAmount #' />");
-                    columns.Bound(p => p.AmountDue).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(100)
+                    columns.Bound(p => p.AmountDue).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(100)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', AmountDue) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].AmountDue' value='#= AmountDue #' />");
-                    columns.Bound(p => p.FluctuationAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(50).Hidden()
+                    columns.Bound(p => p.FluctuationAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(50).Hidden()
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', FluctuationAmount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].FluctuationAmount' value='#= FluctuationAmount #' />");
-                    columns.Bound(p => p.CashDiscount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(90)
+                    columns.Bound(p => p.CashDiscount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(90)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', CashDiscount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].CashDiscount' value='#= CashDiscount #' />");
-                    columns.Bound(p => p.ReceiptAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).Width(100)
+                    columns.Bound(p => p.ReceiptAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(100)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', ReceiptAmount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].ReceiptAmount' value='#= ReceiptAmount #' />");
 
 
 
-                    columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50);
+                    columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50).HtmlAttributes(new { @class = "grid-column-center" });
                 })
                 .Filterable()
                 .Navigatable()

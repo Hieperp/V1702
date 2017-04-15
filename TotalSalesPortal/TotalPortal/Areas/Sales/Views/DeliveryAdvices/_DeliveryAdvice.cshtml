@@ -139,7 +139,6 @@
 
                     columns.Bound(p => p.Quantity).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(50)
                         .Format("{0:n0}")
-                        //.ClientFooterTemplate("<div>Min: #= kendo.format('{0:n0}', sum) #</div><div>Max: #= kendo.format('{0:n0}', data.Amount.sum) #</div><div>Max: #= kendo.format('{0:n0}', data.Amount.sum - (-data.Amount.sum * 0.1)) #</div>")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', Quantity) #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].Quantity' value='#= Quantity #' />");
 
@@ -166,13 +165,13 @@
                     columns.Bound(p => p.ListedAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(110).Hidden(@Model.ShowDiscount ? true : false)
                         .Format("{0:n0}")
                         .ClientFooterTemplate(@GlobalEnums.VATbyRow ? "#= kendo.format('{0:n0}', sum) #" : "<div>TC: #= kendo.format('{0:n0}', sum) #</div><div>VAT <span>#= data.VATPercent.max #</span>%: #= kendo.format('{0:n0}', data.ListedAmount.sum * data.VATPercent.max/100) #</div><div>TT: #= kendo.format('{0:n0}', data.ListedAmount.sum - (-data.ListedAmount.sum * data.VATPercent.max/100)) #</div>")
-
                         .ClientTemplate("#= kendo.format('{0:n0}', ListedAmount) #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].ListedAmount' value='#= ListedAmount #' />");
+                    
                     columns.Bound(p => p.Amount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(110).Hidden(@Model.ShowDiscount ? false : true)
                         .Format("{0:n0}")
                         .ClientFooterTemplate(@GlobalEnums.VATbyRow ? "#= kendo.format('{0:n0}', sum) #" : "<div>TC: #= kendo.format('{0:n0}', sum) #</div><div>VAT <span>#= data.VATPercent.max #</span>%: #= kendo.format('{0:n0}', data.Amount.sum * data.VATPercent.max/100) #</div><div>TT: #= kendo.format('{0:n0}', data.Amount.sum - (-data.Amount.sum * data.VATPercent.max/100)) #</div>")
-
                         .ClientTemplate("#= kendo.format('{0:n0}', Amount) #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].Amount' value='#= Amount #' />");
+                    
                     columns.Bound(p => p.VATPercent).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(50).Hidden(!@GlobalEnums.VATbyRow)
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}%', VATPercent) #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].VATPercent' value='#= VATPercent #' />");
@@ -222,7 +221,7 @@
 
                     columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50).Hidden(!@Model.Editable).HtmlAttributes(new { @class = "grid-column-center" });
 
-                    columns.Template(model => null).Width(50).Hidden(!@Model.Voidable && !@Model.UnVoidable).HtmlAttributes(new { @class = "grid-column-center" })  
+                    columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(50).Hidden(!@Model.Voidable && !@Model.UnVoidable)  
                         .ClientTemplate("<a class='k-button' style='padding:0px;' onclick='callVoidDetail(#= DeliveryAdviceDetailID #)'><span class='k-icon k-edit'></span></a>");
                 })
                     .Filterable()
@@ -278,33 +277,33 @@
                             }
                         </text>);
                     }).DataSource(dataSource => dataSource
-                                                        .Ajax()
-                                                        .Batch(true)
-                                                        .ServerOperation(false)
-                                                        .Model(model =>
-                                                        {
-                                                            model.Id(x => x.DeliveryAdviceDetailID);
-                                                            model.Field(m => m.DeliveryAdviceDetailID).DefaultValue(0);
-                                                            model.Field(m => m.DeliveryAdviceID).DefaultValue(@Model.DeliveryAdviceID);
-                                                            model.Field(m => m.CalculatingTypeID).DefaultValue(@GlobalEnums.CalculatingTypeID);
-                                                            model.Field(m => m.VATbyRow).DefaultValue(@GlobalEnums.VATbyRow);
-                                                        })
-                                                        .Events(events =>
-                                                        {
-                                                            events.Error("kendGrid_ErrorHandler");
-                                                        })
-                                                        .Aggregates(a => a.Add(x => x.CommodityCode).Count())
-                                                        .Aggregates(a => a.Add(x => x.VATPercent).Max())
-                                                        .Aggregates(a => a.Add(x => x.Quantity).Sum())
-                                                        .Aggregates(a => a.Add(x => x.FreeQuantity).Sum())
-                                                        .Aggregates(a => a.Add(x => x.DiscountPercent).Average())
-                                                        .Aggregates(a => a.Add(x => x.ListedAmount).Sum())
-                                                        .Aggregates(a => a.Add(x => x.Amount).Sum())
-                                                        .Aggregates(a => a.Add(x => x.ListedVATAmount).Sum())
-                                                        .Aggregates(a => a.Add(x => x.VATAmount).Sum())
-                                                        .Aggregates(a => a.Add(x => x.ListedGrossAmount).Sum())
-                                                        .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
-                                                    )
+                    .Ajax()
+                    .Batch(true)
+                    .ServerOperation(false)
+                    .Model(model =>
+                    {
+                        model.Id(x => x.DeliveryAdviceDetailID);
+                        model.Field(m => m.DeliveryAdviceDetailID).DefaultValue(0);
+                        model.Field(m => m.DeliveryAdviceID).DefaultValue(@Model.DeliveryAdviceID);
+                        model.Field(m => m.CalculatingTypeID).DefaultValue(@GlobalEnums.CalculatingTypeID);
+                        model.Field(m => m.VATbyRow).DefaultValue(@GlobalEnums.VATbyRow);
+                    })
+                    .Events(events =>
+                    {
+                        events.Error("kendGrid_ErrorHandler");
+                    })
+                    .Aggregates(a => a.Add(x => x.CommodityCode).Count())
+                    .Aggregates(a => a.Add(x => x.VATPercent).Max())
+                    .Aggregates(a => a.Add(x => x.Quantity).Sum())
+                    .Aggregates(a => a.Add(x => x.FreeQuantity).Sum())
+                    .Aggregates(a => a.Add(x => x.DiscountPercent).Average())
+                    .Aggregates(a => a.Add(x => x.ListedAmount).Sum())
+                    .Aggregates(a => a.Add(x => x.Amount).Sum())
+                    .Aggregates(a => a.Add(x => x.ListedVATAmount).Sum())
+                    .Aggregates(a => a.Add(x => x.VATAmount).Sum())
+                    .Aggregates(a => a.Add(x => x.ListedGrossAmount).Sum())
+                    .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
+                )
             )
         </div>
 
