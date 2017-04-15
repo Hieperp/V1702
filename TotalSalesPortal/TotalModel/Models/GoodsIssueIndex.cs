@@ -20,7 +20,7 @@ namespace TotalModel.Models
         public decimal TotalQuantity { get; set; }
         public decimal TotalGrossAmount { get; set; }
         public string Description { get; set; }
-        public Nullable<decimal> TotalFreeQuantity { get; set; }
+        public decimal TotalFreeQuantity { get; set; }
         public decimal TotalListedGrossAmount { get; set; }
         public string CustomerName { get; set; }
         public string ReceiverDescription { get; set; }

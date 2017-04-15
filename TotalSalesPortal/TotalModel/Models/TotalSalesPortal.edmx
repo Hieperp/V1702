@@ -3240,7 +3240,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="Decimal" Name="TotalQuantity" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
-          <Property Type="Decimal" Name="TotalFreeQuantity" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TotalFreeQuantity" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="TotalListedGrossAmount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="ReceiverDescription" Nullable="false" MaxLength="302" />
@@ -3432,6 +3432,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
           <Property Type="Decimal" Name="TotalReceiptAmount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="TotalCashDiscount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="TotalDepositAmountPending" Nullable="true" Precision="20" Scale="2" />
+          <Property Type="Int32" Name="ReceiptTypeID" Nullable="false" />
         </ComplexType>
         <ComplexType Name="ReceiptViewDetail">
           <Property Type="Int32" Name="GoodsIssueID" Nullable="false" />
@@ -5695,6 +5696,7 @@ warning 6035: The relationship 'FK_Receipts_AspNetUsers' has columns that are no
                 <ScalarProperty Name="TotalReceiptAmount" ColumnName="TotalReceiptAmount" />
                 <ScalarProperty Name="TotalCashDiscount" ColumnName="TotalCashDiscount" />
                 <ScalarProperty Name="TotalDepositAmountPending" ColumnName="TotalDepositAmountPending" />
+                <ScalarProperty Name="ReceiptTypeID" ColumnName="ReceiptTypeID" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

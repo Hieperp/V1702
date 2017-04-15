@@ -1,6 +1,5 @@
-﻿@using TotalPortal.Configuration
-
-@model TotalPortal.Areas.Accounts.ViewModels.ReceiptViewModel
+﻿@using TotalBase.Enums;
+@using TotalPortal.Configuration
 
 <div id="popupWindow"></div>
 
@@ -16,7 +15,7 @@
             columns.Bound(p => p.Reference).Title("#").Width(10).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Accounts/Receipts", action = "Edit" }) + "/#= ReceiptID #'>#=Reference#</a>"); 
             columns.Bound(p => p.CustomerName).Title("Khách hàng").Width(180);
             columns.Bound(p => p.GoodsIssueReferences).Title("PXK").Width(160);
-            columns.Bound(p => p.DebitAccountType).Title("TM/CK").Width(10);
+            columns.Bound(p => p.DebitAccountType).Title("TM/CK").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(10);
             columns.Bound(p => p.DebitAccountCode).Title("CTCN").Width(20);
             columns.Bound(p => p.DebitAccountDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(20);
 
@@ -80,7 +79,21 @@
     function createWizard() {
         require(["kpopupWindow"], function (kpopupWindow) {
             var createWizardWindow = new kpopupWindow();
-            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "Receipts")", "Chọn phiếu xuất kho, hoặc khách hàng, sau đó chọn phiếu cấn trừ công nợ (nếu có)", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeightWithTab");
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "Receipts")", "Chọn phiếu xuất kho, hoặc khách hàng, sau đó chọn phiếu cấn trừ công nợ (nếu có); hoặc chọn mã khách hàng nộp tiền trả trước", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeightWithTab");
         });
     }
+
+    decoratingKindex = function (idx, elem) {
+
+        var receiptTypeID = elem.ReceiptTypeID;
+        if (receiptTypeID != null && receiptTypeID == "@GlobalReceiptTypeID.ApplyCredit") {
+            $('tr[data-uid="' + elem.uid + '"]').addClass("isBonus");
+        }
+
+        var totalDepositAmountPending = elem.TotalDepositAmountPending;
+        if (totalDepositAmountPending != null && totalDepositAmountPending > 0) {
+            $('tr[data-uid="' + elem.uid + '"]').addClass("isBonus1");
+        }
+    }
+
 </script>

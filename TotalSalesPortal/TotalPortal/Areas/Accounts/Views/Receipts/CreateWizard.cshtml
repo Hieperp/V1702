@@ -45,12 +45,16 @@
                     @Html.Partial("~/Areas/Accounts/Views/Receipts/_GetGoodsIssueReceivable.cshtml")
                 </text>);
 
-            tabStrip.Add().Text("Chọn nhà khách hàng")
+            tabStrip.Add().Text("Chọn khách hàng")
                 .Content(@<text>
                     @Html.Partial("~/Areas/Accounts/Views/Receipts/_GetCustomerReceivable.cshtml")
                 </text>);
+            tabStrip.Add().Text("Khách hàng nộp tiền trả trước")
+                    .Content(@<text>
+                    @*@Html.Partial("~/Areas/Accounts/Views/Receipts/_GetCustomerReceivable.cshtml")*@
+                    </text>);
         })
-    )
+)
 
 
     <div class="background-bar" style="height: 45px;">

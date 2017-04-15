@@ -12,10 +12,10 @@
             columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(40).Hidden();
             columns.Bound(p => p.CustomerDescription).Title("KH").Width(410).Hidden();
             columns.Bound(p => p.GoodsIssueReferences).Title("Phiếu xuất kho").Width(160);
-            columns.Bound(p => p.LotNo).Title("Lô").HtmlAttributes(new { @class = "grid-column-center" }).Filterable(false).Width(115).Width(20).Sortable(false);
-            columns.Bound(p => p.PackingMaterialCode).Title("BB").Width(50);
-            columns.Bound(p => p.Identification).Title("Stt").HtmlAttributes(new { @class = "grid-column-center" }).Filterable(false).Width(115).Width(20).Sortable(false);
-            columns.Bound(p => p.CountIdentification).Title("TC").HtmlAttributes(new { @class = "grid-column-center" }).Filterable(false).Width(115).Width(20);
+            columns.Bound(p => p.LotNo).Title("Lô").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Filterable(false).Width(115).Width(20).Sortable(false);
+            columns.Bound(p => p.PackingMaterialCode).Title("BB").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(50);
+            columns.Bound(p => p.Identification).Title("Stt").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Filterable(false).Width(115).Width(20).Sortable(false);
+            columns.Bound(p => p.CountIdentification).Title("TC").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Filterable(false).Width(115).Width(20);
             columns.Bound(p => p.Description).Title("Diễn giải").Filterable(false).Width(190);
             columns.Bound(p => p.TotalQuantity).Title("SL").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Filterable(false).Width(20);
             columns.Bound(p => p.TotalWeight).Title("TL").Format("{0:n2}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Filterable(false).Width(20);

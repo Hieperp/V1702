@@ -11,7 +11,7 @@
             columns.Bound(p => p.LocationCode).Title("CN").Hidden().Width(10);
             columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(40);
             columns.Bound(p => p.ReceiverDescription).Title("Khách hàng").Width(340);
-            columns.Bound(p => p.VehicleName).Title("Xe").Width(100);
+            columns.Bound(p => p.VehicleName).Title("Xe").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(100);
             columns.Bound(p => p.CollectorName).Title("NV giao hàng").Width(165);
             columns.Bound(p => p.Description).Title("Ghi chú").Width(155);
             columns.Bound(p => p.TotalQuantity).Title("Sl").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Filterable(false).Width(80).Hidden();

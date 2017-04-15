@@ -32,5 +32,6 @@ namespace TotalModel.Models
         public decimal TotalReceiptAmount { get; set; }
         public decimal TotalCashDiscount { get; set; }
         public Nullable<decimal> TotalDepositAmountPending { get; set; }
+        public int ReceiptTypeID { get; set; }
     }
 }

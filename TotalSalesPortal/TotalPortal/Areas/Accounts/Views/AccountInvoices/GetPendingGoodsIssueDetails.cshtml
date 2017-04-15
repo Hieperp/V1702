@@ -10,10 +10,10 @@
     {
         columns.Bound(c => c.GoodsIssueReference).Title("PXK").Width(30);
         columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày, giờ xuất kho").Width(70).Format("{0:" + SettingsManager.DateTimeFormat + "}");
-        columns.Bound(c => c.CustomerCode).Title("Mã kh").Width(60);
-        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(100);
-        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(100);
-        columns.Bound(c => c.CommodityCode).Title("Mã hàng").Width(60);
+        columns.Bound(c => c.CustomerCode).Title("Mã kh").Width(50);
+        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(90);
+        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(90);
+        columns.Bound(c => c.CommodityCode).Title("Mã hàng").Width(80);
         columns.Bound(c => c.QuantityRemains).Title("SL").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"});
         columns.Bound(c => c.FreeQuantityRemains).Title("QT").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"});
 
