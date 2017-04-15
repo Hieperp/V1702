@@ -50,9 +50,11 @@
                     @Html.Partial("~/Areas/Accounts/Views/Receipts/_GetCustomerReceivable.cshtml")
                 </text>);
             tabStrip.Add().Text("Khách hàng nộp tiền trả trước")
-                    .Content(@<text>
-                    @*@Html.Partial("~/Areas/Accounts/Views/Receipts/_GetCustomerReceivable.cshtml")*@
-                    </text>);
+                .Content(@<text>
+                    <div style="margin-top: 36px;">
+                        @Html.EditorFor(d => d.Customer, "AutoCompletes/CustomerBase", new { CustomerDisplayName = @Model.GetDisplayName(m => m.Customer) })
+                    </div>
+                </text>);
         })
 )
 
@@ -80,7 +82,7 @@
     }
 
     function handleOKEvent(receiptTypeID, tabIndex) {
-        if (tabIndex === undefined)
+        if (tabIndex === undefined || tabIndex == 2)
             _setModelInput();
         else {
             var selectedGrid = $(tabIndex === 0 ? "#goodsIssueReceivableGrid" : "#customerReceivableGrid").data("kendoGrid");
@@ -90,28 +92,30 @@
 
             _setModelInput(selectedDataItem);
         }
-        
+
         $(receiptTypeID == "@GlobalReceiptTypeID.ApplyCredit" ? "#submitCreateReceipt" : "#submitCreateWizard").trigger("click");
 
 
         function _setModelInput(selectedDataItem) {
-            
+
             $("#ReceiptTypeID").val(receiptTypeID == "@GlobalReceiptTypeID.ApplyCredit" ? "@GlobalReceiptTypeID.ApplyCredit" : "@GlobalReceiptTypeID.ReceiveMoney");
             $("#MonetaryAccountID").val(receiptTypeID == "@GlobalReceiptTypeID.ApplyCredit" || selectedDataItem === undefined || selectedDataItem.MonetaryAccountID === undefined ? null : selectedDataItem.MonetaryAccountID);
-            
+
             $("#GoodsIssue_GoodsIssueID").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueID === undefined ? null : selectedDataItem.GoodsIssueID);
             $("#GoodsIssue_Reference").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueReference === undefined ? null : selectedDataItem.GoodsIssueReference);
             $("#GoodsIssue_EntryDate").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueEntryDate === undefined ? null : kendo.toString(selectedDataItem.GoodsIssueEntryDate, SettingsManager.DateFormat));
             $("#GoodsIssue_ReceiverCode").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueID === undefined || selectedDataItem.ReceiverCode === undefined ? null : selectedDataItem.ReceiverCode);
             $("#GoodsIssue_ReceiverName").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueID === undefined || selectedDataItem.ReceiverName === undefined ? null : selectedDataItem.ReceiverName);
 
-            $("#Customer_CustomerID").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerID);
-            $("#Customer_Code").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerCode);
-            $("#Customer_Name").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerName);
-            $("#Customer_VATCode").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerVATCode);
-            $("#Customer_Telephone").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerTelephone);
-            $("#Customer_BillingAddress").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerBillingAddress);
-            $("#Customer_EntireTerritoryEntireName").val(selectedDataItem === undefined ? null : selectedDataItem.CustomerEntireTerritoryEntireName);
+            if (selectedDataItem != undefined) {
+                $("#Customer_CustomerID").val(selectedDataItem.CustomerID);
+                $("#Customer_Code").val(selectedDataItem.CustomerCode);
+                $("#Customer_Name").val(selectedDataItem.CustomerName);
+                $("#Customer_VATCode").val(selectedDataItem.CustomerVATCode);
+                $("#Customer_Telephone").val(selectedDataItem.CustomerTelephone);
+                $("#Customer_BillingAddress").val(selectedDataItem.CustomerBillingAddress);
+                $("#Customer_EntireTerritoryEntireName").val(selectedDataItem.CustomerEntireTerritoryEntireName);
+            }
         }
     }
 
