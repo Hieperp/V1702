@@ -111,6 +111,7 @@ namespace TotalDTO.Accounts
 
 
         public override int CustomerID { get { return (this.Customer != null ? this.Customer.CustomerID : 0); } }
+        [Display(Name = "Khách hàng")]
         [UIHint("Commons/CustomerBase")]
         public CustomerBaseDTO Customer { get; set; }
 

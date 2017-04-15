@@ -15,7 +15,7 @@
                 .DataTextField("CodeAndName")
                 .Filter("contains")
                 .MinLength(SettingsManager.AutoCompleteMinLenght)
-                .Placeholder((ViewData["CustomerDisplayName"] != null ? (ViewData["CustomerDisplayName"]).ToString() : "Vui lòng chọn khách hàng"))
+                .Placeholder("Vui lòng chọn " + (ViewData["CustomerDisplayName"] != null ? (ViewData["CustomerDisplayName"]).ToString().ToLower() : "khách hàng"))
                 .HeaderTemplate("<div class=\"dropdown-header general-custom-header customer-custom-header\">" +
                         "<span class=\"k-widget k-header\">Tên</span>" +
                         "<span class=\"k-widget k-header\">Địa chỉ</span>" +

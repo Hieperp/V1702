@@ -11,7 +11,7 @@
                 columns.Bound(p => p.LocationCode).Title("CN").Hidden().Width(1);
                 columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(35);
 
-                columns.Bound(p => p.Reference).Title("Số").Width(10).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Sales/DeliveryAdvices", action = "Edit" }) + "/#= DeliveryAdviceID #'>#=Reference#</a>");
+                columns.Bound(p => p.Reference).Title("#").Width(10).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Sales/DeliveryAdvices", action = "Edit" }) + "/#= DeliveryAdviceID #'>#=Reference#</a>");
                 columns.Bound(p => p.CustomerName).Title("Khách hàng").Width(215);
                 columns.Bound(p => p.ReceiverDescription).Title("Giao hàng").Width(270);
                 columns.Bound(p => p.VoidTypeName).Title("Hủy đh").Width(120);

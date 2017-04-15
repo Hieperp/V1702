@@ -51,7 +51,7 @@
                 </text>);
             tabStrip.Add().Text("Khách hàng nộp tiền trả trước")
                 .Content(@<text>
-                    <div style="margin-top: 36px;">
+                    <div style="margin-top: 13px;">
                         @Html.EditorFor(d => d.Customer, "AutoCompletes/CustomerBase", new { CustomerDisplayName = @Model.GetDisplayName(m => m.Customer) })
                     </div>
                 </text>);
@@ -82,7 +82,7 @@
     }
 
     function handleOKEvent(receiptTypeID, tabIndex) {
-        if (tabIndex === undefined || tabIndex == 2)
+        if (tabIndex === undefined || tabIndex == 2) //tabIndex == 2: SELECT CUSTOMERID BY AUTOCOMPLETE
             _setModelInput();
         else {
             var selectedGrid = $(tabIndex === 0 ? "#goodsIssueReceivableGrid" : "#customerReceivableGrid").data("kendoGrid");

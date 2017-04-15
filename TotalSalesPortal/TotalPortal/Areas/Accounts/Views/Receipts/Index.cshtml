@@ -79,7 +79,7 @@
     function createWizard() {
         require(["kpopupWindow"], function (kpopupWindow) {
             var createWizardWindow = new kpopupWindow();
-            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "Receipts")", "Chọn phiếu xuất kho, hoặc khách hàng, sau đó chọn phiếu cấn trừ công nợ (nếu có); hoặc chọn mã khách hàng nộp tiền trả trước", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeightWithTab");
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "Receipts")", "Chọn phiếu xuất kho, hoặc khách hàng, sau đó chọn phiếu cấn trừ công nợ (nếu có)", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeightWithTab");
         });
     }
 
