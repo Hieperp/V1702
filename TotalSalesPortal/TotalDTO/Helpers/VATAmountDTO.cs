@@ -10,7 +10,7 @@ namespace TotalDTO.Helpers
     public abstract class VATAmountDTO<TVATAmountDetailDTO> : AmountDTO<TVATAmountDetailDTO>
         where TVATAmountDetailDTO : class, IVATAmountDetailDTO
     {
-        protected VATAmountDTO() { this.VATPercent = 50; }
+        protected VATAmountDTO() { this.VATPercent = 10; }
 
         [Display(Name = "VAT")]
         [UIHint("DecimalReadonly")]

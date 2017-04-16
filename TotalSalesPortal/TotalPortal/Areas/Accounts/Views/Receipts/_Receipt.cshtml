@@ -117,8 +117,6 @@
                 .Name("kendoGridDetails")
                 .Columns(columns =>
                 {
-                    columns.Template(t => { }).Title("&nbsp;").ClientTemplate("#= RowNumber(data) #").HtmlAttributes(new { @class = "grid-column-center" }).Width(35);
-
 
                     columns.Bound(p => p.ReceiptDetailID).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= ReceiptDetailID #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].ReceiptDetailID' value='#= ReceiptDetailID #' />");
@@ -129,12 +127,12 @@
 
 
                     columns.Bound(p => p.GoodsIssueReference).DisplayNameTitle().Filterable(false).Width(90)
-                        .ClientTemplate("#= GoodsIssueReference #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].GoodsIssueReference' value='#= GoodsIssueReference #' />")
-                        .ClientFooterTemplate("Tổng cộng:");
+                        .ClientTemplate("#= GoodsIssueReference #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].GoodsIssueReference' value='#= GoodsIssueReference #' />");
                     columns.Bound(p => p.GoodsIssueEntryDate).DisplayNameTitle().Filterable(false).Width(160)
+                        .ClientFooterTemplate("TC (#= kendo.format('{0:n0}', count) # dòng)")
                         .ClientTemplate("#= GoodsIssueEntryDate ? kendo.toString(kendo.parseDate(GoodsIssueEntryDate), '" + SettingsManager.DateTimeFormat + "') : '' #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].GoodsIssueEntryDate' value='#= kendo.toString(GoodsIssueEntryDate, '" + SettingsManager.DateTimeFormat + "') #' />");
 
-                    columns.Bound(p => p.Description).DisplayNameTitle().Filterable(false)
+                    columns.Bound(p => p.Description).DisplayNameTitle().Filterable(false)                        
                         .ClientTemplate("#= (Description == null)? '' : Description #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].Description' value='#= (Description == null) ? '' : Description #' />");
 
                     columns.Bound(p => p.TotalGrossAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(100)
@@ -194,11 +192,7 @@
                     settings.Mode(GridSelectionMode.Multiple);
                     settings.Type(GridSelectionType.Row);
                 })
-                .Events(events =>
-                {
-                    events.DataBinding(@<text>function(e){rowNumber = 0;} </text>);
-
-                })
+                
                 .DataSource(dataSource => dataSource
                     .Ajax()
                     .Batch(true)
@@ -213,6 +207,7 @@
                     {
                         events.Error("kendGrid_ErrorHandler");
                     })
+                    .Aggregates(a => a.Add(x => x.GoodsIssueEntryDate).Count())
                     .Aggregates(a => a.Add(x => x.TotalGrossAmount).Sum())
                     .Aggregates(a => a.Add(x => x.AmountDue).Sum())
                     .Aggregates(a => a.Add(x => x.CashDiscount).Sum())

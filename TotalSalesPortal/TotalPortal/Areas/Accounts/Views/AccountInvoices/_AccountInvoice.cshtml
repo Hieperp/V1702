@@ -230,43 +230,43 @@
                 })
 
 
-                                                .Editable(editable => { editable.Enabled(Model.Editable); editable.Mode(GridEditMode.InCell).DisplayDeleteConfirmation(true).CreateAt(GridInsertRowPosition.Bottom); })
-                                                .Selectable(settings =>
-                                                {
-                                                    settings.Mode(GridSelectionMode.Multiple);
-                                                    settings.Type(GridSelectionType.Row);
-                                                })
+                .Editable(editable => { editable.Enabled(Model.Editable); editable.Mode(GridEditMode.InCell).DisplayDeleteConfirmation(true).CreateAt(GridInsertRowPosition.Bottom); })
+                .Selectable(settings =>
+                {
+                    settings.Mode(GridSelectionMode.Multiple);
+                    settings.Type(GridSelectionType.Row);
+                })
 
-                                                .DataSource(dataSource => dataSource
-                                                    .Ajax()
-                                                    .Batch(true)
-                                                    .ServerOperation(false)
-                                                    .Model(model =>
-                                                    {
-                                                        model.Id(x => x.AccountInvoiceDetailID);
-                                                        model.Field(m => m.AccountInvoiceDetailID).DefaultValue(0);
-                                                        model.Field(m => m.AccountInvoiceID).DefaultValue(@Model.AccountInvoiceID);
-                                                        model.Field(m => m.CalculatingTypeID).DefaultValue(@GlobalEnums.CalculatingTypeID);                                                        
-                                                        model.Field(m => m.VATbyRow).DefaultValue(@GlobalEnums.VATbyRow);
-                                                    })
-                                                    .Events(events =>
-                                                    {
-                                                        events.Error("kendGrid_ErrorHandler");
-                                                    })
-                                                    .Aggregates(a => a.Add(x => x.CommodityCode).Count())
-                                                    .Aggregates(a => a.Add(x => x.VATPercent).Max())
-                                                    .Aggregates(a => a.Add(x => x.QuantityRemains).Sum())
-                                                    .Aggregates(a => a.Add(x => x.Quantity).Sum())
-                                                    .Aggregates(a => a.Add(x => x.FreeQuantityRemains).Sum())
-                                                    .Aggregates(a => a.Add(x => x.FreeQuantity).Sum())
-                                                    .Aggregates(a => a.Add(x => x.DiscountPercent).Average())
-                                                    .Aggregates(a => a.Add(x => x.ListedAmount).Sum())
-                                                    .Aggregates(a => a.Add(x => x.Amount).Sum())
-                                                    .Aggregates(a => a.Add(x => x.ListedVATAmount).Sum())
-                                                    .Aggregates(a => a.Add(x => x.VATAmount).Sum())
-                                                    .Aggregates(a => a.Add(x => x.ListedGrossAmount).Sum())
-                                                    .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
-                                                )
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .Batch(true)
+                    .ServerOperation(false)
+                    .Model(model =>
+                    {
+                        model.Id(x => x.AccountInvoiceDetailID);
+                        model.Field(m => m.AccountInvoiceDetailID).DefaultValue(0);
+                        model.Field(m => m.AccountInvoiceID).DefaultValue(@Model.AccountInvoiceID);
+                        model.Field(m => m.CalculatingTypeID).DefaultValue(@GlobalEnums.CalculatingTypeID);                                                        
+                        model.Field(m => m.VATbyRow).DefaultValue(@GlobalEnums.VATbyRow);
+                    })
+                    .Events(events =>
+                    {
+                        events.Error("kendGrid_ErrorHandler");
+                    })
+                    .Aggregates(a => a.Add(x => x.CommodityCode).Count())
+                    .Aggregates(a => a.Add(x => x.VATPercent).Max())
+                    .Aggregates(a => a.Add(x => x.QuantityRemains).Sum())
+                    .Aggregates(a => a.Add(x => x.Quantity).Sum())
+                    .Aggregates(a => a.Add(x => x.FreeQuantityRemains).Sum())
+                    .Aggregates(a => a.Add(x => x.FreeQuantity).Sum())
+                    .Aggregates(a => a.Add(x => x.DiscountPercent).Average())
+                    .Aggregates(a => a.Add(x => x.ListedAmount).Sum())
+                    .Aggregates(a => a.Add(x => x.Amount).Sum())
+                    .Aggregates(a => a.Add(x => x.ListedVATAmount).Sum())
+                    .Aggregates(a => a.Add(x => x.VATAmount).Sum())
+                    .Aggregates(a => a.Add(x => x.ListedGrossAmount).Sum())
+                    .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
+                )
             )
 
         </div>
