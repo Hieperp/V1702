@@ -5,9 +5,9 @@
         public int Id { get; set; }
 
         public string ServerName { get { return "SERVERCTY"; } }
-        public string CatalogName { get { return "TotalBikePortals"; } }
+        public string CatalogName { get { return "TotalSalesPortal"; } }
 
-        public string ReportFolder { get { return "TotalBikePortals"; } }
+        public string ReportFolder { get { return "TotalSalesPortal"; } }
         public string ReportPath { get; set; }
 
         public int PrintOptionID { get; set; }
