@@ -1,7 +1,30 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-}
+﻿@model IEnumerable<TotalModel.Models.Report>
 
-<h2>Danh mục báo cáo, thống kê</h2>
+<div id="categories1" style=" margin-left: 8px; width: 1232px; height: 502px; background-color: #94c0d2; border-radius: 4px; padding-left: 60px; padding-top: 20px; ">
 
+    @{int reportGroupID = -1;}
+
+    @foreach (TotalModel.Models.Report report in Model.OrderBy(a => a.ReportGroupID))
+    {
+        if (reportGroupID != report.ReportGroupID)
+        {
+            reportGroupID = report.ReportGroupID;
+            <div style="margin-top: 10px; font-size: medium; color: #004796;">  @report.ReportGroupName </div>
+        }
+
+        if (report.ReportTypeID == 1)
+        {
+            <a href=@report.ReportURL target="_blank"> @report.ReportName <br /></a>
+        }
+
+        if (report.ReportTypeID == 2)
+        {
+            <a href="@Url.Action("Open", "Reports", new { id = report.ReportUniqueID })" target="_blank"> @report.ReportName <br /></a>
+        }
+
+        @*<a href="@Url.Action("Ssrs", "OtherReports", new { id = report.ReportUniqueID })">
+                <span><b>@report.ReportName</b> <br /> </span>
+            </a>*@
+    }
+
+</div>

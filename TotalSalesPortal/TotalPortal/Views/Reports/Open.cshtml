@@ -1,0 +1,8 @@
+﻿@using MvcReportViewer;
+
+@model TotalPortal.ViewModels.Helpers.PrintViewModel
+
+
+@{Layout = null;}
+
+@Html.MvcReportViewerFluent("/" + @Model.ReportFolder + "/" + @Model.ReportPath).ReportParameters(new { ServerName = @Model.ServerName, CatalogName = @Model.CatalogName, LocationID = @Model.Id }).Attributes(new { Height = 670, Width = 1270, style = "border: 1px solid #00688B" }).ControlSettings(new ControlSettings() { PromptAreaCollapsed = true })

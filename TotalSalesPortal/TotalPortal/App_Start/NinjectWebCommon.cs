@@ -20,6 +20,7 @@ namespace TotalPortal.App_Start
     using TotalCore.Repositories.Inventories;
     using TotalCore.Repositories.Accounts;
     using TotalCore.Repositories.Sessions;
+    using TotalCore.Repositories.Analysis;
 
     using TotalCore.Services.Sales;
     using TotalCore.Services.Inventories;
@@ -32,6 +33,7 @@ namespace TotalPortal.App_Start
     using TotalDAL.Repositories.Inventories;
     using TotalDAL.Repositories.Accounts;
     using TotalDAL.Repositories.Sessions;
+    using TotalDAL.Repositories.Analysis;
 
 
     using TotalService.Sales;
@@ -43,6 +45,7 @@ namespace TotalPortal.App_Start
     using TotalPortal.Areas.Inventories.Builders;
     using TotalPortal.Areas.Commons.Builders;
     using TotalPortal.Areas.Accounts.Builders;
+        
 
 
 
@@ -87,6 +90,8 @@ namespace TotalPortal.App_Start
 
                 kernel.Bind<IModuleRepository>().To<ModuleRepository>();
                 kernel.Bind<IModuleDetailRepository>().To<ModuleDetailRepository>();
+
+                kernel.Bind<IReportRepository>().To<ReportRepository>();
 
 
                 kernel.Bind<IDeliveryAdviceService>().To<DeliveryAdviceService>();

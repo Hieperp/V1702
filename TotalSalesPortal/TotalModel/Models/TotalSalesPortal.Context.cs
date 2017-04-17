@@ -64,6 +64,7 @@ namespace TotalModel.Models
         public virtual DbSet<Receipt> Receipts { get; set; }
         public virtual DbSet<SalesReturn> SalesReturns { get; set; }
         public virtual DbSet<MonetaryAccount> MonetaryAccounts { get; set; }
+        public virtual DbSet<Report> Reports { get; set; }
     
         public virtual ObjectResult<Nullable<int>> GetAccessLevel(Nullable<int> userID, Nullable<int> nMVNTaskID, Nullable<int> organizationalUnitID)
         {

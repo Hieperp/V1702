@@ -53,6 +53,7 @@
     <Compile Include="Helpers\SqlProgrammability\Inventories\GoodsDelivery.cs" />
     <Compile Include="Helpers\SqlProgrammability\Inventories\HandlingUnit.cs" />
     <Compile Include="Helpers\SqlProgrammability\Reports\SaleReports.cs" />
+    <Compile Include="Repositories\Analysis\ReportRepository.cs" />
     <Compile Include="Repositories\Commons\MonetaryAccountRepository.cs" />
     <Compile Include="Repositories\Commons\PackingMaterialRepository.cs" />
     <Compile Include="Repositories\Commons\VehicleRepository.cs" />

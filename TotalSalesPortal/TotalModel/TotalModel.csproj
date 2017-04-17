@@ -239,6 +239,9 @@
     <Compile Include="Models\ReceiptViewDetail.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Report.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SalesReturn.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>

@@ -1422,6 +1422,7 @@
     <Content Include="Views\Helpers\Bases\_BaseSectionTop.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Commons\ReceiptBox.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropDowns\MonetaryAccount.cshtml" />
+    <Content Include="Views\Reports\Open.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
