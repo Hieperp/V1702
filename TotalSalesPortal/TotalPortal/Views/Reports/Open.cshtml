@@ -5,4 +5,4 @@
 
 @{Layout = null;}
 
-@Html.MvcReportViewerFluent("/" + @Model.ReportFolder + "/" + @Model.ReportPath).ReportParameters(new { ServerName = @Model.ServerName, CatalogName = @Model.CatalogName, LocationID = @Model.Id }).Attributes(new { Height = 180, Width = 1270, style = "border: 1px solid #00688B" }).ControlSettings(new ControlSettings() { PromptAreaCollapsed = true })
+@Html.MvcReportViewerFluent("/" + @Model.ReportFolder + "/" + @Model.ReportPath).ReportParameters(new { ServerName = @Model.ServerName, CatalogName = @Model.CatalogName, LocationID = @Model.Id }).Attributes(new { Height = 1080, Width = 1270, style = "border: 1px solid #00688B" }).ControlSettings(new ControlSettings() { PromptAreaCollapsed = true })
