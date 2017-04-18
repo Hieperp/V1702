@@ -75,6 +75,18 @@ namespace TotalPortal.Controllers
 
 
 
+        [AccessLevelAuthorize(GlobalEnums.AccessLevel.Readable)]
+        [OnResultExecutingFilterAttribute]
+        public virtual ActionResult Open(int? id)
+        {
+            TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Readable);
+            if (entity == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            return View(this.GetViewModel(entity, false, false, true));
+        }
+
+
+
 
         /// <summary>
         /// Create NEW from an empty ViewModel object
@@ -566,15 +578,22 @@ namespace TotalPortal.Controllers
 
         protected virtual TSimpleViewModel TailorViewModel(TSimpleViewModel simpleViewModel, bool forDelete, bool forAlter)
         {
+            return this.TailorViewModel(simpleViewModel, forDelete, forAlter, false);
+        }
 
-            if (!forDelete)//Be caution: the value of simpleViewModel.Editable should be SET EVERY TIME THE simpleViewModel LOADED! This means: if it HAVEN'T SET YET, the default value of simpleViewModel.Editable is FALSE               (THE CONDITIONAL CLAUSE: if (!forDelete) MEAN: WHEN SHOW VIEW FOR DELETE, NO NEED TO CHECK Editable => Editable SHOULD BE FALSE)
-                simpleViewModel.Editable = this.GenericService.Editable(simpleViewModel);
+        protected virtual TSimpleViewModel TailorViewModel(TSimpleViewModel simpleViewModel, bool forDelete, bool forAlter, bool forOpen)
+        {
+            if (!forOpen)
+            {
+                if (!forDelete)//Be caution: the value of simpleViewModel.Editable should be SET EVERY TIME THE simpleViewModel LOADED! This means: if it HAVEN'T SET YET, the default value of simpleViewModel.Editable is FALSE               (THE CONDITIONAL CLAUSE: if (!forDelete) MEAN: WHEN SHOW VIEW FOR DELETE, NO NEED TO CHECK Editable => Editable SHOULD BE FALSE)
+                    simpleViewModel.Editable = this.GenericService.Editable(simpleViewModel);
 
-            if (forDelete) // || simpleViewModel is ServiceContractViewModel                    //WHEN forDelete, IT SHOULD BE CHECK FOR Deletable ATTRIBUTE, SURELY.          BUT, WHEN OPEN VIEW FOR EDIT, NOW: ONLY VIEW ServiceContract NEED TO USE Deletable ATTRIBUTE ONLY. SO, THIS CODE IS CORRECT FOR NOW, BUT LATER, IF THERE IS MORE VIEWS NEED THIS Deletable ATTRIBUTE, THIS CODE SHOULD MODIFY MORE GENERIC!!!
-                simpleViewModel.Deletable = this.GenericService.Deletable(simpleViewModel);
+                if (forDelete) // || simpleViewModel is ServiceContractViewModel                    //WHEN forDelete, IT SHOULD BE CHECK FOR Deletable ATTRIBUTE, SURELY.          BUT, WHEN OPEN VIEW FOR EDIT, NOW: ONLY VIEW ServiceContract NEED TO USE Deletable ATTRIBUTE ONLY. SO, THIS CODE IS CORRECT FOR NOW, BUT LATER, IF THERE IS MORE VIEWS NEED THIS Deletable ATTRIBUTE, THIS CODE SHOULD MODIFY MORE GENERIC!!!
+                    simpleViewModel.Deletable = this.GenericService.Deletable(simpleViewModel);
 
-            if (forAlter)//NOW THIS GlobalLocked attribute ONLY be considered WHEN ALTER ACTION to USE IN ALTER VIEW: to ALLOW or NOT ALTER.
-                simpleViewModel.GlobalLocked = this.GenericService.GlobalLocked(simpleViewModel);
+                if (forAlter)//NOW THIS GlobalLocked attribute ONLY be considered WHEN ALTER ACTION to USE IN ALTER VIEW: to ALLOW or NOT ALTER.
+                    simpleViewModel.GlobalLocked = this.GenericService.GlobalLocked(simpleViewModel);
+            }
 
             simpleViewModel.ShowDiscount = this.GetShowDiscount(simpleViewModel);
 
@@ -614,7 +633,12 @@ namespace TotalPortal.Controllers
 
         private TSimpleViewModel GetViewModel(TEntity entity, bool forDelete, bool forAlter)
         {
-            return this.TailorViewModel(this.DecorateViewModel(this.MapEntityToViewModel(entity)), forDelete, forAlter);
+            return this.GetViewModel(entity, forDelete, forAlter, false);
+        }
+
+        private TSimpleViewModel GetViewModel(TEntity entity, bool forDelete, bool forAlter, bool forOpen)
+        {
+            return this.TailorViewModel(this.DecorateViewModel(this.MapEntityToViewModel(entity)), forDelete, forAlter, forOpen);
         }
         #endregion GetViewModel
 

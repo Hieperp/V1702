@@ -175,13 +175,13 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             queryString = queryString + "   BEGIN " + "\r\n";
 
 
-            queryString = queryString + "       SELECT      NmvnTaskID, CustomerID, CustomerCode, CustomerName, CustomerCategoryName, " + "\r\n";
+            queryString = queryString + "       SELECT      NmvnTaskID, TaskAction, CustomerID, CustomerCode, CustomerName, CustomerCategoryName, " + "\r\n";
             queryString = queryString + "                   EntryID, EntryDate, Reference, BalanceAmount, 0 AS TotalListedGrossAmount, 0 AS TotalGrossAmount, 0 AS TotalDiscountAmount, 0 AS TotalReturnAmount, 0 AS TotalCreditAmount, 0 AS TotalCashReceiptAmount, 0 AS TotalBankTransferAmount, 0 AS TotalCashDiscount, 0 AS TotalFluctuationAmount " + "\r\n";
             queryString = queryString + "       FROM        dbo.GoodsIssueBalance(DATEADD(second, -1, @LocalFromDate), @LocalCustomerID) " + "\r\n";
 
             queryString = queryString + "       UNION ALL " + "\r\n";
 
-            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.GoodsIssue + " AS NmvnTaskID, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
+            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.GoodsIssue + " AS NmvnTaskID, 'Inventories/GoodsIssues' AS TaskAction, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
             queryString = queryString + "                   GoodsIssues.GoodsIssueID AS EntryID, GoodsIssues.EntryDate, GoodsIssues.Reference, 0 AS BalanceAmount, GoodsIssues.TotalListedGrossAmount, GoodsIssues.TotalGrossAmount, ROUND(GoodsIssues.TotalListedGrossAmount - GoodsIssues.TotalGrossAmount, " + (int)GlobalEnums.rndAmount + ") AS TotalDiscountAmount, 0 AS TotalReturnAmount, 0 AS TotalCreditAmount, 0 AS TotalCashReceiptAmount, 0 AS TotalBankTransferAmount,  0 AS TotalCashDiscount, 0 AS TotalFluctuationAmount " + "\r\n";
 
             queryString = queryString + "       FROM        GoodsIssues " + "\r\n";
@@ -190,7 +190,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
 
             queryString = queryString + "       UNION ALL " + "\r\n";
 
-            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.SalesReturn + " AS NmvnTaskID, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
+            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.SalesReturn + " AS NmvnTaskID, 'Sales/SalesReturns' AS TaskAction, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
             queryString = queryString + "                   SalesReturns.SalesReturnID AS EntryID, SalesReturns.EntryDate, SalesReturns.Reference, 0 AS BalanceAmount, 0 AS TotalListedGrossAmount, 0 AS TotalGrossAmount, 0 AS TotalDiscountAmount, SalesReturns.TotalGrossAmount AS TotalReturnAmount, 0 AS TotalCreditAmount, 0 AS TotalCashReceiptAmount, 0 AS TotalBankTransferAmount,  0 AS TotalCashDiscount, 0 AS TotalFluctuationAmount " + "\r\n";
 
             queryString = queryString + "       FROM        SalesReturns " + "\r\n";
@@ -201,7 +201,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
 
             queryString = queryString + "       UNION ALL " + "\r\n";
 
-            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.CreditNote + " AS NmvnTaskID, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
+            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.CreditNote + " AS NmvnTaskID, 'Accounts/CreditNotes' AS TaskAction, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
             queryString = queryString + "                   CreditNotes.CreditNoteID AS EntryID, CreditNotes.EntryDate, CreditNotes.Reference, 0 AS BalanceAmount, 0 AS TotalListedGrossAmount, 0 AS TotalGrossAmount, 0 AS TotalDiscountAmount, 0 AS TotalReturnAmount, CreditNotes.TotalCreditAmount, 0 AS TotalCashReceiptAmount, 0 AS TotalBankTransferAmount,  0 AS TotalCashDiscount, 0 AS TotalFluctuationAmount " + "\r\n";
 
             queryString = queryString + "       FROM        CreditNotes " + "\r\n";
@@ -212,7 +212,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
 
             queryString = queryString + "       UNION ALL " + "\r\n";
 
-            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.Receipt + " AS NmvnTaskID, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
+            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.Receipt + " AS NmvnTaskID, 'Accounts/Receipts' AS TaskAction, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
             queryString = queryString + "                   Receipts.ReceiptID AS EntryID, Receipts.EntryDate, Receipts.Reference, 0 AS BalanceAmount, 0 AS TotalListedGrossAmount, 0 AS TotalGrossAmount, 0 AS TotalDiscountAmount, 0 AS TotalReturnAmount, 0 AS TotalCreditAmount, CASE Receipts.MonetaryAccountID WHEN 3 THEN Receipts.TotalDepositAmount ELSE 0 END AS TotalCashReceiptAmount, CASE Receipts.MonetaryAccountID WHEN 3 THEN 0 ELSE Receipts.TotalDepositAmount END TotalBankTransferAmount, Receipts.TotalCashDiscount, Receipts.TotalFluctuationAmount " + "\r\n";
 
             queryString = queryString + "       FROM        Receipts " + "\r\n";
@@ -229,7 +229,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
         private void GoodsIssueBalance()
         {
             string queryString = " (@ToDate DateTime, @CustomerID int) " + "\r\n";
-            queryString = queryString + " RETURNS @GoodsIssueBalances TABLE (NmvnTaskID int NOT NULL, EntryID int NOT NULL, EntryDate datetime NOT NULL, Reference nvarchar(10) NULL, CustomerID int NOT NULL, CustomerCode nvarchar(50) NOT NULL, CustomerName nvarchar(100) NOT NULL, CustomerCategoryName nvarchar(100) NOT NULL, EntryAmount decimal(18, 2) NOT NULL, BalanceAmount decimal(18, 2) NOT NULL) " + "\r\n";
+            queryString = queryString + " RETURNS @GoodsIssueBalances TABLE (NmvnTaskID int NOT NULL, TaskAction varchar(60) NOT NULL, EntryID int NOT NULL, EntryDate datetime NOT NULL, Reference nvarchar(10) NULL, CustomerID int NOT NULL, CustomerCode nvarchar(50) NOT NULL, CustomerName nvarchar(100) NOT NULL, CustomerCategoryName nvarchar(100) NOT NULL, EntryAmount decimal(18, 2) NOT NULL, BalanceAmount decimal(18, 2) NOT NULL) " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "   BEGIN " + "\r\n";
@@ -266,9 +266,9 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
 
             queryString = queryString + "   BEGIN " + "\r\n";
 
-            queryString = queryString + "       INSERT INTO @GoodsIssueBalances (NmvnTaskID, EntryID, EntryDate, Reference, CustomerID, CustomerCode, CustomerName, CustomerCategoryName, EntryAmount, BalanceAmount) " + "\r\n";
+            queryString = queryString + "       INSERT INTO @GoodsIssueBalances (NmvnTaskID, TaskAction, EntryID, EntryDate, Reference, CustomerID, CustomerCode, CustomerName, CustomerCategoryName, EntryAmount, BalanceAmount) " + "\r\n";
 
-            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.GoodsIssue + " AS NmvnTaskID, GoodsIssues.GoodsIssueID, GoodsIssues.EntryDate, GoodsIssues.Reference, GoodsIssues.CustomerID, '' AS CustomerCode, '' AS CustomerName, '' AS CustomerCategoryName, GoodsIssues.TotalGrossAmount, GoodsIssueBalances.BalanceAmount " + "\r\n";
+            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.GoodsIssue + " AS NmvnTaskID, 'Inventories/GoodsIssues' AS TaskAction, GoodsIssues.GoodsIssueID, GoodsIssues.EntryDate, GoodsIssues.Reference, GoodsIssues.CustomerID, '' AS CustomerCode, '' AS CustomerName, '' AS CustomerCategoryName, GoodsIssues.TotalGrossAmount, GoodsIssueBalances.BalanceAmount " + "\r\n";
             queryString = queryString + "       FROM       (SELECT     GoodsIssueID, SUM(BalanceAmount) AS BalanceAmount " + "\r\n";
             queryString = queryString + "                   FROM        (" + "\r\n";
             queryString = queryString + "                               SELECT      GoodsIssues.GoodsIssueID, ROUND(GoodsIssues.TotalGrossAmount - GoodsIssues.TotalReceiptAmount - GoodsIssues.TotalCashDiscount, " + (int)GlobalEnums.rndAmount + ") AS BalanceAmount " + "\r\n";
@@ -286,35 +286,35 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
 
 
 
-            queryString = queryString + "       INSERT INTO @GoodsIssueBalances (NmvnTaskID, EntryID, EntryDate, Reference, CustomerID, CustomerCode, CustomerName, CustomerCategoryName, EntryAmount, BalanceAmount) " + "\r\n";
+            queryString = queryString + "       INSERT INTO @GoodsIssueBalances (NmvnTaskID, TaskAction, EntryID, EntryDate, Reference, CustomerID, CustomerCode, CustomerName, CustomerCategoryName, EntryAmount, BalanceAmount) " + "\r\n";
 
-            queryString = queryString + "       SELECT      NmvnTaskID, EntryID, MAX(EntryDate), MAX(Reference), MAX(CustomerID), '' AS CustomerCode, '' AS CustomerName, '' AS CustomerCategoryName, MAX(TotalCreditAmount), SUM(BalanceAmount)" + "\r\n";
+            queryString = queryString + "       SELECT      NmvnTaskID, MAX(TaskAction), EntryID, MAX(EntryDate), MAX(Reference), MAX(CustomerID), '' AS CustomerCode, '' AS CustomerName, '' AS CustomerCategoryName, MAX(TotalCreditAmount), SUM(BalanceAmount)" + "\r\n";
 
-            queryString = queryString + "       FROM       (SELECT      " + (int)GlobalEnums.NmvnTaskID.Receipt + " AS NmvnTaskID, ReceiptID AS EntryID, Reference, EntryDate, CustomerID, TotalDepositAmount AS TotalCreditAmount, -ROUND(TotalDepositAmount - TotalReceiptAmount - TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") AS BalanceAmount " + "\r\n";
+            queryString = queryString + "       FROM       (SELECT      " + (int)GlobalEnums.NmvnTaskID.Receipt + " AS NmvnTaskID, 'Accounts/Receipts' AS TaskAction, ReceiptID AS EntryID, Reference, EntryDate, CustomerID, TotalDepositAmount AS TotalCreditAmount, -ROUND(TotalDepositAmount - TotalReceiptAmount - TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") AS BalanceAmount " + "\r\n";
             queryString = queryString + "                               FROM        Receipts " + "\r\n";
             queryString = queryString + "                               WHERE       " + (isCustomerID ? "CustomerID = @LocalCustomerID AND" : "") + " EntryDate <= @LocalToDate AND ReceiptTypeID = " + GlobalReceiptTypeID.ReceiveMoney + " AND ROUND(TotalDepositAmount - TotalReceiptAmount - TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") > 0 " + "\r\n";
             queryString = queryString + "                               UNION ALL   " + "\r\n";
-            queryString = queryString + "                               SELECT      " + (int)GlobalEnums.NmvnTaskID.Receipt + " AS NmvnTaskID, AdvanceReceipts.ReceiptID AS EntryID, AdvanceReceipts.Reference, AdvanceReceipts.EntryDate, AdvanceReceipts.CustomerID, AdvanceReceipts.TotalDepositAmount AS TotalCreditAmount, -ROUND(Receipts.TotalReceiptAmount + Receipts.TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") AS BalanceAmount " + "\r\n";
+            queryString = queryString + "                               SELECT      " + (int)GlobalEnums.NmvnTaskID.Receipt + " AS NmvnTaskID, 'Accounts/Receipts' AS TaskAction, AdvanceReceipts.ReceiptID AS EntryID, AdvanceReceipts.Reference, AdvanceReceipts.EntryDate, AdvanceReceipts.CustomerID, AdvanceReceipts.TotalDepositAmount AS TotalCreditAmount, -ROUND(Receipts.TotalReceiptAmount + Receipts.TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") AS BalanceAmount " + "\r\n";
             queryString = queryString + "                               FROM        Receipts AS AdvanceReceipts INNER JOIN Receipts ON " + (isCustomerID ? "AdvanceReceipts.CustomerID = @LocalCustomerID AND" : "") + " AdvanceReceipts.EntryDate <= @LocalToDate AND Receipts.EntryDate > @LocalToDate AND AdvanceReceipts.ReceiptID = Receipts.AdvanceReceiptID " + "\r\n";
 
 
             queryString = queryString + "                               UNION ALL   " + "\r\n";
 
-            queryString = queryString + "                               SELECT      " + (int)GlobalEnums.NmvnTaskID.SalesReturn + " AS NmvnTaskID, SalesReturnID AS EntryID, Reference, EntryDate, CustomerID, TotalGrossAmount AS TotalCreditAmount, -ROUND(TotalGrossAmount - TotalReceiptAmount - TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") AS BalanceAmount " + "\r\n";
+            queryString = queryString + "                               SELECT      " + (int)GlobalEnums.NmvnTaskID.SalesReturn + " AS NmvnTaskID, 'Sales/SalesReturns' AS TaskAction, SalesReturnID AS EntryID, Reference, EntryDate, CustomerID, TotalGrossAmount AS TotalCreditAmount, -ROUND(TotalGrossAmount - TotalReceiptAmount - TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") AS BalanceAmount " + "\r\n";
             queryString = queryString + "                               FROM        SalesReturns " + "\r\n";
             queryString = queryString + "                               WHERE       " + (isCustomerID ? "CustomerID = @LocalCustomerID AND" : "") + " EntryDate <= @LocalToDate AND ROUND(TotalGrossAmount - TotalReceiptAmount - TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") > 0 " + "\r\n";
             queryString = queryString + "                               UNION ALL   " + "\r\n";
-            queryString = queryString + "                               SELECT      " + (int)GlobalEnums.NmvnTaskID.SalesReturn + " AS NmvnTaskID, SalesReturns.SalesReturnID AS EntryID, SalesReturns.Reference, SalesReturns.EntryDate, SalesReturns.CustomerID, SalesReturns.TotalGrossAmount AS TotalCreditAmount, -ROUND(Receipts.TotalReceiptAmount + Receipts.TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") AS BalanceAmount " + "\r\n";
+            queryString = queryString + "                               SELECT      " + (int)GlobalEnums.NmvnTaskID.SalesReturn + " AS NmvnTaskID, 'Sales/SalesReturns' AS TaskAction, SalesReturns.SalesReturnID AS EntryID, SalesReturns.Reference, SalesReturns.EntryDate, SalesReturns.CustomerID, SalesReturns.TotalGrossAmount AS TotalCreditAmount, -ROUND(Receipts.TotalReceiptAmount + Receipts.TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") AS BalanceAmount " + "\r\n";
             queryString = queryString + "                               FROM        SalesReturns INNER JOIN Receipts ON " + (isCustomerID ? "SalesReturns.CustomerID = @LocalCustomerID AND" : "") + " SalesReturns.EntryDate <= @LocalToDate AND Receipts.EntryDate > @LocalToDate AND SalesReturns.SalesReturnID = Receipts.SalesReturnID " + "\r\n";
 
 
             queryString = queryString + "                               UNION ALL   " + "\r\n";
 
-            queryString = queryString + "                               SELECT      " + (int)GlobalEnums.NmvnTaskID.CreditNote + " AS NmvnTaskID, CreditNoteID AS EntryID, Reference, EntryDate, CustomerID, TotalCreditAmount AS TotalCreditAmount, -ROUND(TotalCreditAmount - TotalReceiptAmount - TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") AS BalanceAmount " + "\r\n";
+            queryString = queryString + "                               SELECT      " + (int)GlobalEnums.NmvnTaskID.CreditNote + " AS NmvnTaskID, 'Accounts/CreditNotes' AS TaskAction, CreditNoteID AS EntryID, Reference, EntryDate, CustomerID, TotalCreditAmount AS TotalCreditAmount, -ROUND(TotalCreditAmount - TotalReceiptAmount - TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") AS BalanceAmount " + "\r\n";
             queryString = queryString + "                               FROM        CreditNotes " + "\r\n";
             queryString = queryString + "                               WHERE       " + (isCustomerID ? "CustomerID = @LocalCustomerID AND" : "") + " EntryDate <= @LocalToDate AND ROUND(TotalCreditAmount - TotalReceiptAmount - TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") > 0 " + "\r\n";
             queryString = queryString + "                               UNION ALL   " + "\r\n";
-            queryString = queryString + "                               SELECT      " + (int)GlobalEnums.NmvnTaskID.Receipt + " AS NmvnTaskID, CreditNotes.CreditNoteID AS EntryID, CreditNotes.Reference, CreditNotes.EntryDate, CreditNotes.CustomerID, CreditNotes.TotalCreditAmount AS TotalCreditAmount, -ROUND(Receipts.TotalReceiptAmount + Receipts.TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") AS BalanceAmount " + "\r\n";
+            queryString = queryString + "                               SELECT      " + (int)GlobalEnums.NmvnTaskID.Receipt + " AS NmvnTaskID, 'Accounts/CreditNotes' AS TaskAction, CreditNotes.CreditNoteID AS EntryID, CreditNotes.Reference, CreditNotes.EntryDate, CreditNotes.CustomerID, CreditNotes.TotalCreditAmount AS TotalCreditAmount, -ROUND(Receipts.TotalReceiptAmount + Receipts.TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") AS BalanceAmount " + "\r\n";
             queryString = queryString + "                               FROM        CreditNotes INNER JOIN Receipts ON " + (isCustomerID ? "CreditNotes.CustomerID = @LocalCustomerID AND" : "") + " CreditNotes.EntryDate <= @LocalToDate AND Receipts.EntryDate > @LocalToDate AND CreditNotes.CreditNoteID = Receipts.CreditNoteID " + "\r\n";
             queryString = queryString + "                   ) AS CustomerCreditCollections " + "\r\n";
             queryString = queryString + "       GROUP BY    NmvnTaskID, EntryID " + "\r\n";
