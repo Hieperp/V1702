@@ -135,7 +135,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
             queryString = queryString + "       IF (@@ROWCOUNT > 0) " + "\r\n";
             {
-                string queryCodePart = "          ( " + "\r\n"; //By CodeParts (TRY TO SEARCH ALL COMBINABLE CASE OF CodePartA, CodePartB AND CodePartA: => WE HAVE 7 CASES)
+                string queryCodePart = "          ( " + "\r\n"; //By CodeParts (TRY TO SEARCH ALL COMBINABLE CASE OF CodePartA, CodePartB AND CodePartC: => WE HAVE 7 CASES)
                 queryCodePart = queryCodePart + "    (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = N'') " + "\r\n";
                 queryCodePart = queryCodePart + " OR (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
                 queryCodePart = queryCodePart + " OR (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') " + "\r\n";
@@ -233,12 +233,12 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
                     queryString = queryString + "           UNION ALL "; //By CodeParts: Get MAX DiscountPercent per CommodityID with THE SMALLEST PriorityIndex
                     queryString = queryString + "           SELECT  CommodityID, DiscountPercent, 0 AS ControlFreeQuantity ";
-                    queryString = queryString + "           FROM    (SELECT  CommodityID, DiscountPercent, ControlFreeQuantity, ROW_NUMBER() OVER (PARTITION BY CommodityID ORDER BY PriorityIndex, DiscountPercent DESC) AS RowNo FROM @PromotionCodeParts) OVERPARTITIONDiscountCodeParts ";
-                    queryString = queryString + "           WHERE   RowNo = 1 ";
+                    queryString = queryString + "           FROM    (SELECT  CommodityID, DiscountPercent, ControlFreeQuantity, ROW_NUMBER() OVER (PARTITION BY CommodityID ORDER BY PriorityIndex, DiscountPercent DESC) AS RowNo FROM @PromotionCodeParts WHERE DiscountPercent >= 0) OVERPARTITIONDiscountCodeParts ";
+                    queryString = queryString + "           WHERE   RowNo = 1 "; //Be carefull with "WHERE DiscountPercent >= 0/ or in the below: ControlFreeQuantity >= 0" here. Because, there are 7 case of PromotionCodeParts, some case of it just daclare for ControlFreeQuantity, or just for DiscountPercent only. Then, in that case, the DiscountPercent/ ControlFreeQuantity will be -1
 
                     queryString = queryString + "           UNION ALL "; //By CodeParts: Get MIN ControlFreeQuantity per CommodityID with THE SMALLEST PriorityIndex
                     queryString = queryString + "           SELECT  CommodityID, 0 AS DiscountPercent, ControlFreeQuantity "; //SET ControlFreeQuantity = 9999999 WHEN ControlFreeQuantity = 0 => To sure that we KEEP ROW for each PriorityIndex BUT till order by THE SMALLEST NON-ZERO ControlFreeQuantity ON THE TOP (then RowNo will be 1: RowNo = 1)
-                    queryString = queryString + "           FROM    (SELECT  CommodityID, DiscountPercent, ControlFreeQuantity, ROW_NUMBER() OVER (PARTITION BY CommodityID ORDER BY PriorityIndex, ControlFreeQuantity) AS RowNo FROM @PromotionCodeParts) OVERPARTITIONFreeQuantityCodeParts ";
+                    queryString = queryString + "           FROM    (SELECT  CommodityID, DiscountPercent, ControlFreeQuantity, ROW_NUMBER() OVER (PARTITION BY CommodityID ORDER BY PriorityIndex, ControlFreeQuantity) AS RowNo FROM @PromotionCodeParts WHERE ControlFreeQuantity >= 0) OVERPARTITIONFreeQuantityCodeParts ";
                     queryString = queryString + "           WHERE   RowNo = 1 ";
 
                     queryString = queryString + "           UNION ALL ";
