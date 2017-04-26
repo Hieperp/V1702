@@ -5,7 +5,7 @@
 
 <div id="popupWindow"></div>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "MainForm" }))
 {
     @Html.AntiForgeryToken()
 

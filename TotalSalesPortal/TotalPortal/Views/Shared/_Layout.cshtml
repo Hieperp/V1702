@@ -24,6 +24,7 @@
     <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/jszip.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/kendo.all.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/kendo.aspnetmvc.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/cultures/kendo.culture.en-GB.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
 
     <script src="@Url.Content("~/Scripts/Nmvns/nmvn-function.js")"></script>
@@ -39,6 +40,7 @@
 
 
     <script type="text/javascript">
+        kendo.culture("en-GB");
         @*kendo.culture("@culture");        //set current culture script*@
         window.xlsxUrl = { //init varible with the Url (by Url.Content helper). Because can not use Url.Content helper in pure javascript file
             xlsxworker: '@Url.Content("~/Scripts/js-xlsx-master/xlsxworker.js")',
@@ -77,8 +79,32 @@
         </div>
     }
 
+    
+    
+    
+    
 
-    @Scripts.Render("~/bundles/jqueryval") @*Important: jqueryval should rendered befor RenderRequireJsSetup to make jqueryval work correctly*@
+    @*@Scripts.Render("~/bundles/jqueryval")*@ 
+    @*Important: jqueryval should rendered befor RenderRequireJsSetup to make jqueryval work correctly*@
+    @*DATE: 26-APR-2017: STOP USE OF JQUERY VALIDATION; INSTEAD, WE USE KENDO FOR VALIDATION. PLEASE SEE THE FOLLOWING COMMENT BELOW *@
+    @*Client Validation Fails with Invalid Date
+
+    By default, the ASP.NET MVC project uses jQuery validate framework, which does not provide support for internationalized dates. This means that every string which Date.parse is not able to define as a valid date, is reported as invalid.
+
+    Solution
+
+    As extending open source libraries is outside the Kendo UI scope, you need to resolve this issue manually. For more information, check this link, or use the Kendo UI Validator, which supports the validation of internationalized dates.
+
+    http://docs.telerik.com/aspnet-mvc/troubleshoot/troubleshooting#client-validation-fails-with-invalid-date
+
+    http://demos.telerik.com/aspnet-mvc/validator/index*@
+
+
+
+        
+        
+        
+
 
     @*RenderRequireJsSetup should rendered before RenderBody, because somtime we need to use require function directly inside view, for example Import.js of DeliveryAdvice*@
     @Html.RenderRequireJsSetup(new RequireRendererConfiguration 
@@ -102,7 +128,7 @@
             // extensability point for the options object
             ProcessOptions = options => { },
             // value for urlArgs to be passed to require.js, used for versioning
-            UrlArgs = "V34" //RenderHelper.RenderAppVersion()
+            UrlArgs = "V43" //RenderHelper.RenderAppVersion()
         })
 
     

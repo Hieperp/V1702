@@ -1,7 +1,21 @@
 ﻿define([], (function () {
 
-    $(document).ready(function () {
+    var definedExemplar = function () {
         
+    };
+
+
+    definedExemplar.prototype._validate = function () {
+
+    }
+
+
+    definedExemplar.prototype._validateDetail = function () {
+
+    }
+
+    $(document).ready(function () {
+
         var submitTypeOptionSaveCollection = document.getElementsByClassName("SubmitTypeOption-Save");
         for (var i = 0; i < submitTypeOptionSaveCollection.length; i++) {
             submitTypeOptionSaveCollection[i].addEventListener('click', function () {
@@ -33,5 +47,20 @@
 
 
     });
+
+
+
+    $(document).ready(function () {
+        $("form").submit(function (event) {
+            var validator = $("#MainForm").kendoValidator().data("kendoValidator");
+            if (validator != undefined)
+                return validator.validate();
+            else
+                return true;
+        });
+    });
+
+
+
 
 }));
