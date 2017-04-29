@@ -79,34 +79,34 @@
         </div>
     }
 
-    
-    
-    
+
+
+
     @********************************BEGIN DATE: 26-APR-2017: ********************************@
-    @*@Scripts.Render("~/bundles/jqueryval")*@ 
-    @*Important: jqueryval should rendered befor RenderRequireJsSetup to make jqueryval work correctly*@
-    @********************************DATE: 26-APR-2017: *******************************STOP USE OF JQUERY VALIDATION; INSTEAD, WE USE KENDO FOR VALIDATION. PLEASE SEE THE FOLLOWING COMMENT BELOW *@
-    @*Client Validation Fails with Invalid Date
+        @*@Scripts.Render("~/bundles/jqueryval")*@
+        @*Important: jqueryval should rendered befor RenderRequireJsSetup to make jqueryval work correctly*@
+        @********************************DATE: 26-APR-2017: *******************************STOP USE OF JQUERY VALIDATION; INSTEAD, WE USE KENDO FOR VALIDATION. PLEASE SEE THE FOLLOWING COMMENT BELOW *@
+        @*Client Validation Fails with Invalid Date
 
-    By default, the ASP.NET MVC project uses jQuery validate framework, which does not provide support for internationalized dates. This means that every string which Date.parse is not able to define as a valid date, is reported as invalid.
+            By default, the ASP.NET MVC project uses jQuery validate framework, which does not provide support for internationalized dates. This means that every string which Date.parse is not able to define as a valid date, is reported as invalid.
 
-    Solution
+            Solution
 
-    As extending open source libraries is outside the Kendo UI scope, you need to resolve this issue manually. For more information, check this link, or use the Kendo UI Validator, which supports the validation of internationalized dates.
+            As extending open source libraries is outside the Kendo UI scope, you need to resolve this issue manually. For more information, check this link, or use the Kendo UI Validator, which supports the validation of internationalized dates.
 
-    http://docs.telerik.com/aspnet-mvc/troubleshoot/troubleshooting#client-validation-fails-with-invalid-date
+            http://docs.telerik.com/aspnet-mvc/troubleshoot/troubleshooting#client-validation-fails-with-invalid-date
 
-    http://demos.telerik.com/aspnet-mvc/validator/index*@
-    @********************************END DATE: 26-APR-2017: ********************************@
-
-
+            http://demos.telerik.com/aspnet-mvc/validator/index*@
+        @********************************END DATE: 26-APR-2017: ********************************@
 
 
 
 
 
-    @*RenderRequireJsSetup should rendered before RenderBody, because somtime we need to use require function directly inside view, for example Import.js of DeliveryAdvice*@
-    @Html.RenderRequireJsSetup(new RequireRendererConfiguration 
+
+
+        @*RenderRequireJsSetup should rendered before RenderBody, because somtime we need to use require function directly inside view, for example Import.js of DeliveryAdvice*@
+        @Html.RenderRequireJsSetup(new RequireRendererConfiguration
         {
             // the url from where require.js will be loaded
             RequireJsUrl = Url.Content("~/Scripts/require.js"), //~/Scripts/Components/RequireJS/require.js
@@ -127,29 +127,29 @@
             // extensability point for the options object
             ProcessOptions = options => { },
             // value for urlArgs to be passed to require.js, used for versioning
-            UrlArgs = "V68" //RenderHelper.RenderAppVersion()
+            UrlArgs = "V69" //RenderHelper.RenderAppVersion()
         })
 
-    
 
 
-    <div id="main-body" class="container body-content">
-        @RenderBody()
-        @*Original, jqueryval is rendered here*@
-        <footer style="margin-top: 10px; text-align: right; width: 100%; float: right; font-family: Cambria; font-style: italic; font-weight: lighter;">
-            <p>&copy; @DateTime.Now.Year - NMVN Informatics Co., Ltd. Designed by Lê Minh Hiệp, Tel: 0903 880 501, 0919 878 329, Skype: hieperp, Email: hieperp@gmail.com</p>
-        </footer>
 
-    </div>
+        <div id="main-body" class="container body-content">
+            @RenderBody()
+            @*Original, jqueryval is rendered here*@
+            <footer style="margin-top: 10px; text-align: right; width: 100%; float: right; font-family: Cambria; font-style: italic; font-weight: lighter;">
+                <p>&copy; @DateTime.Now.Year - NMVN Informatics Co., Ltd. Designed by Lê Minh Hiệp, Tel: 0903 880 501, 0919 878 329, Skype: hieperp, Email: hieperp@gmail.com</p>
+            </footer>
 
-
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+        </div>
 
 
-    @*Original, according to RequireJs document, RenderRequireJsSetup is rendered here*@
-    @*BUT NOW: We move RenderRequireJsSetup before RenderBody, because sometime we need to use require function directly inside view -> so we have to rendered RenderRequireJsSetup before RenderBody, for example Import.js of DeliveryAdvice*@
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
 
 
-</body>
+        @*Original, according to RequireJs document, RenderRequireJsSetup is rendered here*@
+        @*BUT NOW: We move RenderRequireJsSetup before RenderBody, because sometime we need to use require function directly inside view -> so we have to rendered RenderRequireJsSetup before RenderBody, for example Import.js of DeliveryAdvice*@
+
+
+    </body>
 </html>

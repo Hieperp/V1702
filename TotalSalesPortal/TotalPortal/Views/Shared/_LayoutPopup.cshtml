@@ -6,10 +6,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    
+
     @Scripts.Render("~/bundles/modernizr")
 
-    
+
     <!--This bundle was moved by the Telerik VS Extensions for compatibility reasons-->
     @Scripts.Render("~/bundles/jquery")
 
@@ -24,25 +24,32 @@
     <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/jszip.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/kendo.all.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/kendo.aspnetmvc.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/cultures/kendo.culture.en-GB.min.js")"></script>
     <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
 
     <script src="@Url.Content("~/Scripts/Nmvns/nmvn-function.js")"></script>
     <script type="text/javascript" src="@Url.Action("GlobalJavaScriptEnums")"></script>
 
     @*@{
-        var culture = System.Threading.Thread.CurrentThread.CurrentCulture.ToString();
-    }
-    <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/cultures/kendo.culture." + culture + ".min.js")"></script>
+            var culture = System.Threading.Thread.CurrentThread.CurrentCulture.ToString();
+        }
+        <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/cultures/kendo.culture." + culture + ".min.js")"></script>
+        <script type="text/javascript">
+            kendo.culture("@culture");        //set current culture script
+        </script>*@
+
     <script type="text/javascript">
-        kendo.culture("@culture");        //set current culture script
-    </script>*@
+        kendo.culture("en-GB");
+        @*kendo.culture("@culture");        //set current culture script*@
+    </script>
+
 
 </head>
 <body>
 
     <div id="main-popup" class="container body-content">
         @RenderBody()
-        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/jqueryval") @*Still using jquery validation*@
     </div>
 
 

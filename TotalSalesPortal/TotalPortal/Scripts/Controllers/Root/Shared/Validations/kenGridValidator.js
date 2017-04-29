@@ -1,7 +1,6 @@
 ﻿define([], (function () {
 
-    var definedExemplar = function (validatedDocument, kenGridName) {
-        this._validatedDocument = validatedDocument;
+    var definedExemplar = function (kenGridName) {
         this._kenGrid = $("#" + kenGridName).data("kendoGrid");
         this._kenGrid._name = kenGridName;
     };
@@ -9,29 +8,24 @@
 
     definedExemplar.prototype.validate = function () {
         if ($("#SubmitTypeOption").val() == SubmitTypeOption.Save || $("#SubmitTypeOption").val() == SubmitTypeOption.Closed) {
-            //if (!$(this._validatedDocument).valid()) {
-            //    $("#div-alert").css("display", "block");
-            //}
-            //else {
-                $("#div-alert").css("display", "none");
+            $("#div-alert").css("display", "none");
 
-                if (this._kenGrid.dataSource.hasChanges()) {
+            if (this._kenGrid.dataSource.hasChanges()) {
 
-                    var validatable = $("#" + this._kenGrid._name).kendoValidator().data("kendoValidator");
-                    if (validatable.validate()) {
+                var validatable = $("#" + this._kenGrid._name).kendoValidator().data("kendoValidator");
+                if (validatable.validate()) {
 
-                        __enforceKendoValidator(this._kenGrid);
-                        return validatable.validate();
-                    }
-                    else {
-                        return false;
-                    }
-
+                    __enforceKendoValidator(this._kenGrid);
+                    return validatable.validate();
                 }
                 else {
-                    return true;
+                    return false;
                 }
-            //}
+
+            }
+            else {
+                return true;
+            }
         }
 
 

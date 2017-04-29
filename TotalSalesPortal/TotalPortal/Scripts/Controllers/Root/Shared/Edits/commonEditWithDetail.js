@@ -9,10 +9,14 @@
 
 
 
-    definedExemplar.prototype._validateDetail = function () {        
+    definedExemplar.prototype._validateDetail = function () {
         if (definedExemplar._super._validateDetail()) {
-            var kenGridValidatorInstance = new kenGridValidator(this, "kendoGridDetails");
-            return kenGridValidatorInstance.validate();
+            if ($("#kendoGridDetails").data("kendoGrid") != undefined) {
+                var kenGridValidatorInstance = new kenGridValidator("kendoGridDetails");
+                return kenGridValidatorInstance.validate();
+            }
+            else
+                return true;
         }
         else
             return false;
