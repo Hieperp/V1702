@@ -1,8 +1,12 @@
 ﻿{
     "paths": {
         "superBase": "Controllers/Root/Shared/Commons/superBase",
+
+        "commonEditCoreInvoked": "Controllers/Root/Shared/Edits/commonEditCoreInvoked",
         "commonEditBasic": "Controllers/Root/Shared/Edits/commonEditBasic",
+        "commonEditBasicInvoked": "Controllers/Root/Shared/Edits/commonEditBasicInvoked",
         "commonEditWithDetail": "Controllers/Root/Shared/Edits/commonEditWithDetail",
+        "commonEditWithDetailInvoked": "Controllers/Root/Shared/Edits/commonEditWithDetailInvoked",
 
 
         //Base: gridDatasource => Next to: gridDatasourceQuantity, => then: gridDatasourceAmount, => then: gridDatasourceDiscount, => then: gridDatasourceListedAmount, => then: gridDatasourceFreeQuantity. The later Exemplar inherit from it's super Exemplar

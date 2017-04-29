@@ -82,11 +82,10 @@
     
     
     
-    
-
+    @********************************BEGIN DATE: 26-APR-2017: ********************************@
     @*@Scripts.Render("~/bundles/jqueryval")*@ 
     @*Important: jqueryval should rendered befor RenderRequireJsSetup to make jqueryval work correctly*@
-    @*DATE: 26-APR-2017: STOP USE OF JQUERY VALIDATION; INSTEAD, WE USE KENDO FOR VALIDATION. PLEASE SEE THE FOLLOWING COMMENT BELOW *@
+    @********************************DATE: 26-APR-2017: *******************************STOP USE OF JQUERY VALIDATION; INSTEAD, WE USE KENDO FOR VALIDATION. PLEASE SEE THE FOLLOWING COMMENT BELOW *@
     @*Client Validation Fails with Invalid Date
 
     By default, the ASP.NET MVC project uses jQuery validate framework, which does not provide support for internationalized dates. This means that every string which Date.parse is not able to define as a valid date, is reported as invalid.
@@ -98,12 +97,12 @@
     http://docs.telerik.com/aspnet-mvc/troubleshoot/troubleshooting#client-validation-fails-with-invalid-date
 
     http://demos.telerik.com/aspnet-mvc/validator/index*@
+    @********************************END DATE: 26-APR-2017: ********************************@
 
 
 
-        
-        
-        
+
+
 
 
     @*RenderRequireJsSetup should rendered before RenderBody, because somtime we need to use require function directly inside view, for example Import.js of DeliveryAdvice*@
@@ -128,7 +127,7 @@
             // extensability point for the options object
             ProcessOptions = options => { },
             // value for urlArgs to be passed to require.js, used for versioning
-            UrlArgs = "V43" //RenderHelper.RenderAppVersion()
+            UrlArgs = "V68" //RenderHelper.RenderAppVersion()
         })
 
     

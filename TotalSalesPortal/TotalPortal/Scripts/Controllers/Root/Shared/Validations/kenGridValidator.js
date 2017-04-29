@@ -9,10 +9,10 @@
 
     definedExemplar.prototype.validate = function () {
         if ($("#SubmitTypeOption").val() == SubmitTypeOption.Save || $("#SubmitTypeOption").val() == SubmitTypeOption.Closed) {
-            if (!$(this._validatedDocument).valid()) {
-                $("#div-alert").css("display", "block");
-            }
-            else {
+            //if (!$(this._validatedDocument).valid()) {
+            //    $("#div-alert").css("display", "block");
+            //}
+            //else {
                 $("#div-alert").css("display", "none");
 
                 if (this._kenGrid.dataSource.hasChanges()) {
@@ -31,7 +31,7 @@
                 else {
                     return true;
                 }
-            }
+            //}
         }
 
 

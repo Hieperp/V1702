@@ -985,7 +985,10 @@
     <Content Include="Scripts\Controllers\Root\Shared\Commons\kpopupWindow.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Commons\superBase.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Edits\commonEditBasic.js" />
+    <Content Include="Scripts\Controllers\Root\Shared\Edits\commonEditBasicInvoked.js" />
+    <Content Include="Scripts\Controllers\Root\Shared\Edits\commonEditCoreInvoked.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Edits\commonEditWithDetail.js" />
+    <Content Include="Scripts\Controllers\Root\Shared\Edits\commonEditWithDetailInvoked.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Edits\gridDatasource.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Edits\gridDatasourceAmount.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Edits\gridDatasourceAmountSubscribe.js" />

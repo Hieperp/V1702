@@ -1,24 +1,24 @@
-﻿define(["commonEditBasic", "kenGridValidator"], (function (commonEditBasic, kenGridValidator) {
+﻿define(["superBase", "commonEditBasic", "kenGridValidator"], (function (superBase, commonEditBasic, kenGridValidator) {
 
-    $(document).ready(function () {
-        $("form").submit(function (event) {
+    var definedExemplar = function () {
+        definedExemplar._super.constructor.call(this);
+    }
+
+    var superBaseHelper = new superBase();
+    superBaseHelper.inherits(definedExemplar, commonEditBasic);
+
+
+
+    definedExemplar.prototype._validateDetail = function () {        
+        if (definedExemplar._super._validateDetail()) {
             var kenGridValidatorInstance = new kenGridValidator(this, "kendoGridDetails");
             return kenGridValidatorInstance.validate();
-        });
+        }
+        else
+            return false;
+    }
 
 
-        if ($("#kendoGridDetails").data("kendoGrid") != undefined)
-            $("#kendoGridDetails").data("kendoGrid").bind("edit", function (e) {
-                var input = e.container.find("input");
-                setTimeout(function () { input.select(); });
-            });
-
-
-        $(document.body).keydown(function (e) {
-            if (e.keyCode === 45) {
-                keydown_insert("CommodityName");
-            }
-        });
-    });
+    return definedExemplar;
 
 }));
