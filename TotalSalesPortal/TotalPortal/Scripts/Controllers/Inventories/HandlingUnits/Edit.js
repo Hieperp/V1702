@@ -1,3 +1,3 @@
-﻿require(["kendoWidgetReadonly", "commonEditBasic", "gridWidgetQuantityRemainsSubscribeChange", "gridDatasourceWeightSubscribe"], function (kendoWidgetReadonly, commonEditBasic, gridWidgetQuantityRemainsSubscribeChange, gridDatasourceWeightSubscribe) {
+﻿require(["kendoWidgetReadonly", "commonEditBasicInvoked", "gridWidgetQuantityRemainsSubscribeChange", "gridDatasourceWeightSubscribe"], function (kendoWidgetReadonly, commonEditBasicInvoked, gridWidgetQuantityRemainsSubscribeChange, gridDatasourceWeightSubscribe) {
 
 });

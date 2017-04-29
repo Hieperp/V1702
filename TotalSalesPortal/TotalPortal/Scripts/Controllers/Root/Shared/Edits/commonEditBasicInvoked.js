@@ -2,8 +2,7 @@
 
     $(document).ready(function () {
 
-        $("form").submit(function (event) {
-            alert("basic");
+        $("form").submit(function (event) {            
             var commonEditBasicInstance = new commonEditBasic();
             return commonEditBasicInstance._validate();
         });
