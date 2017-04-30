@@ -249,8 +249,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "                           INNER JOIN (SELECT GoodsIssueDetails.DeliveryAdviceDetailID, MAX(CAST(VoidTypes.InActive AS int)) AS InActiveIssue FROM GoodsIssueDetails INNER JOIN VoidTypes ON GoodsIssueDetails.VoidTypeID = VoidTypes.VoidTypeID AND GoodsIssueDetails.GoodsIssueID <> (@EntityID * -@SaveRelativeOption) AND GoodsIssueDetails.DeliveryAdviceDetailID IN (SELECT DeliveryAdviceDetailID FROM GoodsIssueDetails WHERE GoodsIssueID = @EntityID) GROUP BY GoodsIssueDetails.DeliveryAdviceDetailID) AS DeliveryAdviceInActiveIssue " + "\r\n"; //THIS GoodsIssueDetails.GoodsIssueID <> (@EntityID * -@SaveRelativeOption) => EXCLUSIVE @EntityID WHEN UNDO
             queryString = queryString + "                           ON DeliveryAdviceDetails.DeliveryAdviceDetailID = DeliveryAdviceInActiveIssue.DeliveryAdviceDetailID " + "\r\n";
 
-            queryString = queryString + "               EXEC        ERmgrVCP.dbo.GoodsIssueSaveRelative @EntityID int, @SaveRelativeOption ";
-            queryString = queryString + "               EXEC        ERmgrVCP.dbo.SPSKUBalanceUpdate -@lAddOrSubtraction, 0, 0, @EntityID, 0, 0 ";
+            queryString = queryString + "               EXEC        ERmgrVCP.dbo.GoodsIssueSaveRelative @EntityID, @SaveRelativeOption ";
+            queryString = queryString + "               EXEC        ERmgrVCP.dbo.SPSKUBalanceUpdate -@SaveRelativeOption, 0, 0, @EntityID, 0, 0 ";
 
             queryString = queryString + "           END " + "\r\n";
             queryString = queryString + "       ELSE " + "\r\n";
