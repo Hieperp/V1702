@@ -17,6 +17,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
         public void RestoreProcedure()
         {
+            this.UpdateSKUBalance();
+
             //this.VWCommodityCategories();
             //this.UpdateWarehouseBalance();
             //this.GetOverStockItems();
@@ -30,6 +32,361 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             //this.SalesInvoiceJournal(); THAY THE BOI SalesInvoiceJournal MOI!
         }
 
+        private void SaveDeliveryAdvice1()
+        {
+            string queryString = " DROP PROC SaveDeliveryAdvice1 " + "\r\n";
+            queryString = queryString + " CREATE PROC SaveDeliveryAdvice1 " + "\r\n";
+            queryString = queryString + " @lAddOrSubtraction Int, @lSKUInputID Int, @lSKUOutputID Int, @lSKUTransferID Int, @lSKUAdjustID Int, @lSKUActionDate DateTime " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "   BEGIN " + "\r\n";
+
+            queryString = queryString + "       INSERT INTO     DeliveryAdviceDetails (DeliveryAdviceDetailID, EntryDate, LocationID, DeliveryAdviceID, CustomerID, ReceiverID, SalesOrderDetailID, CommodityID, CommodityTypeID, WarehouseID, PromotionID, SalespersonID, CalculatingTypeID, VATbyRow, Quantity, QuantityIssue, ControlFreeQuantity, FreeQuantity, FreeQuantityIssue, ListedPrice, DiscountPercent, UnitPrice, VATPercent, ListedGrossPrice, GrossPrice, ListedAmount, Amount, ListedVATAmount, VATAmount, ListedGrossAmount, GrossAmount, IsBonus, Remarks, VoidTypeID, Approved, InActive, InActivePartial, InActivePartialDate, InActiveIssue) " + "\r\n";
+            queryString = queryString + "       SELECT          DeliveryAdviceDetailID, EntryDate, LocationID, DeliveryAdviceID, CustomerID, ReceiverID, SalesOrderDetailID, CommodityID, CommodityTypeID, WarehouseID, PromotionID, SalespersonID, CalculatingTypeID, VATbyRow, Quantity, QuantityIssue, ControlFreeQuantity, FreeQuantity, FreeQuantityIssue, ListedPrice, DiscountPercent, UnitPrice, VATPercent, ListedGrossPrice, GrossPrice, ListedAmount, Amount, ListedVATAmount, VATAmount, ListedGrossAmount, GrossAmount, IsBonus, Remarks, VoidTypeID, Approved, InActive, InActivePartial, InActivePartialDate, InActiveIssue " + "\r\n";
+            queryString = queryString + "       FROM            TotalSalesPortal.dbo.DeliveryAdviceDetails " + "\r\n";
+            queryString = queryString + "       WHERE           DeliveryAdviceID = @DeliveryAdviceID " + "\r\n";
+
+            queryString = queryString + "       UPDATE          Commodities " + "\r\n";
+            queryString = queryString + "       SET             Commodities.LeadTime = ROUND(Commodities.LeadTime + DeliveryAdviceDetails.Quantity, 0) " + "\r\n";
+            queryString = queryString + "       FROM            Commodities INNER JOIN DeliveryAdviceDetails ON Commodities.CommodityID = DeliveryAdviceDetails.CommodityID AND DeliveryAdviceDetails.DeliveryAdviceID = @DeliveryAdviceID " + "\r\n";
+
+            //System.Diagnostics.Debug.WriteLine(queryString);
+
+        }
+
+        private void UpdateSKUBalance()
+        {
+            //////****************************UPDATE BALANCEDATE        TO         23:59:59
+            //////DECLARE @BalanceDate Datetime
+            //////SET @BalanceDate = (SELECT MIN(EntryDate) FROM ListItemCommodity)
+            //////IF DATEPART ( hour , @BalanceDate ) = 0 AND DATEPART ( minute , @BalanceDate )  = 0 AND DATEPART ( second , @BalanceDate )  = 0 	
+            //////    UPDATE ListItemCommodity SET EntryDate = DATEADD( second, 59, DATEADD( minute, 59, DATEADD( hour, 23, EntryDate)))
+
+
+
+            //lAddOrSubtraction: 1 ADD, -1-SUBTRACTION
+
+
+            string queryString = " DROP PROC SPSKUBalanceUpdate " + "\r\n";
+            queryString = queryString + " CREATE PROC SPSKUBalanceUpdate " + "\r\n";
+
+            queryString = queryString + " @lAddOrSubtraction Int, @lSKUInputID Int, @lSKUOutputID Int, @GoodsIssueID Int, @lSKUTransferID Int, @lSKUAdjustID Int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "   BEGIN " + "\r\n";
+
+
+            //INIT DATA TO BE INPUT OR OUTPUT.BEGIN
+            queryString = queryString + "       DECLARE @lTableAction TABLE (" + "\r\n";
+            queryString = queryString + "           SKUInputID int NOT NULL ," + "\r\n";
+            queryString = queryString + "           CommodityID int NOT NULL ," + "\r\n";
+            queryString = queryString + "           WarehouseID int NOT NULL ," + "\r\n";
+            queryString = queryString + "           SKUInputDate datetime NOT NULL ," + "\r\n";
+            queryString = queryString + "           Quantity float NOT NULL ," + "\r\n";
+            queryString = queryString + "           AmountCostCUR float NOT NULL ," + "\r\n";
+            queryString = queryString + "           AmountCostUSD float NOT NULL ," + "\r\n";
+            queryString = queryString + "           AmountCostVND float NOT NULL ," + "\r\n";
+            queryString = queryString + "           Remarks nvarchar (100))" + "\r\n";
+
+            queryString = queryString + "       IF @lSKUInputID > 0 " + "\r\n";
+            queryString = queryString + "           INSERT      @lTableAction " + "\r\n";
+            queryString = queryString + "           SELECT      MIN(SKUInputID), CommodityID, WarehouseID, MIN(SKUInputDate), SUM(CASE @lAddOrSubtraction WHEN 1 THEN Quantity ELSE -Quantity END), SUM(AmountCostCUR), SUM(AmountCostUSD), SUM(AmountCostVND), '' AS Remarks " + "\r\n";
+            queryString = queryString + "           FROM        SKUInputDetail " + "\r\n";
+            queryString = queryString + "           WHERE       SKUInputID = @lSKUInputID " + "\r\n";
+            queryString = queryString + "           GROUP BY    WarehouseID, CommodityID" + "\r\n";
+
+            queryString = queryString + "       IF @lSKUOutputID > 0 " + "\r\n";
+            queryString = queryString + "           INSERT @lTableAction " + "\r\n";
+            queryString = queryString + "           SELECT MIN(SKUOutputID), CommodityID, WarehouseID, MIN(SKUOutputDate), SUM(CASE @lAddOrSubtraction WHEN 1 THEN Quantity ELSE -Quantity END), 0 AS AmountCostCUR, 0 AS AmountCostUSD, 0 AS AmountCostVND, '' AS Remarks " + "\r\n";
+            queryString = queryString + "           FROM SKUOutputDetail " + "\r\n";
+            queryString = queryString + "           WHERE SKUOutputID = @lSKUOutputID " + "\r\n";
+            queryString = queryString + "           GROUP BY    WarehouseID, CommodityID" + "\r\n";
+
+            queryString = queryString + "       IF @GoodsIssueID > 0 " + "\r\n";
+            queryString = queryString + "           INSERT @lTableAction " + "\r\n";
+            queryString = queryString + "           SELECT MIN(GoodsIssueID), CommodityID, WarehouseID, MIN(EntryDate), SUM(CASE @lAddOrSubtraction WHEN 1 THEN Quantity ELSE -Quantity END), 0 AS AmountCostCUR, 0 AS AmountCostUSD, 0 AS AmountCostVND, '' AS Remarks " + "\r\n";
+            queryString = queryString + "           FROM GoodsIssueDetails " + "\r\n";
+            queryString = queryString + "           WHERE GoodsIssueID = @GoodsIssueID " + "\r\n";
+            queryString = queryString + "           GROUP BY    WarehouseID, CommodityID" + "\r\n";
+
+            queryString = queryString + "       IF @lSKUTransferID > 0 " + "\r\n";
+            queryString = queryString + "           INSERT      @lTableAction " + "\r\n";
+            queryString = queryString + "           SELECT      MIN(SKUTransferID), CommodityID, WarehouseID, MIN(SKUTransferDate), SUM(CASE @lAddOrSubtraction WHEN 1 THEN Quantity ELSE -Quantity END), SUM(AmountCUR), SUM(AmountUSD), SUM(AmountVND), '' AS Remarks " + "\r\n";
+            queryString = queryString + "           FROM        SKUTransferDetail " + "\r\n";
+            queryString = queryString + "           WHERE       SKUTransferID = @lSKUTransferID " + "\r\n";
+            queryString = queryString + "           GROUP BY    WarehouseID, CommodityID " + "\r\n";
+
+            queryString = queryString + "       IF @lSKUAdjustID > 0 " + "\r\n";
+            queryString = queryString + "           INSERT      @lTableAction " + "\r\n";
+            queryString = queryString + "           SELECT      MIN(SKUAdjustID), CommodityID, WarehouseID, MIN(SKUAdjustDate), SUM(CASE @lAddOrSubtraction WHEN 1 THEN -Quantity ELSE Quantity END), SUM(AmountCUR), SUM(AmountUSD), SUM(AmountVND), '' AS Remarks " + "\r\n";
+            queryString = queryString + "           FROM        SKUAdjustDetail " + "\r\n";
+            queryString = queryString + "           WHERE       SKUAdjustID = @lSKUAdjustID AND Quantity < 0 " + "\r\n"; //OUTPUT ONLY: ADJUST: CO DAT BIET HON CAC T/H KHAC: QUANTITY < 0: NEN: SUM(CASE @lAddOrSubtraction WHEN 1 THEN -Quantity ELSE Quantity END): +/- NGUOC LAI VOI CAC T/H KHAC TI XIU
+            queryString = queryString + "           GROUP BY    WarehouseID, CommodityID " + "\r\n";
+
+            //INIT DATA TO BE INPUT OR OUTPUT.END
+
+
+            queryString = queryString + "       DECLARE         @lSKUActionDate DateTime " + "\r\n";
+            queryString = queryString + "       SET             @lSKUActionDate = (SELECT MAX(SKUInputDate) AS SKUInputDate FROM @lTableAction) " + "\r\n";
+            queryString = queryString + "       IF              @lSKUActionDate = NULL   RETURN " + "\r\n";//Nothing to update -> Exit immediately
+
+
+
+
+
+            queryString = queryString + "       DECLARE @lSKUBalanceID Int, @lSKUBalanceDate DateTime" + "\r\n";
+
+            queryString = queryString + "       DECLARE @lSKUBalanceOpening DateTime, @lSKUBalanceEveryWeek DateTime" + "\r\n";
+            queryString = queryString + "       SET @lSKUBalanceOpening = CONVERT(Datetime, '2009-05-16 23:59:59', 120)  " + "\r\n";//--SATURDAY: FIRT WEEK
+
+
+            queryString = queryString + "       DECLARE CursorSKUBalance CURSOR LOCAL FOR SELECT MAX(SKUBalanceID) AS SKUBalanceID, MAX(SKUBalanceDate) AS SKUBalanceDate FROM SKUBalanceDetail" + "\r\n";
+            queryString = queryString + "       OPEN CursorSKUBalance" + "\r\n";
+            queryString = queryString + "       FETCH NEXT FROM CursorSKUBalance INTO @lSKUBalanceID, @lSKUBalanceDate" + "\r\n";
+            queryString = queryString + "       CLOSE CursorSKUBalance DEALLOCATE CursorSKUBalance " + "\r\n";
+
+
+            queryString = queryString + "       IF @lSKUBalanceID IS NULL SET @lSKUBalanceID = 0" + "\r\n";
+            queryString = queryString + "       IF @lSKUBalanceDate IS NULL SET @lSKUBalanceDate = @lSKUBalanceOpening" + "\r\n";
+
+            queryString = queryString + "       SET @lSKUBalanceEveryWeek = @lSKUBalanceDate " + "\r\n"; //--GET THE MAXIMUM OF SKUBalanceDate
+
+            queryString = queryString + "       IF @lSKUActionDate > @lSKUBalanceDate" + "\r\n";
+            queryString = queryString + "           BEGIN " + "\r\n"; //--COPY THE SAME BALANCE FOR EVERY WEEKEND UP TO THE WEEKEND CONTAIN @lSKUActionDate
+            queryString = queryString + "               WHILE DATEADD(Day, 7, @lSKUActionDate) > DATEADD(Day, 7, @lSKUBalanceEveryWeek)" + "\r\n";
+            queryString = queryString + "                   BEGIN" + "\r\n";
+            queryString = queryString + "                       SET @lSKUBalanceEveryWeek = DATEADD(Day, 7, @lSKUBalanceEveryWeek)" + "\r\n";
+
+            queryString = queryString + "                       SET @lSKUBalanceID = @lSKUBalanceID + 1 " + "\r\n";//--INCREASE PRIMARYID
+            queryString = queryString + "                       INSERT INTO SKUBalanceDetail (SKUBalanceID, WarehouseID, CommodityID, SKUBalanceDate, Quantity, QuantityOutput, AmountCUR, AmountUSD, AmountVND, Remarks)" + "\r\n";
+            queryString = queryString + "                       SELECT @lSKUBalanceID, WarehouseID, CommodityID, @lSKUBalanceEveryWeek, Quantity, QuantityOutput, AmountCUR, AmountUSD, AmountVND, Remarks FROM SKUBalanceDetail WHERE SKUBalanceDate = @lSKUBalanceDate" + "\r\n";
+            queryString = queryString + "                   END " + "\r\n";
+            queryString = queryString + "               SET @lSKUBalanceDate = @lSKUBalanceEveryWeek " + "\r\n";//--SET THE MAXIMUM OF SKUBalanceDate
+            queryString = queryString + "           END " + "\r\n";
+
+
+            queryString = queryString + "       WHILE DATEADD(Day, -7, @lSKUBalanceEveryWeek) >= @lSKUActionDate " + "\r\n";//--FIND THE FIRST @lSKUBalanceEveryWeek WHICH IS GREATER THAN @lSKUActionDate
+            queryString = queryString + "           SET @lSKUBalanceEveryWeek = DATEADD(Day, -7, @lSKUBalanceEveryWeek)" + "\r\n";
+
+
+            queryString = queryString + "       UPDATE SKUBalanceDetail" + "\r\n";
+            queryString = queryString + "       SET SKUBalanceDetail.Quantity = SKUBalanceDetail.Quantity + TableAction.Quantity" + "\r\n";
+            queryString = queryString + "       FROM    @lTableAction TableAction INNER JOIN" + "\r\n";
+            queryString = queryString + "               SKUBalanceDetail ON TableAction.CommodityID = SKUBalanceDetail.CommodityID AND TableAction.WarehouseID = SKUBalanceDetail.WarehouseID AND SKUBalanceDetail.SKUBalanceDate >= @lSKUActionDate" + "\r\n";
+
+            queryString = queryString + "       WHILE @lSKUBalanceEveryWeek <= @lSKUBalanceDate" + "\r\n";
+            queryString = queryString + "           BEGIN" + "\r\n";
+            queryString = queryString + "               SET @lSKUBalanceID = @lSKUBalanceID + 1 " + "\r\n";//--INCREASE PRIMARYID
+
+            queryString = queryString + "               INSERT INTO     SKUBalanceDetail (SKUBalanceID, WarehouseID, CommodityID, SKUBalanceDate, Quantity, QuantityOutput, AmountCUR, AmountUSD, AmountVND, Remarks)" + "\r\n";
+            queryString = queryString + "               SELECT          @lSKUBalanceID, TableAction.WarehouseID, TableAction.CommodityID, @lSKUBalanceEveryWeek, TableAction.Quantity, 0 AS QuantityOutput, TableAction.AmountCostCUR, TableAction.AmountCostUSD, TableAction.AmountCostVND, TableAction.Remarks" + "\r\n";
+            queryString = queryString + "               FROM            @lTableAction TableAction LEFT JOIN" + "\r\n";
+            queryString = queryString + "                               SKUBalanceDetail ON TableAction.CommodityID = SKUBalanceDetail.CommodityID AND TableAction.WarehouseID = SKUBalanceDetail.WarehouseID AND SKUBalanceDetail.SKUBalanceDate = @lSKUBalanceEveryWeek" + "\r\n";
+            queryString = queryString + "               WHERE           SKUBalanceDetail.CommodityID IS NULL " + "\r\n";//--ADD NOT-IN-LIST ITEM"
+
+            queryString = queryString + "               SET @lSKUBalanceEveryWeek = DATEADD(Day, 7, @lSKUBalanceEveryWeek)" + "\r\n";
+            queryString = queryString + "           END " + "\r\n";
+
+            queryString = queryString + "       DELETE FROM SKUBalanceDetail WHERE Quantity = 0 " + "\r\n";
+
+            queryString = queryString + "   END " + "\r\n";
+
+            System.Diagnostics.Debug.WriteLine(queryString);
+
+            //this.totalSalesPortalEntities.CreateStoredProcedure("SPSKUBalanceUpdate", queryString);
+
+
+
+        }
+
+        private void GetFNSKUOverStock()
+        {
+
+            DateTime pfLockedDate = new DateTime();
+
+            string SQW = " ((@lSKUInputID = 0 AND @lSKUTransferID = 0 AND @lSKUAdjustID = 0 AND @lSKUTransferAdviceID = 0 AND @lSKUOutputID = 0) OR CommodityID IN (SELECT CommodityID FROM @lListItemCommodityAction))" + "\r\n";
+
+            SQW = " 1 = 1 "; //05.04.2011---TAM THOI KHONG XAI DIEU KIEN TREN, NHAM MUC DICH GIUP FUNCTION CHAY NHANH HON RAT NHIEU. SAU NAY KHI DA CODE HOAN CHINH RANGE FOR COMMODITIES DUA VAO @lSKUInputID, @lSKUTransferID, @lSKUAdjustID, @lSKUTransferAdviceID, @lSKUOutputID THI NEN SU DUNG LAI CAU LENH TREN
+
+            string queryString = " (@lSKUActionDate DateTime, @lSKUInputID Int, @lSKUTransferID Int, @lSKUAdjustID Int, @lSKUTransferAdviceID Int, @lSKUOutputID Int) " + "\r\n";
+            queryString = queryString + " RETURNS @lTableOverStock TABLE (DateOverStock DateTime NOT NULL, WarehouseID int NOT NULL, WarehouseName nvarchar(100) NOT NULL, CommodityID int NOT NULL, Description nvarchar(50) NOT NULL, DescriptionOfficial nvarchar(200) NOT NULL, Quantity float NOT NULL) " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "   BEGIN " + "\r\n";
+
+            // --FILTER: ListItemCommodity NEED TO BE CHECK ONLY
+
+            //05.04.2011---: KHONG XAI DIEU KIEN NAY: queryString = queryString + "       DECLARE @lListItemCommodityAction TABLE (CommodityID int NOT NULL) " + "\r\n"; //05.04.2011---: KHONG XAI DIEU KIEN NAY: DO XET TAT CA SP, NEN KHONG CAN XAI @lListItemCommodityAction
+
+            //**************TAM THOI SU DUNG KHAI BAO NHU THE NAY 2 CHO: DANH SACH MAT HANG CAN KTRA VA THOI DIEM CAN KIEM TRA
+
+            //TAM THOI: KTRA TAT CA.BEGIN
+
+            //05.04.2011---: KHONG XAI DIEU KIEN NAY: queryString = queryString + "       INSERT @lListItemCommodityAction SELECT CommodityID FROM ListItemCommodity " + "\r\n";
+
+            //            TAM THOI: KTRA TAT CA
+            //            LOI O DAY LA: KHI EDIT (CHU KG PHAI KHI DELETE)
+            //            BOI VI: KHI DELETE: KTRA NHUNG MAT HANG CO TRONG DANH SACH,
+            //                    TRONG KHI DO: KHI EDIT: CHI KTRA NHUNG MAT HANG SAU KHI EDIT, TRONG KHI NHUNG MAT HANG BI BO DI KHONG CO TRONG DANH SACH SAU KHI EDIT KHONG DUOC KIEM TRA
+            //                                  PHAI HIEU RANG: NHUNG MAT HANG BI BO DI SAU KHI EDIT: HOAN TOAN TUONG DUONG BI DELETE: KHONG KTRA NEN SAI HOAN TOAN
+            //                                  TUM LAI: PHAI CODE THE NAO DE DAM BAO (HIEN TAI CHUA DAM BAO): PHAI UNION CA 2 DANH SACH: DANH SACH TRUOC KHI EDIT VA DANH SACH SAU KHI EDIT
+            //            DO DO: TAM THOI: KTRA TAT CA, SAU NAY SUY NGHI THEM
+
+
+            //'            queryString = queryString + "       IF @lSKUInputID <> 0 "
+            //'            queryString = queryString + "           INSERT @lListItemCommodityAction SELECT CommodityID FROM SKUInputDetail WHERE SKUInputID = @lSKUInputID "
+            //'            queryString = queryString + "       IF @lSKUTransferID <> 0 "
+            //'            queryString = queryString + "           INSERT @lListItemCommodityAction SELECT CommodityID FROM SKUTransferDetail WHERE SKUTransferID = @lSKUTransferID "
+            //'            queryString = queryString + "       IF @lSKUAdjustID <> 0 "
+            //'            queryString = queryString + "           INSERT @lListItemCommodityAction SELECT CommodityID FROM SKUAdjustDetail WHERE SKUAdjustID = @lSKUAdjustID "
+            //'            queryString = queryString + "       IF @lSKUTransferAdviceID <> 0 "
+            //'            queryString = queryString + "           INSERT @lListItemCommodityAction SELECT CommodityID FROM SKUTransferAdviceDetail WHERE SKUTransferAdviceID = @lSKUTransferAdviceID "
+            //'            queryString = queryString + "       IF @lSKUOutputID <> 0 "
+            //'            queryString = queryString + "           INSERT @lListItemCommodityAction SELECT CommodityID FROM SKUOutputDetail WHERE SKUOutputID = @lSKUOutputID "
+            //TAM THOI: KTRA TAT CA.END
+
+
+
+            queryString = queryString + "       DECLARE @lDateTemp DateTime " + "\r\n";
+            queryString = queryString + "       DECLARE @lDateBackLogMax DateTime " + "\r\n";
+            // --GET THE FIRST DATE NEED TO CHECK OVER STOCK.END
+            // --THE FIRST DATE IS: THE @lSKUActionDate OR THE DATE OF BACKLOG COLLECTION
+            // --OPEN THE BACKLOG COLLECTION TO GET THE MIN(DATE)
+            // --LATER: IF THERE IS MORE BACKLOG, LIKE DELIVERYADVICE: ADD HERE
+
+            queryString = queryString + "       DECLARE CursorBacklog CURSOR LOCAL FOR SELECT MIN(DeliveryDate) AS DeliveryDateMIN, MAX(DeliveryDate) AS DeliveryDateMAX FROM SKUTransferAdviceDetail WHERE (ROUND(Quantity - QuantityInput, " + (int)GlobalEnums.rndQuantity + ") > 0)" + "\r\n";
+            queryString = queryString + "       OPEN CursorBacklog" + "\r\n";
+            queryString = queryString + "       FETCH NEXT FROM CursorBacklog INTO @lDateTemp, @lDateBackLogMax " + "\r\n";
+            queryString = queryString + "       CLOSE CursorBacklog DEALLOCATE CursorBacklog" + "\r\n";
+
+            queryString = queryString + "       IF @lSKUActionDate > @lDateTemp SET @lSKUActionDate = @lDateTemp" + "\r\n";
+
+
+            //**************TAM THOI SU DUNG KHAI BAO NHU THE NAY 2 CHO: DANH SACH MAT HANG CAN KTRA VA THOI DIEM CAN KIEM TRA
+
+            //TAM THOI: KTRA TU 31/05/2009: LY DO TUONG TU NHU DANH SACH MAT HANG CAN KTRA
+            //BOI VI: KHI DELETE: KTRA TU NGAY SKUActionDate: NHU VAY LA OK
+            //        NHUNG KHI EDIT:  SUA NGAY (NGAY SAU EDIT > NGAY TRUOC DO)
+            //                         THEO CACH HIEN TAI: CHI KTRA KE TU NGAY SAU EDIT MA THOI
+            //                         NHU VAY: SAI HOAN TOAN: VI DANG LY RA PHAI KTRA KE TU NGAY TRUOC KHI EDIT (NGAY CU)
+            //                         TUM LAI: PHAI CODE THE NAO DE DAM BAO (HIEN TAI CHUA DAM BAO): SO SANH NGAY TRUOC VA NGAY SAU EDIT: NGAY NAO < HON THI BAT DAU KIEM TRA KE TU NGAY DO
+            //
+            //         LUU Y THEM: NEU CHI XET DUA TREN BACKLOG LA KHONG THOA MAN (VAN BI LOI)
+            //                     BOI VI: CO THE NHUNG MAT HANG TRONG BACKLOG KTRA VAN DU
+            //                     NHUNG TON KHO < 0 TAI NHUNG THOI DIEM NAO DO TRUOC BACKLOG (<0 TRONG TABLE SKUBalanceDetail): PURE OVER STOCK (CHUA XUAT CUNG DA <0 ROI)
+            //                     DIEU NAY TUONG TU DOI VOI DANH SACH MAT HANG CAN KTRA O PHAN TREN
+            //TAM THOI: KTRA TU 31/05/2009
+
+            queryString = queryString + "       SET @lSKUActionDate = CONVERT(smalldatetime, '" + pfLockedDate.ToString("dd/MM/yyyy") + "',103) " + "\r\n";
+
+
+
+            // --GET THE FIRST DATE NEED TO CHECK OVER STOCK.END
+
+
+            // --GET THE BEGIN BALANCE IF AVAILABLE.BEGIN
+            queryString = queryString + "       DECLARE @lTableBalance TABLE (WarehouseID int NOT NULL, CommodityID int NOT NULL, Quantity float NOT NULL)" + "\r\n";
+
+            queryString = queryString + "       DECLARE @lSKUBalanceDateBEGIN DateTime" + "\r\n";
+            queryString = queryString + "       DECLARE CursorSKUBalance CURSOR LOCAL FOR SELECT MAX(SKUBalanceDate) AS SKUBalanceDate FROM SKUBalanceDetail WHERE SKUBalanceDate <= @lSKUActionDate" + "\r\n";
+            queryString = queryString + "       OPEN CursorSKUBalance" + "\r\n";
+            queryString = queryString + "       FETCH NEXT FROM CursorSKUBalance INTO @lSKUBalanceDateBEGIN" + "\r\n";
+            queryString = queryString + "       CLOSE CursorSKUBalance DEALLOCATE CursorSKUBalance" + "\r\n";
+
+
+            queryString = queryString + "       IF NOT @lSKUBalanceDateBEGIN IS NULL" + "\r\n";
+            queryString = queryString + "           INSERT  @lTableBalance SELECT WarehouseID, CommodityID, Quantity FROM SKUBalanceDetail WHERE SKUBalanceDate = @lSKUBalanceDateBEGIN AND " + SQW + "\r\n";
+            queryString = queryString + "       ELSE " + "\r\n";
+            queryString = queryString + "           SET @lSKUBalanceDateBEGIN = CONVERT(smalldatetime, '" + new DateTime(1990, 1, 1).ToString("dd/MM/yyyy") + "',103) " + "\r\n";
+            // --GET THE BEGIN BALANCE IF AVAILABLE.END
+
+            // --GET THE DATE RANGE NEED TO BE CHECKED.BEGIN
+            queryString = queryString + "       DECLARE @lSKUActionDateEND DateTime" + "\r\n";
+            queryString = queryString + "       DECLARE CursorSKUBalance CURSOR LOCAL FOR SELECT MAX(SKUBalanceDate) AS SKUBalanceDate FROM SKUBalanceDetail " + "\r\n";
+            queryString = queryString + "       OPEN CursorSKUBalance" + "\r\n";
+            queryString = queryString + "       FETCH NEXT FROM CursorSKUBalance INTO @lSKUActionDateEND" + "\r\n";
+            queryString = queryString + "       CLOSE CursorSKUBalance DEALLOCATE CursorSKUBalance" + "\r\n";
+
+            queryString = queryString + "       IF @lSKUActionDateEND IS NULL OR @lSKUActionDateEND < @lSKUActionDate SET @lSKUActionDateEND = @lSKUActionDate " + "\r\n";  //--CHECK UNTIL THE LAST BALANCE
+            queryString = queryString + "       IF @lSKUActionDateEND < @lDateBackLogMax SET @lSKUActionDateEND = @lDateBackLogMax " + "\r\n"; //--OR CHECK UNTIL THE LAST DATE OF BACKLOG
+
+            // --GET THE DATE RANGE NEED TO BE CHECKED.END
+
+            queryString = queryString + "       SET @lDateTemp = @lSKUActionDate " + "\r\n";
+            queryString = queryString + "       WHILE @lDateTemp <= @lSKUActionDateEND" + "\r\n";
+            queryString = queryString + "           BEGIN" + "\r\n";
+
+            // --BALANCE AT: @lSKUBalanceDateBEGIN: LOOK ON SKUBalanceDetail ONLY
+            // --BALANCE AT: @lDateTemp > @lSKUBalanceDateBEGIN: SKUBalanceDetail + SUM(INPUT) - SUM(Output)
+            queryString = queryString + "               INSERT INTO @lTableOverStock" + "\r\n";
+            queryString = queryString + "               SELECT      @lDateTemp, WarehouseID, N'', CommodityID, N'', N'', ROUND(SUM(Quantity), " + (int)GlobalEnums.rndQuantity + ") AS Quantity" + "\r\n";
+            queryString = queryString + "               FROM        (" + "\r\n";
+            // --OPENNING
+            queryString = queryString + "                           SELECT      SKUBalanceDetail.WarehouseID, SKUBalanceDetail.CommodityID, SKUBalanceDetail.Quantity" + "\r\n";
+            queryString = queryString + "                           FROM        @lTableBalance SKUBalanceDetail" + "\r\n";
+
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+            // --INPUT
+            queryString = queryString + "                           SELECT      WarehouseID, CommodityID, SUM(Quantity) AS Quantity" + "\r\n";
+            queryString = queryString + "                           FROM        SKUInputDetail " + "\r\n";
+            queryString = queryString + "                           WHERE       SKUInputDate > @lSKUBalanceDateBEGIN AND SKUInputDate <= @lDateTemp AND " + SQW + "\r\n";
+            queryString = queryString + "                           GROUP BY    WarehouseID, CommodityID" + "\r\n";
+
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+            // --OUTPUT: TRANSFER
+            queryString = queryString + "                           SELECT      WarehouseID, CommodityID, SUM(-Quantity) AS Quantity" + "\r\n";
+            queryString = queryString + "                           FROM        SKUTransferDetail " + "\r\n";
+            queryString = queryString + "                           WHERE       SKUTransferDate > @lSKUBalanceDateBEGIN AND SKUTransferDate <= @lDateTemp AND " + SQW + "\r\n";
+            queryString = queryString + "                           GROUP BY    WarehouseID, CommodityID" + "\r\n";
+
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+            // --OUTPUT: Adjust
+            queryString = queryString + "                           SELECT      WarehouseID, CommodityID, SUM(Quantity) AS Quantity" + "\r\n"; //LUU Y: Quantity < 0: XUAT KHO
+            queryString = queryString + "                           FROM        SKUAdjustDetail " + "\r\n";
+            queryString = queryString + "                           WHERE       SKUAdjustDate > @lSKUBalanceDateBEGIN AND SKUAdjustDate <= @lDateTemp AND Quantity < 0 AND " + SQW + "\r\n";
+            queryString = queryString + "                           GROUP BY    WarehouseID, CommodityID" + "\r\n";
+
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+            // --OUTPUT: Output
+            queryString = queryString + "                           SELECT      WarehouseID, CommodityID, SUM(-Quantity) AS Quantity" + "\r\n";
+            queryString = queryString + "                           FROM        SKUOutputDetail " + "\r\n";
+            queryString = queryString + "                           WHERE       SKUOutputDate > @lSKUBalanceDateBEGIN AND SKUOutputDate <= @lDateTemp AND " + SQW + "\r\n";
+            queryString = queryString + "                           GROUP BY    WarehouseID, CommodityID" + "\r\n";
+
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            // --BACKLOG: TRANSFERADVICE
+            queryString = queryString + "                           SELECT      WarehouseID, CommodityID, SUM(-Quantity + QuantityInput) AS Quantity" + "\r\n";
+            queryString = queryString + "                           FROM        SKUTransferAdviceDetail " + "\r\n";
+            queryString = queryString + "                           WHERE       DeliveryDate > @lSKUBalanceDateBEGIN AND DeliveryDate <= @lDateTemp AND " + SQW + " AND InActive = 0 AND ROUND(Quantity - QuantityInput, " + (int)GlobalEnums.rndQuantity + ") > 0" + "\r\n";
+            queryString = queryString + "                           GROUP BY    WarehouseID, CommodityID" + "\r\n";
+
+            queryString = queryString + "                           )TableOverStock" + "\r\n";
+            queryString = queryString + "               GROUP BY    WarehouseID, CommodityID " + "\r\n";
+            queryString = queryString + "               HAVING      ROUND(SUM(Quantity), " + (int)GlobalEnums.rndQuantity + ") < 0 " + "\r\n";
+
+            queryString = queryString + "               DECLARE @lCOUNTOverStock Int SET @lCOUNTOverStock = 0" + "\r\n";
+            queryString = queryString + "               DECLARE CursorOverStock CURSOR LOCAL FOR SELECT COUNT(*) AS COUNTOverStock FROM @lTableOverStock" + "\r\n";
+            queryString = queryString + "               OPEN CursorOverStock" + "\r\n";
+            queryString = queryString + "               FETCH NEXT FROM CursorOverStock INTO @lCOUNTOverStock" + "\r\n";
+            queryString = queryString + "               CLOSE CursorOverStock DEALLOCATE CursorOverStock" + "\r\n";
+
+            queryString = queryString + "               IF @lCOUNTOverStock > 0 " + "\r\n";
+            queryString = queryString + "               BEGIN " + "\r\n";
+            queryString = queryString + "                   UPDATE TableOverStock SET TableOverStock.Description = ListItemCommodity.Description, TableOverStock.DescriptionOfficial = ListItemCommodity.DescriptionOfficial FROM @lTableOverStock TableOverStock INNER JOIN ListItemCommodity ON TableOverStock.CommodityID = ListItemCommodity.CommodityID " + "\r\n";
+            queryString = queryString + "                   UPDATE TableOverStock SET TableOverStock.WarehouseName = ListWarehouseName.Description FROM @lTableOverStock TableOverStock INNER JOIN ListWarehouseName ON TableOverStock.WarehouseID = ListWarehouseName.WarehouseID " + "\r\n";
+            queryString = queryString + "                   BREAK" + "\r\n";
+            queryString = queryString + "               END " + "\r\n";
+
+            queryString = queryString + "               SET @lDateTemp = DATEADD(Day, 1, @lDateTemp)" + "\r\n";
+            queryString = queryString + "           END " + "\r\n";
+
+            queryString = queryString + "       RETURN " + "\r\n";
+            queryString = queryString + "   END " + "\r\n";
+
+            //If Not pfFN_CREATEFN(DFormConn, "FNSKUOverStock", SQL) Then GoTo ERR_HANDLER
+
+        }
 
         private void UpdateWarehouseBalance()
         {

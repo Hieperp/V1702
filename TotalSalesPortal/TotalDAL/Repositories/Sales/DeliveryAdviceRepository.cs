@@ -17,6 +17,19 @@ namespace TotalDAL.Repositories.Sales
         {
             return;
 
+
+            Helpers.SqlProgrammability.Inventories.Inventories inventories = new Helpers.SqlProgrammability.Inventories.Inventories(totalSalesPortalEntities);
+            inventories.RestoreProcedure();
+
+            return;
+
+
+            Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
+            deliveryAdvice.RestoreProcedure();
+
+
+            return;
+
             Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);
             saleReports.RestoreProcedure();
 
@@ -65,9 +78,6 @@ namespace TotalDAL.Repositories.Sales
 
 
 
-            Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
-            deliveryAdvice.RestoreProcedure();
-
 
 
 
@@ -78,8 +88,6 @@ namespace TotalDAL.Repositories.Sales
 
 
 
-            Helpers.SqlProgrammability.Inventories.Inventories inventories = new Helpers.SqlProgrammability.Inventories.Inventories(totalSalesPortalEntities);
-            inventories.RestoreProcedure();
 
             
 

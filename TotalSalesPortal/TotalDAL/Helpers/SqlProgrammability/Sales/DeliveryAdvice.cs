@@ -470,6 +470,11 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             //queryString = queryString + "       SET         @SaveRelativeOption = -@SaveRelativeOption" + "\r\n";
             //queryString = queryString + "       EXEC        UpdateWarehouseBalance @SaveRelativeOption, 0, @EntityID, 0, 0 ";
 
+
+            queryString = queryString + "       EXEC        VCP_A.dbo.SaveDeliveryAdvice @EntityID";
+            
+
+
             this.totalSalesPortalEntities.CreateStoredProcedure("DeliveryAdviceSaveRelative", queryString);
         }
 
@@ -477,6 +482,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
         {
             string[] queryArray = new string[0];
 
+            //queryArray[0] = " SELECT TOP 1 @FoundEntity = 'TEST Date: ' + CAST(EntryDate AS nvarchar) FROM DeliveryAdvices WHERE DeliveryAdviceID = @EntityID "; //FOR TEST TO BREAK OUT WHEN SAVE -> CHECK ROLL BACK OF TRANSACTION
             //queryArray[0] = " SELECT TOP 1 @FoundEntity = 'Service Date: ' + CAST(ServiceInvoices.EntryDate AS nvarchar) FROM DeliveryAdvices INNER JOIN DeliveryAdvices AS ServiceInvoices ON DeliveryAdvices.DeliveryAdviceID = @EntityID AND DeliveryAdvices.ServiceInvoiceID = ServiceInvoices.DeliveryAdviceID AND DeliveryAdvices.EntryDate < ServiceInvoices.EntryDate ";
 
             this.totalSalesPortalEntities.CreateProcedureToCheckExisting("DeliveryAdvicePostSaveValidate", queryArray);
