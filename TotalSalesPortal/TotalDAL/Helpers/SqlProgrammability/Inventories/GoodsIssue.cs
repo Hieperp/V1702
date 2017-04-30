@@ -250,7 +250,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "                           ON DeliveryAdviceDetails.DeliveryAdviceDetailID = DeliveryAdviceInActiveIssue.DeliveryAdviceDetailID " + "\r\n";
 
             queryString = queryString + "               EXEC        ERmgrVCP.dbo.GoodsIssueSaveRelative @EntityID, @SaveRelativeOption ";
-            queryString = queryString + "               EXEC        ERmgrVCP.dbo.SPSKUBalanceUpdate -@SaveRelativeOption, 0, 0, @EntityID, 0, 0 ";
+            queryString = queryString + "               SET         @SaveRelativeOption = -@SaveRelativeOption      EXEC    ERmgrVCP.dbo.SPSKUBalanceUpdate @SaveRelativeOption, 0, 0, @EntityID, 0, 0 ";
 
             queryString = queryString + "           END " + "\r\n";
             queryString = queryString + "       ELSE " + "\r\n";
