@@ -104,7 +104,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
             queryString = queryString + "       IF @GoodsIssueID > 0 " + "\r\n";
             queryString = queryString + "           INSERT @lTableAction " + "\r\n";
-            queryString = queryString + "           SELECT MIN(GoodsIssueID), CommodityID, WarehouseID, MIN(EntryDate), SUM(CASE @lAddOrSubtraction WHEN 1 THEN -Quantity ELSE Quantity END), 0 AS AmountCostCUR, 0 AS AmountCostUSD, 0 AS AmountCostVND, '' AS Remarks " + "\r\n"; //IF @lAddOrSubtraction = 1 THEN SAVE ELSE UNDO
+            queryString = queryString + "           SELECT MIN(GoodsIssueID), CommodityID, WarehouseID, MIN(EntryDate), SUM(CASE @lAddOrSubtraction WHEN 1 THEN -(Quantity + FreeQuantity) ELSE (Quantity + FreeQuantity) END), 0 AS AmountCostCUR, 0 AS AmountCostUSD, 0 AS AmountCostVND, '' AS Remarks " + "\r\n"; //IF @lAddOrSubtraction = 1 THEN SAVE ELSE UNDO
             queryString = queryString + "           FROM GoodsIssueDetails " + "\r\n";
             queryString = queryString + "           WHERE GoodsIssueID = @GoodsIssueID " + "\r\n";
             queryString = queryString + "           GROUP BY    WarehouseID, CommodityID" + "\r\n";
