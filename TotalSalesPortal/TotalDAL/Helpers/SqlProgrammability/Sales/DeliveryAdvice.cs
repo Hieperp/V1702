@@ -471,7 +471,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             //queryString = queryString + "       EXEC        UpdateWarehouseBalance @SaveRelativeOption, 0, @EntityID, 0, 0 ";
 
 
-            queryString = queryString + "       EXEC        VCP_A.dbo.SaveDeliveryAdvice @EntityID";
+            //queryString = queryString + "       EXEC        VCP_A.dbo.SaveDeliveryAdvice @EntityID";
             
 
 
