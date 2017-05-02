@@ -309,7 +309,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
                 queryString = queryString + "               " + inventories.GET_WarehouseJournal_BUILD_SQL("@WarehouseJournalTable", "@EntryDate", "@EntryDate", "@WarehouseIDList", "@CommodityIDList", "0", "0") + "\r\n";
 
                 queryString = queryString + "               INSERT INTO     @CommoditiesAvailable (WarehouseID, CommodityID, QuantityAvailable) " + "\r\n";
-                queryString = queryString + "               SELECT          WarehouseID, CommodityID, QuantityBegin AS QuantityAvailable " + "\r\n"; //QuantityEndREC
+                queryString = queryString + "               SELECT          WarehouseID, CommodityID, ROUND(QuantityBegin - QuantityOnAdvice, " + (int)GlobalEnums.rndQuantity + ") AS QuantityAvailable " + "\r\n"; //QuantityEndREC
                 queryString = queryString + "               FROM            @WarehouseJournalTable " + "\r\n";
 
                 queryString = queryString + "               SET             @HasCommoditiesAvailable = @HasCommoditiesAvailable + @@ROWCOUNT " + "\r\n";
@@ -452,7 +452,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + "                   Commodities ON DeliveryAdviceDetails.DeliveryAdviceID = @DeliveryAdviceID AND DeliveryAdviceDetails.CommodityID = Commodities.CommodityID INNER JOIN" + "\r\n";
             queryString = queryString + "                   Warehouses ON DeliveryAdviceDetails.WarehouseID = Warehouses.WarehouseID LEFT JOIN" + "\r\n";
             queryString = queryString + "                   VoidTypes ON DeliveryAdviceDetails.VoidTypeID = VoidTypes.VoidTypeID LEFT JOIN" + "\r\n";
-            queryString = queryString + "                  (SELECT WarehouseID, CommodityID, SUM(QuantityBegin) AS QuantityAvailable FROM @WarehouseJournalTable GROUP BY WarehouseID, CommodityID) CommoditiesAvailable ON DeliveryAdviceDetails.WarehouseID = CommoditiesAvailable.WarehouseID AND DeliveryAdviceDetails.CommodityID = CommoditiesAvailable.CommodityID " + "\r\n"; //SUM(QuantityBeginQuantityEndREC) 
+            queryString = queryString + "                  (SELECT WarehouseID, CommodityID, SUM(QuantityBegin - QuantityOnAdvice) AS QuantityAvailable FROM @WarehouseJournalTable GROUP BY WarehouseID, CommodityID) CommoditiesAvailable ON DeliveryAdviceDetails.WarehouseID = CommoditiesAvailable.WarehouseID AND DeliveryAdviceDetails.CommodityID = CommoditiesAvailable.CommodityID " + "\r\n"; //SUM(QuantityBeginQuantityEndREC) 
 
             queryString = queryString + "    END " + "\r\n";
 

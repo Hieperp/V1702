@@ -18,14 +18,20 @@ namespace TotalDAL.Repositories.Sales
 
             //return;
 
-            Helpers.SqlProgrammability.Inventories.GoodsIssue goodsIssue = new Helpers.SqlProgrammability.Inventories.GoodsIssue(totalSalesPortalEntities);
-            goodsIssue.RestoreProcedure();
 
-            //return;
+            Helpers.SqlProgrammability.Commons.Commons commons = new Helpers.SqlProgrammability.Commons.Commons(totalSalesPortalEntities);
+            commons.RestoreProcedure();
 
 
             Helpers.SqlProgrammability.Inventories.Inventories inventories = new Helpers.SqlProgrammability.Inventories.Inventories(totalSalesPortalEntities);
             inventories.RestoreProcedure();
+
+            return;
+
+            Helpers.SqlProgrammability.Inventories.GoodsIssue goodsIssue = new Helpers.SqlProgrammability.Inventories.GoodsIssue(totalSalesPortalEntities);
+            goodsIssue.RestoreProcedure();
+
+            
 
             return;
 
@@ -76,10 +82,6 @@ namespace TotalDAL.Repositories.Sales
 
 
             
-
-            Helpers.SqlProgrammability.Commons.Commons commons = new Helpers.SqlProgrammability.Commons.Commons(totalSalesPortalEntities);
-            commons.RestoreProcedure();
-
 
 
 

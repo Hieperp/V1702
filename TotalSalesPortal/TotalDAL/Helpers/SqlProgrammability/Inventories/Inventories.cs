@@ -18,6 +18,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
         public void RestoreProcedure()
         {
             this.UpdateSKUBalance();
+            this.SPSKUInventoryJournal();
 
             //this.VWCommodityCategories();
             //this.UpdateWarehouseBalance();
@@ -845,40 +846,794 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             return queryString;
         }
 
-        //Public Function BUILD_SQL_SKUInventoryJournal(ByVal ltmpSKUInventoryJournal As String, ByVal lDateFrom As String, ByVal lDateTo As String, ByVal lCommodityIDList As String, ByVal lWarehouseGroupIDList As String, ByVal lWHLocationIDList As String, ByVal lWHCategoryIDList As String, ByVal lWarehouseClassIDList As String, ByVal lWarehouseIDList As String) As String
         public string GET_WarehouseJournal_BUILD_SQL(string warehouseJournalTable, string fromDate, string toDate, string warehouseIDList, string commodityIDList, string isFullJournal, string isAmountIncluded)
         {
-            string queryString = "              DECLARE     " + warehouseJournalTable + " TABLE \r\n";
 
-            queryString = queryString + "                  (NMVNTaskID int NULL, JournalPrimaryID int NULL, JournalDate datetime NULL, JournalReference nvarchar(30) NULL, JournalDescription nvarchar(202) NULL, " + "\r\n";
-            queryString = queryString + "                   CommodityID int NULL, Description nvarchar(50) NULL, DescriptionOfficial nvarchar(200) NULL, DescriptionPartA nvarchar(20) NULL, DescriptionPartB nvarchar(20) NULL, DescriptionPartC nvarchar(20) NULL, DescriptionPartD nvarchar(20) NULL, UnitSales nvarchar(50) NULL, Weight float NULL, LeadTime float NULL, SellLife int NULL,  " + "\r\n";
-            queryString = queryString + "                   WarehouseGroupID int NULL, WHLocationID int NULL, WHCategoryID int NULL, WarehouseClassID int NULL, WarehouseID int NULL, WarehouseName nvarchar(60) NULL, WarehouseOutID int NULL, WarehouseOutName nvarchar(60) NULL, " + "\r\n";
-            queryString = queryString + "                   QuantityBegin float NULL, QuantityInputPRO float NULL, QuantityInputINV float NULL, QuantityInputRTN float NULL, QuantityInputTRF float NULL, QuantityInputADJ float NULL, QuantityInputBLD float NULL, QuantityInputUBL float NULL, QuantityInput float NULL, " + "\r\n";
-            queryString = queryString + "                   QuantityOutputINV float NULL, QuantityOutputTRF float NULL, QuantityOutputADJ float NULL, QuantityOutputBLD float NULL, QuantityOutputUBL float NULL, QuantityOutput float NULL, QuantityOnTransfer float NULL, QuantityOnTransferAdviceOut float NULL, QuantityOnTransferAdviceIn float NULL, QuantityOnProduction float NULL, UPriceNMDInventory float NULL," + "\r\n";
-            queryString = queryString + "                   ItemCategoryID int NULL, Description1 nvarchar(100) NULL, Description2 nvarchar(100) NULL, Description3 nvarchar(100) NULL, Description4 nvarchar(100) NULL, Description5 nvarchar(100) NULL, Description6 nvarchar(100) NULL, Description7 nvarchar(100) NULL, Description8 nvarchar(100) NULL, Description9 nvarchar(100) NULL, MaxTransferOutputDate  datetime NULL)" + "\r\n";
+            string queryString = "         CREATE TABLE " + warehouseJournalTable + "\r\n";
 
-            //SQL = SQL & "   INSERT " & ltmpSKUInventoryJournal & " EXEC SPSKUInventoryJournal " & lDateFrom & ", " & lDateTo & ", " & lCommodityIDList & ", " & lWarehouseGroupIDList & ", " & lWHLocationIDList & ", " & lWHCategoryIDList & ", " & lWarehouseClassIDList & ", " & lWarehouseIDList
-            queryString = queryString + "                   INSERT INTO " + warehouseJournalTable + " EXEC SPSKUInventoryJournal " + fromDate + ", " + toDate + ", " + commodityIDList + ", N'', N'', N'', N'', " + warehouseIDList + "\r\n";//+ ", " + isFullJournal + ", " + isAmountIncluded;
+            queryString = queryString + "      (NMVNTaskID int NULL, JournalPrimaryID int NULL, JournalDate datetime NULL, JournalReference nvarchar(30) NULL, JournalDescription nvarchar(202) NULL, " + "\r\n";
+            queryString = queryString + "       CommodityID int NULL, Description nvarchar(50) NULL, DescriptionOfficial nvarchar(200) NULL, DescriptionPartA nvarchar(20) NULL, DescriptionPartB nvarchar(20) NULL, DescriptionPartC nvarchar(20) NULL, DescriptionPartD nvarchar(20) NULL, UnitSales nvarchar(50) NULL, Weight float NULL, LeadTime float NULL, SellLife int NULL, " + "\r\n";
+            queryString = queryString + "       WarehouseGroupID int NULL, WHLocationID int NULL, WHCategoryID int NULL, WarehouseClassID int NULL, WarehouseID int NULL, WarehouseName nvarchar(60) NULL, WarehouseOutID int NULL, WarehouseOutName nvarchar(60) NULL, " + "\r\n";
+            queryString = queryString + "       QuantityBegin float NULL, QuantityInputPRO float NULL, QuantityInputINV float NULL, QuantityInputRTN float NULL, QuantityInputTRF float NULL, QuantityInputADJ float NULL, QuantityInputBLD float NULL, QuantityInputUBL float NULL, QuantityInput float NULL," + "\r\n";
+            queryString = queryString + "       QuantityOutputINV float NULL, QuantityOutputGoodsIssue float NULL, QuantityOutputTRF float NULL, QuantityOutputADJ float NULL, QuantityOutputBLD float NULL, QuantityOutputUBL float NULL, QuantityOutput float NULL, QuantityOnTransfer float NULL, QuantityOnAdvice float NULL, QuantityOnTransferAdviceOut float NULL, QuantityOnTransferAdviceIn float NULL, QuantityOnProduction float NULL, UPriceNMDInventory float NULL," + "\r\n";
+            queryString = queryString + "       ItemCategoryID int NULL, Description1 nvarchar(100) NULL, Description2 nvarchar(100) NULL, Description3 nvarchar(100) NULL, Description4 nvarchar(100) NULL, Description5 nvarchar(100) NULL, Description6 nvarchar(100) NULL, Description7 nvarchar(100) NULL, Description8 nvarchar(100) NULL, Description9 nvarchar(100) NULL, MaxTransferOutputDate  datetime NULL) " + "\r\n";
 
-
+            queryString = queryString + "   INSERT " + warehouseJournalTable + " EXEC ERmgrVCP.dbo.SPSKUInventoryJournal " + fromDate + ", " + toDate + ", " + commodityIDList + ", " + ", N'', N'', N'', N'', " + ", " + warehouseIDList + "\r\n";
 
 
+            //COMMENT ON 01-JAN-2017: NO USE WAREHOUSE INVENTORY: THIS CODE IS FOR USE WHEN THERE IS NO WAREHOUSE BALANCE
 
-
-
-
-
-
-            //COMMENT ON 01-JAN-2017: NO USE WAREHOUSE INVENTORY: 
-
-            queryString = "                     DECLARE @My01JAN2017Commodities TABLE (CommodityID int NOT NULL) INSERT INTO @My01JAN2017Commodities SELECT Id FROM dbo.SplitToIntList (" + commodityIDList + ") " + "\r\n";
-            queryString = queryString + "       DECLARE     " + warehouseJournalTable + " TABLE \r\n";
-            queryString = queryString + "                  (CommodityID int NULL, WarehouseID int NULL, QuantityBegin float NULL) " + "\r\n";
-            queryString = queryString + "       INSERT INTO " + warehouseJournalTable + " SELECT Commodities.CommodityID, Warehouses.WarehouseID, 9999 AS QuantityBegin FROM @My01JAN2017Commodities Commodities CROSS JOIN Warehouses WHERE Warehouses.WarehouseID IN (SELECT WarehouseID FROM CustomerWarehouses WHERE CustomerID = @CustomerID AND InActive = 0) " + "\r\n";
+            ////queryString = "                     DECLARE @My01JAN2017Commodities TABLE (CommodityID int NOT NULL) INSERT INTO @My01JAN2017Commodities SELECT Id FROM dbo.SplitToIntList (" + commodityIDList + ") " + "\r\n";
+            ////queryString = queryString + "       DECLARE     " + warehouseJournalTable + " TABLE \r\n";
+            ////queryString = queryString + "                  (CommodityID int NULL, WarehouseID int NULL, QuantityBegin float NULL) " + "\r\n";
+            ////queryString = queryString + "       INSERT INTO " + warehouseJournalTable + " SELECT Commodities.CommodityID, Warehouses.WarehouseID, 9999 AS QuantityBegin FROM @My01JAN2017Commodities Commodities CROSS JOIN Warehouses WHERE Warehouses.WarehouseID IN (SELECT WarehouseID FROM CustomerWarehouses WHERE CustomerID = @CustomerID AND InActive = 0) " + "\r\n";
 
             return queryString;
         }
 
+        private enum EWarehouseClassID
+        {
+            EWarehouseClassL1 = 1,
+            EWarehouseClassL2 = 2,
+            EWarehouseClassL3 = 3,
+            EWarehouseClassL4 = 4,
+            EWarehouseClassL5 = 5,
+            EWarehouseClassLD = 9
+        };
+
+        private enum ENMVNTaskID
+        {
+            ENull = 0,
+
+            ENONE99 = -99,
+
+            EACCMonthEndTransfer = 900001,
+
+            EACCSpecialDebit = 101001,
+            EACCSpecialCredit = 101005,
+
+            ESInvoice = 3,
+            ESReceipt = 5,
+            EsReturn = 40,
+            ESCredit = 41,
+
+            ESQuotation = 1,
+            ESDeliveryAdvice = 2,
+            ESDeliveryAdviceApproved = 77772,
+            ESSalesOrder = 199,
+            ESSalesOrderApproved = 77779,
+
+            ESContract = 4,
+
+            ESRequest = 6,
+            ESVisit = 107,
+
+            EAddressArea = 22,
+            EAddressCountry = 30,
+
+            ECustomerCategory = 25,
+            ECustomerName = 26,
+            ECustomerNameNEW = 2600,
+
+            ECustomerEmployee = 31,
+            ESPurchase = 31,
+
+            EFinancialFund = 106,
+            ETermPayment = 27,
+            ECustomsName = 157,
+
+            EPayrollProductionSemi = 1070001,
+            EPayrollProductionPack = 1070002,
+
+            EMouldName = 81,
+            EWorkerName = 83,
+            EProductionLine = 84,
+
+            EProductionWorkHour = 8150815,
+            EProductionWorkHourApproved = 815081511,
+
+            EProductionWorkFail = 8150816,
+            EProductionWorkFailApproved = 815081611,
+
+            EProductionCompen = 8150817,
+            EProductionCompenApproved = 815081711,
+
+            EProductionMelamin = 8150818,
+            EProductionMelaminApproved = 815081811,
+            EProductionMelaminRevise = 815081812,
+
+            EProductionWeight = 8150819,
+            EProductionWeightApproved = 815081911,
+
+            EMaterialCategory = 85,
+            EMaterialName = 86,
+            EMaterialMeta = 87,
+
+            EItemCommodity = 28,
+            EItemCategory = 32,
+            EItemType = 33,
+            EItemModel = 34,
+            EItemPriceCalculation = 150,
+            EDItemAssembly = 36,
+            EExpenseName = 55,
+            ESVEquipmentError = 56,
+            EInvest = 57,
+
+            EDAssembly = 99,
+
+            ESRequire = 37,
+            ESPContract = 38,
+            ESPInvoice = 39,
+
+            ESPConfirm = 330,
+
+            ESShipment = 39,
+            ESShipmentCustomsTax = 3933332,
+            ESShipmentVATTax = 3933312,
+
+            ESPurchaseExpense = 340,
+            ESPayment = 350,
+
+            ESupplierName = 35,
+            EWarehouse = 42,
+
+            EWHAdjustType = 17,
+
+            EAccountMaster = 49,
+
+            EAJournalEntry = 2150,
+            ELendingContract = 3150,
+            EFixedAsset = 106000,
+
+
+            // SERVICE
+            ESSVContract = 711,
+            ESSVService = 712,
+            ESSVQuotation = 713,
+            ESSVCos = 714,
+            ESSVMeterBill = 715,
+            ESSVDeliveryAdvice = 716,
+
+            // INVENTORY
+            ESWHTransferAdvice = 605,
+            ESWHTransferAdviceApproved = 77773,
+            ESWHInput = 610,
+            ESWHOutput = 611,
+            ESWHTransfer = 612,
+            ESWHAdjust = 613,
+
+
+            ESKUInput = 661,
+            ESKUTransferAdvice = 660,
+            ESKUTransferAdviceApproved = 77775,
+            ESKUTransfer = 662,
+            ESKUAdjust = 663,
+            ESKUAdjustApproved = 6630001,
+            ESKUOutput = 665,
+            ESKUOutputApproved = 6650001,
+
+
+
+            EWHAssemblyMaster = 0,
+            EWHAssemblyDetail = 0,
+
+            // PRODUCTION
+            EProductionOrder = 810,
+            EProductionOrderApproved = 777810,
+            EProductionPlan = 811,
+            EProductionPlanApproved = 8111111,
+            EProductionCommand = 812,
+            EProductionCommandApproved = 813,
+            EProductionCommandUnApproved = 8131,
+
+            EProductionSemi = 815,
+            EProductionSemiApproved = 818,
+            EProductionSemiRevise = 818111,
+
+            EProductionImprove = 819,
+            EProductionImproveApproved = 820111,
+            EProductionImproveUnApproved = 820,
+
+            EProductionPack = 816,
+            EProductionPackRevise = 816111,
+            EProductionRank = 825,
+            EProductionRankApproved = 825111,
+
+            EProductionDelimit = 837,
+            EProductionDelimitApproved = 837111,
+
+            EProductionFinish = 817,
+
+
+            EProductionRefine = 821,
+            EProductionRefineApproved = 822111,
+            EProductionRefineUnApproved = 822,
+
+            EProductionWorker = 827,
+            EProductionWorkerApproved = 827111,
+
+            EProductionMould = 828,
+            EProductionMouldApproved = 828111,
+
+            EMaterialInput = 1810,
+            EMaterialInputApproved = 7771810,
+            EMaterialOutput = 1820,
+            EMaterialOutputApproved = 7771820,
+
+            EMaterialTransfer = 1830,
+            EMaterialTransferApproved = 7771830,
+
+            EMaterialReduction = 1835,
+            EMaterialReductionApproved = 7771835,
+
+            EMaterialAdjust = 1850,
+            EMaterialAdjustApproved = 7771850,
+
+            EMaterialMerge = 1853,
+            EMaterialMergeApproved = 7771853,
+
+            EMaterialMergeOutput = 1855,
+            EMaterialMergeOutputApproved = 7771855,
+
+            EMaterialMergeInput = 1856,
+            EMaterialMergeInputApproved = 7771856,
+
+            // SUB PRODUCTION
+            ETransactionOrder = 9380,
+            ETransactionOrderApproved = 7779380,
+
+            ETransactionRelease = 9383,
+            ETransactionReleaseApproved = 7779383,
+
+            ETransactionFinish = 9385,
+            ETransactionFinishApproved = 7779385,
+
+            ETransactionInput = 9387,
+            ETransactionInputApproved = 7779387,
+
+            ETransactionTransfer = 9389,
+            ETransactionTransferApproved = 7779389,
+
+            ETransactionAdjust = 9391,
+            ETransactionAdjustApproved = 7779391,
+
+            ETransactionOutput = 9393,
+            ETransactionOutputApproved = 9393111,
+            ETransactionOutputUnApproved = 93931111,
+
+            ETransactionCommand = 9394,
+            ETransactionCommandApproved = 7779394,
+
+            EProcessAlpha = 9180,
+            EProcessAlphaApproved = 7779180
+
+        }
+
+        private void SPSKUInventoryJournal()
+        {
+
+
+            //////////string wInventory = " AND (@LocalCommodityIDList = '' OR CommodityID IN (SELECT * FROM FNSplitUpIds(@LocalCommodityIDList))) " + "\r\n";
+            //////////wInventory = wInventory + " AND (@LocalWarehouseGroupIDList = '' OR ListWarehouseName.WarehouseGroupID IN (SELECT * FROM FNSplitUpIds(@LocalWarehouseGroupIDList))) " + "\r\n";
+            //////////wInventory = wInventory + " AND (@LocalWHLocationIDList = '' OR ListWarehouseName.WHLocationID IN (SELECT * FROM FNSplitUpIds(@LocalWHLocationIDList))) " + "\r\n";
+            //////////wInventory = wInventory + " AND (@LocalWHCategoryIDList = '' OR ListWarehouseName.WHCategoryID IN (SELECT * FROM FNSplitUpIds(@LocalWHCategoryIDList))) " + "\r\n";
+            //////////wInventory = wInventory + " AND (@LocalWarehouseClassIDList = '' OR ListWarehouseName.WarehouseClassID IN (SELECT * FROM FNSplitUpIds(@LocalWarehouseClassIDList))) " + "\r\n";
+            //////////wInventory = wInventory + " AND (@LocalWarehouseIDList = '' OR ListWarehouseName.WarehouseID IN (SELECT * FROM FNSplitUpIds(@LocalWarehouseIDList))) " + "\r\n";
+
+            ////////////CHU Y: PRODUCTION: KHONG PHAN BIET KHO -- REMOVE DIEU KIEN FILTER
+            //////////string wProduction = " AND (@LocalCommodityIDList = '' OR CommodityID IN (SELECT * FROM FNSplitUpIds(@LocalCommodityIDList))) " + "\r\n";
+            //////////wProduction = wProduction + " AND (@LocalWarehouseClassIDList = '' OR " + (int)EWarehouseClassID.EWarehouseClassL1 + " IN (SELECT * FROM FNSplitUpIds(@LocalWarehouseClassIDList)) OR " + (int)EWarehouseClassID.EWarehouseClassLD + " IN (SELECT * FROM FNSplitUpIds(@LocalWarehouseClassIDList)) OR " + (int)EWarehouseClassID.EWarehouseClassL5 + " IN (SELECT * FROM FNSplitUpIds(@LocalWarehouseClassIDList))) " + "\r\n"; //@LocalWarehouseClassIDList = '' OR @LocalWarehouseClassIDList: HOAC [L1] HOAC [LD] HOAC [L5] HOAC [L1 + LD + L5]
+            //////////wProduction = wProduction + " AND (@LocalWarehouseGroupIDList = '' OR ProductionOrderMaster.WarehouseGroupID IN (SELECT * FROM FNSplitUpIds(@LocalWarehouseGroupIDList))) " + "\r\n";
+
+
+
+
+            string queryString = " DROP PROC SPSKUInventoryJournal " + "\r\n";
+            queryString = queryString + " CREATE PROC SPSKUInventoryJournal " + "\r\n";
+
+            queryString = queryString + " @dDateFrom DateTime, @dDateTo DateTime, @lCommodityIDList varchar(8000), @lWarehouseGroupIDList varchar(60), @lWHLocationIDList varchar(30), @lWHCategoryIDList varchar(30), @lWarehouseClassIDList varchar(30), @lWarehouseIDList varchar(100) " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "   BEGIN " + "\r\n";
+
+            queryString = queryString + "       DECLARE @LocalDateFrom DateTime, @LocalDateTo DateTime, @LocalCommodityIDList varchar(8000), @LocalWarehouseGroupIDList varchar(60), @LocalWHLocationIDList varchar(30), @LocalWHCategoryIDList varchar(30), @LocalWarehouseClassIDList varchar(30), @LocalWarehouseIDList varchar(100) " + "\r\n";
+            queryString = queryString + "       SET @LocalDateFrom = @dDateFrom     SET @LocalDateTo = @dDateTo     SET @LocalCommodityIDList = @lCommodityIDList       SET @LocalWarehouseGroupIDList = @lWarehouseGroupIDList       SET @LocalWHLocationIDList = @lWHLocationIDList       SET @LocalWHCategoryIDList = @lWHCategoryIDList         SET @LocalWarehouseClassIDList = @lWarehouseClassIDList         SET @LocalWarehouseIDList = @lWarehouseIDList  " + "\r\n";
+
+
+            queryString = queryString + "       DECLARE     @WarehouseFilterable bit      SET @WarehouseFilterable = 0    " + "\r\n";
+            queryString = queryString + "       DECLARE     @WarehouseFilter TABLE (WarehouseID int NOT NULL) " + "\r\n";
+
+            queryString = queryString + "       IF (@LocalWarehouseIDList <> '' AND @LocalWarehouseGroupIDList = '' AND @LocalWHLocationIDList = '' AND @LocalWHCategoryIDList = '' AND @LocalWarehouseClassIDList = '') " + "\r\n";
+            queryString = queryString + "           BEGIN " + "\r\n";
+            queryString = queryString + "               SET @WarehouseFilterable = 1 " + "\r\n";
+            queryString = queryString + "               INSERT INTO @WarehouseFilter  SELECT Id FROM dbo.SplitToIntList (@LocalWarehouseIDList)  " + "\r\n";
+            queryString = queryString + "           END " + "\r\n";
+            queryString = queryString + "       ELSE " + "\r\n";
+            queryString = queryString + "           IF (@LocalWarehouseIDList <> '' OR @LocalWarehouseGroupIDList <> '' OR @LocalWHLocationIDList <> '' OR @LocalWHCategoryIDList <> '' OR @LocalWarehouseClassIDList <> '') " + "\r\n";
+            queryString = queryString + "               BEGIN " + "\r\n";
+            queryString = queryString + "                   SET @WarehouseFilterable = 1 " + "\r\n";
+            queryString = queryString + "                   INSERT INTO @WarehouseFilter    SELECT WarehouseID FROM ListWarehouseName WHERE (@LocalWarehouseIDList = '' OR WarehouseID IN (SELECT * FROM FNSplitUpIds(@LocalWarehouseIDList)))            AND (@LocalWarehouseGroupIDList = '' OR WarehouseGroupID IN (SELECT * FROM FNSplitUpIds(@LocalWarehouseGroupIDList)))         AND (@LocalWHLocationIDList = '' OR WHLocationID IN (SELECT * FROM FNSplitUpIds(@LocalWHLocationIDList)))             AND (@LocalWHCategoryIDList = '' OR WHCategoryID IN (SELECT * FROM FNSplitUpIds(@LocalWHCategoryIDList)))             AND (@LocalWarehouseClassIDList = '' OR WarehouseClassID IN (SELECT * FROM FNSplitUpIds(@LocalWarehouseClassIDList)))     " + "\r\n";
+            queryString = queryString + "               END " + "\r\n";
+
+
+
+            queryString = queryString + "       DECLARE     @CommodityFilter TABLE (CommodityID int NOT NULL) " + "\r\n";
+            queryString = queryString + "       IF (@LocalCommodityIDList <> '') " + "\r\n";
+            queryString = queryString + "                   INSERT INTO @CommodityFilter SELECT Id FROM dbo.SplitToIntList (@LocalCommodityIDList) " + "       WHERE Id IN (SELECT CommodityID FROM ListItemCommodity WHERE ItemTypeID IN (" + (int)GlobalEnums.CommodityTypeID.Vehicles + ", " + (int)GlobalEnums.CommodityTypeID.Parts + ", " + (int)GlobalEnums.CommodityTypeID.Consumables + ")) " + "\r\n";
+
+
+
+            queryString = queryString + "       DECLARE     @WarehouseClassFilter bit " + "\r\n";
+            queryString = queryString + "       IF (@LocalWarehouseClassIDList = '')   SET @WarehouseClassFilter = 1 " + "\r\n";
+            queryString = queryString + "       ELSE   SET @WarehouseClassFilter = (SELECT 1 WHERE @LocalWarehouseClassIDList = '' OR " + (int)EWarehouseClassID.EWarehouseClassL1 + " IN (SELECT * FROM FNSplitUpIds(@LocalWarehouseClassIDList)) OR " + (int)EWarehouseClassID.EWarehouseClassLD + " IN (SELECT * FROM FNSplitUpIds(@LocalWarehouseClassIDList)) OR " + (int)EWarehouseClassID.EWarehouseClassL5 + " IN (SELECT * FROM FNSplitUpIds(@LocalWarehouseClassIDList))) " + "\r\n"; //@LocalWarehouseClassIDList = '' OR @LocalWarehouseClassIDList: HOAC [L1] HOAC [LD] HOAC [L5] HOAC [L1 + LD + L5]
+
+
+
+            queryString = queryString + "       DECLARE     @WarehouseGroupFilter TABLE (WarehouseGroupID int NOT NULL) " + "\r\n";
+            queryString = queryString + "       IF (@LocalWarehouseGroupIDList <> '') " + "\r\n";
+            queryString = queryString + "                   INSERT INTO @WarehouseGroupFilter SELECT Id FROM dbo.SplitToIntList (@LocalWarehouseGroupIDList) " + "\r\n";
+
+
+
+
+            // --GET THE BEGIN BALANCE IF AVAILABLE.BEGIN
+            queryString = queryString + "       DECLARE @lSKUBalanceDate DateTime" + "\r\n";
+            queryString = queryString + "       DECLARE CursorSKUBalance CURSOR LOCAL FOR SELECT MAX(SKUBalanceDate) AS SKUBalanceDate FROM SKUBalanceDetail WHERE SKUBalanceDate < @LocalDateFrom " + "\r\n"; // < OR <= ??? XEM XET LAI NHE!!!!
+            queryString = queryString + "       OPEN CursorSKUBalance" + "\r\n";
+            queryString = queryString + "       FETCH NEXT FROM CursorSKUBalance INTO @lSKUBalanceDate" + "\r\n";
+            queryString = queryString + "       CLOSE CursorSKUBalance DEALLOCATE CursorSKUBalance" + "\r\n";
+
+            queryString = queryString + "       IF @lSKUBalanceDate IS NULL  SET @lSKUBalanceDate = CONVERT(Datetime, '2009-05-16 23:59:59', 120) " + "\r\n";
+            // --GET THE BEGIN BALANCE IF AVAILABLE.END
+
+            queryString = queryString + "       IF          (@LocalWarehouseGroupIDList = '' AND @WarehouseFilterable = 0 AND @LocalCommodityIDList = '') " + "\r\n";
+            queryString = queryString + "               " + this.SPSKUInventoryJournalSQLA(false, false, false) + "\r\n";
+            queryString = queryString + "       ELSE    IF  (@LocalWarehouseGroupIDList = '' AND @WarehouseFilterable = 0 AND @LocalCommodityIDList <> '') " + "\r\n";
+            queryString = queryString + "               " + this.SPSKUInventoryJournalSQLA(false, false, true) + "\r\n";
+            queryString = queryString + "       ELSE    IF  (@LocalWarehouseGroupIDList = '' AND @WarehouseFilterable = 1 AND @LocalCommodityIDList = '') " + "\r\n";
+            queryString = queryString + "               " + this.SPSKUInventoryJournalSQLA(false, true, false) + "\r\n";
+            queryString = queryString + "       ELSE    IF  (@LocalWarehouseGroupIDList = '' AND @WarehouseFilterable = 1 AND @LocalCommodityIDList <> '') " + "\r\n";
+            queryString = queryString + "               " + this.SPSKUInventoryJournalSQLA(false, true, true) + "\r\n";
+
+
+            queryString = queryString + "       ELSE    IF  (@LocalWarehouseGroupIDList <> '' AND @WarehouseFilterable = 0 AND @LocalCommodityIDList = '') " + "\r\n";
+            queryString = queryString + "               " + this.SPSKUInventoryJournalSQLA(true, false, false) + "\r\n";
+            queryString = queryString + "       ELSE    IF  (@LocalWarehouseGroupIDList <> '' AND @WarehouseFilterable = 0 AND @LocalCommodityIDList <> '') " + "\r\n";
+            queryString = queryString + "               " + this.SPSKUInventoryJournalSQLA(true, false, true) + "\r\n";
+            queryString = queryString + "       ELSE    IF  (@LocalWarehouseGroupIDList <> '' AND @WarehouseFilterable = 1 AND @LocalCommodityIDList = '') " + "\r\n";
+            queryString = queryString + "               " + this.SPSKUInventoryJournalSQLA(true, true, false) + "\r\n";
+            queryString = queryString + "       ELSE    " + "\r\n"; //IF  (@LocalWarehouseGroupIDList <> '' AND @WarehouseFilterable = 1 AND @LocalCommodityIDList <> '') "
+            queryString = queryString + "               " + this.SPSKUInventoryJournalSQLA(true, true, true) + "\r\n";
+
+
+            queryString = queryString + "   END " + "\r\n";
+
+            System.Diagnostics.Debug.WriteLine("---");
+            System.Diagnostics.Debug.WriteLine(queryString);
+
+            //this.totalSalesPortalEntities.CreateStoredProcedure("SPSKUInventoryJournal", queryString);
+        }
+
+
+        private string SPSKUInventoryJournalSQLA(bool isWarehouseGroupFilter, bool isWarehouseFilter, bool isCommodityFilter)
+        {
+            string queryString = "";
+
+            queryString = queryString + "   BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      SKUJournalMaster.NMVNTaskID, SKUJournalMaster.JournalPrimaryID, SKUJournalMaster.JournalDate, SKUJournalMaster.JournalReference, LEFT(SKUJournalMaster.JournalDescription, 200) AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                   ListItemCommodity.CommodityID, ListItemCommodity.Description, ListItemCommodity.DescriptionOfficial, ListItemCommodity.DescriptionPartA, ListItemCommodity.DescriptionPartB, ListItemCommodity.DescriptionPartC, ListItemCommodity.DescriptionPartD, ListItemCommodity.UnitSales, ListItemCommodity.Weight, ListItemCommodity.LeadTime, VWListItemCategory.SellLife, " + "\r\n";
+            queryString = queryString + "                   SKUJournalMaster.WarehouseGroupID, ISNULL(ListWarehouseName.WHLocationID, 0) AS WHLocationID, ISNULL(ListWarehouseName.WHCategoryID, 0) AS WHCategoryID, SKUJournalMaster.WarehouseClassID, SKUJournalMaster.WarehouseID, ISNULL(ListWarehouseName.Description, '') AS WarehouseName, SKUJournalMaster.WarehouseOutID, ISNULL(ListWarehouseOutName.Description, '') AS WarehouseOutName, " + "\r\n";
+
+            queryString = queryString + "                   SKUJournalMaster.QuantityBegin, SKUJournalMaster.QuantityInputPRO, SKUJournalMaster.QuantityInputINV, SKUJournalMaster.QuantityInputRTN, SKUJournalMaster.QuantityInputTRF, SKUJournalMaster.QuantityInputADJ, SKUJournalMaster.QuantityInputBLD, SKUJournalMaster.QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                   ROUND(SKUJournalMaster.QuantityInputPRO + SKUJournalMaster.QuantityInputINV + SKUJournalMaster.QuantityInputRTN + SKUJournalMaster.QuantityInputTRF + SKUJournalMaster.QuantityInputADJ + SKUJournalMaster.QuantityInputBLD + SKUJournalMaster.QuantityInputUBL, " + (int)GlobalEnums.rndQuantity + ") AS QuantityInput, " + "\r\n";
+            queryString = queryString + "                   SKUJournalMaster.QuantityOutputINV, SKUJournalMaster.QuantityOutputGoodsIssue, SKUJournalMaster.QuantityOutputTRF, SKUJournalMaster.QuantityOutputADJ, SKUJournalMaster.QuantityOutputBLD, SKUJournalMaster.QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                   ROUND(SKUJournalMaster.QuantityOutputINV + SKUJournalMaster.QuantityOutputGoodsIssue + SKUJournalMaster.QuantityOutputTRF + SKUJournalMaster.QuantityOutputADJ + SKUJournalMaster.QuantityOutputBLD + SKUJournalMaster.QuantityOutputUBL, " + (int)GlobalEnums.rndQuantity + ") AS QuantityOutput, " + "\r\n";
+            queryString = queryString + "                   SKUJournalMaster.QuantityOnTransfer, SKUJournalMaster.QuantityOnAdvice, SKUJournalMaster.QuantityOnTransferAdviceOut, SKUJournalMaster.QuantityOnTransferAdviceIn, SKUJournalMaster.QuantityOnProduction, 0 AS UPriceNMDInventory, " + "\r\n";
+
+            queryString = queryString + "                   VWListItemCategory.ItemCategoryID, " + "\r\n";
+            queryString = queryString + "                   VWListItemCategory.Description1 AS ItemCategoryName1, " + "\r\n";
+            queryString = queryString + "                   VWListItemCategory.Description2 AS ItemCategoryName2, " + "\r\n";
+            queryString = queryString + "                   VWListItemCategory.Description3 AS ItemCategoryName3, " + "\r\n";
+            queryString = queryString + "                   VWListItemCategory.Description4 AS ItemCategoryName4, " + "\r\n";
+            queryString = queryString + "                   VWListItemCategory.Description5 AS ItemCategoryName5, " + "\r\n";
+            queryString = queryString + "                   VWListItemCategory.Description6 AS ItemCategoryName6, " + "\r\n";
+            queryString = queryString + "                   VWListItemCategory.Description7 AS ItemCategoryName7, " + "\r\n";
+            queryString = queryString + "                   VWListItemCategory.Description8 AS ItemCategoryName8, " + "\r\n";
+            queryString = queryString + "                   VWListItemCategory.Description9 AS ItemCategoryName9, " + "\r\n";
+
+            queryString = queryString + "                   MaxTransferOutputUNION.MaxTransferOutputDate " + "\r\n";
+
+            queryString = queryString + "       FROM        ( " + "\r\n";
+
+            queryString = queryString + "                       SELECT      NMVNTaskID, JournalPrimaryID, MAX(JournalDate) AS JournalDate, MAX(JournalReference) AS JournalReference, MAX(JournalDescription) AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                   CommodityID, WarehouseGroupID, WarehouseClassID, WarehouseID, WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                   SUM(QuantityBegin) AS QuantityBegin, SUM(QuantityInputPRO) AS QuantityInputPRO, SUM(QuantityInputINV) AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                   SUM(QuantityInputRTN) AS QuantityInputRTN, SUM(QuantityInputTRF) AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                   SUM(QuantityInputADJ) AS QuantityInputADJ, SUM(QuantityInputBLD) AS QuantityInputBLD, SUM(QuantityInputUBL) AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                   SUM(QuantityOutputINV) AS QuantityOutputINV, SUM(QuantityOutputGoodsIssue) AS QuantityOutputGoodsIssue, SUM(QuantityOutputTRF) AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                   SUM(QuantityOutputADJ) AS QuantityOutputADJ, SUM(QuantityOutputBLD) AS QuantityOutputBLD, SUM(QuantityOutputUBL) AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                   SUM(QuantityOnTransfer) AS QuantityOnTransfer, SUM(QuantityOnAdvice) AS QuantityOnAdvice, SUM(QuantityOnTransferAdviceOut) AS QuantityOnTransferAdviceOut, SUM(QuantityOnTransferAdviceIn) AS QuantityOnTransferAdviceIn, SUM(QuantityOnProduction) AS QuantityOnProduction " + "\r\n";
+
+
+            queryString = queryString + "                       FROM       (" + "\r\n";
+
+            queryString = queryString + "                       " + this.SPSKUInventoryJournalSQLB(isWarehouseGroupFilter, isWarehouseFilter, isCommodityFilter) + "\r\n";
+
+            queryString = queryString + "                           )SKUUnionMaster" + "\r\n";
+
+            queryString = queryString + "                       GROUP BY        NMVNTaskID, JournalPrimaryID, CommodityID, WarehouseGroupID, WarehouseClassID, WarehouseID, WarehouseOutID " + "\r\n";
+
+            // KHONG CAN THIET PHAI SU DUNG HAVING NAY: VI THUC TE, PHAI CO PHAT SINH, MOI CO DU LIEU, NEN KTRA HAVING KHONG THE TOI UU DUOC DU LIEU, KHONG DUOC LOI ICH GI
+            // queryString = queryString + "                       HAVING          SUM(QuantityBegin) > 0 OR SUM(QuantityInputPRO) > 0 OR SUM(QuantityInputINV) > 0 OR SUM(QuantityInputRTN) > 0 OR SUM(QuantityInputTRF) > 0 OR SUM(QuantityInputADJ) > 0 OR SUM(QuantityInputBLD) > 0 OR SUM(QuantityInputUBL) > 0 OR SUM(QuantityOutputINV) > 0 OR SUM(QuantityOutputGoodsIssue) > 0, OR SUM(QuantityOutputTRF) > 0 OR SUM(QuantityOutputADJ) > 0 OR SUM(QuantityOutputBLD) > 0 OR SUM(QuantityOutputUBL) > 0 OR SUM(QuantityOnTransfer) > 0 OR SUM(QuantityOnAdvice) > 0 OR SUM(QuantityOnTransferAdviceOut) > 0 OR SUM(QuantityOnTransferAdviceIn) > 0 OR SUM(QuantityOnProduction) > 0 " + "\r\n";
+
+            queryString = queryString + "                   ) SKUJournalMaster  INNER JOIN " + "\r\n";
+
+            queryString = queryString + "                   ListItemCommodity ON SKUJournalMaster.CommodityID = ListItemCommodity.CommodityID INNER JOIN " + "\r\n";
+            queryString = queryString + "                   VWListItemCategory ON ListItemCommodity.ItemCategoryID = VWListItemCategory.ItemCategoryID LEFT JOIN " + "\r\n";
+
+            queryString = queryString + "                   ListWarehouseName ON SKUJournalMaster.WarehouseID = ListWarehouseName.WarehouseID LEFT JOIN " + "\r\n";
+            queryString = queryString + "                   ListWarehouseName ListWarehouseOutName ON SKUJournalMaster.WarehouseOutID = ListWarehouseOutName.WarehouseID LEFT JOIN " + "\r\n";
+
+            queryString = queryString + "                  (SELECT      WarehouseID, CommodityID, MAX(MaxTransferOutputDate) AS MaxTransferOutputDate " + "\r\n";
+            queryString = queryString + "                   FROM       ( " + "\r\n";
+            queryString = queryString + "                               SELECT      WarehouseID, CommodityID, MAX(SKUTransferDate) AS MaxTransferOutputDate " + "\r\n";
+            queryString = queryString + "                               FROM        SKUTransferDetail " + "\r\n";
+            queryString = queryString + "                               WHERE       SKUTransferDate <= @LocalDateTo " + "\r\n";
+            queryString = queryString + "                               GROUP BY    WarehouseID, CommodityID " + "\r\n";
+
+            queryString = queryString + "                               UNION ALL" + "\r\n";
+
+            queryString = queryString + "                               SELECT      WarehouseID, CommodityID, MAX(SKUOutputDate) AS MaxTransferOutputDate " + "\r\n";
+            queryString = queryString + "                               FROM        SKUOutputDetail " + "\r\n";
+            queryString = queryString + "                               WHERE       SKUOutputDate <= @LocalDateTo " + "\r\n";
+            queryString = queryString + "                               GROUP BY    WarehouseID, CommodityID " + "\r\n";
+            queryString = queryString + "                              )ABC  " + "\r\n";
+            queryString = queryString + "                   GROUP BY    WarehouseID, CommodityID) MaxTransferOutputUNION ON SKUJournalMaster.WarehouseID = MaxTransferOutputUNION.WarehouseID AND SKUJournalMaster.CommodityID = MaxTransferOutputUNION.CommodityID " + "\r\n";
+
+            queryString = queryString + "   END " + "\r\n";
+
+            return queryString;
+        }
+
+
+        private string SPSKUInventoryJournalSQLB(bool isWarehouseGroupFilter, bool isWarehouseFilter, bool isCommodityFilter)
+        {
+            string queryString = "";
+            // --OPENNING: PURE OPENNING   //BEGIN
+            queryString = queryString + "                           SELECT      0 AS NMVNTaskID, 0 AS JournalPrimaryID, @LocalDateFrom - 1 AS JournalDate, '' AS JournalReference, 'TON DAU KY' AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       SKUBalanceDetail.CommodityID, ListWarehouseName.WarehouseGroupID, ListWarehouseName.WarehouseClassID, SKUBalanceDetail.WarehouseID, 0 AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       SKUBalanceDetail.Quantity AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOnTransfer, 0 AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, 0 AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        SKUBalanceDetail INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ListWarehouseName ON SKUBalanceDetail.WarehouseID = ListWarehouseName.WarehouseID " + "\r\n";
+            queryString = queryString + "                           WHERE       SKUBalanceDate = @lSKUBalanceDate " + this.SPSKUInventoryJournalWarehouseFilter("SKUBalanceDetail", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("SKUBalanceDetail", isCommodityFilter) + "\r\n";
+            // --OPENNING: PURE OPENNING   //END
+
+
+
+            // --INPUT: IN-TERM OPENNING + INPUT   //BEGIN
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            queryString = queryString + "                           SELECT      CASE WHEN SKUInputMaster.SKUInputDate >= @LocalDateFrom THEN " + (int)ENMVNTaskID.ESKUInput + " ELSE 0 END AS NMVNTaskID, CASE WHEN SKUInputMaster.SKUInputDate >= @LocalDateFrom THEN SKUInputMaster.SKUInputID ELSE 0 END AS JournalPrimaryID, CASE WHEN SKUInputMaster.SKUInputDate >= @LocalDateFrom THEN SKUInputMaster.SKUInputDate ELSE @LocalDateFrom - 1 END AS JournalDate, CASE WHEN SKUInputMaster.SKUInputDate >= @LocalDateFrom THEN SKUInputMaster.Reference ELSE '' END AS JournalReference, CASE WHEN SKUInputMaster.SKUInputDate >= @LocalDateFrom THEN SKUInputMaster.Description ELSE 'TON DAU KY' END AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       SKUInputDetail.CommodityID, ListWarehouseName.WarehouseGroupID, ListWarehouseName.WarehouseClassID, SKUInputDetail.WarehouseID, 0 AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       CASE WHEN SKUInputMaster.SKUInputDate < @LocalDateFrom THEN SKUInputDetail.Quantity ELSE 0 END AS QuantityBegin, CASE WHEN SKUInputMaster.SKUInputDate >= @LocalDateFrom AND SKUInputMaster.SKUInputVoucherTypeID = " + (int)ENMVNTaskID.EProductionFinish + " THEN SKUInputDetail.Quantity ELSE 0 END AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, CASE WHEN SKUInputMaster.SKUInputDate >= @LocalDateFrom AND SKUInputMaster.SKUInputVoucherTypeID = " + (int)ENMVNTaskID.ESKUTransfer + " THEN SKUInputDetail.Quantity ELSE 0 END AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       CASE WHEN SKUInputMaster.SKUInputDate >= @LocalDateFrom AND SKUInputMaster.SKUInputVoucherTypeID = " + (int)ENMVNTaskID.ESKUAdjust + " THEN SKUInputDetail.Quantity ELSE 0 END AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOnTransfer, 0 AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, 0 AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        SKUInputMaster INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       SKUInputDetail ON SKUInputMaster.SKUInputID = SKUInputDetail.SKUInputID INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ListWarehouseName ON SKUInputDetail.WarehouseID = ListWarehouseName.WarehouseID " + "\r\n";
+            queryString = queryString + "                           WHERE       SKUInputMaster.SKUInputDate > @lSKUBalanceDate AND SKUInputMaster.SKUInputDate <= @LocalDateTo " + this.SPSKUInventoryJournalWarehouseFilter("SKUInputDetail", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("SKUInputDetail", isCommodityFilter) + "\r\n";
+            // --INPUT: IN-TERM OPENNING + INPUT   //END
+
+
+
+            // --OUTPUT: IN-TERM OPENNING + OUTPUT //BEGIN
+            //--ENMVNTaskID.ESKUTransfer
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            queryString = queryString + "                           SELECT      CASE WHEN SKUTransferMaster.SKUTransferDate >= @LocalDateFrom THEN " + (int)ENMVNTaskID.ESKUTransfer + " ELSE 0 END AS NMVNTaskID, CASE WHEN SKUTransferMaster.SKUTransferDate >= @LocalDateFrom THEN SKUTransferMaster.SKUTransferID ELSE 0 END AS JournalPrimaryID, CASE WHEN SKUTransferMaster.SKUTransferDate >= @LocalDateFrom THEN SKUTransferMaster.SKUTransferDate ELSE @LocalDateFrom - 1 END AS JournalDate, CASE WHEN SKUTransferMaster.SKUTransferDate >= @LocalDateFrom THEN SKUTransferMaster.Reference ELSE '' END AS JournalReference, CASE WHEN SKUTransferMaster.SKUTransferDate >= @LocalDateFrom THEN SKUTransferMaster.Description ELSE 'TON DAU KY' END AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       SKUTransferDetail.CommodityID, ListWarehouseName.WarehouseGroupID, ListWarehouseName.WarehouseClassID, SKUTransferDetail.WarehouseID, 0 AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       CASE WHEN SKUTransferMaster.SKUTransferDate < @LocalDateFrom THEN -SKUTransferDetail.Quantity ELSE 0 END AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, CASE WHEN SKUTransferMaster.SKUTransferDate >= @LocalDateFrom THEN SKUTransferDetail.Quantity ELSE 0 END AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOnTransfer, 0 AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, 0 AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        SKUTransferMaster INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       SKUTransferDetail ON SKUTransferMaster.SKUTransferID = SKUTransferDetail.SKUTransferID INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ListWarehouseName ON SKUTransferDetail.WarehouseID = ListWarehouseName.WarehouseID " + "\r\n";
+            queryString = queryString + "                           WHERE       SKUTransferMaster.SKUTransferDate > @lSKUBalanceDate AND SKUTransferMaster.SKUTransferDate <= @LocalDateTo " + this.SPSKUInventoryJournalWarehouseFilter("SKUTransferDetail", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("SKUTransferDetail", isCommodityFilter) + "\r\n";
+
+            //--ENMVNTaskID.ESKUOutput
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            queryString = queryString + "                           SELECT      CASE WHEN SKUOutputMaster.SKUOutputDate >= @LocalDateFrom THEN " + (int)ENMVNTaskID.ESKUOutput + " ELSE 0 END AS NMVNTaskID, CASE WHEN SKUOutputMaster.SKUOutputDate >= @LocalDateFrom THEN SKUOutputMaster.SKUOutputID ELSE 0 END AS JournalPrimaryID, CASE WHEN SKUOutputMaster.SKUOutputDate >= @LocalDateFrom THEN SKUOutputMaster.SKUOutputDate ELSE @LocalDateFrom - 1 END AS JournalDate, CASE WHEN SKUOutputMaster.SKUOutputDate >= @LocalDateFrom THEN SKUOutputMaster.Reference ELSE '' END AS JournalReference, CASE WHEN SKUOutputMaster.SKUOutputDate >= @LocalDateFrom THEN SKUOutputMaster.Description ELSE 'TON DAU KY' END AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       SKUOutputDetail.CommodityID, ListWarehouseName.WarehouseGroupID, ListWarehouseName.WarehouseClassID, SKUOutputDetail.WarehouseID, 0 AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       CASE WHEN SKUOutputMaster.SKUOutputDate < @LocalDateFrom THEN -SKUOutputDetail.Quantity ELSE 0 END AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       CASE WHEN SKUOutputMaster.SKUOutputDate >= @LocalDateFrom THEN SKUOutputDetail.Quantity ELSE 0 END AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOnTransfer, 0 AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, 0 AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        SKUOutputMaster INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       SKUOutputDetail ON SKUOutputMaster.SKUOutputID = SKUOutputDetail.SKUOutputID INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ListWarehouseName ON SKUOutputDetail.WarehouseID = ListWarehouseName.WarehouseID " + "\r\n";
+            queryString = queryString + "                           WHERE       SKUOutputMaster.SKUOutputDate > @lSKUBalanceDate AND SKUOutputMaster.SKUOutputDate <= @LocalDateTo " + this.SPSKUInventoryJournalWarehouseFilter("SKUOutputDetail", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("SKUOutputDetail", isCommodityFilter) + "\r\n";
+
+            //**************
+            //--ENMVNTaskID.GoodsIssue
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            queryString = queryString + "                           SELECT      CASE WHEN GoodsIssueDetails.EntryDate >= @LocalDateFrom THEN " + (int)GlobalEnums.NmvnTaskID.GoodsIssue + " ELSE 0 END AS NMVNTaskID, CASE WHEN GoodsIssueDetails.EntryDate >= @LocalDateFrom THEN GoodsIssueDetails.GoodsIssueID ELSE 0 END AS JournalPrimaryID, CASE WHEN GoodsIssueDetails.EntryDate >= @LocalDateFrom THEN GoodsIssueDetails.EntryDate ELSE @LocalDateFrom - 1 END AS JournalDate, CASE WHEN GoodsIssueDetails.EntryDate >= @LocalDateFrom THEN '' ELSE '' END AS JournalReference, CASE WHEN GoodsIssueDetails.EntryDate >= @LocalDateFrom THEN '' ELSE 'TON DAU KY' END AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       GoodsIssueDetails.CommodityID, ListWarehouseName.WarehouseGroupID, ListWarehouseName.WarehouseClassID, GoodsIssueDetails.WarehouseID, 0 AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       CASE WHEN GoodsIssueDetails.EntryDate < @LocalDateFrom THEN -(GoodsIssueDetails.Quantity + GoodsIssueDetails.FreeQuantity) ELSE 0 END AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, CASE WHEN GoodsIssueDetails.EntryDate >= @LocalDateFrom THEN (GoodsIssueDetails.Quantity + GoodsIssueDetails.FreeQuantity) ELSE 0 END AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOnTransfer, 0 AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, 0 AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        GoodsIssueDetails INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ListWarehouseName ON GoodsIssueDetails.WarehouseID = ListWarehouseName.WarehouseID " + "\r\n";
+            queryString = queryString + "                           WHERE       GoodsIssueDetails.EntryDate > @lSKUBalanceDate AND GoodsIssueDetails.EntryDate <= @LocalDateTo " + this.SPSKUInventoryJournalWarehouseFilter("GoodsIssueDetails", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("GoodsIssueDetails", isCommodityFilter) + "\r\n";
+
+
+            //--ENMVNTaskID.ESKUAdjust
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            queryString = queryString + "                           SELECT      CASE WHEN SKUAdjustMaster.SKUAdjustDate >= @LocalDateFrom THEN " + (int)ENMVNTaskID.ESKUAdjust + " ELSE 0 END AS NMVNTaskID, CASE WHEN SKUAdjustMaster.SKUAdjustDate >= @LocalDateFrom THEN SKUAdjustMaster.SKUAdjustID ELSE 0 END AS JournalPrimaryID, CASE WHEN SKUAdjustMaster.SKUAdjustDate >= @LocalDateFrom THEN SKUAdjustMaster.SKUAdjustDate ELSE @LocalDateFrom - 1 END AS JournalDate, CASE WHEN SKUAdjustMaster.SKUAdjustDate >= @LocalDateFrom THEN SKUAdjustMaster.Reference ELSE '' END AS JournalReference, CASE WHEN SKUAdjustMaster.SKUAdjustDate >= @LocalDateFrom THEN SKUAdjustMaster.Description ELSE 'TON DAU KY' END AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       SKUAdjustDetail.CommodityID, ListWarehouseName.WarehouseGroupID, ListWarehouseName.WarehouseClassID, SKUAdjustDetail.WarehouseID, 0 AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       CASE WHEN SKUAdjustMaster.SKUAdjustDate < @LocalDateFrom THEN SKUAdjustDetail.Quantity ELSE 0 END AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       CASE WHEN SKUAdjustMaster.SKUAdjustDate >= @LocalDateFrom THEN -SKUAdjustDetail.Quantity ELSE 0 END AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOnTransfer, 0 AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, 0 AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        SKUAdjustMaster INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       SKUAdjustDetail ON SKUAdjustMaster.SKUAdjustID = SKUAdjustDetail.SKUAdjustID INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ListWarehouseName ON SKUAdjustDetail.WarehouseID = ListWarehouseName.WarehouseID " + "\r\n"; //OUTPUT ONLY: ADJUST: CO DAT BIET HON CAC T/H KHAC: QUANTITY < 0: NEN: SKUAdjustDetail.Quantity: +/- NGUOC LAI VOI CAC T/H KHAC TI XIU
+            queryString = queryString + "                           WHERE       SKUAdjustMaster.SKUAdjustDate > @lSKUBalanceDate AND SKUAdjustMaster.SKUAdjustDate <= @LocalDateTo AND SKUAdjustDetail.Quantity < 0 " + this.SPSKUInventoryJournalWarehouseFilter("SKUAdjustDetail", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("SKUAdjustDetail", isCommodityFilter) + "\r\n";
+
+            // --OUTPUT: IN-TERM OPENNING + OUTPUT //END
+
+            // --ON-INPUT  //BEGIN
+            //--ENMVNTaskID.ESKUTransfer
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            queryString = queryString + "                           SELECT      " + (int)ENMVNTaskID.ESKUTransfer + " AS NMVNTaskID, SKUTransferMaster.SKUTransferID AS JournalPrimaryID, SKUTransferMaster.SKUTransferDate AS JournalDate, SKUTransferMaster.Reference AS JournalReference, SKUTransferMaster.Description AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       SKUTransferDetail.CommodityID, ListWarehouseName.WarehouseGroupID, ListWarehouseName.WarehouseClassID, SKUTransferDetail.WarehouseInID AS WarehouseID, SKUTransferDetail.WarehouseID AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       ROUND(SKUTransferDetail.Quantity - SKUTransferDetail.QuantityInput, " + (int)GlobalEnums.rndQuantity + ") AS QuantityOnTransfer, 0 AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, 0 AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        SKUTransferMaster INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       SKUTransferDetail ON SKUTransferMaster.SKUTransferID = SKUTransferDetail.SKUTransferID INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ListWarehouseName ON SKUTransferDetail.WarehouseInID = ListWarehouseName.WarehouseID " + "\r\n";
+            queryString = queryString + "                           WHERE       SKUTransferMaster.SKUTransferDate <= @LocalDateTo AND ROUND(SKUTransferDetail.Quantity - SKUTransferDetail.QuantityInput, " + (int)GlobalEnums.rndQuantity + ") > 0 " + this.SPSKUInventoryJournalWarehouseFilter("ListWarehouseName", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("SKUTransferDetail", isCommodityFilter) + "\r\n";
+
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            queryString = queryString + "                           SELECT      " + (int)ENMVNTaskID.ESKUTransfer + " AS NMVNTaskID, SKUTransferMaster.SKUTransferID AS JournalPrimaryID, SKUTransferMaster.SKUTransferDate AS JournalDate, SKUTransferMaster.Reference AS JournalReference, SKUTransferMaster.Description AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       SKUInputDetail.CommodityID, ListWarehouseName.WarehouseGroupID, ListWarehouseName.WarehouseClassID, SKUInputDetail.WarehouseID, SKUInputDetail.WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       SKUInputDetail.Quantity AS QuantityOnTransfer, 0 AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, 0 AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        SKUTransferMaster INNER JOIN " + "\r\n"; //LUU Y: SKUTransferDetail.WarehouseInID LUON LUON = SKUInputDetail.WarehouseID, NEN CAU LENH UNDO SAU DAY LUON LUON DUNG
+            queryString = queryString + "                                       SKUInputMaster ON SKUTransferMaster.SKUTransferID = SKUInputMaster.SKUInputVoucherID AND SKUInputMaster.SKUInputVoucherTypeID = " + (int)ENMVNTaskID.ESKUTransfer + " INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       SKUInputDetail ON SKUInputMaster.SKUInputID = SKUInputDetail.SKUInputID INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ListWarehouseName ON SKUInputDetail.WarehouseID = ListWarehouseName.WarehouseID " + "\r\n";
+            queryString = queryString + "                           WHERE       SKUTransferMaster.SKUTransferDate <= @LocalDateTo AND SKUInputMaster.SKUInputDate > @LocalDateTo " + this.SPSKUInventoryJournalWarehouseFilter("SKUInputDetail", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("SKUInputDetail", isCommodityFilter) + "\r\n";
+            // --ON-INPUT  //END
+
+
+
+            // --ON-OUTPUT  //BEGIN
+            //--ENMVNTaskID.DeliveryAdvice
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            queryString = queryString + "                           SELECT      " + (int)GlobalEnums.NmvnTaskID.DeliveryAdvice + " AS NMVNTaskID, DeliveryAdviceDetails.DeliveryAdviceID AS JournalPrimaryID, DeliveryAdviceDetails.EntryDate AS JournalDate, '' AS JournalReference, '' AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       DeliveryAdviceDetails.CommodityID, ListWarehouseName.WarehouseGroupID, ListWarehouseName.WarehouseClassID, DeliveryAdviceDetails.WarehouseID, 0 AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOnTransfer, ROUND(DeliveryAdviceDetails.Quantity + DeliveryAdviceDetails.FreeQuantity - DeliveryAdviceDetails.QuantityIssue - DeliveryAdviceDetails.FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, 0 AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        DeliveryAdviceDetails INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ListWarehouseName ON DeliveryAdviceDetails.WarehouseID = ListWarehouseName.WarehouseID " + "\r\n";
+            queryString = queryString + "                           WHERE       DeliveryAdviceDetails.EntryDate <= @LocalDateTo AND ROUND(DeliveryAdviceDetails.Quantity + DeliveryAdviceDetails.FreeQuantity - DeliveryAdviceDetails.QuantityIssue - DeliveryAdviceDetails.FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0 " + this.SPSKUInventoryJournalWarehouseFilter("ListWarehouseName", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("DeliveryAdviceDetails", isCommodityFilter) + "\r\n";
+
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            queryString = queryString + "                           SELECT      " + (int)GlobalEnums.NmvnTaskID.DeliveryAdvice + " AS NMVNTaskID, DeliveryAdvices.DeliveryAdviceID AS JournalPrimaryID, DeliveryAdvices.EntryDate AS JournalDate, '' AS JournalReference, '' AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       GoodsIssueDetails.CommodityID, ListWarehouseName.WarehouseGroupID, ListWarehouseName.WarehouseClassID, GoodsIssueDetails.WarehouseID, 0 AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOnTransfer, GoodsIssueDetails.Quantity + GoodsIssueDetails.FreeQuantity AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, 0 AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        DeliveryAdvices INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       GoodsIssueDetails ON DeliveryAdvices.DeliveryAdviceID = GoodsIssueDetails.DeliveryAdviceID INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ListWarehouseName ON GoodsIssueDetails.WarehouseID = ListWarehouseName.WarehouseID " + "\r\n";
+            queryString = queryString + "                           WHERE       DeliveryAdvices.EntryDate <= @LocalDateTo AND GoodsIssueDetails.EntryDate > @LocalDateTo " + this.SPSKUInventoryJournalWarehouseFilter("GoodsIssueDetails", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("GoodsIssueDetails", isCommodityFilter) + "\r\n";
+            // --ON-OUTPUT  //END
+
+
+
+
+            // --ON-TRANSFERADVICE-OUT  //BEGIN
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+            queryString = queryString + "                           SELECT      " + (int)ENMVNTaskID.ESKUTransferAdvice + " AS NMVNTaskID, SKUTransferAdviceMaster.SKUTransferAdviceID AS JournalPrimaryID, SKUTransferAdviceMaster.SKUTransferAdviceDate AS JournalDate, SKUTransferAdviceMaster.Reference AS JournalReference, SKUTransferAdviceMaster.Description AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       SKUTransferAdviceDetail.CommodityID, ListWarehouseName.WarehouseGroupID, ListWarehouseName.WarehouseClassID, SKUTransferAdviceDetail.WarehouseID, SKUTransferAdviceDetail.WarehouseInID AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOnTransfer, 0 AS QuantityOnAdvice, ROUND(SKUTransferAdviceDetail.Quantity - SKUTransferAdviceDetail.QuantityInput, " + (int)GlobalEnums.rndQuantity + ") AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, 0 AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        SKUTransferAdviceMaster INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       SKUTransferAdviceDetail ON SKUTransferAdviceMaster.SKUTransferAdviceID = SKUTransferAdviceDetail.SKUTransferAdviceID INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ListWarehouseName ON SKUTransferAdviceDetail.WarehouseID = ListWarehouseName.WarehouseID " + "\r\n";
+            queryString = queryString + "                           WHERE       SKUTransferAdviceMaster.InActive = 0 AND SKUTransferAdviceMaster.SKUTransferAdviceDate <= @LocalDateTo AND ROUND(SKUTransferAdviceDetail.Quantity - SKUTransferAdviceDetail.QuantityInput, " + (int)GlobalEnums.rndQuantity + ") > 0 " + this.SPSKUInventoryJournalWarehouseFilter("SKUTransferAdviceDetail", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("SKUTransferAdviceDetail", isCommodityFilter) + "\r\n";
+
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            queryString = queryString + "                           SELECT      " + (int)ENMVNTaskID.ESKUTransferAdvice + " AS NMVNTaskID, SKUTransferAdviceMaster.SKUTransferAdviceID AS JournalPrimaryID, SKUTransferAdviceMaster.SKUTransferAdviceDate AS JournalDate, SKUTransferAdviceMaster.Reference AS JournalReference, SKUTransferAdviceMaster.Description AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       SKUTransferDetail.CommodityID, ListWarehouseName.WarehouseGroupID, ListWarehouseName.WarehouseClassID, SKUTransferDetail.WarehouseID, SKUTransferDetail.WarehouseInID AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOnTransfer, 0 AS QuantityOnAdvice, SKUTransferDetail.Quantity AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        SKUTransferAdviceMaster INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       SKUTransferDetail ON SKUTransferAdviceMaster.SKUTransferAdviceID = SKUTransferDetail.SKUTransferAdviceID INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       SKUTransferMaster ON SKUTransferDetail.SKUTransferID = SKUTransferMaster.SKUTransferID INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ListWarehouseName ON SKUTransferDetail.WarehouseID = ListWarehouseName.WarehouseID " + "\r\n";
+            queryString = queryString + "                           WHERE       SKUTransferAdviceMaster.SKUTransferAdviceDate <= @LocalDateTo AND SKUTransferMaster.SKUTransferDate > @LocalDateTo " + this.SPSKUInventoryJournalWarehouseFilter("SKUTransferDetail", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("SKUTransferDetail", isCommodityFilter) + "\r\n";
+            // --ON-TRANSFERADVICE-OUT  //END
+
+            // --ON-TRANSFERADVICE-IN  //BEGIN
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            queryString = queryString + "                           SELECT      " + (int)ENMVNTaskID.ESKUTransferAdvice + " AS NMVNTaskID, SKUTransferAdviceMaster.SKUTransferAdviceID AS JournalPrimaryID, SKUTransferAdviceMaster.SKUTransferAdviceDate AS JournalDate, SKUTransferAdviceMaster.Reference AS JournalReference, SKUTransferAdviceMaster.Description AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       SKUTransferAdviceDetail.CommodityID, ListWarehouseName.WarehouseGroupID, ListWarehouseName.WarehouseClassID, SKUTransferAdviceDetail.WarehouseInID AS WarehouseID, SKUTransferAdviceDetail.WarehouseID AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOnTransfer, 0 AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, ROUND(SKUTransferAdviceDetail.Quantity - SKUTransferAdviceDetail.QuantityInput, " + (int)GlobalEnums.rndQuantity + ") AS QuantityOnTransferAdviceIn, 0 AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        SKUTransferAdviceMaster INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       SKUTransferAdviceDetail ON SKUTransferAdviceMaster.SKUTransferAdviceID = SKUTransferAdviceDetail.SKUTransferAdviceID INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ListWarehouseName ON SKUTransferAdviceDetail.WarehouseInID = ListWarehouseName.WarehouseID " + "\r\n";
+            queryString = queryString + "                           WHERE       SKUTransferAdviceMaster.InActive = 0 AND SKUTransferAdviceMaster.SKUTransferAdviceDate <= @LocalDateTo AND ROUND(SKUTransferAdviceDetail.Quantity - SKUTransferAdviceDetail.QuantityInput, " + (int)GlobalEnums.rndQuantity + ") > 0 " + this.SPSKUInventoryJournalWarehouseFilter("ListWarehouseName", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("SKUTransferAdviceDetail", isCommodityFilter) + "\r\n";
+
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            queryString = queryString + "                           SELECT      " + (int)ENMVNTaskID.ESKUTransferAdvice + " AS NMVNTaskID, SKUTransferAdviceMaster.SKUTransferAdviceID AS JournalPrimaryID, SKUTransferAdviceMaster.SKUTransferAdviceDate AS JournalDate, SKUTransferAdviceMaster.Reference AS JournalReference, SKUTransferAdviceMaster.Description AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       SKUTransferDetail.CommodityID, ListWarehouseName.WarehouseGroupID, ListWarehouseName.WarehouseClassID, SKUTransferDetail.WarehouseInID AS WarehouseID, SKUTransferDetail.WarehouseID AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOnTransfer, 0 AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, SKUTransferDetail.Quantity AS QuantityOnTransferAdviceIn, 0 AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        SKUTransferAdviceMaster INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       SKUTransferDetail ON SKUTransferAdviceMaster.SKUTransferAdviceID = SKUTransferDetail.SKUTransferAdviceID INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       SKUTransferMaster ON SKUTransferDetail.SKUTransferID = SKUTransferMaster.SKUTransferID INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ListWarehouseName ON SKUTransferDetail.WarehouseInID = ListWarehouseName.WarehouseID " + "\r\n";
+            queryString = queryString + "                           WHERE       SKUTransferAdviceMaster.SKUTransferAdviceDate <= @LocalDateTo AND SKUTransferMaster.SKUTransferDate > @LocalDateTo " + this.SPSKUInventoryJournalWarehouseFilter("ListWarehouseName", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("SKUTransferDetail", isCommodityFilter) + "\r\n";
+            // --ON-TRANSFERADVICE-IN  //END
+
+
+            // --ON-SHIP   //BEGIN
+            //--ENMVNTaskID.EProductionOrder (DAY CHI MOI LA TON DON, THUC TE CON TON SEMI, PACKING WAREHOUSE, ON-PACKING,...
+
+            //TON DON.BEGIN--CAU LENH XAC DINH TON DON HERE HOAN TOAN GIONG CAU LENH XAC DINH SO TON DON DAU KY/ CUOI KY CUA lfSPProductionOrderJournalBUILDSQL
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            queryString = queryString + "                           SELECT      " + (int)ENMVNTaskID.EProductionOrder + " AS NMVNTaskID, ProductionOrderMaster.ProductionOrderID AS JournalPrimaryID, ProductionOrderMaster.ProductionOrderDate AS JournalDate, ProductionOrderMaster.Reference AS JournalReference, ProductionOrderMaster.Description AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       ProductionOrderDetail.CommodityID, ProductionOrderMaster.WarehouseGroupID, " + (int)EWarehouseClassID.EWarehouseClassL1 + " AS WarehouseClassID, 0 AS WarehouseID, 0 AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOnTransfer, 0 AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, ROUND(ProductionOrderDetail.Quantity - ProductionOrderDetail.QuantityInput, " + (int)GlobalEnums.rndQuantity + ") AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        ProductionOrderMaster INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ProductionOrderDetail ON ProductionOrderMaster.ProductionOrderID = ProductionOrderDetail.ProductionOrderID " + "\r\n";
+            queryString = queryString + "                           WHERE       ProductionOrderMaster.ProductionOrderDate <= @LocalDateTo AND ROUND(ProductionOrderDetail.Quantity - ProductionOrderDetail.QuantityInput, " + (int)GlobalEnums.rndQuantity + ") > 0 AND ProductionOrderDetail.InActive = 0 AND @WarehouseClassFilter = 1 " + this.SPSKUInventoryJournalCommodityFilter("ProductionOrderDetail", isCommodityFilter) + this.SPSKUInventoryJournalWarehouseGroupFilter("ProductionOrderMaster", isWarehouseGroupFilter) + "\r\n";
+
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            queryString = queryString + "                           SELECT      " + (int)ENMVNTaskID.EProductionOrder + " AS NMVNTaskID, ProductionOrderMaster.ProductionOrderID AS JournalPrimaryID, ProductionOrderMaster.ProductionOrderDate AS JournalDate, ProductionOrderMaster.Reference AS JournalReference, ProductionOrderMaster.Description AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       ProductionSemiDetail.CommodityID, ProductionOrderMaster.WarehouseGroupID, " + (int)EWarehouseClassID.EWarehouseClassL1 + " AS WarehouseClassID, 0 AS WarehouseID, 0 AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOnTransfer, 0 AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, ProductionSemiDetail.Quantity AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        ProductionSemiMaster INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ProductionSemiDetail ON ProductionSemiMaster.ProductionSemiID = ProductionSemiDetail.ProductionSemiID AND ProductionSemiDetail.WarehouseClassID IN (" + (int)EWarehouseClassID.EWarehouseClassL1 + ", " + (int)EWarehouseClassID.EWarehouseClassLD + ", " + (int)EWarehouseClassID.EWarehouseClassL5 + ") INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ProductionOrderMaster ON ProductionSemiDetail.ProductionOrderID = ProductionOrderMaster.ProductionOrderID " + "\r\n";
+            queryString = queryString + "                           WHERE       ProductionOrderMaster.ProductionOrderDate <= @LocalDateTo AND ProductionSemiMaster.ProductionSemiDate > @LocalDateTo AND @WarehouseClassFilter = 1 " + this.SPSKUInventoryJournalCommodityFilter("ProductionSemiDetail", isCommodityFilter) + this.SPSKUInventoryJournalWarehouseGroupFilter("ProductionOrderMaster", isWarehouseGroupFilter) + "\r\n";
+
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            queryString = queryString + "                           SELECT      " + (int)ENMVNTaskID.EProductionOrder + " AS NMVNTaskID, ProductionOrderMaster.ProductionOrderID AS JournalPrimaryID, ProductionOrderMaster.ProductionOrderDate AS JournalDate, ProductionOrderMaster.Reference AS JournalReference, ProductionOrderMaster.Description AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       ProductionPackDetail.CommodityID, ProductionOrderMaster.WarehouseGroupID, " + (int)EWarehouseClassID.EWarehouseClassL1 + " AS WarehouseClassID, 0 AS WarehouseID, 0 AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOnTransfer, 0 AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, CASE WHEN ProductionPackDetail.WarehouseClassID IN (" + (int)EWarehouseClassID.EWarehouseClassL2 + ", " + (int)EWarehouseClassID.EWarehouseClassL3 + ") THEN -ProductionPackDetail.Quantity ELSE ProductionPackDetail.Quantity END AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        ProductionPackMaster INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ProductionPackDetail ON ProductionPackMaster.ProductionPackID = ProductionPackDetail.ProductionPackID AND (         (ProductionPackDetail.WarehouseClassID IN (" + (int)EWarehouseClassID.EWarehouseClassL2 + ", " + (int)EWarehouseClassID.EWarehouseClassL3 + ") AND ProductionPackDetail.WarehouseClassSemiID IN (" + (int)EWarehouseClassID.EWarehouseClassL1 + ", " + (int)EWarehouseClassID.EWarehouseClassLD + ", " + (int)EWarehouseClassID.EWarehouseClassL5 + ")) OR (ProductionPackDetail.WarehouseClassID IN (" + (int)EWarehouseClassID.EWarehouseClassL1 + ", " + (int)EWarehouseClassID.EWarehouseClassLD + ", " + (int)EWarehouseClassID.EWarehouseClassL5 + ") AND ProductionPackDetail.WarehouseClassSemiID IN (" + (int)EWarehouseClassID.EWarehouseClassL2 + ", " + (int)EWarehouseClassID.EWarehouseClassL3 + "))         ) INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ProductionOrderMaster ON ProductionPackDetail.ProductionOrderID = ProductionOrderMaster.ProductionOrderID " + "\r\n";
+            queryString = queryString + "                           WHERE       ProductionOrderMaster.ProductionOrderDate <= @LocalDateTo AND ProductionPackMaster.ProductionPackDate > @LocalDateTo AND @WarehouseClassFilter = 1 " + this.SPSKUInventoryJournalCommodityFilter("ProductionPackDetail", isCommodityFilter) + this.SPSKUInventoryJournalWarehouseGroupFilter("ProductionOrderMaster", isWarehouseGroupFilter) + "\r\n";
+
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            queryString = queryString + "                           SELECT      " + (int)ENMVNTaskID.EProductionOrder + " AS NMVNTaskID, ProductionOrderMaster.ProductionOrderID AS JournalPrimaryID, ProductionOrderMaster.ProductionOrderDate AS JournalDate, ProductionOrderMaster.Reference AS JournalReference, ProductionOrderMaster.Description AS JournalDescription, " + "\r\n";
+            queryString = queryString + "                                       ProductionRankDetail.CommodityID, ProductionOrderMaster.WarehouseGroupID, " + (int)EWarehouseClassID.EWarehouseClassL1 + " AS WarehouseClassID, 0 AS WarehouseID, 0 AS WarehouseOutID, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityBegin, 0 AS QuantityInputPRO, 0 AS QuantityInputINV, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputRTN, 0 AS QuantityInputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityInputADJ, 0 AS QuantityInputBLD, 0 AS QuantityInputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputINV, 0 AS QuantityOutputGoodsIssue, 0 AS QuantityOutputTRF, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOutputADJ, 0 AS QuantityOutputBLD, 0 AS QuantityOutputUBL, " + "\r\n";
+            queryString = queryString + "                                       0 AS QuantityOnTransfer, 0 AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, CASE WHEN ProductionRankDetail.WarehouseClassID IN (" + (int)EWarehouseClassID.EWarehouseClassL2 + ", " + (int)EWarehouseClassID.EWarehouseClassL3 + ") THEN -ProductionRankDetail.Quantity ELSE ProductionRankDetail.Quantity END AS QuantityOnProduction " + "\r\n";
+            queryString = queryString + "                           FROM        ProductionRankMaster INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ProductionRankDetail ON ProductionRankMaster.ProductionRankID = ProductionRankDetail.ProductionRankID AND (         (ProductionRankDetail.WarehouseClassID IN (" + (int)EWarehouseClassID.EWarehouseClassL2 + ", " + (int)EWarehouseClassID.EWarehouseClassL3 + ") AND ProductionRankDetail.WarehouseClassPackID IN (" + (int)EWarehouseClassID.EWarehouseClassL1 + ", " + (int)EWarehouseClassID.EWarehouseClassLD + ", " + (int)EWarehouseClassID.EWarehouseClassL5 + ")) OR (ProductionRankDetail.WarehouseClassID IN (" + (int)EWarehouseClassID.EWarehouseClassL1 + ", " + (int)EWarehouseClassID.EWarehouseClassLD + ", " + (int)EWarehouseClassID.EWarehouseClassL5 + ") AND ProductionRankDetail.WarehouseClassPackID IN (" + (int)EWarehouseClassID.EWarehouseClassL2 + ", " + (int)EWarehouseClassID.EWarehouseClassL3 + "))         ) INNER JOIN " + "\r\n";
+            queryString = queryString + "                                       ProductionOrderMaster ON ProductionRankDetail.ProductionOrderID = ProductionOrderMaster.ProductionOrderID " + "\r\n";
+            queryString = queryString + "                           WHERE       ProductionOrderMaster.ProductionOrderDate <= @LocalDateTo AND ProductionRankMaster.ProductionRankDate > @LocalDateTo AND @WarehouseClassFilter = 1 " + this.SPSKUInventoryJournalCommodityFilter("ProductionRankDetail", isCommodityFilter) + this.SPSKUInventoryJournalWarehouseGroupFilter("ProductionOrderMaster", isWarehouseGroupFilter) + "\r\n";
+
+            //TON DON.END--CAU LENH XAC DINH TON DON HERE HOAN TOAN GIONG CAU LENH XAC DINH SO TON DON DAU KY/ CUOI KY CUA lfSPProductionOrderJournalBUILDSQL
+            // --ON-SHIP   //END
+
+            return queryString;
+        }
+
+
+        private string SPSKUInventoryJournalWarehouseFilter(bool isWarehouseFilter)
+        { return this.SPSKUInventoryJournalWarehouseFilter("", isWarehouseFilter); }
+
+        private string SPSKUInventoryJournalWarehouseFilter(string tableName, bool isWarehouseFilter)
+        {
+            return isWarehouseFilter ? " AND " + (tableName != "" ? tableName + "." : "") + "WarehouseID IN (SELECT WarehouseID FROM @WarehouseFilter) " : "";
+        }
+
+        private string SPSKUInventoryJournalCommodityFilter(bool isCommodityFilter)
+        { return this.SPSKUInventoryJournalCommodityFilter("", isCommodityFilter); }
+
+        private string SPSKUInventoryJournalCommodityFilter(string tableName, bool isCommodityFilter)
+        {
+            return isCommodityFilter ? " AND " + (tableName != "" ? tableName + "." : "") + "CommodityID IN (SELECT CommodityID FROM @CommodityFilter) " : (tableName == "GoodsIssueDetails" ? " AND " + (tableName != "" ? tableName + "." : "") + "CommodityTypeID IN (" + (int)GlobalEnums.CommodityTypeID.Parts + ", " + (int)GlobalEnums.CommodityTypeID.Consumables + ") " : "");
+        }
+
+        private string SPSKUInventoryJournalWarehouseGroupFilter(bool isWarehouseGroupFilter)
+        { return this.SPSKUInventoryJournalWarehouseGroupFilter("", isWarehouseGroupFilter); }
+
+        private string SPSKUInventoryJournalWarehouseGroupFilter(string tableName, bool isWarehouseGroupFilter)
+        {
+            return isWarehouseGroupFilter ? " AND " + (tableName != "" ? tableName + "." : "") + "WarehouseGroupID IN (SELECT WarehouseGroupID FROM @WarehouseGroupFilter) " : "";
+        }
 
 
         public void WarehouseJournalTESTSummary()
@@ -1181,6 +1936,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
         {
             return isCommodityFilter ? " AND " + (tableName != "" ? tableName + "." : "") + "CommodityID IN (SELECT CommodityID FROM @CommodityFilter) " : (tableName == "WarehouseBalanceDetail" ? "" : " AND " + (tableName != "" ? tableName + "." : "") + "CommodityTypeID IN (" + (int)GlobalEnums.CommodityTypeID.Parts + ", " + (int)GlobalEnums.CommodityTypeID.Consumables + ") ");
         }
+
         #endregion
 
 
