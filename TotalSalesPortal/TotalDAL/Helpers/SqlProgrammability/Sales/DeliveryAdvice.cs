@@ -465,17 +465,32 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
-            //queryString = queryString + "       EXEC        DeliveryAdviceUpdateQuotation @EntityID, @SaveRelativeOption " + "\r\n";
-
-            //queryString = queryString + "       SET         @SaveRelativeOption = -@SaveRelativeOption" + "\r\n";
-            //queryString = queryString + "       EXEC        UpdateWarehouseBalance @SaveRelativeOption, 0, @EntityID, 0, 0 ";
-
-
-            //queryString = queryString + "       EXEC        VCP_A.dbo.SaveDeliveryAdvice @EntityID";
-            
-
+            //UPDATE ERmgrVCP.BEGIN
+            queryString = queryString + "               EXEC        ERmgrVCP.dbo.DeliveryAdviceSaveRelative @EntityID, @SaveRelativeOption "; //WHEN SAVE: SHOULD ADD TO ERmgrVCP FIRST, THEN CALL SPSKUBalanceUpdate
+            //UPDATE ERmgrVCP.END
 
             this.totalSalesPortalEntities.CreateStoredProcedure("DeliveryAdviceSaveRelative", queryString);
+
+            queryString = " USE ERmgrVCP    GO " + "\r\n";
+            queryString = queryString + " DROP PROC DeliveryAdviceSaveRelative " + "\r\n";
+            queryString = queryString + " CREATE PROC DeliveryAdviceSaveRelative " + "\r\n";
+            queryString = queryString + " @EntityID int, @SaveRelativeOption int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "       IF (@SaveRelativeOption = 1) " + "\r\n";
+            queryString = queryString + "           BEGIN " + "\r\n";
+            queryString = queryString + "               DELETE FROM DeliveryAdvices WHERE DeliveryAdviceID = @EntityID " + "\r\n";
+            queryString = queryString + "               INSERT INTO DeliveryAdviceDetails SELECT * FROM TotalSalesPortal.dbo.DeliveryAdviceDetails WHERE DeliveryAdviceID = @EntityID " + "\r\n";
+            queryString = queryString + "           END " + "\r\n";
+            queryString = queryString + "       ELSE " + "\r\n";
+            queryString = queryString + "           BEGIN " + "\r\n";
+            queryString = queryString + "               DELETE FROM DeliveryAdviceDetails WHERE DeliveryAdviceID = @EntityID " + "\r\n";
+            queryString = queryString + "               DELETE FROM DeliveryAdvices WHERE DeliveryAdviceID = @EntityID " + "\r\n";
+            queryString = queryString + "           END " + "\r\n";
+
+            System.Diagnostics.Debug.WriteLine(queryString);
+
         }
 
         private void DeliveryAdvicePostSaveValidate()

@@ -255,7 +255,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
             //UPDATE ERmgrVCP.BEGIN
             queryString = queryString + "               IF          (@SaveRelativeOption =  1)    EXEC        ERmgrVCP.dbo.GoodsIssueSaveRelative @EntityID, @SaveRelativeOption "; //WHEN SAVE: SHOULD ADD TO ERmgrVCP FIRST, THEN CALL SPSKUBalanceUpdate
-            queryString = queryString + "               EXEC        ERmgrVCP.dbo.SPSKUBalanceUpdate @SaveRelativeOption, 0, 0, @EntityID, 0, 0 ";
+            queryString = queryString + "               EXEC        ERmgrVCP.dbo.SPSKUBalanceUpdate     @SaveRelativeOption, 0, 0, @EntityID, 0, 0 ";
             queryString = queryString + "               IF          (@SaveRelativeOption = -1)    EXEC        ERmgrVCP.dbo.GoodsIssueSaveRelative @EntityID, @SaveRelativeOption "; //WHEN UNDO: SHOULD REMOVE FROM ERmgrVCP LATER, AFTER CALL SPSKUBalanceUpdate
             //UPDATE ERmgrVCP.END
 
@@ -268,11 +268,22 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "           END " + "\r\n";
 
 
-            //queryString = queryString + "       SET             @SaveRelativeOption = -@SaveRelativeOption" + "\r\n";
-            //queryString = queryString + "       EXEC            UpdateWarehouseBalance @SaveRelativeOption, 0, 0, @EntityID, 0 ";
-
             this.totalSalesPortalEntities.CreateStoredProcedure("GoodsIssueSaveRelative", queryString);
 
+
+            queryString = " USE ERmgrVCP    GO " + "\r\n";
+            queryString = queryString + " DROP PROC GoodsIssueSaveRelative " + "\r\n";
+            queryString = queryString + " CREATE PROC GoodsIssueSaveRelative " + "\r\n";
+            queryString = queryString + " @EntityID int, @SaveRelativeOption int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "       IF (@SaveRelativeOption = 1) " + "\r\n";
+            queryString = queryString + "           INSERT INTO GoodsIssueDetails SELECT * FROM TotalSalesPortal.dbo.GoodsIssueDetails WHERE GoodsIssueID = @EntityID " + "\r\n";
+            queryString = queryString + "       ELSE " + "\r\n";
+            queryString = queryString + "           DELETE FROM GoodsIssueDetails WHERE GoodsIssueID = @EntityID " + "\r\n";
+
+            System.Diagnostics.Debug.WriteLine(queryString);
         }
 
         private void GoodsIssuePostSaveValidate()
