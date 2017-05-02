@@ -381,7 +381,7 @@
     function callVoidDetail(deliveryAdviceDetailID) {
         require(["kpopupWindow"], function (kpopupWindow) {
             var voidDetailWindow = new kpopupWindow();
-            voidDetailWindow.openWindow($("#popupWindow"), "@Url.Action("VoidDetail", "DeliveryAdvices")" + "/" + $("#DeliveryAdviceID").val() + "/" + deliveryAdviceDetailID, "Hủy/ phục hồi một phần đơn hàng", @SettingsManager.PopupWidthVoid,  1000);
+            voidDetailWindow.openWindow($("#popupWindow"), "@Url.Action("VoidDetail", "DeliveryAdvices")" + "/" + $("#DeliveryAdviceID").val() + "/" + deliveryAdviceDetailID, "Hủy/ phục hồi một phần đơn hàng", @SettingsManager.PopupWidthVoid,  @SettingsManager.PopupHeightVoid);
         });
     }
 
