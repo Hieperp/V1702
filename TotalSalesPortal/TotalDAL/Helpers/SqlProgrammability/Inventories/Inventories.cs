@@ -849,7 +849,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
         public string GET_WarehouseJournal_BUILD_SQL(string warehouseJournalTable, string fromDate, string toDate, string warehouseIDList, string commodityIDList, string isFullJournal, string isAmountIncluded)
         {
 
-            string queryString = "         CREATE TABLE " + warehouseJournalTable + "\r\n";
+            string queryString = "              DECLARE  " + warehouseJournalTable  + " TABLE " + "\r\n";
 
             queryString = queryString + "      (NMVNTaskID int NULL, JournalPrimaryID int NULL, JournalDate datetime NULL, JournalReference nvarchar(30) NULL, JournalDescription nvarchar(202) NULL, " + "\r\n";
             queryString = queryString + "       CommodityID int NULL, Description nvarchar(50) NULL, DescriptionOfficial nvarchar(200) NULL, DescriptionPartA nvarchar(20) NULL, DescriptionPartB nvarchar(20) NULL, DescriptionPartC nvarchar(20) NULL, DescriptionPartD nvarchar(20) NULL, UnitSales nvarchar(50) NULL, Weight float NULL, LeadTime float NULL, SellLife int NULL, " + "\r\n";
@@ -858,7 +858,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "       QuantityOutputINV float NULL, QuantityOutputGoodsIssue float NULL, QuantityOutputTRF float NULL, QuantityOutputADJ float NULL, QuantityOutputBLD float NULL, QuantityOutputUBL float NULL, QuantityOutput float NULL, QuantityOnTransfer float NULL, QuantityOnAdvice float NULL, QuantityOnTransferAdviceOut float NULL, QuantityOnTransferAdviceIn float NULL, QuantityOnProduction float NULL, UPriceNMDInventory float NULL," + "\r\n";
             queryString = queryString + "       ItemCategoryID int NULL, Description1 nvarchar(100) NULL, Description2 nvarchar(100) NULL, Description3 nvarchar(100) NULL, Description4 nvarchar(100) NULL, Description5 nvarchar(100) NULL, Description6 nvarchar(100) NULL, Description7 nvarchar(100) NULL, Description8 nvarchar(100) NULL, Description9 nvarchar(100) NULL, MaxTransferOutputDate  datetime NULL) " + "\r\n";
 
-            queryString = queryString + "   INSERT INTO " + warehouseJournalTable + " EXEC ERmgrVCP.dbo.SPSKUInventoryJournal " + fromDate + ", " + toDate + ", " + commodityIDList + ", " + ", N'', N'', N'', N'', " + ", " + warehouseIDList + "\r\n";
+            queryString = queryString + "       INSERT INTO " + warehouseJournalTable + " EXEC ERmgrVCP.dbo.SPSKUInventoryJournal " + fromDate + ", " + toDate + ", " + commodityIDList + ", " + ", N'', N'', N'', N'', " + ", " + warehouseIDList + "\r\n";
 
 
             //COMMENT ON 01-JAN-2017: NO USE WAREHOUSE INVENTORY: THIS CODE IS FOR USE WHEN THERE IS NO WAREHOUSE BALANCE
