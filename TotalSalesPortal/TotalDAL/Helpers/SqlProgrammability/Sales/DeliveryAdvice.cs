@@ -565,7 +565,12 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + "       UPDATE      DeliveryAdvices  SET InActive = @InActive, InActiveDate = GetDate(), VoidTypeID = IIF(@InActive = 1, @VoidTypeID, NULL) WHERE DeliveryAdviceID = @EntityID AND InActive = ~@InActive" + "\r\n";
 
             queryString = queryString + "       IF @@ROWCOUNT = 1 " + "\r\n";
-            queryString = queryString + "           UPDATE          DeliveryAdviceDetails  SET InActive = @InActive WHERE DeliveryAdviceID = @EntityID ; " + "\r\n";
+            queryString = queryString + "           BEGIN " + "\r\n";
+            queryString = queryString + "               UPDATE          DeliveryAdviceDetails  SET InActive = @InActive WHERE DeliveryAdviceID = @EntityID ; " + "\r\n";
+
+            queryString = queryString + "               UPDATE          ERmgrVCP.dbo.DeliveryAdvices  SET InActive = @InActive, InActiveDate = GetDate(), VoidTypeID = IIF(@InActive = 1, @VoidTypeID, NULL) WHERE DeliveryAdviceID = @EntityID " + "\r\n";
+            queryString = queryString + "               UPDATE          ERmgrVCP.dbo.DeliveryAdviceDetails  SET InActive = @InActive WHERE DeliveryAdviceID = @EntityID ; " + "\r\n";
+            queryString = queryString + "           END " + "\r\n";
             queryString = queryString + "       ELSE " + "\r\n";
             queryString = queryString + "           BEGIN " + "\r\n";
             queryString = queryString + "               DECLARE     @msg NVARCHAR(300) = N'Dữ liệu không tồn tại hoặc đã ' + iif(@InActive = 0, 'phục hồi lệnh', '')  + ' hủy' ; " + "\r\n";
@@ -584,7 +589,12 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
             queryString = queryString + "       UPDATE      DeliveryAdviceDetails  SET InActivePartial = @InActivePartial, InActivePartialDate = GetDate(), VoidTypeID = IIF(@InActivePartial = 1, @VoidTypeID, NULL) WHERE DeliveryAdviceID = @EntityID AND DeliveryAdviceDetailID = @EntityDetailID AND InActivePartial = ~@InActivePartial ; " + "\r\n";
             queryString = queryString + "       IF @@ROWCOUNT = 1 " + "\r\n";
-            queryString = queryString + "           UPDATE          DeliveryAdvices  SET InActivePartial = (SELECT MAX(CAST(InActivePartial AS int)) FROM DeliveryAdviceDetails WHERE DeliveryAdviceID = @EntityID) WHERE DeliveryAdviceID = @EntityID ; " + "\r\n";
+            queryString = queryString + "           BEGIN " + "\r\n";
+            queryString = queryString + "               UPDATE          DeliveryAdvices  SET InActivePartial = (SELECT MAX(CAST(InActivePartial AS int)) FROM DeliveryAdviceDetails WHERE DeliveryAdviceID = @EntityID) WHERE DeliveryAdviceID = @EntityID ; " + "\r\n";
+
+            queryString = queryString + "               UPDATE          ERmgrVCP.dbo.DeliveryAdviceDetails  SET InActivePartial = @InActivePartial, InActivePartialDate = GetDate(), VoidTypeID = IIF(@InActivePartial = 1, @VoidTypeID, NULL) WHERE DeliveryAdviceID = @EntityID AND DeliveryAdviceDetailID = @EntityDetailID ; " + "\r\n";
+            queryString = queryString + "               UPDATE          ERmgrVCP.dbo.DeliveryAdvices  SET InActivePartial = (SELECT MAX(CAST(InActivePartial AS int)) FROM DeliveryAdviceDetails WHERE DeliveryAdviceID = @EntityID) WHERE DeliveryAdviceID = @EntityID ; " + "\r\n";
+            queryString = queryString + "           END " + "\r\n";
             queryString = queryString + "       ELSE " + "\r\n";
             queryString = queryString + "           BEGIN " + "\r\n";
             queryString = queryString + "               DECLARE     @msg NVARCHAR(300) = N'Dữ liệu không tồn tại hoặc đã ' + iif(@InActivePartial = 0, 'phục hồi lệnh', '')  + ' hủy' ; " + "\r\n";

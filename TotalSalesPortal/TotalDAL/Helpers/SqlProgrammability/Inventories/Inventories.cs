@@ -1192,7 +1192,6 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             System.Diagnostics.Debug.WriteLine("---");
             System.Diagnostics.Debug.WriteLine(queryString);
 
-            //this.totalSalesPortalEntities.CreateStoredProcedure("SPSKUInventoryJournal", queryString);
         }
 
 
@@ -1434,7 +1433,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "                                       0 AS QuantityOnTransfer, ROUND(DeliveryAdviceDetails.Quantity + DeliveryAdviceDetails.FreeQuantity - DeliveryAdviceDetails.QuantityIssue - DeliveryAdviceDetails.FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, 0 AS QuantityOnProduction " + "\r\n";
             queryString = queryString + "                           FROM        DeliveryAdviceDetails INNER JOIN " + "\r\n";
             queryString = queryString + "                                       ListWarehouseName ON DeliveryAdviceDetails.WarehouseID = ListWarehouseName.WarehouseID " + "\r\n";
-            queryString = queryString + "                           WHERE       DeliveryAdviceDetails.EntryDate <= @LocalDateTo AND ROUND(DeliveryAdviceDetails.Quantity + DeliveryAdviceDetails.FreeQuantity - DeliveryAdviceDetails.QuantityIssue - DeliveryAdviceDetails.FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0 " + this.SPSKUInventoryJournalWarehouseFilter("ListWarehouseName", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("DeliveryAdviceDetails", isCommodityFilter) + "\r\n";
+            queryString = queryString + "                           WHERE       DeliveryAdviceDetails.EntryDate <= @LocalDateTo AND DeliveryAdviceDetails.Approved = 1 AND DeliveryAdviceDetails.InActive = 0 AND DeliveryAdviceDetails.InActivePartial = 0 AND DeliveryAdviceDetails.InActiveIssue = 0 AND ROUND(DeliveryAdviceDetails.Quantity + DeliveryAdviceDetails.FreeQuantity - DeliveryAdviceDetails.QuantityIssue - DeliveryAdviceDetails.FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0 " + this.SPSKUInventoryJournalWarehouseFilter("ListWarehouseName", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("DeliveryAdviceDetails", isCommodityFilter) + "\r\n";
 
             queryString = queryString + "                           UNION ALL" + "\r\n";
 
