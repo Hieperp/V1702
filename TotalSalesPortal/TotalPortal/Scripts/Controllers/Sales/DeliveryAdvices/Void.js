@@ -1,3 +1,3 @@
-﻿require(["kendoWidgetReadonly"], function (kendoWidgetReadonly) {
+﻿require(["kendoWidgetReadonly", "commonEditWithDetailInvoked"], function (kendoWidgetReadonly, commonEditWithDetailInvoked) {
 
 });
