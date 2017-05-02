@@ -858,15 +858,15 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "       QuantityOutputINV float NULL, QuantityOutputGoodsIssue float NULL, QuantityOutputTRF float NULL, QuantityOutputADJ float NULL, QuantityOutputBLD float NULL, QuantityOutputUBL float NULL, QuantityOutput float NULL, QuantityOnTransfer float NULL, QuantityOnAdvice float NULL, QuantityOnTransferAdviceOut float NULL, QuantityOnTransferAdviceIn float NULL, QuantityOnProduction float NULL, UPriceNMDInventory float NULL," + "\r\n";
             queryString = queryString + "       ItemCategoryID int NULL, Description1 nvarchar(100) NULL, Description2 nvarchar(100) NULL, Description3 nvarchar(100) NULL, Description4 nvarchar(100) NULL, Description5 nvarchar(100) NULL, Description6 nvarchar(100) NULL, Description7 nvarchar(100) NULL, Description8 nvarchar(100) NULL, Description9 nvarchar(100) NULL, MaxTransferOutputDate  datetime NULL) " + "\r\n";
 
-            queryString = queryString + "       INSERT INTO " + warehouseJournalTable + " EXEC ERmgrVCP.dbo.SPSKUInventoryJournal " + fromDate + ", " + toDate + ", " + commodityIDList + ", " + ", N'', N'', N'', N'', " + ", " + warehouseIDList + "\r\n";
+            queryString = queryString + "       INSERT INTO " + warehouseJournalTable + " EXEC ERmgrVCP.dbo.SPSKUInventoryJournal " + fromDate + ", " + toDate + ", " + commodityIDList + ", N'', N'', N'', N'', " + warehouseIDList + "\r\n";
 
 
             //COMMENT ON 01-JAN-2017: NO USE WAREHOUSE INVENTORY: THIS CODE IS FOR USE WHEN THERE IS NO WAREHOUSE BALANCE
 
             ////queryString = "                     DECLARE @My01JAN2017Commodities TABLE (CommodityID int NOT NULL) INSERT INTO @My01JAN2017Commodities SELECT Id FROM dbo.SplitToIntList (" + commodityIDList + ") " + "\r\n";
             ////queryString = queryString + "       DECLARE     " + warehouseJournalTable + " TABLE \r\n";
-            ////queryString = queryString + "                  (CommodityID int NULL, WarehouseID int NULL, QuantityBegin float NULL) " + "\r\n";
-            ////queryString = queryString + "       INSERT INTO " + warehouseJournalTable + " SELECT Commodities.CommodityID, Warehouses.WarehouseID, 9999 AS QuantityBegin FROM @My01JAN2017Commodities Commodities CROSS JOIN Warehouses WHERE Warehouses.WarehouseID IN (SELECT WarehouseID FROM CustomerWarehouses WHERE CustomerID = @CustomerID AND InActive = 0) " + "\r\n";
+            ////queryString = queryString + "                  (CommodityID int NULL, WarehouseID int NULL, QuantityBegin float NULL, QuantityOnAdvice float NULL) " + "\r\n";
+            ////queryString = queryString + "       INSERT INTO " + warehouseJournalTable + " SELECT Commodities.CommodityID, Warehouses.WarehouseID, 9999 AS QuantityBegin, 9999 AS QuantityOnAdvice FROM @My01JAN2017Commodities Commodities CROSS JOIN Warehouses WHERE Warehouses.WarehouseID IN (SELECT WarehouseID FROM CustomerWarehouses WHERE CustomerID = @CustomerID AND InActive = 0) " + "\r\n";
 
             return queryString;
         }

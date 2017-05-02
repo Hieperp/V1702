@@ -152,6 +152,9 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
             queryString = queryString + "   END " + "\r\n";
 
+            //System.Diagnostics.Debug.WriteLine("---");
+            //System.Diagnostics.Debug.WriteLine(queryString);
+
             this.totalSalesPortalEntities.CreateStoredProcedure("GetGoodsIssueViewDetails", queryString);
 
         }
