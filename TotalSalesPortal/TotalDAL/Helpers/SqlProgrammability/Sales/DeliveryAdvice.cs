@@ -480,7 +480,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
             queryString = queryString + "       IF (@SaveRelativeOption = 1) " + "\r\n";
             queryString = queryString + "           BEGIN " + "\r\n";
-            queryString = queryString + "               DELETE FROM DeliveryAdvices WHERE DeliveryAdviceID = @EntityID " + "\r\n";
+            queryString = queryString + "               INSERT INTO DeliveryAdvices SELECT * FROM TotalSalesPortal.dbo.DeliveryAdvices WHERE DeliveryAdviceID = @EntityID " + "\r\n";
             queryString = queryString + "               INSERT INTO DeliveryAdviceDetails SELECT * FROM TotalSalesPortal.dbo.DeliveryAdviceDetails WHERE DeliveryAdviceID = @EntityID " + "\r\n";
             queryString = queryString + "           END " + "\r\n";
             queryString = queryString + "       ELSE " + "\r\n";
