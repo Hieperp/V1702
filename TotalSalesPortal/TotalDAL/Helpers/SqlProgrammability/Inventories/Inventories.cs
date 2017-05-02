@@ -33,27 +33,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             //this.SalesInvoiceJournal(); THAY THE BOI SalesInvoiceJournal MOI!
         }
 
-        private void SaveDeliveryAdvice1()
-        {
-            string queryString = " DROP PROC SaveDeliveryAdvice1 " + "\r\n";
-            queryString = queryString + " CREATE PROC SaveDeliveryAdvice1 " + "\r\n";
-            queryString = queryString + " @lAddOrSubtraction Int, @lSKUInputID Int, @lSKUOutputID Int, @lSKUTransferID Int, @lSKUAdjustID Int, @lSKUActionDate DateTime " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
-            queryString = queryString + " AS " + "\r\n";
-            queryString = queryString + "   BEGIN " + "\r\n";
-
-            queryString = queryString + "       INSERT INTO     DeliveryAdviceDetails (DeliveryAdviceDetailID, EntryDate, LocationID, DeliveryAdviceID, CustomerID, ReceiverID, SalesOrderDetailID, CommodityID, CommodityTypeID, WarehouseID, PromotionID, SalespersonID, CalculatingTypeID, VATbyRow, Quantity, QuantityIssue, ControlFreeQuantity, FreeQuantity, FreeQuantityIssue, ListedPrice, DiscountPercent, UnitPrice, VATPercent, ListedGrossPrice, GrossPrice, ListedAmount, Amount, ListedVATAmount, VATAmount, ListedGrossAmount, GrossAmount, IsBonus, Remarks, VoidTypeID, Approved, InActive, InActivePartial, InActivePartialDate, InActiveIssue) " + "\r\n";
-            queryString = queryString + "       SELECT          DeliveryAdviceDetailID, EntryDate, LocationID, DeliveryAdviceID, CustomerID, ReceiverID, SalesOrderDetailID, CommodityID, CommodityTypeID, WarehouseID, PromotionID, SalespersonID, CalculatingTypeID, VATbyRow, Quantity, QuantityIssue, ControlFreeQuantity, FreeQuantity, FreeQuantityIssue, ListedPrice, DiscountPercent, UnitPrice, VATPercent, ListedGrossPrice, GrossPrice, ListedAmount, Amount, ListedVATAmount, VATAmount, ListedGrossAmount, GrossAmount, IsBonus, Remarks, VoidTypeID, Approved, InActive, InActivePartial, InActivePartialDate, InActiveIssue " + "\r\n";
-            queryString = queryString + "       FROM            TotalSalesPortal.dbo.DeliveryAdviceDetails " + "\r\n";
-            queryString = queryString + "       WHERE           DeliveryAdviceID = @DeliveryAdviceID " + "\r\n";
-
-            queryString = queryString + "       UPDATE          Commodities " + "\r\n";
-            queryString = queryString + "       SET             Commodities.LeadTime = ROUND(Commodities.LeadTime + DeliveryAdviceDetails.Quantity, 0) " + "\r\n";
-            queryString = queryString + "       FROM            Commodities INNER JOIN DeliveryAdviceDetails ON Commodities.CommodityID = DeliveryAdviceDetails.CommodityID AND DeliveryAdviceDetails.DeliveryAdviceID = @DeliveryAdviceID " + "\r\n";
-
-            //System.Diagnostics.Debug.WriteLine(queryString);
-
-        }
+        
 
         private void UpdateSKUBalance()
         {
