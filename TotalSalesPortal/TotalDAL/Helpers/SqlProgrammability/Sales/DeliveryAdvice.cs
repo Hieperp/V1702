@@ -590,10 +590,11 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + "       UPDATE      DeliveryAdviceDetails  SET InActivePartial = @InActivePartial, InActivePartialDate = GetDate(), VoidTypeID = IIF(@InActivePartial = 1, @VoidTypeID, NULL) WHERE DeliveryAdviceID = @EntityID AND DeliveryAdviceDetailID = @EntityDetailID AND InActivePartial = ~@InActivePartial ; " + "\r\n";
             queryString = queryString + "       IF @@ROWCOUNT = 1 " + "\r\n";
             queryString = queryString + "           BEGIN " + "\r\n";
-            queryString = queryString + "               UPDATE          DeliveryAdvices  SET InActivePartial = (SELECT MAX(CAST(InActivePartial AS int)) FROM DeliveryAdviceDetails WHERE DeliveryAdviceID = @EntityID) WHERE DeliveryAdviceID = @EntityID ; " + "\r\n";
+            queryString = queryString + "               DECLARE         @MaxInActivePartial bit     SET @MaxInActivePartial = (SELECT MAX(CAST(InActivePartial AS int)) FROM DeliveryAdviceDetails WHERE DeliveryAdviceID = @EntityID) ;" + "\r\n";
+            queryString = queryString + "               UPDATE          DeliveryAdvices  SET InActivePartial = @MaxInActivePartial WHERE DeliveryAdviceID = @EntityID ; " + "\r\n";
 
             queryString = queryString + "               UPDATE          ERmgrVCP.dbo.DeliveryAdviceDetails  SET InActivePartial = @InActivePartial, InActivePartialDate = GetDate(), VoidTypeID = IIF(@InActivePartial = 1, @VoidTypeID, NULL) WHERE DeliveryAdviceID = @EntityID AND DeliveryAdviceDetailID = @EntityDetailID ; " + "\r\n";
-            queryString = queryString + "               UPDATE          ERmgrVCP.dbo.DeliveryAdvices  SET InActivePartial = (SELECT MAX(CAST(InActivePartial AS int)) FROM ERmgrVCP.dbo.DeliveryAdviceDetails WHERE DeliveryAdviceID = @EntityID) WHERE DeliveryAdviceID = @EntityID ; " + "\r\n";
+            queryString = queryString + "               UPDATE          ERmgrVCP.dbo.DeliveryAdvices  SET InActivePartial = @MaxInActivePartial WHERE DeliveryAdviceID = @EntityID ; " + "\r\n";
             queryString = queryString + "           END " + "\r\n";
             queryString = queryString + "       ELSE " + "\r\n";
             queryString = queryString + "           BEGIN " + "\r\n";
