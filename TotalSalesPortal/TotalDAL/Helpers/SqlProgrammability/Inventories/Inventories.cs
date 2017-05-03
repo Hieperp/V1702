@@ -56,7 +56,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "   BEGIN " + "\r\n";
 
-
+            queryString = queryString + "       SET NOCOUNT ON" + "\r\n";
             //INIT DATA TO BE INPUT OR OUTPUT.BEGIN
             queryString = queryString + "       DECLARE @lTableAction TABLE (" + "\r\n";
             queryString = queryString + "           SKUInputID int NOT NULL ," + "\r\n";
@@ -169,6 +169,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "           END " + "\r\n";
 
             queryString = queryString + "       DELETE FROM SKUBalanceDetail WHERE Quantity = 0 " + "\r\n";
+
+            queryString = queryString + "       SET NOCOUNT OFF" + "\r\n";
 
             queryString = queryString + "   END " + "\r\n";
 
@@ -1117,6 +1119,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
             queryString = queryString + "   BEGIN " + "\r\n";
 
+            queryString = queryString + "       SET NOCOUNT ON " + "\r\n";
+
             queryString = queryString + "       DECLARE @LocalDateFrom DateTime, @LocalDateTo DateTime, @LocalCommodityIDList varchar(8000), @LocalWarehouseGroupIDList varchar(60), @LocalWHLocationIDList varchar(30), @LocalWHCategoryIDList varchar(30), @LocalWarehouseClassIDList varchar(30), @LocalWarehouseIDList varchar(100) " + "\r\n";
             queryString = queryString + "       SET @LocalDateFrom = @dDateFrom     SET @LocalDateTo = @dDateTo     SET @LocalCommodityIDList = @lCommodityIDList       SET @LocalWarehouseGroupIDList = @lWarehouseGroupIDList       SET @LocalWHLocationIDList = @lWHLocationIDList       SET @LocalWHCategoryIDList = @lWHCategoryIDList         SET @LocalWarehouseClassIDList = @lWarehouseClassIDList         SET @LocalWarehouseIDList = @lWarehouseIDList  " + "\r\n";
 
@@ -1186,6 +1190,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "       ELSE    " + "\r\n"; //IF  (@LocalWarehouseGroupIDList <> '' AND @WarehouseFilterable = 1 AND @LocalCommodityIDList <> '') "
             queryString = queryString + "               " + this.SPSKUInventoryJournalSQLA(true, true, true) + "\r\n";
 
+            queryString = queryString + "       SET NOCOUNT OFF" + "\r\n";
 
             queryString = queryString + "   END " + "\r\n";
 

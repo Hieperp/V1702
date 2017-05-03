@@ -149,19 +149,30 @@ namespace TotalService
         }
 
 
+        //protected virtual void ToggleVoidDetailMe(TDto dto, int detailID, bool inActivePartial, int voidTypeID)
+        //{
+        //    if (this.functionNameToggleVoidDetail != null && this.functionNameToggleVoidDetail != "")
+        //    {
+        //        ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("EntityID", dto.GetID()), new ObjectParameter("EntityDetailID", detailID), new ObjectParameter("InActivePartial", !inActivePartial), new ObjectParameter("VoidTypeID", voidTypeID) };
+        //        if (this.genericWithDetailRepository.ExecuteFunction(this.functionNameToggleVoidDetail, parameters) != 4) throw new System.ArgumentException("Lỗi", "Chứng từ không tồn tại hoặc đã " + (inActivePartial ? "phục hồi lệnh" : "") + "hủy"); 
+        //    }
+        //    else
+        //        throw new System.ArgumentException("Lỗi", "Hệ thống không cho phép thực hiện tác vụ này.");
+        //}
+
+
+
         protected virtual void ToggleVoidDetailMe(TDto dto, int detailID, bool inActivePartial, int voidTypeID)
         {
             if (this.functionNameToggleVoidDetail != null && this.functionNameToggleVoidDetail != "")
             {
                 ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("EntityID", dto.GetID()), new ObjectParameter("EntityDetailID", detailID), new ObjectParameter("InActivePartial", !inActivePartial), new ObjectParameter("VoidTypeID", voidTypeID) };
-                if (this.genericWithDetailRepository.ExecuteFunction(this.functionNameToggleVoidDetail, parameters) != 4) throw new System.ArgumentException("Lỗi", "Chứng từ không tồn tại hoặc đã " + (inActivePartial ? "phục hồi lệnh" : "") + "hủy"); 
+                int a = this.genericWithDetailRepository.ExecuteFunction(this.functionNameToggleVoidDetail, parameters);
+                if (a != 4) throw new System.ArgumentException("Lỗi", "Chứng từ không tồn tại hoặc đã " + a.ToString() + (inActivePartial ? "phục hồi lệnh" : "") + "hủy");
             }
             else
                 throw new System.ArgumentException("Lỗi", "Hệ thống không cho phép thực hiện tác vụ này.");
         }
-
-
-
 
 
 
