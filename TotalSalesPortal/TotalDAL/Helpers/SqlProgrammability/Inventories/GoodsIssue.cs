@@ -256,7 +256,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
 
             //UPDATE ERmgrVCP.BEGIN
-            queryString = queryString + "               UPDATE      ERmgrVCPDeliveryAdviceDetails SET ERmgrVCPDeliveryAdviceDetails.InActiveIssue = DeliveryAdviceDetails.InActiveIssue FROM ERmgrVCP.dbo.DeliveryAdviceDetails AS ERmgrVCPDeliveryAdviceDetails INNER JOIN DeliveryAdviceDetails ON ERmgrVCPDeliveryAdviceDetails.DeliveryAdviceDetailID = DeliveryAdviceDetails.DeliveryAdviceDetailID AND DeliveryAdviceDetails.DeliveryAdviceDetailID IN (SELECT DeliveryAdviceDetailID FROM GoodsIssueDetails WHERE GoodsIssueID = @EntityID) " + "\r\n";
+            queryString = queryString + "               UPDATE      ERmgrVCPDeliveryAdviceDetails SET ERmgrVCPDeliveryAdviceDetails.QuantityIssue = DeliveryAdviceDetails.QuantityIssue, ERmgrVCPDeliveryAdviceDetails.FreeQuantityIssue = DeliveryAdviceDetails.FreeQuantityIssue, ERmgrVCPDeliveryAdviceDetails.InActiveIssue = DeliveryAdviceDetails.InActiveIssue FROM ERmgrVCP.dbo.DeliveryAdviceDetails AS ERmgrVCPDeliveryAdviceDetails INNER JOIN DeliveryAdviceDetails ON ERmgrVCPDeliveryAdviceDetails.DeliveryAdviceDetailID = DeliveryAdviceDetails.DeliveryAdviceDetailID AND DeliveryAdviceDetails.DeliveryAdviceDetailID IN (SELECT DeliveryAdviceDetailID FROM GoodsIssueDetails WHERE GoodsIssueID = @EntityID) " + "\r\n";
 
             queryString = queryString + "               IF          (@SaveRelativeOption =  1)    EXEC        ERmgrVCP.dbo.GoodsIssueSaveRelative @EntityID, @SaveRelativeOption "; //WHEN SAVE: SHOULD ADD TO ERmgrVCP FIRST, THEN CALL SPSKUBalanceUpdate
             queryString = queryString + "               EXEC        ERmgrVCP.dbo.SPSKUBalanceUpdate     @SaveRelativeOption, 0, 0, @EntityID, 0, 0 ";
