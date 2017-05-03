@@ -310,11 +310,11 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
                 queryString = queryString + "               SELECT  @CommodityIDList = STUFF((SELECT ',' + CAST(CommodityID AS varchar) FROM @Commodities FOR XML PATH('')) ,1,1,'') " + "\r\n";
 
 
-                queryString = queryString + "               " + inventories.GET_WarehouseJournal_BUILD_SQL("@WarehouseJournalTable", "@EntryDate", "@EntryDate", "@WarehouseIDList", "@CommodityIDList", "0", "0") + "\r\n";
+                queryString = queryString + "               " + inventories.GET_WarehouseJournal_BUILD_SQL("@CommoditiesBalance", "@EntryDate", "@EntryDate", "@WarehouseIDList", "@CommodityIDList", "0", "0") + "\r\n";
 
                 queryString = queryString + "               INSERT INTO     @CommoditiesAvailable (WarehouseID, CommodityID, QuantityAvailable) " + "\r\n";
-                queryString = queryString + "               SELECT          WarehouseID, CommodityID, ROUND(QuantityBegin - QuantityOnAdvice, " + (int)GlobalEnums.rndQuantity + ") AS QuantityAvailable " + "\r\n"; //QuantityEndREC
-                queryString = queryString + "               FROM            @WarehouseJournalTable " + "\r\n";
+                queryString = queryString + "               SELECT          WarehouseID, CommodityID, QuantityBalance " + "\r\n";
+                queryString = queryString + "               FROM            @CommoditiesBalance " + "\r\n";
 
                 queryString = queryString + "               SET             @HasCommoditiesAvailable = @HasCommoditiesAvailable + @@ROWCOUNT " + "\r\n";
             }
@@ -448,16 +448,16 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + "       SELECT      @WarehouseIDList = STUFF((SELECT ',' + CAST(WarehouseID AS varchar)  FROM DeliveryAdviceDetails WHERE DeliveryAdviceID = @DeliveryAdviceID FOR XML PATH('')) ,1,1,'') " + "\r\n";
             queryString = queryString + "       SELECT      @CommodityIDList = STUFF((SELECT ',' + CAST(CommodityID AS varchar)  FROM DeliveryAdviceDetails WHERE DeliveryAdviceID = @DeliveryAdviceID FOR XML PATH('')) ,1,1,'') " + "\r\n";
 
-            queryString = queryString + "       " + inventories.GET_WarehouseJournal_BUILD_SQL("@WarehouseJournalTable", "@EntryDate", "@EntryDate", "@WarehouseIDList", "@CommodityIDList", "0", "0") + "\r\n";
+            queryString = queryString + "       " + inventories.GET_WarehouseJournal_BUILD_SQL("@CommoditiesBalance", "@EntryDate", "@EntryDate", "@WarehouseIDList", "@CommodityIDList", "0", "0") + "\r\n";
 
             queryString = queryString + "       SELECT      DeliveryAdviceDetails.DeliveryAdviceDetailID, DeliveryAdviceDetails.DeliveryAdviceID, Commodities.CommodityID, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, DeliveryAdviceDetails.CommodityTypeID, Warehouses.WarehouseID, Warehouses.Code AS WarehouseCode, VoidTypes.VoidTypeID, VoidTypes.Code AS VoidTypeCode, VoidTypes.Name AS VoidTypeName, VoidTypes.VoidClassID, DeliveryAdviceDetails.CalculatingTypeID, " + "\r\n";
-            queryString = queryString + "                   ROUND(CAST(ISNULL(CommoditiesAvailable.QuantityAvailable, 0) AS decimal(18, 2)) + DeliveryAdviceDetails.QuantityIssue + DeliveryAdviceDetails.FreeQuantityIssue + CASE WHEN DeliveryAdviceDetails.Approved = 1 AND DeliveryAdviceDetails.InActive = 0 AND DeliveryAdviceDetails.InActivePartial = 0 AND DeliveryAdviceDetails.InActiveIssue = 0 THEN DeliveryAdviceDetails.Quantity + DeliveryAdviceDetails.FreeQuantity - DeliveryAdviceDetails.QuantityIssue - DeliveryAdviceDetails.FreeQuantityIssue ELSE 0 END, 0) AS QuantityAvailable, " + "\r\n";
+            queryString = queryString + "                   ROUND(ISNULL(CommoditiesBalance.QuantityBalance, 0) + DeliveryAdviceDetails.QuantityIssue + DeliveryAdviceDetails.FreeQuantityIssue + CASE WHEN DeliveryAdviceDetails.Approved = 1 AND DeliveryAdviceDetails.InActive = 0 AND DeliveryAdviceDetails.InActivePartial = 0 AND DeliveryAdviceDetails.InActiveIssue = 0 THEN DeliveryAdviceDetails.Quantity + DeliveryAdviceDetails.FreeQuantity - DeliveryAdviceDetails.QuantityIssue - DeliveryAdviceDetails.FreeQuantityIssue ELSE 0 END, 0) AS QuantityAvailable, " + "\r\n";
             queryString = queryString + "                   DeliveryAdviceDetails.Quantity, DeliveryAdviceDetails.ControlFreeQuantity, DeliveryAdviceDetails.FreeQuantity, DeliveryAdviceDetails.ListedPrice, DeliveryAdviceDetails.DiscountPercent, DeliveryAdviceDetails.UnitPrice, DeliveryAdviceDetails.VATPercent, DeliveryAdviceDetails.ListedGrossPrice, DeliveryAdviceDetails.GrossPrice, DeliveryAdviceDetails.ListedAmount, DeliveryAdviceDetails.Amount, DeliveryAdviceDetails.ListedVATAmount, DeliveryAdviceDetails.VATAmount, DeliveryAdviceDetails.ListedGrossAmount, DeliveryAdviceDetails.GrossAmount, DeliveryAdviceDetails.IsBonus, DeliveryAdviceDetails.InActivePartial, DeliveryAdviceDetails.InActivePartialDate, DeliveryAdviceDetails.Remarks " + "\r\n";
             queryString = queryString + "       FROM        DeliveryAdviceDetails INNER JOIN" + "\r\n";
             queryString = queryString + "                   Commodities ON DeliveryAdviceDetails.DeliveryAdviceID = @DeliveryAdviceID AND DeliveryAdviceDetails.CommodityID = Commodities.CommodityID INNER JOIN" + "\r\n";
             queryString = queryString + "                   Warehouses ON DeliveryAdviceDetails.WarehouseID = Warehouses.WarehouseID LEFT JOIN" + "\r\n";
             queryString = queryString + "                   VoidTypes ON DeliveryAdviceDetails.VoidTypeID = VoidTypes.VoidTypeID LEFT JOIN" + "\r\n";
-            queryString = queryString + "                  (SELECT WarehouseID, CommodityID, SUM(QuantityBegin - QuantityOnAdvice) AS QuantityAvailable FROM @WarehouseJournalTable GROUP BY WarehouseID, CommodityID) CommoditiesAvailable ON DeliveryAdviceDetails.WarehouseID = CommoditiesAvailable.WarehouseID AND DeliveryAdviceDetails.CommodityID = CommoditiesAvailable.CommodityID " + "\r\n"; //SUM(QuantityBeginQuantityEndREC) 
+            queryString = queryString + "                   @CommoditiesBalance CommoditiesBalance ON DeliveryAdviceDetails.WarehouseID = CommoditiesBalance.WarehouseID AND DeliveryAdviceDetails.CommodityID = CommoditiesBalance.CommodityID " + "\r\n"; //SUM(QuantityBeginQuantityEndREC) 
 
             queryString = queryString + "    END " + "\r\n";
 
