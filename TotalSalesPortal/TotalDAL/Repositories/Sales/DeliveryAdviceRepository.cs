@@ -12,6 +12,11 @@ namespace TotalDAL.Repositories.Sales
 {
     public class DeliveryAdviceRepository : GenericWithDetailRepository<DeliveryAdvice, DeliveryAdviceDetail>, IDeliveryAdviceRepository
     {
+        //1-Set Balance Date to 23.59.59
+        //2-Copy 3 table (D.A/ GoodsIssue)
+        //3-Add two Store procedure (Update balance/ WH journal)
+        //4-Modify to VB Project, verify report 1280.rpt (-> create new report in SSRS -> publish to server)
+
         public DeliveryAdviceRepository(TotalSalesPortalEntities totalSalesPortalEntities)
             : base(totalSalesPortalEntities, "DeliveryAdviceEditable", "DeliveryAdviceApproved", null, "DeliveryAdviceVoidable")
         {
