@@ -1,0 +1,38 @@
+﻿@model TotalPortal.ViewModels.Helpers.VoidDetailViewModel
+
+@{Layout = "~/Views/Shared/_LayoutPopup.cshtml";}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.ID)
+    @Html.HiddenFor(model => model.DetailID)
+    @Html.HiddenFor(model => model.InActivePartial)
+    @Html.HiddenFor(model => model.VoidType.Name)
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var kenGrid = window.parent.$("#kendoGridDetails").data("kendoGrid");
+        var data = kenGrid.dataSource.data();
+
+        $.each(data, function (i, row) {
+            if (row.SalesOrderDetailID == $("#DetailID").val()) {
+                
+                //This will raise kendo grid DataBound event (to style grid row). Now: we set only one field to raise DataBound event one time only. (The control will raise event per each row.set command)
+                row.set("VoidTypeName", ($("#InActivePartial").val() == 'True' ? $("#VoidType_Name").val() : ''));
+                //Important note: this Success response does not set all necessary fields for the model, ex: InActivePartial, VoidTypeID, ...
+                //So: Never submit model to save to database when in void mode
+
+                //Note: Don't remove this code for later refer as an example of how to add/  remove style to current gird.
+                //if ($("#InActivePartial").val() == 'True' && window.parent.$('tr[data-uid="' + row.uid + '"]').hasClass("isBonus") == false)
+                //    window.parent.$('tr[data-uid="' + row.uid + '"]').addClass("isBonus");
+                //if ($("#InActivePartial").val() == 'False' && window.parent.$('tr[data-uid="' + row.uid + '"]').hasClass("isBonus") == true)
+                //    window.parent.$('tr[data-uid="' + row.uid + '"]').removeClass("isBonus");
+
+                return false;
+            }
+        });
+
+        window.parent.$("#myWindow").data("kendoWindow").close();
+    });
+</script>

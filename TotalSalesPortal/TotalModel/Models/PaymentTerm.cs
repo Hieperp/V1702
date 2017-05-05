@@ -21,6 +21,7 @@ namespace TotalModel.Models
             this.AccountInvoices = new HashSet<AccountInvoice>();
             this.CustomerCategories = new HashSet<CustomerCategory>();
             this.GoodsIssues = new HashSet<GoodsIssue>();
+            this.SalesOrders = new HashSet<SalesOrder>();
         }
     
         public int PaymentTermID { get; set; }
@@ -38,5 +39,7 @@ namespace TotalModel.Models
         public virtual ICollection<CustomerCategory> CustomerCategories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GoodsIssue> GoodsIssues { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesOrder> SalesOrders { get; set; }
     }
 }

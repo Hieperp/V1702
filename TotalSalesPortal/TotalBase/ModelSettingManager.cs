@@ -18,6 +18,8 @@ namespace TotalBase
 
 
 
+                case GlobalEnums.NmvnTaskID.SalesOrder:
+                    return "O";
                 case GlobalEnums.NmvnTaskID.DeliveryAdvice:
                     return "D";
                 case GlobalEnums.NmvnTaskID.GoodsIssue:

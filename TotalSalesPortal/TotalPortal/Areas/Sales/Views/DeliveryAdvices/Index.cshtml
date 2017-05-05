@@ -26,7 +26,13 @@
             })
             .ToolBar(toolbar =>
             {
-                toolbar.Template(@<text> <button type="button" class="k-button" onclick="createWizard()"> <img src="~/Content/Images/Mains/Size24/folder-documents-icon-24.png" /> Lập đề nghị giao hàng </button> </text>);
+                toolbar.Template(@<text> 
+                    <button type="button" class="k-button" onclick="createWizard()"> <img src="~/Content/Images/Mains/Size24/folder-documents-icon-24.png" /> Lập đề nghị giao hàng </button> 
+                    <div class="toolbar" style="float: right;">
+                        <label>Nhập số phiếu ĐNGH hoặc tên khách hàng để tìm</label>
+                        <input id="indexFilterText" class="k-textbox" style="text-align: center; " onkeyup="indexFilterText_KeyUp()" />
+                    </div>
+                </text>);
             })
             .Pageable()
             .Groupable(g => g.Messages(messages => messages.Empty("Phân nhóm dữ liệu: Kéo và thả tiêu đề một hoặc nhiều cột dữ liệu ngay bên dưới vào đây để phân nhóm hiển thị theo phân cấp của các cột dữ liệu")))
@@ -88,6 +94,30 @@
         isWarrantyClaim = elem.InActivePartial;
         if (isWarrantyClaim != null && isWarrantyClaim == true) {
             $('tr[data-uid="' + elem.uid + '"]').addClass("isBonus1");
+        }
+    }
+
+
+
+
+
+
+    function indexFilterText_KeyUp() {
+        var indexFilterText = $("#indexFilterText").val(), gridDetails = $("#kendoGridIndex").data("kendoGrid");
+
+        if (indexFilterText && indexFilterText.length >= "@SettingsManager.AutoCompleteMinLenght") {
+            gridDetails.dataSource.filter({
+                logic: "or",
+                filters: [
+                    { field: "Reference", operator: "contains", value: indexFilterText },
+                    { field: "CustomerName", operator: "contains", value: indexFilterText }
+                ]
+            });
+
+
+        } else {
+            if (gridDetails.dataSource.filter() != undefined)
+                gridDetails.dataSource.filter({});
         }
     }
 

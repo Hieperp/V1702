@@ -94,6 +94,13 @@ namespace TotalPortal.App_Start
                 kernel.Bind<IReportRepository>().To<ReportRepository>();
 
 
+                kernel.Bind<ISalesOrderService>().To<SalesOrderService>();
+                kernel.Bind<ISalesOrderRepository>().To<SalesOrderRepository>();
+                kernel.Bind<ISalesOrderAPIRepository>().To<SalesOrderAPIRepository>();
+                kernel.Bind<ISalesOrderHelperService>().To<SalesOrderHelperService>();
+                kernel.Bind<ISalesOrderViewModelSelectListBuilder>().To<SalesOrderViewModelSelectListBuilder>();
+
+
                 kernel.Bind<IDeliveryAdviceService>().To<DeliveryAdviceService>();
                 kernel.Bind<IDeliveryAdviceRepository>().To<DeliveryAdviceRepository>();
                 kernel.Bind<IDeliveryAdviceAPIRepository>().To<DeliveryAdviceAPIRepository>();

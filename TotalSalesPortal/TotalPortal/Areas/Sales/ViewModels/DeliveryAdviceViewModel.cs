@@ -10,7 +10,7 @@ using TotalPortal.Areas.Commons.ViewModels.Helpers;
 
 namespace TotalPortal.Areas.Sales.ViewModels
 {
-    public class DeliveryAdviceViewModel : DeliveryAdviceDTO, IViewDetailViewModel<DeliveryAdviceDetailDTO>, IPreparedPersonDropDownViewModel, IApproverDropDownViewModel, IPaymentTermDropDownViewModel, IA02SimpleViewModel //, IEmployeeAutoCompleteViewModel, IPromotionAutoCompleteViewModel, ICustomerAutoCompleteViewModel
+    public class DeliveryAdviceViewModel : DeliveryAdviceDTO, IViewDetailViewModel<DeliveryAdviceDetailDTO>, IPreparedPersonDropDownViewModel, IApproverDropDownViewModel, IPaymentTermDropDownViewModel, IA02SimpleViewModel
     {
         public IEnumerable<SelectListItem> AspNetUserSelectList { get; set; }
         public IEnumerable<SelectListItem> PaymentTermSelectList { get; set; }

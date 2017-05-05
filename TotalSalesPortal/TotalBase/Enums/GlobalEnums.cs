@@ -2,6 +2,8 @@
 {
     public static class GlobalEnums
     {
+        public static bool ERPConnected = false;
+
         public static int CalculatingTypeID = 0;
         public static bool VATbyRow = false;
 
@@ -36,7 +38,7 @@
 
 
             Quotation = 8031,
-
+            SalesOrder = 8032,
             DeliveryAdvice = 8035,
             GoodsIssue = 8037,
 

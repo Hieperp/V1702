@@ -33,7 +33,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             //this.SalesInvoiceJournal(); THAY THE BOI SalesInvoiceJournal MOI!
         }
 
-        
+
 
         private void UpdateSKUBalance()
         {
@@ -829,32 +829,27 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
         public string GET_WarehouseJournal_BUILD_SQL(string commoditiesBalanceTable, string fromDate, string toDate, string warehouseIDList, string commodityIDList, string isFullJournal, string isAmountIncluded)
         {
+            string queryString = "                  DECLARE " + commoditiesBalanceTable + " TABLE (EntryDate datetime NULL, WarehouseID int NULL, CommodityID int NULL, QuantityBalance decimal(18, 2) NULL) " + "\r\n";
 
-            string queryString = "              DECLARE @SPSKUInventoryJournalTable TABLE " + "\r\n";
+            if (GlobalEnums.ERPConnected)
+            {
+                queryString = queryString + "       DECLARE @SPSKUInventoryJournalTable TABLE " + "\r\n";
+                queryString = queryString + "      (NMVNTaskID int NULL, JournalPrimaryID int NULL, JournalDate datetime NULL, JournalReference nvarchar(30) NULL, JournalDescription nvarchar(202) NULL, " + "\r\n";
+                queryString = queryString + "       CommodityID int NULL, Description nvarchar(50) NULL, DescriptionOfficial nvarchar(200) NULL, DescriptionPartA nvarchar(20) NULL, DescriptionPartB nvarchar(20) NULL, DescriptionPartC nvarchar(20) NULL, DescriptionPartD nvarchar(20) NULL, UnitSales nvarchar(50) NULL, Weight float NULL, LeadTime float NULL, SellLife int NULL, " + "\r\n";
+                queryString = queryString + "       WarehouseGroupID int NULL, WHLocationID int NULL, WHCategoryID int NULL, WarehouseClassID int NULL, WarehouseID int NULL, WarehouseName nvarchar(60) NULL, WarehouseOutID int NULL, WarehouseOutName nvarchar(60) NULL, " + "\r\n";
+                queryString = queryString + "       QuantityBegin float NULL, QuantityInputPRO float NULL, QuantityInputINV float NULL, QuantityInputRTN float NULL, QuantityInputTRF float NULL, QuantityInputADJ float NULL, QuantityInputBLD float NULL, QuantityInputUBL float NULL, QuantityInput float NULL," + "\r\n";
+                queryString = queryString + "       QuantityOutputINV float NULL, QuantityOutputGoodsIssue float NULL, QuantityOutputTRF float NULL, QuantityOutputADJ float NULL, QuantityOutputBLD float NULL, QuantityOutputUBL float NULL, QuantityOutput float NULL, QuantityOnTransfer float NULL, QuantityOnAdvice float NULL, QuantityOnTransferAdviceOut float NULL, QuantityOnTransferAdviceIn float NULL, QuantityOnProduction float NULL, UPriceNMDInventory float NULL," + "\r\n";
+                queryString = queryString + "       ItemCategoryID int NULL, Description1 nvarchar(100) NULL, Description2 nvarchar(100) NULL, Description3 nvarchar(100) NULL, Description4 nvarchar(100) NULL, Description5 nvarchar(100) NULL, Description6 nvarchar(100) NULL, Description7 nvarchar(100) NULL, Description8 nvarchar(100) NULL, Description9 nvarchar(100) NULL, MaxTransferOutputDate  datetime NULL) " + "\r\n";
 
-            queryString = queryString + "      (NMVNTaskID int NULL, JournalPrimaryID int NULL, JournalDate datetime NULL, JournalReference nvarchar(30) NULL, JournalDescription nvarchar(202) NULL, " + "\r\n";
-            queryString = queryString + "       CommodityID int NULL, Description nvarchar(50) NULL, DescriptionOfficial nvarchar(200) NULL, DescriptionPartA nvarchar(20) NULL, DescriptionPartB nvarchar(20) NULL, DescriptionPartC nvarchar(20) NULL, DescriptionPartD nvarchar(20) NULL, UnitSales nvarchar(50) NULL, Weight float NULL, LeadTime float NULL, SellLife int NULL, " + "\r\n";
-            queryString = queryString + "       WarehouseGroupID int NULL, WHLocationID int NULL, WHCategoryID int NULL, WarehouseClassID int NULL, WarehouseID int NULL, WarehouseName nvarchar(60) NULL, WarehouseOutID int NULL, WarehouseOutName nvarchar(60) NULL, " + "\r\n";
-            queryString = queryString + "       QuantityBegin float NULL, QuantityInputPRO float NULL, QuantityInputINV float NULL, QuantityInputRTN float NULL, QuantityInputTRF float NULL, QuantityInputADJ float NULL, QuantityInputBLD float NULL, QuantityInputUBL float NULL, QuantityInput float NULL," + "\r\n";
-            queryString = queryString + "       QuantityOutputINV float NULL, QuantityOutputGoodsIssue float NULL, QuantityOutputTRF float NULL, QuantityOutputADJ float NULL, QuantityOutputBLD float NULL, QuantityOutputUBL float NULL, QuantityOutput float NULL, QuantityOnTransfer float NULL, QuantityOnAdvice float NULL, QuantityOnTransferAdviceOut float NULL, QuantityOnTransferAdviceIn float NULL, QuantityOnProduction float NULL, UPriceNMDInventory float NULL," + "\r\n";
-            queryString = queryString + "       ItemCategoryID int NULL, Description1 nvarchar(100) NULL, Description2 nvarchar(100) NULL, Description3 nvarchar(100) NULL, Description4 nvarchar(100) NULL, Description5 nvarchar(100) NULL, Description6 nvarchar(100) NULL, Description7 nvarchar(100) NULL, Description8 nvarchar(100) NULL, Description9 nvarchar(100) NULL, MaxTransferOutputDate  datetime NULL) " + "\r\n";
+                queryString = queryString + "       INSERT INTO @SPSKUInventoryJournalTable EXEC ERmgrVCP.dbo.SPSKUInventoryJournal " + fromDate + ", " + toDate + ", " + commodityIDList + ", N'', N'', N'', N'', " + warehouseIDList + "\r\n";
 
-            queryString = queryString + "       INSERT INTO @SPSKUInventoryJournalTable EXEC ERmgrVCP.dbo.SPSKUInventoryJournal " + fromDate + ", " + toDate + ", " + commodityIDList + ", N'', N'', N'', N'', " + warehouseIDList + "\r\n";
-
-
-
-            queryString = queryString + "       DECLARE " + commoditiesBalanceTable + " TABLE (EntryDate datetime NULL, WarehouseID int NULL, CommodityID int NULL, QuantityBalance decimal(18, 2) NULL) " + "\r\n";
-            queryString = queryString + "       INSERT INTO " + commoditiesBalanceTable + " SELECT " + toDate + ", WarehouseID, CommodityID, SUM(QuantityBegin + QuantityInput - QuantityOutput - QuantityOnAdvice) AS QuantityBalance FROM @SPSKUInventoryJournalTable GROUP BY WarehouseID, CommodityID " + "\r\n";
-
-
-
-            //NEW CHANGE ON 03-MAY-2017 => SO WE NEED TO CHECK BELOW QUERY IN ORDER TO USE THIS BELOW QUERY
-            //COMMENT ON 01-JAN-2017: NO USE WAREHOUSE INVENTORY: THIS CODE IS FOR USE WHEN THERE IS NO WAREHOUSE BALANCE
-
-            ////queryString = "                     DECLARE @My01JAN2017Commodities TABLE (CommodityID int NOT NULL) INSERT INTO @My01JAN2017Commodities SELECT Id FROM dbo.SplitToIntList (" + commodityIDList + ") " + "\r\n";
-            ////queryString = queryString + "       DECLARE     " + warehouseJournalTable + " TABLE \r\n";
-            ////queryString = queryString + "                  (CommodityID int NULL, WarehouseID int NULL, QuantityBegin float NULL, QuantityOnAdvice float NULL) " + "\r\n";
-            ////queryString = queryString + "       INSERT INTO " + warehouseJournalTable + " SELECT Commodities.CommodityID, Warehouses.WarehouseID, 9999 AS QuantityBegin, 9999 AS QuantityOnAdvice FROM @My01JAN2017Commodities Commodities CROSS JOIN Warehouses WHERE Warehouses.WarehouseID IN (SELECT WarehouseID FROM CustomerWarehouses WHERE CustomerID = @CustomerID AND InActive = 0) " + "\r\n";
+                queryString = queryString + "       INSERT INTO " + commoditiesBalanceTable + " SELECT " + toDate + ", WarehouseID, CommodityID, SUM(QuantityBegin + QuantityInput - QuantityOutput - QuantityOnAdvice) AS QuantityBalance FROM @SPSKUInventoryJournalTable GROUP BY WarehouseID, CommodityID " + "\r\n";
+            }
+            else //NO USE WAREHOUSE INVENTORY: THIS CODE IS FOR USE WHEN THERE IS NO WAREHOUSE BALANCE
+            {
+                queryString = queryString + "       DECLARE @My01JAN2017Commodities TABLE (CommodityID int NOT NULL) INSERT INTO @My01JAN2017Commodities SELECT Id FROM dbo.SplitToIntList (" + commodityIDList + ") " + "\r\n";
+                queryString = queryString + "       INSERT INTO " + commoditiesBalanceTable + " SELECT " + toDate + ", Warehouses.WarehouseID, Commodities.CommodityID, 99999 AS QuantityBalance FROM @My01JAN2017Commodities Commodities CROSS JOIN Warehouses WHERE Warehouses.WarehouseID IN (SELECT WarehouseID FROM CustomerWarehouses WHERE CustomerID = @CustomerID AND InActive = 0) " + "\r\n";
+            }
 
             return queryString;
         }
@@ -1634,7 +1629,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + " AS " + "\r\n";
 
             queryString = queryString + "   BEGIN " + "\r\n";
-            
+
             queryString = queryString + "       " + this.GET_WarehouseJournal_BUILD_SQL_VINHLONG("@WarehouseJournalTable", "@FromDate", "@ToDate", "''", "''", "1", "1") + "\r\n";
             queryString = queryString + "       SELECT SUM(QuantityBeginREC) AS QuantityBeginREC, SUM(QuantityBeginTRA) AS QuantityBeginTRA, SUM(AmountBegin) AS AmountBegin, SUM(QuantityInputINV) AS QuantityInputINV, SUM(AmountInputINV) AS AmountInputINV, SUM(QuantityInputTRA) AS QuantityInputTRA, SUM(AmountInputTRA) AS AmountInputTRA, SUM(QuantityInputADJ) AS QuantityInputADJ, SUM(AmountInputADJ) AS AmountInputADJ, SUM(QuantityOutputINV) AS QuantityOutputINV, SUM(AmountOutputINV) AS AmountOutputINV, SUM(QuantityOutputTRA) AS QuantityOutputTRA, SUM(AmountOutputTRA) AS AmountOutputTRA, SUM(QuantityOutputADJ) AS QuantityOutputADJ, SUM(AmountOutputADJ) AS AmountOutputADJ, SUM(QuantityEndREC) AS QuantityEndREC, SUM(QuantityEndTRA) AS QuantityEndTRA, SUM(QuantityEnd) AS QuantityEnd, SUM(AmountEnd) AS AmountEnd FROM @WarehouseJournalTable " + "\r\n";
             queryString = queryString + "       SELECT CommodityID, SUM(AmountBegin) + SUM(AmountInputINV) + SUM(AmountInputTRA) + SUM(AmountInputADJ) - SUM(AmountOutputINV) - SUM(AmountOutputTRA) - SUM(QuantityOutputADJ) - SUM(AmountOutputADJ) AS AMTEND, SUM(QuantityEnd) AS QuantityEnd, SUM(AmountEnd) AS AmountEnd, SUM(AmountBegin) + SUM(AmountInputINV) + SUM(AmountInputTRA) + SUM(AmountInputADJ) - SUM(AmountOutputINV) - SUM(AmountOutputTRA) - SUM(QuantityOutputADJ) - SUM(AmountOutputADJ) - SUM(AmountEnd) AS AMTDIFF FROM @WarehouseJournalTable GROUP BY CommodityID order by AMTDIFF " + "\r\n";

@@ -28,6 +28,8 @@ namespace TotalModel.Models
             this.HandlingUnits1 = new HashSet<HandlingUnit>();
             this.AccountInvoices2 = new HashSet<AccountInvoice>();
             this.Receipts = new HashSet<Receipt>();
+            this.SalesOrders = new HashSet<SalesOrder>();
+            this.SalesOrders1 = new HashSet<SalesOrder>();
         }
     
         public int CustomerID { get; set; }
@@ -84,5 +86,9 @@ namespace TotalModel.Models
         public virtual ICollection<AccountInvoice> AccountInvoices2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Receipt> Receipts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesOrder> SalesOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesOrder> SalesOrders1 { get; set; }
     }
 }

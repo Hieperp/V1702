@@ -25,7 +25,13 @@
         })
         .ToolBar(toolbar =>
         {
-            toolbar.Template(@<text> <button type="button" class="k-button" onclick="createWizard()"> <img src="~/Content/Images/Mains/Size24/folder-documents-icon-24.png" /> Lập phiếu xuất kho </button> </text>);
+            toolbar.Template(@<text> 
+                <button type="button" class="k-button" onclick="createWizard()"> <img src="~/Content/Images/Mains/Size24/folder-documents-icon-24.png" /> Lập phiếu xuất kho </button> 
+                <div class="toolbar" style="float: right;">
+                    <label>Nhập số phiếu xuất kho, hoặc phiếu ĐNGH hoặc tên khách hàng để tìm</label>
+                    <input id="indexFilterText" class="k-textbox" style="text-align: center; " onkeyup="indexFilterText_KeyUp()" />
+                </div>
+            </text>);
         })
 
         .Pageable()
@@ -85,4 +91,32 @@
             $('tr[data-uid="' + elem.uid + '"]').addClass("isBonus");
         }
     }
+
+
+
+
+
+
+
+
+    function indexFilterText_KeyUp() {
+        var indexFilterText = $("#indexFilterText").val(), gridDetails = $("#kendoGridIndex").data("kendoGrid");
+
+        if (indexFilterText && indexFilterText.length >= "@SettingsManager.AutoCompleteMinLenght") {
+            gridDetails.dataSource.filter({
+                logic: "or",
+                filters: [
+                    { field: "Reference", operator: "contains", value: indexFilterText },
+                    { field: "DeliveryAdviceReferences", operator: "contains", value: indexFilterText },
+                    { field: "CustomerName", operator: "contains", value: indexFilterText }
+                ]
+            });
+
+
+        } else {
+            if (gridDetails.dataSource.filter() != undefined)
+                gridDetails.dataSource.filter({});
+        }
+    }
+
 </script>

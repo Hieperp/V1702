@@ -65,6 +65,8 @@ namespace TotalModel.Models
         public virtual DbSet<SalesReturn> SalesReturns { get; set; }
         public virtual DbSet<MonetaryAccount> MonetaryAccounts { get; set; }
         public virtual DbSet<Report> Reports { get; set; }
+        public virtual DbSet<SalesOrderDetail> SalesOrderDetails { get; set; }
+        public virtual DbSet<SalesOrder> SalesOrders { get; set; }
     
         public virtual ObjectResult<Nullable<int>> GetAccessLevel(Nullable<int> userID, Nullable<int> nMVNTaskID, Nullable<int> organizationalUnitID)
         {
@@ -912,6 +914,132 @@ namespace TotalModel.Models
                 new ObjectParameter("CustomerID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingCustomerCredit>("GetPendingCustomerCredits", locationIDParameter, customerIDParameter);
+        }
+    
+        public virtual ObjectResult<SalesOrderIndex> GetSalesOrderIndexes(string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        {
+            var aspUserIDParameter = aspUserID != null ?
+                new ObjectParameter("AspUserID", aspUserID) :
+                new ObjectParameter("AspUserID", typeof(string));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SalesOrderIndex>("GetSalesOrderIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<SalesOrderViewDetail> GetSalesOrderViewDetails(Nullable<int> salesOrderID)
+        {
+            var salesOrderIDParameter = salesOrderID.HasValue ?
+                new ObjectParameter("SalesOrderID", salesOrderID) :
+                new ObjectParameter("SalesOrderID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SalesOrderViewDetail>("GetSalesOrderViewDetails", salesOrderIDParameter);
+        }
+    
+        public virtual ObjectResult<string> SalesOrderApproved(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SalesOrderApproved", entityIDParameter);
+        }
+    
+        public virtual ObjectResult<string> SalesOrderEditable(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SalesOrderEditable", entityIDParameter);
+        }
+    
+        public virtual ObjectResult<string> SalesOrderPostSaveValidate(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SalesOrderPostSaveValidate", entityIDParameter);
+        }
+    
+        public virtual int SalesOrderSaveRelative(Nullable<int> entityID, Nullable<int> saveRelativeOption)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            var saveRelativeOptionParameter = saveRelativeOption.HasValue ?
+                new ObjectParameter("SaveRelativeOption", saveRelativeOption) :
+                new ObjectParameter("SaveRelativeOption", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SalesOrderSaveRelative", entityIDParameter, saveRelativeOptionParameter);
+        }
+    
+        public virtual int SalesOrderToggleApproved(Nullable<int> entityID, Nullable<bool> approved)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            var approvedParameter = approved.HasValue ?
+                new ObjectParameter("Approved", approved) :
+                new ObjectParameter("Approved", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SalesOrderToggleApproved", entityIDParameter, approvedParameter);
+        }
+    
+        public virtual int SalesOrderToggleVoid(Nullable<int> entityID, Nullable<bool> inActive, Nullable<int> voidTypeID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            var inActiveParameter = inActive.HasValue ?
+                new ObjectParameter("InActive", inActive) :
+                new ObjectParameter("InActive", typeof(bool));
+    
+            var voidTypeIDParameter = voidTypeID.HasValue ?
+                new ObjectParameter("VoidTypeID", voidTypeID) :
+                new ObjectParameter("VoidTypeID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SalesOrderToggleVoid", entityIDParameter, inActiveParameter, voidTypeIDParameter);
+        }
+    
+        public virtual int SalesOrderToggleVoidDetail(Nullable<int> entityID, Nullable<int> entityDetailID, Nullable<bool> inActivePartial, Nullable<int> voidTypeID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            var entityDetailIDParameter = entityDetailID.HasValue ?
+                new ObjectParameter("EntityDetailID", entityDetailID) :
+                new ObjectParameter("EntityDetailID", typeof(int));
+    
+            var inActivePartialParameter = inActivePartial.HasValue ?
+                new ObjectParameter("InActivePartial", inActivePartial) :
+                new ObjectParameter("InActivePartial", typeof(bool));
+    
+            var voidTypeIDParameter = voidTypeID.HasValue ?
+                new ObjectParameter("VoidTypeID", voidTypeID) :
+                new ObjectParameter("VoidTypeID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SalesOrderToggleVoidDetail", entityIDParameter, entityDetailIDParameter, inActivePartialParameter, voidTypeIDParameter);
+        }
+    
+        public virtual ObjectResult<string> SalesOrderVoidable(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SalesOrderVoidable", entityIDParameter);
         }
     }
 }
