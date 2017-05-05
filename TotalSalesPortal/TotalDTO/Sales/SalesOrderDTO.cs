@@ -35,9 +35,9 @@ namespace TotalDTO.Sales
         public int PaymentTermID { get; set; }
 
         public Nullable<int> QuotationID { get; set; }
-        [Display(Name = "Đơn đặt hàng")]
+        [Display(Name = "Phiếu báo giá")]
         public string QuotationReference { get; set; }
-        [Display(Name = "Ngày đặt hàng")]
+        [Display(Name = "Ngày báo giá")]
         public Nullable<System.DateTime> QuotationEntryDate { get; set; }
 
         public virtual Nullable<int> PromotionID { get; set; }
@@ -55,14 +55,14 @@ namespace TotalDTO.Sales
 
         public override void PerformPresaveRule()
         {
-            this.Approved = true; this.ApprovedDate = this.EntryDate; //At SalesOrder, Approve right after save. Surely, It can be UnApprove later for editing
+            //this.Approved = true; this.ApprovedDate = this.EntryDate; //At SalesOrder, Approve right after save. Surely, It can be UnApprove later for editing
             this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; e.ReceiverID = this.ReceiverID; e.PromotionID = this.PromotionID; e.SalespersonID = this.SalespersonID; });
             base.PerformPresaveRule();
         }
     }
 
 
-    public class SalesOrderDTO : SalesOrderPrimitiveDTO, IBaseDetailEntity<SalesOrderDetailDTO>
+    public class SalesOrderDTO : SalesOrderPrimitiveDTO, IBaseDetailEntity<SalesOrderDetailDTO>, ISearchCustomer
     {
         public SalesOrderDTO()
         {

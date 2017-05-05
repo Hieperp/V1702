@@ -43,28 +43,30 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.QuotationReference)
-            <div class="div-input">
-                @Html.Kendo().MaskedTextBoxFor(model => model.QuotationReference).HtmlAttributes(new { @class = "left-panel-input" })
+        @if (@Model.QuotationID != null)
+        {
+            @Html.HiddenFor(model => model.QuotationID)
+            <div class="form-group">
+                @Html.LabelFor(model => model.QuotationReference)
+                <div class="div-input">
+                    @Html.Kendo().MaskedTextBoxFor(model => model.QuotationReference).HtmlAttributes(new { @class = "left-panel-input" })
+                </div>
+                <div class="div-validation-message">
+                    @Html.ValidationMessageFor(model => model.QuotationReference, "", new { @class = "text-danger" })
+                </div>
             </div>
-            <div class="div-validation-message">
-                @Html.ValidationMessageFor(model => model.QuotationReference, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-
-        @Html.HiddenFor(model => model.QuotationID)
-        <div class="form-group">
-            @Html.LabelFor(model => model.QuotationEntryDate)
-            <div class="div-input">
-                @Html.Kendo().DateTimePickerFor(model => model.QuotationEntryDate).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.QuotationEntryDate)
+                <div class="div-input">
+                    @Html.Kendo().DateTimePickerFor(model => model.QuotationEntryDate).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+                </div>
+                <div class="div-validation-message">
+                    @Html.ValidationMessageFor(model => model.QuotationEntryDate, "", new { @class = "text-danger" })
+                </div>
             </div>
-            <div class="div-validation-message">
-                @Html.ValidationMessageFor(model => model.QuotationEntryDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
+        }
+        
 
         @if (@Model.Voidable || @Model.UnVoidable || @Model.VoidTypeID > 0)
         { //Don't render when in Edit Mode, so: do not add VoidType.VoidTypeID [Required] DataAnnotations to the view to submit to controller when edit
@@ -129,54 +131,54 @@
                         .ClientTemplate("#= VATbyRow #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].VATbyRow' value='#= VATbyRow #' />");
 
 
-                    columns.Bound(p => p.QuantityAvailable).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(50)
+                    columns.Bound(p => p.QuantityAvailable).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(50)
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}', (CommodityTypeID == 6? 0: QuantityAvailable) ) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].QuantityAvailable' value='#= QuantityAvailable #' />");
 
-                    columns.Bound(p => p.ControlFreeQuantity).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Hidden()
+                    columns.Bound(p => p.ControlFreeQuantity).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Hidden()
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}', ControlFreeQuantity) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].ControlFreeQuantity' value='#= ControlFreeQuantity #' />");
 
-                    columns.Bound(p => p.Quantity).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(50)
+                    columns.Bound(p => p.Quantity).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(50)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', Quantity) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].Quantity' value='#= Quantity #' />");
 
 
-                    columns.Bound(p => p.FreeQuantity).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(50)
+                    columns.Bound(p => p.FreeQuantity).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(50)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', FreeQuantity) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].FreeQuantity' value='#= FreeQuantity #' />");
 
 
-                    columns.Bound(p => p.ListedPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(70)
+                    columns.Bound(p => p.ListedPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(70)
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}', ListedPrice) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].ListedPrice' value='#= ListedPrice #' />");
 
-                    columns.Bound(p => p.DiscountPercent).DisplayNameTitle().Filterable(false).Width(50).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Hidden(@Model.ShowDiscount ? false : true)
+                    columns.Bound(p => p.DiscountPercent).DisplayNameTitle().Filterable(false).Width(50).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Hidden(@Model.ShowDiscount ? false : true)
                         .Format("{0:n1}%")
                         .ClientFooterTemplate("#= kendo.format('{0:n1}%', average) #")
                         .ClientTemplate("#= kendo.format('{0:n1}%', DiscountPercent) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].DiscountPercent' value='#= DiscountPercent #' />");
 
-                    columns.Bound(p => p.UnitPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(70).Hidden(@Model.ShowDiscount ? false : true)
+                    columns.Bound(p => p.UnitPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(70).Hidden(@Model.ShowDiscount ? false : true)
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}', UnitPrice) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].UnitPrice' value='#= UnitPrice #' />");
 
-                    columns.Bound(p => p.ListedAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(110).Hidden(@Model.ShowDiscount ? true : false)
+                    columns.Bound(p => p.ListedAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(110).Hidden(@Model.ShowDiscount ? true : false)
                         .Format("{0:n0}")
                         .ClientFooterTemplate(@GlobalEnums.VATbyRow ? "#= kendo.format('{0:n0}', sum) #" : "<div>TC: #= kendo.format('{0:n0}', sum) #</div><div>VAT <span>#= data.VATPercent.max #</span>%: #= kendo.format('{0:n0}', data.ListedAmount.sum * data.VATPercent.max/100) #</div><div>TT: #= kendo.format('{0:n0}', data.ListedAmount.sum - (-data.ListedAmount.sum * data.VATPercent.max/100)) #</div>")
                         .ClientTemplate("#= kendo.format('{0:n0}', ListedAmount) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].ListedAmount' value='#= ListedAmount #' />");
-                    
-                    columns.Bound(p => p.Amount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(110).Hidden(@Model.ShowDiscount ? false : true)
+
+                    columns.Bound(p => p.Amount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(110).Hidden(@Model.ShowDiscount ? false : true)
                         .Format("{0:n0}")
                         .ClientFooterTemplate(@GlobalEnums.VATbyRow ? "#= kendo.format('{0:n0}', sum) #" : "<div>TC: #= kendo.format('{0:n0}', sum) #</div><div>VAT <span>#= data.VATPercent.max #</span>%: #= kendo.format('{0:n0}', data.Amount.sum * data.VATPercent.max/100) #</div><div>TT: #= kendo.format('{0:n0}', data.Amount.sum - (-data.Amount.sum * data.VATPercent.max/100)) #</div>")
                         .ClientTemplate("#= kendo.format('{0:n0}', Amount) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].Amount' value='#= Amount #' />");
-                    
-                    columns.Bound(p => p.VATPercent).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(50).Hidden(!@GlobalEnums.VATbyRow)
+
+                    columns.Bound(p => p.VATPercent).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(50).Hidden(!@GlobalEnums.VATbyRow)
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}%', VATPercent) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].VATPercent' value='#= VATPercent #' />");
 
-                    columns.Bound(p => p.ListedVATAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(90).Width(90).Hidden(!@GlobalEnums.VATbyRow || @Model.ShowDiscount ? true : false)
+                    columns.Bound(p => p.ListedVATAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(90).Width(90).Hidden(!@GlobalEnums.VATbyRow || @Model.ShowDiscount ? true : false)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', ListedVATAmount) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].ListedVATAmount' value='#= ListedVATAmount #' />");
@@ -186,15 +188,15 @@
                         .ClientTemplate("#= kendo.format('{0:n0}', VATAmount) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].VATAmount' value='#= VATAmount #' />");
 
 
-                    columns.Bound(p => p.ListedGrossPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(90).Hidden()
+                    columns.Bound(p => p.ListedGrossPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(90).Hidden()
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}', ListedGrossPrice) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].ListedGrossPrice' value='#= ListedGrossPrice #' />");
-                    columns.Bound(p => p.GrossPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(90).Hidden()
+                    columns.Bound(p => p.GrossPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(90).Hidden()
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}', GrossPrice) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].GrossPrice' value='#= GrossPrice #' />");
 
 
-                    columns.Bound(p => p.ListedGrossAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(90).Hidden(!@GlobalEnums.VATbyRow || @Model.ShowDiscount ? true : false)
+                    columns.Bound(p => p.ListedGrossAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(90).Hidden(!@GlobalEnums.VATbyRow || @Model.ShowDiscount ? true : false)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', ListedGrossAmount) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].ListedGrossAmount' value='#= ListedGrossAmount #' />");
@@ -221,7 +223,7 @@
 
                     columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50).Hidden(!@Model.Editable).HtmlAttributes(new { @class = "grid-column-center" });
 
-                    columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(50).Hidden(!@Model.Voidable && !@Model.UnVoidable)  
+                    columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(50).Hidden(!@Model.Voidable && !@Model.UnVoidable)
                         .ClientTemplate("<a class='k-button' style='padding:0px;' onclick='callVoidDetail(#= SalesOrderDetailID #)'><span class='k-icon k-edit'></span></a>");
                 })
                     .Filterable()
@@ -277,33 +279,33 @@
                             }
                         </text>);
                     }).DataSource(dataSource => dataSource
-                    .Ajax()
-                    .Batch(true)
-                    .ServerOperation(false)
-                    .Model(model =>
-                    {
-                        model.Id(x => x.SalesOrderDetailID);
-                        model.Field(m => m.SalesOrderDetailID).DefaultValue(0);
-                        model.Field(m => m.SalesOrderID).DefaultValue(@Model.SalesOrderID);
-                        model.Field(m => m.CalculatingTypeID).DefaultValue(@GlobalEnums.CalculatingTypeID);
-                        model.Field(m => m.VATbyRow).DefaultValue(@GlobalEnums.VATbyRow);
-                    })
-                    .Events(events =>
-                    {
-                        events.Error("kendGrid_ErrorHandler");
-                    })
-                    .Aggregates(a => a.Add(x => x.CommodityCode).Count())
-                    .Aggregates(a => a.Add(x => x.VATPercent).Max())
-                    .Aggregates(a => a.Add(x => x.Quantity).Sum())
-                    .Aggregates(a => a.Add(x => x.FreeQuantity).Sum())
-                    .Aggregates(a => a.Add(x => x.DiscountPercent).Average())
-                    .Aggregates(a => a.Add(x => x.ListedAmount).Sum())
-                    .Aggregates(a => a.Add(x => x.Amount).Sum())
-                    .Aggregates(a => a.Add(x => x.ListedVATAmount).Sum())
-                    .Aggregates(a => a.Add(x => x.VATAmount).Sum())
-                    .Aggregates(a => a.Add(x => x.ListedGrossAmount).Sum())
-                    .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
-                )
+                                                            .Ajax()
+                                                            .Batch(true)
+                                                            .ServerOperation(false)
+                                                            .Model(model =>
+                                                            {
+                                                                model.Id(x => x.SalesOrderDetailID);
+                                                                model.Field(m => m.SalesOrderDetailID).DefaultValue(0);
+                                                                model.Field(m => m.SalesOrderID).DefaultValue(@Model.SalesOrderID);
+                                                                model.Field(m => m.CalculatingTypeID).DefaultValue(@GlobalEnums.CalculatingTypeID);
+                                                                model.Field(m => m.VATbyRow).DefaultValue(@GlobalEnums.VATbyRow);
+                                                            })
+                                                            .Events(events =>
+                                                            {
+                                                                events.Error("kendGrid_ErrorHandler");
+                                                            })
+                                                            .Aggregates(a => a.Add(x => x.CommodityCode).Count())
+                                                            .Aggregates(a => a.Add(x => x.VATPercent).Max())
+                                                            .Aggregates(a => a.Add(x => x.Quantity).Sum())
+                                                            .Aggregates(a => a.Add(x => x.FreeQuantity).Sum())
+                                                            .Aggregates(a => a.Add(x => x.DiscountPercent).Average())
+                                                            .Aggregates(a => a.Add(x => x.ListedAmount).Sum())
+                                                            .Aggregates(a => a.Add(x => x.Amount).Sum())
+                                                            .Aggregates(a => a.Add(x => x.ListedVATAmount).Sum())
+                                                            .Aggregates(a => a.Add(x => x.VATAmount).Sum())
+                                                            .Aggregates(a => a.Add(x => x.ListedGrossAmount).Sum())
+                                                            .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
+                                                        )
             )
         </div>
 
@@ -346,13 +348,12 @@
             {
                 <button type="submit" class="k-button custom-button SubmitTypeOption-Closed" formaction="@Url.Action("Edit", "SalesOrders")"> <img src="~/Content/Images/New/save-icon.png" /> Lưu phiếu </button>
             }
-            else
+
+            @if (Model.SalesOrderID > 0 && !Model.Approvable && !Model.UnApprovable)
             {
-                if (!Model.Voidable && !Model.UnVoidable)
-                {
-                    <button type="button" class="k-button custom-button" onclick="location.href='@Url.Action("Print", "SalesOrders", new { id = @Model.SalesOrderID })'"> <img src="~/Content/Images/New/Apps-printer-icon.png" /> In tổng hợp xuất kho </button>
-                }
+                <button type="button" class="k-button custom-button" onclick="location.href='@Url.Action("Approve", "SalesOrders", new {id = @Model.SalesOrderID })'"> <img src="~/Content/Images/Mains/@(!@Model.Approved ? "Actions-ok-icon32.png" : "Cross-icon-cancel32.png")" /> @(!Model.Approved ? "Duyệt" : "Hủy duyệt") </button>
             }
+
         </div>
 
         @Html.Partial("~/Views/Helpers/Bases/_BaseSubmit.cshtml")

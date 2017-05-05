@@ -32,8 +32,6 @@
     @{var currentCulture = System.Threading.Thread.CurrentThread.CurrentCulture.ToString();}
     <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/cultures/kendo.culture." + currentCulture + ".min.js")"></script>
     
-    @currentCulture
-
     <script type="text/javascript">
         kendo.culture("@currentCulture");        //set current culture script
         window.xlsxUrl = { //init varible with the Url (by Url.Content helper). Because can not use Url.Content helper in pure javascript file

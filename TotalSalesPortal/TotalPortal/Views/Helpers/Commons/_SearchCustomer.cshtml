@@ -1,7 +1,7 @@
 ﻿@using TotalModel.Models;
 @using TotalPortal.Configuration;
 
-@model TotalPortal.Areas.Sales.ViewModels.DeliveryAdviceViewModel
+@model TotalDTO.Helpers.Interfaces.ISearchCustomer
 
 @(Html.Kendo().Grid<Promotion>()
     .Name("gridPromotion")
@@ -50,7 +50,7 @@
     }
 
     $("#Customer_CustomerID").change(function (e) {
-        
+
         $("#gridPromotion").data("kendoGrid").dataSource.read();
 
 
@@ -74,7 +74,7 @@
         $("#Receiver_PriceCategoryID").val($("#Customer_PriceCategoryID").val());
         $("#Receiver_PriceCategoryCode").val($("#Customer_PriceCategoryCode").val());
 
-        
+
 
         //Set display label
         $("#label_PriceCategoryCode").text($("#Customer_PriceCategoryCode").val());
@@ -101,7 +101,7 @@
 
     //At VCP DON'T ALLOW SELECT BY SINGLE PROMOTION
     //$("#gridPromotion").dblclick(function (e) {
-    //    okButton_Click(); 
+    //    okButton_Click();
     //})
 
 </script>

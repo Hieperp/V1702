@@ -868,7 +868,6 @@
     <Content Include="Areas\Sales\Views\DeliveryAdvices\Index.cshtml" />
     <Content Include="Areas\Commons\Views\web.config" />
     <Content Include="Areas\Sales\Views\DeliveryAdvices\CreateWizard.cshtml" />
-    <Content Include="Areas\Sales\Views\DeliveryAdvices\_SearchCustomer.cshtml" />
     <Content Include="Content\kendo\2014.3.1411\fonts\DejaVu\DejaVuSans-Bold.ttf" />
     <Content Include="Content\kendo\2014.3.1411\fonts\DejaVu\DejaVuSans-BoldOblique.ttf" />
     <Content Include="Content\kendo\2014.3.1411\fonts\DejaVu\DejaVuSans-Oblique.ttf" />
@@ -954,7 +953,7 @@
     <Content Include="Areas\Sales\Views\SalesOrders\VoidDetail.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrders\VoidDetailSuccess.cshtml" />
     <Content Include="Areas\Sales\Views\SalesOrders\_SalesOrder.cshtml" />
-    <Content Include="Areas\Sales\Views\SalesOrders\_SearchCustomer.cshtml" />
+    <Content Include="Areas\Sales\Views\SalesOrders\Approve.cshtml" />
     <None Include="Properties\PublishProfiles\VCP.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1050,6 +1049,7 @@
     <Content Include="Scripts\Controllers\Sales\DeliveryAdvices\Open.js" />
     <Content Include="Scripts\Controllers\Sales\DeliveryAdvices\Print.js" />
     <Content Include="Scripts\Controllers\Sales\DeliveryAdvices\Void.js" />
+    <Content Include="Scripts\Controllers\Sales\SalesOrders\Approve.js" />
     <Content Include="Scripts\Controllers\Sales\SalesOrders\Create.js" />
     <Content Include="Scripts\Controllers\Sales\SalesOrders\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Sales\SalesOrders\Edit.js" />
@@ -1816,6 +1816,7 @@
     <Content Include="Views\Shared\DisplayTemplates\Commons\ReceiptBox.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropDowns\MonetaryAccount.cshtml" />
     <Content Include="Views\Reports\Open.cshtml" />
+    <Content Include="Views\Helpers\Commons\_SearchCustomer.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

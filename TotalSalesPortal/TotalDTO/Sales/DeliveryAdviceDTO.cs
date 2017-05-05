@@ -62,7 +62,7 @@ namespace TotalDTO.Sales
     }
 
 
-    public class DeliveryAdviceDTO : DeliveryAdvicePrimitiveDTO, IBaseDetailEntity<DeliveryAdviceDetailDTO>
+    public class DeliveryAdviceDTO : DeliveryAdvicePrimitiveDTO, IBaseDetailEntity<DeliveryAdviceDetailDTO>, ISearchCustomer
     {
         public DeliveryAdviceDTO()
         {

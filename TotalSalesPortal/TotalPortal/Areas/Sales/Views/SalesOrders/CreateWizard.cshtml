@@ -34,13 +34,13 @@
         .Name("tabStrip")
         .Items(tabStrip =>
         {
-            tabStrip.Add().Text("Khách hàng không có đặt hàng")
+            tabStrip.Add().Text("Khách hàng không có báo giá")
                 .Selected(true)
                 .Content(@<text>
-                    @Html.Partial("~/Areas/Sales/Views/SalesOrders/_SearchCustomer.cshtml")
+                    @Html.Partial("~/Views/Helpers/Commons/_SearchCustomer.cshtml")
                 </text>);
 
-            tabStrip.Add().Text("Giao hàng theo đơn đặt hàng")
+            tabStrip.Add().Text("Lập đơn hàng theo phiếu báo giá")
                 .Content(@<text>
                     @*@Html.Partial("~/Views/Helpers/Commons/_SearchServiceContract.cshtml")*@
                 </text>);
