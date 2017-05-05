@@ -31,5 +31,6 @@ namespace TotalModel.Models
         public bool Approved { get; set; }
         public bool InActive { get; set; }
         public bool InActivePartial { get; set; }
+        public string Description { get; set; }
     }
 }
