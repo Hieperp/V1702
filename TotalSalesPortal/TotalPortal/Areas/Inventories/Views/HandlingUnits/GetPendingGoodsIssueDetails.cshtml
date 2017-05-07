@@ -9,11 +9,9 @@
     .Columns(columns =>
     {
         columns.Bound(c => c.GoodsIssueReference).Title("PXK").Width(35);
-        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày, giờ xuất kho").Width(80).Format("{0:" + SettingsManager.DateTimeFormat + "}");
-        columns.Bound(c => c.CustomerCode).Title("Mã khách hàng").Width(80);
-        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(132);
-        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(132);
+        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày, giờ xuất kho").Width(60).Format("{0:" + SettingsManager.DateTimeFormat + "}");
         columns.Bound(c => c.CommodityCode).Title("Mã hàng").Width(90);
+        columns.Bound(c => c.Description).Title("Diễn giải").Width(162);
         columns.Bound(c => c.QuantityRemains).Title("SLXK").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"});
 
         columns.Template(t => { }).Title("&nbsp;").ClientTemplate("<input class='IsSelected' #= IsSelected ? checked='checked':'' #  type='checkbox' />").Width(15);

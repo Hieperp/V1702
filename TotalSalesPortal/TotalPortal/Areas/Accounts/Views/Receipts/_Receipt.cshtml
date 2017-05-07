@@ -3,7 +3,7 @@
 
 @model TotalPortal.Areas.Accounts.ViewModels.ReceiptViewModel
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "MainForm" }))
 {
     @Html.AntiForgeryToken()
 

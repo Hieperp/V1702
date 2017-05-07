@@ -21,10 +21,7 @@ namespace TotalDAL.Repositories.Sales
             : base(totalSalesPortalEntities, "DeliveryAdviceEditable", "DeliveryAdviceApproved", null, "DeliveryAdviceVoidable")
         {
 
-            Helpers.SqlProgrammability.Inventories.HandlingUnit handlingUnit = new Helpers.SqlProgrammability.Inventories.HandlingUnit(totalSalesPortalEntities);
-            handlingUnit.RestoreProcedure();
-
-            //return;
+            return;
 
             Helpers.SqlProgrammability.Sales.SalesOrder salesOrder = new Helpers.SqlProgrammability.Sales.SalesOrder(totalSalesPortalEntities);
             salesOrder.RestoreProcedure();
@@ -55,9 +52,12 @@ namespace TotalDAL.Repositories.Sales
             commons.RestoreProcedure();
 
 
-            
 
-            
+
+
+            Helpers.SqlProgrammability.Inventories.HandlingUnit handlingUnit = new Helpers.SqlProgrammability.Inventories.HandlingUnit(totalSalesPortalEntities);
+            handlingUnit.RestoreProcedure();
+
 
 
 
