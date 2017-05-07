@@ -19,11 +19,6 @@ namespace TotalModel.Models
         public string CommodityCode { get; set; }
         public string CommodityName { get; set; }
         public int CommodityTypeID { get; set; }
-        public string CustomerCode { get; set; }
-        public string CustomerName { get; set; }
-        public string BillingAddress { get; set; }
-        public string ReceiverCode { get; set; }
-        public string ReceiverName { get; set; }
         public Nullable<decimal> QuantityRemains { get; set; }
         public decimal Quantity { get; set; }
         public Nullable<double> UnitWeight { get; set; }
@@ -31,5 +26,6 @@ namespace TotalModel.Models
         public Nullable<bool> IsSelected { get; set; }
         public string GoodsIssueReference { get; set; }
         public System.DateTime GoodsIssueEntryDate { get; set; }
+        public string Description { get; set; }
     }
 }

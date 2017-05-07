@@ -1041,5 +1041,68 @@ namespace TotalModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SalesOrderVoidable", entityIDParameter);
         }
+    
+        public virtual ObjectResult<DeliveryAdvicePendingCustomer> GetDeliveryAdvicePendingCustomers(Nullable<int> locationID)
+        {
+            var locationIDParameter = locationID.HasValue ?
+                new ObjectParameter("LocationID", locationID) :
+                new ObjectParameter("LocationID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DeliveryAdvicePendingCustomer>("GetDeliveryAdvicePendingCustomers", locationIDParameter);
+        }
+    
+        public virtual ObjectResult<DeliveryAdvicePendingSalesOrderDetail> GetDeliveryAdvicePendingSalesOrderDetails(Nullable<int> locationID, Nullable<int> deliveryAdviceID, Nullable<int> salesOrderID, Nullable<int> customerID, Nullable<int> receiverID, string shippingAddress, string salesOrderDetailIDs, Nullable<decimal> vATPercent, Nullable<System.DateTime> entryDate, Nullable<bool> isReadonly)
+        {
+            var locationIDParameter = locationID.HasValue ?
+                new ObjectParameter("LocationID", locationID) :
+                new ObjectParameter("LocationID", typeof(int));
+    
+            var deliveryAdviceIDParameter = deliveryAdviceID.HasValue ?
+                new ObjectParameter("DeliveryAdviceID", deliveryAdviceID) :
+                new ObjectParameter("DeliveryAdviceID", typeof(int));
+    
+            var salesOrderIDParameter = salesOrderID.HasValue ?
+                new ObjectParameter("SalesOrderID", salesOrderID) :
+                new ObjectParameter("SalesOrderID", typeof(int));
+    
+            var customerIDParameter = customerID.HasValue ?
+                new ObjectParameter("CustomerID", customerID) :
+                new ObjectParameter("CustomerID", typeof(int));
+    
+            var receiverIDParameter = receiverID.HasValue ?
+                new ObjectParameter("ReceiverID", receiverID) :
+                new ObjectParameter("ReceiverID", typeof(int));
+    
+            var shippingAddressParameter = shippingAddress != null ?
+                new ObjectParameter("ShippingAddress", shippingAddress) :
+                new ObjectParameter("ShippingAddress", typeof(string));
+    
+            var salesOrderDetailIDsParameter = salesOrderDetailIDs != null ?
+                new ObjectParameter("SalesOrderDetailIDs", salesOrderDetailIDs) :
+                new ObjectParameter("SalesOrderDetailIDs", typeof(string));
+    
+            var vATPercentParameter = vATPercent.HasValue ?
+                new ObjectParameter("VATPercent", vATPercent) :
+                new ObjectParameter("VATPercent", typeof(decimal));
+    
+            var entryDateParameter = entryDate.HasValue ?
+                new ObjectParameter("EntryDate", entryDate) :
+                new ObjectParameter("EntryDate", typeof(System.DateTime));
+    
+            var isReadonlyParameter = isReadonly.HasValue ?
+                new ObjectParameter("IsReadonly", isReadonly) :
+                new ObjectParameter("IsReadonly", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DeliveryAdvicePendingSalesOrderDetail>("GetDeliveryAdvicePendingSalesOrderDetails", locationIDParameter, deliveryAdviceIDParameter, salesOrderIDParameter, customerIDParameter, receiverIDParameter, shippingAddressParameter, salesOrderDetailIDsParameter, vATPercentParameter, entryDateParameter, isReadonlyParameter);
+        }
+    
+        public virtual ObjectResult<DeliveryAdvicePendingSalesOrder> GetDeliveryAdvicePendingSalesOrders(Nullable<int> locationID)
+        {
+            var locationIDParameter = locationID.HasValue ?
+                new ObjectParameter("LocationID", locationID) :
+                new ObjectParameter("LocationID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DeliveryAdvicePendingSalesOrder>("GetDeliveryAdvicePendingSalesOrders", locationIDParameter);
+        }
     }
 }
