@@ -30,6 +30,11 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             //this.GetCommoditiesInWarehouses("GetCommoditiesInWarehousesIncludeOutOfStock", false, true, true, true);
 
             this.GetDeliveryAdviceViewDetails();
+
+            this.GetDeliveryAdvicePendingCustomers();
+            this.GetDeliveryAdvicePendingSalesOrders();
+            this.GetDeliveryAdvicePendingSalesOrderDetails();
+
             this.DeliveryAdviceSaveRelative();
             this.DeliveryAdvicePostSaveValidate();
 
@@ -179,7 +184,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
                     queryString = queryString + "                       UPDATE @Commodities SET DiscountPercent = @DiscountPercent, ControlFreeQuantity = @ControlFreeQuantity "; //All Commodities 
                     queryString = queryString + "                   ELSE ";
                     queryString = queryString + "                       UPDATE @Commodities SET DiscountPercent = @DiscountPercent, ControlFreeQuantity = @ControlFreeQuantity WHERE CommodityID IN (";
-                    queryString = queryString + "                           SELECT CommodityID FROM @Commodities Commodities INNER JOIN PromotionCommodityCodeParts ON PromotionCommodityCodeParts.PromotionID = @PromotionID AND " + queryCodePart; 
+                    queryString = queryString + "                           SELECT CommodityID FROM @Commodities Commodities INNER JOIN PromotionCommodityCodeParts ON PromotionCommodityCodeParts.PromotionID = @PromotionID AND " + queryCodePart;
                     queryString = queryString + "                           UNION ALL ";
                     queryString = queryString + "                           SELECT CommodityID FROM PromotionCommodities WHERE PromotionID = @PromotionID"; //Concrete Commodities
                     queryString = queryString + "                           UNION ALL ";
@@ -450,19 +455,198 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
             queryString = queryString + "       " + inventories.GET_WarehouseJournal_BUILD_SQL("@CommoditiesBalance", "@EntryDate", "@EntryDate", "@WarehouseIDList", "@CommodityIDList", "0", "0") + "\r\n";
 
-            queryString = queryString + "       SELECT      DeliveryAdviceDetails.DeliveryAdviceDetailID, DeliveryAdviceDetails.DeliveryAdviceID, Commodities.CommodityID, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, DeliveryAdviceDetails.CommodityTypeID, Warehouses.WarehouseID, Warehouses.Code AS WarehouseCode, VoidTypes.VoidTypeID, VoidTypes.Code AS VoidTypeCode, VoidTypes.Name AS VoidTypeName, VoidTypes.VoidClassID, DeliveryAdviceDetails.CalculatingTypeID, " + "\r\n";
+            queryString = queryString + "       SELECT      DeliveryAdviceDetails.DeliveryAdviceDetailID, DeliveryAdviceDetails.DeliveryAdviceID, DeliveryAdviceDetails.SalesOrderID, DeliveryAdviceDetails.SalesOrderDetailID, SalesOrders.Reference AS SalesOrderReference, SalesOrders.EntryDate AS SalesOrderEntryDate, " + "\r\n";
+            queryString = queryString + "                   Commodities.CommodityID, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, DeliveryAdviceDetails.CommodityTypeID, Warehouses.WarehouseID, Warehouses.Code AS WarehouseCode, VoidTypes.VoidTypeID, VoidTypes.Code AS VoidTypeCode, VoidTypes.Name AS VoidTypeName, VoidTypes.VoidClassID, DeliveryAdviceDetails.CalculatingTypeID, " + "\r\n";
             queryString = queryString + "                   ROUND(ISNULL(CommoditiesBalance.QuantityBalance, 0) + DeliveryAdviceDetails.QuantityIssue + DeliveryAdviceDetails.FreeQuantityIssue + CASE WHEN DeliveryAdviceDetails.Approved = 1 AND DeliveryAdviceDetails.InActive = 0 AND DeliveryAdviceDetails.InActivePartial = 0 AND DeliveryAdviceDetails.InActiveIssue = 0 THEN DeliveryAdviceDetails.Quantity + DeliveryAdviceDetails.FreeQuantity - DeliveryAdviceDetails.QuantityIssue - DeliveryAdviceDetails.FreeQuantityIssue ELSE 0 END, 0) AS QuantityAvailable, " + "\r\n";
+            queryString = queryString + "                   ROUND(ISNULL(SalesOrderDetails.Quantity, 0) - ISNULL(SalesOrderDetails.QuantityAdvice, 0) + DeliveryAdviceDetails.Quantity, 0) AS QuantityRemains, ROUND(ISNULL(SalesOrderDetails.FreeQuantity, 0) - ISNULL(SalesOrderDetails.FreeQuantityAdvice, 0) + DeliveryAdviceDetails.FreeQuantity, 0) AS FreeQuantityRemains, " + "\r\n";
             queryString = queryString + "                   DeliveryAdviceDetails.Quantity, DeliveryAdviceDetails.ControlFreeQuantity, DeliveryAdviceDetails.FreeQuantity, DeliveryAdviceDetails.ListedPrice, DeliveryAdviceDetails.DiscountPercent, DeliveryAdviceDetails.UnitPrice, DeliveryAdviceDetails.VATPercent, DeliveryAdviceDetails.ListedGrossPrice, DeliveryAdviceDetails.GrossPrice, DeliveryAdviceDetails.ListedAmount, DeliveryAdviceDetails.Amount, DeliveryAdviceDetails.ListedVATAmount, DeliveryAdviceDetails.VATAmount, DeliveryAdviceDetails.ListedGrossAmount, DeliveryAdviceDetails.GrossAmount, DeliveryAdviceDetails.IsBonus, DeliveryAdviceDetails.InActivePartial, DeliveryAdviceDetails.InActivePartialDate, DeliveryAdviceDetails.Remarks " + "\r\n";
-            queryString = queryString + "       FROM        DeliveryAdviceDetails INNER JOIN" + "\r\n";
-            queryString = queryString + "                   Commodities ON DeliveryAdviceDetails.DeliveryAdviceID = @DeliveryAdviceID AND DeliveryAdviceDetails.CommodityID = Commodities.CommodityID INNER JOIN" + "\r\n";
-            queryString = queryString + "                   Warehouses ON DeliveryAdviceDetails.WarehouseID = Warehouses.WarehouseID LEFT JOIN" + "\r\n";
-            queryString = queryString + "                   VoidTypes ON DeliveryAdviceDetails.VoidTypeID = VoidTypes.VoidTypeID LEFT JOIN" + "\r\n";
-            queryString = queryString + "                   @CommoditiesBalance CommoditiesBalance ON DeliveryAdviceDetails.WarehouseID = CommoditiesBalance.WarehouseID AND DeliveryAdviceDetails.CommodityID = CommoditiesBalance.CommodityID " + "\r\n"; //SUM(QuantityBeginQuantityEndREC) 
+            queryString = queryString + "       FROM        DeliveryAdviceDetails " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Commodities ON DeliveryAdviceDetails.DeliveryAdviceID = @DeliveryAdviceID AND DeliveryAdviceDetails.CommodityID = Commodities.CommodityID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Warehouses ON DeliveryAdviceDetails.WarehouseID = Warehouses.WarehouseID " + "\r\n";
+            queryString = queryString + "                   LEFT JOIN SalesOrderDetails ON DeliveryAdviceDetails.SalesOrderDetailID = SalesOrderDetails.SalesOrderDetailID " + "\r\n";
+            queryString = queryString + "                   LEFT JOIN SalesOrders ON SalesOrderDetails.SalesOrderID = SalesOrders.SalesOrderID " + "\r\n";
+            queryString = queryString + "                   LEFT JOIN VoidTypes ON DeliveryAdviceDetails.VoidTypeID = VoidTypes.VoidTypeID " + "\r\n";
+            queryString = queryString + "                   LEFT JOIN @CommoditiesBalance CommoditiesBalance ON DeliveryAdviceDetails.WarehouseID = CommoditiesBalance.WarehouseID AND DeliveryAdviceDetails.CommodityID = CommoditiesBalance.CommodityID " + "\r\n";
 
             queryString = queryString + "    END " + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetDeliveryAdviceViewDetails", queryString);
         }
+
+
+
+
+
+        #region Y
+
+        private void GetDeliveryAdvicePendingSalesOrders()
+        {
+            string queryString = " @LocationID int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "       SELECT          SalesOrders.SalesOrderID, SalesOrders.Reference AS SalesOrderReference, SalesOrders.EntryDate AS SalesOrderEntryDate, SalesOrders.Description, SalesOrders.Remarks, " + "\r\n";
+            queryString = queryString + "                       SalesOrders.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.VATCode AS CustomerVATCode, Customers.AttentionName AS CustomerAttentionName, Customers.Telephone AS CustomerTelephone, Customers.BillingAddress AS CustomerBillingAddress, CustomerEntireTerritories.EntireName AS CustomerEntireTerritoryEntireName, " + "\r\n";
+            queryString = queryString + "                       SalesOrders.ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Receivers.VATCode AS ReceiverVATCode, Receivers.AttentionName AS ReceiverAttentionName, Receivers.Telephone AS ReceiverTelephone, Receivers.BillingAddress AS ReceiverBillingAddress, ReceiverEntireTerritories.EntireName AS ReceiverEntireTerritoryEntireName, SalesOrders.ShippingAddress " + "\r\n";
+
+            queryString = queryString + "       FROM            SalesOrders " + "\r\n";
+            queryString = queryString + "                       INNER JOIN Customers ON SalesOrders.SalesOrderID IN (SELECT SalesOrderID FROM SalesOrderDetails WHERE LocationID = @LocationID AND Approved = 1 AND InActive = 0 AND InActivePartial = 0  AND ROUND(Quantity + FreeQuantity - QuantityAdvice - FreeQuantityAdvice, " + (int)GlobalEnums.rndQuantity + ") > 0) AND SalesOrders.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                       INNER JOIN EntireTerritories CustomerEntireTerritories ON Customers.TerritoryID = CustomerEntireTerritories.TerritoryID " + "\r\n";
+            queryString = queryString + "                       INNER JOIN Customers Receivers ON SalesOrders.ReceiverID = Receivers.CustomerID " + "\r\n";
+            queryString = queryString + "                       INNER JOIN EntireTerritories ReceiverEntireTerritories ON Receivers.TerritoryID = ReceiverEntireTerritories.TerritoryID " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("GetDeliveryAdvicePendingSalesOrders", queryString);
+        }
+
+        private void GetDeliveryAdvicePendingCustomers()
+        {
+            string queryString = " @LocationID int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "       SELECT          Customers.CustomerID AS CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.VATCode AS CustomerVATCode, Customers.AttentionName AS CustomerAttentionName, Customers.Telephone AS CustomerTelephone, Customers.BillingAddress AS CustomerBillingAddress, CustomerEntireTerritories.EntireName AS CustomerEntireTerritoryEntireName, " + "\r\n";
+            queryString = queryString + "                       Receivers.CustomerID AS ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Receivers.VATCode AS ReceiverVATCode, Receivers.AttentionName AS ReceiverAttentionName, Receivers.Telephone AS ReceiverTelephone, Receivers.BillingAddress AS ReceiverBillingAddress, ReceiverEntireTerritories.EntireName AS ReceiverEntireTerritoryEntireName, CustomerReceiverPENDING.ShippingAddress " + "\r\n";
+
+            queryString = queryString + "       FROM           (SELECT DISTINCT CustomerID, ReceiverID, ShippingAddress FROM SalesOrders WHERE SalesOrderID IN (SELECT SalesOrderID FROM SalesOrderDetails WHERE LocationID = @LocationID AND Approved = 1 AND InActive = 0 AND InActivePartial = 0  AND ROUND(Quantity + FreeQuantity - QuantityAdvice - FreeQuantityAdvice, " + (int)GlobalEnums.rndQuantity + ") > 0)) CustomerReceiverPENDING " + "\r\n";
+            queryString = queryString + "                       INNER JOIN Customers ON CustomerReceiverPENDING.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                       INNER JOIN Customers Receivers ON CustomerReceiverPENDING.ReceiverID = Receivers.CustomerID " + "\r\n";
+            queryString = queryString + "                       INNER JOIN EntireTerritories CustomerEntireTerritories ON Customers.TerritoryID = CustomerEntireTerritories.TerritoryID " + "\r\n";
+            queryString = queryString + "                       INNER JOIN EntireTerritories ReceiverEntireTerritories ON Receivers.TerritoryID = ReceiverEntireTerritories.TerritoryID " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("GetDeliveryAdvicePendingCustomers", queryString);
+        }
+
+
+
+        private void GetDeliveryAdvicePendingSalesOrderDetails()
+        {
+            string queryString;
+
+            SqlProgrammability.Inventories.Inventories inventories = new SqlProgrammability.Inventories.Inventories(this.totalSalesPortalEntities);
+
+            queryString = " @LocationID Int, @DeliveryAdviceID Int, @SalesOrderID Int, @CustomerID Int, @ReceiverID Int, @ShippingAddress nvarchar(200), @SalesOrderDetailIDs varchar(3999), @VATPercent decimal(18, 2), @EntryDate DateTime, @IsReadonly bit " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "   BEGIN " + "\r\n";
+
+            queryString = queryString + "       DECLARE @WarehouseIDList varchar(35)         DECLARE @CommodityIDList varchar(3999) " + "\r\n";
+
+            queryString = queryString + "       IF (@SalesOrderID > 0) ";
+            queryString = queryString + "           BEGIN " + "\r\n";
+            queryString = queryString + "               SELECT      @WarehouseIDList = STUFF((SELECT ',' + CAST(WarehouseID AS varchar)  FROM (SELECT DISTINCT WarehouseID FROM SalesOrderDetails WHERE SalesOrderID = @SalesOrderID) DistinctWarehouses FOR XML PATH('')) ,1,1,'') " + "\r\n";
+            queryString = queryString + "               SELECT      @CommodityIDList = STUFF((SELECT ',' + CAST(CommodityID AS varchar)  FROM SalesOrderDetails WHERE SalesOrderID = @SalesOrderID FOR XML PATH('')) ,1,1,'') " + "\r\n";
+            queryString = queryString + "           END " + "\r\n";
+            queryString = queryString + "       ELSE ";
+            queryString = queryString + "           BEGIN " + "\r\n";
+            queryString = queryString + "               DECLARE     @WarehouseCommodities TABLE (WarehouseID int NOT NULL, CommodityID int NOT NULL) " + "\r\n";
+            queryString = queryString + "               INSERT INTO @WarehouseCommodities       SELECT      SalesOrderDetails.WarehouseID, SalesOrderDetails.CommodityID                        FROM    SalesOrderDetails INNER JOIN SalesOrders ON SalesOrderDetails.LocationID = @LocationID AND SalesOrderDetails.CustomerID = @CustomerID AND SalesOrderDetails.ReceiverID = @ReceiverID AND SalesOrders.ShippingAddress = @ShippingAddress " + (GlobalEnums.VATbyRow ? "" : "AND SalesOrders.VATPercent = @VATPercent") + " AND SalesOrderDetails.Approved = 1 AND SalesOrderDetails.InActive = 0 AND SalesOrderDetails.InActivePartial = 0 AND SalesOrderDetails.InActiveIssue = 0 AND (ROUND(SalesOrderDetails.Quantity - SalesOrderDetails.QuantityAdvice, " + (int)GlobalEnums.rndQuantity + ") > 0 OR ROUND(SalesOrderDetails.FreeQuantity - SalesOrderDetails.FreeQuantityAdvice, " + (int)GlobalEnums.rndQuantity + ") > 0) AND SalesOrderDetails.SalesOrderID = SalesOrders.SalesOrderID " + "\r\n";
+            queryString = queryString + "               INSERT INTO @WarehouseCommodities       SELECT      DeliveryAdviceDetails.WarehouseID, DeliveryAdviceDetails.CommodityID                FROM    DeliveryAdviceDetails WHERE DeliveryAdviceID = @DeliveryAdviceID ";
+
+            queryString = queryString + "               SELECT      @WarehouseIDList = STUFF((SELECT ',' + CAST(WarehouseID AS varchar)  FROM (SELECT DISTINCT WarehouseID FROM @WarehouseCommodities) PendingWarehouses FOR XML PATH('')) ,1,1,'') " + "\r\n";
+            queryString = queryString + "               SELECT      @CommodityIDList = STUFF((SELECT ',' + CAST(CommodityID AS varchar)  FROM (SELECT DISTINCT CommodityID FROM @WarehouseCommodities) PendingCommodities FOR XML PATH('')) ,1,1,'') " + "\r\n";
+            queryString = queryString + "           END " + "\r\n";
+
+
+            queryString = queryString + "       " + inventories.GET_WarehouseJournal_BUILD_SQL("@CommoditiesBalance", "@EntryDate", "@EntryDate", "@WarehouseIDList", "@CommodityIDList", "0", "0") + "\r\n";
+
+
+            queryString = queryString + "       IF  (@SalesOrderID <> 0) " + "\r\n";
+            queryString = queryString + "           " + this.BuildSQLSalesOrder(true) + "\r\n";
+            queryString = queryString + "       ELSE " + "\r\n";
+            queryString = queryString + "           " + this.BuildSQLSalesOrder(false) + "\r\n";
+
+            queryString = queryString + "   END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("GetDeliveryAdvicePendingSalesOrderDetails", queryString);
+        }
+
+        private string BuildSQLSalesOrder(bool isSalesOrderID)
+        {
+            string queryString = "";
+            queryString = queryString + "   BEGIN " + "\r\n";
+            queryString = queryString + "       IF  (@SalesOrderDetailIDs <> '') " + "\r\n";
+            queryString = queryString + "           " + this.BuildSQLSalesOrderSalesOrderDetailIDs(isSalesOrderID, true) + "\r\n";
+            queryString = queryString + "       ELSE " + "\r\n";
+            queryString = queryString + "           " + this.BuildSQLSalesOrderSalesOrderDetailIDs(isSalesOrderID, false) + "\r\n";
+            queryString = queryString + "   END " + "\r\n";
+
+            return queryString;
+        }
+
+        private string BuildSQLSalesOrderSalesOrderDetailIDs(bool isSalesOrderID, bool isSalesOrderDetailIDs)
+        {
+            string queryString = "";
+            queryString = queryString + "   BEGIN " + "\r\n";
+
+            queryString = queryString + "       IF (@DeliveryAdviceID <= 0) " + "\r\n";
+            queryString = queryString + "               BEGIN " + "\r\n";
+            queryString = queryString + "                   " + this.BuildSQLNew(isSalesOrderID, isSalesOrderDetailIDs) + "\r\n";
+            queryString = queryString + "                   ORDER BY SalesOrders.EntryDate, SalesOrders.SalesOrderID, SalesOrderDetails.SalesOrderDetailID " + "\r\n";
+            queryString = queryString + "               END " + "\r\n";
+            queryString = queryString + "       ELSE " + "\r\n";
+
+            queryString = queryString + "               IF (@IsReadonly = 1) " + "\r\n";
+            queryString = queryString + "                   BEGIN " + "\r\n";
+            queryString = queryString + "                       " + this.BuildSQLEdit(isSalesOrderID, isSalesOrderDetailIDs) + "\r\n";
+            queryString = queryString + "                       ORDER BY SalesOrders.EntryDate, SalesOrders.SalesOrderID, SalesOrderDetails.SalesOrderDetailID " + "\r\n";
+            queryString = queryString + "                   END " + "\r\n";
+
+            queryString = queryString + "               ELSE " + "\r\n"; //FULL SELECT FOR EDIT MODE
+
+            queryString = queryString + "                   BEGIN " + "\r\n";
+            queryString = queryString + "                       " + this.BuildSQLNew(isSalesOrderID, isSalesOrderDetailIDs) + " WHERE SalesOrderDetails.SalesOrderDetailID NOT IN (SELECT SalesOrderDetailID FROM DeliveryAdviceDetails WHERE DeliveryAdviceID = @DeliveryAdviceID) " + "\r\n";
+            queryString = queryString + "                       UNION ALL " + "\r\n";
+            queryString = queryString + "                       " + this.BuildSQLEdit(isSalesOrderID, isSalesOrderDetailIDs) + "\r\n";
+            queryString = queryString + "                       ORDER BY SalesOrders.EntryDate, SalesOrders.SalesOrderID, SalesOrderDetails.SalesOrderDetailID " + "\r\n";
+            queryString = queryString + "                   END " + "\r\n";
+
+            queryString = queryString + "   END " + "\r\n";
+
+            return queryString;
+        }
+
+        private string BuildSQLNew(bool isSalesOrderID, bool isSalesOrderDetailIDs)
+        {
+            string queryString = "";
+
+            queryString = queryString + "       SELECT      SalesOrders.SalesOrderID, SalesOrderDetails.SalesOrderDetailID, SalesOrders.Reference, SalesOrders.EntryDate, " + "\r\n";
+            queryString = queryString + "                   Commodities.CommodityID, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, Commodities.CommodityTypeID, Warehouses.WarehouseID, Warehouses.Code AS WarehouseCode, SalesOrderDetails.CalculatingTypeID, " + "\r\n";
+            queryString = queryString + "                   ISNULL(CommoditiesBalance.QuantityBalance, 0) AS QuantityAvailable, ROUND(SalesOrderDetails.Quantity - SalesOrderDetails.QuantityAdvice, 0) AS QuantityRemains, ROUND(SalesOrderDetails.FreeQuantity - SalesOrderDetails.FreeQuantityAdvice, 0) AS FreeQuantityRemains, " + "\r\n";
+            queryString = queryString + "                   0 AS Quantity, SalesOrderDetails.ControlFreeQuantity, 0 AS FreeQuantity, SalesOrderDetails.ListedPrice, SalesOrderDetails.DiscountPercent, SalesOrderDetails.UnitPrice, SalesOrderDetails.VATPercent, SalesOrderDetails.ListedGrossPrice, SalesOrderDetails.GrossPrice, 0 AS ListedAmount, 0 AS Amount, 0 AS ListedVATAmount, 0 AS VATAmount, 0 AS ListedGrossAmount, 0 AS GrossAmount, SalesOrderDetails.IsBonus, SalesOrderDetails.Remarks " + "\r\n";
+
+            queryString = queryString + "       FROM        SalesOrders " + "\r\n";
+            queryString = queryString + "                   INNER JOIN SalesOrderDetails ON " + (isSalesOrderID ? " SalesOrders.SalesOrderID = @SalesOrderID " : "SalesOrders.LocationID = @LocationID AND SalesOrders.CustomerID = @CustomerID AND SalesOrders.ReceiverID = @ReceiverID AND SalesOrders.ShippingAddress = @ShippingAddress " + (GlobalEnums.VATbyRow ? "" : "AND SalesOrders.VATPercent = @VATPercent")) + " AND SalesOrderDetails.Approved = 1 AND SalesOrderDetails.InActive = 0 AND SalesOrderDetails.InActivePartial = 0 AND ROUND(SalesOrderDetails.Quantity + SalesOrderDetails.FreeQuantity - SalesOrderDetails.QuantityAdvice - SalesOrderDetails.FreeQuantityAdvice, " + (int)GlobalEnums.rndQuantity + ") > 0 AND SalesOrders.SalesOrderID = SalesOrderDetails.SalesOrderID" + (isSalesOrderDetailIDs ? " AND SalesOrderDetails.SalesOrderDetailID NOT IN (SELECT Id FROM dbo.SplitToIntList (@SalesOrderDetailIDs))" : "") + "\r\n";
+            queryString = queryString + "                   INNER JOIN Commodities ON SalesOrderDetails.CommodityID = Commodities.CommodityID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Warehouses ON SalesOrderDetails.WarehouseID = Warehouses.WarehouseID " + "\r\n";
+            queryString = queryString + "                   LEFT JOIN @CommoditiesBalance CommoditiesBalance ON SalesOrderDetails.WarehouseID = CommoditiesBalance.WarehouseID AND SalesOrderDetails.CommodityID = CommoditiesBalance.CommodityID " + "\r\n";
+
+            return queryString;
+        }
+
+        private string BuildSQLEdit(bool isSalesOrderID, bool isSalesOrderDetailIDs)
+        {
+            string queryString = "";
+            //NO NEED TO UNDO QuantityAvailable -THE WAREHOUSE BALANCE- FOR THIS EDIT QUERY: BECAUSE: THIS STORED PROCEDURE ONLY BE CALLED WHEN Approved = 0 => BECAUSE OF THIS (HAVE NOT UPPROVED YET): THIS DELIVERYADVICE QUANTITY DOES NOT EFFECT THE WAREHOUSE BALANCE
+            queryString = queryString + "       SELECT      SalesOrders.SalesOrderID, SalesOrderDetails.SalesOrderDetailID, SalesOrders.Reference, SalesOrders.EntryDate, " + "\r\n";
+            queryString = queryString + "                   Commodities.CommodityID, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, Commodities.CommodityTypeID, Warehouses.WarehouseID, Warehouses.Code AS WarehouseCode, SalesOrderDetails.CalculatingTypeID, " + "\r\n";
+            queryString = queryString + "                   ISNULL(CommoditiesBalance.QuantityBalance, 0) AS QuantityAvailable, ROUND(SalesOrderDetails.Quantity - SalesOrderDetails.QuantityAdvice + DeliveryAdviceDetails.Quantity, 0) AS QuantityRemains, ROUND(SalesOrderDetails.FreeQuantity - SalesOrderDetails.FreeQuantityAdvice + DeliveryAdviceDetails.FreeQuantity, 0) AS FreeQuantityRemains, " + "\r\n";
+            queryString = queryString + "                   0 AS Quantity, SalesOrderDetails.ControlFreeQuantity, 0 AS FreeQuantity, SalesOrderDetails.ListedPrice, SalesOrderDetails.DiscountPercent, SalesOrderDetails.UnitPrice, SalesOrderDetails.VATPercent, SalesOrderDetails.ListedGrossPrice, SalesOrderDetails.GrossPrice, 0 AS ListedAmount, 0 AS Amount, 0 AS ListedVATAmount, 0 AS VATAmount, 0 AS ListedGrossAmount, 0 AS GrossAmount, SalesOrderDetails.IsBonus, SalesOrderDetails.Remarks " + "\r\n";
+
+            queryString = queryString + "       FROM        SalesOrderDetails " + "\r\n";
+            queryString = queryString + "                   INNER JOIN DeliveryAdviceDetails ON DeliveryAdviceDetails.DeliveryAdviceID = @DeliveryAdviceID AND SalesOrderDetails.SalesOrderDetailID = DeliveryAdviceDetails.SalesOrderDetailID" + (isSalesOrderDetailIDs ? " AND SalesOrderDetails.SalesOrderDetailID NOT IN (SELECT Id FROM dbo.SplitToIntList (@SalesOrderDetailIDs))" : "") + "\r\n";
+            queryString = queryString + "                   INNER JOIN Commodities ON SalesOrderDetails.CommodityID = Commodities.CommodityID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Warehouses ON SalesOrderDetails.WarehouseID = Warehouses.WarehouseID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN SalesOrders ON SalesOrderDetails.SalesOrderID = SalesOrders.SalesOrderID " + "\r\n";
+            queryString = queryString + "                   LEFT JOIN @CommoditiesBalance CommoditiesBalance ON SalesOrderDetails.WarehouseID = CommoditiesBalance.WarehouseID AND SalesOrderDetails.CommodityID = CommoditiesBalance.CommodityID " + "\r\n";
+
+            return queryString;
+        }
+
+        #endregion Y
+
+
+
 
         private void DeliveryAdviceSaveRelative()
         {
@@ -548,14 +732,14 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
-            queryString = queryString + "       UPDATE      DeliveryAdvices  SET Approved = @Approved, ApprovedDate = GetDate() WHERE DeliveryAdviceID = @EntityID AND Approved = ~@Approved" + "\r\n";
+            queryString = queryString + "       UPDATE      DeliveryAdvices  SET Approved = @Approved, ApprovedDate = GetDate(), InActive = 0, InActivePartial = 0, InActiveDate = NULL, VoidTypeID = NULL WHERE DeliveryAdviceID = @EntityID AND Approved = ~@Approved" + "\r\n";
 
             queryString = queryString + "       IF @@ROWCOUNT = 1 " + "\r\n";
             queryString = queryString + "           BEGIN " + "\r\n";
-            queryString = queryString + "               UPDATE          DeliveryAdviceDetails  SET Approved = @Approved WHERE DeliveryAdviceID = @EntityID ; " + "\r\n";
+            queryString = queryString + "               UPDATE          DeliveryAdviceDetails  SET Approved = @Approved, InActive = 0, InActivePartial = 0, InActivePartialDate = NULL, VoidTypeID = NULL WHERE DeliveryAdviceID = @EntityID ; " + "\r\n";
 
-            queryString = queryString + "               UPDATE          ERmgrVCP.dbo.DeliveryAdvices  SET Approved = @Approved, ApprovedDate = GetDate() WHERE DeliveryAdviceID = @EntityID " + "\r\n";
-            queryString = queryString + "               UPDATE          ERmgrVCP.dbo.DeliveryAdviceDetails  SET Approved = @Approved WHERE DeliveryAdviceID = @EntityID ; " + "\r\n";
+            queryString = queryString + "               UPDATE          ERmgrVCP.dbo.DeliveryAdvices  SET Approved = @Approved, ApprovedDate = GetDate(), InActive = 0, InActivePartial = 0, InActiveDate = NULL, VoidTypeID = NULL WHERE DeliveryAdviceID = @EntityID " + "\r\n";
+            queryString = queryString + "               UPDATE          ERmgrVCP.dbo.DeliveryAdviceDetails  SET Approved = @Approved, InActive = 0, InActivePartial = 0, InActivePartialDate = NULL, VoidTypeID = NULL WHERE DeliveryAdviceID = @EntityID ; " + "\r\n";
             queryString = queryString + "           END " + "\r\n";
             queryString = queryString + "       ELSE " + "\r\n";
             queryString = queryString + "           BEGIN " + "\r\n";

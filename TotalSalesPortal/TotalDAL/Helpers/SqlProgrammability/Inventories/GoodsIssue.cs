@@ -129,7 +129,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
             queryString = queryString + "       IF (@DeliveryAdviceID > 0) ";
             queryString = queryString + "           BEGIN " + "\r\n";
-            queryString = queryString + "               SELECT      @WarehouseIDList = STUFF((SELECT ',' + CAST(WarehouseID AS varchar)  FROM DeliveryAdviceDetails WHERE DeliveryAdviceID = @DeliveryAdviceID FOR XML PATH('')) ,1,1,'') " + "\r\n";
+            queryString = queryString + "               SELECT      @WarehouseIDList = STUFF((SELECT ',' + CAST(WarehouseID AS varchar)  FROM (SELECT DISTINCT WarehouseID FROM DeliveryAdviceDetails WHERE DeliveryAdviceID = @DeliveryAdviceID) DistinctWarehouses FOR XML PATH('')) ,1,1,'') " + "\r\n";
             queryString = queryString + "               SELECT      @CommodityIDList = STUFF((SELECT ',' + CAST(CommodityID AS varchar)  FROM DeliveryAdviceDetails WHERE DeliveryAdviceID = @DeliveryAdviceID FOR XML PATH('')) ,1,1,'') " + "\r\n";
             queryString = queryString + "           END " + "\r\n";
             queryString = queryString + "       ELSE ";
