@@ -1,4 +1,7 @@
-﻿using TotalModel.Models;
+﻿using System;
+using System.Collections.Generic;
+
+using TotalModel.Models;
 
 namespace TotalCore.Repositories.Sales
 {
@@ -8,6 +11,10 @@ namespace TotalCore.Repositories.Sales
 
     public interface IDeliveryAdviceAPIRepository : IGenericAPIRepository
     {
+        IEnumerable<DeliveryAdvicePendingCustomer> GetCustomers(int? locationID);
+        IEnumerable<DeliveryAdvicePendingSalesOrder> GetSalesOrders(int? locationID);
+
+        IEnumerable<DeliveryAdvicePendingSalesOrderDetail> GetPendingSalesOrderDetails(int? locationID, int? deliveryAdviceID, int? salesOrderID, int? customerID, int? receiverID, string shippingAddress, string salesOrderDetailIDs, decimal? vatPercent, DateTime? entryDate, bool isReadonly);
     }
 
 }

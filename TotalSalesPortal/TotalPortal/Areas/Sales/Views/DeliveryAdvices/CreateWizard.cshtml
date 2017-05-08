@@ -34,7 +34,7 @@
         .Name("tabStrip")
         .Items(tabStrip =>
         {
-            tabStrip.Add().Text("Khách hàng không có đặt hàng")
+            tabStrip.Add().Text("Khách hàng không có đơn hàng")
                 .Selected(true)
                 .Content(@<text>
                     @Html.Partial("~/Views/Helpers/Commons/_SearchCustomer.cshtml")
@@ -42,10 +42,14 @@
 
             tabStrip.Add().Text("Giao hàng theo đơn đặt hàng")
                 .Content(@<text>
-                    @*@Html.Partial("~/Views/Helpers/Commons/_SearchServiceContract.cshtml")*@
+                    @Html.Partial("~/Areas/Sales/Views/DeliveryAdvices/_GetSalesOrder.cshtml")
                 </text>);
+            tabStrip.Add().Text("Giao hàng tổng hợp của nhiều đơn đặt hàng")
+                    .Content(@<text>
+                    @Html.Partial("~/Areas/Sales/Views/DeliveryAdvices/_GetCustomer.cshtml")
+                    </text>);
         })
-    )
+)
 
 
     <div class="background-bar" style="height: 45px;">

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Data.Entity;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
@@ -137,6 +138,35 @@ namespace TotalDAL.Repositories.Sales
             : base(totalSalesPortalEntities, "GetDeliveryAdviceIndexes")
         {
         }
+
+        public IEnumerable<DeliveryAdvicePendingCustomer> GetCustomers(int? locationID)
+        {
+            this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = false;
+            IEnumerable<DeliveryAdvicePendingCustomer> pendingSalesOrderCustomers = base.TotalSalesPortalEntities.GetDeliveryAdvicePendingCustomers(locationID).ToList();
+            this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = true;
+
+            return pendingSalesOrderCustomers;
+        }
+
+        public IEnumerable<DeliveryAdvicePendingSalesOrder> GetSalesOrders(int? locationID)
+        {
+            this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = false;
+            IEnumerable<DeliveryAdvicePendingSalesOrder> pendingSalesOrders = base.TotalSalesPortalEntities.GetDeliveryAdvicePendingSalesOrders(locationID).ToList();
+            this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = true;
+
+            return pendingSalesOrders;
+        }
+
+
+        public IEnumerable<DeliveryAdvicePendingSalesOrderDetail> GetPendingSalesOrderDetails(int? locationID, int? handlingUnitID, int? salesOrderID, int? customerID, int? receiverID, string shippingAddress, string salesOrderDetailIDs, decimal? vatPercent, DateTime? entryDate, bool isReadonly)
+        {
+            this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = false;
+            IEnumerable<DeliveryAdvicePendingSalesOrderDetail> pendingSalesOrderDetails = base.TotalSalesPortalEntities.GetDeliveryAdvicePendingSalesOrderDetails(locationID, handlingUnitID, salesOrderID, customerID, receiverID, shippingAddress, salesOrderDetailIDs, vatPercent, entryDate, isReadonly).ToList();
+            this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = true;
+
+            return pendingSalesOrderDetails;
+        }
+
     }
 
 
