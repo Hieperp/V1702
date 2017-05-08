@@ -10,7 +10,7 @@ namespace TotalDTO.Helpers
     public abstract class VATAmountDTO<TVATAmountDetailDTO> : AmountDTO<TVATAmountDetailDTO>
         where TVATAmountDetailDTO : class, IVATAmountDetailDTO
     {
-        protected VATAmountDTO() { this.VATPercent = 10; }
+        protected VATAmountDTO() { this.VATPercent = 10; } //Later, if we need program to allow user to change VATPercent of D.A => We can do it by setup two things: 1) Declare a default VATPercent and init VATPercent by default here. 2) Do workarround to change VATPercent in View: 2.a) Have an action to change VATPercent 2.b) Clear all detail of D.A (because: each detail row init its VATPercent by getting VATPercent from its master data: See this js statement: [ currentDataSourceRow.set("VATPercent", currentDataSourceRow.VATbyRow === true ? dataItem.VATPercent : $("#VATPercent").val()) ]  )
 
         [Display(Name = "VAT")]
         [UIHint("DecimalReadonly")]
