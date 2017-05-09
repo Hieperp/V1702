@@ -3509,7 +3509,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="Int32" Name="CommodityTypeID" Nullable="false" />
           <Property Type="Int32" Name="WarehouseID" Nullable="false" />
           <Property Type="String" Name="WarehouseCode" Nullable="false" MaxLength="10" />
-          <Property Type="Decimal" Name="QuantityAvailable" Nullable="true" Precision="19" Scale="2" />
+          <Property Type="Decimal" Name="QuantityAvailable" Nullable="true" Precision="22" Scale="2" />
           <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="ListedPrice" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="DiscountPercent" Nullable="false" Precision="18" Scale="5" />
@@ -3534,6 +3534,12 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="Decimal" Name="ListedVATAmount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="ListedGrossAmount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Int32" Name="CalculatingTypeID" Nullable="false" />
+          <Property Type="Int32" Name="SalesOrderID" Nullable="true" />
+          <Property Type="Int32" Name="SalesOrderDetailID" Nullable="true" />
+          <Property Type="String" Name="SalesOrderReference" Nullable="true" MaxLength="10" />
+          <Property Type="DateTime" Name="SalesOrderEntryDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="QuantityRemains" Nullable="true" Precision="20" Scale="2" />
+          <Property Type="Decimal" Name="FreeQuantityRemains" Nullable="true" Precision="20" Scale="2" />
         </ComplexType>
         <ComplexType Name="CommodityAvailable">
           <Property Type="Int32" Name="CommodityID" Nullable="false" />
@@ -6215,6 +6221,12 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
                 <ScalarProperty Name="ListedVATAmount" ColumnName="ListedVATAmount" />
                 <ScalarProperty Name="ListedGrossAmount" ColumnName="ListedGrossAmount" />
                 <ScalarProperty Name="CalculatingTypeID" ColumnName="CalculatingTypeID" />
+                <ScalarProperty Name="SalesOrderID" ColumnName="SalesOrderID" />
+                <ScalarProperty Name="SalesOrderDetailID" ColumnName="SalesOrderDetailID" />
+                <ScalarProperty Name="SalesOrderReference" ColumnName="SalesOrderReference" />
+                <ScalarProperty Name="SalesOrderEntryDate" ColumnName="SalesOrderEntryDate" />
+                <ScalarProperty Name="QuantityRemains" ColumnName="QuantityRemains" />
+                <ScalarProperty Name="FreeQuantityRemains" ColumnName="FreeQuantityRemains" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

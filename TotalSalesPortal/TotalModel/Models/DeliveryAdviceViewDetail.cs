@@ -46,5 +46,11 @@ namespace TotalModel.Models
         public decimal ListedVATAmount { get; set; }
         public decimal ListedGrossAmount { get; set; }
         public int CalculatingTypeID { get; set; }
+        public Nullable<int> SalesOrderID { get; set; }
+        public Nullable<int> SalesOrderDetailID { get; set; }
+        public string SalesOrderReference { get; set; }
+        public Nullable<System.DateTime> SalesOrderEntryDate { get; set; }
+        public Nullable<decimal> QuantityRemains { get; set; }
+        public Nullable<decimal> FreeQuantityRemains { get; set; }
     }
 }
