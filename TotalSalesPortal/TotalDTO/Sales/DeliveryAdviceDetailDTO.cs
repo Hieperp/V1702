@@ -44,6 +44,14 @@ namespace TotalDTO.Sales
         public int SalespersonID { get; set; }
 
 
+        [Display(Name = "SL ĐN")]
+        [UIHint("DecimalReadonly")]
+        public decimal QuantityRemains { get; set; }
+
+        [Display(Name = "SL QT")]
+        [UIHint("DecimalReadonly")]
+        public decimal FreeQuantityRemains { get; set; }
+
         [UIHint("DecimalReadonly")]
         public override decimal DiscountPercent { get; set; }
 
@@ -57,8 +65,18 @@ namespace TotalDTO.Sales
     public class DeliveryAdviceDetailDTO : SaleDetailDTO, IPrimitiveEntity
     {
         public int GetID() { return this.DeliveryAdviceDetailID; }
-
+        
+        public Nullable<int> SalesOrderID { get; set; }
         public Nullable<int> SalesOrderDetailID { get; set; }
+
+        [Display(Name = "Phiếu XK")]
+        [UIHint("StringReadonly")]
+        public string SalesOrderReference { get; set; }
+        [Display(Name = "Ngày, giờ XK")]
+        [UIHint("DateTimeReadonly")]
+        public Nullable<System.DateTime> SalesOrderEntryDate { get; set; }
+
+
         public Nullable<int> PromotionID { get; set; }
 
         [UIHint("AutoCompletes/CommodityAvailable")]

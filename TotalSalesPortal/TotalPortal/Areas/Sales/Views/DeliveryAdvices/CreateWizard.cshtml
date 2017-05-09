@@ -12,8 +12,13 @@
 
     @Html.HiddenFor(model => model.ShowDiscount);
 
+    @Html.HiddenFor(model => model.HasSalesOrder)
+    @Html.HiddenFor(model => model.SalesOrderID)
+    @Html.HiddenFor(model => model.SalesOrderReference)
+    @Html.HiddenFor(model => model.SalesOrderEntryDate)
+
     @Html.HiddenFor(model => model.PaymentTermID);
-    
+
     @Html.HiddenFor(model => model.Salesperson.EmployeeID);
     @Html.HiddenFor(model => model.Salesperson.Name);
 
@@ -49,7 +54,7 @@
                     @Html.Partial("~/Areas/Sales/Views/DeliveryAdvices/_GetCustomer.cshtml")
                     </text>);
         })
-)
+    )
 
 
     <div class="background-bar" style="height: 45px;">
@@ -68,48 +73,70 @@
 
 <script type="text/javascript">
     function okButton_Click() {
-        handleOKEvent($($("#tabStrip").data("kendoTabStrip").select().index() === 0 ? "#gridPromotion" : "#gridXXXX_ReserveForLater").data("kendoGrid"));
+        if ($("#tabStrip").data("kendoTabStrip").select().index() === 0)
+            handleOKEvent($("#gridPromotion").data("kendoGrid"));
+        else //DON'T ALLOW TO CLICK WHEN HasSalesOrder
+            return false;
     }
 
     function okWOSelectButton_Click() {
         handleOKEvent();
     }
 
-    function handleOKEvent(selectedGrid) { //This javascript is now used only here. Later, if it is used somewhere else, it should be break into a standalone js file, and then just only add a link here
+    function handleOKEvent(promotionGrid) { //This javascript is now used only here. Later, if it is used somewhere else, it should be break into a standalone js file, and then just only add a link here
 
-        if ($("#Customer_CustomerID").val() === null || $("#Customer_CustomerID").val() === "")
-            return false;
+        var hasSalesOrder = $("#tabStrip").data("kendoTabStrip").select().index() === 0 ? false : true;
 
-        if (selectedGrid === undefined)
+        if (hasSalesOrder == false) {
+            if ($("#Customer_CustomerID").val() === null || $("#Customer_CustomerID").val() === "")
+                return false;
+            
+            if (promotionGrid != undefined){
+                var selectedPromotionItem = promotionGrid.dataItem(promotionGrid.select());
+                if (selectedPromotionItem === undefined || selectedPromotionItem === null)
+                    return false;
+            }
+
             _setModelInput();
+        }
         else {
+            var selectedGrid = $($("#tabStrip").data("kendoTabStrip").select().index() === 1 ? "#deliveryAdvicePendingSalesOrderGrid" : "#deliveryAdvicePendingCustomerGrid").data("kendoGrid");
             var selectedDataItem = selectedGrid.dataItem(selectedGrid.select());
             if (selectedDataItem === undefined || selectedDataItem === null)
                 return false;
 
             _setModelInput(selectedDataItem);
         }
+
+
         $("#submitCreateWizard").trigger("click");
 
 
         function _setModelInput(selectedDataItem) {
 
-            $("#PaymentTermID").val($("#Customer_PaymentTermID").val());
+            $("#HasSalesOrder").val(hasSalesOrder);
 
-            $("#Salesperson_EmployeeID").val($("#Customer_SalespersonID").val()); //INIT DEFAULT Salesperson_EmployeeID, Salesperson_Name FROM Customer_SalespersonID, Customer_SalespersonName
-            $("#Salesperson_Name").val($("#Customer_SalespersonName").val());
+            if (hasSalesOrder == false) {
+                $("#PaymentTermID").val($("#Customer_PaymentTermID").val());
 
-            $("#Promotion_PromotionID").val(selectedDataItem === undefined || selectedDataItem.PromotionID === undefined ? null : selectedDataItem.PromotionID);
-            $("#Promotion_Name").val(selectedDataItem === undefined || selectedDataItem.Name === undefined ? null : selectedDataItem.Name);
-            $("#Promotion_StartDate").val(selectedDataItem === undefined || selectedDataItem.StartDate === undefined ? null : kendo.toString(selectedDataItem.StartDate, SettingsManager.DateTimeFormat));
-            $("#Promotion_EndDate").val(selectedDataItem === undefined || selectedDataItem.EndDate === undefined ? null : kendo.toString(selectedDataItem.EndDate, SettingsManager.DateTimeFormat));
-            $("#Promotion_DiscountPercent").val(selectedDataItem === undefined || selectedDataItem.DiscountPercent === undefined ? null : selectedDataItem.DiscountPercent);
-            $("#Promotion_ControlFreeQuantity").val(selectedDataItem === undefined || selectedDataItem.ControlFreeQuantity === undefined ? null : selectedDataItem.ControlFreeQuantity);
+                $("#Salesperson_EmployeeID").val($("#Customer_SalespersonID").val()); //INIT DEFAULT Salesperson_EmployeeID, Salesperson_Name FROM Customer_SalespersonID, Customer_SalespersonName
+                $("#Salesperson_Name").val($("#Customer_SalespersonName").val());
+            }
+            else {
 
-            $("#Promotion_ApplyToAllCustomers").val(selectedDataItem === undefined || selectedDataItem.ApplyToAllCustomers === undefined ? false : selectedDataItem.ApplyToAllCustomers);
-            $("#Promotion_ApplyToAllCommodities").val(selectedDataItem === undefined || selectedDataItem.ApplyToAllCommodities === undefined ? false : selectedDataItem.ApplyToAllCommodities);
+            }
 
-            $("#Promotion_Remarks").val(selectedDataItem === undefined || selectedDataItem.Remarks === undefined ? null : selectedDataItem.Remarks);
+            $("#Promotion_PromotionID").val(selectedPromotionItem === undefined || selectedPromotionItem.PromotionID === undefined ? null : selectedPromotionItem.PromotionID);
+            $("#Promotion_Name").val(selectedPromotionItem === undefined || selectedPromotionItem.Name === undefined ? null : selectedPromotionItem.Name);
+            $("#Promotion_StartDate").val(selectedPromotionItem === undefined || selectedPromotionItem.StartDate === undefined ? null : kendo.toString(selectedPromotionItem.StartDate, SettingsManager.DateTimeFormat));
+            $("#Promotion_EndDate").val(selectedPromotionItem === undefined || selectedPromotionItem.EndDate === undefined ? null : kendo.toString(selectedPromotionItem.EndDate, SettingsManager.DateTimeFormat));
+            $("#Promotion_DiscountPercent").val(selectedPromotionItem === undefined || selectedPromotionItem.DiscountPercent === undefined ? null : selectedPromotionItem.DiscountPercent);
+            $("#Promotion_ControlFreeQuantity").val(selectedPromotionItem === undefined || selectedPromotionItem.ControlFreeQuantity === undefined ? null : selectedPromotionItem.ControlFreeQuantity);
+
+            $("#Promotion_ApplyToAllCustomers").val(selectedPromotionItem === undefined || selectedPromotionItem.ApplyToAllCustomers === undefined ? false : selectedPromotionItem.ApplyToAllCustomers);
+            $("#Promotion_ApplyToAllCommodities").val(selectedPromotionItem === undefined || selectedPromotionItem.ApplyToAllCommodities === undefined ? false : selectedPromotionItem.ApplyToAllCommodities);
+
+            $("#Promotion_Remarks").val(selectedPromotionItem === undefined || selectedPromotionItem.Remarks === undefined ? null : selectedPromotionItem.Remarks);
         }
     }
 

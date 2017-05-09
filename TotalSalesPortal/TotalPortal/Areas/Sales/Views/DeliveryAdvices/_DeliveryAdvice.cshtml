@@ -12,6 +12,7 @@
     @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
 
     @Html.HiddenFor(model => model.DeliveryAdviceID)
+    @Html.HiddenFor(model => model.HasSalesOrder)
 
     @Html.HiddenFor(model => model.TotalQuantity)
     @Html.HiddenFor(model => model.TotalFreeQuantity)

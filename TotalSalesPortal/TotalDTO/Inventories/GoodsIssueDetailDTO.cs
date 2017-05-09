@@ -21,16 +21,7 @@ namespace TotalDTO.Inventories
         public string DeliveryAdviceReference { get; set; }
 
         [UIHint("StringReadonly")]
-        public override string CommodityCode { get; set; }
-
-
-        [Display(Name = "SL ĐN")]
-        [UIHint("DecimalReadonly")]
-        public decimal QuantityRemains { get; set; }
-
-        [Display(Name = "SL QT")]
-        [UIHint("DecimalReadonly")]
-        public decimal FreeQuantityRemains { get; set; }
+        public override string CommodityCode { get; set; }        
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

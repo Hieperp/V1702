@@ -485,7 +485,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
-            queryString = queryString + "       SELECT          SalesOrders.SalesOrderID, SalesOrders.Reference AS SalesOrderReference, SalesOrders.EntryDate AS SalesOrderEntryDate, SalesOrders.Description, SalesOrders.Remarks, " + "\r\n";
+            queryString = queryString + "       SELECT          SalesOrders.SalesOrderID, SalesOrders.Reference AS SalesOrderReference, SalesOrders.EntryDate AS SalesOrderEntryDate, SalesOrders.PaymentTermID, SalesOrders.SalespersonID, Employees.Name AS SalespersonName, SalesOrders.Description, SalesOrders.Remarks, " + "\r\n";
             queryString = queryString + "                       SalesOrders.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.VATCode AS CustomerVATCode, Customers.AttentionName AS CustomerAttentionName, Customers.Telephone AS CustomerTelephone, Customers.BillingAddress AS CustomerBillingAddress, CustomerEntireTerritories.EntireName AS CustomerEntireTerritoryEntireName, " + "\r\n";
             queryString = queryString + "                       SalesOrders.ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Receivers.VATCode AS ReceiverVATCode, Receivers.AttentionName AS ReceiverAttentionName, Receivers.Telephone AS ReceiverTelephone, Receivers.BillingAddress AS ReceiverBillingAddress, ReceiverEntireTerritories.EntireName AS ReceiverEntireTerritoryEntireName, SalesOrders.ShippingAddress " + "\r\n";
 
@@ -494,6 +494,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + "                       INNER JOIN EntireTerritories CustomerEntireTerritories ON Customers.TerritoryID = CustomerEntireTerritories.TerritoryID " + "\r\n";
             queryString = queryString + "                       INNER JOIN Customers Receivers ON SalesOrders.ReceiverID = Receivers.CustomerID " + "\r\n";
             queryString = queryString + "                       INNER JOIN EntireTerritories ReceiverEntireTerritories ON Receivers.TerritoryID = ReceiverEntireTerritories.TerritoryID " + "\r\n";
+            queryString = queryString + "                       INNER JOIN Employees ON SalesOrders.SalespersonID = Employees.EmployeeID " + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetDeliveryAdvicePendingSalesOrders", queryString);
         }
@@ -504,7 +505,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
-            queryString = queryString + "       SELECT          Customers.CustomerID AS CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.VATCode AS CustomerVATCode, Customers.AttentionName AS CustomerAttentionName, Customers.Telephone AS CustomerTelephone, Customers.BillingAddress AS CustomerBillingAddress, CustomerEntireTerritories.EntireName AS CustomerEntireTerritoryEntireName, " + "\r\n";
+            queryString = queryString + "       SELECT          Customers.CustomerID AS CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.VATCode AS CustomerVATCode, Customers.AttentionName AS CustomerAttentionName, Customers.Telephone AS CustomerTelephone, Customers.BillingAddress AS CustomerBillingAddress, CustomerEntireTerritories.EntireName AS CustomerEntireTerritoryEntireName, CustomerCategories.PaymentTermID, Customers.SalespersonID, Employees.Name AS SalespersonName, " + "\r\n";
             queryString = queryString + "                       Receivers.CustomerID AS ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Receivers.VATCode AS ReceiverVATCode, Receivers.AttentionName AS ReceiverAttentionName, Receivers.Telephone AS ReceiverTelephone, Receivers.BillingAddress AS ReceiverBillingAddress, ReceiverEntireTerritories.EntireName AS ReceiverEntireTerritoryEntireName, CustomerReceiverPENDING.ShippingAddress " + "\r\n";
 
             queryString = queryString + "       FROM           (SELECT DISTINCT CustomerID, ReceiverID, ShippingAddress FROM SalesOrders WHERE SalesOrderID IN (SELECT SalesOrderID FROM SalesOrderDetails WHERE LocationID = @LocationID AND Approved = 1 AND InActive = 0 AND InActivePartial = 0  AND ROUND(Quantity + FreeQuantity - QuantityAdvice - FreeQuantityAdvice, " + (int)GlobalEnums.rndQuantity + ") > 0)) CustomerReceiverPENDING " + "\r\n";
@@ -512,6 +513,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + "                       INNER JOIN Customers Receivers ON CustomerReceiverPENDING.ReceiverID = Receivers.CustomerID " + "\r\n";
             queryString = queryString + "                       INNER JOIN EntireTerritories CustomerEntireTerritories ON Customers.TerritoryID = CustomerEntireTerritories.TerritoryID " + "\r\n";
             queryString = queryString + "                       INNER JOIN EntireTerritories ReceiverEntireTerritories ON Receivers.TerritoryID = ReceiverEntireTerritories.TerritoryID " + "\r\n";
+            queryString = queryString + "                       INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
+            queryString = queryString + "                       INNER JOIN Employees ON Customers.SalespersonID = Employees.EmployeeID " + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetDeliveryAdvicePendingCustomers", queryString);
         }

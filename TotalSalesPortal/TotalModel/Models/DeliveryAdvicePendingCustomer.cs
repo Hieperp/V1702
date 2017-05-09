@@ -30,5 +30,8 @@ namespace TotalModel.Models
         public string ReceiverBillingAddress { get; set; }
         public string ReceiverEntireTerritoryEntireName { get; set; }
         public string ShippingAddress { get; set; }
+        public int PaymentTermID { get; set; }
+        public int SalespersonID { get; set; }
+        public string SalespersonName { get; set; }
     }
 }

@@ -5841,6 +5841,9 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="ShippingAddress" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="PaymentTermID" Nullable="false" />
+          <Property Type="Int32" Name="SalespersonID" Nullable="false" />
+          <Property Type="String" Name="SalespersonName" Nullable="false" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="DeliveryAdvicePendingSalesOrderDetail">
           <Property Type="Int32" Name="SalesOrderID" Nullable="false" />
@@ -5898,6 +5901,9 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="ShippingAddress" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="PaymentTermID" Nullable="false" />
+          <Property Type="Int32" Name="SalespersonID" Nullable="false" />
+          <Property Type="String" Name="SalespersonName" Nullable="false" MaxLength="50" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -7637,6 +7643,9 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
                 <ScalarProperty Name="ReceiverBillingAddress" ColumnName="ReceiverBillingAddress" />
                 <ScalarProperty Name="ReceiverEntireTerritoryEntireName" ColumnName="ReceiverEntireTerritoryEntireName" />
                 <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
+                <ScalarProperty Name="SalespersonID" ColumnName="SalespersonID" />
+                <ScalarProperty Name="SalespersonName" ColumnName="SalespersonName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7702,6 +7711,9 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
                 <ScalarProperty Name="ReceiverBillingAddress" ColumnName="ReceiverBillingAddress" />
                 <ScalarProperty Name="ReceiverEntireTerritoryEntireName" ColumnName="ReceiverEntireTerritoryEntireName" />
                 <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
+                <ScalarProperty Name="SalespersonID" ColumnName="SalespersonID" />
+                <ScalarProperty Name="SalespersonName" ColumnName="SalespersonName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
