@@ -49,7 +49,7 @@ namespace TotalPortal.Areas.Sales.Controllers
         }
 
 
-        public virtual ActionResult GetSalesOrderDetails()
+        public virtual ActionResult GetPendingSalesOrderDetails()
         {
             this.AddRequireJsOptions();
             return View();

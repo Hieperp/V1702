@@ -14,7 +14,7 @@ namespace TotalCore.Repositories.Sales
         IEnumerable<DeliveryAdvicePendingCustomer> GetCustomers(int? locationID);
         IEnumerable<DeliveryAdvicePendingSalesOrder> GetSalesOrders(int? locationID);
 
-        IEnumerable<DeliveryAdvicePendingSalesOrderDetail> GetPendingSalesOrderDetails(int? locationID, int? deliveryAdviceID, int? salesOrderID, int? customerID, int? receiverID, string shippingAddress, string salesOrderDetailIDs, decimal? vatPercent, DateTime? entryDate, bool isReadonly);
+        IEnumerable<DeliveryAdvicePendingSalesOrderDetail> GetPendingSalesOrderDetails(int? locationID, int? deliveryAdviceID, int? salesOrderID, int? customerID, int? receiverID, int? priceCategoryID, string shippingAddress, decimal? vatPercent, DateTime? entryDate, string salesOrderDetailIDs, bool isReadonly);
     }
 
 }

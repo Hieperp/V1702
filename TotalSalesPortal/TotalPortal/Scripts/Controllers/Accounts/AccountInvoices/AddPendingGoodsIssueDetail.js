@@ -40,11 +40,10 @@ function handleOKEvent(accountInvoiceGridDataSource, pendingGoodsIssueDetailGrid
 
         var dataRow = new Object();
 
-        dataRow.AccountInvoiceDetailID = 0;
-        dataRow.AccountInvoiceID = window.parent.$("#AccountInvoiceID").val();
-        dataRow.EntryDate = null;
         dataRow.LocationID = null;
-        dataRow.Remarks = null;
+        dataRow.EntryDate = null;
+        dataRow.AccountInvoiceDetailID = 0;
+        dataRow.AccountInvoiceID = window.parent.$("#AccountInvoiceID").val();               
 
         dataRow.GoodsIssueID = goodsIssueGridDataItem.GoodsIssueID;
         dataRow.GoodsIssueDetailID = goodsIssueGridDataItem.GoodsIssueDetailID;
@@ -79,6 +78,8 @@ function handleOKEvent(accountInvoiceGridDataSource, pendingGoodsIssueDetailGrid
         dataRow.GrossAmount = goodsIssueGridDataItem.GrossAmount;
 
         dataRow.IsBonus = goodsIssueGridDataItem.IsBonus;        
+
+        dataRow.Remarks = null;
 
         accountInvoiceJSON.push(dataRow);
     }

@@ -1,0 +1,99 @@
+﻿@using TotalModel.Models;
+@using TotalPortal.Configuration;
+
+@{Layout = "~/Views/Shared/_LayoutPopup.cshtml";}
+
+
+@(Html.Kendo().Grid<DeliveryAdvicePendingSalesOrderDetail>()
+    .Name("gridPendingSalesOrderDetails")
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.SalesOrderReference).Title("Đơn đặt hàng").Width(30);
+        columns.Bound(c => c.SalesOrderEntryDate).Title("Ngày đặt hàng").Width(70).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Bound(c => c.CommodityCode).Title("Mã hàng").Width(80);
+        columns.Bound(c => c.QuantityRemains).Title("SL").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" });
+        columns.Bound(c => c.FreeQuantityRemains).Title("QT").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" });
+
+        columns.Template(t => { }).Title("&nbsp;").ClientTemplate("<input class='IsSelected' #= IsSelected ? checked='checked':'' #  type='checkbox' />").Width(15);
+    })
+    .ToolBar(toolbar =>
+    {
+        toolbar.Template(@<text>
+            <div class="toolbar" style="float: right;">
+                <label>Nhập PXK/ hoặc mã, tên khách hàng, đơn vị nhận/ hoặc mã hàng hóa</label>
+                <input id="filterText" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="filterText_KeyUp()" />
+            </div>
+        </text>);
+    })
+    .Scrollable(s => s.Height(SettingsManager.PopupContentHeightLarge))
+    .DataSource(ds => ds.Ajax()
+            .Read(read => read.Action("GetPendingSalesOrderDetails", "DeliveryAdviceAPIs", new { area = "Sales" }).Data(@<text>
+            function(e) {
+
+            var deliveryAdviceJSON = window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource.data().toJSON();
+
+            return {
+                locationID: window.parent.requireConfig.pageOptions.LocationID,                
+                deliveryAdviceID: window.parent.$("#DeliveryAdviceID").val(),
+                salesOrderID: window.parent.$("#SalesOrderID").val(),
+                customerID: window.parent.$("#Customer_CustomerID").val(),  
+                receiverID: window.parent.$("#Receiver_CustomerID").val(),
+                priceCategoryID: window.parent.$("#PriceCategoryID").val(),
+                shippingAddress: window.parent.$("#ShippingAddress").val(),                
+                vatPercent: window.parent.$("#VATPercent").val(),
+                entryDate: window.parent.$("#EntryDate").val(),
+                salesOrderDetailIDs : deliveryAdviceJSON.map(function(elem){return elem.SalesOrderDetailID;}).join(","),
+                isReadOnly: false
+            };}
+            </text>))
+    .ServerOperation(false)) //If this is TRUE: Apply filter to datasource will call Ajax to get new datasource result. If this is FALSE: filter will run on client
+    .Selectable()
+)
+
+
+<div class="background-bar" style="height: 45px;">
+    <div class="popup-button-bar">
+        <button type="button" class="k-button" onclick="okButton_Click()"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Thêm măt hàng đang chọn vào HĐ</button>
+        <button type="button" class="k-button" onclick="cancelButton_Click()"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png" /> Thoát </button>
+    </div>
+</div>
+
+<script src="@Url.Content("~/Scripts/Controllers/Sales/DeliveryAdvices/AddPendingSalesOrderDetail.js")"></script>
+
+<script type="text/javascript">
+    function okButton_Click() {
+        handleOKEvent(window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource, $("#gridPendingSalesOrderDetails").data("kendoGrid").dataSource);
+    }
+
+    $('#gridPendingSalesOrderDetails').on('click', '.IsSelected', function () {
+        var checked = $(this).is(':checked');
+        var grid = $('#gridPendingSalesOrderDetails').data().kendoGrid;
+        var dataItem = grid.dataItem($(this).closest('tr'));
+        dataItem.set('IsSelected', checked);
+    })
+</script>
+
+
+
+<script>
+    function filterText_KeyUp() {
+        var filterText = $("#filterText").val(), gridDetails = $("#gridPendingSalesOrderDetails").data("kendoGrid");
+
+        if (filterText && filterText.length >= "@SettingsManager.AutoCompleteMinLenght") {
+            gridDetails.dataSource.filter({
+                logic: "or",
+                filters: [
+                    { field: "Reference", operator: "contains", value: filterText },
+
+                    { field: "CommodityCode", operator: "contains", value: filterText },
+                    { field: "CommodityName", operator: "contains", value: filterText }
+                ]
+            });
+
+
+        } else {
+            if (gridDetails.dataSource.filter() != undefined)
+                gridDetails.dataSource.filter({});
+        }
+    }
+</script>

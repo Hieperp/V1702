@@ -21,7 +21,7 @@ namespace TotalDAL.Repositories.Sales
         public DeliveryAdviceRepository(TotalSalesPortalEntities totalSalesPortalEntities)
             : base(totalSalesPortalEntities, "DeliveryAdviceEditable", "DeliveryAdviceApproved", null, "DeliveryAdviceVoidable")
         {
-            //return;
+            return;
 
 
             Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
@@ -158,11 +158,10 @@ namespace TotalDAL.Repositories.Sales
             return pendingSalesOrders;
         }
 
-
-        public IEnumerable<DeliveryAdvicePendingSalesOrderDetail> GetPendingSalesOrderDetails(int? locationID, int? handlingUnitID, int? salesOrderID, int? customerID, int? receiverID, string shippingAddress, string salesOrderDetailIDs, decimal? vatPercent, DateTime? entryDate, bool isReadonly)
+        public IEnumerable<DeliveryAdvicePendingSalesOrderDetail> GetPendingSalesOrderDetails(int? locationID, int? deliveryAdviceID, int? salesOrderID, int? customerID, int? receiverID, int? priceCategoryID, string shippingAddress, decimal? vatPercent, DateTime? entryDate, string salesOrderDetailIDs, bool isReadonly)
         {
             this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = false;
-            IEnumerable<DeliveryAdvicePendingSalesOrderDetail> pendingSalesOrderDetails = base.TotalSalesPortalEntities.GetDeliveryAdvicePendingSalesOrderDetails(locationID, handlingUnitID, salesOrderID, customerID, receiverID, shippingAddress, salesOrderDetailIDs, vatPercent, entryDate, isReadonly).ToList();
+            IEnumerable<DeliveryAdvicePendingSalesOrderDetail> pendingSalesOrderDetails = base.TotalSalesPortalEntities.GetDeliveryAdvicePendingSalesOrderDetails(locationID, deliveryAdviceID, salesOrderID, customerID, receiverID, priceCategoryID, shippingAddress, vatPercent, entryDate, salesOrderDetailIDs, isReadonly).ToList();
             this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = true;
 
             return pendingSalesOrderDetails;

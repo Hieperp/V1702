@@ -47,7 +47,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SalesOrderReference)
             <div class="div-input">
-                @Html.Kendo().MaskedTextBoxFor(model => model.SalesOrderReference).HtmlAttributes(new { @class = "left-panel-input" })
+                @Html.Kendo().MaskedTextBoxFor(model => model.SalesOrderReference).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
             </div>
             <div class="div-validation-message">
                 @Html.ValidationMessageFor(model => model.SalesOrderReference, "", new { @class = "text-danger" })
@@ -102,11 +102,25 @@
                         .ClientTemplate("#= DeliveryAdviceID #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].DeliveryAdviceID' value='#= DeliveryAdviceID #' />");
 
 
+                    columns.Bound(p => p.SalesOrderID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= SalesOrderID #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].SalesOrderID' value='#= SalesOrderID #' />");
+                    columns.Bound(p => p.SalesOrderDetailID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= SalesOrderDetailID #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].SalesOrderDetailID' value='#= SalesOrderDetailID #' />");
+
+
+                    columns.Bound(p => p.SalesOrderReference).DisplayNameTitle().Filterable(false).Width(60).Hidden(!@Model.HasSalesOrder || @Model.SalesOrderID != null ? true : false)
+                        .ClientTemplate("#= SalesOrderReference #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].SalesOrderReference' value='#= SalesOrderReference #' />");
+
+                    columns.Bound(p => p.SalesOrderEntryDate).DisplayNameTitle().Filterable(false).Width(80).Hidden(!@Model.HasSalesOrder || @Model.SalesOrderID != null ? true : false)
+                        .Format("{0:" + @SettingsManager.DateFormat + "}")
+                        .ClientTemplate("#= kendo.format('{0:" + @SettingsManager.DateFormat + "}', SalesOrderEntryDate) #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].SalesOrderEntryDate' value='#= kendo.format('{0:" + @SettingsManager.DateFormat + "}', SalesOrderEntryDate) #' />");
+
+                    
                     columns.Bound(p => p.CommodityID).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= CommodityID #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].CommodityID' value='#= CommodityID #' />");
                     columns.Bound(p => p.CommodityName).DisplayNameTitle().Filterable(false).Width(90).HtmlAttributes(new { style = "" }).Hidden()
                         .ClientTemplate("#= CommodityName #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].CommodityName' value='#= CommodityName #' />");
-                    columns.Bound(p => p.CommodityCode).DisplayNameTitle().Filterable(false).Width(200)
+                    columns.Bound(p => p.CommodityCode).DisplayNameTitle().Filterable(false).Width(200).EditorTemplateName(@Model.HasSalesOrder ? "StringReadonly" : "AutoCompletes/CommodityAvailable")
                         .ClientFooterTemplate("Tổng cộng (#= kendo.format('{0:n0}', count) # dòng)")
                         .ClientTemplate("<div> #= CommodityCode #</div>" +
                         //"<div> #= '[' ##= WarehouseCode ##= ']' #</div>" +
@@ -167,12 +181,12 @@
                         .Format("{0:n0}")
                         .ClientFooterTemplate(@GlobalEnums.VATbyRow ? "#= kendo.format('{0:n0}', sum) #" : "<div>TC: #= kendo.format('{0:n0}', sum) #</div><div>VAT <span>#= data.VATPercent.max #</span>%: #= kendo.format('{0:n0}', data.ListedAmount.sum * data.VATPercent.max/100) #</div><div>TT: #= kendo.format('{0:n0}', data.ListedAmount.sum - (-data.ListedAmount.sum * data.VATPercent.max/100)) #</div>")
                         .ClientTemplate("#= kendo.format('{0:n0}', ListedAmount) #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].ListedAmount' value='#= ListedAmount #' />");
-                    
+
                     columns.Bound(p => p.Amount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(110).Hidden(@Model.ShowDiscount ? false : true)
                         .Format("{0:n0}")
                         .ClientFooterTemplate(@GlobalEnums.VATbyRow ? "#= kendo.format('{0:n0}', sum) #" : "<div>TC: #= kendo.format('{0:n0}', sum) #</div><div>VAT <span>#= data.VATPercent.max #</span>%: #= kendo.format('{0:n0}', data.Amount.sum * data.VATPercent.max/100) #</div><div>TT: #= kendo.format('{0:n0}', data.Amount.sum - (-data.Amount.sum * data.VATPercent.max/100)) #</div>")
                         .ClientTemplate("#= kendo.format('{0:n0}', Amount) #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].Amount' value='#= Amount #' />");
-                    
+
                     columns.Bound(p => p.VATPercent).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(50).Hidden(!@GlobalEnums.VATbyRow)
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}%', VATPercent) #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].VATPercent' value='#= VATPercent #' />");
@@ -222,7 +236,7 @@
 
                     columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50).Hidden(!@Model.Editable).HtmlAttributes(new { @class = "grid-column-center" });
 
-                    columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(50).Hidden(!@Model.Voidable && !@Model.UnVoidable)  
+                    columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(50).Hidden(!@Model.Voidable && !@Model.UnVoidable)
                         .ClientTemplate("<a class='k-button' style='padding:0px;' onclick='callVoidDetail(#= DeliveryAdviceDetailID #)'><span class='k-icon k-edit'></span></a>");
                 })
                     .Filterable()
@@ -233,12 +247,14 @@
                         if (Model.Editable)
                         {
                             //toolbar.Create().HtmlAttributes(new { @class = "fa fa-map-marker" }).Text("Add new aa le ea1");
-                            if (Model.SalesOrderID != null)
-                                toolbar.Custom().Text("Add From SalesOrder").Url("#").HtmlAttributes(new { onclick = "GetSalesOrderDetails()" });
+                            if (Model.HasSalesOrder == true)
+                                toolbar.Template(@<text>
+                                    <button type="button" class="k-button" onclick="GetPendingGoodsIssueDetails()"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Chọn mặt hàng đóng gói </button>
+                                    <button type="button" class="k-button" onclick="copyRemainsToQuantity()"> <img src="~/Content/Images/Mains/Size24/Borderlands-Select-icon-24.png" /> Đóng gói toàn bộ đã số lượng xuất kho </button>
+                                </text>);
                             else
                                 toolbar.Template(@<text>
                                     <button type="button" class="k-button" onclick="$('#kendoGridDetails').data('kendoGrid').addRow()"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Thêm mặt hàng </button>
-
                                 </text>);
                         }
                         else
@@ -358,7 +374,7 @@
 
         @Html.Partial("~/Views/Helpers/Bases/_BaseSubmit.cshtml")
 
-        @if (Model.Editable)
+        @if (Model.Editable && !Model.HasSalesOrder)
         {
             <div><input style="font-size: 11px;" type="file" name="xlfile" id="xlf" /></div>
         }
@@ -371,13 +387,12 @@
 <script src="@Url.Content("~/Scripts/Controllers/Sales/DeliveryAdvices/Import.js")"></script>
 
 <script type="text/javascript">
-    function GetSalesOrderDetails() {
+    function GetPendingGoodsIssueDetails() {
         require(["kpopupWindow"], function (kpopupWindow) {
             var createWizardWindow = new kpopupWindow();
-            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("GetSalesOrderDetails", "ServicesInvoices")", "Chọn dịch vụ", "900px", "413px");
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("GetPendingSalesOrderDetails", "DeliveryAdvices", new { area = "Sales" })", "Chọn phiếu mặt hàng từ đơn đặt hàng", "@SettingsManager.PopupWidthLarge", "@SettingsManager.PopupHeightWithTab");
         });
     }
-
 
     function callVoidDetail(deliveryAdviceDetailID) {
         require(["kpopupWindow"], function (kpopupWindow) {

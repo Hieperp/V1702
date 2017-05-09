@@ -59,9 +59,9 @@ namespace TotalPortal.Areas.Sales.APIs
         }
 
 
-        public JsonResult GetPendingSalesOrderDetails([DataSourceRequest] DataSourceRequest dataSourceRequest, int? locationID, int? deliveryAdviceID, int? salesOrderID, int? customerID, int? receiverID, string shippingAddress, string salesOrderDetailIDs, decimal? vatPercent, DateTime? entryDate, bool isReadonly)
+        public JsonResult GetPendingSalesOrderDetails([DataSourceRequest] DataSourceRequest dataSourceRequest, int? locationID, int? deliveryAdviceID, int? salesOrderID, int? customerID, int? receiverID, int? priceCategoryID, string shippingAddress, decimal? vatPercent, DateTime? entryDate, string salesOrderDetailIDs, bool isReadonly)
         {
-            var result = this.deliveryAdviceAPIRepository.GetPendingSalesOrderDetails(locationID, deliveryAdviceID, salesOrderID, customerID, receiverID, shippingAddress, salesOrderDetailIDs, vatPercent, entryDate, false);
+            var result = this.deliveryAdviceAPIRepository.GetPendingSalesOrderDetails(locationID, deliveryAdviceID, salesOrderID, customerID, receiverID, priceCategoryID, shippingAddress, vatPercent, entryDate, salesOrderDetailIDs, false);
             return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
         }
 

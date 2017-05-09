@@ -1914,10 +1914,11 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Parameter Name="SalesOrderID" Type="int" Mode="In" />
           <Parameter Name="CustomerID" Type="int" Mode="In" />
           <Parameter Name="ReceiverID" Type="int" Mode="In" />
+          <Parameter Name="PriceCategoryID" Type="int" Mode="In" />
           <Parameter Name="ShippingAddress" Type="nvarchar" Mode="In" />
-          <Parameter Name="SalesOrderDetailIDs" Type="varchar" Mode="In" />
           <Parameter Name="VATPercent" Type="decimal" Mode="In" />
           <Parameter Name="EntryDate" Type="datetime" Mode="In" />
+          <Parameter Name="SalesOrderDetailIDs" Type="varchar" Mode="In" />
           <Parameter Name="IsReadonly" Type="bit" Mode="In" />
         </Function>
         <Function Name="GetDeliveryAdvicePendingSalesOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -3223,10 +3224,11 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
             <Parameter Name="SalesOrderID" Mode="In" Type="Int32" />
             <Parameter Name="CustomerID" Mode="In" Type="Int32" />
             <Parameter Name="ReceiverID" Mode="In" Type="Int32" />
+            <Parameter Name="PriceCategoryID" Mode="In" Type="Int32" />
             <Parameter Name="ShippingAddress" Mode="In" Type="String" />
-            <Parameter Name="SalesOrderDetailIDs" Mode="In" Type="String" />
             <Parameter Name="VATPercent" Mode="In" Type="Decimal" />
             <Parameter Name="EntryDate" Mode="In" Type="DateTime" />
+            <Parameter Name="SalesOrderDetailIDs" Mode="In" Type="String" />
             <Parameter Name="IsReadonly" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="GetDeliveryAdvicePendingSalesOrders" ReturnType="Collection(TotalSalesPortalModel.DeliveryAdvicePendingSalesOrder)">
@@ -5844,12 +5846,31 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="Int32" Name="PaymentTermID" Nullable="false" />
           <Property Type="Int32" Name="SalespersonID" Nullable="false" />
           <Property Type="String" Name="SalespersonName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="PriceCategoryID" Nullable="false" />
+          <Property Type="String" Name="PriceCategoryCode" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="VATPercent" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Remarks" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="CustomerOfficialName" Nullable="true" MaxLength="150" />
+          <Property Type="DateTime" Name="CustomerBirthday" Nullable="true" Precision="23" />
+          <Property Type="String" Name="CustomerShippingAddress" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="CustomerTerritoryID" Nullable="false" />
+          <Property Type="Int32" Name="CustomerSalespersonID" Nullable="false" />
+          <Property Type="String" Name="CustomerSalespersonName" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="CustomerPriceCategoryID" Nullable="false" />
+          <Property Type="String" Name="CustomerPriceCategoryCode" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="ReceiverOfficialName" Nullable="true" MaxLength="150" />
+          <Property Type="DateTime" Name="ReceiverBirthday" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ReceiverShippingAddress" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="ReceiverTerritoryID" Nullable="false" />
+          <Property Type="Int32" Name="ReceiverSalespersonID" Nullable="false" />
+          <Property Type="String" Name="ReceiverSalespersonName" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="ReceiverPriceCategoryID" Nullable="false" />
+          <Property Type="String" Name="ReceiverPriceCategoryCode" Nullable="false" MaxLength="1" />
         </ComplexType>
         <ComplexType Name="DeliveryAdvicePendingSalesOrderDetail">
           <Property Type="Int32" Name="SalesOrderID" Nullable="false" />
           <Property Type="Int32" Name="SalesOrderDetailID" Nullable="false" />
-          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
-          <Property Type="DateTime" Name="EntryDate" Nullable="false" Precision="23" />
           <Property Type="Int32" Name="CommodityID" Nullable="false" />
           <Property Type="String" Name="CommodityCode" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="CommodityName" Nullable="false" MaxLength="200" />
@@ -5877,6 +5898,11 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="Int32" Name="GrossAmount" Nullable="false" />
           <Property Type="Boolean" Name="IsBonus" Nullable="true" />
           <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="IsSelected" Nullable="true" />
+          <Property Type="String" Name="SalesOrderReference" Nullable="true" MaxLength="10" />
+          <Property Type="DateTime" Name="SalesOrderEntryDate" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="VATbyRow" Nullable="false" />
         </ComplexType>
         <ComplexType Name="DeliveryAdvicePendingSalesOrder">
           <Property Type="Int32" Name="SalesOrderID" Nullable="false" />
@@ -5904,6 +5930,25 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="Int32" Name="PaymentTermID" Nullable="false" />
           <Property Type="Int32" Name="SalespersonID" Nullable="false" />
           <Property Type="String" Name="SalespersonName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="PriceCategoryID" Nullable="false" />
+          <Property Type="String" Name="PriceCategoryCode" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="VATPercent" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="CustomerOfficialName" Nullable="true" MaxLength="150" />
+          <Property Type="DateTime" Name="CustomerBirthday" Nullable="true" Precision="23" />
+          <Property Type="String" Name="CustomerShippingAddress" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="CustomerTerritoryID" Nullable="false" />
+          <Property Type="Int32" Name="CustomerSalespersonID" Nullable="false" />
+          <Property Type="String" Name="CustomerSalespersonName" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="CustomerPriceCategoryID" Nullable="false" />
+          <Property Type="String" Name="CustomerPriceCategoryCode" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="ReceiverOfficialName" Nullable="true" MaxLength="150" />
+          <Property Type="DateTime" Name="ReceiverBirthday" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ReceiverShippingAddress" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="ReceiverTerritoryID" Nullable="false" />
+          <Property Type="Int32" Name="ReceiverSalespersonID" Nullable="false" />
+          <Property Type="String" Name="ReceiverSalespersonName" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="ReceiverPriceCategoryID" Nullable="false" />
+          <Property Type="String" Name="ReceiverPriceCategoryCode" Nullable="false" MaxLength="1" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -7646,6 +7691,27 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
                 <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
                 <ScalarProperty Name="SalespersonID" ColumnName="SalespersonID" />
                 <ScalarProperty Name="SalespersonName" ColumnName="SalespersonName" />
+                <ScalarProperty Name="PriceCategoryID" ColumnName="PriceCategoryID" />
+                <ScalarProperty Name="PriceCategoryCode" ColumnName="PriceCategoryCode" />
+                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="CustomerOfficialName" ColumnName="CustomerOfficialName" />
+                <ScalarProperty Name="CustomerBirthday" ColumnName="CustomerBirthday" />
+                <ScalarProperty Name="CustomerShippingAddress" ColumnName="CustomerShippingAddress" />
+                <ScalarProperty Name="CustomerTerritoryID" ColumnName="CustomerTerritoryID" />
+                <ScalarProperty Name="CustomerSalespersonID" ColumnName="CustomerSalespersonID" />
+                <ScalarProperty Name="CustomerSalespersonName" ColumnName="CustomerSalespersonName" />
+                <ScalarProperty Name="CustomerPriceCategoryID" ColumnName="CustomerPriceCategoryID" />
+                <ScalarProperty Name="CustomerPriceCategoryCode" ColumnName="CustomerPriceCategoryCode" />
+                <ScalarProperty Name="ReceiverOfficialName" ColumnName="ReceiverOfficialName" />
+                <ScalarProperty Name="ReceiverBirthday" ColumnName="ReceiverBirthday" />
+                <ScalarProperty Name="ReceiverShippingAddress" ColumnName="ReceiverShippingAddress" />
+                <ScalarProperty Name="ReceiverTerritoryID" ColumnName="ReceiverTerritoryID" />
+                <ScalarProperty Name="ReceiverSalespersonID" ColumnName="ReceiverSalespersonID" />
+                <ScalarProperty Name="ReceiverSalespersonName" ColumnName="ReceiverSalespersonName" />
+                <ScalarProperty Name="ReceiverPriceCategoryID" ColumnName="ReceiverPriceCategoryID" />
+                <ScalarProperty Name="ReceiverPriceCategoryCode" ColumnName="ReceiverPriceCategoryCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7654,8 +7720,6 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
               <ComplexTypeMapping TypeName="TotalSalesPortalModel.DeliveryAdvicePendingSalesOrderDetail">
                 <ScalarProperty Name="SalesOrderID" ColumnName="SalesOrderID" />
                 <ScalarProperty Name="SalesOrderDetailID" ColumnName="SalesOrderDetailID" />
-                <ScalarProperty Name="Reference" ColumnName="Reference" />
-                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
                 <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
                 <ScalarProperty Name="CommodityCode" ColumnName="CommodityCode" />
                 <ScalarProperty Name="CommodityName" ColumnName="CommodityName" />
@@ -7683,6 +7747,11 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
                 <ScalarProperty Name="GrossAmount" ColumnName="GrossAmount" />
                 <ScalarProperty Name="IsBonus" ColumnName="IsBonus" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
+                <ScalarProperty Name="SalesOrderReference" ColumnName="SalesOrderReference" />
+                <ScalarProperty Name="SalesOrderEntryDate" ColumnName="SalesOrderEntryDate" />
+                <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7714,6 +7783,25 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
                 <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
                 <ScalarProperty Name="SalespersonID" ColumnName="SalespersonID" />
                 <ScalarProperty Name="SalespersonName" ColumnName="SalespersonName" />
+                <ScalarProperty Name="PriceCategoryID" ColumnName="PriceCategoryID" />
+                <ScalarProperty Name="PriceCategoryCode" ColumnName="PriceCategoryCode" />
+                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="CustomerOfficialName" ColumnName="CustomerOfficialName" />
+                <ScalarProperty Name="CustomerBirthday" ColumnName="CustomerBirthday" />
+                <ScalarProperty Name="CustomerShippingAddress" ColumnName="CustomerShippingAddress" />
+                <ScalarProperty Name="CustomerTerritoryID" ColumnName="CustomerTerritoryID" />
+                <ScalarProperty Name="CustomerSalespersonID" ColumnName="CustomerSalespersonID" />
+                <ScalarProperty Name="CustomerSalespersonName" ColumnName="CustomerSalespersonName" />
+                <ScalarProperty Name="CustomerPriceCategoryID" ColumnName="CustomerPriceCategoryID" />
+                <ScalarProperty Name="CustomerPriceCategoryCode" ColumnName="CustomerPriceCategoryCode" />
+                <ScalarProperty Name="ReceiverOfficialName" ColumnName="ReceiverOfficialName" />
+                <ScalarProperty Name="ReceiverBirthday" ColumnName="ReceiverBirthday" />
+                <ScalarProperty Name="ReceiverShippingAddress" ColumnName="ReceiverShippingAddress" />
+                <ScalarProperty Name="ReceiverTerritoryID" ColumnName="ReceiverTerritoryID" />
+                <ScalarProperty Name="ReceiverSalespersonID" ColumnName="ReceiverSalespersonID" />
+                <ScalarProperty Name="ReceiverSalespersonName" ColumnName="ReceiverSalespersonName" />
+                <ScalarProperty Name="ReceiverPriceCategoryID" ColumnName="ReceiverPriceCategoryID" />
+                <ScalarProperty Name="ReceiverPriceCategoryCode" ColumnName="ReceiverPriceCategoryCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

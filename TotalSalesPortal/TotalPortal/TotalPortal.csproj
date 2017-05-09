@@ -956,6 +956,7 @@
     <Content Include="Areas\Sales\Views\SalesOrders\Approve.cshtml" />
     <Content Include="Areas\Sales\Views\DeliveryAdvices\_GetCustomer.cshtml" />
     <Content Include="Areas\Sales\Views\DeliveryAdvices\_GetSalesOrder.cshtml" />
+    <Content Include="Areas\Sales\Views\DeliveryAdvices\GetPendingSalesOrderDetails.cshtml" />
     <None Include="Properties\PublishProfiles\VCP.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1043,6 +1044,7 @@
     <Content Include="Scripts\Controllers\Root\Shared\Edits\gridWidgetSubscribeChange.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Indexes\kindexGrid.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Validations\kenGridValidator.js" />
+    <Content Include="Scripts\Controllers\Sales\DeliveryAdvices\AddPendingSalesOrderDetail.js" />
     <Content Include="Scripts\Controllers\Sales\DeliveryAdvices\Create.js" />
     <Content Include="Scripts\Controllers\Sales\DeliveryAdvices\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Sales\DeliveryAdvices\Edit.js" />

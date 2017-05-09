@@ -15,8 +15,6 @@ namespace TotalModel.Models
     {
         public int SalesOrderID { get; set; }
         public int SalesOrderDetailID { get; set; }
-        public string Reference { get; set; }
-        public System.DateTime EntryDate { get; set; }
         public int CommodityID { get; set; }
         public string CommodityCode { get; set; }
         public string CommodityName { get; set; }
@@ -44,5 +42,10 @@ namespace TotalModel.Models
         public int GrossAmount { get; set; }
         public Nullable<bool> IsBonus { get; set; }
         public string Remarks { get; set; }
+        public string Description { get; set; }
+        public Nullable<bool> IsSelected { get; set; }
+        public string SalesOrderReference { get; set; }
+        public System.DateTime SalesOrderEntryDate { get; set; }
+        public bool VATbyRow { get; set; }
     }
 }
