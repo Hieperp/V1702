@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
 
-        public string ServerName { get { return "SERVERCTY"; } }
+        public string ServerName { get { return "DATA-SERVER"; } }
         public string CatalogName { get { return "TotalSalesPortal"; } }
 
         public string ReportFolder { get { return "TotalSalesPortal"; } }
