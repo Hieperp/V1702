@@ -1223,6 +1223,123 @@ warning 6035: The relationship 'FK_AccountInvoices_AspNetUsers2' has columns tha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_DeliveryAdvices_AspNetUsers' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_DeliveryAdvices_AspNetUsers" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_DeliveryAdvices_AspNetUsers1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_DeliveryAdvices_AspNetUsers1" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_DeliveryAdvices_AspNetUsers2' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_DeliveryAdvices_AspNetUsers2" />-->
+        <Association Name="FK_DeliveryAdvices_Customers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="DeliveryAdvices" Type="Self.DeliveryAdvices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="DeliveryAdvices">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryAdvices_Customers1">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="DeliveryAdvices" Type="Self.DeliveryAdvices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="DeliveryAdvices">
+              <PropertyRef Name="ReceiverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryAdvices_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="DeliveryAdvices" Type="Self.DeliveryAdvices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="DeliveryAdvices">
+              <PropertyRef Name="SalespersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryAdvices_Locations">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
+          <End Role="DeliveryAdvices" Type="Self.DeliveryAdvices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="DeliveryAdvices">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryAdvices_PaymentTerms">
+          <End Role="PaymentTerms" Type="Self.PaymentTerms" Multiplicity="1" />
+          <End Role="DeliveryAdvices" Type="Self.DeliveryAdvices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTerms">
+              <PropertyRef Name="PaymentTermID" />
+            </Principal>
+            <Dependent Role="DeliveryAdvices">
+              <PropertyRef Name="PaymentTermID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryAdvices_PriceCategories">
+          <End Role="PriceCategories" Type="Self.PriceCategories" Multiplicity="1" />
+          <End Role="DeliveryAdvices" Type="Self.DeliveryAdvices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriceCategories">
+              <PropertyRef Name="PriceCategoryID" />
+            </Principal>
+            <Dependent Role="DeliveryAdvices">
+              <PropertyRef Name="PriceCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryAdvices_Promotions">
+          <End Role="Promotions" Type="Self.Promotions" Multiplicity="0..1" />
+          <End Role="DeliveryAdvices" Type="Self.DeliveryAdvices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotions">
+              <PropertyRef Name="PromotionID" />
+            </Principal>
+            <Dependent Role="DeliveryAdvices">
+              <PropertyRef Name="PromotionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryAdvices_SalesOrders">
+          <End Role="SalesOrders" Type="Self.SalesOrders" Multiplicity="0..1" />
+          <End Role="DeliveryAdvices" Type="Self.DeliveryAdvices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesOrders">
+              <PropertyRef Name="SalesOrderID" />
+            </Principal>
+            <Dependent Role="DeliveryAdvices">
+              <PropertyRef Name="SalesOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryAdvices_VoidTypes">
+          <End Role="VoidTypes" Type="Self.VoidTypes" Multiplicity="0..1" />
+          <End Role="DeliveryAdvices" Type="Self.DeliveryAdvices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VoidTypes">
+              <PropertyRef Name="VoidTypeID" />
+            </Principal>
+            <Dependent Role="DeliveryAdvices">
+              <PropertyRef Name="VoidTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Employees_Locations">
           <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
           <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
@@ -2284,6 +2401,42 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <AssociationSet Name="FK_DeliveryAdviceDetails_VoidTypes" Association="Self.FK_DeliveryAdviceDetails_VoidTypes">
             <End Role="VoidTypes" EntitySet="VoidTypes" />
             <End Role="DeliveryAdviceDetails" EntitySet="DeliveryAdviceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryAdvices_Customers" Association="Self.FK_DeliveryAdvices_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="DeliveryAdvices" EntitySet="DeliveryAdvices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryAdvices_Customers1" Association="Self.FK_DeliveryAdvices_Customers1">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="DeliveryAdvices" EntitySet="DeliveryAdvices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryAdvices_Employees" Association="Self.FK_DeliveryAdvices_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="DeliveryAdvices" EntitySet="DeliveryAdvices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryAdvices_Locations" Association="Self.FK_DeliveryAdvices_Locations">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="DeliveryAdvices" EntitySet="DeliveryAdvices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryAdvices_PaymentTerms" Association="Self.FK_DeliveryAdvices_PaymentTerms">
+            <End Role="PaymentTerms" EntitySet="PaymentTerms" />
+            <End Role="DeliveryAdvices" EntitySet="DeliveryAdvices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryAdvices_PriceCategories" Association="Self.FK_DeliveryAdvices_PriceCategories">
+            <End Role="PriceCategories" EntitySet="PriceCategories" />
+            <End Role="DeliveryAdvices" EntitySet="DeliveryAdvices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryAdvices_Promotions" Association="Self.FK_DeliveryAdvices_Promotions">
+            <End Role="Promotions" EntitySet="Promotions" />
+            <End Role="DeliveryAdvices" EntitySet="DeliveryAdvices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryAdvices_SalesOrders" Association="Self.FK_DeliveryAdvices_SalesOrders">
+            <End Role="SalesOrders" EntitySet="SalesOrders" />
+            <End Role="DeliveryAdvices" EntitySet="DeliveryAdvices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryAdvices_VoidTypes" Association="Self.FK_DeliveryAdvices_VoidTypes">
+            <End Role="VoidTypes" EntitySet="VoidTypes" />
+            <End Role="DeliveryAdvices" EntitySet="DeliveryAdvices" />
           </AssociationSet>
           <AssociationSet Name="FK_Employees_Locations" Association="Self.FK_Employees_Locations">
             <End Role="Locations" EntitySet="Locations" />
@@ -3614,7 +3767,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="Int32" Name="WarehouseID" Nullable="false" />
           <Property Type="String" Name="WarehouseCode" Nullable="false" MaxLength="10" />
           <Property Type="Decimal" Name="QuantityRemains" Nullable="true" Precision="19" Scale="2" />
-          <Property Type="Decimal" Name="QuantityAvailable" Nullable="true" Precision="19" Scale="2" />
+          <Property Type="Decimal" Name="QuantityAvailable" Nullable="true" Precision="22" Scale="2" />
           <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="1" Scale="1" />
           <Property Type="Decimal" Name="ListedPrice" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="DiscountPercent" Nullable="false" Precision="18" Scale="5" />
