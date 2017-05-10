@@ -29,7 +29,7 @@
     <script src="@Url.Content("~/Scripts/Nmvns/nmvn-function.js")"></script>
     <script type="text/javascript" src="@Url.Action("GlobalJavaScriptEnums")"></script>
 
-    @{var currentCulture = System.Threading.Thread.CurrentThread.CurrentCulture.ToString();}
+    @{var currentCulture = "en-GB";} @*@{var currentCulture = System.Threading.Thread.CurrentThread.CurrentCulture.ToString();} THIS STATEMENT TO GET CURRENT CULTURE IS RETURN VERY EXACTLY VALUE. BUT AT VCP: WE FIX "en-GB", SO WE DON'T NEED TO EXECUTE THIS EVERY OPEN SITE *@
     <script src="@Url.Content("~/Scripts/kendo/2014.3.1411/cultures/kendo.culture." + currentCulture + ".min.js")"></script>
 
     <script type="text/javascript">
