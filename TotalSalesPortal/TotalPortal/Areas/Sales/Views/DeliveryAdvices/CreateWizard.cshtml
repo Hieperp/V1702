@@ -18,6 +18,7 @@
     @Html.HiddenFor(model => model.SalesOrderEntryDate)
 
     @Html.HiddenFor(model => model.PaymentTermID);
+    @Html.HiddenFor(model => model.VATPercent);
 
     @Html.HiddenFor(model => model.Salesperson.EmployeeID);
     @Html.HiddenFor(model => model.Salesperson.Name);
@@ -31,7 +32,7 @@
     @Html.HiddenFor(model => model.Promotion.ApplyToAllCustomers);
     @Html.HiddenFor(model => model.Promotion.ApplyToAllCommodities);
     @Html.HiddenFor(model => model.Promotion.Remarks);
-
+    
     @Html.HiddenFor(model => model.Description);
 
     @(Html.Kendo().TabStrip()
