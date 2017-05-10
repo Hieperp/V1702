@@ -41,7 +41,7 @@ namespace TotalService.Sales
 
         public override bool Save(SalesOrderDTO salesOrderDTO)
         {
-            salesOrderDTO.SalesOrderViewDetails.RemoveAll(x => x.Quantity == 0);
+            salesOrderDTO.SalesOrderViewDetails.RemoveAll(x => x.Quantity == 0 && x.FreeQuantity == 0);
             return base.Save(salesOrderDTO);
         }
 

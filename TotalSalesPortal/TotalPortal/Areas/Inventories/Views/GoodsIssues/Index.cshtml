@@ -85,10 +85,8 @@
     }
 
     decoratingKindex = function (idx, elem) {
-
-        var isWarrantyClaim = elem.Approved;
-        if (isWarrantyClaim == null || isWarrantyClaim == false) {
-            $('tr[data-uid="' + elem.uid + '"]').addClass("isBonus");
+        if (elem.Approved == null || elem.Approved == false) {
+            $('tr[data-uid="' + elem.uid + '"]').addClass("NotApproved");
         }
     }
 

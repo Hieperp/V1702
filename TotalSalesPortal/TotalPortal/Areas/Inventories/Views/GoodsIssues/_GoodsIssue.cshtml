@@ -254,7 +254,6 @@
                     })
                     .Aggregates(a => a.Add(x => x.CommodityCode).Count())
                     .Aggregates(a => a.Add(x => x.VATPercent).Max())
-                    .Aggregates(a => a.Add(x => x.QuantityAvailable).Sum())
                     .Aggregates(a => a.Add(x => x.QuantityRemains).Sum())
                     .Aggregates(a => a.Add(x => x.FreeQuantityRemains).Sum())
                     .Aggregates(a => a.Add(x => x.Quantity).Sum())

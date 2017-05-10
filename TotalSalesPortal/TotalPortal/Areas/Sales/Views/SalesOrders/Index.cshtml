@@ -87,15 +87,20 @@
 
     decoratingKindex = function (idx, elem) {
 
-        var isWarrantyClaim = elem.InActive;
-        if (isWarrantyClaim != null && isWarrantyClaim == true) {
-            $('tr[data-uid="' + elem.uid + '"]').addClass("isBonus");
+        if (elem.Approved == null || elem.Approved == false) {
+            $('tr[data-uid="' + elem.uid + '"]').addClass("NotApproved");
         }
+        else
+        {
+            if (elem.InActive != null && elem.InActive == true) {
+                $('tr[data-uid="' + elem.uid + '"]').addClass("isBonus");
+            }
 
-        isWarrantyClaim = elem.InActivePartial;
-        if (isWarrantyClaim != null && isWarrantyClaim == true) {
-            $('tr[data-uid="' + elem.uid + '"]').addClass("isBonus1");
+            if (elem.InActivePartial != null && elem.InActivePartial == true) {
+                $('tr[data-uid="' + elem.uid + '"]').addClass("isBonus1");
+            }
         }
+        
     }
 
 

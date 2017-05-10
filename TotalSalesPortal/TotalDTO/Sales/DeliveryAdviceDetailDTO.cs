@@ -44,11 +44,11 @@ namespace TotalDTO.Sales
         public int SalespersonID { get; set; }
 
 
-        [Display(Name = "SL ĐN")]
+        [Display(Name = "Tồn đơn")]
         [UIHint("DecimalReadonly")]
         public decimal QuantityRemains { get; set; }
 
-        [Display(Name = "SL QT")]
+        [Display(Name = "Tồn QT")]
         [UIHint("DecimalReadonly")]
         public decimal FreeQuantityRemains { get; set; }
 
@@ -69,10 +69,10 @@ namespace TotalDTO.Sales
         public Nullable<int> SalesOrderID { get; set; }
         public Nullable<int> SalesOrderDetailID { get; set; }
 
-        [Display(Name = "Phiếu XK")]
+        [Display(Name = "Phiếu ĐH")]
         [UIHint("StringReadonly")]
         public string SalesOrderReference { get; set; }
-        [Display(Name = "Ngày, giờ XK")]
+        [Display(Name = "Ngày ĐH")]
         [UIHint("DateTimeReadonly")]
         public Nullable<System.DateTime> SalesOrderEntryDate { get; set; }
 

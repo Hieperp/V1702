@@ -868,10 +868,13 @@ a[class^='info-bar'] {
 }
 
 
-.isWarrantyClaim, .isBonus {
+/*.isWarrantyClaim, .isBonus {
+    color: orange;
+}*/
+
+.isWarrantyClaim {
     color: orange;
 }
-
 
 .isBonus1 {
     color: orange;
@@ -882,6 +885,9 @@ a[class^='info-bar'] {
 }
 
 
+.NotApproved {
+    color: blueviolet;
+}
 
 
 

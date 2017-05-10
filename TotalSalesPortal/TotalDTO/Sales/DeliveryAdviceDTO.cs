@@ -36,9 +36,10 @@ namespace TotalDTO.Sales
 
         public bool HasSalesOrder { get; set; }
         public Nullable<int> SalesOrderID { get; set; }
-        [Display(Name = "Đơn đặt hàng")]
         public string SalesOrderReference { get; set; }
         public string SalesOrderReferences { get; set; }
+        [Display(Name = "Đơn đặt hàng")]
+        public string SalesOrderReferenceNote { get { return this.SalesOrderID != null ? this.SalesOrderReference : (this.SalesOrderReferences != "" ? this.SalesOrderReferences : "Giao hàng tổng hợp của nhiều ĐH"); } }
         [Display(Name = "Ngày đặt hàng")]
         public Nullable<System.DateTime> SalesOrderEntryDate { get; set; }
 
@@ -63,7 +64,7 @@ namespace TotalDTO.Sales
             this.Approved = true; this.ApprovedDate = this.EntryDate; //At SalesOrder, Approve right after save. Surely, It can be UnApprove later for editing
             this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; e.ReceiverID = this.ReceiverID; e.PromotionID = this.PromotionID; e.SalespersonID = this.SalespersonID; if (this.HasSalesOrder && salesOrderReferences.IndexOf(e.SalesOrderReference) < 0) salesOrderReferences = salesOrderReferences + (salesOrderReferences != "" ? ", " : "") + e.SalesOrderReference; });
             this.SalesOrderReferences = salesOrderReferences;
-            
+
         }
     }
 

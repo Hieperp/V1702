@@ -18,7 +18,7 @@ namespace TotalService.Accounts
 
         public override bool Save(AccountInvoiceDTO dto)
         {
-            dto.AccountInvoiceViewDetails.RemoveAll(x => x.Quantity == 0);
+            dto.AccountInvoiceViewDetails.RemoveAll(x => x.Quantity == 0 && x.FreeQuantity == 0);
             return base.Save(dto);
         }
 
