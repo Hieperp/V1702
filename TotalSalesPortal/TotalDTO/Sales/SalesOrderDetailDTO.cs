@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace TotalDTO.Sales
 {
-    public class SalesOrderDetailDTO : SaleDetailDTO, IPrimitiveEntity
+    public class SalesOrderDetailDTO : SaleDetailVaDTO, IPrimitiveEntity
     {
         public int GetID() { return this.SalesOrderDetailID; }
 
@@ -28,8 +28,5 @@ namespace TotalDTO.Sales
         public override decimal ListedPrice { get; set; }
         [UIHint("Decimal")]
         public override decimal DiscountPercent { get; set; }
-
-
-        public bool InActiveIssue { get; set; }
     }
 }

@@ -17,12 +17,9 @@ namespace TotalDTO.Helpers
     public abstract class AmountDetailDTO : QuantityDetailDTO, IAmountDetailDTO
     {
         public int CalculatingTypeID { get; set; }
-
-        [UIHint("DecimalWithMinus")]
-        public override decimal Quantity { get; set; }
-
+        
         [Display(Name = "Giá bán")]
-        [UIHint("DecimalReadonly")] //[UIHint("Decimal")]
+        [UIHint("DecimalReadonly")]
         public virtual decimal UnitPrice { get; set; }
 
         [Display(Name = "Thành tiền")]

@@ -31,16 +31,18 @@ namespace TotalDTO.Accounts
         [Display(Name = "SLXK")]
         [UIHint("DecimalReadonly")]
         public decimal QuantityRemains { get; set; }
-
         [Display(Name = "XKQT")]
         [UIHint("DecimalReadonly")]
         public decimal FreeQuantityRemains { get; set; }
 
         [UIHint("Decimal")]
-        public override decimal DiscountPercent { get; set; }
+        public override decimal Quantity { get; set; }
+        [UIHint("Decimal")]
+        public override decimal FreeQuantity { get; set; }
+
         [UIHint("DecimalReadonly")]
-        public override decimal UnitPrice { get; set; }
-        [UIHint("DecimalReadonly")]
-        public override decimal GrossPrice { get; set; }        
+        public override decimal ListedPrice { get; set; }
+        [UIHint("Decimal")]
+        public override decimal DiscountPercent { get; set; }        
     }
 }

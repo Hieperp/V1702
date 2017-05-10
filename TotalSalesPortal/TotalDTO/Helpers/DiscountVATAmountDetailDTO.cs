@@ -11,11 +11,10 @@ namespace TotalDTO.Helpers
     public abstract class DiscountVATAmountDetailDTO : VATAmountDetailDTO, IDiscountVATAmountDetailDTO
     {
         [Display(Name = "Đơn giá")]
-        //[UIHint("DecimalReadonly")]
         [Range(1, 999999999, ErrorMessage = "Sản phẩm chưa có giá bán")]
         public virtual decimal ListedPrice { get; set; }
 
-        [Display(Name = "CK")] //[UIHint("DecimalReadonly")] //[UIHint("Decimal")]
+        [Display(Name = "CK")]
         public virtual decimal DiscountPercent { get; set; }
     }
 }

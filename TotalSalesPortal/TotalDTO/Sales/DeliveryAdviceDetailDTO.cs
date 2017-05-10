@@ -21,11 +21,6 @@ namespace TotalDTO.Sales
         [UIHint("DecimalReadonly")]
         public decimal QuantityAvailable { get; set; }
 
-        public override decimal Quantity { get; set; }
-
-        //[GenericCompare(CompareToPropertyName = "QuantityAvailable", OperatorName = GenericCompareOperator.LessThanOrEqual, ErrorMessage = "Số lượng xuất không được lớn hơn số lượng tồn kho")]
-        //public decimal BookingQuantity { get { return this.Quantity + this.FreeQuantity; } }
-
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             foreach (var result in base.Validate(validationContext)) { yield return result; }
@@ -52,8 +47,7 @@ namespace TotalDTO.Sales
         [UIHint("DecimalReadonly")]
         public decimal FreeQuantityRemains { get; set; }
 
-        [UIHint("DecimalReadonly")]
-        public override decimal DiscountPercent { get; set; }
+        
 
         public string VoidTypeCode { get; set; }
         [Display(Name = "Lý do")]
@@ -62,7 +56,28 @@ namespace TotalDTO.Sales
         public Nullable<int> VoidClassID { get; set; }
     }
 
-    public class DeliveryAdviceDetailDTO : SaleDetailDTO, IPrimitiveEntity
+    public class SaleDetailVaDTO : SaleDetailDTO
+    {
+        [UIHint("Decimal")]
+        public override decimal Quantity { get; set; }
+    }
+
+    public class SaleDetailVa1DTO : SaleDetailVaDTO
+    {
+        [UIHint("DecimalReadonly")]
+        public override decimal FreeQuantity { get; set; }
+        [UIHint("DecimalReadonly")]
+        public override decimal ListedPrice { get; set; }
+        [UIHint("DecimalReadonly")]
+        public override decimal DiscountPercent { get; set; }
+    }
+
+
+
+
+
+
+    public class DeliveryAdviceDetailDTO : SaleDetailVa1DTO, IPrimitiveEntity
     {
         public int GetID() { return this.DeliveryAdviceDetailID; }
         
@@ -81,9 +96,7 @@ namespace TotalDTO.Sales
 
         [UIHint("AutoCompletes/CommodityAvailable")]
         public override string CommodityCode { get; set; }
-
-        [UIHint("DecimalReadonly")]
-        public override decimal FreeQuantity { get; set; }
+        
 
         public bool InActiveIssue { get; set; }
     }

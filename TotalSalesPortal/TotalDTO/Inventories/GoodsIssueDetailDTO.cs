@@ -7,7 +7,7 @@ using TotalDTO.Sales;
 
 namespace TotalDTO.Inventories
 {
-    public class GoodsIssueDetailDTO : SaleDetailDTO, IPrimitiveEntity
+    public class GoodsIssueDetailDTO : SaleDetailVa1DTO, IPrimitiveEntity
     {
         public int GetID() { return this.GoodsIssueDetailID; }
 

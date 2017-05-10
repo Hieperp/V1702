@@ -35,7 +35,7 @@ namespace TotalDTO.Inventories
         [UIHint("DecimalReadonly")]
         public decimal QuantityRemains { get; set; }
 
-        [UIHint("DecimalWithMinus")]
+        [UIHint("Decimal")]
         public override decimal Quantity { get; set; }
 
         [Display(Name = "TL chuẩn (g)")]

@@ -32,8 +32,7 @@ namespace TotalDTO.Helpers
         public virtual int CommodityTypeID { get; set; }
 
 
-        [Display(Name = "SL")]
-        //[UIHint("DecimalWithMinus")]
+        [Display(Name = "SL")]        
         [Range(0, 99999999999, ErrorMessage = "Số lượng không hợp lệ")]
         [Required(ErrorMessage = "Vui lòng nhập số lượng")]
         public virtual decimal Quantity { get; set; }

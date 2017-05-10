@@ -792,7 +792,6 @@
           <Property Name="InActive" Type="bit" Nullable="false" />
           <Property Name="InActivePartial" Type="bit" Nullable="false" />
           <Property Name="InActivePartialDate" Type="datetime" />
-          <Property Name="InActiveIssue" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SalesOrders">
           <Key>
@@ -3122,12 +3121,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
             <End Role="Receipt" EntitySet="Receipts" />
           </AssociationSet>
           <EntitySet Name="Reports" EntityType="TotalSalesPortalModel.Report" />
-          <EntitySet Name="SalesOrderDetails" EntityType="TotalSalesPortalModel.SalesOrderDetail" />
           <EntitySet Name="SalesOrders" EntityType="TotalSalesPortalModel.SalesOrder" />
-          <AssociationSet Name="FK_SalesOrderDetails_Commodities" Association="TotalSalesPortalModel.FK_SalesOrderDetails_Commodities">
-            <End Role="Commodity" EntitySet="Commodities" />
-            <End Role="SalesOrderDetail" EntitySet="SalesOrderDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_SalesOrders_Customers" Association="TotalSalesPortalModel.FK_SalesOrders_Customers">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="SalesOrder" EntitySet="SalesOrders" />
@@ -3135,10 +3129,6 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <AssociationSet Name="FK_SalesOrders_Customers1" Association="TotalSalesPortalModel.FK_SalesOrders_Customers1">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="SalesOrder" EntitySet="SalesOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DeliveryAdviceDetails_SalesOrderDetails" Association="TotalSalesPortalModel.FK_DeliveryAdviceDetails_SalesOrderDetails">
-            <End Role="SalesOrderDetail" EntitySet="SalesOrderDetails" />
-            <End Role="DeliveryAdviceDetail" EntitySet="DeliveryAdviceDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_DeliveryAdvices_SalesOrders" Association="TotalSalesPortalModel.FK_DeliveryAdvices_SalesOrders">
             <End Role="SalesOrder" EntitySet="SalesOrders" />
@@ -3163,14 +3153,6 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <AssociationSet Name="FK_SalesOrders_Promotions" Association="TotalSalesPortalModel.FK_SalesOrders_Promotions">
             <End Role="Promotion" EntitySet="Promotions" />
             <End Role="SalesOrder" EntitySet="SalesOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SalesOrderDetails_SalesOrders" Association="TotalSalesPortalModel.FK_SalesOrderDetails_SalesOrders">
-            <End Role="SalesOrder" EntitySet="SalesOrders" />
-            <End Role="SalesOrderDetail" EntitySet="SalesOrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SalesOrderDetails_VoidTypes" Association="TotalSalesPortalModel.FK_SalesOrderDetails_VoidTypes">
-            <End Role="VoidType" EntitySet="VoidTypes" />
-            <End Role="SalesOrderDetail" EntitySet="SalesOrderDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_SalesOrders_VoidTypes" Association="TotalSalesPortalModel.FK_SalesOrders_VoidTypes">
             <End Role="VoidType" EntitySet="VoidTypes" />
@@ -3234,6 +3216,23 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <FunctionImport Name="GetDeliveryAdvicePendingSalesOrders" ReturnType="Collection(TotalSalesPortalModel.DeliveryAdvicePendingSalesOrder)">
           <Parameter Name="LocationID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="SalesOrderDetails" EntityType="TotalSalesPortalModel.SalesOrderDetail" />
+          <AssociationSet Name="FK_SalesOrderDetails_Commodities" Association="TotalSalesPortalModel.FK_SalesOrderDetails_Commodities">
+            <End Role="Commodity" EntitySet="Commodities" />
+            <End Role="SalesOrderDetail" EntitySet="SalesOrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryAdviceDetails_SalesOrderDetails" Association="TotalSalesPortalModel.FK_DeliveryAdviceDetails_SalesOrderDetails">
+            <End Role="SalesOrderDetail" EntitySet="SalesOrderDetails" />
+            <End Role="DeliveryAdviceDetail" EntitySet="DeliveryAdviceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesOrderDetails_SalesOrders" Association="TotalSalesPortalModel.FK_SalesOrderDetails_SalesOrders">
+            <End Role="SalesOrder" EntitySet="SalesOrders" />
+            <End Role="SalesOrderDetail" EntitySet="SalesOrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesOrderDetails_VoidTypes" Association="TotalSalesPortalModel.FK_SalesOrderDetails_VoidTypes">
+            <End Role="VoidType" EntitySet="VoidTypes" />
+            <End Role="SalesOrderDetail" EntitySet="SalesOrderDetails" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -3838,8 +3837,8 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <NavigationProperty Name="DeliveryAdviceDetails" Relationship="TotalSalesPortalModel.FK_DeliveryAdviceDetails_VoidTypes" FromRole="VoidType" ToRole="DeliveryAdviceDetail" />
           <NavigationProperty Name="DeliveryAdvices" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_VoidTypes" FromRole="VoidType" ToRole="DeliveryAdvice" />
           <NavigationProperty Name="GoodsIssueDetails" Relationship="TotalSalesPortalModel.FK_GoodsIssueDetails_VoidTypes" FromRole="VoidType" ToRole="GoodsIssueDetail" />
-          <NavigationProperty Name="SalesOrderDetails" Relationship="TotalSalesPortalModel.FK_SalesOrderDetails_VoidTypes" FromRole="VoidType" ToRole="SalesOrderDetail" />
           <NavigationProperty Name="SalesOrders" Relationship="TotalSalesPortalModel.FK_SalesOrders_VoidTypes" FromRole="VoidType" ToRole="SalesOrder" />
+          <NavigationProperty Name="SalesOrderDetails" Relationship="TotalSalesPortalModel.FK_SalesOrderDetails_VoidTypes" FromRole="VoidType" ToRole="SalesOrderDetail" />
         </EntityType>
         <EntityType Name="AccountInvoiceDetail">
           <Key>
@@ -4430,8 +4429,8 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Name="CalculatingTypeID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Commodity" Relationship="TotalSalesPortalModel.FK_DeliveryAdviceDetails_Commodities" FromRole="DeliveryAdviceDetail" ToRole="Commodity" />
           <Property Name="VATbyRow" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="SalesOrderDetail" Relationship="TotalSalesPortalModel.FK_DeliveryAdviceDetails_SalesOrderDetails" FromRole="DeliveryAdviceDetail" ToRole="SalesOrderDetail" />
           <Property Name="SalesOrderID" Type="Int32" />
+          <NavigationProperty Name="SalesOrderDetail" Relationship="TotalSalesPortalModel.FK_DeliveryAdviceDetails_SalesOrderDetails" FromRole="DeliveryAdviceDetail" ToRole="SalesOrderDetail" />
         </EntityType>
         <EntityType Name="DeliveryAdvice">
           <Key>
@@ -5515,54 +5514,6 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Name="ReportTypeID" Type="Int32" Nullable="false" />
           <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="SalesOrderDetail">
-          <Key>
-            <PropertyRef Name="SalesOrderDetailID" />
-          </Key>
-          <Property Name="SalesOrderDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="LocationID" Type="Int32" Nullable="false" />
-          <Property Name="SalesOrderID" Type="Int32" Nullable="false" />
-          <Property Name="CustomerID" Type="Int32" Nullable="false" />
-          <Property Name="ReceiverID" Type="Int32" Nullable="false" />
-          <Property Name="QuotationDetailID" Type="Int32" />
-          <Property Name="CommodityID" Type="Int32" Nullable="false" />
-          <Property Name="CommodityTypeID" Type="Int32" Nullable="false" />
-          <Property Name="WarehouseID" Type="Int32" />
-          <Property Name="PromotionID" Type="Int32" />
-          <Property Name="SalespersonID" Type="Int32" Nullable="false" />
-          <Property Name="CalculatingTypeID" Type="Int32" Nullable="false" />
-          <Property Name="VATbyRow" Type="Boolean" Nullable="false" />
-          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="QuantityAdvice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="ControlFreeQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="FreeQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="FreeQuantityAdvice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="ListedPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="DiscountPercent" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="VATPercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="ListedGrossPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="GrossPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="ListedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="ListedVATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="VATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="ListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="GrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="IsBonus" Type="Boolean" />
-          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="VoidTypeID" Type="Int32" />
-          <Property Name="Approved" Type="Boolean" Nullable="false" />
-          <Property Name="InActive" Type="Boolean" Nullable="false" />
-          <Property Name="InActivePartial" Type="Boolean" Nullable="false" />
-          <Property Name="InActivePartialDate" Type="DateTime" Precision="3" />
-          <Property Name="InActiveIssue" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Commodity" Relationship="TotalSalesPortalModel.FK_SalesOrderDetails_Commodities" FromRole="SalesOrderDetail" ToRole="Commodity" />
-          <NavigationProperty Name="DeliveryAdviceDetails" Relationship="TotalSalesPortalModel.FK_DeliveryAdviceDetails_SalesOrderDetails" FromRole="SalesOrderDetail" ToRole="DeliveryAdviceDetail" />
-          <NavigationProperty Name="SalesOrder" Relationship="TotalSalesPortalModel.FK_SalesOrderDetails_SalesOrders" FromRole="SalesOrderDetail" ToRole="SalesOrder" />
-          <NavigationProperty Name="VoidType" Relationship="TotalSalesPortalModel.FK_SalesOrderDetails_VoidTypes" FromRole="SalesOrderDetail" ToRole="VoidType" />
-        </EntityType>
         <EntityType Name="SalesOrder">
           <Key>
             <PropertyRef Name="SalesOrderID" />
@@ -5616,21 +5567,9 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <NavigationProperty Name="PaymentTerm" Relationship="TotalSalesPortalModel.FK_SalesOrders_PaymentTerms" FromRole="SalesOrder" ToRole="PaymentTerm" />
           <NavigationProperty Name="PriceCategory" Relationship="TotalSalesPortalModel.FK_SalesOrders_PriceCategories" FromRole="SalesOrder" ToRole="PriceCategory" />
           <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_SalesOrders_Promotions" FromRole="SalesOrder" ToRole="Promotion" />
-          <NavigationProperty Name="SalesOrderDetails" Relationship="TotalSalesPortalModel.FK_SalesOrderDetails_SalesOrders" FromRole="SalesOrder" ToRole="SalesOrderDetail" />
           <NavigationProperty Name="VoidType" Relationship="TotalSalesPortalModel.FK_SalesOrders_VoidTypes" FromRole="SalesOrder" ToRole="VoidType" />
+          <NavigationProperty Name="SalesOrderDetails" Relationship="TotalSalesPortalModel.FK_SalesOrderDetails_SalesOrders" FromRole="SalesOrder" ToRole="SalesOrderDetail" />
         </EntityType>
-        <Association Name="FK_SalesOrderDetails_Commodities">
-          <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.SalesOrderDetail" Role="SalesOrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Commodity">
-              <PropertyRef Name="CommodityID" />
-            </Principal>
-            <Dependent Role="SalesOrderDetail">
-              <PropertyRef Name="CommodityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SalesOrders_Customers">
           <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
           <End Type="TotalSalesPortalModel.SalesOrder" Role="SalesOrder" Multiplicity="*" />
@@ -5652,18 +5591,6 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
             </Principal>
             <Dependent Role="SalesOrder">
               <PropertyRef Name="ReceiverID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DeliveryAdviceDetails_SalesOrderDetails">
-          <End Type="TotalSalesPortalModel.SalesOrderDetail" Role="SalesOrderDetail" Multiplicity="0..1" />
-          <End Type="TotalSalesPortalModel.DeliveryAdviceDetail" Role="DeliveryAdviceDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SalesOrderDetail">
-              <PropertyRef Name="SalesOrderDetailID" />
-            </Principal>
-            <Dependent Role="DeliveryAdviceDetail">
-              <PropertyRef Name="SalesOrderDetailID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5736,30 +5663,6 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
             </Principal>
             <Dependent Role="SalesOrder">
               <PropertyRef Name="PromotionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SalesOrderDetails_SalesOrders">
-          <End Type="TotalSalesPortalModel.SalesOrder" Role="SalesOrder" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.SalesOrderDetail" Role="SalesOrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SalesOrder">
-              <PropertyRef Name="SalesOrderID" />
-            </Principal>
-            <Dependent Role="SalesOrderDetail">
-              <PropertyRef Name="SalesOrderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SalesOrderDetails_VoidTypes">
-          <End Type="TotalSalesPortalModel.VoidType" Role="VoidType" Multiplicity="0..1" />
-          <End Type="TotalSalesPortalModel.SalesOrderDetail" Role="SalesOrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VoidType">
-              <PropertyRef Name="VoidTypeID" />
-            </Principal>
-            <Dependent Role="SalesOrderDetail">
-              <PropertyRef Name="VoidTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5956,6 +5859,101 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="Int32" Name="ReceiverPriceCategoryID" Nullable="false" />
           <Property Type="String" Name="ReceiverPriceCategoryCode" Nullable="false" MaxLength="1" />
         </ComplexType>
+        <EntityType Name="SalesOrderDetail">
+          <Key>
+            <PropertyRef Name="SalesOrderDetailID" />
+          </Key>
+          <Property Name="SalesOrderDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="SalesOrderID" Type="Int32" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="ReceiverID" Type="Int32" Nullable="false" />
+          <Property Name="QuotationDetailID" Type="Int32" />
+          <Property Name="CommodityID" Type="Int32" Nullable="false" />
+          <Property Name="CommodityTypeID" Type="Int32" Nullable="false" />
+          <Property Name="WarehouseID" Type="Int32" />
+          <Property Name="PromotionID" Type="Int32" />
+          <Property Name="SalespersonID" Type="Int32" Nullable="false" />
+          <Property Name="CalculatingTypeID" Type="Int32" Nullable="false" />
+          <Property Name="VATbyRow" Type="Boolean" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="QuantityAdvice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ControlFreeQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="FreeQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="FreeQuantityAdvice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ListedPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="DiscountPercent" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="VATPercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ListedGrossPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="GrossPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ListedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ListedVATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="VATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="GrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="IsBonus" Type="Boolean" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="VoidTypeID" Type="Int32" />
+          <Property Name="Approved" Type="Boolean" Nullable="false" />
+          <Property Name="InActive" Type="Boolean" Nullable="false" />
+          <Property Name="InActivePartial" Type="Boolean" Nullable="false" />
+          <Property Name="InActivePartialDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Commodity" Relationship="TotalSalesPortalModel.FK_SalesOrderDetails_Commodities" FromRole="SalesOrderDetail" ToRole="Commodity" />
+          <NavigationProperty Name="DeliveryAdviceDetails" Relationship="TotalSalesPortalModel.FK_DeliveryAdviceDetails_SalesOrderDetails" FromRole="SalesOrderDetail" ToRole="DeliveryAdviceDetail" />
+          <NavigationProperty Name="SalesOrder" Relationship="TotalSalesPortalModel.FK_SalesOrderDetails_SalesOrders" FromRole="SalesOrderDetail" ToRole="SalesOrder" />
+          <NavigationProperty Name="VoidType" Relationship="TotalSalesPortalModel.FK_SalesOrderDetails_VoidTypes" FromRole="SalesOrderDetail" ToRole="VoidType" />
+        </EntityType>
+        <Association Name="FK_SalesOrderDetails_Commodities">
+          <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.SalesOrderDetail" Role="SalesOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commodity">
+              <PropertyRef Name="CommodityID" />
+            </Principal>
+            <Dependent Role="SalesOrderDetail">
+              <PropertyRef Name="CommodityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryAdviceDetails_SalesOrderDetails">
+          <End Type="TotalSalesPortalModel.SalesOrderDetail" Role="SalesOrderDetail" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.DeliveryAdviceDetail" Role="DeliveryAdviceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesOrderDetail">
+              <PropertyRef Name="SalesOrderDetailID" />
+            </Principal>
+            <Dependent Role="DeliveryAdviceDetail">
+              <PropertyRef Name="SalesOrderDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesOrderDetails_SalesOrders">
+          <End Type="TotalSalesPortalModel.SalesOrder" Role="SalesOrder" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.SalesOrderDetail" Role="SalesOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesOrder">
+              <PropertyRef Name="SalesOrderID" />
+            </Principal>
+            <Dependent Role="SalesOrderDetail">
+              <PropertyRef Name="SalesOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesOrderDetails_VoidTypes">
+          <End Type="TotalSalesPortalModel.VoidType" Role="VoidType" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.SalesOrderDetail" Role="SalesOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VoidType">
+              <PropertyRef Name="VoidTypeID" />
+            </Principal>
+            <Dependent Role="SalesOrderDetail">
+              <PropertyRef Name="VoidTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7516,51 +7514,6 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SalesOrderDetails">
-            <EntityTypeMapping TypeName="TotalSalesPortalModel.SalesOrderDetail">
-              <MappingFragment StoreEntitySet="SalesOrderDetails">
-                <ScalarProperty Name="InActiveIssue" ColumnName="InActiveIssue" />
-                <ScalarProperty Name="InActivePartialDate" ColumnName="InActivePartialDate" />
-                <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />
-                <ScalarProperty Name="InActive" ColumnName="InActive" />
-                <ScalarProperty Name="Approved" ColumnName="Approved" />
-                <ScalarProperty Name="VoidTypeID" ColumnName="VoidTypeID" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="IsBonus" ColumnName="IsBonus" />
-                <ScalarProperty Name="GrossAmount" ColumnName="GrossAmount" />
-                <ScalarProperty Name="ListedGrossAmount" ColumnName="ListedGrossAmount" />
-                <ScalarProperty Name="VATAmount" ColumnName="VATAmount" />
-                <ScalarProperty Name="ListedVATAmount" ColumnName="ListedVATAmount" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="ListedAmount" ColumnName="ListedAmount" />
-                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
-                <ScalarProperty Name="ListedGrossPrice" ColumnName="ListedGrossPrice" />
-                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
-                <ScalarProperty Name="ListedPrice" ColumnName="ListedPrice" />
-                <ScalarProperty Name="FreeQuantityAdvice" ColumnName="FreeQuantityAdvice" />
-                <ScalarProperty Name="FreeQuantity" ColumnName="FreeQuantity" />
-                <ScalarProperty Name="ControlFreeQuantity" ColumnName="ControlFreeQuantity" />
-                <ScalarProperty Name="QuantityAdvice" ColumnName="QuantityAdvice" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
-                <ScalarProperty Name="CalculatingTypeID" ColumnName="CalculatingTypeID" />
-                <ScalarProperty Name="SalespersonID" ColumnName="SalespersonID" />
-                <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
-                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
-                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
-                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
-                <ScalarProperty Name="QuotationDetailID" ColumnName="QuotationDetailID" />
-                <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="SalesOrderID" ColumnName="SalesOrderID" />
-                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
-                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
-                <ScalarProperty Name="SalesOrderDetailID" ColumnName="SalesOrderDetailID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SalesOrders">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.SalesOrder">
               <MappingFragment StoreEntitySet="SalesOrders">
@@ -7817,6 +7770,50 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="SalesOrderDetails">
+            <EntityTypeMapping TypeName="TotalSalesPortalModel.SalesOrderDetail">
+              <MappingFragment StoreEntitySet="SalesOrderDetails">
+                <ScalarProperty Name="InActivePartialDate" ColumnName="InActivePartialDate" />
+                <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />
+                <ScalarProperty Name="InActive" ColumnName="InActive" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="VoidTypeID" ColumnName="VoidTypeID" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="IsBonus" ColumnName="IsBonus" />
+                <ScalarProperty Name="GrossAmount" ColumnName="GrossAmount" />
+                <ScalarProperty Name="ListedGrossAmount" ColumnName="ListedGrossAmount" />
+                <ScalarProperty Name="VATAmount" ColumnName="VATAmount" />
+                <ScalarProperty Name="ListedVATAmount" ColumnName="ListedVATAmount" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="ListedAmount" ColumnName="ListedAmount" />
+                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
+                <ScalarProperty Name="ListedGrossPrice" ColumnName="ListedGrossPrice" />
+                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
+                <ScalarProperty Name="ListedPrice" ColumnName="ListedPrice" />
+                <ScalarProperty Name="FreeQuantityAdvice" ColumnName="FreeQuantityAdvice" />
+                <ScalarProperty Name="FreeQuantity" ColumnName="FreeQuantity" />
+                <ScalarProperty Name="ControlFreeQuantity" ColumnName="ControlFreeQuantity" />
+                <ScalarProperty Name="QuantityAdvice" ColumnName="QuantityAdvice" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
+                <ScalarProperty Name="CalculatingTypeID" ColumnName="CalculatingTypeID" />
+                <ScalarProperty Name="SalespersonID" ColumnName="SalespersonID" />
+                <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
+                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
+                <ScalarProperty Name="QuotationDetailID" ColumnName="QuotationDetailID" />
+                <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="SalesOrderID" ColumnName="SalesOrderID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="SalesOrderDetailID" ColumnName="SalesOrderDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

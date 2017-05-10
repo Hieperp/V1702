@@ -217,10 +217,7 @@
 
                     //columns.Bound(p => p.InActivePartialDate).DisplayNameTitle().Filterable(false).Hidden()
                     //    .ClientTemplate("#= (InActivePartialDate == null)? '' : InActivePartialDate #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].InActivePartialDate' value='#= (InActivePartialDate == null) ? '' : InActivePartialDate #' />");
-
-                    columns.Bound(p => p.InActiveIssue).DisplayNameTitle().Filterable(false).Hidden()
-                        .ClientTemplate("#= (InActiveIssue == null)? '' : InActiveIssue #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].InActiveIssue' value='#= (InActiveIssue == null) ? '' : InActiveIssue #' />");
-
+                    
                     columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50).Hidden(!@Model.Editable).HtmlAttributes(new { @class = "grid-column-center" });
 
                     columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(50).Hidden(!@Model.Voidable && !@Model.UnVoidable)
