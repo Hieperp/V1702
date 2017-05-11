@@ -176,7 +176,7 @@ namespace TotalModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DeliveryAdviceViewDetail>("GetDeliveryAdviceViewDetails", deliveryAdviceIDParameter);
         }
     
-        public virtual ObjectResult<CommodityAvailable> GetCommodityAvailables(Nullable<int> locationID, Nullable<int> customerID, Nullable<int> priceCategoryID, Nullable<int> promotionID, Nullable<System.DateTime> entryDate, string searchText)
+        public virtual ObjectResult<CommodityAvailable> GetCommodityAvailables(Nullable<int> locationID, Nullable<int> customerID, Nullable<int> warehouseID, Nullable<int> priceCategoryID, Nullable<int> promotionID, Nullable<System.DateTime> entryDate, string searchText)
         {
             var locationIDParameter = locationID.HasValue ?
                 new ObjectParameter("LocationID", locationID) :
@@ -185,6 +185,10 @@ namespace TotalModel.Models
             var customerIDParameter = customerID.HasValue ?
                 new ObjectParameter("CustomerID", customerID) :
                 new ObjectParameter("CustomerID", typeof(int));
+    
+            var warehouseIDParameter = warehouseID.HasValue ?
+                new ObjectParameter("WarehouseID", warehouseID) :
+                new ObjectParameter("WarehouseID", typeof(int));
     
             var priceCategoryIDParameter = priceCategoryID.HasValue ?
                 new ObjectParameter("PriceCategoryID", priceCategoryID) :
@@ -202,7 +206,7 @@ namespace TotalModel.Models
                 new ObjectParameter("SearchText", searchText) :
                 new ObjectParameter("SearchText", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommodityAvailable>("GetCommodityAvailables", locationIDParameter, customerIDParameter, priceCategoryIDParameter, promotionIDParameter, entryDateParameter, searchTextParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommodityAvailable>("GetCommodityAvailables", locationIDParameter, customerIDParameter, warehouseIDParameter, priceCategoryIDParameter, promotionIDParameter, entryDateParameter, searchTextParameter);
         }
     
         public virtual ObjectResult<Promotion> GetPromotionByCustomers(Nullable<int> customerID)

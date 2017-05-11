@@ -317,6 +317,7 @@
           <Property Name="SalesOrderReferences" Type="nvarchar" MaxLength="200" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="ReceiverID" Type="int" Nullable="false" />
+          <Property Name="WarehouseID" Type="int" />
           <Property Name="PriceCategoryID" Type="int" Nullable="false" />
           <Property Name="PromotionID" Type="int" />
           <Property Name="PromotionVouchers" Type="nvarchar" MaxLength="50" />
@@ -2010,6 +2011,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
         <Function Name="GetCommodityAvailables" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
           <Parameter Name="CustomerID" Type="int" Mode="In" />
+          <Parameter Name="WarehouseID" Type="int" Mode="In" />
           <Parameter Name="PriceCategoryID" Type="int" Mode="In" />
           <Parameter Name="PromotionID" Type="int" Mode="In" />
           <Parameter Name="EntryDate" Type="datetime" Mode="In" />
@@ -2790,6 +2792,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <FunctionImport Name="GetCommodityAvailables" ReturnType="Collection(TotalSalesPortalModel.CommodityAvailable)">
             <Parameter Name="LocationID" Mode="In" Type="Int32" />
             <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+            <Parameter Name="WarehouseID" Mode="In" Type="Int32" />
             <Parameter Name="PriceCategoryID" Mode="In" Type="Int32" />
             <Parameter Name="PromotionID" Mode="In" Type="Int32" />
             <Parameter Name="EntryDate" Mode="In" Type="DateTime" />
@@ -4646,6 +4649,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Name="HasSalesOrder" Type="Boolean" Nullable="false" />
           <Property Name="SalesOrderReferences" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="SalesOrderCodes" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseID" Type="Int32" />
         </EntityType>
         <EntityType Name="GoodsIssueDetail">
           <Key>
@@ -7272,6 +7276,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <EntitySetMapping Name="DeliveryAdvices">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.DeliveryAdvice">
               <MappingFragment StoreEntitySet="DeliveryAdvices">
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
                 <ScalarProperty Name="SalesOrderCodes" ColumnName="SalesOrderCodes" />
                 <ScalarProperty Name="SalesOrderReferences" ColumnName="SalesOrderReferences" />
                 <ScalarProperty Name="HasSalesOrder" ColumnName="HasSalesOrder" />

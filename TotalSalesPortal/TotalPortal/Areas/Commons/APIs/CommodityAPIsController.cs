@@ -102,9 +102,9 @@ namespace TotalPortal.Areas.Commons.APIs
         }
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public JsonResult GetCommodityAvailables(int? locationID, int? customerID, int? priceCategoryID, int? promotionID, DateTime? entryDate, string searchText)
+        public JsonResult GetCommodityAvailables(int? locationID, int? customerID, int? warehouseID, int? priceCategoryID, int? promotionID, DateTime? entryDate, string searchText)
         {
-            var result = commodityRepository.GetCommodityAvailables(locationID, customerID, priceCategoryID, promotionID, entryDate, searchText).Select(s => new { s.CommodityID, s.CommodityCode, s.CommodityName, s.CommodityTypeID, s.WarehouseID, s.WarehouseCode, s.QuantityAvailable, s.ControlFreeQuantity, s.ListedPrice, s.GrossPrice, s.DiscountPercent, s.VATPercent, s.Bookable });
+            var result = commodityRepository.GetCommodityAvailables(locationID, customerID, warehouseID, priceCategoryID, promotionID, entryDate, searchText).Select(s => new { s.CommodityID, s.CommodityCode, s.CommodityName, s.CommodityTypeID, s.WarehouseID, s.WarehouseCode, s.QuantityAvailable, s.ControlFreeQuantity, s.ListedPrice, s.GrossPrice, s.DiscountPercent, s.VATPercent, s.Bookable });
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

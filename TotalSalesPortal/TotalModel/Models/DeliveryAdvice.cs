@@ -65,6 +65,7 @@ namespace TotalModel.Models
         public bool HasSalesOrder { get; set; }
         public string SalesOrderReferences { get; set; }
         public string SalesOrderCodes { get; set; }
+        public Nullable<int> WarehouseID { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Customer Customer1 { get; set; }

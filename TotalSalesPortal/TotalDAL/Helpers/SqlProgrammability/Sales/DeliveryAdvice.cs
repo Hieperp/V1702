@@ -126,7 +126,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             //BO SUNG NGAY 08-JUN-2016: includeCommoditiesOutOfStock = TRUE: CHI DUY NHAT AP DUNG CHO GetCommoditiesInWarehousesIncludeOutOfStock. CAC T/H KHAC CHUA XEM XET, DO CHUA CO NHU CAU SU DUNG. NEU CO NHU CAU -> THI CO THE XEM XET LAI SQL QUERY
 
 
-            string queryString = " @LocationID int, @CustomerID int, @PriceCategoryID int, @PromotionID int, @EntryDate DateTime, @SearchText nvarchar(60) " + (getSavedData ? ", @GoodsIssueID int, @StockTransferID int, @InventoryAdjustmentID int " : "") + "\r\n";
+            string queryString = " @LocationID int, @CustomerID int, @WarehouseID int, @PriceCategoryID int, @PromotionID int, @EntryDate DateTime, @SearchText nvarchar(60) " + (getSavedData ? ", @GoodsIssueID int, @StockTransferID int, @InventoryAdjustmentID int " : "") + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
@@ -359,14 +359,14 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             if (withCommodityTypeServices)  //GET SERVICE ITEM
             {
                 queryString = queryString + "                               INSERT INTO     @CommoditiesAvailable (WarehouseID, CommodityID, QuantityAvailable) " + "\r\n";
-                queryString = queryString + "                               SELECT          (SELECT TOP 1 WarehouseID FROM CustomerWarehouses WHERE CustomerID = @CustomerID AND InActive = 0) AS WarehouseID, CommodityID, 100000000000 AS QuantityAvailable " + "\r\n";
+                queryString = queryString + "                               SELECT          (SELECT TOP 1 WarehouseID FROM CustomerWarehouses WHERE WarehouseID = @WarehouseID OR (@WarehouseID IS NULL AND (CustomerID = @CustomerID AND InActive = 0))  ) AS WarehouseID, CommodityID, 100000000000 AS QuantityAvailable " + "\r\n";
                 queryString = queryString + "                               FROM            @Commodities " + "\r\n";
                 queryString = queryString + "                               WHERE           CommodityTypeID = " + (int)GlobalEnums.CommodityTypeID.Services + "\r\n";
 
                 queryString = queryString + "                               SET             @HasCommoditiesAvailable = @HasCommoditiesAvailable + @@ROWCOUNT " + "\r\n";
             }
 
-            queryString = queryString + "               UPDATE @CommoditiesAvailable SET Bookable = 1 WHERE WarehouseID IN (SELECT WarehouseID FROM CustomerWarehouses WHERE CustomerID = @CustomerID AND InActive = 0)" + "\r\n";
+            queryString = queryString + "               UPDATE @CommoditiesAvailable SET Bookable = 1 WHERE WarehouseID IN (SELECT WarehouseID FROM CustomerWarehouses WHERE WarehouseID = @WarehouseID OR (@WarehouseID IS NULL AND (CustomerID = @CustomerID AND InActive = 0))  )" + "\r\n";
 
 
             return queryString;

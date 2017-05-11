@@ -25,6 +25,11 @@ namespace TotalDTO.Sales
         public virtual int CustomerID { get; set; }
         public virtual int ReceiverID { get; set; }
 
+        [Display(Name = "Kho hàng")]
+        public int WarehouseID { get; set; }
+        [Display(Name = "Mã kho")]
+        public string WarehouseCode { get; set; }
+
         [Required]
         [Display(Name = "Bảng giá")]
         public int PriceCategoryID { get; set; }
@@ -62,10 +67,11 @@ namespace TotalDTO.Sales
 
         public override void PerformPresaveRule()
         {
+            this.Approved = true; this.ApprovedDate = this.EntryDate; //At SalesOrder, Approve right after save. Surely, It can be UnApprove later for editing
+
             base.PerformPresaveRule();
 
             string salesOrderReferences = ""; string salesOrderCodes = "";
-            this.Approved = true; this.ApprovedDate = this.EntryDate; //At SalesOrder, Approve right after save. Surely, It can be UnApprove later for editing
             this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; e.ReceiverID = this.ReceiverID; e.PromotionID = this.PromotionID; e.SalespersonID = this.SalespersonID; if (this.HasSalesOrder && salesOrderReferences.IndexOf(e.SalesOrderReference) < 0) salesOrderReferences = salesOrderReferences + (salesOrderReferences != "" ? ", " : "") + e.SalesOrderReference; if (this.HasSalesOrder && salesOrderCodes.IndexOf(e.SalesOrderCode) < 0) salesOrderCodes = salesOrderCodes + (salesOrderCodes != "" ? ", " : "") + e.SalesOrderCode; });
             this.SalesOrderReferences = salesOrderReferences; this.SalesOrderCodes = salesOrderCodes;
         }

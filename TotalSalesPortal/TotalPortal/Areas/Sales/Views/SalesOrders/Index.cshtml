@@ -12,7 +12,7 @@
                 columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(90).Filterable(false);
 
                 columns.Bound(p => p.Reference).Title("#").Width(10).Filterable(false).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Sales/SalesOrders", action = "Edit" }) + "/#= SalesOrderID #'>#=Reference#</a>");
-                columns.Bound(p => p.Code).Title("Số ĐH").Width(10);
+                columns.Bound(p => p.Code).Title("Số ĐH").Width(10).Filterable(false);
                 columns.Bound(p => p.CustomerName).Title("Khách hàng").Width(180);
                 columns.Bound(p => p.ReceiverDescription).Title("Giao hàng").Width(160);
                 columns.Bound(p => p.Description).Title("Diễn giải").Width(120);
@@ -116,6 +116,7 @@
             gridDetails.dataSource.filter({
                 logic: "or",
                 filters: [
+                    { field: "Code", operator: "contains", value: indexFilterText },
                     { field: "Reference", operator: "contains", value: indexFilterText },
                     { field: "CustomerName", operator: "contains", value: indexFilterText }
                 ]

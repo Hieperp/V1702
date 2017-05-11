@@ -78,9 +78,9 @@ namespace TotalDAL.Repositories.Commons
         //    return vehicleAvailables;
         //}
 
-        public IList<CommodityAvailable> GetCommodityAvailables(int? locationID, int? customerID, int? priceCategoryID, int? promotionID, DateTime? entryDate, string searchText)
+        public IList<CommodityAvailable> GetCommodityAvailables(int? locationID, int? customerID, int? warehouseID, int? priceCategoryID, int? promotionID, DateTime? entryDate, string searchText)
         {
-            List<CommodityAvailable> partAvailables = this.TotalSalesPortalEntities.GetCommodityAvailables(locationID, customerID, priceCategoryID, promotionID, entryDate, searchText).ToList();
+            List<CommodityAvailable> partAvailables = this.TotalSalesPortalEntities.GetCommodityAvailables(locationID, customerID, warehouseID, priceCategoryID, promotionID, entryDate, searchText).ToList();
 
             return partAvailables;
         }
