@@ -23,19 +23,19 @@ namespace TotalDAL.Repositories.Sales
         {
 
 
-            //return;
+            return;
 
             Helpers.SqlProgrammability.Sales.SalesOrder salesOrder = new Helpers.SqlProgrammability.Sales.SalesOrder(totalSalesPortalEntities);
             salesOrder.RestoreProcedure();
 
-            //return;
+            return;
 
 
             Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
             deliveryAdvice.RestoreProcedure();
 
 
-            //return;
+            return;
 
             Helpers.SqlProgrammability.Inventories.GoodsIssue goodsIssue = new Helpers.SqlProgrammability.Inventories.GoodsIssue(totalSalesPortalEntities);
             goodsIssue.RestoreProcedure();
