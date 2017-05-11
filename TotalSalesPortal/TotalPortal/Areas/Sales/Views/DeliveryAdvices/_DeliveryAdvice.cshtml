@@ -33,19 +33,10 @@
         <div class="form-group">
             @Html.EditorFor(d => d.Salesperson, new { EmployeeDisplayName = @Model.GetDisplayName(m => m.Salesperson) })
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PromotionVouchers)
-            <div class="div-input">
-                @Html.Kendo().MaskedTextBoxFor(model => model.PromotionVouchers).HtmlAttributes(new { @class = "left-panel-input" })
-            </div>
-            <div class="div-validation-message">
-                @Html.ValidationMessageFor(model => model.PromotionVouchers, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
+        
 
         @Html.HiddenFor(model => model.SalesOrderID)
+        @Html.HiddenFor(model => model.SalesOrderCode)
         @Html.HiddenFor(model => model.SalesOrderReference)
         @if (Model.HasSalesOrder)
         {
@@ -56,6 +47,16 @@
                 </div>
                 <div class="div-validation-message">
                     @Html.ValidationMessageFor(model => model.SalesOrderReferenceNote, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SalesOrderCodeNote)
+                <div class="div-input">
+                    @Html.Kendo().MaskedTextBoxFor(model => model.SalesOrderCodeNote).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+                </div>
+                <div class="div-validation-message">
+                    @Html.ValidationMessageFor(model => model.SalesOrderCodeNote, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -73,6 +74,15 @@
             }
         }
 
+        <div class="form-group">
+            @Html.LabelFor(model => model.PromotionVouchers)
+            <div class="div-input">
+                @Html.Kendo().MaskedTextBoxFor(model => model.PromotionVouchers).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.PromotionVouchers, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         @if (@Model.Voidable || @Model.UnVoidable || @Model.VoidTypeID > 0)
         { //Don't render when in Edit Mode, so: do not add VoidType.VoidTypeID [Required] DataAnnotations to the view to submit to controller when edit
@@ -113,6 +123,8 @@
                     columns.Bound(p => p.SalesOrderDetailID).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= (SalesOrderDetailID == null)? '' : SalesOrderDetailID #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].SalesOrderDetailID' value='#= (SalesOrderDetailID == null) ? '' : SalesOrderDetailID #' />");
 
+                    columns.Bound(p => p.SalesOrderCode).DisplayNameTitle().Filterable(false).Width(60).Hidden()
+                        .ClientTemplate("#= (SalesOrderCode == null)? '' : SalesOrderCode #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].SalesOrderCode' value='#= (SalesOrderCode == null) ? '' : SalesOrderCode #' />");
                     columns.Bound(p => p.SalesOrderReference).DisplayNameTitle().Filterable(false).Width(60).Hidden(@Model.HasSalesOrder && @Model.SalesOrderID == null ? false : true)
                         .ClientTemplate("#= (SalesOrderReference == null)? '' : SalesOrderReference #" + "<input type='hidden' name='DeliveryAdviceViewDetails[#= index(data) #].SalesOrderReference' value='#= (SalesOrderReference == null) ? '' : SalesOrderReference #' />");
                     columns.Bound(p => p.SalesOrderEntryDate).DisplayNameTitle().Filterable(false).Width(80).Hidden(@Model.HasSalesOrder && @Model.SalesOrderID == null ? false : true)
@@ -261,8 +273,8 @@
                             //toolbar.Create().HtmlAttributes(new { @class = "fa fa-map-marker" }).Text("Add new aa le ea1");
                             if (Model.HasSalesOrder == true)
                                 toolbar.Template(@<text>
-                                    <button type="button" class="k-button" onclick="GetPendingGoodsIssueDetails()"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Chọn mặt hàng đóng gói </button>
-                                    <button type="button" class="k-button" onclick="copyRemainsToQuantity()"> <img src="~/Content/Images/Mains/Size24/Borderlands-Select-icon-24.png" /> Đóng gói toàn bộ đã số lượng xuất kho </button>
+                                    <button type="button" class="k-button" onclick="GetPendingGoodsIssueDetails()"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Chọn mặt hàng từ đơn đặt hàng </button>
+                                    <button type="button" class="k-button" onclick="copyRemainsToQuantity()"> <img src="~/Content/Images/Mains/Size24/Borderlands-Select-icon-24.png" /> Giao hàng toàn bộ đơn hàng </button>
                                 </text>);
                             else
                                 toolbar.Template(@<text>
@@ -306,35 +318,35 @@
                             }
                         </text>);
                     }).DataSource(dataSource => dataSource
-                                                                                                                                                                    .Ajax()
-                                                                                                                                                                    .Batch(true)
-                                                                                                                                                                    .ServerOperation(false)
-                                                                                                                                                                    .Model(model =>
-                                                                                                                                                                    {
-                                                                                                                                                                        model.Id(x => x.DeliveryAdviceDetailID);
-                                                                                                                                                                        model.Field(m => m.DeliveryAdviceDetailID).DefaultValue(0);
-                                                                                                                                                                        model.Field(m => m.DeliveryAdviceID).DefaultValue(@Model.DeliveryAdviceID);
-                                                                                                                                                                        model.Field(m => m.CalculatingTypeID).DefaultValue(@GlobalEnums.CalculatingTypeID);
-                                                                                                                                                                        model.Field(m => m.VATbyRow).DefaultValue(@GlobalEnums.VATbyRow);
-                                                                                                                                                                    })
-                                                                                                                                                                    .Events(events =>
-                                                                                                                                                                    {
-                                                                                                                                                                        events.Error("kendGrid_ErrorHandler");
-                                                                                                                                                                    })
-                                                                                                                                                                    .Aggregates(a => a.Add(x => x.CommodityCode).Count())
-                                                                                                                                                                    .Aggregates(a => a.Add(x => x.VATPercent).Max())
-                                                                                                                                                                    .Aggregates(a => a.Add(x => x.Quantity).Sum())
-                                                                                                                                                                    .Aggregates(a => a.Add(x => x.QuantityRemains).Sum())
-                                                                                                                                                                    .Aggregates(a => a.Add(x => x.FreeQuantityRemains).Sum())
-                                                                                                                                                                    .Aggregates(a => a.Add(x => x.FreeQuantity).Sum())
-                                                                                                                                                                    .Aggregates(a => a.Add(x => x.DiscountPercent).Average())
-                                                                                                                                                                    .Aggregates(a => a.Add(x => x.ListedAmount).Sum())
-                                                                                                                                                                    .Aggregates(a => a.Add(x => x.Amount).Sum())
-                                                                                                                                                                    .Aggregates(a => a.Add(x => x.ListedVATAmount).Sum())
-                                                                                                                                                                    .Aggregates(a => a.Add(x => x.VATAmount).Sum())
-                                                                                                                                                                    .Aggregates(a => a.Add(x => x.ListedGrossAmount).Sum())
-                                                                                                                                                                    .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
-                                                                                                                                                                )
+                                                                                                                                                                                                        .Ajax()
+                                                                                                                                                                                                        .Batch(true)
+                                                                                                                                                                                                        .ServerOperation(false)
+                                                                                                                                                                                                        .Model(model =>
+                                                                                                                                                                                                        {
+                                                                                                                                                                                                            model.Id(x => x.DeliveryAdviceDetailID);
+                                                                                                                                                                                                            model.Field(m => m.DeliveryAdviceDetailID).DefaultValue(0);
+                                                                                                                                                                                                            model.Field(m => m.DeliveryAdviceID).DefaultValue(@Model.DeliveryAdviceID);
+                                                                                                                                                                                                            model.Field(m => m.CalculatingTypeID).DefaultValue(@GlobalEnums.CalculatingTypeID);
+                                                                                                                                                                                                            model.Field(m => m.VATbyRow).DefaultValue(@GlobalEnums.VATbyRow);
+                                                                                                                                                                                                        })
+                                                                                                                                                                                                        .Events(events =>
+                                                                                                                                                                                                        {
+                                                                                                                                                                                                            events.Error("kendGrid_ErrorHandler");
+                                                                                                                                                                                                        })
+                                                                                                                                                                                                        .Aggregates(a => a.Add(x => x.CommodityCode).Count())
+                                                                                                                                                                                                        .Aggregates(a => a.Add(x => x.VATPercent).Max())
+                                                                                                                                                                                                        .Aggregates(a => a.Add(x => x.Quantity).Sum())
+                                                                                                                                                                                                        .Aggregates(a => a.Add(x => x.QuantityRemains).Sum())
+                                                                                                                                                                                                        .Aggregates(a => a.Add(x => x.FreeQuantityRemains).Sum())
+                                                                                                                                                                                                        .Aggregates(a => a.Add(x => x.FreeQuantity).Sum())
+                                                                                                                                                                                                        .Aggregates(a => a.Add(x => x.DiscountPercent).Average())
+                                                                                                                                                                                                        .Aggregates(a => a.Add(x => x.ListedAmount).Sum())
+                                                                                                                                                                                                        .Aggregates(a => a.Add(x => x.Amount).Sum())
+                                                                                                                                                                                                        .Aggregates(a => a.Add(x => x.ListedVATAmount).Sum())
+                                                                                                                                                                                                        .Aggregates(a => a.Add(x => x.VATAmount).Sum())
+                                                                                                                                                                                                        .Aggregates(a => a.Add(x => x.ListedGrossAmount).Sum())
+                                                                                                                                                                                                        .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
+                                                                                                                                                                                                    )
             )
         </div>
 
@@ -404,7 +416,7 @@
     function GetPendingGoodsIssueDetails() {
         require(["kpopupWindow"], function (kpopupWindow) {
             var createWizardWindow = new kpopupWindow();
-            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("GetPendingSalesOrderDetails", "DeliveryAdvices", new { area = "Sales" })", "Chọn phiếu mặt hàng từ đơn đặt hàng", "@SettingsManager.PopupWidthLarge", "@SettingsManager.PopupHeightWithTab");
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("GetPendingSalesOrderDetails", "DeliveryAdvices", new { area = "Sales" })", "Chọn mặt hàng từ đơn đặt hàng", "@SettingsManager.PopupWidthLarge", "@SettingsManager.PopupHeightWithTab");
         });
     }
 

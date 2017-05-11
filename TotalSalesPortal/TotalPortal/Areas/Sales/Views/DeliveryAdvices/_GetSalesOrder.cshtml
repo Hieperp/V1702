@@ -5,7 +5,7 @@
     .Name("deliveryAdvicePendingSalesOrderGrid")
     .Columns(columns =>
     {
-        columns.Bound(c => c.SalesOrderReference).Title("ĐH").Width(35);
+        columns.Bound(c => c.SalesOrderCode).Title("ĐH").Width(55);
         columns.Bound(c => c.SalesOrderEntryDate).Title("Ngày ĐH").Width(50).Format("{0:" + SettingsManager.DateFormat + "}");
         columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(110);
         columns.Bound(c => c.ReceiverName).Title("Đơn vị nhận").Width(110);
@@ -43,8 +43,9 @@
             gridDetails.dataSource.filter({
                 logic: "or",
                 filters: [
+                    { field: "SalesOrderCode", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter },
                     { field: "SalesOrderReference", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter },
-
+                    
                     { field: "CustomerCode", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter },
                     { field: "CustomerName", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter },
                     { field: "CustomerVATCode", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter },

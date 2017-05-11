@@ -17,8 +17,6 @@ namespace TotalModel.Models
         public Nullable<System.DateTime> EntryDate { get; set; }
         public string Reference { get; set; }
         public string LocationCode { get; set; }
-        public Nullable<System.DateTime> SalesOrderDate { get; set; }
-        public string SalesOrderReference { get; set; }
         public decimal TotalGrossAmount { get; set; }
         public bool Approved { get; set; }
         public decimal TotalQuantity { get; set; }
@@ -32,5 +30,6 @@ namespace TotalModel.Models
         public string CustomerName { get; set; }
         public string ReceiverDescription { get; set; }
         public string Description { get; set; }
+        public string SalesOrderCodes { get; set; }
     }
 }

@@ -14,6 +14,7 @@
 
     @Html.HiddenFor(model => model.HasSalesOrder)
     @Html.HiddenFor(model => model.SalesOrderID)
+    @Html.HiddenFor(model => model.SalesOrderCode)
     @Html.HiddenFor(model => model.SalesOrderReference)
     @Html.HiddenFor(model => model.SalesOrderEntryDate)
 
@@ -159,6 +160,7 @@
                 $("#Receiver_PriceCategoryCode").val(selectedDataItem === undefined || selectedDataItem.ReceiverPriceCategoryCode === undefined ? null : selectedDataItem.ReceiverPriceCategoryCode);
 
                 $("#SalesOrderID").val(selectedDataItem === undefined || selectedDataItem.SalesOrderID === undefined ? null : selectedDataItem.SalesOrderID);
+                $("#SalesOrderCode").val(selectedDataItem === undefined || selectedDataItem.SalesOrderCode === undefined ? null : selectedDataItem.SalesOrderCode);
                 $("#SalesOrderReference").val(selectedDataItem === undefined || selectedDataItem.SalesOrderReference === undefined ? null : selectedDataItem.SalesOrderReference);
                 $("#SalesOrderEntryDate").val(selectedDataItem === undefined || selectedDataItem.SalesOrderEntryDate === undefined ? null : kendo.toString(selectedDataItem.SalesOrderEntryDate, SettingsManager.DateTimeFormat));
 

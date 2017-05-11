@@ -48,6 +48,7 @@ function handleOKEvent(deliveryAdviceGridDataSource, pendingSalesOrderDetailGrid
         
         dataRow.SalesOrderID = salesOrderGridDataItem.SalesOrderID;
         dataRow.SalesOrderDetailID = salesOrderGridDataItem.SalesOrderDetailID;
+        dataRow.SalesOrderCode = salesOrderGridDataItem.SalesOrderCode;
         dataRow.SalesOrderReference = salesOrderGridDataItem.SalesOrderReference;
         dataRow.SalesOrderEntryDate = salesOrderGridDataItem.SalesOrderEntryDate;
 

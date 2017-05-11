@@ -12,10 +12,11 @@
                 columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(90).Filterable(false);
 
                 columns.Bound(p => p.Reference).Title("#").Width(10).Filterable(false).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Sales/SalesOrders", action = "Edit" }) + "/#= SalesOrderID #'>#=Reference#</a>");
+                columns.Bound(p => p.Code).Title("Số ĐH").Width(10);
                 columns.Bound(p => p.CustomerName).Title("Khách hàng").Width(180);
                 columns.Bound(p => p.ReceiverDescription).Title("Giao hàng").Width(160);
                 columns.Bound(p => p.Description).Title("Diễn giải").Width(120);
-                columns.Bound(p => p.VoidTypeName).Title("Hủy đh").Width(120);
+                columns.Bound(p => p.VoidTypeName).Title("Hủy đh").Width(80);
 
                 columns.Bound(p => p.GrandTotalQuantity).Title("Đặt hàng").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).Width(60).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
                 columns.Bound(p => p.GrandTotalQuantityAdvice).Title("Xuất kho").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).Width(60).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
@@ -28,9 +29,9 @@
             .ToolBar(toolbar =>
             {
                 toolbar.Template(@<text> 
-                    <button type="button" class="k-button" onclick="createWizard()"> <img src="~/Content/Images/Mains/Size24/folder-documents-icon-24.png" /> Lập đề nghị giao hàng </button> 
+                    <button type="button" class="k-button" onclick="createWizard()"> <img src="~/Content/Images/Mains/Size24/folder-documents-icon-24.png" /> Lập đơn đặt hàng </button> 
                     <div class="toolbar" style="float: right;">
-                        <label>Nhập số phiếu ĐNGH hoặc tên khách hàng để tìm</label>
+                        <label>Nhập số đơn hàng hoặc tên khách hàng để tìm</label>
                         <input id="indexFilterText" class="k-textbox" style="text-align: center; " onkeyup="indexFilterText_KeyUp()" />
                     </div>
                 </text>);

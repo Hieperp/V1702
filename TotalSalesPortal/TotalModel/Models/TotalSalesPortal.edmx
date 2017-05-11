@@ -313,6 +313,7 @@
           <Property Name="Reference" Type="nvarchar" MaxLength="10" />
           <Property Name="HasSalesOrder" Type="bit" Nullable="false" />
           <Property Name="SalesOrderID" Type="int" />
+          <Property Name="SalesOrderCodes" Type="nvarchar" MaxLength="200" />
           <Property Name="SalesOrderReferences" Type="nvarchar" MaxLength="200" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="ReceiverID" Type="int" Nullable="false" />
@@ -800,6 +801,7 @@
           <Property Name="SalesOrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EntryDate" Type="datetime" Nullable="false" />
           <Property Name="Reference" Type="nvarchar" MaxLength="10" />
+          <Property Name="Code" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="QuotationID" Type="int" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="ReceiverID" Type="int" Nullable="false" />
@@ -3636,8 +3638,6 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="DateTime" Name="EntryDate" Nullable="true" />
           <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
-          <Property Type="DateTime" Name="SalesOrderDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="SalesOrderReference" Nullable="true" MaxLength="10" />
           <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Boolean" Name="Approved" Nullable="false" />
           <Property Type="Decimal" Name="TotalQuantity" Nullable="false" Precision="18" Scale="2" />
@@ -3651,6 +3651,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="ReceiverDescription" Nullable="false" MaxLength="302" />
           <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SalesOrderCodes" Nullable="true" MaxLength="200" />
         </ComplexType>
         <ComplexType Name="DeliveryAdviceViewDetail">
           <Property Type="Int32" Name="DeliveryAdviceDetailID" Nullable="false" />
@@ -3692,6 +3693,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="DateTime" Name="SalesOrderEntryDate" Nullable="true" Precision="23" />
           <Property Type="Decimal" Name="QuantityRemains" Nullable="true" Precision="20" Scale="2" />
           <Property Type="Decimal" Name="FreeQuantityRemains" Nullable="true" Precision="20" Scale="2" />
+          <Property Type="String" Name="SalesOrderCode" Nullable="true" MaxLength="60" />
         </ComplexType>
         <ComplexType Name="CommodityAvailable">
           <Property Type="Int32" Name="CommodityID" Nullable="false" />
@@ -4643,6 +4645,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <NavigationProperty Name="SalesOrder" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_SalesOrders" FromRole="DeliveryAdvice" ToRole="SalesOrder" />
           <Property Name="HasSalesOrder" Type="Boolean" Nullable="false" />
           <Property Name="SalesOrderReferences" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SalesOrderCodes" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="GoodsIssueDetail">
           <Key>
@@ -5722,6 +5725,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_SalesOrders_Promotions" FromRole="SalesOrder" ToRole="Promotion" />
           <NavigationProperty Name="VoidType" Relationship="TotalSalesPortalModel.FK_SalesOrders_VoidTypes" FromRole="SalesOrder" ToRole="VoidType" />
           <NavigationProperty Name="SalesOrderDetails" Relationship="TotalSalesPortalModel.FK_SalesOrderDetails_SalesOrders" FromRole="SalesOrder" ToRole="SalesOrderDetail" />
+          <Property Name="Code" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <Association Name="FK_SalesOrders_Customers">
           <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
@@ -5851,6 +5855,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="Boolean" Name="InActive" Nullable="false" />
           <Property Type="Boolean" Name="InActivePartial" Nullable="false" />
           <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="60" />
         </ComplexType>
         <ComplexType Name="SalesOrderViewDetail">
           <Property Type="Int32" Name="SalesOrderDetailID" Nullable="false" />
@@ -5965,6 +5970,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="String" Name="SalesOrderReference" Nullable="true" MaxLength="10" />
           <Property Type="DateTime" Name="SalesOrderEntryDate" Nullable="false" Precision="23" />
           <Property Type="Boolean" Name="VATbyRow" Nullable="false" />
+          <Property Type="String" Name="SalesOrderCode" Nullable="false" MaxLength="60" />
         </ComplexType>
         <ComplexType Name="DeliveryAdvicePendingSalesOrder">
           <Property Type="Int32" Name="SalesOrderID" Nullable="false" />
@@ -6011,6 +6017,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="String" Name="ReceiverSalespersonName" Nullable="false" MaxLength="1" />
           <Property Type="Int32" Name="ReceiverPriceCategoryID" Nullable="false" />
           <Property Type="String" Name="ReceiverPriceCategoryCode" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="SalesOrderCode" Nullable="false" MaxLength="60" />
         </ComplexType>
         <EntityType Name="SalesOrderDetail">
           <Key>
@@ -6318,8 +6325,6 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
                 <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
                 <ScalarProperty Name="Reference" ColumnName="Reference" />
                 <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
-                <ScalarProperty Name="SalesOrderDate" ColumnName="SalesOrderDate" />
-                <ScalarProperty Name="SalesOrderReference" ColumnName="SalesOrderReference" />
                 <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
                 <ScalarProperty Name="Approved" ColumnName="Approved" />
                 <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
@@ -6333,6 +6338,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="ReceiverDescription" ColumnName="ReceiverDescription" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SalesOrderCodes" ColumnName="SalesOrderCodes" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -6378,6 +6384,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
                 <ScalarProperty Name="SalesOrderEntryDate" ColumnName="SalesOrderEntryDate" />
                 <ScalarProperty Name="QuantityRemains" ColumnName="QuantityRemains" />
                 <ScalarProperty Name="FreeQuantityRemains" ColumnName="FreeQuantityRemains" />
+                <ScalarProperty Name="SalesOrderCode" ColumnName="SalesOrderCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7265,6 +7272,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <EntitySetMapping Name="DeliveryAdvices">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.DeliveryAdvice">
               <MappingFragment StoreEntitySet="DeliveryAdvices">
+                <ScalarProperty Name="SalesOrderCodes" ColumnName="SalesOrderCodes" />
                 <ScalarProperty Name="SalesOrderReferences" ColumnName="SalesOrderReferences" />
                 <ScalarProperty Name="HasSalesOrder" ColumnName="HasSalesOrder" />
                 <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
@@ -7670,6 +7678,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <EntitySetMapping Name="SalesOrders">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.SalesOrder">
               <MappingFragment StoreEntitySet="SalesOrders">
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
                 <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />
                 <ScalarProperty Name="InActive" ColumnName="InActive" />
@@ -7736,6 +7745,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
                 <ScalarProperty Name="InActive" ColumnName="InActive" />
                 <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7870,6 +7880,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
                 <ScalarProperty Name="SalesOrderReference" ColumnName="SalesOrderReference" />
                 <ScalarProperty Name="SalesOrderEntryDate" ColumnName="SalesOrderEntryDate" />
                 <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
+                <ScalarProperty Name="SalesOrderCode" ColumnName="SalesOrderCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7920,6 +7931,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
                 <ScalarProperty Name="ReceiverSalespersonName" ColumnName="ReceiverSalespersonName" />
                 <ScalarProperty Name="ReceiverPriceCategoryID" ColumnName="ReceiverPriceCategoryID" />
                 <ScalarProperty Name="ReceiverPriceCategoryCode" ColumnName="ReceiverPriceCategoryCode" />
+                <ScalarProperty Name="SalesOrderCode" ColumnName="SalesOrderCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

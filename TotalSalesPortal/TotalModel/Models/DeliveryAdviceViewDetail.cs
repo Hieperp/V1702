@@ -52,5 +52,6 @@ namespace TotalModel.Models
         public Nullable<System.DateTime> SalesOrderEntryDate { get; set; }
         public Nullable<decimal> QuantityRemains { get; set; }
         public Nullable<decimal> FreeQuantityRemains { get; set; }
+        public string SalesOrderCode { get; set; }
     }
 }

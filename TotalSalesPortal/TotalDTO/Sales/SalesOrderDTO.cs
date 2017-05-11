@@ -40,6 +40,9 @@ namespace TotalDTO.Sales
         [Display(Name = "Ngày báo giá")]
         public Nullable<System.DateTime> QuotationEntryDate { get; set; }
 
+        [Display(Name = "Số đơn hàng")]
+        [Required(ErrorMessage = "Vui lòng nhập số đơn hàng")]
+        public string Code { get; set; }
         public virtual Nullable<int> PromotionID { get; set; }
         [Display(Name = "Chứng từ khuyến mãi")]
         public string PromotionVouchers { get; set; }

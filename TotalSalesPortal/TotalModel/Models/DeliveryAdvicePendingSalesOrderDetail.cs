@@ -47,5 +47,6 @@ namespace TotalModel.Models
         public string SalesOrderReference { get; set; }
         public System.DateTime SalesOrderEntryDate { get; set; }
         public bool VATbyRow { get; set; }
+        public string SalesOrderCode { get; set; }
     }
 }

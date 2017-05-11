@@ -87,6 +87,9 @@ namespace TotalDTO.Sales
         [Display(Name = "Phiếu ĐH")]
         [UIHint("StringReadonly")]
         public string SalesOrderReference { get; set; }
+        [Display(Name = "Số ĐH")]
+        [UIHint("StringReadonly")]
+        public string SalesOrderCode { get; set; }
         [Display(Name = "Ngày ĐH")]
         [UIHint("DateTimeReadonly")]
         public Nullable<System.DateTime> SalesOrderEntryDate { get; set; }

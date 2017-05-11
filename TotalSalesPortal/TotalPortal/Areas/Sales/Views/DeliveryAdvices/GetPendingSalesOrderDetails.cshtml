@@ -8,9 +8,10 @@
     .Name("gridPendingSalesOrderDetails")
     .Columns(columns =>
     {
-        columns.Bound(c => c.SalesOrderReference).Title("Đơn đặt hàng").Width(30);
-        columns.Bound(c => c.SalesOrderEntryDate).Title("Ngày đặt hàng").Width(70).Format("{0:" + SettingsManager.DateTimeFormat + "}");
-        columns.Bound(c => c.CommodityCode).Title("Mã hàng").Width(80);
+        columns.Bound(c => c.SalesOrderReference).Title("Phiếu ĐH").Width(30);
+        columns.Bound(c => c.SalesOrderCode).Title("Số đơn hàng").Width(50);
+        columns.Bound(c => c.SalesOrderEntryDate).Title("Ngày đặt hàng").Width(50).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Bound(c => c.CommodityCode).Title("Mã hàng").Width(130);
         columns.Bound(c => c.QuantityRemains).Title("SL").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" });
         columns.Bound(c => c.FreeQuantityRemains).Title("QT").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" });
 
@@ -20,7 +21,7 @@
     {
         toolbar.Template(@<text>
             <div class="toolbar" style="float: right;">
-                <label>Nhập PXK/ hoặc mã, tên khách hàng, đơn vị nhận/ hoặc mã hàng hóa</label>
+                <label>Nhập số đơn hàng hoặc mã hay tên hàng hóa</label>
                 <input id="filterText" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="filterText_KeyUp()" />
             </div>
         </text>);
@@ -83,7 +84,8 @@
             gridDetails.dataSource.filter({
                 logic: "or",
                 filters: [
-                    { field: "Reference", operator: "contains", value: filterText },
+                    { field: "SalesOrderCode", operator: "contains", value: filterText },
+                    { field: "SalesOrderReference", operator: "contains", value: filterText },
 
                     { field: "CommodityCode", operator: "contains", value: filterText },
                     { field: "CommodityName", operator: "contains", value: filterText }
