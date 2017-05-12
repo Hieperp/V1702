@@ -63,6 +63,7 @@ namespace TotalModel.Models
         public bool InActivePartial { get; set; }
         public Nullable<System.DateTime> InActiveDate { get; set; }
         public string Code { get; set; }
+        public int WarehouseID { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Customer Customer1 { get; set; }
@@ -76,5 +77,6 @@ namespace TotalModel.Models
         public virtual VoidType VoidType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrderDetail> SalesOrderDetails { get; set; }
+        public virtual Warehouse Warehouse { get; set; }
     }
 }

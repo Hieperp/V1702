@@ -130,6 +130,8 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesOrderDetails_SalesOrders" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesOrderDetails_VoidTypes" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssueDetails_Warehouses" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdvices_Warehouses" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_SalesOrders_Warehouses" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

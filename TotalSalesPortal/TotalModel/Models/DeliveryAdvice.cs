@@ -65,7 +65,7 @@ namespace TotalModel.Models
         public bool HasSalesOrder { get; set; }
         public string SalesOrderReferences { get; set; }
         public string SalesOrderCodes { get; set; }
-        public Nullable<int> WarehouseID { get; set; }
+        public int WarehouseID { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Customer Customer1 { get; set; }
@@ -80,5 +80,6 @@ namespace TotalModel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GoodsIssue> GoodsIssues { get; set; }
         public virtual SalesOrder SalesOrder { get; set; }
+        public virtual Warehouse Warehouse { get; set; }
     }
 }
