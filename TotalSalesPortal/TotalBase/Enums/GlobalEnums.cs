@@ -125,6 +125,11 @@
             Unknown = 99
         };
 
+        public enum WarehouseTaskID
+        {
+            SalesOrder = 8032,
+            DeliveryAdvice = 8035
+        };
 
         public enum ReceiptTypeID
         {

@@ -26,6 +26,8 @@
 
                     @Html.Partial("~/Views/Helpers/Commons/_PriceCategory.cshtml")
 
+                    @Html.EditorFor(d => d.Warehouse, new { WarehouseDisplayName = @Model.GetDisplayName(m => m.Warehouse) })
+
                     <div style="float: right; margin-top: -135px; text-align: center; width: 110px; height: 110px; ">
                         <div style="height: 90px; text-align: center; padding-left: 22px; padding-right: 22px; padding-top: 35px;">
                             <span> <img src="~/Content/Images/Mains/Blowout-Sale-icon-48.png" title="Áp dụng tổng hợp các chương trình khuyến mãi còn hiệu lực cho khách hàng này" /> </span>
@@ -53,9 +55,12 @@
 
         $("#gridPromotion").data("kendoGrid").dataSource.read();
 
-
         $("#PriceCategoryID").val($("#Customer_PriceCategoryID").val());
         $("#PriceCategoryCode").val($("#Customer_PriceCategoryCode").val());
+
+        $("#Warehouse_WarehouseID").val($("#Customer_WarehouseID").val());
+        $("#Warehouse_Code").val($("#Customer_WarehouseCode").val());
+        $("#Warehouse_Name").val($("#Customer_WarehouseName").val());
 
         $("#Receiver_CustomerID").val($("#Customer_CustomerID").val());
         $("#Receiver_Code").val($("#Customer_Code").val());
@@ -73,7 +78,9 @@
         $("#Receiver_SalespersonName").val($("#Customer_SalespersonName").val());
         $("#Receiver_PriceCategoryID").val($("#Customer_PriceCategoryID").val());
         $("#Receiver_PriceCategoryCode").val($("#Customer_PriceCategoryCode").val());
-
+        $("#Receiver_WarehouseID").val($("#Customer_WarehouseID").val());
+        $("#Receiver_WarehouseCode").val($("#Customer_WarehouseCode").val());
+        $("#Receiver_WarehouseName").val($("#Customer_WarehouseName").val());
 
 
         //Set display label
@@ -86,6 +93,8 @@
 
         //Also remember last AutoComplete value for Receiver
         $("#Receiver_TempCodeAndName").val($("#Receiver_CodeAndName").val());
+        //Also remember last AutoComplete value for Warehouse
+        $("#Warehouse_TempName").val($("#Warehouse_Name").val());
 
         initShippingAddress();
     })

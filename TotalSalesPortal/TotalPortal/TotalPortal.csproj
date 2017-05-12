@@ -220,6 +220,7 @@
     <Compile Include="Areas\Commons\APIs\EmployeeAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\VoidTypeAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\PromotionAPIsController.cs" />
+    <Compile Include="Areas\Commons\APIs\WarehouseAPIsController.cs" />
     <Compile Include="Areas\Commons\Builders\IMonetaryAccountSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\IPackingMaterialSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\IVehicleSelectListBuilder.cs" />
@@ -1821,6 +1822,8 @@
     <Content Include="Views\Shared\EditorTemplates\DropDowns\MonetaryAccount.cshtml" />
     <Content Include="Views\Reports\Open.cshtml" />
     <Content Include="Views\Helpers\Commons\_SearchCustomer.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AutoCompletes\WarehouseBase.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Commons\WarehouseBase.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

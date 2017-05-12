@@ -18,5 +18,9 @@ namespace TotalDTO.Helpers.Interfaces
         [Required(ErrorMessage = "Vui lòng nhập địa chỉ giao hàng")]
         [UIHint("Commons/ShippingAddress")]
         string ShippingAddress { get; set; }
+
+        [Display(Name = "Kho hàng")]
+        [UIHint("AutoCompletes/WarehouseBase")]
+        WarehouseBaseDTO Warehouse { get; set; }
     }
 }

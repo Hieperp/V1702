@@ -92,6 +92,9 @@
     <Compile Include="Models\Customer.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomerBase.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CustomerCategory.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
@@ -290,6 +293,9 @@
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VoidType.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Warehouse.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

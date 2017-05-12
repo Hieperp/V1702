@@ -917,6 +917,20 @@
           <Property Name="InActive" Type="bit" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="Warehouses">
+          <Key>
+            <PropertyRef Name="WarehouseID" />
+          </Key>
+          <Property Name="WarehouseID" Type="int" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="WarehouseCategoryID" Type="int" Nullable="false" />
+          <Property Name="LocationID" Type="int" Nullable="false" />
+          <Property Name="IsBook" Type="bit" Nullable="false" />
+          <Property Name="IsInvoice" Type="bit" Nullable="false" />
+          <Property Name="IsDefault" Type="bit" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <Association Name="FK_AccountInvoiceDetails_AccountInvoices">
           <End Role="AccountInvoices" Type="Self.AccountInvoices" Multiplicity="1" />
           <End Role="AccountInvoiceDetails" Type="Self.AccountInvoiceDetails" Multiplicity="*" />
@@ -1496,6 +1510,18 @@ warning 6035: The relationship 'FK_GoodsDeliveries_AspNetUsers2' has columns tha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_GoodsIssueDetails_Warehouses">
+          <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="0..1" />
+          <End Role="GoodsIssueDetails" Type="Self.GoodsIssueDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="GoodsIssueDetails">
+              <PropertyRef Name="WarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GoodsIssues_Customers">
           <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
           <End Role="GoodsIssues" Type="Self.GoodsIssues" Multiplicity="*" />
@@ -1952,6 +1978,18 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Warehouses_Locations">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
+          <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="Warehouses">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="AccountInvoicePostSaveValidate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
         </Function>
@@ -2016,6 +2054,10 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Parameter Name="PromotionID" Type="int" Mode="In" />
           <Parameter Name="EntryDate" Type="datetime" Mode="In" />
           <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetCustomerBases" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
+          <Parameter Name="WarehouseTaskID" Type="int" Mode="In" />
         </Function>
         <Function Name="GetCustomerReceivables" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
@@ -2190,6 +2232,11 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Parameter Name="NMVNTaskID" Type="int" Mode="In" />
           <Parameter Name="OrganizationalUnitID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetWarehouses" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CustomerID" Type="int" Mode="In" />
+          <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
+          <Parameter Name="WarehouseTaskIDList" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GoodsDeliveryPostSaveValidate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
         </Function>
@@ -2306,6 +2353,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <EntitySet Name="Territories" EntityType="Self.Territories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehicles" EntityType="Self.Vehicles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VoidTypes" EntityType="Self.VoidTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Warehouses" EntityType="Self.Warehouses" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AccountInvoiceDetails_AccountInvoices" Association="Self.FK_AccountInvoiceDetails_AccountInvoices">
             <End Role="AccountInvoices" EntitySet="AccountInvoices" />
             <End Role="AccountInvoiceDetails" EntitySet="AccountInvoiceDetails" />
@@ -2490,6 +2538,10 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
             <End Role="VoidTypes" EntitySet="VoidTypes" />
             <End Role="GoodsIssueDetails" EntitySet="GoodsIssueDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_GoodsIssueDetails_Warehouses" Association="Self.FK_GoodsIssueDetails_Warehouses">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="GoodsIssueDetails" EntitySet="GoodsIssueDetails" />
+          </AssociationSet>
           <AssociationSet Name="FK_GoodsIssues_Customers" Association="Self.FK_GoodsIssues_Customers">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="GoodsIssues" EntitySet="GoodsIssues" />
@@ -2634,6 +2686,10 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
             <End Role="Territories" EntitySet="Territories" />
             <End Role="Territories1" EntitySet="Territories" />
           </AssociationSet>
+          <AssociationSet Name="FK_Warehouses_Locations" Association="Self.FK_Warehouses_Locations">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="Warehouses" EntitySet="Warehouses" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -2681,6 +2737,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <NavigationProperty Name="DeliveryAdvices" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Locations" FromRole="Location" ToRole="DeliveryAdvice" />
           <NavigationProperty Name="HandlingUnits" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Locations" FromRole="Location" ToRole="HandlingUnit" />
           <NavigationProperty Name="SalesOrders" Relationship="TotalSalesPortalModel.FK_SalesOrders_Locations" FromRole="Location" ToRole="SalesOrder" />
+          <NavigationProperty Name="Warehouses" Relationship="TotalSalesPortalModel.FK_Warehouses_Locations" FromRole="Location" ToRole="Warehouse" />
         </EntityType>
         <EntityType Name="ModuleDetail">
           <Key>
@@ -3391,6 +3448,24 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
             <End Role="VoidType" EntitySet="VoidTypes" />
             <End Role="SalesOrderDetail" EntitySet="SalesOrderDetails" />
           </AssociationSet>
+          <EntitySet Name="Warehouses" EntityType="TotalSalesPortalModel.Warehouse" />
+          <AssociationSet Name="FK_GoodsIssueDetails_Warehouses" Association="TotalSalesPortalModel.FK_GoodsIssueDetails_Warehouses">
+            <End Role="Warehouse" EntitySet="Warehouses" />
+            <End Role="GoodsIssueDetail" EntitySet="GoodsIssueDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Warehouses_Locations" Association="TotalSalesPortalModel.FK_Warehouses_Locations">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Warehouse" EntitySet="Warehouses" />
+          </AssociationSet>
+          <FunctionImport Name="GetWarehouses" EntitySet="Warehouses" ReturnType="Collection(TotalSalesPortalModel.Warehouse)">
+            <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+            <Parameter Name="SearchText" Mode="In" Type="String" />
+            <Parameter Name="WarehouseTaskIDList" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetCustomerBases" ReturnType="Collection(TotalSalesPortalModel.CustomerBase)">
+            <Parameter Name="SearchText" Mode="In" Type="String" />
+            <Parameter Name="WarehouseTaskID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -4701,6 +4776,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Name="ListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <NavigationProperty Name="Commodity" Relationship="TotalSalesPortalModel.FK_GoodsIssueDetails_Commodities" FromRole="GoodsIssueDetail" ToRole="Commodity" />
           <Property Name="VATbyRow" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Warehouse" Relationship="TotalSalesPortalModel.FK_GoodsIssueDetails_Warehouses" FromRole="GoodsIssueDetail" ToRole="Warehouse" />
         </EntityType>
         <EntityType Name="GoodsIssue">
           <Key>
@@ -6118,6 +6194,71 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Warehouse">
+          <Key>
+            <PropertyRef Name="WarehouseID" />
+          </Key>
+          <Property Name="WarehouseID" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="IsBook" Type="Boolean" Nullable="false" />
+          <Property Name="IsInvoice" Type="Boolean" Nullable="false" />
+          <Property Name="IsDefault" Type="Boolean" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GoodsIssueDetails" Relationship="TotalSalesPortalModel.FK_GoodsIssueDetails_Warehouses" FromRole="Warehouse" ToRole="GoodsIssueDetail" />
+          <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_Warehouses_Locations" FromRole="Warehouse" ToRole="Location" />
+        </EntityType>
+        <Association Name="FK_GoodsIssueDetails_Warehouses">
+          <End Type="TotalSalesPortalModel.Warehouse" Role="Warehouse" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.GoodsIssueDetail" Role="GoodsIssueDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="GoodsIssueDetail">
+              <PropertyRef Name="WarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Warehouses_Locations">
+          <End Type="TotalSalesPortalModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.Warehouse" Role="Warehouse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="Warehouse">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="CustomerBase">
+          <Property Type="Int32" Name="CustomerID" Nullable="false" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CodeAndName" Nullable="false" MaxLength="153" />
+          <Property Type="String" Name="OfficialName" Nullable="true" MaxLength="150" />
+          <Property Type="DateTime" Name="Birthday" Nullable="true" Precision="23" />
+          <Property Type="String" Name="VATCode" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="Telephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="BillingAddress" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="ShippingAddress" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="CustomerCategoryID" Nullable="false" />
+          <Property Type="String" Name="CustomerCategoryName" Nullable="false" MaxLength="100" />
+          <Property Type="Boolean" Name="ShowDiscount" Nullable="false" />
+          <Property Type="Int32" Name="TerritoryID" Nullable="false" />
+          <Property Type="String" Name="EntireTerritoryEntireName" Nullable="false" MaxLength="508" />
+          <Property Type="Int32" Name="PaymentTermID" Nullable="false" />
+          <Property Type="Int32" Name="PriceCategoryID" Nullable="false" />
+          <Property Type="String" Name="PriceCategoryCode" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="SalespersonID" Nullable="false" />
+          <Property Type="String" Name="SalespersonName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="WarehouseID" Nullable="true" />
+          <Property Type="String" Name="WarehouseCode" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="WarehouseName" Nullable="true" MaxLength="60" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7984,6 +8125,52 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Warehouses">
+            <EntityTypeMapping TypeName="TotalSalesPortalModel.Warehouse">
+              <MappingFragment StoreEntitySet="Warehouses">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="IsInvoice" ColumnName="IsInvoice" />
+                <ScalarProperty Name="IsBook" ColumnName="IsBook" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="WarehouseCategoryID" ColumnName="WarehouseCategoryID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetWarehouses" FunctionName="TotalSalesPortalModel.Store.GetWarehouses">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCustomerBases" FunctionName="TotalSalesPortalModel.Store.GetCustomerBases">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalSalesPortalModel.CustomerBase">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CodeAndName" ColumnName="CodeAndName" />
+                <ScalarProperty Name="OfficialName" ColumnName="OfficialName" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="VATCode" ColumnName="VATCode" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
+                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="CustomerCategoryID" ColumnName="CustomerCategoryID" />
+                <ScalarProperty Name="CustomerCategoryName" ColumnName="CustomerCategoryName" />
+                <ScalarProperty Name="ShowDiscount" ColumnName="ShowDiscount" />
+                <ScalarProperty Name="TerritoryID" ColumnName="TerritoryID" />
+                <ScalarProperty Name="EntireTerritoryEntireName" ColumnName="EntireTerritoryEntireName" />
+                <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
+                <ScalarProperty Name="PriceCategoryID" ColumnName="PriceCategoryID" />
+                <ScalarProperty Name="PriceCategoryCode" ColumnName="PriceCategoryCode" />
+                <ScalarProperty Name="SalespersonID" ColumnName="SalespersonID" />
+                <ScalarProperty Name="SalespersonName" ColumnName="SalespersonName" />
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+                <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
+                <ScalarProperty Name="WarehouseName" ColumnName="WarehouseName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

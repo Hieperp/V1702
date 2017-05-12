@@ -31,9 +31,9 @@ namespace TotalPortal.Areas.Commons.APIs
         }
 
 
-        public JsonResult SearchCustomers(string searchText)
+        public JsonResult GetCustomerBases(string searchText, int warehouseTaskID)
         {
-            var result = customerRepository.SearchCustomers(searchText).Select(s => new { s.CustomerID, CodeAndName = s.Code + "  -  " + s.Name, s.Code, s.Name, s.OfficialName, s.Birthday, s.VATCode, s.Telephone, s.BillingAddress, s.ShippingAddress, s.CustomerCategoryID, CustomerCategoryName = s.CustomerCategory.Name, ShowDiscount = s.CustomerCategory.ShowDiscount, TerritoryID = s.TerritoryID, EntireTerritoryEntireName = s.EntireTerritory.EntireName, PaymentTermID = s.CustomerCategory.PaymentTermID, PriceCategoryID = s.PriceCategoryID, PriceCategoryCode = s.PriceCategory.Code, SalespersonID = s.SalespersonID, SalespersonName = s.Employee.Name });
+            var result = customerRepository.GetCustomerBases(searchText, warehouseTaskID);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

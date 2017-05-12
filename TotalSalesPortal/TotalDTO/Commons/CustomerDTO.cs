@@ -32,6 +32,10 @@ namespace TotalDTO.Commons
         int PriceCategoryID { get; set; }
         string PriceCategoryCode { get; set; }
         bool ShowDiscount { get; set; }
+
+        int WarehouseID { get; set; }
+        string WarehouseCode { get; set; }
+        string WarehouseName { get; set; }
     }
 
     public class CustomerBaseDTO : BaseDTO, ICustomerBaseDTO
@@ -83,6 +87,13 @@ namespace TotalDTO.Commons
         public int PriceCategoryID { get; set; }
         [Display(Name = "Bảng giá")]
         public string PriceCategoryCode { get; set; }
+
+        [Display(Name = "Mã kho")]
+        public int WarehouseID { get; set; }
+        [Display(Name = "Mã kho")]
+        public string WarehouseCode { get; set; }
+        [Display(Name = "Kho hàng")]
+        public string WarehouseName { get; set; }
     }
 
 

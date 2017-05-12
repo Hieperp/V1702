@@ -147,6 +147,7 @@ namespace TotalPortal.App_Start
                 kernel.Bind<IAspNetUserRepository>().To<AspNetUserRepository>();
                 kernel.Bind<ICommodityRepository>().To<CommodityRepository>();
                 kernel.Bind<ICustomerRepository>().To<CustomerRepository>();
+                kernel.Bind<IWarehouseRepository>().To<WarehouseRepository>();
                 kernel.Bind<IEmployeeRepository>().To<EmployeeRepository>();
                 kernel.Bind<IVoidTypeRepository>().To<VoidTypeRepository>();
                 kernel.Bind<IPromotionRepository>().To<PromotionRepository>();

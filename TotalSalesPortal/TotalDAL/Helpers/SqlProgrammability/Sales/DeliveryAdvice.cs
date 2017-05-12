@@ -29,6 +29,9 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
             //this.GetCommoditiesInWarehouses("GetCommoditiesInWarehousesIncludeOutOfStock", false, true, true, true);
 
+            this.GetCustomerBases();
+            this.GetWarehouses();
+
             this.GetDeliveryAdviceViewDetails();
 
             this.GetDeliveryAdvicePendingCustomers();
@@ -310,7 +313,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
                 SqlProgrammability.Inventories.Inventories inventories = new Inventories.Inventories(this.totalSalesPortalEntities);
 
                 queryString = queryString + "               DECLARE @WarehouseIDList varchar(555)        DECLARE @CommodityIDList varchar(3999) " + "\r\n";
-                queryString = queryString + "               SELECT  @WarehouseIDList = STUFF((SELECT ',' + CAST(WarehouseID AS varchar) FROM Warehouses WHERE LocationID = @LocationID AND IsBook = 1 FOR XML PATH('')) ,1,1,'') " + "\r\n";
+                queryString = queryString + "               SELECT  @WarehouseIDList = STUFF((SELECT ',' + CAST(WarehouseID AS varchar) FROM Warehouses WHERE LocationID = @LocationID AND (WarehouseID = @WarehouseID OR @WarehouseID IS NULL) AND IsBook = 1 FOR XML PATH('')) ,1,1,'') " + "\r\n";
                 queryString = queryString + "               SELECT  @CommodityIDList = STUFF((SELECT ',' + CAST(CommodityID AS varchar) FROM @Commodities FOR XML PATH('')) ,1,1,'') " + "\r\n";
 
 
@@ -430,7 +433,47 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             return queryString;
         }
 
+        private void GetCustomerBases()
+        {
+            string queryString;
 
+            queryString = " @SearchText nvarchar(60), @WarehouseTaskID int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      TOP 30 Customers.CustomerID, Customers.Code, Customers.Name, Customers.Code + ' - ' + Customers.Name AS CodeAndName, Customers.OfficialName, Customers.Birthday, Customers.VATCode, Customers.Telephone, Customers.BillingAddress, Customers.ShippingAddress, Customers.CustomerCategoryID, CustomerCategories.Name AS CustomerCategoryName, CustomerCategories.ShowDiscount, Customers.TerritoryID, EntireTerritories.EntireName AS EntireTerritoryEntireName, CustomerCategories.PaymentTermID, Customers.PriceCategoryID, PriceCategories.Code AS PriceCategoryCode, Customers.SalespersonID, Employees.Name AS SalespersonName, Warehouses.WarehouseID, Warehouses.Code AS WarehouseCode, Warehouses.Name AS WarehouseName " + "\r\n";
+            queryString = queryString + "       FROM        Customers " + "\r\n";
+            queryString = queryString + "                   INNER JOIN PriceCategories ON Customers.IsCustomer = 1 AND (@SearchText = '' OR Customers.Code LIKE '%' + @SearchText + '%' OR Customers.Name LIKE '%' + @SearchText + '%' OR Customers.OfficialName LIKE '%' + @SearchText + '%') AND Customers.PriceCategoryID = PriceCategories.PriceCategoryID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN EntireTerritories ON Customers.TerritoryID = EntireTerritories.TerritoryID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Employees ON Customers.SalespersonID = Employees.EmployeeID " + "\r\n";
+
+            queryString = queryString + "                   LEFT JOIN CustomerWarehouses ON Customers.CustomerID = CustomerWarehouses.CustomerID AND CustomerWarehouses.WarehouseTaskID = @WarehouseTaskID " + "\r\n";
+            queryString = queryString + "                   LEFT JOIN Warehouses ON CustomerWarehouses.WarehouseID = Warehouses.WarehouseID " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("GetCustomerBases", queryString);
+        }
+
+        private void GetWarehouses()
+        {
+            string queryString;
+
+            queryString = " @CustomerID int, @SearchText nvarchar(60), @WarehouseTaskIDList varchar(600) " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      WarehouseID, Code, Name, WarehouseCategoryID, LocationID, IsBook, IsInvoice, IsDefault, Remarks " + "\r\n";
+            queryString = queryString + "       FROM        Warehouses " + "\r\n";
+            queryString = queryString + "       WHERE      (@SearchText = '' OR Code LIKE '%' + @SearchText + '%' OR Name LIKE '%' + @SearchText + '%') AND WarehouseID IN (SELECT WarehouseID FROM CustomerWarehouses WHERE CustomerID = @CustomerID AND InActive = 0 AND WarehouseTaskID IN (SELECT Id FROM dbo.SplitToIntList (@WarehouseTaskIDList)) )  " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("GetWarehouses", queryString);
+        }
 
 
         #region X

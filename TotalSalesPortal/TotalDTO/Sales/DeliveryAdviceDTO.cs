@@ -25,10 +25,7 @@ namespace TotalDTO.Sales
         public virtual int CustomerID { get; set; }
         public virtual int ReceiverID { get; set; }
 
-        [Display(Name = "Kho hàng")]
-        public int WarehouseID { get; set; }
-        [Display(Name = "Mã kho")]
-        public string WarehouseCode { get; set; }
+        public virtual Nullable<int> WarehouseID { get; set; }
 
         [Required]
         [Display(Name = "Bảng giá")]
@@ -94,6 +91,11 @@ namespace TotalDTO.Sales
         [Display(Name = "Đơn vị, người nhận hàng")]
         [UIHint("Commons/CustomerBase")]
         public CustomerBaseDTO Receiver { get; set; }
+
+        public override Nullable<int> WarehouseID { get { return (this.Warehouse != null ? this.Warehouse.WarehouseID : null); } }
+        [Display(Name = "Kho hàng")]
+        [UIHint("AutoCompletes/WarehouseBase")]
+        public WarehouseBaseDTO Warehouse { get; set; }
 
         public override Nullable<int> PromotionID { get { return (this.Promotion != null ? this.Promotion.PromotionID : null); } }
         [UIHint("Commons/Promotion")]

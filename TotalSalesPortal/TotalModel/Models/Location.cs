@@ -24,6 +24,7 @@ namespace TotalModel.Models
             this.DeliveryAdvices = new HashSet<DeliveryAdvice>();
             this.HandlingUnits = new HashSet<HandlingUnit>();
             this.SalesOrders = new HashSet<SalesOrder>();
+            this.Warehouses = new HashSet<Warehouse>();
         }
     
         public int LocationID { get; set; }
@@ -52,5 +53,7 @@ namespace TotalModel.Models
         public virtual ICollection<HandlingUnit> HandlingUnits { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrder> SalesOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Warehouse> Warehouses { get; set; }
     }
 }

@@ -10,6 +10,9 @@
 
     @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
 
+    @Html.Hidden("WarehouseTaskID", (int)@ViewBag.WarehouseTaskID);
+    @Html.Hidden("WarehouseTaskIDList", (string)@ViewBag.WarehouseTaskIDList);
+    
     @Html.HiddenFor(model => model.ShowDiscount);
 
     @Html.HiddenFor(model => model.HasSalesOrder)
@@ -33,7 +36,7 @@
     @Html.HiddenFor(model => model.Promotion.ApplyToAllCustomers);
     @Html.HiddenFor(model => model.Promotion.ApplyToAllCommodities);
     @Html.HiddenFor(model => model.Promotion.Remarks);
-    
+
     @Html.HiddenFor(model => model.Description);
 
     @(Html.Kendo().TabStrip()
@@ -92,8 +95,8 @@
         if (hasSalesOrder == false) {
             if ($("#Customer_CustomerID").val() === null || $("#Customer_CustomerID").val() === "")
                 return false;
-            
-            if (promotionGrid != undefined){
+
+            if (promotionGrid != undefined) {
                 var selectedPromotionItem = promotionGrid.dataItem(promotionGrid.select());
                 if (selectedPromotionItem === undefined || selectedPromotionItem === null)
                     return false;
@@ -166,7 +169,7 @@
 
                 $("#PriceCategoryID").val(selectedDataItem === undefined || selectedDataItem.PriceCategoryID === undefined ? null : selectedDataItem.PriceCategoryID);
                 $("#PriceCategoryCode").val(selectedDataItem === undefined || selectedDataItem.PriceCategoryCode === undefined ? null : selectedDataItem.PriceCategoryCode);
-                
+
                 $("#VATPercent").val(selectedDataItem === undefined || selectedDataItem.VATPercent === undefined ? null : selectedDataItem.VATPercent);
                 $("#PaymentTermID").val(selectedDataItem === undefined || selectedDataItem.PaymentTermID === undefined ? null : selectedDataItem.PaymentTermID);
 
@@ -175,7 +178,7 @@
 
                 $("#ShippingAddress").val(selectedDataItem === undefined || selectedDataItem.ShippingAddress === undefined ? null : selectedDataItem.ShippingAddress);
                 $("#Description").val(selectedDataItem === undefined || selectedDataItem.Description === undefined ? null : selectedDataItem.Description);
-                
+
             }
 
             $("#Promotion_PromotionID").val(selectedPromotionItem === undefined || selectedPromotionItem.PromotionID === undefined ? null : selectedPromotionItem.PromotionID);

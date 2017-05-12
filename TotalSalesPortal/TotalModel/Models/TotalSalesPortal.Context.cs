@@ -67,6 +67,7 @@ namespace TotalModel.Models
         public virtual DbSet<Report> Reports { get; set; }
         public virtual DbSet<SalesOrder> SalesOrders { get; set; }
         public virtual DbSet<SalesOrderDetail> SalesOrderDetails { get; set; }
+        public virtual DbSet<Warehouse> Warehouses { get; set; }
     
         public virtual ObjectResult<Nullable<int>> GetAccessLevel(Nullable<int> userID, Nullable<int> nMVNTaskID, Nullable<int> organizationalUnitID)
         {
@@ -1111,6 +1112,53 @@ namespace TotalModel.Models
                 new ObjectParameter("LocationID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DeliveryAdvicePendingSalesOrder>("GetDeliveryAdvicePendingSalesOrders", locationIDParameter);
+        }
+    
+        public virtual ObjectResult<Warehouse> GetWarehouses(Nullable<int> customerID, string searchText, string warehouseTaskIDList)
+        {
+            var customerIDParameter = customerID.HasValue ?
+                new ObjectParameter("CustomerID", customerID) :
+                new ObjectParameter("CustomerID", typeof(int));
+    
+            var searchTextParameter = searchText != null ?
+                new ObjectParameter("SearchText", searchText) :
+                new ObjectParameter("SearchText", typeof(string));
+    
+            var warehouseTaskIDListParameter = warehouseTaskIDList != null ?
+                new ObjectParameter("WarehouseTaskIDList", warehouseTaskIDList) :
+                new ObjectParameter("WarehouseTaskIDList", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Warehouse>("GetWarehouses", customerIDParameter, searchTextParameter, warehouseTaskIDListParameter);
+        }
+    
+        public virtual ObjectResult<Warehouse> GetWarehouses(Nullable<int> customerID, string searchText, string warehouseTaskIDList, MergeOption mergeOption)
+        {
+            var customerIDParameter = customerID.HasValue ?
+                new ObjectParameter("CustomerID", customerID) :
+                new ObjectParameter("CustomerID", typeof(int));
+    
+            var searchTextParameter = searchText != null ?
+                new ObjectParameter("SearchText", searchText) :
+                new ObjectParameter("SearchText", typeof(string));
+    
+            var warehouseTaskIDListParameter = warehouseTaskIDList != null ?
+                new ObjectParameter("WarehouseTaskIDList", warehouseTaskIDList) :
+                new ObjectParameter("WarehouseTaskIDList", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Warehouse>("GetWarehouses", mergeOption, customerIDParameter, searchTextParameter, warehouseTaskIDListParameter);
+        }
+    
+        public virtual ObjectResult<CustomerBase> GetCustomerBases(string searchText, Nullable<int> warehouseTaskID)
+        {
+            var searchTextParameter = searchText != null ?
+                new ObjectParameter("SearchText", searchText) :
+                new ObjectParameter("SearchText", typeof(string));
+    
+            var warehouseTaskIDParameter = warehouseTaskID.HasValue ?
+                new ObjectParameter("WarehouseTaskID", warehouseTaskID) :
+                new ObjectParameter("WarehouseTaskID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CustomerBase>("GetCustomerBases", searchTextParameter, warehouseTaskIDParameter);
         }
     }
 }

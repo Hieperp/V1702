@@ -88,6 +88,7 @@
     <Compile Include="Commons\EmployeeDTO.cs" />
     <Compile Include="Commons\PromotionDTO.cs" />
     <Compile Include="Commons\VoidTypeDTO.cs" />
+    <Compile Include="Commons\WarehouseDTO.cs" />
     <Compile Include="CustomValidation.cs" />
     <Compile Include="Helpers\AmountDetailDTO.cs" />
     <Compile Include="Helpers\AmountDTO.cs" />
@@ -95,10 +96,8 @@
     <Compile Include="Helpers\DiscountVATAmountDTO.cs" />
     <Compile Include="Helpers\FreeQuantityDiscountVATAmountDetailDTO.cs" />
     <Compile Include="Helpers\FreeQuantityDiscountVATAmountDTO.cs" />
-    <Compile Include="Helpers\Interfaces\IComboWarehousePriceCategory.cs" />
     <Compile Include="Helpers\Interfaces\IPriceCategory.cs" />
     <Compile Include="Helpers\Interfaces\ISearchCustomer.cs" />
-    <Compile Include="Helpers\Interfaces\IWarehouse.cs" />
     <Compile Include="Helpers\ListedAmountDiscountVATAmountDetailDTO.cs" />
     <Compile Include="Helpers\ListedAmountDiscountVATAmountDTO.cs" />
     <Compile Include="Helpers\QuantityDetailDTO.cs" />

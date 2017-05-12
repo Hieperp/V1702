@@ -41,6 +41,13 @@ namespace TotalPortal.Areas.Sales.Controllers
             commodityTypeIDList.Append(","); commodityTypeIDList.Append((int)GlobalEnums.CommodityTypeID.Consumables);
 
             RequireJsOptions.Add("commodityTypeIDList", commodityTypeIDList.ToString(), RequireJsOptionsScope.Page);
+
+
+            StringBuilder warehouseTaskIDList = new StringBuilder();
+            warehouseTaskIDList.Append((int)GlobalEnums.WarehouseTaskID.DeliveryAdvice);
+
+            ViewBag.WarehouseTaskID = (int)GlobalEnums.WarehouseTaskID.DeliveryAdvice;
+            ViewBag.WarehouseTaskIDList = warehouseTaskIDList.ToString();
         }
 
         protected override bool GetShowDiscount(SalesOrderViewModel simpleViewModel)

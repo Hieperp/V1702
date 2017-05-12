@@ -23,13 +23,11 @@ namespace TotalDAL.Repositories.Commons
             return suppliers;
         }
 
-        public IList<Customer> SearchCustomers(string searchText)
+        public IList<CustomerBase> GetCustomerBases(string searchText, int warehouseTaskID)
         {
-            this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = false;
-            List<Customer> customers = this.TotalSalesPortalEntities.Customers.Include(ca => ca.CustomerCategory).Include(e => e.EntireTerritory).Include(pr => pr.PriceCategory).Include(ep => ep.Employee).Where(w => w.IsCustomer && (w.Code.Contains(searchText) || w.Name.Contains(searchText) || w.OfficialName.Contains(searchText))).OrderByDescending(or => or.CustomerID).Take(30).ToList();
-            this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = true;
+            List<CustomerBase> customerBases = this.TotalSalesPortalEntities.GetCustomerBases(searchText, warehouseTaskID).ToList();
 
-            return customers;
+            return customerBases;
         }
 
         public IList<Customer> SearchCustomersByIndex(int customerCategoryID, int customerTypeID, int territoryID)

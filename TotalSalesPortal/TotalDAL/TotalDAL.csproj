@@ -59,6 +59,7 @@
     <Compile Include="Repositories\Commons\PackingMaterialRepository.cs" />
     <Compile Include="Repositories\Commons\VehicleRepository.cs" />
     <Compile Include="Repositories\Commons\VoidTypeRepository.cs" />
+    <Compile Include="Repositories\Commons\WarehouseRepository.cs" />
     <Compile Include="Repositories\Inventories\GoodsDeliveryRepository.cs" />
     <Compile Include="Repositories\Inventories\HandlingUnitRepository.cs" />
     <Compile Include="Repositories\Sales\SalesOrderRepository.cs" />

@@ -1,0 +1,67 @@
+﻿@using TotalPortal.Configuration
+
+@model TotalDTO.Commons.IWarehouseBaseDTO
+
+@Html.HiddenFor(model => model.WarehouseID)
+@Html.HiddenFor(model => model.Code)
+
+@Html.Hidden("TempName", (@Model != null ? @Model.Name : ""))
+
+<div class="form-group">
+    @Html.Label((ViewData["WarehouseDisplayName"] != null ? (ViewData["WarehouseDisplayName"]).ToString() : "Kho hàng"))
+    <div class="div-input">
+
+        @(Html.Kendo().AutoCompleteFor(model => model.Name)
+        .DataTextField("Name")
+        .Filter("contains")
+        .MinLength(SettingsManager.AutoCompleteMinLenght)
+        .Placeholder("Chọn nhân viên...")
+        .DataSource(source =>
+        {
+            source.Read(read =>
+            {
+                read.Action("GetWarehouses", "WarehouseAPIs", new { area = "Commons" }).Data(@<text> function(e) {return {customerID: $("#Customer_CustomerID").val(), searchText: e.filter.filters[0].value, warehouseTaskIDList: ($("#WarehouseTaskIDList").val() != undefined? $("#WarehouseTaskIDList").val(): 0)};} </text>);//Send parameter to controller search action
+            })
+            .ServerFiltering(true);
+        })
+        .Events(e =>
+        {
+            e.Select("warehouse_Select");
+        })
+        .HtmlAttributes(new { @class = "left-panel-input warehouseBase_AutoComplete" })
+        )
+
+    </div>
+    <div class="div-validation-message">
+        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    getWarehouseModelID = function (modelID) {
+        return modelID.substring(0, modelID.length - 4); //At first: Pass: modelID = this.element.attr('id') = 'Warehouse_Name', Then: Return: ('Warehouse_Name').substring(0, modelID.length - 4) = 'Warehouse_'
+    }
+
+    warehouse_Select = function (e) {
+        var modelID = getWarehouseModelID(this.element.attr('id'));
+
+        var dataItem = e.sender.dataItem(e.item.index());
+
+        $("#" + modelID + "WarehouseID").val(dataItem.WarehouseID);
+        $("#" + modelID + "Code").val(dataItem.Code);
+
+        //Remember last AutoComplete value
+        $("#" + modelID + "TempName").val(dataItem.Name);
+
+        //Trigger change event. This event is not used in this editor template. It will be catch out side of this editor template
+        $("#" + modelID + "WarehouseID").trigger("change");
+    }
+
+    $(".warehouseBase_AutoComplete").focusout(function (e) {
+        var modelID = getWarehouseModelID(this.id);
+        $(this).val($("#" + modelID + "TempName").val());
+    });
+
+</script>
+

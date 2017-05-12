@@ -28,16 +28,16 @@
                 {
                     source.Read(read =>
                     {
-                        read.Action("SearchCustomers", "CustomerAPIs", new { area = "Commons" }).Data(@<text> function(e) {return {searchText: e.filter.filters[0].value};} </text>);//Send parameter to controller search action
+                        read.Action("GetCustomerBases", "CustomerAPIs", new { area = "Commons" }).Data(@<text> function(e) {return {searchText: e.filter.filters[0].value, warehouseTaskID: ($("#WarehouseTaskID").val() != undefined? $("#WarehouseTaskID").val(): 0)};} </text>);
                     })
                     .ServerFiltering(true);
                 })
-                        .Events(e =>
-                        {
-                            e.Select("customer_Select");
-                            e.DataBound("customer_DataBound");
-                        })
-                        .HtmlAttributes(new { @class = "right-panel-input customerBase_AutoComplete" })
+                .Events(e =>
+                {
+                    e.Select("customer_Select");
+                    e.DataBound("customer_DataBound");
+                })
+                .HtmlAttributes(new { @class = "right-panel-input customerBase_AutoComplete" })
             )
 
         </div>
@@ -86,6 +86,9 @@
         $("#" + modelID + "PaymentTermID").val(dataItem.PaymentTermID);
         $("#" + modelID + "PriceCategoryID").val(dataItem.PriceCategoryID);
         $("#" + modelID + "PriceCategoryCode").val(dataItem.PriceCategoryCode);
+        $("#" + modelID + "WarehouseID").val(dataItem.WarehouseID);
+        $("#" + modelID + "WarehouseCode").val(dataItem.WarehouseCode);
+        $("#" + modelID + "WarehouseName").val(dataItem.WarehouseName);
         $("#" + modelID + "ShowDiscount").val(dataItem.ShowDiscount);
 
         //Set display label
