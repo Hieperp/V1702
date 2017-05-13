@@ -54,5 +54,8 @@ namespace TotalModel.Models
         public string ReceiverSalespersonName { get; set; }
         public int ReceiverPriceCategoryID { get; set; }
         public string ReceiverPriceCategoryCode { get; set; }
+        public int WarehouseID { get; set; }
+        public string WarehouseCode { get; set; }
+        public string WarehouseName { get; set; }
     }
 }

@@ -6058,6 +6058,9 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="String" Name="ReceiverSalespersonName" Nullable="false" MaxLength="1" />
           <Property Type="Int32" Name="ReceiverPriceCategoryID" Nullable="false" />
           <Property Type="String" Name="ReceiverPriceCategoryCode" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="WarehouseID" Nullable="false" />
+          <Property Type="String" Name="WarehouseCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="WarehouseName" Nullable="false" MaxLength="60" />
         </ComplexType>
         <ComplexType Name="DeliveryAdvicePendingSalesOrderDetail">
           <Property Type="Int32" Name="SalesOrderID" Nullable="false" />
@@ -8060,6 +8063,9 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
                 <ScalarProperty Name="ReceiverSalespersonName" ColumnName="ReceiverSalespersonName" />
                 <ScalarProperty Name="ReceiverPriceCategoryID" ColumnName="ReceiverPriceCategoryID" />
                 <ScalarProperty Name="ReceiverPriceCategoryCode" ColumnName="ReceiverPriceCategoryCode" />
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+                <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
+                <ScalarProperty Name="WarehouseName" ColumnName="WarehouseName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
