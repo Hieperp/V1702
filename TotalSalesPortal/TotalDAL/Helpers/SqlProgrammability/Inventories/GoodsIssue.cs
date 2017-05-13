@@ -286,9 +286,15 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + " AS " + "\r\n";
 
             queryString = queryString + "       IF (@SaveRelativeOption = 1) " + "\r\n";
-            queryString = queryString + "           INSERT INTO GoodsIssueDetails SELECT * FROM TotalSalesPortal.dbo.GoodsIssueDetails WHERE GoodsIssueID = @EntityID " + "\r\n";
+            queryString = queryString + "           BEGIN " + "\r\n";
+            queryString = queryString + "               INSERT INTO GoodsIssues SELECT * FROM TotalSalesPortal.dbo.GoodsIssues WHERE GoodsIssueID = @EntityID " + "\r\n";
+            queryString = queryString + "               INSERT INTO GoodsIssueDetails SELECT * FROM TotalSalesPortal.dbo.GoodsIssueDetails WHERE GoodsIssueID = @EntityID " + "\r\n";
+            queryString = queryString + "           END " + "\r\n";
             queryString = queryString + "       ELSE " + "\r\n";
-            queryString = queryString + "           DELETE FROM GoodsIssueDetails WHERE GoodsIssueID = @EntityID " + "\r\n";
+            queryString = queryString + "           BEGIN " + "\r\n";
+            queryString = queryString + "               DELETE FROM GoodsIssueDetails WHERE GoodsIssueID = @EntityID " + "\r\n";
+            queryString = queryString + "               DELETE FROM GoodsIssues WHERE GoodsIssueID = @EntityID " + "\r\n";
+            queryString = queryString + "           END " + "\r\n";
 
             System.Diagnostics.Debug.WriteLine(queryString);
         }
