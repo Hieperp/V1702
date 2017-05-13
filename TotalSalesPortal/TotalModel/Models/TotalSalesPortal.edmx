@@ -1596,6 +1596,18 @@ warning 6035: The relationship 'FK_GoodsDeliveries_AspNetUsers2' has columns tha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_GoodsIssues_Warehouses">
+          <End Role="Warehouses" Type="Self.Warehouses" Multiplicity="1" />
+          <End Role="GoodsIssues" Type="Self.GoodsIssues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouses">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="GoodsIssues">
+              <PropertyRef Name="WarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_HandlingUnitDetails_GoodsIssueDetails">
           <End Role="GoodsIssueDetails" Type="Self.GoodsIssueDetails" Multiplicity="1" />
           <End Role="HandlingUnitDetails" Type="Self.HandlingUnitDetails" Multiplicity="*" />
@@ -2595,6 +2607,10 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
             <End Role="PaymentTerms" EntitySet="PaymentTerms" />
             <End Role="GoodsIssues" EntitySet="GoodsIssues" />
           </AssociationSet>
+          <AssociationSet Name="FK_GoodsIssues_Warehouses" Association="Self.FK_GoodsIssues_Warehouses">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="GoodsIssues" EntitySet="GoodsIssues" />
+          </AssociationSet>
           <AssociationSet Name="FK_HandlingUnitDetails_GoodsIssueDetails" Association="Self.FK_HandlingUnitDetails_GoodsIssueDetails">
             <End Role="GoodsIssueDetails" EntitySet="GoodsIssueDetails" />
             <End Role="HandlingUnitDetails" EntitySet="HandlingUnitDetails" />
@@ -3513,6 +3529,10 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <AssociationSet Name="FK_SalesOrders_Warehouses" Association="TotalSalesPortalModel.FK_SalesOrders_Warehouses">
             <End Role="Warehouse" EntitySet="Warehouses" />
             <End Role="SalesOrder" EntitySet="SalesOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoodsIssues_Warehouses" Association="TotalSalesPortalModel.FK_GoodsIssues_Warehouses">
+            <End Role="Warehouse" EntitySet="Warehouses" />
+            <End Role="GoodsIssue" EntitySet="GoodsIssues" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
@@ -4885,6 +4905,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Name="TotalCashDiscount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="VATPercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="WarehouseID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Warehouse" Relationship="TotalSalesPortalModel.FK_GoodsIssues_Warehouses" FromRole="GoodsIssue" ToRole="Warehouse" />
         </EntityType>
         <Association Name="FK_AccountInvoiceDetails_GoodsIssueDetails">
           <End Type="TotalSalesPortalModel.GoodsIssueDetail" Role="GoodsIssueDetail" Multiplicity="1" />
@@ -6275,6 +6296,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_Warehouses_Locations" FromRole="Warehouse" ToRole="Location" />
           <NavigationProperty Name="DeliveryAdvices" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Warehouses" FromRole="Warehouse" ToRole="DeliveryAdvice" />
           <NavigationProperty Name="SalesOrders" Relationship="TotalSalesPortalModel.FK_SalesOrders_Warehouses" FromRole="Warehouse" ToRole="SalesOrder" />
+          <NavigationProperty Name="GoodsIssues" Relationship="TotalSalesPortalModel.FK_GoodsIssues_Warehouses" FromRole="Warehouse" ToRole="GoodsIssue" />
         </EntityType>
         <Association Name="FK_GoodsIssueDetails_Warehouses">
           <End Type="TotalSalesPortalModel.Warehouse" Role="Warehouse" Multiplicity="0..1" />
@@ -6345,6 +6367,18 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
               <PropertyRef Name="WarehouseID" />
             </Principal>
             <Dependent Role="SalesOrder">
+              <PropertyRef Name="WarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoodsIssues_Warehouses">
+          <End Type="TotalSalesPortalModel.Warehouse" Role="Warehouse" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.GoodsIssue" Role="GoodsIssue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="GoodsIssue">
               <PropertyRef Name="WarehouseID" />
             </Dependent>
           </ReferentialConstraint>

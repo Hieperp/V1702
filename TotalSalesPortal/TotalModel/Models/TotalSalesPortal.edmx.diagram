@@ -132,6 +132,7 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssueDetails_Warehouses" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdvices_Warehouses" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesOrders_Warehouses" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssues_Warehouses" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
