@@ -32,5 +32,8 @@ namespace TotalModel.Models
         public string ShippingAddress { get; set; }
         public int PaymentTermID { get; set; }
         public decimal VATPercent { get; set; }
+        public int WarehouseID { get; set; }
+        public string WarehouseCode { get; set; }
+        public string WarehouseName { get; set; }
     }
 }

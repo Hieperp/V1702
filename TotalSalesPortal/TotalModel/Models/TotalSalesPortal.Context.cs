@@ -245,7 +245,7 @@ namespace TotalModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GoodsIssueIndex>("GetGoodsIssueIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
         }
     
-        public virtual ObjectResult<GoodsIssueViewDetail> GetGoodsIssueViewDetails(Nullable<int> goodsIssueID, Nullable<int> locationID, Nullable<int> deliveryAdviceID, Nullable<int> customerID, Nullable<int> receiverID, string shippingAddress, Nullable<decimal> vATPercent, Nullable<bool> isReadonly)
+        public virtual ObjectResult<GoodsIssueViewDetail> GetGoodsIssueViewDetails(Nullable<int> goodsIssueID, Nullable<int> locationID, Nullable<int> deliveryAdviceID, Nullable<int> customerID, Nullable<int> receiverID, Nullable<int> warehouseID, string shippingAddress, Nullable<decimal> vATPercent, Nullable<bool> isReadonly)
         {
             var goodsIssueIDParameter = goodsIssueID.HasValue ?
                 new ObjectParameter("GoodsIssueID", goodsIssueID) :
@@ -267,6 +267,10 @@ namespace TotalModel.Models
                 new ObjectParameter("ReceiverID", receiverID) :
                 new ObjectParameter("ReceiverID", typeof(int));
     
+            var warehouseIDParameter = warehouseID.HasValue ?
+                new ObjectParameter("WarehouseID", warehouseID) :
+                new ObjectParameter("WarehouseID", typeof(int));
+    
             var shippingAddressParameter = shippingAddress != null ?
                 new ObjectParameter("ShippingAddress", shippingAddress) :
                 new ObjectParameter("ShippingAddress", typeof(string));
@@ -279,7 +283,7 @@ namespace TotalModel.Models
                 new ObjectParameter("IsReadonly", isReadonly) :
                 new ObjectParameter("IsReadonly", typeof(bool));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GoodsIssueViewDetail>("GetGoodsIssueViewDetails", goodsIssueIDParameter, locationIDParameter, deliveryAdviceIDParameter, customerIDParameter, receiverIDParameter, shippingAddressParameter, vATPercentParameter, isReadonlyParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GoodsIssueViewDetail>("GetGoodsIssueViewDetails", goodsIssueIDParameter, locationIDParameter, deliveryAdviceIDParameter, customerIDParameter, receiverIDParameter, warehouseIDParameter, shippingAddressParameter, vATPercentParameter, isReadonlyParameter);
         }
     
         public virtual ObjectResult<PendingDeliveryAdviceCustomer> GetPendingDeliveryAdviceCustomers(Nullable<int> locationID)
@@ -865,7 +869,7 @@ namespace TotalModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("GetShowDiscount", userIDParameter, nMVNTaskIDParameter);
         }
     
-        public virtual ObjectResult<PendingDeliveryAdviceDescription> GetPendingDeliveryAdviceDescriptions(Nullable<int> locationID, Nullable<int> customerID, Nullable<int> receiverID, string shippingAddress, Nullable<decimal> vATPercent)
+        public virtual ObjectResult<PendingDeliveryAdviceDescription> GetPendingDeliveryAdviceDescriptions(Nullable<int> locationID, Nullable<int> customerID, Nullable<int> receiverID, Nullable<int> warehouseID, string shippingAddress, Nullable<decimal> vATPercent)
         {
             var locationIDParameter = locationID.HasValue ?
                 new ObjectParameter("LocationID", locationID) :
@@ -879,6 +883,10 @@ namespace TotalModel.Models
                 new ObjectParameter("ReceiverID", receiverID) :
                 new ObjectParameter("ReceiverID", typeof(int));
     
+            var warehouseIDParameter = warehouseID.HasValue ?
+                new ObjectParameter("WarehouseID", warehouseID) :
+                new ObjectParameter("WarehouseID", typeof(int));
+    
             var shippingAddressParameter = shippingAddress != null ?
                 new ObjectParameter("ShippingAddress", shippingAddress) :
                 new ObjectParameter("ShippingAddress", typeof(string));
@@ -887,7 +895,7 @@ namespace TotalModel.Models
                 new ObjectParameter("VATPercent", vATPercent) :
                 new ObjectParameter("VATPercent", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingDeliveryAdviceDescription>("GetPendingDeliveryAdviceDescriptions", locationIDParameter, customerIDParameter, receiverIDParameter, shippingAddressParameter, vATPercentParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingDeliveryAdviceDescription>("GetPendingDeliveryAdviceDescriptions", locationIDParameter, customerIDParameter, receiverIDParameter, warehouseIDParameter, shippingAddressParameter, vATPercentParameter);
         }
     
         public virtual ObjectResult<Nullable<bool>> GetShowDiscountByCustomer(Nullable<int> customerID)
@@ -1056,7 +1064,7 @@ namespace TotalModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DeliveryAdvicePendingCustomer>("GetDeliveryAdvicePendingCustomers", locationIDParameter);
         }
     
-        public virtual ObjectResult<DeliveryAdvicePendingSalesOrderDetail> GetDeliveryAdvicePendingSalesOrderDetails(Nullable<int> locationID, Nullable<int> deliveryAdviceID, Nullable<int> salesOrderID, Nullable<int> customerID, Nullable<int> receiverID, Nullable<int> priceCategoryID, string shippingAddress, Nullable<decimal> vATPercent, Nullable<System.DateTime> entryDate, string salesOrderDetailIDs, Nullable<bool> isReadonly)
+        public virtual ObjectResult<DeliveryAdvicePendingSalesOrderDetail> GetDeliveryAdvicePendingSalesOrderDetails(Nullable<int> locationID, Nullable<int> deliveryAdviceID, Nullable<int> salesOrderID, Nullable<int> customerID, Nullable<int> receiverID, Nullable<int> priceCategoryID, Nullable<int> warehouseID, string shippingAddress, Nullable<decimal> vATPercent, Nullable<System.DateTime> entryDate, string salesOrderDetailIDs, Nullable<bool> isReadonly)
         {
             var locationIDParameter = locationID.HasValue ?
                 new ObjectParameter("LocationID", locationID) :
@@ -1082,6 +1090,10 @@ namespace TotalModel.Models
                 new ObjectParameter("PriceCategoryID", priceCategoryID) :
                 new ObjectParameter("PriceCategoryID", typeof(int));
     
+            var warehouseIDParameter = warehouseID.HasValue ?
+                new ObjectParameter("WarehouseID", warehouseID) :
+                new ObjectParameter("WarehouseID", typeof(int));
+    
             var shippingAddressParameter = shippingAddress != null ?
                 new ObjectParameter("ShippingAddress", shippingAddress) :
                 new ObjectParameter("ShippingAddress", typeof(string));
@@ -1102,7 +1114,7 @@ namespace TotalModel.Models
                 new ObjectParameter("IsReadonly", isReadonly) :
                 new ObjectParameter("IsReadonly", typeof(bool));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DeliveryAdvicePendingSalesOrderDetail>("GetDeliveryAdvicePendingSalesOrderDetails", locationIDParameter, deliveryAdviceIDParameter, salesOrderIDParameter, customerIDParameter, receiverIDParameter, priceCategoryIDParameter, shippingAddressParameter, vATPercentParameter, entryDateParameter, salesOrderDetailIDsParameter, isReadonlyParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DeliveryAdvicePendingSalesOrderDetail>("GetDeliveryAdvicePendingSalesOrderDetails", locationIDParameter, deliveryAdviceIDParameter, salesOrderIDParameter, customerIDParameter, receiverIDParameter, priceCategoryIDParameter, warehouseIDParameter, shippingAddressParameter, vATPercentParameter, entryDateParameter, salesOrderDetailIDsParameter, isReadonlyParameter);
         }
     
         public virtual ObjectResult<DeliveryAdvicePendingSalesOrder> GetDeliveryAdvicePendingSalesOrders(Nullable<int> locationID)
