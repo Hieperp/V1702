@@ -44,9 +44,9 @@ namespace TotalPortal.Areas.Sales.Controllers
 
 
             StringBuilder warehouseTaskIDList = new StringBuilder();
-            warehouseTaskIDList.Append((int)GlobalEnums.WarehouseTaskID.DeliveryAdvice);
+            warehouseTaskIDList.Append((int)GlobalEnums.WarehouseTaskID.SalesOrder);
 
-            ViewBag.WarehouseTaskID = (int)GlobalEnums.WarehouseTaskID.DeliveryAdvice;
+            ViewBag.WarehouseTaskID = (int)GlobalEnums.WarehouseTaskID.SalesOrder;
             ViewBag.WarehouseTaskIDList = warehouseTaskIDList.ToString();
         }
 
