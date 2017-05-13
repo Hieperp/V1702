@@ -97,6 +97,7 @@
             @Html.EditorFor(d => d.ShippingAddress)
 
             @Html.EditorFor(d => d.Promotion)
+            @Html.DisplayFor(d => d.Warehouse, "Commons/WarehouseBase")
 
             @Html.Partial("~/Views/Helpers/Commons/_PriceCategory.cshtml")
         </div>
