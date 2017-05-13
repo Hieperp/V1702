@@ -295,7 +295,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "               DELETE FROM GoodsIssueDetails WHERE GoodsIssueID = @EntityID " + "\r\n";
             queryString = queryString + "               DELETE FROM GoodsIssues WHERE GoodsIssueID = @EntityID " + "\r\n";
             queryString = queryString + "           END " + "\r\n";
-
+            System.Diagnostics.Debug.WriteLine("--------");
             System.Diagnostics.Debug.WriteLine(queryString);
         }
 
