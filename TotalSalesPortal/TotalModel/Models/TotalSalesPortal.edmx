@@ -484,6 +484,7 @@
           <Property Name="DeliveryAdviceReferences" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="ReceiverID" Type="int" Nullable="false" />
+          <Property Name="WarehouseID" Type="int" Nullable="false" />
           <Property Name="ShippingAddress" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="StorekeeperID" Type="int" Nullable="false" />
           <Property Name="DeliveryDate" Type="datetime" />
@@ -4883,6 +4884,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <NavigationProperty Name="Receipts" Relationship="TotalSalesPortalModel.FK_Receipts_GoodsIssues" FromRole="GoodsIssue" ToRole="Receipt" />
           <Property Name="TotalCashDiscount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="VATPercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="WarehouseID" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_AccountInvoiceDetails_GoodsIssueDetails">
           <End Type="TotalSalesPortalModel.GoodsIssueDetail" Role="GoodsIssueDetail" Multiplicity="1" />
@@ -7608,6 +7610,7 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <EntitySetMapping Name="GoodsIssues">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.GoodsIssue">
               <MappingFragment StoreEntitySet="GoodsIssues">
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
                 <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
                 <ScalarProperty Name="TotalCashDiscount" ColumnName="TotalCashDiscount" />
                 <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />

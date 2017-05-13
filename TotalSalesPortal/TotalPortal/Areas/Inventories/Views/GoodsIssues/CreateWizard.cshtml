@@ -36,6 +36,10 @@
     @Html.HiddenFor(model => model.Receiver.SalespersonID)
     @Html.HiddenFor(model => model.Receiver.SalespersonName)
     
+    @Html.HiddenFor(model => model.Warehouse.WarehouseID);
+    @Html.HiddenFor(model => model.Warehouse.Code);
+    @Html.HiddenFor(model => model.Warehouse.Name);
+    
     @Html.HiddenFor(model => model.DeliveryAdvice.DeliveryAdviceID);
     @Html.HiddenFor(model => model.DeliveryAdvice.Reference);
     @Html.HiddenFor(model => model.DeliveryAdvice.EntryDate);
@@ -100,6 +104,10 @@
             $("#DeliveryAdvice_DeliveryAdviceID").val(selectedDataItem === undefined || selectedDataItem.DeliveryAdviceID === undefined ? null : selectedDataItem.DeliveryAdviceID);
             $("#DeliveryAdvice_Reference").val(selectedDataItem === undefined || selectedDataItem.DeliveryAdviceReference === undefined ? null : selectedDataItem.DeliveryAdviceReference);
             $("#DeliveryAdvice_EntryDate").val(selectedDataItem === undefined || selectedDataItem.DeliveryAdviceEntryDate === undefined ? null : kendo.toString(selectedDataItem.DeliveryAdviceEntryDate, SettingsManager.DateFormat));
+
+            $("#Warehouse_WarehouseID").val(selectedDataItem === undefined || selectedDataItem.WarehouseID === undefined ? null : selectedDataItem.WarehouseID);
+            $("#Warehouse_Code").val(selectedDataItem === undefined || selectedDataItem.WarehouseCode === undefined ? null : selectedDataItem.WarehouseCode);
+            $("#Warehouse_Name").val(selectedDataItem === undefined || selectedDataItem.WarehouseName === undefined ? null : selectedDataItem.WarehouseName);
 
             $("#ShippingAddress").val(selectedDataItem === undefined || selectedDataItem.ShippingAddress === undefined ? null : selectedDataItem.ShippingAddress);
 

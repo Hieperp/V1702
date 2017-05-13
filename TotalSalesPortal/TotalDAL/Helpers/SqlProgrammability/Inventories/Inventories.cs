@@ -848,7 +848,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             }
             else //NO USE WAREHOUSE INVENTORY: THIS CODE IS FOR USE WHEN THERE IS NO WAREHOUSE BALANCE
             {
-                queryString = queryString + "       DECLARE @My01JAN2017Commodities TABLE (CommodityID int NOT NULL) INSERT INTO @My01JAN2017Commodities SELECT Id FROM dbo.SplitToIntList (" + commodityIDList + ") " + "\r\n";
+                queryString = queryString + "       DECLARE @My01JAN2017Commodities TABLE (CommodityID int NOT NULL) INSERT INTO @My01JAN2017Commodities SELECT DISTINCT Id FROM dbo.SplitToIntList (" + commodityIDList + ") " + "\r\n";
                 queryString = queryString + "       INSERT INTO " + commoditiesBalanceTable + " SELECT " + toDate + ", Warehouses.WarehouseID, Commodities.CommodityID, 99999 AS QuantityBalance FROM @My01JAN2017Commodities Commodities CROSS JOIN Warehouses WHERE Warehouses.WarehouseID IN (SELECT WarehouseID FROM CustomerWarehouses WHERE CustomerID = @CustomerID AND InActive = 0) " + "\r\n";
             }
 

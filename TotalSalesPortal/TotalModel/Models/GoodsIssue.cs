@@ -61,6 +61,7 @@ namespace TotalModel.Models
         public int PaymentTermID { get; set; }
         public decimal TotalCashDiscount { get; set; }
         public decimal VATPercent { get; set; }
+        public int WarehouseID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }

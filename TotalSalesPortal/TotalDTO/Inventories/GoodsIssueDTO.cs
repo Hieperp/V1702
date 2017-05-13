@@ -25,6 +25,8 @@ namespace TotalDTO.Inventories
         public virtual int CustomerID { get; set; }
         public virtual int ReceiverID { get; set; }
 
+        public virtual Nullable<int> WarehouseID { get; set; }
+
         [Display(Name = "Địa chỉ giao hàng")]
         [Required(ErrorMessage = "Vui lòng nhập địa chỉ giao hàng")]
         [UIHint("Commons/ShippingAddress")]
@@ -74,6 +76,11 @@ namespace TotalDTO.Inventories
         public override Nullable<int> DeliveryAdviceID { get { return (this.DeliveryAdvice != null ? (Nullable<int>)this.DeliveryAdvice.DeliveryAdviceID : null); } }
         [UIHint("Commons/DeliveryAdviceBox")]
         public DeliveryAdviceBoxDTO DeliveryAdvice { get; set; }
+
+        public override Nullable<int> WarehouseID { get { return (this.Warehouse != null ? this.Warehouse.WarehouseID : null); } }
+        [Display(Name = "Kho hàng")]
+        [UIHint("AutoCompletes/WarehouseBase")]
+        public WarehouseBaseDTO Warehouse { get; set; }
 
         public override int StorekeeperID { get { return (this.Storekeeper != null ? this.Storekeeper.EmployeeID : 0); } }
         [Display(Name = "Nhân viên kho")]
