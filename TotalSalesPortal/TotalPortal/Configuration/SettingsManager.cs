@@ -24,7 +24,7 @@ namespace TotalPortal.Configuration
 
         public static int PopupHeight = 486;
         public static int PopupHeightSmall = 399;
-        public static int PopupHeightWithTab = 516;
+        public static int PopupHeightWithTab = 518;
         public static int PopupHeightVoid = 269;
 
         public static int PopupWidth = 1068;
@@ -33,9 +33,9 @@ namespace TotalPortal.Configuration
         public static int PopupWidthMedium = 900;
         public static int PopupWidthVoid = 600;
 
-        public static int PopupContentHeight = 358;
+        public static int PopupContentHeight = 360;
         public static int PopupContentHeightSmall = 281;
-        public static int PopupContentHeightLarge = 395; //397
+        public static int PopupContentHeightLarge = 397;
 
         public static string MonthDayPattern
         {
