@@ -75,12 +75,15 @@ namespace TotalModel.Models
         public int GetWarehouseID() { return (int)this.WarehouseID; }
     }
 
+    public partial class DeliveryAdvicePendingCustomer
+    {
+        public string ReceiverDescription { get { return (this.CustomerID != this.ReceiverID ? this.ReceiverName + ", " : "") + this.ShippingAddress; } }
+    }
 
-
-
-
-
-
+    public partial class DeliveryAdvicePendingSalesOrder
+    {
+        public string ReceiverDescription { get { return (this.CustomerID != this.ReceiverID ? this.ReceiverName + ", " : "") + this.ShippingAddress; } }
+    }
 
     public partial class PendingDeliveryAdvice
     {

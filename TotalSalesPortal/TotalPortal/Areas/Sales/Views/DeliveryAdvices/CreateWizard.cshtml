@@ -80,8 +80,8 @@
     function okButton_Click() {
         if ($("#tabStrip").data("kendoTabStrip").select().index() === 0)
             handleOKEvent($("#gridPromotion").data("kendoGrid"));
-        else //DON'T ALLOW TO CLICK WHEN HasSalesOrder
-            return false;
+        else //BY SalesOrder
+            handleOKEvent();
     }
 
     function okWOSelectButton_Click() {

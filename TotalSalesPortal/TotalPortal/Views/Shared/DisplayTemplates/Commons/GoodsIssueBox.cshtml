@@ -21,8 +21,12 @@
         {
             <div> @Html.DisplayFor(m => m.CustomerName) </div>}
         else
-        {
-            <div> @Html.DisplayFor(m => m.ReceiverName) </div>}                                                 
+            if (ViewData["ShowByReceiver"] == "true")
+            {
+                <div> @Html.DisplayFor(m => m.ReceiverName) </div>}
+            else
+            {
+                <div> @Html.Display((ViewData["ShowByReceiver"]).ToString()) </div>} 
         
     </div>
 }

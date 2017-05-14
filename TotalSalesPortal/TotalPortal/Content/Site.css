@@ -1004,6 +1004,12 @@ ul.k-panelbar .k-link {
 /*#region FOUR COLUMN */
 
 
+.single-full-panel {
+    padding-left: 6px;
+    padding-right: 3px;
+    box-sizing: border-box;
+}
+
 .left-panel {
     float: left;
     width: 20%;

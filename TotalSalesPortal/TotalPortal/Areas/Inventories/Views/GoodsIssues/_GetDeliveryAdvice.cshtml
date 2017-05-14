@@ -5,6 +5,7 @@
     .Name("pendingDeliveryAdviceGrid")
     .Columns(columns =>
     {
+        columns.Bound(c => c.WarehouseCode).Title("Kho").Width(35);
         columns.Bound(c => c.DeliveryAdviceReference).Title("Số phiếu").Width(40);
         columns.Bound(c => c.DeliveryAdviceEntryDate).Title("Ngày").Width(80).Format("{0:" + SettingsManager.DateTimeFormat + "}");
         columns.Bound(c => c.CustomerName).Title("Khách hàng").Width(150);
@@ -15,7 +16,7 @@
     {
         toolbar.Template(@<text>            
             <div class="toolbar" style="float: right;">
-                <label>Nhập số phiếu ĐNGH/ hoặc mã, tên hoặc MST khách hàng, đơn vị nhận, hoặc địa chỉ giao hàng</label>
+                <label>Nhập số phiếu ĐNGH/ hoặc mã, tên hoặc MST khách hàng, đơn vị nhận, địa chỉ giao hàng, hoặc mã kho</label>
                 <input id="pendingDeliveryAdviceFilter" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="pendingDeliveryAdviceFilter_KeyUp()" />
             </div>
         </text>);
@@ -53,6 +54,8 @@
                     { field: "ReceiverCode", operator: "contains", value: pendingDeliveryAdviceFilter },
                     { field: "ReceiverName", operator: "contains", value: pendingDeliveryAdviceFilter },
                     { field: "ReceiverVATCode", operator: "contains", value: pendingDeliveryAdviceFilter },
+
+                    { field: "WarehouseCode", operator: "contains", value: pendingDeliveryAdviceFilter },
 
                     { field: "ShippingAddress", operator: "contains", value: pendingDeliveryAdviceFilter }
                 ]

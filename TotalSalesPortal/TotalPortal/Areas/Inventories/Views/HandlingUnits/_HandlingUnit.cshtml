@@ -88,7 +88,7 @@
             @Html.EditorFor(d => d.ShippingAddress, new { ShippingAddressReadonly = true })
 
             <div style="float: right; margin-top: -156px; " title="Phiếu xuất kho">
-                @Html.DisplayFor(d => d.GoodsIssue)
+                @Html.DisplayFor(d => d.GoodsIssue, new { ShowByReceiver = "" })
             </div>
 
         </div>

@@ -7,15 +7,16 @@
 
     .Columns(columns =>
     {
-        columns.Bound(c => c.CustomerCode).Title("Mã khách hàng").Width(60);
-        columns.Bound(c => c.CustomerName).Title("Khách hàng").Width(250);
+        columns.Bound(c => c.WarehouseCode).Title("Kho").Width(35);
+        columns.Bound(c => c.CustomerCode).Title("Mã khách hàng").Width(90);
+        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(250);
         columns.Bound(c => c.ReceiverDescription).Title("Giao hàng").Width(280);
     })
     .ToolBar(toolbar =>
     {
         toolbar.Template(@<text>
             <div class="toolbar" style="float: right;">
-                <label>Nhập mã, tên, MST, địa chỉ, hoặc địa bàn khách hàng</label>
+                <label>Nhập mã, tên, MST, địa chỉ, địa bàn khách hàng, hoặc mã kho</label>
                 <input id="pendingDeliveryAdviceCustomerFilter" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="pendingDeliveryAdviceCustomerFilter_KeyUp()" />
             </div>
         </text>);
@@ -51,6 +52,8 @@
                     { field: "ReceiverCode", operator: "contains", value: pendingDeliveryAdviceCustomerFilter },
                     { field: "ReceiverName", operator: "contains", value: pendingDeliveryAdviceCustomerFilter },
                     { field: "ReceiverVATCode", operator: "contains", value: pendingDeliveryAdviceCustomerFilter },
+
+                    { field: "WarehouseCode", operator: "contains", value: pendingDeliveryAdviceCustomerFilter },
 
                     { field: "ShippingAddress", operator: "contains", value: pendingDeliveryAdviceCustomerFilter }
                 ]

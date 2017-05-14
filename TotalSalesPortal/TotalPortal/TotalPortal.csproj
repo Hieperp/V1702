@@ -1057,6 +1057,7 @@
     <Content Include="Scripts\Controllers\Sales\SalesOrders\Approve.js" />
     <Content Include="Scripts\Controllers\Sales\SalesOrders\Create.js" />
     <Content Include="Scripts\Controllers\Sales\SalesOrders\CreateWizard.js" />
+    <Content Include="Scripts\Controllers\Sales\SalesOrders\Delete.js" />
     <Content Include="Scripts\Controllers\Sales\SalesOrders\Edit.js" />
     <Content Include="Scripts\Controllers\Sales\SalesOrders\Import.js" />
     <Content Include="Scripts\Controllers\Sales\SalesOrders\Index.js" />
@@ -1824,6 +1825,7 @@
     <Content Include="Views\Helpers\Commons\_SearchCustomer.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AutoCompletes\WarehouseBase.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Commons\WarehouseBase.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateReadonly.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
