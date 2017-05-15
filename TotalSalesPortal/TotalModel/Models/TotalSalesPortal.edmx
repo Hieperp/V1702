@@ -4111,6 +4111,8 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
           <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
           <Property Type="Decimal" Name="CashDiscount" Nullable="false" Precision="1" Scale="1" />
           <Property Type="Decimal" Name="FluctuationAmount" Nullable="false" Precision="1" Scale="1" />
+          <Property Type="Int32" Name="ReceiverID" Nullable="false" />
+          <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
         </ComplexType>
         <EntityType Name="AccessControl">
           <Key>
@@ -6973,6 +6975,8 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="CashDiscount" ColumnName="CashDiscount" />
                 <ScalarProperty Name="FluctuationAmount" ColumnName="FluctuationAmount" />
+                <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
+                <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

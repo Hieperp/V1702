@@ -34,6 +34,10 @@ namespace TotalDTO.Accounts
         [UIHint("StringReadonly")]
         public string Description { get; set; }
 
+        [Display(Name = "Diễn giải")]
+        [UIHint("StringReadonly")]
+        public string ReceiverDescription { get; set; }
+
         [Display(Name = "Số tiền bán hàng")]
         [UIHint("DecimalReadonly")]
         public decimal TotalGrossAmount { get; set; }

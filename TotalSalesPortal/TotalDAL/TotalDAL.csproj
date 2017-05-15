@@ -54,6 +54,7 @@
     <Compile Include="Helpers\SqlProgrammability\Inventories\HandlingUnit.cs" />
     <Compile Include="Helpers\SqlProgrammability\Reports\SaleReports.cs" />
     <Compile Include="Helpers\SqlProgrammability\Sales\SalesOrder.cs" />
+    <Compile Include="Helpers\SqlProgrammability\Sales\SalesReturn.cs" />
     <Compile Include="Repositories\Analysis\ReportRepository.cs" />
     <Compile Include="Repositories\Commons\MonetaryAccountRepository.cs" />
     <Compile Include="Repositories\Commons\PackingMaterialRepository.cs" />

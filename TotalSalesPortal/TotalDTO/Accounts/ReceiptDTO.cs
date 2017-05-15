@@ -70,8 +70,8 @@ namespace TotalDTO.Accounts
         {
             base.PerformPresaveRule();
 
-            string goodsIssueReferences = "";
-            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; if (e.CashDiscount != 0 || e.ReceiptAmount != 0) goodsIssueReferences = goodsIssueReferences + (goodsIssueReferences != "" ? ", " : "") + e.GoodsIssueReference; });
+            string goodsIssueReferences = ""; int i = 0;
+            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; if ((e.CashDiscount != 0 || e.ReceiptAmount != 0) && i <= 3) goodsIssueReferences = goodsIssueReferences + (goodsIssueReferences != "" ? ", " : "") + (i++ < 3 ? e.GoodsIssueReference : "..."); });
             this.GoodsIssueReferences = goodsIssueReferences;
         }
     }

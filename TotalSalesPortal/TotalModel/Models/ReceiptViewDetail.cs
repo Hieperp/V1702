@@ -27,5 +27,7 @@ namespace TotalModel.Models
         public string Description { get; set; }
         public decimal CashDiscount { get; set; }
         public decimal FluctuationAmount { get; set; }
+        public int ReceiverID { get; set; }
+        public string ReceiverName { get; set; }
     }
 }

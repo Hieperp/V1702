@@ -132,8 +132,8 @@
                         .ClientFooterTemplate("TC (#= kendo.format('{0:n0}', count) # dòng)")
                         .ClientTemplate("#= GoodsIssueEntryDate ? kendo.toString(kendo.parseDate(GoodsIssueEntryDate), '" + SettingsManager.DateTimeFormat + "') : '' #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].GoodsIssueEntryDate' value='#= kendo.toString(GoodsIssueEntryDate, '" + SettingsManager.DateTimeFormat + "') #' />");
 
-                    columns.Bound(p => p.Description).DisplayNameTitle().Filterable(false)                        
-                        .ClientTemplate("#= (Description == null)? '' : Description #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].Description' value='#= (Description == null) ? '' : Description #' />");
+                    columns.Bound(p => p.ReceiverDescription).DisplayNameTitle().Filterable(false)                        
+                        .ClientTemplate("#= (ReceiverDescription == null)? '' : ReceiverDescription #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].ReceiverDescription' value='#= (ReceiverDescription == null) ? '' : ReceiverDescription #' />");
 
                     columns.Bound(p => p.TotalGrossAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(100)
                         .Format("{0:n0}")

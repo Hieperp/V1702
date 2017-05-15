@@ -109,20 +109,22 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
         {
             string queryString; string queryEdit; string queryNew;
 
-            queryNew = "                SELECT          GoodsIssues.GoodsIssueID, GoodsIssues.EntryDate AS GoodsIssueEntryDate, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.CustomerID, Customers.Name AS CustomerName, GoodsIssues.Description, 0 AS ReceiptDetailID, 0 AS ReceiptID, '' AS Remarks, " + "\r\n";
+            queryNew = "                SELECT          GoodsIssues.GoodsIssueID, GoodsIssues.EntryDate AS GoodsIssueEntryDate, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.CustomerID, Customers.Name AS CustomerName, GoodsIssues.ReceiverID, Receivers.Name AS ReceiverName, GoodsIssues.Description, 0 AS ReceiptDetailID, 0 AS ReceiptID, '' AS Remarks, " + "\r\n";
             queryNew = queryNew + "                     GoodsIssues.TotalGrossAmount, ROUND(GoodsIssues.TotalGrossAmount - GoodsIssues.TotalReceiptAmount - GoodsIssues.TotalCashDiscount, " + (int)GlobalEnums.rndAmount + ") AS AmountDue, 0.0 AS ReceiptAmount, 0.0 AS CashDiscount, 0.0 AS FluctuationAmount " + "\r\n";
 
-            queryNew = queryNew + "     FROM            GoodsIssues INNER JOIN " + "\r\n";
-            queryNew = queryNew + "                     Customers ON GoodsIssues.CustomerID = Customers.CustomerID AND ROUND(GoodsIssues.TotalGrossAmount - GoodsIssues.TotalReceiptAmount - GoodsIssues.TotalCashDiscount, " + (int)GlobalEnums.rndAmount + ") > 0 " + "\r\n";
+            queryNew = queryNew + "     FROM            GoodsIssues " + "\r\n";
+            queryNew = queryNew + "                     INNER JOIN Customers ON GoodsIssues.CustomerID = Customers.CustomerID AND ROUND(GoodsIssues.TotalGrossAmount - GoodsIssues.TotalReceiptAmount - GoodsIssues.TotalCashDiscount, " + (int)GlobalEnums.rndAmount + ") > 0 " + "\r\n";
+            queryNew = queryNew + "                     INNER JOIN Customers Receivers ON GoodsIssues.ReceiverID = Receivers.CustomerID " + "\r\n";
             queryNew = queryNew + "     WHERE           (@GoodsIssueID = 0 OR GoodsIssues.GoodsIssueID = @GoodsIssueID) AND (@CustomerID = 0 OR GoodsIssues.CustomerID = @CustomerID) " + "\r\n";
 
 
-            queryEdit = "               SELECT          GoodsIssues.GoodsIssueID, GoodsIssues.EntryDate AS GoodsIssueEntryDate, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.CustomerID, Customers.Name AS CustomerName, GoodsIssues.Description, ReceiptDetails.ReceiptDetailID, ReceiptDetails.ReceiptID, ReceiptDetails.Remarks, " + "\r\n";
+            queryEdit = "               SELECT          GoodsIssues.GoodsIssueID, GoodsIssues.EntryDate AS GoodsIssueEntryDate, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.CustomerID, Customers.Name AS CustomerName, GoodsIssues.ReceiverID, Receivers.Name AS ReceiverName, GoodsIssues.Description, ReceiptDetails.ReceiptDetailID, ReceiptDetails.ReceiptID, ReceiptDetails.Remarks, " + "\r\n";
             queryEdit = queryEdit + "                   GoodsIssues.TotalGrossAmount, ROUND(GoodsIssues.TotalGrossAmount - GoodsIssues.TotalReceiptAmount - GoodsIssues.TotalCashDiscount + ReceiptDetails.ReceiptAmount + ReceiptDetails.CashDiscount, " + (int)GlobalEnums.rndAmount + ") AS AmountDue, ReceiptDetails.ReceiptAmount, ReceiptDetails.CashDiscount, ReceiptDetails.FluctuationAmount " + "\r\n";
 
-            queryEdit = queryEdit + "   FROM            GoodsIssues INNER JOIN " + "\r\n";
-            queryEdit = queryEdit + "                   ReceiptDetails ON ReceiptDetails.ReceiptID = @ReceiptID AND GoodsIssues.GoodsIssueID = ReceiptDetails.GoodsIssueID INNER JOIN " + "\r\n";
-            queryEdit = queryEdit + "                   Customers ON ReceiptDetails.CustomerID = Customers.CustomerID " + "\r\n";
+            queryEdit = queryEdit + "   FROM            GoodsIssues " + "\r\n";
+            queryEdit = queryEdit + "                   INNER JOIN ReceiptDetails ON ReceiptDetails.ReceiptID = @ReceiptID AND GoodsIssues.GoodsIssueID = ReceiptDetails.GoodsIssueID " + "\r\n";
+            queryEdit = queryEdit + "                   INNER JOIN Customers ON GoodsIssues.CustomerID = Customers.CustomerID " + "\r\n";
+            queryEdit = queryEdit + "                   INNER JOIN Customers Receivers ON GoodsIssues.ReceiverID = Receivers.CustomerID " + "\r\n";
             queryEdit = queryEdit + "   WHERE           (@GoodsIssueID = 0 OR GoodsIssues.GoodsIssueID = @GoodsIssueID) AND (@CustomerID = 0 OR GoodsIssues.CustomerID = @CustomerID) " + "\r\n";
 
 
