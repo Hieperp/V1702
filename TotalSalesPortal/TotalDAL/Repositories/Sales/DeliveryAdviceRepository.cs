@@ -23,6 +23,17 @@ namespace TotalDAL.Repositories.Sales
         {
             return;
 
+            Helpers.SqlProgrammability.Inventories.HandlingUnit handlingUnit = new Helpers.SqlProgrammability.Inventories.HandlingUnit(totalSalesPortalEntities);
+            handlingUnit.RestoreProcedure();
+
+            return;
+
+
+            Helpers.SqlProgrammability.Sales.SalesReturn salesReturn = new Helpers.SqlProgrammability.Sales.SalesReturn(totalSalesPortalEntities);
+            salesReturn.RestoreProcedure();
+
+            return;
+
 
             Helpers.SqlProgrammability.Accounts.Receipt receipt = new Helpers.SqlProgrammability.Accounts.Receipt(totalSalesPortalEntities);
             receipt.RestoreProcedure();
@@ -63,9 +74,6 @@ namespace TotalDAL.Repositories.Sales
 
 
 
-
-            Helpers.SqlProgrammability.Inventories.HandlingUnit handlingUnit = new Helpers.SqlProgrammability.Inventories.HandlingUnit(totalSalesPortalEntities);
-            handlingUnit.RestoreProcedure();
 
 
 

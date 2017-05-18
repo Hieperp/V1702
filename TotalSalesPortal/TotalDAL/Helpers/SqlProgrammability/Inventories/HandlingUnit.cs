@@ -129,7 +129,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             string queryString;
 
             queryString = " @LocationID Int, @HandlingUnitID Int, @GoodsIssueID Int, @CustomerID Int, @ReceiverID Int, @ShippingAddress nvarchar(200), @GoodsIssueDetailIDs varchar(3999), @IsReadonly bit " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
             queryString = queryString + "   BEGIN " + "\r\n";
@@ -192,7 +192,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             string queryString = "";
 
             queryString = queryString + "       SELECT      GoodsIssues.EntryDate AS GoodsIssueEntryDate, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.GoodsIssueID, GoodsIssueDetails.GoodsIssueDetailID, Commodities.CommodityID, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, Commodities.CommodityTypeID, GoodsIssues.Description, ROUND(GoodsIssueDetails.Quantity + GoodsIssueDetails.FreeQuantity - GoodsIssueDetails.QuantityHandlingUnit, 0) AS QuantityRemains, " + "\r\n";
-            queryString = queryString + "                   0.0 AS Quantity, Commodities.Weight AS UnitWeight, 0.0 AS Weight, CAST(1 AS bit) AS IsSelected " + "\r\n";
+            queryString = queryString + "                   0.0 AS Quantity, Commodities.Weight AS UnitWeight, 0.0 AS Weight, CAST(0 AS bit) AS IsSelected " + "\r\n";
 
             queryString = queryString + "       FROM        GoodsIssues " + "\r\n";
             queryString = queryString + "                   INNER JOIN GoodsIssueDetails ON " + (isGoodsIssueID ? " GoodsIssues.GoodsIssueID = @GoodsIssueID " : "GoodsIssues.LocationID = @LocationID AND GoodsIssues.CustomerID = @CustomerID AND GoodsIssues.ReceiverID = @ReceiverID AND GoodsIssues.ShippingAddress = @ShippingAddress") + " AND GoodsIssues.Approved = 1 AND ROUND(GoodsIssueDetails.Quantity + GoodsIssueDetails.FreeQuantity - GoodsIssueDetails.QuantityHandlingUnit, " + (int)GlobalEnums.rndQuantity + ") > 0 AND GoodsIssues.GoodsIssueID = GoodsIssueDetails.GoodsIssueID" + (isGoodsIssueDetailIDs ? " AND GoodsIssueDetails.GoodsIssueDetailID NOT IN (SELECT Id FROM dbo.SplitToIntList (@GoodsIssueDetailIDs))" : "") + "\r\n";
@@ -206,7 +206,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             string queryString = "";
 
             queryString = queryString + "       SELECT      GoodsIssues.EntryDate AS GoodsIssueEntryDate, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.GoodsIssueID, GoodsIssueDetails.GoodsIssueDetailID, Commodities.CommodityID, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, Commodities.CommodityTypeID, GoodsIssues.Description, ROUND(GoodsIssueDetails.Quantity + GoodsIssueDetails.FreeQuantity - GoodsIssueDetails.QuantityHandlingUnit + HandlingUnitDetails.Quantity, 0) AS QuantityRemains, " + "\r\n";
-            queryString = queryString + "                   HandlingUnitDetails.Quantity, HandlingUnitDetails.UnitWeight, HandlingUnitDetails.Weight, CAST(1 AS bit) AS IsSelected " + "\r\n";
+            queryString = queryString + "                   HandlingUnitDetails.Quantity, HandlingUnitDetails.UnitWeight, HandlingUnitDetails.Weight, CAST(0 AS bit) AS IsSelected " + "\r\n";
 
             queryString = queryString + "       FROM        GoodsIssueDetails " + "\r\n";
             queryString = queryString + "                   INNER JOIN HandlingUnitDetails ON HandlingUnitDetails.HandlingUnitID = @HandlingUnitID AND GoodsIssueDetails.GoodsIssueDetailID = HandlingUnitDetails.GoodsIssueDetailID" + (isGoodsIssueDetailIDs ? " AND GoodsIssueDetails.GoodsIssueDetailID NOT IN (SELECT Id FROM dbo.SplitToIntList (@GoodsIssueDetailIDs))" : "") + "\r\n";
