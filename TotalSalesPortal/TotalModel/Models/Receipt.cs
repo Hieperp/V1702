@@ -62,7 +62,7 @@ namespace TotalModel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Receipt> Receipts1 { get; set; }
         public virtual Receipt Receipt1 { get; set; }
-        public virtual SalesReturn SalesReturn { get; set; }
         public virtual MonetaryAccount MonetaryAccount { get; set; }
+        public virtual SalesReturn SalesReturn { get; set; }
     }
 }

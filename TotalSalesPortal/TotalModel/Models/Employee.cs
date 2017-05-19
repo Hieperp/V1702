@@ -25,6 +25,7 @@ namespace TotalModel.Models
             this.HandlingUnits = new HashSet<HandlingUnit>();
             this.Receipts = new HashSet<Receipt>();
             this.SalesOrders = new HashSet<SalesOrder>();
+            this.SalesReturns = new HashSet<SalesReturn>();
         }
     
         public int EmployeeID { get; set; }
@@ -55,5 +56,7 @@ namespace TotalModel.Models
         public virtual ICollection<Receipt> Receipts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrder> SalesOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesReturn> SalesReturns { get; set; }
     }
 }

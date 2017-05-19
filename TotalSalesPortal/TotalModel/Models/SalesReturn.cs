@@ -18,14 +18,18 @@ namespace TotalModel.Models
         public SalesReturn()
         {
             this.Receipts = new HashSet<Receipt>();
+            this.SalesReturnDetails = new HashSet<SalesReturnDetail>();
         }
     
         public int SalesReturnID { get; set; }
         public System.DateTime EntryDate { get; set; }
         public string Reference { get; set; }
+        public bool HasGoodsIssue { get; set; }
         public Nullable<int> GoodsIssueID { get; set; }
+        public string GoodsIssueReferences { get; set; }
         public int CustomerID { get; set; }
         public int ReceiverID { get; set; }
+        public int WarehouseID { get; set; }
         public int PriceCategoryID { get; set; }
         public Nullable<int> PromotionID { get; set; }
         public string PromotionVouchers { get; set; }
@@ -37,11 +41,11 @@ namespace TotalModel.Models
         public int OrganizationalUnitID { get; set; }
         public int LocationID { get; set; }
         public int ApproverID { get; set; }
-        public int PaymentTermID { get; set; }
+        public decimal VATPercent { get; set; }
         public decimal TotalQuantity { get; set; }
-        public decimal TotalQuantityIssue { get; set; }
+        public decimal TotalQuantityReceived { get; set; }
         public decimal TotalFreeQuantity { get; set; }
-        public decimal TotalFreeQuantityIssue { get; set; }
+        public decimal TotalFreeQuantityReceived { get; set; }
         public decimal TotalListedAmount { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal TotalListedVATAmount { get; set; }
@@ -49,17 +53,28 @@ namespace TotalModel.Models
         public decimal TotalListedGrossAmount { get; set; }
         public decimal TotalGrossAmount { get; set; }
         public decimal AverageDiscountPercent { get; set; }
-        public decimal TotalReceiptAmount { get; set; }
-        public decimal TotalCashDiscount { get; set; }
-        public decimal TotalFluctuationAmount { get; set; }
+        public decimal ReceiptAmount { get; set; }
         public string Description { get; set; }
         public string Remarks { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime EditedDate { get; set; }
         public bool Approved { get; set; }
         public Nullable<System.DateTime> ApprovedDate { get; set; }
+        public bool InActive { get; set; }
+        public bool InActivePartial { get; set; }
+        public Nullable<System.DateTime> InActiveDate { get; set; }
     
+        public virtual Customer Customer { get; set; }
+        public virtual Customer Customer1 { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual GoodsIssue GoodsIssue { get; set; }
+        public virtual Location Location { get; set; }
+        public virtual PriceCategory PriceCategory { get; set; }
+        public virtual Promotion Promotion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Receipt> Receipts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesReturnDetail> SalesReturnDetails { get; set; }
+        public virtual Warehouse Warehouse { get; set; }
     }
 }

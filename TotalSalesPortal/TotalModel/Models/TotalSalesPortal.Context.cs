@@ -62,12 +62,13 @@ namespace TotalModel.Models
         public virtual DbSet<CreditNote> CreditNotes { get; set; }
         public virtual DbSet<ReceiptDetail> ReceiptDetails { get; set; }
         public virtual DbSet<Receipt> Receipts { get; set; }
-        public virtual DbSet<SalesReturn> SalesReturns { get; set; }
         public virtual DbSet<MonetaryAccount> MonetaryAccounts { get; set; }
         public virtual DbSet<Report> Reports { get; set; }
         public virtual DbSet<SalesOrder> SalesOrders { get; set; }
         public virtual DbSet<SalesOrderDetail> SalesOrderDetails { get; set; }
         public virtual DbSet<Warehouse> Warehouses { get; set; }
+        public virtual DbSet<SalesReturnDetail> SalesReturnDetails { get; set; }
+        public virtual DbSet<SalesReturn> SalesReturns { get; set; }
     
         public virtual ObjectResult<Nullable<int>> GetAccessLevel(Nullable<int> userID, Nullable<int> nMVNTaskID, Nullable<int> organizationalUnitID)
         {
@@ -1171,6 +1172,164 @@ namespace TotalModel.Models
                 new ObjectParameter("WarehouseTaskID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CustomerBase>("GetCustomerBases", searchTextParameter, warehouseTaskIDParameter);
+        }
+    
+        public virtual ObjectResult<SalesReturnIndex> GetSalesReturnIndexes(string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        {
+            var aspUserIDParameter = aspUserID != null ?
+                new ObjectParameter("AspUserID", aspUserID) :
+                new ObjectParameter("AspUserID", typeof(string));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SalesReturnIndex>("GetSalesReturnIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<SalesReturnPendingGoodsIssueDetail> GetSalesReturnPendingGoodsIssueDetails(Nullable<int> locationID, Nullable<int> salesReturnID, Nullable<int> goodsIssueID, Nullable<int> customerID, Nullable<int> receiverID, Nullable<decimal> vATPercent, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, string goodsIssueDetailIDs, Nullable<bool> isReadonly)
+        {
+            var locationIDParameter = locationID.HasValue ?
+                new ObjectParameter("LocationID", locationID) :
+                new ObjectParameter("LocationID", typeof(int));
+    
+            var salesReturnIDParameter = salesReturnID.HasValue ?
+                new ObjectParameter("SalesReturnID", salesReturnID) :
+                new ObjectParameter("SalesReturnID", typeof(int));
+    
+            var goodsIssueIDParameter = goodsIssueID.HasValue ?
+                new ObjectParameter("GoodsIssueID", goodsIssueID) :
+                new ObjectParameter("GoodsIssueID", typeof(int));
+    
+            var customerIDParameter = customerID.HasValue ?
+                new ObjectParameter("CustomerID", customerID) :
+                new ObjectParameter("CustomerID", typeof(int));
+    
+            var receiverIDParameter = receiverID.HasValue ?
+                new ObjectParameter("ReceiverID", receiverID) :
+                new ObjectParameter("ReceiverID", typeof(int));
+    
+            var vATPercentParameter = vATPercent.HasValue ?
+                new ObjectParameter("VATPercent", vATPercent) :
+                new ObjectParameter("VATPercent", typeof(decimal));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            var goodsIssueDetailIDsParameter = goodsIssueDetailIDs != null ?
+                new ObjectParameter("GoodsIssueDetailIDs", goodsIssueDetailIDs) :
+                new ObjectParameter("GoodsIssueDetailIDs", typeof(string));
+    
+            var isReadonlyParameter = isReadonly.HasValue ?
+                new ObjectParameter("IsReadonly", isReadonly) :
+                new ObjectParameter("IsReadonly", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SalesReturnPendingGoodsIssueDetail>("GetSalesReturnPendingGoodsIssueDetails", locationIDParameter, salesReturnIDParameter, goodsIssueIDParameter, customerIDParameter, receiverIDParameter, vATPercentParameter, fromDateParameter, toDateParameter, goodsIssueDetailIDsParameter, isReadonlyParameter);
+        }
+    
+        public virtual ObjectResult<SalesReturnPendingGoodsIssue> GetSalesReturnPendingGoodsIssues(Nullable<int> locationID, Nullable<int> customerID, Nullable<int> receiverID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        {
+            var locationIDParameter = locationID.HasValue ?
+                new ObjectParameter("LocationID", locationID) :
+                new ObjectParameter("LocationID", typeof(int));
+    
+            var customerIDParameter = customerID.HasValue ?
+                new ObjectParameter("CustomerID", customerID) :
+                new ObjectParameter("CustomerID", typeof(int));
+    
+            var receiverIDParameter = receiverID.HasValue ?
+                new ObjectParameter("ReceiverID", receiverID) :
+                new ObjectParameter("ReceiverID", typeof(int));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SalesReturnPendingGoodsIssue>("GetSalesReturnPendingGoodsIssues", locationIDParameter, customerIDParameter, receiverIDParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<SalesReturnViewDetail> GetSalesReturnViewDetails(Nullable<int> salesReturnID)
+        {
+            var salesReturnIDParameter = salesReturnID.HasValue ?
+                new ObjectParameter("SalesReturnID", salesReturnID) :
+                new ObjectParameter("SalesReturnID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SalesReturnViewDetail>("GetSalesReturnViewDetails", salesReturnIDParameter);
+        }
+    
+        public virtual ObjectResult<string> SalesReturnApproved(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SalesReturnApproved", entityIDParameter);
+        }
+    
+        public virtual ObjectResult<string> SalesReturnEditable(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SalesReturnEditable", entityIDParameter);
+        }
+    
+        public virtual ObjectResult<string> SalesReturnPostSaveValidate(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SalesReturnPostSaveValidate", entityIDParameter);
+        }
+    
+        public virtual int SalesReturnSaveRelative(Nullable<int> entityID, Nullable<int> saveRelativeOption)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            var saveRelativeOptionParameter = saveRelativeOption.HasValue ?
+                new ObjectParameter("SaveRelativeOption", saveRelativeOption) :
+                new ObjectParameter("SaveRelativeOption", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SalesReturnSaveRelative", entityIDParameter, saveRelativeOptionParameter);
+        }
+    
+        public virtual int SalesReturnToggleApproved(Nullable<int> entityID, Nullable<bool> approved)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            var approvedParameter = approved.HasValue ?
+                new ObjectParameter("Approved", approved) :
+                new ObjectParameter("Approved", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SalesReturnToggleApproved", entityIDParameter, approvedParameter);
+        }
+    
+        public virtual ObjectResult<string> SalesReturnVoidable(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SalesReturnVoidable", entityIDParameter);
         }
     }
 }

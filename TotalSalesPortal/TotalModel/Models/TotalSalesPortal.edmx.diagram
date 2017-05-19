@@ -102,7 +102,6 @@
         <EntityTypeShape EntityType="TotalSalesPortalModel.CreditNote" Width="1.5" PointX="19.75" PointY="29.375" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.ReceiptDetail" Width="1.5" PointX="19" PointY="13.125" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.Receipt" Width="1.5" PointX="22" PointY="2.5" />
-        <EntityTypeShape EntityType="TotalSalesPortalModel.SalesReturn" Width="1.5" PointX="19.75" PointY="35.25" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_CreditNotes" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_Customers" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_Employees" />
@@ -110,7 +109,6 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_GoodsIssues" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_ReceiptDetails_Receipts" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_Receipts" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_SalesReturns" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.MonetaryAccount" Width="1.5" PointX="28.75" PointY="4.75" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_MonetaryAccounts" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.Report" Width="1.5" PointX="9.375" PointY="7.75" />
@@ -133,6 +131,20 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdvices_Warehouses" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesOrders_Warehouses" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssues_Warehouses" />
+        <EntityTypeShape EntityType="TotalSalesPortalModel.SalesReturnDetail" Width="1.5" PointX="29.25" PointY="18.75" />
+        <EntityTypeShape EntityType="TotalSalesPortalModel.SalesReturn" Width="1.5" PointX="25" PointY="0.75" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturnDetails_Commodities" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_Customers" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_Customers1" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_Employees" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturnDetails_GoodsIssueDetails" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_GoodsIssues" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_Locations" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_PriceCategories" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_Promotions" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_SalesReturns" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturnDetails_SalesReturns" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_Warehouses" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

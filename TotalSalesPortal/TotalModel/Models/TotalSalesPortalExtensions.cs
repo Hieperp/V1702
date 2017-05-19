@@ -58,6 +58,35 @@ namespace TotalModel.Models
 
 
 
+
+
+
+    public partial class SalesReturn : IPrimitiveEntity, IBaseEntity, IBaseDetailEntity<SalesReturnDetail>
+    {
+        public int GetID() { return this.SalesReturnID; }
+
+        public virtual Employee Salesperson { get { return this.Employee; } }
+        public virtual Customer Receiver { get { return this.Customer1; } }
+
+        public ICollection<SalesReturnDetail> GetDetails() { return this.SalesReturnDetails; }
+    }
+
+
+    public partial class SalesReturnDetail : IPrimitiveEntity, IHelperEntryDate, IHelperWarehouseID, IHelperCommodityID, IHelperCommodityTypeID
+    {
+        public int GetID() { return this.SalesReturnDetailID; }
+        public int GetWarehouseID() { return (int)this.WarehouseID; }
+    }
+
+
+    public partial class SalesReturnIndex
+    {
+        public decimal GrandTotalQuantity { get { return this.TotalQuantity + this.TotalFreeQuantity; } }
+        public decimal GrandTotalQuantityReceive { get { return this.TotalQuantityReceived + this.TotalFreeQuantityReceived; } }
+    }
+
+
+
     public partial class GoodsIssue : IPrimitiveEntity, IBaseEntity, IBaseDetailEntity<GoodsIssueDetail>
     {
         public int GetID() { return this.GoodsIssueID; }

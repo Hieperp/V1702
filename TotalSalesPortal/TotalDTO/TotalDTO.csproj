@@ -116,6 +116,7 @@
     <Compile Include="Sales\DeliveryAdviceDTO.cs" />
     <Compile Include="Sales\SalesOrderDetailDTO.cs" />
     <Compile Include="Sales\SalesOrderDTO.cs" />
+    <Compile Include="Sales\SalesReturnDetailDTO.cs" />
     <Compile Include="Sales\SalesReturnDTO.cs" />
   </ItemGroup>
   <ItemGroup>

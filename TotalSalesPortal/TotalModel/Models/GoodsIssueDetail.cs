@@ -19,6 +19,7 @@ namespace TotalModel.Models
         {
             this.AccountInvoiceDetails = new HashSet<AccountInvoiceDetail>();
             this.HandlingUnitDetails = new HashSet<HandlingUnitDetail>();
+            this.SalesReturnDetails = new HashSet<SalesReturnDetail>();
         }
     
         public int GoodsIssueDetailID { get; set; }
@@ -61,6 +62,8 @@ namespace TotalModel.Models
         public decimal ListedVATAmount { get; set; }
         public decimal ListedGrossAmount { get; set; }
         public bool VATbyRow { get; set; }
+        public decimal QuantityReturned { get; set; }
+        public decimal FreeQuantityReturned { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountInvoiceDetail> AccountInvoiceDetails { get; set; }
@@ -71,5 +74,7 @@ namespace TotalModel.Models
         public virtual ICollection<HandlingUnitDetail> HandlingUnitDetails { get; set; }
         public virtual Commodity Commodity { get; set; }
         public virtual Warehouse Warehouse { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesReturnDetail> SalesReturnDetails { get; set; }
     }
 }

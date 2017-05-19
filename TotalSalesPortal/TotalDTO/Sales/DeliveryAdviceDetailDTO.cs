@@ -47,7 +47,8 @@ namespace TotalDTO.Sales
         [UIHint("DecimalReadonly")]
         public decimal FreeQuantityRemains { get; set; }
 
-        
+
+        public Nullable<int> PromotionID { get; set; }
 
         public string VoidTypeCode { get; set; }
         [Display(Name = "Lý do")]
@@ -93,9 +94,7 @@ namespace TotalDTO.Sales
         [Display(Name = "Ngày ĐH")]
         [UIHint("DateTimeReadonly")]
         public Nullable<System.DateTime> SalesOrderEntryDate { get; set; }
-
-
-        public Nullable<int> PromotionID { get; set; }
+        
 
         [UIHint("AutoCompletes/CommodityAvailable")]
         public override string CommodityCode { get; set; }

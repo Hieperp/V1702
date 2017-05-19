@@ -64,7 +64,7 @@ namespace TotalDTO.Sales
 
         public override void PerformPresaveRule()
         {
-            this.Approved = true; this.ApprovedDate = this.EntryDate; //At SalesOrder, Approve right after save. Surely, It can be UnApprove later for editing
+            this.Approved = true; this.ApprovedDate = this.EntryDate; //At DeliveryAdvice, Approve right after save. Surely, It can be UnApprove later for editing
 
             base.PerformPresaveRule();
 

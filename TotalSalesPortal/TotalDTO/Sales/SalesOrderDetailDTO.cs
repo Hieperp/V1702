@@ -15,8 +15,7 @@ namespace TotalDTO.Sales
         public int SalesOrderDetailID { get; set; }
         public int SalesOrderID { get; set; }
 
-        public Nullable<int> QuotationDetailID { get; set; }
-        public Nullable<int> PromotionID { get; set; }
+        public Nullable<int> QuotationDetailID { get; set; }        
 
         [UIHint("AutoCompletes/CommodityAvailable")]
         public override string CommodityCode { get; set; }
