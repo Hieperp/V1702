@@ -64,6 +64,7 @@
     <Compile Include="Repositories\Inventories\GoodsDeliveryRepository.cs" />
     <Compile Include="Repositories\Inventories\HandlingUnitRepository.cs" />
     <Compile Include="Repositories\Sales\SalesOrderRepository.cs" />
+    <Compile Include="Repositories\Sales\SalesReturnRepository.cs" />
     <Compile Include="Repositories\Sessions\ModuleDetailRepository.cs" />
     <Compile Include="Repositories\Sessions\ModuleRepository.cs" />
     <Compile Include="Helpers\SqlProgrammability\Accounts\AccountInvoice.cs" />

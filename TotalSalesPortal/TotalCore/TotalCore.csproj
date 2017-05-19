@@ -57,6 +57,7 @@
     <Compile Include="Repositories\Inventories\IGoodsDeliveryRepository.cs" />
     <Compile Include="Repositories\Inventories\IHandlingUnitRepository.cs" />
     <Compile Include="Repositories\Sales\ISalesOrderRepository.cs" />
+    <Compile Include="Repositories\Sales\ISalesReturnRepository.cs" />
     <Compile Include="Repositories\Sessions\IModuleDetailRepository.cs" />
     <Compile Include="Repositories\Sessions\IModuleRepository.cs" />
     <Compile Include="Helpers\ISqlRoutines.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Services\Inventories\IHandlingUnitService.cs" />
     <Compile Include="Services\Sales\IDeliveryAdviceService.cs" />
     <Compile Include="Services\Sales\ISalesOrderService.cs" />
+    <Compile Include="Services\Sales\ISalesReturnService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TotalBase\TotalBase.csproj">

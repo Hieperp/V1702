@@ -1,0 +1,66 @@
+﻿@using TotalPortal.Configuration
+@using TotalModel.Models;
+
+@(Html.Kendo().Grid<DeliveryAdvicePendingCustomer>()
+    .Name("deliveryAdvicePendingCustomerGrid")
+
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.WarehouseCode).Title("Kho").Width(35);
+        columns.Bound(c => c.CustomerCode).Title("Mã khách hàng").Width(90);
+        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(250);
+        columns.Bound(c => c.ReceiverDescription).Title("Giao hàng").Width(280);
+    })
+    .ToolBar(toolbar =>
+    {
+        toolbar.Template(@<text>
+            <div class="toolbar" style="float: right;">
+                <label>Nhập mã, tên, MST, địa chỉ, địa bàn khách hàng, hoặc mã kho</label>
+                <input id="deliveryAdvicePendingCustomerFilter" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="deliveryAdvicePendingCustomerFilter_KeyUp()" />
+            </div>
+        </text>);
+    })
+    .Scrollable(s => s.Height(SettingsManager.PopupContentHeight))
+    .DataSource(ds => ds.Ajax()
+        .Read(read => read.Action("GetCustomers", "DeliveryAdviceAPIs", new { area = "Sales" }).Data("onAdditionalGetCustomers"))
+        .ServerOperation(false)
+    )
+    .Selectable()
+)
+
+<script type="text/javascript">
+    function onAdditionalGetCustomers(e) {
+        return {
+            locationID: window.parent.requireConfig.pageOptions.LocationID
+        };
+    }
+
+    function deliveryAdvicePendingCustomerFilter_KeyUp() {
+        var deliveryAdvicePendingCustomerFilter = $("#deliveryAdvicePendingCustomerFilter").val(), gridDetails = $("#deliveryAdvicePendingCustomerGrid").data("kendoGrid");
+
+        if (deliveryAdvicePendingCustomerFilter && deliveryAdvicePendingCustomerFilter.length >= "@SettingsManager.AutoCompleteMinLenght") {
+            gridDetails.dataSource.filter({
+                logic: "or",
+                filters: [
+                    { field: "CustomerCode", operator: "contains", value: deliveryAdvicePendingCustomerFilter },
+                    { field: "CustomerName", operator: "contains", value: deliveryAdvicePendingCustomerFilter },
+                    { field: "CustomerVATCode", operator: "contains", value: deliveryAdvicePendingCustomerFilter },
+                    { field: "CustomerTelephone", operator: "contains", value: deliveryAdvicePendingCustomerFilter },
+                    { field: "CustomerBillingAddress", operator: "contains", value: deliveryAdvicePendingCustomerFilter },
+                    { field: "CustomerEntireTerritoryEntireName", operator: "contains", value: deliveryAdvicePendingCustomerFilter },
+                    { field: "WarehouseCode", operator: "contains", value: deliveryAdvicePendingCustomerFilter }
+                ]
+            });
+
+
+        } else {
+            if (gridDetails.dataSource.filter() != undefined)
+                gridDetails.dataSource.filter({});
+        }
+    }
+
+
+    $("#deliveryAdvicePendingCustomerGrid").dblclick(function (e) {
+        okButton_Click();
+    })
+</script>

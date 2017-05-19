@@ -1,0 +1,71 @@
+﻿@using TotalPortal.Configuration
+@using TotalModel.Models;
+
+@(Html.Kendo().Grid<DeliveryAdvicePendingSalesOrder>()
+    .Name("deliveryAdvicePendingSalesOrderGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.WarehouseCode).Title("Kho").Width(35);
+        columns.Bound(c => c.SalesOrderCode).Title("Số ĐH").Width(40);
+        columns.Bound(c => c.SalesOrderEntryDate).Title("Ngày ĐH").Width(55).Format("{0:" + SettingsManager.DateFormat + "}");
+        columns.Bound(c => c.CustomerName).Title("khách hàng").Width(150);
+        columns.Bound(c => c.ReceiverDescription).Title("Giao hàng").Width(200);
+        columns.Bound(c => c.Description).Title("Diễn giải").Width(100);
+    })
+    .ToolBar(toolbar =>
+    {
+        toolbar.Template(@<text>
+            <div class="toolbar" style="float: right;">
+                <label>Nhập số đơn hàng/ hoặc mã, tên, MST khách hàng hay đơn vị, người nhận hàng, hoặc mã kho</label>
+                <input id="deliveryAdvicePendingSalesOrderFilter" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="deliveryAdvicePendingSalesOrderFilter_KeyUp()" />
+            </div>
+        </text>);
+    })
+        .Scrollable(s => s.Height(SettingsManager.PopupContentHeight))
+        .DataSource(ds => ds.Ajax()
+            .Read(read => read.Action("GetSalesOrders", "DeliveryAdviceAPIs", new { area = "Sales" }).Data("onAdditionalGetSalesOrders"))
+            .ServerOperation(false)
+        )
+        .Selectable()
+)
+
+<script type="text/javascript">
+    function onAdditionalGetSalesOrders(e) {
+        return {
+            locationID: window.parent.requireConfig.pageOptions.LocationID
+        };
+    }
+
+    function deliveryAdvicePendingSalesOrderFilter_KeyUp() {
+        var deliveryAdvicePendingSalesOrderFilter = $("#deliveryAdvicePendingSalesOrderFilter").val(), gridDetails = $("#deliveryAdvicePendingSalesOrderGrid").data("kendoGrid");
+
+        if (deliveryAdvicePendingSalesOrderFilter && deliveryAdvicePendingSalesOrderFilter.length >= "@SettingsManager.AutoCompleteMinLenght") {
+            gridDetails.dataSource.filter({
+                logic: "or",
+                filters: [
+                    { field: "SalesOrderCode", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter },
+                    { field: "SalesOrderReference", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter },
+                    
+                    { field: "CustomerCode", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter },
+                    { field: "CustomerName", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter },
+                    { field: "CustomerVATCode", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter },
+
+                    { field: "ReceiverCode", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter },
+                    { field: "ReceiverName", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter },
+
+                    { field: "WarehouseCode", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter }
+                ]
+            });
+
+
+        } else {
+            if (gridDetails.dataSource.filter() != undefined)
+                gridDetails.dataSource.filter({});
+        }
+    }
+
+    $("#deliveryAdvicePendingSalesOrderGrid").dblclick(function (e) {
+        okButton_Click();
+    })
+</script>
+

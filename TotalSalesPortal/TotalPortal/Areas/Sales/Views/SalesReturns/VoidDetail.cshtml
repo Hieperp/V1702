@@ -1,0 +1,68 @@
+﻿@using TotalPortal.Configuration;
+
+@{Layout = "~/Views/Shared/_LayoutPopup.cshtml";}
+
+@model TotalPortal.Areas.Sales.ViewModels.DeliveryAdviceViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.Hidden("Id", @Model.DeliveryAdviceID);
+
+    if (Model.ViewDetails.Count > 0)
+    {
+        @Html.Hidden("DetailId", @Model.ViewDetails[0].DeliveryAdviceDetailID);
+        @Html.Hidden("InActivePartial", @Model.ViewDetails[0].InActivePartial);
+        <div class="left-panel">
+            <div style="padding: 16px;"> <img src="~/Content/Images/Mains/@(@Model.ViewDetails[0].InActivePartial ? "iSync-icon64.png" : "blue-cross-icon64.png")" title="Hủy/ phục hồi một phần đơn hàng" />  </div>
+        </div>
+        <div class="right-panel" style="padding-right:17px;">
+            <div class=" form-group">
+                @Html.LabelFor(model => model.ViewDetails[0].CommodityName)
+                <div class="div-input">
+                    @Html.Kendo().MaskedTextBoxFor(model => model.ViewDetails[0].CommodityName).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ViewDetails[0].Quantity)
+                <div class="div-input">
+                    @Html.Kendo().MaskedTextBoxFor(model => model.ViewDetails[0].Quantity).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.EditorFor(d => d.VoidType)
+            </div>
+            
+            
+        </div>
+        <div class="background-bar">
+            <div class="popup-button-bar">
+                <button type="submit" class="k-button"> <img src="~/Content/Images/Mains/@(@Model.ViewDetails[0].InActivePartial ? "iSync-icon32.png" : "blue-cross-icon32.png")" alt="" /> Xác nhận @(@Model.ViewDetails[0].InActivePartial ? "phục hồi" : "hủy") mặt hàng này </button>
+                <button type="button" class="k-button" onclick="window.parent.$('#myWindow').data('kendoWindow').close()"> <img src="~/Content/Images/Mains/Users-Exit-icon.png" alt="" /> Thoát </button>                
+            </div>
+        </div>
+    }
+}
+@Html.Partial("~/Views/Helpers/Bases/_BaseSubmit.cshtml")
+
+
+
+<link href="@Url.Content("~/Content/CustomCss/GeneralPopup.css")" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+
+    function cancelButton_Click() {
+        window.parent.$("#myWindow").data("kendoWindow").close();
+    }
+
+
+</script>
+
+<style>
+    .left-panel-input {
+        width: 100%;
+    }
+</style>

@@ -30,6 +30,7 @@ namespace TotalDTO.Inventories
         public string ShippingAddress { get; set; }
 
         public virtual Nullable<int> GoodsIssueID { get; set; }
+        public string GoodsIssueReferences { get; set; }
 
         public virtual int PackagingStaffID { get; set; }
 
@@ -47,8 +48,6 @@ namespace TotalDTO.Inventories
         public int PackingMaterialID { get; set; }
         [Display(Name = "Quy cách, kích thước")]
         public string Dimension { get; set; }
-
-        public string GoodsIssueReferences { get; set; }
 
         [Display(Name = "Trọng lượng thực tế")]
         public decimal RealWeight { get; set; }

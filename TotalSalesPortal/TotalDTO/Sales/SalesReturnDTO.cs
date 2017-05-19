@@ -40,7 +40,7 @@ namespace TotalDTO.Sales
 
         public bool HasGoodsIssue { get; set; }
 
-        public Nullable<int> GoodsIssueID { get; set; }
+        public virtual Nullable<int> GoodsIssueID { get; set; }
         public string GoodsIssueReferences { get; set; }
 
         public virtual Nullable<int> PromotionID { get; set; }
