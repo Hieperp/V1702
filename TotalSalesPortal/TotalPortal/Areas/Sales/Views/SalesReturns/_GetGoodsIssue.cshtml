@@ -1,0 +1,79 @@
+﻿@using TotalPortal.Configuration
+@using TotalModel.Models;
+
+@(Html.Kendo().Grid<SalesReturnPendingGoodsIssue>()
+    .Name("salesReturnPendingGoodsIssueGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.GoodsIssueReference).Title("Kho").Width(35);
+        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày ĐH").Width(55).Format("{0:" + SettingsManager.DateFormat + "}");
+        columns.Bound(c => c.CustomerName).Title("khách hàng").Width(150);
+        columns.Bound(c => c.ReceiverName).Title("Giao hàng").Width(200);
+        columns.Bound(c => c.Description).Title("Diễn giải").Width(100);
+    })
+    .ToolBar(toolbar =>
+    {
+        toolbar.Template(@<text>
+            <div class="toolbar" style="float: right;">
+                @Html.Kendo().DatePicker().Name("FromDate").Value(DateTime.Today).Events(e => e.Change("reReadGetGoodsIssues")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" })
+                @Html.Kendo().DatePicker().Name("ToDate").Value(DateTime.Today).Events(e => e.Change("reReadGetGoodsIssues")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" })
+
+
+                <label>Nhập số đơn hàng/ hoặc mã, tên, MST khách hàng hay đơn vị, người nhận hàng, hoặc mã kho</label>
+                <input id="salesReturnPendingGoodsIssueFilter" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="salesReturnPendingGoodsIssueFilter_KeyUp()" />
+            </div>
+        </text>);
+    })
+        .Scrollable(s => s.Height(SettingsManager.PopupContentHeight))
+        .DataSource(ds => ds.Ajax()
+            .Read(read => read.Action("GetGoodsIssues", "SalesReturnAPIs", new { area = "Sales" }).Data("onAdditionalGetGoodsIssues"))
+            .ServerOperation(false)
+        )
+        .Selectable()
+)
+
+<script type="text/javascript">
+    $("#Customer_CustomerID").change(function (e) { reReadGetGoodsIssues(); })
+
+    function onAdditionalGetGoodsIssues(e) {
+        return {
+            locationID: window.parent.requireConfig.pageOptions.LocationID,
+            customerID: $("#Customer_CustomerID").val(),
+            receiverID: $("#Receiver_CustomerID").val(),
+            fromDate: $("#FromDate").val(),
+            toDate: $("#ToDate").val()
+        };
+    }
+
+    function reReadGetGoodsIssues() { $("#salesReturnPendingGoodsIssueGrid").data("kendoGrid").dataSource.read() }
+
+    function salesReturnPendingGoodsIssueFilter_KeyUp() {
+        var salesReturnPendingGoodsIssueFilter = $("#salesReturnPendingGoodsIssueFilter").val(), gridDetails = $("#salesReturnPendingGoodsIssueGrid").data("kendoGrid");
+
+        if (salesReturnPendingGoodsIssueFilter && salesReturnPendingGoodsIssueFilter.length >= "@SettingsManager.AutoCompleteMinLenght") {
+            gridDetails.dataSource.filter({
+                logic: "or",
+                filters: [
+                    { field: "GoodsIssueReference", operator: "contains", value: salesReturnPendingGoodsIssueFilter },
+                    
+                    { field: "CustomerCode", operator: "contains", value: salesReturnPendingGoodsIssueFilter },
+                    { field: "CustomerName", operator: "contains", value: salesReturnPendingGoodsIssueFilter },
+                    { field: "CustomerVATCode", operator: "contains", value: salesReturnPendingGoodsIssueFilter },
+
+                    { field: "ReceiverCode", operator: "contains", value: salesReturnPendingGoodsIssueFilter },
+                    { field: "ReceiverName", operator: "contains", value: salesReturnPendingGoodsIssueFilter }
+                ]
+            });
+
+
+        } else {
+            if (gridDetails.dataSource.filter() != undefined)
+                gridDetails.dataSource.filter({});
+        }
+    }
+
+    $("#salesReturnPendingGoodsIssueGrid").dblclick(function (e) {
+        handleOKEvent(true, true);
+    })
+</script>
+

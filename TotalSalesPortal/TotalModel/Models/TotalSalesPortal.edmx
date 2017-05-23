@@ -926,7 +926,8 @@
           <Property Name="TotalListedGrossAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalGrossAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="AverageDiscountPercent" Type="decimal" Precision="18" Scale="5" Nullable="false" />
-          <Property Name="ReceiptAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalReceiptAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalFluctuationAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="100" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -6925,7 +6926,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="TotalListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TotalGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="AverageDiscountPercent" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-          <Property Name="ReceiptAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalReceiptAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalFluctuationAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
@@ -9181,7 +9183,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ReceiptAmount" ColumnName="ReceiptAmount" />
+                <ScalarProperty Name="TotalFluctuationAmount" ColumnName="TotalFluctuationAmount" />
+                <ScalarProperty Name="TotalReceiptAmount" ColumnName="TotalReceiptAmount" />
                 <ScalarProperty Name="AverageDiscountPercent" ColumnName="AverageDiscountPercent" />
                 <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
                 <ScalarProperty Name="TotalListedGrossAmount" ColumnName="TotalListedGrossAmount" />

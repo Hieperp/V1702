@@ -82,7 +82,7 @@ namespace TotalModel.Models
     public partial class SalesReturnIndex
     {
         public decimal GrandTotalQuantity { get { return this.TotalQuantity + this.TotalFreeQuantity; } }
-        public decimal GrandTotalQuantityReceive { get { return this.TotalQuantityReceived + this.TotalFreeQuantityReceived; } }
+        public decimal GrandTotalQuantityReceived { get { return this.TotalQuantityReceived + this.TotalFreeQuantityReceived; } }
     }
 
 

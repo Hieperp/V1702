@@ -2,17 +2,17 @@
 
 @{Layout = "~/Views/Shared/_LayoutPopup.cshtml";}
 
-@model TotalPortal.Areas.Sales.ViewModels.DeliveryAdviceViewModel
+@model TotalPortal.Areas.Sales.ViewModels.SalesReturnViewModel
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    @Html.Hidden("Id", @Model.DeliveryAdviceID);
+    @Html.Hidden("Id", @Model.SalesReturnID);
 
     if (Model.ViewDetails.Count > 0)
     {
-        @Html.Hidden("DetailId", @Model.ViewDetails[0].DeliveryAdviceDetailID);
+        @Html.Hidden("DetailId", @Model.ViewDetails[0].SalesReturnDetailID);
         @Html.Hidden("InActivePartial", @Model.ViewDetails[0].InActivePartial);
         <div class="left-panel">
             <div style="padding: 16px;"> <img src="~/Content/Images/Mains/@(@Model.ViewDetails[0].InActivePartial ? "iSync-icon64.png" : "blue-cross-icon64.png")" title="Hủy/ phục hồi một phần đơn hàng" />  </div>

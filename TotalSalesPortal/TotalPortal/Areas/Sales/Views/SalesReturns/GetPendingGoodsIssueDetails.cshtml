@@ -4,13 +4,12 @@
 @{Layout = "~/Views/Shared/_LayoutPopup.cshtml";}
 
 
-@(Html.Kendo().Grid<DeliveryAdvicePendingSalesOrderDetail>()
-    .Name("gridPendingSalesOrderDetails")
+@(Html.Kendo().Grid<SalesReturnPendingGoodsIssueDetail>()
+    .Name("gridPendingGoodsIssueDetails")
     .Columns(columns =>
     {
-        columns.Bound(c => c.SalesOrderReference).Title("Phiếu ĐH").Width(30);
-        columns.Bound(c => c.SalesOrderCode).Title("Số đơn hàng").Width(50);
-        columns.Bound(c => c.SalesOrderEntryDate).Title("Ngày đặt hàng").Width(50).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Bound(c => c.GoodsIssueReference).Title("Phiếu ĐH").Width(30);
+        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày đặt hàng").Width(50).Format("{0:" + SettingsManager.DateTimeFormat + "}");
         columns.Bound(c => c.CommodityCode).Title("Mã hàng").Width(130);
         columns.Bound(c => c.QuantityRemains).Title("SL").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" });
         columns.Bound(c => c.FreeQuantityRemains).Title("QT").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" });
@@ -21,6 +20,9 @@
     {
         toolbar.Template(@<text>
             <div class="toolbar" style="float: right;">
+                @Html.Kendo().DatePicker().Name("FromDate").Value(DateTime.Today).Events(e => e.Change("reReadGetPendingGoodsIssueDetails")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" })
+                @Html.Kendo().DatePicker().Name("ToDate").Value(DateTime.Today).Events(e => e.Change("reReadGetPendingGoodsIssueDetails")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" })
+
                 <label>Nhập số đơn hàng hoặc mã hay tên hàng hóa</label>
                 <input id="filterText" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="filterText_KeyUp()" />
             </div>
@@ -28,23 +30,21 @@
     })
     .Scrollable(s => s.Height(SettingsManager.PopupContentHeightLarge))
     .DataSource(ds => ds.Ajax()
-            .Read(read => read.Action("GetPendingSalesOrderDetails", "DeliveryAdviceAPIs", new { area = "Sales" }).Data(@<text>
+            .Read(read => read.Action("GetPendingGoodsIssueDetails", "SalesReturnAPIs", new { area = "Sales" }).Data(@<text>
             function(e) {
 
-            var deliveryAdviceJSON = window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource.data().toJSON();
+            var salesReturnJSON = window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource.data().toJSON();
 
             return {
                 locationID: window.parent.requireConfig.pageOptions.LocationID,                
-                deliveryAdviceID: window.parent.$("#DeliveryAdviceID").val(),
-                salesOrderID: window.parent.$("#SalesOrderID").val(),
+                salesReturnID: window.parent.$("#SalesReturnID").val(),
+                goodsIssueID: window.parent.$("#GoodsIssue_GoodsIssueID").val(),
                 customerID: window.parent.$("#Customer_CustomerID").val(),  
                 receiverID: window.parent.$("#Receiver_CustomerID").val(),
-                priceCategoryID: window.parent.$("#PriceCategoryID").val(),
-                warehouseID: window.parent.$("#Warehouse_WarehouseID").val(),
-                shippingAddress: window.parent.$("#ShippingAddress").val(),                
                 vatPercent: window.parent.$("#VATPercent").val(),
-                entryDate: window.parent.$("#EntryDate").val(),
-                salesOrderDetailIDs : deliveryAdviceJSON.map(function(elem){return elem.SalesOrderDetailID;}).join(","),
+                fromDate: $("#FromDate").val(),
+                toDate: $("#ToDate").val(),
+                goodsIssueDetailIDs : salesReturnJSON.map(function(elem){return elem.GoodsIssueDetailID;}).join(","),
                 isReadOnly: false
             };}
             </text>))
@@ -60,16 +60,19 @@
     </div>
 </div>
 
-<script src="@Url.Content("~/Scripts/Controllers/Sales/DeliveryAdvices/AddPendingSalesOrderDetail.js")"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Sales/SalesReturns/AddPendingGoodsIssueDetail.js")"></script>
 
 <script type="text/javascript">
+
+    function reReadGetPendingGoodsIssueDetails() { $("#kendoGridDetails").data("kendoGrid").dataSource.read() }
+
     function okButton_Click() {
-        handleOKEvent(window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource, $("#gridPendingSalesOrderDetails").data("kendoGrid").dataSource);
+        handleOKEvent(window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource, $("#gridPendingGoodsIssueDetails").data("kendoGrid").dataSource);
     }
 
-    $('#gridPendingSalesOrderDetails').on('click', '.IsSelected', function () {
+    $('#gridPendingGoodsIssueDetails').on('click', '.IsSelected', function () {
         var checked = $(this).is(':checked');
-        var grid = $('#gridPendingSalesOrderDetails').data().kendoGrid;
+        var grid = $('#gridPendingGoodsIssueDetails').data().kendoGrid;
         var dataItem = grid.dataItem($(this).closest('tr'));
         dataItem.set('IsSelected', checked);
     })
@@ -79,14 +82,14 @@
 
 <script>
     function filterText_KeyUp() {
-        var filterText = $("#filterText").val(), gridDetails = $("#gridPendingSalesOrderDetails").data("kendoGrid");
+        var filterText = $("#filterText").val(), gridDetails = $("#gridPendingGoodsIssueDetails").data("kendoGrid");
 
         if (filterText && filterText.length >= "@SettingsManager.AutoCompleteMinLenght") {
             gridDetails.dataSource.filter({
                 logic: "or",
                 filters: [
-                    { field: "SalesOrderCode", operator: "contains", value: filterText },
-                    { field: "SalesOrderReference", operator: "contains", value: filterText },
+                    { field: "GoodsIssueCode", operator: "contains", value: filterText },
+                    { field: "GoodsIssueReference", operator: "contains", value: filterText },
 
                     { field: "CommodityCode", operator: "contains", value: filterText },
                     { field: "CommodityName", operator: "contains", value: filterText }

@@ -53,7 +53,8 @@ namespace TotalModel.Models
         public decimal TotalListedGrossAmount { get; set; }
         public decimal TotalGrossAmount { get; set; }
         public decimal AverageDiscountPercent { get; set; }
-        public decimal ReceiptAmount { get; set; }
+        public decimal TotalReceiptAmount { get; set; }
+        public decimal TotalFluctuationAmount { get; set; }
         public string Description { get; set; }
         public string Remarks { get; set; }
         public System.DateTime CreatedDate { get; set; }

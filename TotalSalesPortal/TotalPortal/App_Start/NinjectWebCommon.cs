@@ -108,6 +108,12 @@ namespace TotalPortal.App_Start
                 kernel.Bind<IDeliveryAdviceViewModelSelectListBuilder>().To<DeliveryAdviceViewModelSelectListBuilder>();
 
 
+                kernel.Bind<ISalesReturnService>().To<SalesReturnService>();
+                kernel.Bind<ISalesReturnRepository>().To<SalesReturnRepository>();
+                kernel.Bind<ISalesReturnAPIRepository>().To<SalesReturnAPIRepository>();
+                kernel.Bind<ISalesReturnViewModelSelectListBuilder>().To<SalesReturnViewModelSelectListBuilder>();
+
+
                 kernel.Bind<IGoodsIssueService>().To<GoodsIssueService>();
                 kernel.Bind<IGoodsIssueRepository>().To<GoodsIssueRepository>();
                 kernel.Bind<IGoodsIssueAPIRepository>().To<GoodsIssueAPIRepository>();

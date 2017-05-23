@@ -60,8 +60,8 @@ namespace TotalDTO.Sales
         {
             base.PerformPresaveRule();
 
-            string goodsIssueReferences = ""; 
-            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; e.ReceiverID = this.ReceiverID; e.PromotionID = this.PromotionID; e.SalespersonID = this.SalespersonID; if (this.HasGoodsIssue && goodsIssueReferences.IndexOf(e.GoodsIssueReference) < 0) goodsIssueReferences = goodsIssueReferences + (goodsIssueReferences != "" ? ", " : "") + e.GoodsIssueReference; });
+            string goodsIssueReferences = "";
+            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; e.ReceiverID = this.ReceiverID; e.WarehouseID = this.WarehouseID; e.PromotionID = this.PromotionID; e.SalespersonID = this.SalespersonID; if (this.HasGoodsIssue && goodsIssueReferences.IndexOf(e.GoodsIssueReference) < 0) goodsIssueReferences = goodsIssueReferences + (goodsIssueReferences != "" ? ", " : "") + e.GoodsIssueReference; });
             this.GoodsIssueReferences = goodsIssueReferences;
         }
     }

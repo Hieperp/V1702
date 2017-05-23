@@ -44,6 +44,15 @@ namespace TotalPortal.App_Start
 
                 cfg.CreateMap<DeliveryAdvice, DeliveryAdviceBoxDTO>();
 
+
+                cfg.CreateMap<SalesReturn, SalesReturnViewModel>();
+                cfg.CreateMap<SalesReturn, SalesReturnDTO>();
+                cfg.CreateMap<SalesReturnPrimitiveDTO, SalesReturn>();
+                cfg.CreateMap<SalesReturnViewDetail, SalesReturnDetailDTO>();
+                cfg.CreateMap<SalesReturnDetailDTO, SalesReturnDetail>();
+
+                cfg.CreateMap<SalesReturn, SalesReturnBoxDTO>();                
+
                 cfg.CreateMap<GoodsIssue, GoodsIssueViewModel>();
                 cfg.CreateMap<GoodsIssue, GoodsIssueDTO>();
                 cfg.CreateMap<GoodsIssuePrimitiveDTO, GoodsIssue>();
@@ -76,8 +85,7 @@ namespace TotalPortal.App_Start
                 cfg.CreateMap<ReceiptViewDetail, ReceiptDetailDTO>();
                 cfg.CreateMap<ReceiptDetailDTO, ReceiptDetail>();
 
-                cfg.CreateMap<Receipt, ReceiptBoxDTO>();
-                cfg.CreateMap<SalesReturn, SalesReturnBoxDTO>();
+                cfg.CreateMap<Receipt, ReceiptBoxDTO>();                
                 cfg.CreateMap<CreditNote, CreditNoteBoxDTO>();
 
                 cfg.CreateMap<Employee, EmployeeBaseDTO>();

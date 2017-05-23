@@ -128,7 +128,8 @@
         public enum WarehouseTaskID
         {
             SalesOrder = 8032,
-            DeliveryAdvice = 8035
+            DeliveryAdvice = 8035,
+            SalesReturn = 8038
         };
 
         public enum ReceiptTypeID

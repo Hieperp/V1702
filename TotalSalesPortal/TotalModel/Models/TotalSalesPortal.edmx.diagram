@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d15db0f3b87b40d8a37bac669a0fa729" Name="Diagram1" ZoomLevel="28">
+      <Diagram DiagramId="d15db0f3b87b40d8a37bac669a0fa729" Name="Diagram1" ZoomLevel="41">
         <EntityTypeShape EntityType="TotalSalesPortalModel.AspNetUser" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.Location" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.ModuleDetail" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
@@ -131,8 +131,8 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdvices_Warehouses" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesOrders_Warehouses" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssues_Warehouses" />
-        <EntityTypeShape EntityType="TotalSalesPortalModel.SalesReturnDetail" Width="1.5" PointX="29.25" PointY="18.75" />
-        <EntityTypeShape EntityType="TotalSalesPortalModel.SalesReturn" Width="1.5" PointX="25" PointY="0.75" />
+        <EntityTypeShape EntityType="TotalSalesPortalModel.SalesReturnDetail" Width="1.5" PointX="37.875" PointY="4.5" />
+        <EntityTypeShape EntityType="TotalSalesPortalModel.SalesReturn" Width="1.5" PointX="33.125" PointY="0.875" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturnDetails_Commodities" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_Customers" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_Customers1" />

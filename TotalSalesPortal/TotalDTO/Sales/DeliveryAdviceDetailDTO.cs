@@ -25,7 +25,7 @@ namespace TotalDTO.Sales
         {
             foreach (var result in base.Validate(validationContext)) { yield return result; }
 
-            if (this.QuantityAvailable < (this.Quantity + this.FreeQuantity)) yield return new ValidationResult("Số lượng xuất không được lớn hơn số lượng tồn kho [" + this.CommodityName + "]", new[] { "Quantity" });
+            if (this.WarehouseID != null && this.QuantityAvailable < (this.Quantity + this.FreeQuantity)) yield return new ValidationResult("Số lượng xuất không được lớn hơn số lượng tồn kho [" + this.CommodityName + "]", new[] { "Quantity" });
         }
     }
 

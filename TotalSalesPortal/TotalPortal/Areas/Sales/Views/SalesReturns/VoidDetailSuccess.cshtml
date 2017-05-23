@@ -16,7 +16,7 @@
         var data = kenGrid.dataSource.data();
 
         $.each(data, function (i, row) {
-            if (row.DeliveryAdviceDetailID == $("#DetailID").val()) {
+            if (row.SalesReturnDetailID == $("#DetailID").val()) {
                 
                 //This will raise kendo grid DataBound event (to style grid row). Now: we set only one field to raise DataBound event one time only. (The control will raise event per each row.set command)
                 row.set("VoidTypeName", ($("#InActivePartial").val() == 'True' ? $("#VoidType_Name").val() : ''));

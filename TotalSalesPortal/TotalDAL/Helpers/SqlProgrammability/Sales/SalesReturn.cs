@@ -233,7 +233,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
             queryString = queryString + "           IF @@ROWCOUNT <> (SELECT COUNT(*) FROM SalesReturnDetails WHERE SalesReturnID = @EntityID) " + "\r\n";
             queryString = queryString + "               BEGIN " + "\r\n";
-            queryString = queryString + "                   DECLARE     @msg NVARCHAR(300) = N'Đơn hàng không tồn tại, chưa duyệt hoặc đã hủy' ; " + "\r\n";
+            queryString = queryString + "                   DECLARE     @msg NVARCHAR(300) = N'Phiếu xuất kho không tồn tại, chưa duyệt hoặc đã hủy' ; " + "\r\n";
             queryString = queryString + "                   THROW       61001,  @msg, 1; " + "\r\n";
             queryString = queryString + "               END " + "\r\n";
             queryString = queryString + "       END " + "\r\n";
@@ -270,8 +270,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
         {
             string[] queryArray = new string[2];
 
-            queryArray[0] = " SELECT TOP 1 @FoundEntity = N'Ngày đặt hàng: ' + CAST(GoodsIssues.EntryDate AS nvarchar) FROM SalesReturnDetails INNER JOIN GoodsIssues ON SalesReturnDetails.SalesReturnID = @EntityID AND SalesReturnDetails.GoodsIssueID = GoodsIssues.GoodsIssueID AND SalesReturnDetails.EntryDate < GoodsIssues.EntryDate ";
-            queryArray[1] = " SELECT TOP 1 @FoundEntity = N'Số lượng xuất vượt quá số lượng đặt hàng: ' + CAST(ROUND(Quantity - QuantityReturned, " + (int)GlobalEnums.rndQuantity + ") AS nvarchar) + ' OR free quantity: ' + CAST(ROUND(FreeQuantity - FreeQuantityReturned, " + (int)GlobalEnums.rndQuantity + ") AS nvarchar) FROM GoodsIssueDetails WHERE (ROUND(Quantity - QuantityReturned, " + (int)GlobalEnums.rndQuantity + ") < 0) OR (ROUND(FreeQuantity - FreeQuantityReturned, " + (int)GlobalEnums.rndQuantity + ") < 0) ";
+            queryArray[0] = " SELECT TOP 1 @FoundEntity = N'Ngày xuất kho: ' + CAST(GoodsIssues.EntryDate AS nvarchar) FROM SalesReturnDetails INNER JOIN GoodsIssues ON SalesReturnDetails.SalesReturnID = @EntityID AND SalesReturnDetails.GoodsIssueID = GoodsIssues.GoodsIssueID AND SalesReturnDetails.EntryDate < GoodsIssues.EntryDate ";
+            queryArray[1] = " SELECT TOP 1 @FoundEntity = N'Số lượng trả hàng vượt quá số lượng xuất kho: ' + CAST(ROUND(Quantity - QuantityReturned, " + (int)GlobalEnums.rndQuantity + ") AS nvarchar) + ' OR free quantity: ' + CAST(ROUND(FreeQuantity - FreeQuantityReturned, " + (int)GlobalEnums.rndQuantity + ") AS nvarchar) FROM GoodsIssueDetails WHERE (ROUND(Quantity - QuantityReturned, " + (int)GlobalEnums.rndQuantity + ") < 0) OR (ROUND(FreeQuantity - FreeQuantityReturned, " + (int)GlobalEnums.rndQuantity + ") < 0) ";
 
             this.totalSalesPortalEntities.CreateProcedureToCheckExisting("SalesReturnPostSaveValidate", queryArray);
         }
