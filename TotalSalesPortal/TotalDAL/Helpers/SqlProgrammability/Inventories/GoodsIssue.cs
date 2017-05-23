@@ -325,8 +325,9 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             string[] queryArray = new string[3];
 
             queryArray[0] = " SELECT TOP 1 @FoundEntity = GoodsIssueID FROM HandlingUnitDetails WHERE GoodsIssueID = @EntityID ";
-            queryArray[1] = " SELECT TOP 1 @FoundEntity = GoodsIssueID FROM ReceiptDetails WHERE GoodsIssueID = @EntityID ";
-            queryArray[2] = " SELECT TOP 1 @FoundEntity = GoodsIssueID FROM AccountInvoiceDetails WHERE GoodsIssueID = @EntityID ";
+            queryArray[1] = " SELECT TOP 1 @FoundEntity = GoodsIssueID FROM AccountInvoiceDetails WHERE GoodsIssueID = @EntityID ";
+            queryArray[2] = " SELECT TOP 1 @FoundEntity = GoodsIssueID FROM ReceiptDetails WHERE GoodsIssueID = @EntityID ";
+            
 
             this.totalSalesPortalEntities.CreateProcedureToCheckExisting("GoodsIssueEditable", queryArray);
         }

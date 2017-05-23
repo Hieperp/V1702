@@ -291,20 +291,22 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
         private void SalesReturnEditable()
         {
-            string[] queryArray = new string[1];
+            string[] queryArray = new string[2];
 
             queryArray[0] = " SELECT TOP 1 @FoundEntity = SalesReturnID FROM SalesReturns WHERE SalesReturnID = @EntityID AND (InActive = 1 OR InActivePartial = 1)"; //Don't allow approve after void
-            //      NEED TO ADD: WH INPUT, APPLY CREDIT BY RECEIPTS               queryArray[1] = " SELECT TOP 1 @FoundEntity = SalesReturnID FROM GoodsIssueDetails WHERE SalesReturnID = @EntityID ";
+            queryArray[1] = " SELECT TOP 1 @FoundEntity = SalesReturnID FROM Receipts WHERE SalesReturnID = @EntityID ";
+            //NEED TO CHECK WH INPUT: queryArray[2] = " SELECT TOP 1 @FoundEntity = SalesReturnID FROM SKUInput!!!! WHERE SalesReturnID = @EntityID ";
 
             this.totalSalesPortalEntities.CreateProcedureToCheckExisting("SalesReturnEditable", queryArray);
         }
 
         private void SalesReturnVoidable()
         {
-            string[] queryArray = new string[1];
+            string[] queryArray = new string[2];
 
             queryArray[0] = " SELECT TOP 1 @FoundEntity = SalesReturnID FROM SalesReturns WHERE SalesReturnID = @EntityID AND Approved = 0"; //Must approve in order to allow void
-            //////////queryArray[1] = " SELECT TOP 1 @FoundEntity = SalesReturnID FROM GoodsIssueDetails WHERE SalesReturnID = @EntityID ";
+            queryArray[1] = " SELECT TOP 1 @FoundEntity = SalesReturnID FROM Receipts WHERE SalesReturnID = @EntityID ";
+            //NEED TO CHECK WH INPUT: queryArray[2] = " SELECT TOP 1 @FoundEntity = SalesReturnID FROM SKUInput!!!! WHERE SalesReturnID = @EntityID ";
 
             this.totalSalesPortalEntities.CreateProcedureToCheckExisting("SalesReturnVoidable", queryArray);
         }

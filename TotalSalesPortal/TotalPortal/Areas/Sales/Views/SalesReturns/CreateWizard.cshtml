@@ -40,23 +40,8 @@
 
     @Html.HiddenFor(model => model.Description);
 
-    @(Html.Kendo().TabStrip()
-        .HtmlAttributes(new { @style = "height: 468px; margin-left: 0px; margin-right: 0px;" })
-        .Name("tabStrip")
-        .Items(tabStrip =>
-        {
-            tabStrip.Add().Text("Khách hàng không có đơn hàng")
-                .Selected(true)
-                .Content(@<text>
-                    @Html.Partial("~/Views/Helpers/Commons/_SearchCustomer.cshtml")
-                </text>);
-
-            tabStrip.Add().Text("Giao hàng theo đơn đặt hàng")
-                .Content(@<text>
-                    @Html.Partial("~/Areas/Sales/Views/SalesReturns/_GetGoodsIssue.cshtml")
-                </text>);
-        })
-    )
+    @Html.Partial("~/Views/Helpers/Commons/_SearchCustomer.cshtml")
+    @Html.Partial("~/Areas/Sales/Views/SalesReturns/_GetGoodsIssue.cshtml")        
 
 
     <div class="background-bar" style="height: 45px;">
@@ -117,25 +102,20 @@
 
                 $("#ShippingAddress").val(selectedDataItem === undefined || selectedDataItem.ShippingAddress === undefined ? null : selectedDataItem.ShippingAddress);
                 $("#Description").val(selectedDataItem === undefined || selectedDataItem.Description === undefined ? null : selectedDataItem.Description);
-            }
-
-            //$("#Promotion_PromotionID").val(selectedPromotionItem === undefined || selectedPromotionItem.PromotionID === undefined ? null : selectedPromotionItem.PromotionID);
-            //$("#Promotion_Name").val(selectedPromotionItem === undefined || selectedPromotionItem.Name === undefined ? null : selectedPromotionItem.Name);
-            //$("#Promotion_StartDate").val(selectedPromotionItem === undefined || selectedPromotionItem.StartDate === undefined ? null : kendo.toString(selectedPromotionItem.StartDate, SettingsManager.DateTimeFormat));
-            //$("#Promotion_EndDate").val(selectedPromotionItem === undefined || selectedPromotionItem.EndDate === undefined ? null : kendo.toString(selectedPromotionItem.EndDate, SettingsManager.DateTimeFormat));
-            //$("#Promotion_DiscountPercent").val(selectedPromotionItem === undefined || selectedPromotionItem.DiscountPercent === undefined ? null : selectedPromotionItem.DiscountPercent);
-            //$("#Promotion_ControlFreeQuantity").val(selectedPromotionItem === undefined || selectedPromotionItem.ControlFreeQuantity === undefined ? null : selectedPromotionItem.ControlFreeQuantity);
-
-            //$("#Promotion_ApplyToAllCustomers").val(selectedPromotionItem === undefined || selectedPromotionItem.ApplyToAllCustomers === undefined ? false : selectedPromotionItem.ApplyToAllCustomers);
-            //$("#Promotion_ApplyToAllCommodities").val(selectedPromotionItem === undefined || selectedPromotionItem.ApplyToAllCommodities === undefined ? false : selectedPromotionItem.ApplyToAllCommodities);
-
-            //$("#Promotion_Remarks").val(selectedPromotionItem === undefined || selectedPromotionItem.Remarks === undefined ? null : selectedPromotionItem.Remarks);
+            }            
         }
     }
 
 </script>
 
 
+<style>
+    #searchCustomer-div {
+        border-radius: 0px;
+        border-top-style: none;
+    }
 
-
-
+    #gridPromotion { /*Don't allow to select any specific promotion. As the same as the SalesOrder and DeliveryAdvice: NO specific promotion MEANS: ALL PROMOTIONS EFFECTED*/
+        display: none;
+    }
+</style>
