@@ -419,11 +419,15 @@ namespace TotalModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ReceiptIndex>("GetReceiptIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
         }
     
-        public virtual ObjectResult<ReceiptViewDetail> GetReceiptViewDetails(Nullable<int> receiptID, Nullable<int> goodsIssueID, Nullable<int> customerID, Nullable<bool> isReadonly)
+        public virtual ObjectResult<ReceiptViewDetail> GetReceiptViewDetails(Nullable<int> receiptID, Nullable<int> locationID, Nullable<int> goodsIssueID, Nullable<int> customerID, Nullable<bool> isReadonly)
         {
             var receiptIDParameter = receiptID.HasValue ?
                 new ObjectParameter("ReceiptID", receiptID) :
                 new ObjectParameter("ReceiptID", typeof(int));
+    
+            var locationIDParameter = locationID.HasValue ?
+                new ObjectParameter("LocationID", locationID) :
+                new ObjectParameter("LocationID", typeof(int));
     
             var goodsIssueIDParameter = goodsIssueID.HasValue ?
                 new ObjectParameter("GoodsIssueID", goodsIssueID) :
@@ -437,7 +441,7 @@ namespace TotalModel.Models
                 new ObjectParameter("IsReadonly", isReadonly) :
                 new ObjectParameter("IsReadonly", typeof(bool));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ReceiptViewDetail>("GetReceiptViewDetails", receiptIDParameter, goodsIssueIDParameter, customerIDParameter, isReadonlyParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ReceiptViewDetail>("GetReceiptViewDetails", receiptIDParameter, locationIDParameter, goodsIssueIDParameter, customerIDParameter, isReadonlyParameter);
         }
     
         public virtual ObjectResult<string> ReceiptEditable(Nullable<int> entityID)

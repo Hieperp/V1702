@@ -8,8 +8,9 @@
     .Name("gridPendingGoodsIssueDetails")
     .Columns(columns =>
     {
-        columns.Bound(c => c.GoodsIssueReference).Title("Phiếu ĐH").Width(30);
-        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày đặt hàng").Width(50).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Bound(c => c.GoodsIssueReference).Title("Phiếu XK").Width(30);
+        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày XK").Width(55).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Bound(c => c.DeliveryAdviceReferences).Title("ĐNGH").Width(80);
         columns.Bound(c => c.CommodityCode).Title("Mã hàng").Width(130);
         columns.Bound(c => c.QuantityRemains).Title("SL").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" });
         columns.Bound(c => c.FreeQuantityRemains).Title("QT").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" });
@@ -19,12 +20,14 @@
     .ToolBar(toolbar =>
     {
         toolbar.Template(@<text>
-            <div class="toolbar" style="float: right;">
-                @Html.Kendo().DatePicker().Name("FromDate").Value(DateTime.Today).Events(e => e.Change("reReadGetPendingGoodsIssueDetails")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" })
-                @Html.Kendo().DatePicker().Name("ToDate").Value(DateTime.Today).Events(e => e.Change("reReadGetPendingGoodsIssueDetails")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" })
+            <div class="toolbar" style="float: right; margin-right: 13px;">
+                <label>Nhập số PXK, ĐNGH hoặc mã hay tên hàng hóa</label>
+                <input id="filterText" class="k-textbox" style="text-align: center; " onkeyup="filterText_KeyUp()" />
 
-                <label>Nhập số đơn hàng hoặc mã hay tên hàng hóa</label>
-                <input id="filterText" class="k-textbox" style="text-align: center; margin-right: 13px;" onkeyup="filterText_KeyUp()" />
+                <span id="filterExtended" style="display: none;">
+                    @Html.Kendo().DatePicker().Name("FromDate").Value(DateTime.Today).Events(e => e.Change("reReadGetPendingGoodsIssueDetails")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" })
+                    @Html.Kendo().DatePicker().Name("ToDate").Value(DateTime.Today).Events(e => e.Change("reReadGetPendingGoodsIssueDetails")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" })
+                </span>
             </div>
         </text>);
     })
@@ -36,16 +39,16 @@
             var salesReturnJSON = window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource.data().toJSON();
 
             return {
-                locationID: window.parent.requireConfig.pageOptions.LocationID,                
-                salesReturnID: window.parent.$("#SalesReturnID").val(),
-                goodsIssueID: window.parent.$("#GoodsIssue_GoodsIssueID").val(),
-                customerID: window.parent.$("#Customer_CustomerID").val(),  
-                receiverID: window.parent.$("#Receiver_CustomerID").val(),
-                vatPercent: window.parent.$("#VATPercent").val(),
-                fromDate: $("#FromDate").val(),
-                toDate: $("#ToDate").val(),
-                goodsIssueDetailIDs : salesReturnJSON.map(function(elem){return elem.GoodsIssueDetailID;}).join(","),
-                isReadOnly: false
+            locationID: window.parent.requireConfig.pageOptions.LocationID,
+            salesReturnID: window.parent.$("#SalesReturnID").val(),
+            goodsIssueID: window.parent.$("#GoodsIssue_GoodsIssueID").val(),
+            customerID: window.parent.$("#Customer_CustomerID").val(),
+            receiverID: window.parent.$("#Receiver_CustomerID").val(),
+            vatPercent: window.parent.$("#VATPercent").val(),
+            fromDate: $("#FromDate").val(),
+            toDate: $("#ToDate").val(),
+            goodsIssueDetailIDs : salesReturnJSON.map(function(elem){return elem.GoodsIssueDetailID;}).join(","),
+            isReadOnly: false
             };}
             </text>))
     .ServerOperation(false)) //If this is TRUE: Apply filter to datasource will call Ajax to get new datasource result. If this is FALSE: filter will run on client
@@ -63,8 +66,15 @@
 <script src="@Url.Content("~/Scripts/Controllers/Sales/SalesReturns/AddPendingGoodsIssueDetail.js")"></script>
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        
+        if (window.parent.$("#GoodsIssue_GoodsIssueID").val() == undefined || window.parent.$("#GoodsIssue_GoodsIssueID").val() == "") {
+            document.getElementById('filterText').style.margin = '0px';
+            document.getElementById('filterExtended').style.display = 'inline';
+        }
+    });
 
-    function reReadGetPendingGoodsIssueDetails() { $("#kendoGridDetails").data("kendoGrid").dataSource.read() }
+    function reReadGetPendingGoodsIssueDetails() { $("#gridPendingGoodsIssueDetails").data("kendoGrid").dataSource.read() }
 
     function okButton_Click() {
         handleOKEvent(window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource, $("#gridPendingGoodsIssueDetails").data("kendoGrid").dataSource);
@@ -87,9 +97,9 @@
         if (filterText && filterText.length >= "@SettingsManager.AutoCompleteMinLenght") {
             gridDetails.dataSource.filter({
                 logic: "or",
-                filters: [
-                    { field: "GoodsIssueCode", operator: "contains", value: filterText },
+                filters: [                    
                     { field: "GoodsIssueReference", operator: "contains", value: filterText },
+                    { field: "DeliveryAdviceReferences", operator: "contains", value: filterText },
 
                     { field: "CommodityCode", operator: "contains", value: filterText },
                     { field: "CommodityName", operator: "contains", value: filterText }

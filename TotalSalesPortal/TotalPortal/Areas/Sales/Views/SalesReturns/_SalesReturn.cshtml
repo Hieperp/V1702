@@ -1,6 +1,6 @@
 ﻿@using TotalBase.Enums;
 @using TotalPortal.Configuration
-createwizard from, to, ; getgoodsissuedetails: from, to
+
 @model TotalPortal.Areas.Sales.ViewModels.SalesReturnViewModel
 
 <div id="popupWindow"></div>
@@ -334,13 +334,11 @@ createwizard from, to, ; getgoodsissuedetails: from, to
             {
                 <button type="submit" class="k-button custom-button SubmitTypeOption-Closed" formaction="@Url.Action("Edit", "SalesReturns")"> <img src="~/Content/Images/New/save-icon.png" /> Lưu phiếu </button>
             }
-            else
+            
+            @if (Model.SalesReturnID > 0 && !Model.Approvable && !Model.UnApprovable)
             {
-                if (!Model.Voidable && !Model.UnVoidable)
-                {
-                    <button type="button" class="k-button custom-button" onclick="location.href='@Url.Action("Print", "SalesReturns", new { id = @Model.SalesReturnID })'"> <img src="~/Content/Images/New/Apps-printer-icon.png" /> In tổng hợp xuất kho </button>
-                }
-            }
+                <button type="button" class="k-button custom-button" onclick="location.href='@Url.Action("Approve", "SalesReturns", new {id = @Model.SalesReturnID })'"> <img src="~/Content/Images/Mains/@(!@Model.Approved ? "Actions-ok-icon32.png" : "Cross-icon-cancel32.png")" /> @(!Model.Approved ? "Duyệt phiếu trả hàng" : "Hủy duyệt phiếu trả hàng này") </button>
+            }                        
         </div>
 
         @Html.Partial("~/Views/Helpers/Bases/_BaseSubmit.cshtml")

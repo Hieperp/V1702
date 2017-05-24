@@ -928,6 +928,7 @@
           <Property Name="AverageDiscountPercent" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="TotalReceiptAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalFluctuationAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalCashDiscount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="100" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -2431,6 +2432,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         </Function>
         <Function Name="GetReceiptViewDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ReceiptID" Type="int" Mode="In" />
+          <Parameter Name="LocationID" Type="int" Mode="In" />
           <Parameter Name="GoodsIssueID" Type="int" Mode="In" />
           <Parameter Name="CustomerID" Type="int" Mode="In" />
           <Parameter Name="IsReadonly" Type="bit" Mode="In" />
@@ -3258,6 +3260,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           </FunctionImport>
           <FunctionImport Name="GetReceiptViewDetails" ReturnType="Collection(TotalSalesPortalModel.ReceiptViewDetail)">
             <Parameter Name="ReceiptID" Mode="In" Type="Int32" />
+            <Parameter Name="LocationID" Mode="In" Type="Int32" />
             <Parameter Name="GoodsIssueID" Mode="In" Type="Int32" />
             <Parameter Name="CustomerID" Mode="In" Type="Int32" />
             <Parameter Name="IsReadonly" Mode="In" Type="Boolean" />
@@ -6732,6 +6735,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Boolean" Name="Approved" Nullable="false" />
           <Property Type="Decimal" Name="TotalQuantityReceived" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="TotalFreeQuantityReceived" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="GoodsIssueReferences" Nullable="true" MaxLength="200" />
         </ComplexType>
         <ComplexType Name="SalesReturnPendingGoodsIssueDetail">
           <Property Type="Int32" Name="GoodsIssueID" Nullable="false" />
@@ -6766,48 +6770,21 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
           <Property Type="Boolean" Name="IsSelected" Nullable="true" />
+          <Property Type="String" Name="DeliveryAdviceReferences" Nullable="false" MaxLength="200" />
         </ComplexType>
         <ComplexType Name="SalesReturnPendingGoodsIssue">
           <Property Type="Int32" Name="GoodsIssueID" Nullable="false" />
           <Property Type="String" Name="GoodsIssueReference" Nullable="true" MaxLength="10" />
           <Property Type="DateTime" Name="GoodsIssueEntryDate" Nullable="false" Precision="23" />
           <Property Type="Decimal" Name="VATPercent" Nullable="false" Precision="18" Scale="2" />
-          <Property Type="Int32" Name="PaymentTermID" Nullable="false" />
           <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="CustomerID" Nullable="false" />
-          <Property Type="String" Name="CustomerCode" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="CustomerOfficialName" Nullable="true" MaxLength="150" />
-          <Property Type="DateTime" Name="CustomerBirthday" Nullable="true" Precision="23" />
-          <Property Type="String" Name="CustomerVATCode" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="CustomerAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="CustomerTelephone" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="CustomerBillingAddress" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="CustomerShippingAddress" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="CustomerTerritoryID" Nullable="false" />
-          <Property Type="String" Name="CustomerEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
-          <Property Type="Int32" Name="CustomerSalespersonID" Nullable="false" />
-          <Property Type="String" Name="CustomerSalespersonName" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="CustomerPriceCategoryID" Nullable="false" />
-          <Property Type="String" Name="CustomerPriceCategoryCode" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="ReceiverID" Nullable="false" />
-          <Property Type="String" Name="ReceiverCode" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="ReceiverOfficialName" Nullable="true" MaxLength="150" />
-          <Property Type="DateTime" Name="ReceiverBirthday" Nullable="true" Precision="23" />
-          <Property Type="String" Name="ReceiverVATCode" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="ReceiverAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="ReceiverTelephone" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="ReceiverShippingAddress" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="ReceiverTerritoryID" Nullable="false" />
-          <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
-          <Property Type="Int32" Name="ReceiverSalespersonID" Nullable="false" />
-          <Property Type="String" Name="ReceiverSalespersonName" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="ReceiverPriceCategoryID" Nullable="false" />
-          <Property Type="String" Name="ReceiverPriceCategoryCode" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="CustomerCode" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="ShippingAddress" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="DeliveryAdviceReferences" Nullable="false" MaxLength="200" />
+          <Property Type="Decimal" Name="TotalQuantity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TotalFreeQuantity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
         </ComplexType>
         <ComplexType Name="SalesReturnViewDetail">
           <Property Type="Int32" Name="SalesReturnDetailID" Nullable="false" />
@@ -6947,6 +6924,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="Receipts" Relationship="TotalSalesPortalModel.FK_Receipts_SalesReturns" FromRole="SalesReturn" ToRole="Receipt" />
           <NavigationProperty Name="SalesReturnDetails" Relationship="TotalSalesPortalModel.FK_SalesReturnDetails_SalesReturns" FromRole="SalesReturn" ToRole="SalesReturnDetail" />
           <NavigationProperty Name="Warehouse" Relationship="TotalSalesPortalModel.FK_SalesReturns_Warehouses" FromRole="SalesReturn" ToRole="Warehouse" />
+          <Property Name="TotalCashDiscount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         <Association Name="FK_SalesReturnDetails_Commodities">
           <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
@@ -8995,6 +8973,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="Approved" ColumnName="Approved" />
                 <ScalarProperty Name="TotalQuantityReceived" ColumnName="TotalQuantityReceived" />
                 <ScalarProperty Name="TotalFreeQuantityReceived" ColumnName="TotalFreeQuantityReceived" />
+                <ScalarProperty Name="GoodsIssueReferences" ColumnName="GoodsIssueReferences" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9033,6 +9012,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="IsSelected" ColumnName="IsSelected" />
+                <ScalarProperty Name="DeliveryAdviceReferences" ColumnName="DeliveryAdviceReferences" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9043,42 +9023,14 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="GoodsIssueReference" ColumnName="GoodsIssueReference" />
                 <ScalarProperty Name="GoodsIssueEntryDate" ColumnName="GoodsIssueEntryDate" />
                 <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
-                <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="CustomerOfficialName" ColumnName="CustomerOfficialName" />
-                <ScalarProperty Name="CustomerBirthday" ColumnName="CustomerBirthday" />
-                <ScalarProperty Name="CustomerVATCode" ColumnName="CustomerVATCode" />
-                <ScalarProperty Name="CustomerAttentionName" ColumnName="CustomerAttentionName" />
-                <ScalarProperty Name="CustomerTelephone" ColumnName="CustomerTelephone" />
-                <ScalarProperty Name="CustomerBillingAddress" ColumnName="CustomerBillingAddress" />
-                <ScalarProperty Name="CustomerShippingAddress" ColumnName="CustomerShippingAddress" />
-                <ScalarProperty Name="CustomerTerritoryID" ColumnName="CustomerTerritoryID" />
-                <ScalarProperty Name="CustomerEntireTerritoryEntireName" ColumnName="CustomerEntireTerritoryEntireName" />
-                <ScalarProperty Name="CustomerSalespersonID" ColumnName="CustomerSalespersonID" />
-                <ScalarProperty Name="CustomerSalespersonName" ColumnName="CustomerSalespersonName" />
-                <ScalarProperty Name="CustomerPriceCategoryID" ColumnName="CustomerPriceCategoryID" />
-                <ScalarProperty Name="CustomerPriceCategoryCode" ColumnName="CustomerPriceCategoryCode" />
-                <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
-                <ScalarProperty Name="ReceiverCode" ColumnName="ReceiverCode" />
-                <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
-                <ScalarProperty Name="ReceiverOfficialName" ColumnName="ReceiverOfficialName" />
-                <ScalarProperty Name="ReceiverBirthday" ColumnName="ReceiverBirthday" />
-                <ScalarProperty Name="ReceiverVATCode" ColumnName="ReceiverVATCode" />
-                <ScalarProperty Name="ReceiverAttentionName" ColumnName="ReceiverAttentionName" />
-                <ScalarProperty Name="ReceiverTelephone" ColumnName="ReceiverTelephone" />
-                <ScalarProperty Name="ReceiverBillingAddress" ColumnName="ReceiverBillingAddress" />
-                <ScalarProperty Name="ReceiverShippingAddress" ColumnName="ReceiverShippingAddress" />
-                <ScalarProperty Name="ReceiverTerritoryID" ColumnName="ReceiverTerritoryID" />
-                <ScalarProperty Name="ReceiverEntireTerritoryEntireName" ColumnName="ReceiverEntireTerritoryEntireName" />
-                <ScalarProperty Name="ReceiverSalespersonID" ColumnName="ReceiverSalespersonID" />
-                <ScalarProperty Name="ReceiverSalespersonName" ColumnName="ReceiverSalespersonName" />
-                <ScalarProperty Name="ReceiverPriceCategoryID" ColumnName="ReceiverPriceCategoryID" />
-                <ScalarProperty Name="ReceiverPriceCategoryCode" ColumnName="ReceiverPriceCategoryCode" />
                 <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="DeliveryAdviceReferences" ColumnName="DeliveryAdviceReferences" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="TotalFreeQuantity" ColumnName="TotalFreeQuantity" />
+                <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9174,6 +9126,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="SalesReturns">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.SalesReturn">
               <MappingFragment StoreEntitySet="SalesReturns">
+                <ScalarProperty Name="TotalCashDiscount" ColumnName="TotalCashDiscount" />
                 <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
                 <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />
                 <ScalarProperty Name="InActive" ColumnName="InActive" />

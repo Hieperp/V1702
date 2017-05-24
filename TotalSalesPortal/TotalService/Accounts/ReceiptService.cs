@@ -27,9 +27,9 @@ namespace TotalService.Accounts
             throw new System.ArgumentException("Invalid call GetViewDetails(id). Use GetReceiptViewDetails instead.", "Purchase Invoice Service");
         }
 
-        public ICollection<ReceiptViewDetail> GetReceiptViewDetails(int receiptID, int goodsIssueID, int customerID, bool isReadOnly)
+        public ICollection<ReceiptViewDetail> GetReceiptViewDetails(int receiptID, int locationID, int goodsIssueID, int customerID, bool isReadOnly)
         {
-            ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("ReceiptID", receiptID), new ObjectParameter("GoodsIssueID", goodsIssueID), new ObjectParameter("CustomerID", customerID), new ObjectParameter("IsReadOnly", isReadOnly) };
+            ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("ReceiptID", receiptID), new ObjectParameter("LocationID", locationID), new ObjectParameter("GoodsIssueID", goodsIssueID), new ObjectParameter("CustomerID", customerID), new ObjectParameter("IsReadOnly", isReadOnly) };
             return this.GetViewDetails(parameters);
         }
 

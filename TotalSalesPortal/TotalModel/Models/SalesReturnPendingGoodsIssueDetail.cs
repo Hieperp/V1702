@@ -45,5 +45,6 @@ namespace TotalModel.Models
         public string Description { get; set; }
         public string Remarks { get; set; }
         public Nullable<bool> IsSelected { get; set; }
+        public string DeliveryAdviceReferences { get; set; }
     }
 }

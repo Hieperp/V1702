@@ -9,11 +9,12 @@
         {
             columns.Bound(p => p.GoodsIssueID).DisplayNameTitle().Hidden();
             columns.Bound(p => p.LocationCode).Title("CN").Hidden().Width(1);
-            columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(35);
+            columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(20);
             columns.Bound(p => p.Reference).Title("PXK").Width(20).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Inventories/GoodsIssues", action = "Edit" }) + "/#= GoodsIssueID #'>#=Reference#</a>");
-            columns.Bound(p => p.DeliveryAdviceReferences).Title("ĐN giao hàng").Width(130);
-            columns.Bound(p => p.CustomerName).Title("Khách hàng").Width(231);
-            columns.Bound(p => p.ReceiverDescription).Title("Giao hàng").Width(310);
+            columns.Bound(p => p.DeliveryAdviceReferences).Title("ĐNGH").Width(60);
+            columns.Bound(p => p.CustomerName).Title("Khách hàng").Width(190);
+            columns.Bound(p => p.ReceiverDescription).Title("Giao hàng").Width(160);
+            columns.Bound(p => p.Description).Title("Diễn giải").Width(130);
 
             columns.Bound(p => p.TotalQuantity).Title("Số lượng").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Filterable(false).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
 

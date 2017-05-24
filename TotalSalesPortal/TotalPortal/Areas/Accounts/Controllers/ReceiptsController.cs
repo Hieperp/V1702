@@ -40,7 +40,7 @@ namespace TotalPortal.Areas.Accounts.Controllers
 
         protected override ICollection<ReceiptViewDetail> GetEntityViewDetails(ReceiptViewModel receiptViewModel)
         {
-            ICollection<ReceiptViewDetail> receiptViewDetails = this.receiptService.GetReceiptViewDetails(receiptViewModel.ReceiptID, receiptViewModel.GoodsIssueID == null ? 0 : (int)receiptViewModel.GoodsIssueID, receiptViewModel.CustomerID, false);
+            ICollection<ReceiptViewDetail> receiptViewDetails = this.receiptService.GetReceiptViewDetails(receiptViewModel.ReceiptID, this.receiptService.LocationID, receiptViewModel.GoodsIssueID == null ? 0 : (int)receiptViewModel.GoodsIssueID, receiptViewModel.CustomerID, false);
 
             return receiptViewDetails;
         }

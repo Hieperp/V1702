@@ -27,5 +27,6 @@ namespace TotalModel.Models
         public bool Approved { get; set; }
         public decimal TotalQuantityReceived { get; set; }
         public decimal TotalFreeQuantityReceived { get; set; }
+        public string GoodsIssueReferences { get; set; }
     }
 }
