@@ -25,7 +25,7 @@ namespace TotalModel.Models
         public System.DateTime VATInvoiceDate { get; set; }
         public string CustomerName { get; set; }
         public string BillingAddress { get; set; }
-        public string GoodsIssueReference { get; set; }
         public Nullable<System.DateTime> GoodsIssueEntryDate { get; set; }
+        public string GoodsIssueReferences { get; set; }
     }
 }

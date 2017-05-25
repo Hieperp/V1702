@@ -70,6 +70,8 @@
           <Property Name="ConsumerID" Type="int" />
           <Property Name="ReceiverID" Type="int" />
           <Property Name="GoodsIssueID" Type="int" />
+          <Property Name="GoodsIssueFirstID" Type="int" Nullable="false" />
+          <Property Name="GoodsIssueReferences" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="PreparedPersonID" Type="int" Nullable="false" />
           <Property Name="OrganizationalUnitID" Type="int" Nullable="false" />
@@ -4392,8 +4394,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="DateTime" Name="VATInvoiceDate" Nullable="false" Precision="23" />
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="BillingAddress" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="GoodsIssueReference" Nullable="true" MaxLength="10" />
           <Property Type="DateTime" Name="GoodsIssueEntryDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="GoodsIssueReferences" Nullable="false" MaxLength="200" />
         </ComplexType>
         <ComplexType Name="AccountInvoiceViewDetail">
           <Property Type="Int32" Name="AccountInvoiceDetailID" Nullable="false" />
@@ -4617,6 +4619,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="PaymentTerm" Relationship="TotalSalesPortalModel.FK_AccountInvoices_PaymentTerms" FromRole="AccountInvoice" ToRole="PaymentTerm" />
           <Property Name="TotalFreeQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="VATPercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="GoodsIssueFirstID" Type="Int32" Nullable="false" />
+          <Property Name="GoodsIssueReferences" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           </EntityType>
         <Association Name="FK_AccountInvoices_Locations">
           <End Type="TotalSalesPortalModel.Location" Role="Location" Multiplicity="1" />
@@ -7538,8 +7542,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="VATInvoiceDate" ColumnName="VATInvoiceDate" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
-                <ScalarProperty Name="GoodsIssueReference" ColumnName="GoodsIssueReference" />
                 <ScalarProperty Name="GoodsIssueEntryDate" ColumnName="GoodsIssueEntryDate" />
+                <ScalarProperty Name="GoodsIssueReferences" ColumnName="GoodsIssueReferences" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7749,6 +7753,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="AccountInvoices">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.AccountInvoice">
               <MappingFragment StoreEntitySet="AccountInvoices">
+                <ScalarProperty Name="GoodsIssueReferences" ColumnName="GoodsIssueReferences" />
+                <ScalarProperty Name="GoodsIssueFirstID" ColumnName="GoodsIssueFirstID" />
                 <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
                 <ScalarProperty Name="TotalFreeQuantity" ColumnName="TotalFreeQuantity" />
                 <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />

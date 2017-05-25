@@ -10,16 +10,16 @@
             columns.Bound(p => p.AccountInvoiceID).DisplayNameTitle().Hidden();
             columns.Bound(p => p.LocationCode).Title("CN").Hidden().Width(10);
             columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(40);
-            columns.Bound(p => p.VATInvoiceNo).Title("HĐ").Width(45);
+            columns.Bound(p => p.VATInvoiceNo).Title("HĐ").Width(45).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Accounts/AccountInvoices", action = "Edit" }) + "/#= AccountInvoiceID #'>#=VATInvoiceNo#</a>");
             columns.Bound(p => p.VATInvoiceDate).Title("Ngày HĐ").Format("{0:dd/MM/yyyy}").Width(40);
-            columns.Bound(p => p.GoodsIssueReference).Title("PXK").Width(50);
+            columns.Bound(p => p.GoodsIssueReferences).Title("PXK").Width(110);
             columns.Bound(p => p.GoodsIssueEntryDate).Title("Ngày XK").Format("{0:dd/MM/yyyy}").Width(40);
-            columns.Bound(p => p.CustomerName).Title("Khách hàng").Width(480);
+            columns.Bound(p => p.CustomerName).Title("Khách hàng").Width(380);
 
             columns.Bound(p => p.TotalQuantity).Title("Số lượng").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Filterable(false).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
 
-            columns.Bound(p => p.TotalListedGrossAmount).Title("Thành tiền").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Filterable(false).Width(110).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" }).Hidden(@ViewBag.ShowDiscount ? true : false);
-            columns.Bound(p => p.TotalGrossAmount).Title("Thành tiền").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Filterable(false).Width(110).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" }).Hidden(@ViewBag.ShowDiscount ? false : true);
+            columns.Bound(p => p.TotalListedGrossAmount).Title("Thành tiền").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Filterable(false).Width(90).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" }).Hidden(@ViewBag.ShowDiscount ? true : false);
+            columns.Bound(p => p.TotalGrossAmount).Title("Thành tiền").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Filterable(false).Width(90).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" }).Hidden(@ViewBag.ShowDiscount ? false : true);
             
             columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(170)
                 .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Accounts/AccountInvoices", action = "Edit" }) + "/#= AccountInvoiceID #'><span class='k-icon k-edit'></span></a> <a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Accounts/AccountInvoices", action = "PrintDetail" }) + "/#= AccountInvoiceID #' target='_blank'><span class='k-icon k-i-folder-add'></span></a> <a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Accounts/AccountInvoices", action = "Print" }) + "/#= AccountInvoiceID #' target='_blank'><span class='k-icon k-i-folder-up'></span></a> <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Accounts/AccountInvoices", action = "Delete" }) + "/#= AccountInvoiceID #'><span class='k-icon k-delete'></span></a>");

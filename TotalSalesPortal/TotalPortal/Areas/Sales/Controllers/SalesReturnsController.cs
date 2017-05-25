@@ -43,10 +43,11 @@ namespace TotalPortal.Areas.Sales.Controllers
             RequireJsOptions.Add("commodityTypeIDList", commodityTypeIDList.ToString(), RequireJsOptionsScope.Page);
 
 
+            //USING THE SAME WarehouseTaskID WITH DeliveryAdvice. LATER, IF NEED NEW WarehouseTaskID FOR SalesReturn: JUST MODIFY HERE ONLY
             StringBuilder warehouseTaskIDList = new StringBuilder();
-            warehouseTaskIDList.Append((int)GlobalEnums.WarehouseTaskID.SalesReturn);
+            warehouseTaskIDList.Append((int)GlobalEnums.WarehouseTaskID.DeliveryAdvice);
 
-            ViewBag.WarehouseTaskID = (int)GlobalEnums.WarehouseTaskID.SalesReturn;
+            ViewBag.WarehouseTaskID = (int)GlobalEnums.WarehouseTaskID.DeliveryAdvice;
             ViewBag.WarehouseTaskIDList = warehouseTaskIDList.ToString();
         }
 

@@ -71,7 +71,7 @@ namespace TotalDTO.Accounts
             base.PerformPresaveRule();
 
             string goodsIssueReferences = ""; int i = 0;
-            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; if ((e.CashDiscount != 0 || e.ReceiptAmount != 0) && i <= 3) goodsIssueReferences = goodsIssueReferences + (goodsIssueReferences != "" ? ", " : "") + (i++ < 3 ? e.GoodsIssueReference : "..."); });
+            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; if ((e.CashDiscount != 0 || e.ReceiptAmount != 0) && i <= 6) goodsIssueReferences = goodsIssueReferences + (goodsIssueReferences != "" ? ", " : "") + (i++ < 6 ? e.GoodsIssueReference : "..."); });
             this.GoodsIssueReferences = goodsIssueReferences;
         }
     }
