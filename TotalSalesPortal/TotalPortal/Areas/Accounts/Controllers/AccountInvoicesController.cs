@@ -1,5 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Text;
+using System.Web.Mvc;
 
+using TotalBase.Enums;
 using TotalModel.Models;
 
 using TotalDTO.Accounts;
@@ -23,6 +25,19 @@ namespace TotalPortal.Areas.Accounts.Controllers
         {
             this.customerRepository = customerRepository;
         }
+
+
+        public override void AddRequireJsOptions()
+        {
+            base.AddRequireJsOptions();
+
+            StringBuilder warehouseTaskIDList = new StringBuilder();
+            warehouseTaskIDList.Append((int)GlobalEnums.WarehouseTaskID.DeliveryAdvice);
+
+            ViewBag.WarehouseTaskID = (int)GlobalEnums.WarehouseTaskID.DeliveryAdvice;
+            ViewBag.WarehouseTaskIDList = warehouseTaskIDList.ToString();
+        }
+
 
         protected override bool GetShowDiscount(AccountInvoiceViewModel simpleViewModel)
         {

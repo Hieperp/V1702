@@ -12,6 +12,9 @@
     @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
     @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTopA.cshtml")
     
+    @Html.Hidden("WarehouseTaskID", (int)@ViewBag.WarehouseTaskID);
+    @Html.Hidden("WarehouseTaskIDList", (string)@ViewBag.WarehouseTaskIDList);
+    
     @Html.HiddenFor(model => model.AccountInvoiceID)
     
     @Html.HiddenFor(model => model.PrintOptionID)

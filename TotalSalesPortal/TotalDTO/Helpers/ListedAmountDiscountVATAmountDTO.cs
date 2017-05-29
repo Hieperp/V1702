@@ -47,7 +47,7 @@ namespace TotalDTO.Helpers
         
         protected virtual decimal GetTotalListedVATAmount()
         {
-            if (GlobalEnums.VATbyRow)
+            if (this.VATbyRow)
                 return this.DtoDetails().Select(o => o.ListedVATAmount).Sum();
             else
                 return Math.Round(this.GetTotalListedAmount() * this.VATPercent / 100, GlobalEnums.rndAmount, MidpointRounding.AwayFromZero);
@@ -55,7 +55,7 @@ namespace TotalDTO.Helpers
 
         protected virtual decimal GetTotalListedGrossAmount()
         {
-            if (GlobalEnums.VATbyRow)
+            if (this.VATbyRow)
                 return this.DtoDetails().Select(o => o.ListedGrossAmount).Sum();
             else
                 return Math.Round(this.GetTotalListedAmount() + this.GetTotalListedVATAmount(), GlobalEnums.rndAmount, MidpointRounding.AwayFromZero);
