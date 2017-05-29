@@ -10,21 +10,10 @@
     @Html.AntiForgeryToken()
 
     @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
+    @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTopA.cshtml")
 
     @Html.HiddenFor(model => model.SalesOrderID)
-
-    @Html.HiddenFor(model => model.TotalQuantity)
-    @Html.HiddenFor(model => model.TotalFreeQuantity)
-    @Html.HiddenFor(model => model.TotalListedAmount)
-    @Html.HiddenFor(model => model.TotalAmount)
-    @Html.HiddenFor(model => model.VATPercent)
-    @Html.HiddenFor(model => model.TotalListedVATAmount)
-    @Html.HiddenFor(model => model.TotalVATAmount)
-    @Html.HiddenFor(model => model.TotalListedGrossAmount)
-    @Html.HiddenFor(model => model.TotalGrossAmount)
-    @Html.HiddenFor(model => model.AverageDiscountPercent)
-
-
+    
     <div class="left-panel">
 
         @Html.Partial("~/Views/Helpers/Bases/_BaseSectionLeftA.cshtml")

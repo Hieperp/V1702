@@ -5,7 +5,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TotalDTO.Helpers
 {
-    public abstract class QuantityDTO<TQuantityDetailDTO> : BaseWithDetailDTO<TQuantityDetailDTO>
+    public interface IQuantityDTO
+    {
+        decimal TotalQuantity { get; set; }
+    }
+
+    public abstract class QuantityDTO<TQuantityDetailDTO> : BaseWithDetailDTO<TQuantityDetailDTO>, IQuantityDTO
         where TQuantityDetailDTO : class, IQuantityDetailDTO
     {
         [Display(Name = "Tổng SL")]

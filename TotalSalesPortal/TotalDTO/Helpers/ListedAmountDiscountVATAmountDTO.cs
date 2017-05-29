@@ -7,11 +7,26 @@ using TotalBase.Enums;
 
 namespace TotalDTO.Helpers
 {
-    public abstract class ListedAmountDiscountVATAmountDTO<TListedAmountDiscountVATAmountDetailDTO> : DiscountVATAmountDTO<TListedAmountDiscountVATAmountDetailDTO>
+    public interface IListedAmountDiscountVATAmountDTO : IDiscountVATAmountDTO
+    {
+        decimal TotalListedAmount { get; set; }
+
+        decimal ListedTradeDiscountAmount { get; set; }
+        decimal TotalListedTaxableAmount { get; set; }
+        
+        decimal TotalListedVATAmount { get; set; }
+        decimal TotalListedGrossAmount { get; set; }
+    }
+
+    public abstract class ListedAmountDiscountVATAmountDTO<TListedAmountDiscountVATAmountDetailDTO> : DiscountVATAmountDTO<TListedAmountDiscountVATAmountDetailDTO>, IListedAmountDiscountVATAmountDTO
         where TListedAmountDiscountVATAmountDetailDTO : class, IListedAmountDiscountVATAmountDetailDTO
     {
         [Display(Name = "Tổng tiền")]
         public decimal TotalListedAmount { get; set; }
+
+        public decimal ListedTradeDiscountAmount { get; set; }
+        public decimal TotalListedTaxableAmount { get; set; }
+
         [Display(Name = "Tổng tiền thuế")]
         public decimal TotalListedVATAmount { get; set; }
         [Display(Name = "Tổng cộng")]

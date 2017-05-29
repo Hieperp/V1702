@@ -1,5 +1,13 @@
 ﻿define([], (function () {
 
+    //gridDatasource  			        ->  		gridDatasourceReceipt
+    //gridDatasourceQuantity	  		->  		gridDatasourceWeight
+    //gridDatasourceAmount
+    //gridDatasourceDiscount
+    //gridDatasourceListedAmount
+    //gridDatasourceFreeQuantity
+
+
     var definedExemplar = function (kenGridName) {
         this._kenGrid = $("#" + kenGridName).data("kendoGrid");
     };
@@ -39,6 +47,15 @@
 
         if (arguments.length < 5 || isUpdateFooterTemplate === true) //Missing isUpdateFooterTemplate => Default isUpdateFooterTemplate === true
             this._updateTotalToFooterTemplate(fieldName, aggregateFunction);
+        
+        if (totalFieldName === "TotalAmount" && $("#VATbyRow").val() == "True") {
+            $("#TotalTaxableAmount").val($("#TotalAmount").val());
+            $("#TotalTaxableAmount").trigger("change");
+        }
+        if (totalFieldName === "TotalListedAmount" && $("#VATbyRow").val() == "True") {
+            $("#TotalListedTaxableAmount").val($("#TotalListedAmount").val());
+            $("#TotalListedTaxableAmount").trigger("change");
+        }
 
         $("#" + totalFieldName).trigger("change"); //Raise Change event for the BOM because sometime we need to Listening for Change event of model total property. Ex: We listening for Change Events on TotalWeight to update WeightDifference, ...
     }

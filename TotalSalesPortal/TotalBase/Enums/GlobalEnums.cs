@@ -5,7 +5,9 @@
         public static bool ERPConnected = false;
 
         public static int CalculatingTypeID = 0;
+
         public static bool VATbyRow = false;
+        public static decimal VATPercent = 10; 
 
         public static int rndQuantity = 0;
         public static int rndAmount = 0;

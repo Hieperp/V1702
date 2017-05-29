@@ -124,9 +124,16 @@
 
 
 
-    definedExemplar.prototype._updateTotalListedVATAmountToModelProperty = function () { //NOW: Not called by VATPercent changed. LATER: Should implement js to call this when VATPercent changed
-        $("#TotalListedVATAmount").val(this._round($("#TotalListedAmount").val() * $("#VATPercent").val() / 100, requireConfig.websiteOptions.rndAmount));
-        $("#TotalListedGrossAmount").val(this._round($("#TotalListedAmount").val() - (-$("#TotalListedVATAmount").val()), requireConfig.websiteOptions.rndAmount));
+    definedExemplar.prototype._updateTotalListedVATAmountToModelProperty = function () { //NOW: Not called by $("#VATPercent") changed. LATER: Should implement js to call this when $("#VATPercent") changed
+        $("#ListedTradeDiscountAmount").val(this._round($("#TotalListedAmount").val() * $("#TradeDiscountRate").val() / 100, requireConfig.websiteOptions.rndAmount));
+
+        $("#TotalListedTaxableAmount").val(this._round($("#TotalListedAmount").val() - $("#ListedTradeDiscountAmount").val(), requireConfig.websiteOptions.rndAmount));
+
+        $("#TotalListedVATAmount").val(this._round($("#TotalListedTaxableAmount").val() * $("#VATPercent").val() / 100, requireConfig.websiteOptions.rndAmount));
+        $("#TotalListedGrossAmount").val(this._round($("#TotalListedTaxableAmount").val() - (-$("#TotalListedVATAmount").val()), requireConfig.websiteOptions.rndAmount));
+
+        $("#ListedTradeDiscountAmount").trigger("change");
+        $("#TotalListedTaxableAmount").trigger("change");
 
         $("#TotalListedVATAmount").trigger("change"); //Raise Change event for the BOM because sometime we need to Listening for Change event of model total property. Ex: We listening for Change Events on TotalListedWeight to update WeightDifference, ...
         $("#TotalListedGrossAmount").trigger("change"); //Raise Change event for the BOM because sometime we need to Listening for Change event of model total property. Ex: We listening for Change Events on TotalListedWeight to update WeightDifference, ...

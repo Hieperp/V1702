@@ -66,6 +66,12 @@ namespace TotalModel.Models
         public string SalesOrderReferences { get; set; }
         public string SalesOrderCodes { get; set; }
         public int WarehouseID { get; set; }
+        public bool VATbyRow { get; set; }
+        public decimal TradeDiscountRate { get; set; }
+        public decimal ListedTradeDiscountAmount { get; set; }
+        public decimal TradeDiscountAmount { get; set; }
+        public decimal TotalListedTaxableAmount { get; set; }
+        public decimal TotalTaxableAmount { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Customer Customer1 { get; set; }

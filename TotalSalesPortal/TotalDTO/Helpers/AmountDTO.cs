@@ -4,7 +4,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TotalDTO.Helpers
 {
-    public abstract class AmountDTO<TAmountDetailDTO> : QuantityDTO<TAmountDetailDTO>
+    public interface IAmountDTO : IQuantityDTO
+    {
+        decimal TotalAmount { get; set; }
+    }
+
+    public abstract class AmountDTO<TAmountDetailDTO> : QuantityDTO<TAmountDetailDTO>, IAmountDTO
         where TAmountDetailDTO : class, IAmountDetailDTO
     {
         [Display(Name = "Tổng tiền")]

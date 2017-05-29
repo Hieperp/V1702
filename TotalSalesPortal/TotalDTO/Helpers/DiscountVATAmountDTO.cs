@@ -3,7 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TotalDTO.Helpers
 {
-    public abstract class DiscountVATAmountDTO<TDiscountVATAmountDetailDTO> : VATAmountDTO<TDiscountVATAmountDetailDTO>
+    public interface IDiscountVATAmountDTO : IVATAmountDTO
+    {
+        decimal AverageDiscountPercent { get; set; }
+    }
+
+    public abstract class DiscountVATAmountDTO<TDiscountVATAmountDetailDTO> : VATAmountDTO<TDiscountVATAmountDetailDTO>, IDiscountVATAmountDTO
         where TDiscountVATAmountDetailDTO : class, IDiscountVATAmountDetailDTO
     {
         [Display(Name = "Bình quân CK")]

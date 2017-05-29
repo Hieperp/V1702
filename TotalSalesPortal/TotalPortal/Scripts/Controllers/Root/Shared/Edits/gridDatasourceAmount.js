@@ -121,9 +121,16 @@
 
 
 
-    definedExemplar.prototype._updateTotalVATAmountToModelProperty = function () { //NOW: Not called by VATPercent changed. LATER: Should implement js to call this when VATPercent changed
-        $("#TotalVATAmount").val(this._round($("#TotalAmount").val() * $("#VATPercent").val() / 100, requireConfig.websiteOptions.rndAmount));
-        $("#TotalGrossAmount").val(this._round($("#TotalAmount").val() - (-$("#TotalVATAmount").val()), requireConfig.websiteOptions.rndAmount));
+    definedExemplar.prototype._updateTotalVATAmountToModelProperty = function () { //NOW: Not called by $("#VATPercent") changed. LATER: Should implement js to call this when $("#VATPercent") changed
+        $("#TradeDiscountAmount").val(this._round($("#TotalAmount").val() * $("#TradeDiscountRate").val() / 100, requireConfig.websiteOptions.rndAmount));
+        
+        $("#TotalTaxableAmount").val(this._round($("#TotalAmount").val() - $("#TradeDiscountAmount").val(), requireConfig.websiteOptions.rndAmount));
+
+        $("#TotalVATAmount").val(this._round($("#TotalTaxableAmount").val() * $("#VATPercent").val() / 100, requireConfig.websiteOptions.rndAmount));
+        $("#TotalGrossAmount").val(this._round($("#TotalTaxableAmount").val() - (-$("#TotalVATAmount").val()), requireConfig.websiteOptions.rndAmount));
+
+        $("#TradeDiscountAmount").trigger("change");
+        $("#TotalTaxableAmount").trigger("change");
 
         $("#TotalVATAmount").trigger("change"); //Raise Change event for the BOM because sometime we need to Listening for Change event of model total property. Ex: We listening for Change Events on TotalWeight to update WeightDifference, ...
         $("#TotalGrossAmount").trigger("change"); //Raise Change event for the BOM because sometime we need to Listening for Change event of model total property. Ex: We listening for Change Events on TotalWeight to update WeightDifference, ...

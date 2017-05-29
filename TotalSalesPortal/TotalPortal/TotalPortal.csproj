@@ -1855,6 +1855,7 @@
     <Content Include="Views\Shared\EditorTemplates\AutoCompletes\WarehouseBase.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Commons\WarehouseBase.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateReadonly.cshtml" />
+    <Content Include="Views\Helpers\Bases\_BaseSectionTopA.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

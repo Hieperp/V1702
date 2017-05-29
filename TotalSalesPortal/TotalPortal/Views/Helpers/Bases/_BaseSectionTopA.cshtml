@@ -1,0 +1,20 @@
+﻿@using TotalDTO.Helpers;
+
+@model IFreeQuantityDiscountVATAmountDTO
+
+@Html.HiddenFor(model => (model as IQuantityDTO).TotalQuantity)
+@Html.HiddenFor(model => (model as IFreeQuantityDiscountVATAmountDTO).TotalFreeQuantity)
+@Html.HiddenFor(model => (model as IListedAmountDiscountVATAmountDTO).TotalListedAmount)
+@Html.HiddenFor(model => (model as IAmountDTO).TotalAmount)
+@Html.HiddenFor(model => (model as IVATAmountDTO).TradeDiscountRate)
+@Html.HiddenFor(model => (model as IVATAmountDTO).TradeDiscountAmount)
+@Html.HiddenFor(model => (model as IVATAmountDTO).TotalTaxableAmount)
+@Html.HiddenFor(model => (model as IListedAmountDiscountVATAmountDTO).ListedTradeDiscountAmount)
+@Html.HiddenFor(model => (model as IListedAmountDiscountVATAmountDTO).TotalListedTaxableAmount)
+@Html.HiddenFor(model => (model as IVATAmountDTO).VATbyRow)
+@Html.HiddenFor(model => (model as IVATAmountDTO).VATPercent)
+@Html.HiddenFor(model => (model as IListedAmountDiscountVATAmountDTO).TotalListedVATAmount)
+@Html.HiddenFor(model => (model as IVATAmountDTO).TotalVATAmount)
+@Html.HiddenFor(model => (model as IListedAmountDiscountVATAmountDTO).TotalListedGrossAmount)
+@Html.HiddenFor(model => (model as IVATAmountDTO).TotalGrossAmount)
+@Html.HiddenFor(model => (model as IDiscountVATAmountDTO).AverageDiscountPercent)
