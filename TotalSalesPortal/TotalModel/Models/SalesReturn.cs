@@ -65,6 +65,12 @@ namespace TotalModel.Models
         public bool InActivePartial { get; set; }
         public Nullable<System.DateTime> InActiveDate { get; set; }
         public decimal TotalCashDiscount { get; set; }
+        public bool VATbyRow { get; set; }
+        public decimal TradeDiscountRate { get; set; }
+        public decimal ListedTradeDiscountAmount { get; set; }
+        public decimal TradeDiscountAmount { get; set; }
+        public decimal TotalListedTaxableAmount { get; set; }
+        public decimal TotalTaxableAmount { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Customer Customer1 { get; set; }

@@ -57,6 +57,12 @@ namespace TotalModel.Models
         public decimal VATPercent { get; set; }
         public int GoodsIssueFirstID { get; set; }
         public string GoodsIssueReferences { get; set; }
+        public bool VATbyRow { get; set; }
+        public decimal TradeDiscountRate { get; set; }
+        public decimal ListedTradeDiscountAmount { get; set; }
+        public decimal TradeDiscountAmount { get; set; }
+        public decimal TotalListedTaxableAmount { get; set; }
+        public decimal TotalTaxableAmount { get; set; }
     
         public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
