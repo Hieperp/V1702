@@ -44,8 +44,21 @@ namespace TotalDTO.Helpers
         {
             foreach (var result in base.Validate(validationContext)) { yield return result; }
 
+            if (this.TradeDiscountAmount != this.GetTradeDiscountAmount()) yield return new ValidationResult("Lỗi chiết khấu tổng đơn hàng", new[] { "TradeDiscountAmount" });
+            if (this.TotalTaxableAmount != Math.Round(this.GetTotalAmount() - this.GetTradeDiscountAmount(), GlobalEnums.rndAmount, MidpointRounding.AwayFromZero)) yield return new ValidationResult("Lỗi tổng tiền hàng tính thuế", new[] { "TotalTaxableAmount" });
+
             if (this.TotalVATAmount != this.GetTotalVATAmount()) yield return new ValidationResult("Lỗi tổng tiền thuế", new[] { "TotalVATAmount" });
             if (this.TotalGrossAmount != this.GetTotalGrossAmount()) yield return new ValidationResult("Lỗi tổng tiền sau thuế", new[] { "TotalGrossAmount" });
+        }
+
+
+
+        protected virtual decimal GetTradeDiscountAmount()
+        {
+            if (this.VATbyRow)
+                return 0;
+            else
+                return Math.Round(this.GetTotalAmount() * this.TradeDiscountRate / 100, GlobalEnums.rndAmount, MidpointRounding.AwayFromZero);
         }
 
         protected virtual decimal GetTotalVATAmount()
@@ -53,7 +66,7 @@ namespace TotalDTO.Helpers
             if (this.VATbyRow)
                 return this.DtoDetails().Select(o => o.VATAmount).Sum();
             else
-                return Math.Round(this.GetTotalAmount() * this.VATPercent / 100, GlobalEnums.rndAmount, MidpointRounding.AwayFromZero);
+                return Math.Round(this.TotalTaxableAmount * this.VATPercent / 100, GlobalEnums.rndAmount, MidpointRounding.AwayFromZero);
         }
 
         protected virtual decimal GetTotalGrossAmount()
@@ -61,7 +74,7 @@ namespace TotalDTO.Helpers
             if (this.VATbyRow)
                 return this.DtoDetails().Select(o => o.GrossAmount).Sum();
             else
-                return Math.Round(this.GetTotalAmount() + this.GetTotalVATAmount(), GlobalEnums.rndAmount, MidpointRounding.AwayFromZero);
+                return Math.Round(this.TotalTaxableAmount + this.GetTotalVATAmount(), GlobalEnums.rndAmount, MidpointRounding.AwayFromZero);
         }
     }
 }
