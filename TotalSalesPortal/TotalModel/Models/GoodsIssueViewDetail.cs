@@ -51,5 +51,6 @@ namespace TotalModel.Models
         public string DeliveryAdviceReference { get; set; }
         public System.DateTime DeliveryAdviceEntryDate { get; set; }
         public bool VATbyRow { get; set; }
+        public decimal TradeDiscountRate { get; set; }
     }
 }

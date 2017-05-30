@@ -53,6 +53,7 @@ namespace TotalModel.Models
         public bool InActivePartial { get; set; }
         public Nullable<System.DateTime> InActivePartialDate { get; set; }
         public bool InActiveIssue { get; set; }
+        public decimal TradeDiscountRate { get; set; }
     
         public virtual Commodity Commodity { get; set; }
         public virtual GoodsIssueDetail GoodsIssueDetail { get; set; }

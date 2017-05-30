@@ -45,6 +45,7 @@
           <Property Name="ListedPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="DiscountPercent" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TradeDiscountRate" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="VATPercent" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ListedGrossPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="GrossPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -474,6 +475,7 @@
           <Property Name="ListedPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="DiscountPercent" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TradeDiscountRate" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="VATPercent" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ListedGrossPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="GrossPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -901,6 +903,7 @@
           <Property Name="ListedPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="DiscountPercent" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TradeDiscountRate" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="VATPercent" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ListedGrossPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="GrossPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -2380,6 +2383,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="ReceiverID" Type="int" Mode="In" />
           <Parameter Name="WarehouseID" Type="int" Mode="In" />
           <Parameter Name="ShippingAddress" Type="nvarchar" Mode="In" />
+          <Parameter Name="TradeDiscountRate" Type="decimal" Mode="In" />
           <Parameter Name="VATPercent" Type="decimal" Mode="In" />
           <Parameter Name="IsReadonly" Type="bit" Mode="In" />
         </Function>
@@ -2420,6 +2424,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="ReceiverID" Type="int" Mode="In" />
           <Parameter Name="WarehouseID" Type="int" Mode="In" />
           <Parameter Name="ShippingAddress" Type="nvarchar" Mode="In" />
+          <Parameter Name="TradeDiscountRate" Type="decimal" Mode="In" />
           <Parameter Name="VATPercent" Type="decimal" Mode="In" />
         </Function>
         <Function Name="GetPendingDeliveryAdvices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -3248,6 +3253,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="ReceiverID" Mode="In" Type="Int32" />
             <Parameter Name="WarehouseID" Mode="In" Type="Int32" />
             <Parameter Name="ShippingAddress" Mode="In" Type="String" />
+            <Parameter Name="TradeDiscountRate" Mode="In" Type="Decimal" />
             <Parameter Name="VATPercent" Mode="In" Type="Decimal" />
             <Parameter Name="IsReadonly" Mode="In" Type="Boolean" />
           </FunctionImport>
@@ -3619,6 +3625,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="ReceiverID" Mode="In" Type="Int32" />
             <Parameter Name="WarehouseID" Mode="In" Type="Int32" />
             <Parameter Name="ShippingAddress" Mode="In" Type="String" />
+            <Parameter Name="TradeDiscountRate" Mode="In" Type="Decimal" />
             <Parameter Name="VATPercent" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="GetShowDiscountByCustomer" ReturnType="Collection(Boolean)">
@@ -4363,6 +4370,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="DeliveryAdviceReference" Nullable="true" MaxLength="10" />
           <Property Type="DateTime" Name="DeliveryAdviceEntryDate" Nullable="false" Precision="23" />
           <Property Type="Boolean" Name="VATbyRow" Nullable="false" />
+          <Property Type="Decimal" Name="TradeDiscountRate" Nullable="false" Precision="18" Scale="2" />
           </ComplexType>
         <ComplexType Name="PendingDeliveryAdviceCustomer">
           <Property Type="Int32" Name="CustomerID" Nullable="false" />
@@ -4387,6 +4395,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Int32" Name="WarehouseID" Nullable="false" />
           <Property Type="String" Name="WarehouseCode" Nullable="false" MaxLength="10" />
           <Property Type="String" Name="WarehouseName" Nullable="false" MaxLength="60" />
+          <Property Type="Decimal" Name="TradeDiscountRate" Nullable="false" Precision="18" Scale="2" />
         </ComplexType>
         <ComplexType Name="PendingDeliveryAdvice">
           <Property Type="Int32" Name="DeliveryAdviceID" Nullable="false" />
@@ -4416,6 +4425,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Int32" Name="WarehouseID" Nullable="false" />
           <Property Type="String" Name="WarehouseCode" Nullable="false" MaxLength="10" />
           <Property Type="String" Name="WarehouseName" Nullable="false" MaxLength="60" />
+          <Property Type="Decimal" Name="TradeDiscountRate" Nullable="false" Precision="18" Scale="2" />
         </ComplexType>
         <ComplexType Name="AccountInvoiceIndex">
           <Property Type="Int32" Name="AccountInvoiceID" Nullable="false" />
@@ -4608,6 +4618,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="Approved" Type="Boolean" Nullable="false" />
           <Property Name="InActive" Type="Boolean" Nullable="false" />
           <Property Name="VATbyRow" Type="Boolean" Nullable="false" />
+          <Property Name="TradeDiscountRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="AccountInvoice">
           <Key>
@@ -5295,6 +5306,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="QuantityReturned" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="FreeQuantityReturned" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <NavigationProperty Name="SalesReturnDetails" Relationship="TotalSalesPortalModel.FK_SalesReturnDetails_GoodsIssueDetails" FromRole="GoodsIssueDetail" ToRole="SalesReturnDetail" />
+          <Property Name="TradeDiscountRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="GoodsIssue">
           <Key>
@@ -6936,6 +6948,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="Commodity" Relationship="TotalSalesPortalModel.FK_SalesReturnDetails_Commodities" FromRole="SalesReturnDetail" ToRole="Commodity" />
           <NavigationProperty Name="GoodsIssueDetail" Relationship="TotalSalesPortalModel.FK_SalesReturnDetails_GoodsIssueDetails" FromRole="SalesReturnDetail" ToRole="GoodsIssueDetail" />
           <NavigationProperty Name="SalesReturn" Relationship="TotalSalesPortalModel.FK_SalesReturnDetails_SalesReturns" FromRole="SalesReturnDetail" ToRole="SalesReturn" />
+          <Property Name="TradeDiscountRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="SalesReturn">
           <Key>
@@ -7532,6 +7545,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="DeliveryAdviceReference" ColumnName="DeliveryAdviceReference" />
                 <ScalarProperty Name="DeliveryAdviceEntryDate" ColumnName="DeliveryAdviceEntryDate" />
                 <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
+                <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
                 </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7560,6 +7574,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
                 <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
                 <ScalarProperty Name="WarehouseName" ColumnName="WarehouseName" />
+                <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7593,6 +7608,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
                 <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
                 <ScalarProperty Name="WarehouseName" ColumnName="WarehouseName" />
+                <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7790,6 +7806,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="AccountInvoiceDetails">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.AccountInvoiceDetail">
               <MappingFragment StoreEntitySet="AccountInvoiceDetails">
+                <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
                 <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
                 <ScalarProperty Name="InActive" ColumnName="InActive" />
                 <ScalarProperty Name="Approved" ColumnName="Approved" />
@@ -8380,6 +8397,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="GoodsIssueDetails">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.GoodsIssueDetail">
               <MappingFragment StoreEntitySet="GoodsIssueDetails">
+                <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
                 <ScalarProperty Name="FreeQuantityReturned" ColumnName="FreeQuantityReturned" />
                 <ScalarProperty Name="QuantityReturned" ColumnName="QuantityReturned" />
                 <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
@@ -9191,6 +9209,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="SalesReturnDetails">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.SalesReturnDetail">
               <MappingFragment StoreEntitySet="SalesReturnDetails">
+                <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
                 <ScalarProperty Name="InActiveIssue" ColumnName="InActiveIssue" />
                 <ScalarProperty Name="InActivePartialDate" ColumnName="InActivePartialDate" />
                 <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />

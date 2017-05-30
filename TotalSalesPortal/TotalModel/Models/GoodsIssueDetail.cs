@@ -64,6 +64,7 @@ namespace TotalModel.Models
         public bool VATbyRow { get; set; }
         public decimal QuantityReturned { get; set; }
         public decimal FreeQuantityReturned { get; set; }
+        public decimal TradeDiscountRate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountInvoiceDetail> AccountInvoiceDetails { get; set; }
