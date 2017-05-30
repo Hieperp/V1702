@@ -23,5 +23,6 @@ namespace TotalModel.Models
         public string ReceiverEntireTerritoryEntireName { get; set; }
         public int PaymentTermID { get; set; }
         public decimal VATPercent { get; set; }
+        public decimal TradeDiscountRate { get; set; }
     }
 }

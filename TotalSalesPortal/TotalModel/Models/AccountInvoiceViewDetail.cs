@@ -44,5 +44,6 @@ namespace TotalModel.Models
         public string GoodsIssueReference { get; set; }
         public System.DateTime GoodsIssueEntryDate { get; set; }
         public bool VATbyRow { get; set; }
+        public decimal TradeDiscountRate { get; set; }
     }
 }

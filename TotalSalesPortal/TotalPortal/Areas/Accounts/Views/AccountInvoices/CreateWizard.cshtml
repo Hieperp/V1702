@@ -128,7 +128,7 @@
 
             $("#PaymentTermID").val(selectedDataItem === undefined || selectedDataItem.PaymentTermID === undefined ? null : selectedDataItem.PaymentTermID);
 
-            $("#TradeDiscountRate").val(selectedDataItem === undefined || selectedDataItem.TradeDiscountRate === undefined ? null : selectedDataItem.TradeDiscountRate);
+            $("#TradeDiscountRate").val(selectedDataItem === undefined || selectedDataItem.TradeDiscountRate === undefined ? 0 : selectedDataItem.TradeDiscountRate); //IMPORTANT NOTE: NOW: 30-MAY-2017: WHEN okWOSelectButton_Click => selectedDataItem === undefined => DEFAULT TradeDiscountRate WILL BE 0, SO THE PENDING GoodsIssue WITH TradeDiscountRate <> 0 WILL NEVER BE INVOICED. LATER: WE SHOULD IMPROVE THIS: TO ALLOW USER TO SELECT DIFFERENT TradeDiscountRate FROM A COMOBO LIST BEFORE CONTINUE 
             $("#VATPercent").val(selectedDataItem === undefined || selectedDataItem.VATPercent === undefined ? 10 : selectedDataItem.VATPercent); //IMPORTANT NOTE: NOW: 15-APR-2017: WHEN okWOSelectButton_Click => selectedDataItem === undefined => DEFAULT VATPercent WILL BE 10, SO THE PENDING GoodsIssue WITH VATPercent <> 10 WILL NEVER BE INVOICED. LATER: WE SHOULD IMPROVE THIS: TO ALLOW USER TO SELECT DIFFERENT VATPercent FROM A COMOBO LIST BEFORE CONTINUE 
 
             $("#Description").val(selectedDataItem === undefined || selectedDataItem.Description === undefined ? null : selectedDataItem.Description);

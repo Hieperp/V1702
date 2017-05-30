@@ -2439,6 +2439,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="GoodsIssueID" Type="int" Mode="In" />
           <Parameter Name="CustomerID" Type="int" Mode="In" />
           <Parameter Name="ReceiverID" Type="int" Mode="In" />
+          <Parameter Name="TradeDiscountRate" Type="decimal" Mode="In" />
           <Parameter Name="VATPercent" Type="decimal" Mode="In" />
           <Parameter Name="CommodityTypeID" Type="int" Mode="In" />
           <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
@@ -3372,6 +3373,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="GoodsIssueID" Mode="In" Type="Int32" />
             <Parameter Name="CustomerID" Mode="In" Type="Int32" />
             <Parameter Name="ReceiverID" Mode="In" Type="Int32" />
+            <Parameter Name="TradeDiscountRate" Mode="In" Type="Decimal" />
             <Parameter Name="VATPercent" Mode="In" Type="Decimal" />
             <Parameter Name="CommodityTypeID" Mode="In" Type="Int32" />
             <Parameter Name="AspUserID" Mode="In" Type="String" />
@@ -4475,6 +4477,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="GoodsIssueReference" Nullable="true" MaxLength="10" />
           <Property Type="DateTime" Name="GoodsIssueEntryDate" Nullable="false" Precision="23" />
           <Property Type="Boolean" Name="VATbyRow" Nullable="false" />
+          <Property Type="Decimal" Name="TradeDiscountRate" Nullable="false" Precision="18" Scale="2" />
         </ComplexType>
         <ComplexType Name="CustomerReceivable">
           <Property Type="Int32" Name="CustomerID" Nullable="false" />
@@ -4734,6 +4737,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="GoodsIssueReference" Nullable="true" MaxLength="10" />
           <Property Type="DateTime" Name="GoodsIssueEntryDate" Nullable="false" Precision="23" />
           <Property Type="Boolean" Name="VATbyRow" Nullable="false" />
+          <Property Type="Decimal" Name="TradeDiscountRate" Nullable="false" Precision="18" Scale="2" />
         </ComplexType>
         <ComplexType Name="PendingGoodsIssueConsumer">
           <Property Type="Int32" Name="CustomerID" Nullable="false" />
@@ -4746,6 +4750,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="CustomerBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="Int32" Name="PaymentTermID" Nullable="false" />
           <Property Type="Decimal" Name="VATPercent" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TradeDiscountRate" Nullable="false" Precision="18" Scale="2" />
         </ComplexType>
         <ComplexType Name="PendingGoodsIssue">
           <Property Type="Int32" Name="GoodsIssueID" Nullable="false" />
@@ -4765,6 +4770,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="GoodsIssueCustomerCode" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="GoodsIssueCustomerName" Nullable="false" MaxLength="100" />
           <Property Type="Decimal" Name="VATPercent" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TradeDiscountRate" Nullable="false" Precision="18" Scale="2" />
         </ComplexType>
         <EntityType Name="PackingMaterial">
           <Key>
@@ -5864,6 +5870,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="Int32" Name="PaymentTermID" Nullable="false" />
           <Property Type="Decimal" Name="VATPercent" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TradeDiscountRate" Nullable="false" Precision="18" Scale="2" />
         </ComplexType>
         <Association Name="FK_AccountInvoices_Customers2">
           <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="0..1" />
@@ -7671,6 +7678,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="GoodsIssueReference" ColumnName="GoodsIssueReference" />
                 <ScalarProperty Name="GoodsIssueEntryDate" ColumnName="GoodsIssueEntryDate" />
                 <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
+                <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7927,6 +7935,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="GoodsIssueReference" ColumnName="GoodsIssueReference" />
                 <ScalarProperty Name="GoodsIssueEntryDate" ColumnName="GoodsIssueEntryDate" />
                 <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
+                <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7943,6 +7952,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="CustomerBillingAddress" ColumnName="CustomerBillingAddress" />
                 <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
                 <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -7966,6 +7976,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="GoodsIssueCustomerCode" ColumnName="GoodsIssueCustomerCode" />
                 <ScalarProperty Name="GoodsIssueCustomerName" ColumnName="GoodsIssueCustomerName" />
                 <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -8558,6 +8569,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="ReceiverEntireTerritoryEntireName" ColumnName="ReceiverEntireTerritoryEntireName" />
                 <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
                 <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

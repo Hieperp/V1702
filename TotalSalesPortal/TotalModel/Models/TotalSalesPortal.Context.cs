@@ -604,7 +604,7 @@ namespace TotalModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GoodsIssueToggleApproved", entityIDParameter, approvedParameter);
         }
     
-        public virtual ObjectResult<PendingGoodsIssueDetail> GetPendingGoodsIssueDetails(Nullable<int> accountInvoiceID, Nullable<int> locationID, Nullable<int> goodsIssueID, Nullable<int> customerID, Nullable<int> receiverID, Nullable<decimal> vATPercent, Nullable<int> commodityTypeID, string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, string goodsIssueDetailIDs, Nullable<bool> isReadonly)
+        public virtual ObjectResult<PendingGoodsIssueDetail> GetPendingGoodsIssueDetails(Nullable<int> accountInvoiceID, Nullable<int> locationID, Nullable<int> goodsIssueID, Nullable<int> customerID, Nullable<int> receiverID, Nullable<decimal> tradeDiscountRate, Nullable<decimal> vATPercent, Nullable<int> commodityTypeID, string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, string goodsIssueDetailIDs, Nullable<bool> isReadonly)
         {
             var accountInvoiceIDParameter = accountInvoiceID.HasValue ?
                 new ObjectParameter("AccountInvoiceID", accountInvoiceID) :
@@ -625,6 +625,10 @@ namespace TotalModel.Models
             var receiverIDParameter = receiverID.HasValue ?
                 new ObjectParameter("ReceiverID", receiverID) :
                 new ObjectParameter("ReceiverID", typeof(int));
+    
+            var tradeDiscountRateParameter = tradeDiscountRate.HasValue ?
+                new ObjectParameter("TradeDiscountRate", tradeDiscountRate) :
+                new ObjectParameter("TradeDiscountRate", typeof(decimal));
     
             var vATPercentParameter = vATPercent.HasValue ?
                 new ObjectParameter("VATPercent", vATPercent) :
@@ -654,7 +658,7 @@ namespace TotalModel.Models
                 new ObjectParameter("IsReadonly", isReadonly) :
                 new ObjectParameter("IsReadonly", typeof(bool));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingGoodsIssueDetail>("GetPendingGoodsIssueDetails", accountInvoiceIDParameter, locationIDParameter, goodsIssueIDParameter, customerIDParameter, receiverIDParameter, vATPercentParameter, commodityTypeIDParameter, aspUserIDParameter, fromDateParameter, toDateParameter, goodsIssueDetailIDsParameter, isReadonlyParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PendingGoodsIssueDetail>("GetPendingGoodsIssueDetails", accountInvoiceIDParameter, locationIDParameter, goodsIssueIDParameter, customerIDParameter, receiverIDParameter, tradeDiscountRateParameter, vATPercentParameter, commodityTypeIDParameter, aspUserIDParameter, fromDateParameter, toDateParameter, goodsIssueDetailIDsParameter, isReadonlyParameter);
         }
     
         public virtual ObjectResult<PendingGoodsIssueConsumer> GetPendingGoodsIssueConsumers(Nullable<int> locationID)
