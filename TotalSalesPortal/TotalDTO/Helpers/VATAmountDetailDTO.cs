@@ -10,6 +10,8 @@ namespace TotalDTO.Helpers
     {
         bool VATbyRow { get; set; }
 
+        decimal TradeDiscountRate { get; set; }
+
         decimal VATPercent { get; set; }
         decimal GrossPrice { get; set; }
         decimal VATAmount { get; set; }
@@ -19,6 +21,9 @@ namespace TotalDTO.Helpers
     public abstract class VATAmountDetailDTO : AmountDetailDTO, IVATAmountDetailDTO
     {
         public bool VATbyRow { get; set; }
+
+        [Display(Name = "CK")]
+        public virtual decimal TradeDiscountRate { get; set; }
 
         [Display(Name = "VAT")]
         [UIHint("DecimalReadonly")]

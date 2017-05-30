@@ -22,6 +22,22 @@ namespace TotalDAL.Repositories.Sales
             : base(totalSalesPortalEntities, "DeliveryAdviceEditable", "DeliveryAdviceApproved", null, "DeliveryAdviceVoidable")
         {
 
+            return;
+
+            Helpers.SqlProgrammability.Inventories.GoodsIssue goodsIssue = new Helpers.SqlProgrammability.Inventories.GoodsIssue(totalSalesPortalEntities);
+            goodsIssue.RestoreProcedure();
+
+
+            return;
+
+            Helpers.SqlProgrammability.Sales.SalesOrder salesOrder = new Helpers.SqlProgrammability.Sales.SalesOrder(totalSalesPortalEntities);
+            salesOrder.RestoreProcedure();
+
+            return;
+
+
+            Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
+            deliveryAdvice.RestoreProcedure();
 
             return;
 
@@ -41,22 +57,10 @@ namespace TotalDAL.Repositories.Sales
             Helpers.SqlProgrammability.Accounts.Receipt receipt = new Helpers.SqlProgrammability.Accounts.Receipt(totalSalesPortalEntities);
             receipt.RestoreProcedure();
 
-            return;
+            
 
-            Helpers.SqlProgrammability.Inventories.GoodsIssue goodsIssue = new Helpers.SqlProgrammability.Inventories.GoodsIssue(totalSalesPortalEntities);
-            goodsIssue.RestoreProcedure();
+            
 
-
-            return;
-
-
-            Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
-            deliveryAdvice.RestoreProcedure();
-
-            return;
-
-            Helpers.SqlProgrammability.Sales.SalesOrder salesOrder = new Helpers.SqlProgrammability.Sales.SalesOrder(totalSalesPortalEntities);
-            salesOrder.RestoreProcedure();
 
             return;
 
@@ -171,10 +175,10 @@ namespace TotalDAL.Repositories.Sales
             return pendingSalesOrders;
         }
 
-        public IEnumerable<DeliveryAdvicePendingSalesOrderDetail> GetPendingSalesOrderDetails(int? locationID, int? deliveryAdviceID, int? salesOrderID, int? customerID, int? receiverID, int? priceCategoryID, int? warehouseID, string shippingAddress, decimal? vatPercent, DateTime? entryDate, string salesOrderDetailIDs, bool isReadonly)
+        public IEnumerable<DeliveryAdvicePendingSalesOrderDetail> GetPendingSalesOrderDetails(int? locationID, int? deliveryAdviceID, int? salesOrderID, int? customerID, int? receiverID, int? priceCategoryID, int? warehouseID, string shippingAddress, decimal? tradeDiscountRate, decimal? vatPercent, DateTime? entryDate, string salesOrderDetailIDs, bool isReadonly)
         {
             this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = false;
-            IEnumerable<DeliveryAdvicePendingSalesOrderDetail> pendingSalesOrderDetails = base.TotalSalesPortalEntities.GetDeliveryAdvicePendingSalesOrderDetails(locationID, deliveryAdviceID, salesOrderID, customerID, receiverID, priceCategoryID, warehouseID, shippingAddress, vatPercent, entryDate, salesOrderDetailIDs, isReadonly).ToList();
+            IEnumerable<DeliveryAdvicePendingSalesOrderDetail> pendingSalesOrderDetails = base.TotalSalesPortalEntities.GetDeliveryAdvicePendingSalesOrderDetails(locationID, deliveryAdviceID, salesOrderID, customerID, receiverID, priceCategoryID, warehouseID, shippingAddress, tradeDiscountRate, vatPercent, entryDate, salesOrderDetailIDs, isReadonly).ToList();
             this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = true;
 
             return pendingSalesOrderDetails;

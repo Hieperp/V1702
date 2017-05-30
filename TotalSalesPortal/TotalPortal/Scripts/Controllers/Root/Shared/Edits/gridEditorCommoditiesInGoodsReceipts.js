@@ -32,6 +32,7 @@
             currentDataSourceRow.set("QuantityAvailable", dataItem.QuantityAvailable);
             currentDataSourceRow.set("Quantity", 1);
 
+            currentDataSourceRow.set("TradeDiscountRate", currentDataSourceRow.VATbyRow === true ? dataItem.TradeDiscountRate : $("#TradeDiscountRate").val());
             currentDataSourceRow.set("VATPercent", currentDataSourceRow.VATbyRow === true ? dataItem.VATPercent : $("#VATPercent").val());
 
             currentDataSourceRow.set("GrossPrice", dataItem.GrossPrice);

@@ -26,5 +26,6 @@ namespace TotalModel.Models
         public decimal DiscountPercent { get; set; }
         public decimal ControlFreeQuantity { get; set; }
         public decimal ListedPrice { get; set; }
+        public decimal TradeDiscountRate { get; set; }
     }
 }

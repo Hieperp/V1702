@@ -74,6 +74,7 @@ function handleOKEvent(deliveryAdviceGridDataSource, pendingSalesOrderDetailGrid
         dataRow.UnitPrice = salesOrderGridDataItem.UnitPrice;
         dataRow.ListedAmount = salesOrderGridDataItem.ListedAmount;
         dataRow.Amount = salesOrderGridDataItem.Amount;
+        dataRow.TradeDiscountRate = salesOrderGridDataItem.TradeDiscountRate;
         dataRow.VATPercent = salesOrderGridDataItem.VATPercent;
         dataRow.ListedVATAmount = salesOrderGridDataItem.ListedVATAmount;
         dataRow.VATAmount = salesOrderGridDataItem.VATAmount;

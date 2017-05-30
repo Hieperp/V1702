@@ -5,7 +5,7 @@ namespace TotalDTO.Helpers
     public interface IDiscountVATAmountDetailDTO : IVATAmountDetailDTO
     {
         decimal ListedPrice { get; set; }
-        decimal DiscountPercent { get; set; }
+        decimal DiscountPercent { get; set; }        
     }
 
     public abstract class DiscountVATAmountDetailDTO : VATAmountDetailDTO, IDiscountVATAmountDetailDTO
@@ -15,6 +15,6 @@ namespace TotalDTO.Helpers
         public virtual decimal ListedPrice { get; set; }
 
         [Display(Name = "CK")]
-        public virtual decimal DiscountPercent { get; set; }
+        public virtual decimal DiscountPercent { get; set; }        
     }
 }

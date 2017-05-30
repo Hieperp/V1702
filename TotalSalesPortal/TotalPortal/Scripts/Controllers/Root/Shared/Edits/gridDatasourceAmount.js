@@ -121,7 +121,7 @@
 
 
 
-    definedExemplar.prototype._updateTotalVATAmountToModelProperty = function () { //NOW: Not called by $("#VATPercent") changed. LATER: Should implement js to call this when $("#VATPercent") changed
+    definedExemplar.prototype._updateTotalVATAmountToModelProperty = function () { //NOW: WE HAVE NOT IMPLEMENT YET FOR VATPercent CHANGE! THIS IS NOT CALLED BY $("#VATPercent") CHANGED. LATER: Should implement js to call this when $("#VATPercent") changed
         $("#TradeDiscountAmount").val(this._round($("#TotalAmount").val() * $("#TradeDiscountRate").val() / 100, requireConfig.websiteOptions.rndAmount));
         
         $("#TotalTaxableAmount").val(this._round($("#TotalAmount").val() - $("#TradeDiscountAmount").val(), requireConfig.websiteOptions.rndAmount));

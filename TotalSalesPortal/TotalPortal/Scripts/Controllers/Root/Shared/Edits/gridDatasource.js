@@ -48,6 +48,13 @@
         if (arguments.length < 5 || isUpdateFooterTemplate === true) //Missing isUpdateFooterTemplate => Default isUpdateFooterTemplate === true
             this._updateTotalToFooterTemplate(fieldName, aggregateFunction);
         
+
+        //IMPORTANT NOTE: NOW: WHEN VATbyRow = True: WE TREAT TradeDiscountRate = 0 (WE ALWAYS SET TradeDiscountRate = 0 FOR ALL DETAIL ROWS)
+        //NOW: THERE IS NO SCRIPT FOR TradeDiscountAmount BY EACH ROW. IT MEANS THAT WE DON'T IMPLEMENT FOR TradeDiscountRate WHEN VATbyRow = True
+
+        //THEORYLY: WE CAN ADD A COLUMN FOR TradeDiscountAmount BY EACH ROW (THIS TradeDiscountAmount MAY CALCULATED BY TotalAmount * TradeDiscountRate/100 FOR EACH ROW). BUT: THIS SEEMS UNREAL IN THE PRACTICAL, BECAUSE THIS TradeDiscountAmount IS NO MUCH DIFFERENT FROM DiscountAmount FOR EACH ROW. THIS IS THE REASON WHY WE DO NOT IMPLEMENT FOR THIS WHEN VATbyRow = True NOW
+
+        //FOR ALL REASONS ABOVE, WE HAVE THE FOLLOWING CODE TO SET: TotalTaxableAmount = TotalAmount
         if (totalFieldName === "TotalAmount" && $("#VATbyRow").val() == "True") {
             $("#TotalTaxableAmount").val($("#TotalAmount").val());
             $("#TotalTaxableAmount").trigger("change");

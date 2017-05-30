@@ -53,5 +53,6 @@ namespace TotalModel.Models
         public Nullable<decimal> QuantityRemains { get; set; }
         public Nullable<decimal> FreeQuantityRemains { get; set; }
         public string SalesOrderCode { get; set; }
+        public decimal TradeDiscountRate { get; set; }
     }
 }

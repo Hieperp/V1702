@@ -48,5 +48,6 @@ namespace TotalModel.Models
         public System.DateTime SalesOrderEntryDate { get; set; }
         public bool VATbyRow { get; set; }
         public string SalesOrderCode { get; set; }
+        public decimal TradeDiscountRate { get; set; }
     }
 }

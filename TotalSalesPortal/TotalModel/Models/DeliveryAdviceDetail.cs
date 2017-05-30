@@ -60,6 +60,7 @@ namespace TotalModel.Models
         public int CalculatingTypeID { get; set; }
         public bool VATbyRow { get; set; }
         public Nullable<int> SalesOrderID { get; set; }
+        public decimal TradeDiscountRate { get; set; }
     
         public virtual DeliveryAdvice DeliveryAdvice { get; set; }
         public virtual VoidType VoidType { get; set; }
