@@ -46,5 +46,6 @@ namespace TotalModel.Models
         public string Remarks { get; set; }
         public Nullable<bool> IsSelected { get; set; }
         public string DeliveryAdviceReferences { get; set; }
+        public decimal TradeDiscountRate { get; set; }
     }
 }

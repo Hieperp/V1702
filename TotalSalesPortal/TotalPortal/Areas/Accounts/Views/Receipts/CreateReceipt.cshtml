@@ -67,9 +67,9 @@
             columns.Bound(c => c.Reference).Title("Phiếu XK").Width(50);
             columns.Bound(c => c.EntryDate).Title("Ngày").Width(90).Format("{0:" + SettingsManager.DateTimeFormat + "}");
             columns.Bound(c => c.CreditTypeName).Title("TT/ TH/ CK").Width(80);
-            columns.Bound(c => c.Description).Title("Diễn giải").Width(210);
-            columns.Bound(c => c.TotalCreditAmount).Title("Số tiền TT/ TH/ CK").Width(60).Format("{0:n0}").Width(80).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"});
-            columns.Bound(c => c.TotalCreditAmountPending).Title("Số tiền còn lại").Width(60).Format("{0:n0}").Width(80).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"});
+            columns.Bound(c => c.Description).Title("Diễn giải").Width(200);
+            columns.Bound(c => c.TotalCreditAmount).Title("Số tiền TT/ TH/ CK").Format("{0:n0}").Width(70).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"});
+            columns.Bound(c => c.TotalCreditAmountPending).Title("Số tiền còn lại").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"});
         })
         .ToolBar(toolbar =>
         {
@@ -131,6 +131,7 @@
                 $("#AdvanceReceipt_ReceiptID").val(selectedDataItem.ReceiptCreditID);
                 $("#AdvanceReceipt_EntryDate").val(kendo.toString(selectedDataItem.EntryDate, SettingsManager.DateFormat));
                 $("#AdvanceReceipt_Reference").val(selectedDataItem.Reference);
+
                 $("#AdvanceReceipt_TotalDepositAmount").val(selectedDataItem.TotalCreditAmount);
                 $("#AdvanceReceipt_TotalReceiptAmount").val(selectedDataItem.TotalReceiptAmount);
                 $("#AdvanceReceipt_TotalFluctuationAmount").val(selectedDataItem.TotalFluctuationAmount);
@@ -139,7 +140,8 @@
                 $("#SalesReturn_SalesReturnID").val(selectedDataItem.ReceiptCreditID);
                 $("#SalesReturn_EntryDate").val(kendo.toString(selectedDataItem.EntryDate, SettingsManager.DateFormat));
                 $("#SalesReturn_Reference").val(selectedDataItem.Reference);
-                $("#SalesReturn_TotalCrossAmount").val(selectedDataItem.TotalCreditAmount);
+
+                $("#SalesReturn_TotalGrossAmount").val(selectedDataItem.TotalCreditAmount);
                 $("#SalesReturn_TotalReceiptAmount").val(selectedDataItem.TotalReceiptAmount);
                 $("#SalesReturn_TotalFluctuationAmount").val(selectedDataItem.TotalFluctuationAmount);
             }
@@ -147,6 +149,7 @@
                 $("#CreditNote_CreditNoteID").val(selectedDataItem.ReceiptCreditID);
                 $("#CreditNote_EntryDate").val(kendo.toString(selectedDataItem.EntryDate, SettingsManager.DateFormat));
                 $("#CreditNote_Reference").val(selectedDataItem.Reference);
+
                 $("#CreditNote_TotalCreditAmount").val(selectedDataItem.TotalCreditAmount);
                 $("#CreditNote_TotalReceiptAmount").val(selectedDataItem.TotalReceiptAmount);
                 $("#CreditNote_TotalFluctuationAmount").val(selectedDataItem.TotalFluctuationAmount);

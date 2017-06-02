@@ -29,5 +29,7 @@ namespace TotalModel.Models
         public string ReceiverCode { get; set; }
         public string ReceiverName { get; set; }
         public Nullable<int> MonetaryAccountID { get; set; }
+        public decimal TotalGrossAmount { get; set; }
+        public Nullable<decimal> AmountDue { get; set; }
     }
 }

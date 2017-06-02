@@ -7,10 +7,11 @@
 
     .Columns(columns =>
     {
-        columns.Bound(c => c.CustomerName).Title("Khách hàng").Width(80);
-        columns.Bound(c => c.CustomerAttentionName).Title("Người liên hệ").Width(50);
-        columns.Bound(c => c.CustomerTelephone).Title("Điện thoại").Width(60);
-        columns.Bound(c => c.CustomerBillingAddress).Title("Địa chỉ").Width(90);        
+        columns.Bound(c => c.CustomerCode).Title("Mã KH").Width(30);
+        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(80);
+        columns.Bound(c => c.CustomerAttentionName).Title("Người liên hệ").Width(30);
+        columns.Bound(c => c.CustomerBillingAddress).Title("Địa chỉ").Width(100);
+        columns.Bound(c => c.AmountDue).Title("Công nợ").Width(30).Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" });  
     })
     .ToolBar(toolbar =>
     {

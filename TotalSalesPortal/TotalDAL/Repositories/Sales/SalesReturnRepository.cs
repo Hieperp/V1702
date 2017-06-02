@@ -42,10 +42,10 @@ namespace TotalDAL.Repositories.Sales
             return pendingGoodsIssues;
         }
 
-        public IEnumerable<SalesReturnPendingGoodsIssueDetail> GetPendingGoodsIssueDetails(int? locationID, int? salesReturnID, int? goodsIssueID, int? customerID, int? receiverID, Nullable<decimal> vATPercent, DateTime? fromDate, DateTime? toDate, string goodsIssueDetailIDs, bool isReadonly)
+        public IEnumerable<SalesReturnPendingGoodsIssueDetail> GetPendingGoodsIssueDetails(int? locationID, int? salesReturnID, int? goodsIssueID, int? customerID, int? receiverID, decimal? tradeDiscountRate, decimal? vATPercent, DateTime? fromDate, DateTime? toDate, string goodsIssueDetailIDs, bool isReadonly)
         {
             this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = false;
-            IEnumerable<SalesReturnPendingGoodsIssueDetail> pendingGoodsIssueDetails = base.TotalSalesPortalEntities.GetSalesReturnPendingGoodsIssueDetails(locationID, salesReturnID, goodsIssueID, customerID, receiverID, vATPercent, fromDate, toDate, goodsIssueDetailIDs, isReadonly).ToList();
+            IEnumerable<SalesReturnPendingGoodsIssueDetail> pendingGoodsIssueDetails = base.TotalSalesPortalEntities.GetSalesReturnPendingGoodsIssueDetails(locationID, salesReturnID, goodsIssueID, customerID, receiverID, tradeDiscountRate, vATPercent, fromDate, toDate, goodsIssueDetailIDs, isReadonly).ToList();
             this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = true;
 
             return pendingGoodsIssueDetails;

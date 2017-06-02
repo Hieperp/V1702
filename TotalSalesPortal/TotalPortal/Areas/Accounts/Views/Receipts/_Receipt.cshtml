@@ -99,6 +99,8 @@
                 @if (@Model.ReceiptTypeID == GlobalReceiptTypeID.ApplyCredit)
                 {
                     @Html.DisplayFor(d => d.AdvanceReceipt)
+                    @Html.DisplayFor(d => d.SalesReturn)
+                    @Html.DisplayFor(d => d.CreditNote)
                     <div class="form-group">
                         <div class="right-panel-label"> <img src="~/Content/Images/Mains/Size24/money-bag-icon-16.png" /> @Html.Label(@Model.CreditTypeName) </div>
                         <div class="div-input">

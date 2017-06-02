@@ -25,5 +25,6 @@ namespace TotalModel.Models
         public decimal TotalQuantity { get; set; }
         public decimal TotalFreeQuantity { get; set; }
         public decimal TotalGrossAmount { get; set; }
+        public decimal TradeDiscountRate { get; set; }
     }
 }

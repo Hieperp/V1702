@@ -73,6 +73,7 @@ function handleOKEvent(salesReturnGridDataSource, pendingGoodsIssueDetailGridDat
         dataRow.UnitPrice = goodsIssueGridDataItem.UnitPrice;
         dataRow.ListedAmount = goodsIssueGridDataItem.ListedAmount;
         dataRow.Amount = goodsIssueGridDataItem.Amount;
+        dataRow.TradeDiscountRate = goodsIssueGridDataItem.TradeDiscountRate;
         dataRow.VATPercent = goodsIssueGridDataItem.VATPercent;
         dataRow.ListedVATAmount = goodsIssueGridDataItem.ListedVATAmount;
         dataRow.VATAmount = goodsIssueGridDataItem.VATAmount;

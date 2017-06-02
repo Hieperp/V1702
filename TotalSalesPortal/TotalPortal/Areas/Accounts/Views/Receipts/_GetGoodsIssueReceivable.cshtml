@@ -5,11 +5,13 @@
     .Name("goodsIssueReceivableGrid")
     .Columns(columns =>
     {
-        columns.Bound(c => c.GoodsIssueReference).Title("Phiếu XK").Width(40);
-        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày").Width(90).Format("{0:" + SettingsManager.DateTimeFormat + "}");
-        columns.Bound(c => c.CustomerName).Title("Khách hàng").Width(120);
-        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(120);
-        columns.Bound(c => c.Description).Title("Diễn giải").Width(190);
+        columns.Bound(c => c.GoodsIssueReference).Title("PXK").Width(45);
+        columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày XK").Width(90).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Bound(c => c.CustomerName).Title("Khách hàng").Width(150);
+        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(150);
+        columns.Bound(c => c.TotalGrossAmount).Title("Tiền hàng").Width(60).Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" });
+        columns.Bound(c => c.AmountDue).Title("Công nợ").Width(60).Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" });
+        columns.Bound(c => c.Description).Title("Diễn giải").Width(115);
     })
     .ToolBar(toolbar =>
     {
