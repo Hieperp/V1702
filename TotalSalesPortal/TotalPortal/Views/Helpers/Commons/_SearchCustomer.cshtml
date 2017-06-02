@@ -31,6 +31,7 @@
         columns.Bound(c => c.DiscountPercent).Title("% CK").Width(5).HtmlAttributes(new { @class = "grid-number-column" }).Format("{0:n0}");
         columns.Bound(c => c.StartDate).Title("Ngày BĐ").Width(10).Format("{0:" + SettingsManager.DateFormat + "}");
         columns.Bound(c => c.EndDate).Title("Ngày KT").Width(10).Format("{0:" + SettingsManager.DateFormat + "}");
+        columns.Bound(c => c.ApplyToTradeDiscount).Title("CK tổng ĐH").Width(35);
         columns.Bound(c => c.Remarks).Title("Ghi chú").Width(30);
     })
 

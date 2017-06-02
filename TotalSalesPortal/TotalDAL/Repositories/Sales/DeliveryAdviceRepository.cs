@@ -21,6 +21,13 @@ namespace TotalDAL.Repositories.Sales
         public DeliveryAdviceRepository(TotalSalesPortalEntities totalSalesPortalEntities)
             : base(totalSalesPortalEntities, "DeliveryAdviceEditable", "DeliveryAdviceApproved", null, "DeliveryAdviceVoidable")
         {
+
+            return;
+
+
+            Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
+            deliveryAdvice.RestoreProcedure();
+
             return;
 
             Helpers.SqlProgrammability.Accounts.Receipt receipt = new Helpers.SqlProgrammability.Accounts.Receipt(totalSalesPortalEntities);
@@ -54,11 +61,6 @@ namespace TotalDAL.Repositories.Sales
             Helpers.SqlProgrammability.Sales.SalesOrder salesOrder = new Helpers.SqlProgrammability.Sales.SalesOrder(totalSalesPortalEntities);
             salesOrder.RestoreProcedure();
 
-            return;
-
-
-            Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
-            deliveryAdvice.RestoreProcedure();
 
             return;
 

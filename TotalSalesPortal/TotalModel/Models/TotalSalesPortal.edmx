@@ -711,6 +711,7 @@
           <Property Name="ControlFreeQuantity" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="ApplyToAllCustomers" Type="bit" Nullable="false" />
           <Property Name="ApplyToAllCommodities" Type="bit" Nullable="false" />
+          <Property Name="ApplyToTradeDiscount" Type="bit" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
           <Property Name="InActive" Type="bit" Nullable="false" />
         </EntityType>
@@ -4305,6 +4306,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="DeliveryAdvices" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Promotions" FromRole="Promotion" ToRole="DeliveryAdvice" />
           <NavigationProperty Name="SalesOrders" Relationship="TotalSalesPortalModel.FK_SalesOrders_Promotions" FromRole="Promotion" ToRole="SalesOrder" />
           <NavigationProperty Name="SalesReturns" Relationship="TotalSalesPortalModel.FK_SalesReturns_Promotions" FromRole="Promotion" ToRole="SalesReturn" />
+          <Property Name="ApplyToTradeDiscount" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="PriceCategory">
           <Key>
@@ -7474,6 +7476,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="Promotions">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.Promotion">
               <MappingFragment StoreEntitySet="Promotions">
+                <ScalarProperty Name="ApplyToTradeDiscount" ColumnName="ApplyToTradeDiscount" />
                 <ScalarProperty Name="ControlFreeQuantity" ColumnName="ControlFreeQuantity" />
                 <ScalarProperty Name="InActive" ColumnName="InActive" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
