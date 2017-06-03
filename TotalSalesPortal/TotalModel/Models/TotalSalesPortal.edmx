@@ -197,13 +197,23 @@
           <Property Name="EntryDate" Type="datetime" Nullable="false" />
           <Property Name="Reference" Type="nvarchar" MaxLength="10" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="PromotionID" Type="int" />
+          <Property Name="PromotionVouchers" Type="nvarchar" MaxLength="50" />
+          <Property Name="MemoCode" Type="nvarchar" MaxLength="60" />
+          <Property Name="MemoDate" Type="datetime" />
           <Property Name="SalespersonID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="PreparedPersonID" Type="int" Nullable="false" />
           <Property Name="OrganizationalUnitID" Type="int" Nullable="false" />
           <Property Name="LocationID" Type="int" Nullable="false" />
           <Property Name="ApproverID" Type="int" Nullable="false" />
-          <Property Name="TotalCreditAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TradeDiscountRate" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TradeDiscountAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalTaxableAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalVATAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalGrossAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalReceiptAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalCashDiscount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalFluctuationAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -213,6 +223,11 @@
           <Property Name="EditedDate" Type="datetime" Nullable="false" />
           <Property Name="Approved" Type="bit" Nullable="false" />
           <Property Name="ApprovedDate" Type="datetime" />
+          <Property Name="VATbyRow" Type="bit" Nullable="false" />
+          <Property Name="VATPercent" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="InActive" Type="bit" Nullable="false" />
+          <Property Name="InActivePartial" Type="bit" Nullable="false" />
+          <Property Name="InActiveDate" Type="datetime" />
         </EntityType>
         <EntityType Name="CustomerCategories">
           <Key>
@@ -3679,13 +3694,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="Commodity" EntitySet="Commodities" />
             <End Role="GoodsIssueDetail" EntitySet="GoodsIssueDetails" />
           </AssociationSet>
-          <EntitySet Name="CreditNotes" EntityType="TotalSalesPortalModel.CreditNote" />
           <EntitySet Name="ReceiptDetails" EntityType="TotalSalesPortalModel.ReceiptDetail" />
           <EntitySet Name="Receipts" EntityType="TotalSalesPortalModel.Receipt" />
-          <AssociationSet Name="FK_Receipts_CreditNotes" Association="TotalSalesPortalModel.FK_Receipts_CreditNotes">
-            <End Role="CreditNote" EntitySet="CreditNotes" />
-            <End Role="Receipt" EntitySet="Receipts" />
-          </AssociationSet>
           <AssociationSet Name="FK_Receipts_Customers" Association="TotalSalesPortalModel.FK_Receipts_Customers">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Receipt" EntitySet="Receipts" />
@@ -3961,6 +3971,11 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <AssociationSet Name="FK_SalesReturns_Warehouses" Association="TotalSalesPortalModel.FK_SalesReturns_Warehouses">
             <End Role="Warehouse" EntitySet="Warehouses" />
             <End Role="SalesReturn" EntitySet="SalesReturns" />
+          </AssociationSet>
+          <EntitySet Name="CreditNotes" EntityType="TotalSalesPortalModel.CreditNote" />
+          <AssociationSet Name="FK_Receipts_CreditNotes" Association="TotalSalesPortalModel.FK_Receipts_CreditNotes">
+            <End Role="CreditNote" EntitySet="CreditNotes" />
+            <End Role="Receipt" EntitySet="Receipts" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
@@ -6029,32 +6044,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="CreditNote">
-          <Key>
-            <PropertyRef Name="CreditNoteID" />
-          </Key>
-          <Property Name="CreditNoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Reference" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerID" Type="Int32" Nullable="false" />
-          <Property Name="SalespersonID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="PreparedPersonID" Type="Int32" Nullable="false" />
-          <Property Name="OrganizationalUnitID" Type="Int32" Nullable="false" />
-          <Property Name="LocationID" Type="Int32" Nullable="false" />
-          <Property Name="ApproverID" Type="Int32" Nullable="false" />
-          <Property Name="TotalCreditAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TotalReceiptAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TotalCashDiscount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TotalFluctuationAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EditedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Approved" Type="Boolean" Nullable="false" />
-          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Receipts" Relationship="TotalSalesPortalModel.FK_Receipts_CreditNotes" FromRole="CreditNote" ToRole="Receipt" />
-        </EntityType>
         <EntityType Name="ReceiptDetail">
           <Key>
             <PropertyRef Name="ReceiptDetailID" />
@@ -6105,7 +6094,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="InActive" Type="Boolean" Nullable="false" />
           <Property Name="InActivePartial" Type="Boolean" Nullable="false" />
           <Property Name="InActiveDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="CreditNote" Relationship="TotalSalesPortalModel.FK_Receipts_CreditNotes" FromRole="Receipt" ToRole="CreditNote" />
           <NavigationProperty Name="Customer" Relationship="TotalSalesPortalModel.FK_Receipts_Customers" FromRole="Receipt" ToRole="Customer" />
           <NavigationProperty Name="Employee" Relationship="TotalSalesPortalModel.FK_Receipts_Employees" FromRole="Receipt" ToRole="Employee" />
           <NavigationProperty Name="GoodsIssue" Relationship="TotalSalesPortalModel.FK_Receipts_GoodsIssues" FromRole="Receipt" ToRole="GoodsIssue" />
@@ -6116,19 +6104,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="MonetaryAccount" Relationship="TotalSalesPortalModel.FK_Receipts_MonetaryAccounts" FromRole="Receipt" ToRole="MonetaryAccount" />
           <Property Name="GoodsIssueReferences" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SalesReturn" Relationship="TotalSalesPortalModel.FK_Receipts_SalesReturns" FromRole="Receipt" ToRole="SalesReturn" />
+          <NavigationProperty Name="CreditNote" Relationship="TotalSalesPortalModel.FK_Receipts_CreditNotes" FromRole="Receipt" ToRole="CreditNote" />
         </EntityType>
-        <Association Name="FK_Receipts_CreditNotes">
-          <End Type="TotalSalesPortalModel.CreditNote" Role="CreditNote" Multiplicity="0..1" />
-          <End Type="TotalSalesPortalModel.Receipt" Role="Receipt" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CreditNote">
-              <PropertyRef Name="CreditNoteID" />
-            </Principal>
-            <Dependent Role="Receipt">
-              <PropertyRef Name="CreditNoteID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Receipts_Customers">
           <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
           <End Type="TotalSalesPortalModel.Receipt" Role="Receipt" Multiplicity="*" />
@@ -7173,6 +7150,59 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Principal>
             <Dependent Role="SalesReturn">
               <PropertyRef Name="WarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CreditNote">
+          <Key>
+            <PropertyRef Name="CreditNoteID" />
+          </Key>
+          <Property Name="CreditNoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Reference" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="PromotionID" Type="Int32" />
+          <Property Name="PromotionVouchers" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemoCode" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="MemoDate" Type="DateTime" Precision="3" />
+          <Property Name="SalespersonID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="PreparedPersonID" Type="Int32" Nullable="false" />
+          <Property Name="OrganizationalUnitID" Type="Int32" Nullable="false" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="ApproverID" Type="Int32" Nullable="false" />
+          <Property Name="TotalQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TradeDiscountRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TradeDiscountAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalVATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalReceiptAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalCashDiscount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalFluctuationAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EditedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Approved" Type="Boolean" Nullable="false" />
+          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
+          <Property Name="VATbyRow" Type="Boolean" Nullable="false" />
+          <Property Name="VATPercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="InActive" Type="Boolean" Nullable="false" />
+          <Property Name="InActivePartial" Type="Boolean" Nullable="false" />
+          <Property Name="InActiveDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Receipts" Relationship="TotalSalesPortalModel.FK_Receipts_CreditNotes" FromRole="CreditNote" ToRole="Receipt" />
+        </EntityType>
+        <Association Name="FK_Receipts_CreditNotes">
+          <End Type="TotalSalesPortalModel.CreditNote" Role="CreditNote" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.Receipt" Role="Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CreditNote">
+              <PropertyRef Name="CreditNoteID" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="CreditNoteID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8623,32 +8653,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CreditNotes">
-            <EntityTypeMapping TypeName="TotalSalesPortalModel.CreditNote">
-              <MappingFragment StoreEntitySet="CreditNotes">
-                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
-                <ScalarProperty Name="Approved" ColumnName="Approved" />
-                <ScalarProperty Name="EditedDate" ColumnName="EditedDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="TotalFluctuationAmount" ColumnName="TotalFluctuationAmount" />
-                <ScalarProperty Name="TotalCashDiscount" ColumnName="TotalCashDiscount" />
-                <ScalarProperty Name="TotalReceiptAmount" ColumnName="TotalReceiptAmount" />
-                <ScalarProperty Name="TotalCreditAmount" ColumnName="TotalCreditAmount" />
-                <ScalarProperty Name="ApproverID" ColumnName="ApproverID" />
-                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
-                <ScalarProperty Name="OrganizationalUnitID" ColumnName="OrganizationalUnitID" />
-                <ScalarProperty Name="PreparedPersonID" ColumnName="PreparedPersonID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="SalespersonID" ColumnName="SalespersonID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="Reference" ColumnName="Reference" />
-                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
-                <ScalarProperty Name="CreditNoteID" ColumnName="CreditNoteID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ReceiptDetails">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.ReceiptDetail">
               <MappingFragment StoreEntitySet="ReceiptDetails">
@@ -9334,6 +9338,47 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="Reference" ColumnName="Reference" />
                 <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
                 <ScalarProperty Name="SalesReturnID" ColumnName="SalesReturnID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CreditNotes">
+            <EntityTypeMapping TypeName="TotalSalesPortalModel.CreditNote">
+              <MappingFragment StoreEntitySet="CreditNotes">
+                <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
+                <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />
+                <ScalarProperty Name="InActive" ColumnName="InActive" />
+                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
+                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="EditedDate" ColumnName="EditedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TotalFluctuationAmount" ColumnName="TotalFluctuationAmount" />
+                <ScalarProperty Name="TotalCashDiscount" ColumnName="TotalCashDiscount" />
+                <ScalarProperty Name="TotalReceiptAmount" ColumnName="TotalReceiptAmount" />
+                <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
+                <ScalarProperty Name="TotalVATAmount" ColumnName="TotalVATAmount" />
+                <ScalarProperty Name="TotalTaxableAmount" ColumnName="TotalTaxableAmount" />
+                <ScalarProperty Name="TradeDiscountAmount" ColumnName="TradeDiscountAmount" />
+                <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="ApproverID" ColumnName="ApproverID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="OrganizationalUnitID" ColumnName="OrganizationalUnitID" />
+                <ScalarProperty Name="PreparedPersonID" ColumnName="PreparedPersonID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="SalespersonID" ColumnName="SalespersonID" />
+                <ScalarProperty Name="MemoDate" ColumnName="MemoDate" />
+                <ScalarProperty Name="MemoCode" ColumnName="MemoCode" />
+                <ScalarProperty Name="PromotionVouchers" ColumnName="PromotionVouchers" />
+                <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="CreditNoteID" ColumnName="CreditNoteID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

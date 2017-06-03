@@ -53,7 +53,6 @@ namespace TotalModel.Models
         public Nullable<int> MonetaryAccountID { get; set; }
         public string GoodsIssueReferences { get; set; }
     
-        public virtual CreditNote CreditNote { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual GoodsIssue GoodsIssue { get; set; }
@@ -64,5 +63,6 @@ namespace TotalModel.Models
         public virtual Receipt Receipt1 { get; set; }
         public virtual MonetaryAccount MonetaryAccount { get; set; }
         public virtual SalesReturn SalesReturn { get; set; }
+        public virtual CreditNote CreditNote { get; set; }
     }
 }

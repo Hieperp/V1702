@@ -59,7 +59,6 @@ namespace TotalModel.Models
         public virtual DbSet<GoodsIssue> GoodsIssues { get; set; }
         public virtual DbSet<HandlingUnit> HandlingUnits { get; set; }
         public virtual DbSet<Commodity> Commodities { get; set; }
-        public virtual DbSet<CreditNote> CreditNotes { get; set; }
         public virtual DbSet<ReceiptDetail> ReceiptDetails { get; set; }
         public virtual DbSet<Receipt> Receipts { get; set; }
         public virtual DbSet<MonetaryAccount> MonetaryAccounts { get; set; }
@@ -69,6 +68,7 @@ namespace TotalModel.Models
         public virtual DbSet<Warehouse> Warehouses { get; set; }
         public virtual DbSet<SalesReturnDetail> SalesReturnDetails { get; set; }
         public virtual DbSet<SalesReturn> SalesReturns { get; set; }
+        public virtual DbSet<CreditNote> CreditNotes { get; set; }
     
         public virtual ObjectResult<Nullable<int>> GetAccessLevel(Nullable<int> userID, Nullable<int> nMVNTaskID, Nullable<int> organizationalUnitID)
         {

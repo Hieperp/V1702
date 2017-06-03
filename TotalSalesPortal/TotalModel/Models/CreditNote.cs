@@ -24,13 +24,23 @@ namespace TotalModel.Models
         public System.DateTime EntryDate { get; set; }
         public string Reference { get; set; }
         public int CustomerID { get; set; }
+        public Nullable<int> PromotionID { get; set; }
+        public string PromotionVouchers { get; set; }
+        public string MemoCode { get; set; }
+        public Nullable<System.DateTime> MemoDate { get; set; }
         public int SalespersonID { get; set; }
         public int UserID { get; set; }
         public int PreparedPersonID { get; set; }
         public int OrganizationalUnitID { get; set; }
         public int LocationID { get; set; }
         public int ApproverID { get; set; }
-        public decimal TotalCreditAmount { get; set; }
+        public decimal TotalQuantity { get; set; }
+        public decimal TotalAmount { get; set; }
+        public decimal TradeDiscountRate { get; set; }
+        public decimal TradeDiscountAmount { get; set; }
+        public decimal TotalTaxableAmount { get; set; }
+        public decimal TotalVATAmount { get; set; }
+        public decimal TotalGrossAmount { get; set; }
         public decimal TotalReceiptAmount { get; set; }
         public decimal TotalCashDiscount { get; set; }
         public decimal TotalFluctuationAmount { get; set; }
@@ -40,6 +50,11 @@ namespace TotalModel.Models
         public System.DateTime EditedDate { get; set; }
         public bool Approved { get; set; }
         public Nullable<System.DateTime> ApprovedDate { get; set; }
+        public bool VATbyRow { get; set; }
+        public decimal VATPercent { get; set; }
+        public bool InActive { get; set; }
+        public bool InActivePartial { get; set; }
+        public Nullable<System.DateTime> InActiveDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Receipt> Receipts { get; set; }
