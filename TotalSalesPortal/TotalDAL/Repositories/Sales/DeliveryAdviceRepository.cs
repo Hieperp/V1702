@@ -24,6 +24,21 @@ namespace TotalDAL.Repositories.Sales
 
             //return;
 
+            //AccountInvoice: NOT CHECK FOR Approved COMMPLETELY, PLS CHECK IT CAREFULLY LATER. (SaveRelative, GetPendingGoodsIssueDetails, ...). ALSO DO THE SAME CHECK FOR ALL OTHER MODULES
+            //AccountInvoice: SHOULD SAVE BillingAddress
+
+            Helpers.SqlProgrammability.Accounts.AccountInvoice accountInvoice = new Helpers.SqlProgrammability.Accounts.AccountInvoice(totalSalesPortalEntities);
+            accountInvoice.RestoreProcedure();
+
+
+            return;
+
+            Helpers.SqlProgrammability.Accounts.CreditNote creditNote = new Helpers.SqlProgrammability.Accounts.CreditNote(totalSalesPortalEntities);
+            creditNote.RestoreProcedure();
+
+
+            return;
+
             Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);
             saleReports.RestoreProcedure();
 
@@ -34,7 +49,7 @@ namespace TotalDAL.Repositories.Sales
             receipt.RestoreProcedure();
 
 
-            return;
+            //return;
 
 
             Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
@@ -42,7 +57,7 @@ namespace TotalDAL.Repositories.Sales
 
             
 
-            return;
+            //return;
 
             Helpers.SqlProgrammability.Sales.SalesReturn salesReturn = new Helpers.SqlProgrammability.Sales.SalesReturn(totalSalesPortalEntities);
             salesReturn.RestoreProcedure();
@@ -50,14 +65,7 @@ namespace TotalDAL.Repositories.Sales
             return;
 
 
-            //return;
-
-            //AccountInvoice: NOT CHECK FOR Approved COMMPLETELY, PLS CHECK IT CAREFULLY LATER. (SaveRelative, GetPendingGoodsIssueDetails, ...). ALSO DO THE SAME CHECK FOR ALL OTHER MODULES
-            //AccountInvoice: SHOULD SAVE BillingAddress
-
-            Helpers.SqlProgrammability.Accounts.AccountInvoice accountInvoice = new Helpers.SqlProgrammability.Accounts.AccountInvoice(totalSalesPortalEntities);
-            accountInvoice.RestoreProcedure();
-
+            
             return;
 
             Helpers.SqlProgrammability.Inventories.GoodsIssue goodsIssue = new Helpers.SqlProgrammability.Inventories.GoodsIssue(totalSalesPortalEntities);

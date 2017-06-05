@@ -310,7 +310,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
         private void AccountInvoiceSheet()
         {
             string queryString = " @AccountInvoiceID int " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
@@ -319,15 +319,15 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
             
             queryString = queryString + "       SELECT          AccountInvoices.AccountInvoiceID, AccountInvoices.EntryDate, AccountInvoices.Reference, AccountInvoices.VATInvoiceNo, AccountInvoices.VATInvoiceDate, " + "\r\n";
             queryString = queryString + "                       Customers.CustomerID, Customers.OfficialName AS CustomerOfficialName, Customers.VATCode, Customers.BillingAddress, PaymentTerms.Name AS PaymentTermName, " + "\r\n";
-            queryString = queryString + "                       AccountInvoiceCollections.AccountInvoiceDetailID, AccountInvoiceCollections.IsFreebie, Commodities.CommodityID, Commodities.Code, Commodities.CodePartA, Commodities.CodePartB, CommoditySKU.CodeSKU, Commodities.OfficialName, Commodities.SalesUnit, " + "\r\n";
+            queryString = queryString + "                       AccountInvoiceCollections.AccountInvoiceDetailID, AccountInvoiceCollections.IsFreebie, Commodities.CommodityID, Commodities.Code, Commodities.CodePartA, Commodities.CodePartB, ISNULL(Commodities.CodePartA + ' ' + Commodities.CodePartB, AccountInvoiceCollections.LineDescription) AS LineDescription, CommoditySKU.CodeSKU, Commodities.OfficialName, Commodities.SalesUnit, " + "\r\n";
             queryString = queryString + "                       AccountInvoiceCollections.Quantity, AccountInvoiceCollections.ListedPrice, AccountInvoiceCollections.ListedAmount, AccountInvoiceCollections.DiscountPercent, AccountInvoiceCollections.UnitPrice, AccountInvoiceCollections.Amount, " + (GlobalEnums.VATbyRow ? "AccountInvoiceCollections.VATPercent" : "AccountInvoices.VATPercent") + " AS VATPercent, AccountInvoiceCollections.VATAmount, AccountInvoiceCollections.GrossAmount, " + "\r\n";
             queryString = queryString + "                       AccountInvoices.TotalQuantity, AccountInvoices.TotalAmount, AccountInvoices.TotalVATAmount, AccountInvoices.TotalGrossAmount, dbo.SayVND(AccountInvoices.TotalGrossAmount) AS TotalGrossAmountInWords, AccountInvoices.Description " + "\r\n";
 
-            queryString = queryString + "       FROM            (SELECT AccountInvoiceID, AccountInvoiceDetailID, CommodityID, Quantity, ListedPrice, ListedAmount, DiscountPercent, UnitPrice, Amount, VATPercent, VATAmount, GrossAmount, 0 AS IsFreebie FROM AccountInvoiceDetails WHERE AccountInvoiceID = @LocalAccountInvoiceID " + "\r\n";
+            queryString = queryString + "       FROM            (SELECT AccountInvoiceID, AccountInvoiceDetailID, CommodityID, N'' AS LineDescription, Quantity, ListedPrice, ListedAmount, DiscountPercent, UnitPrice, Amount, VATPercent, VATAmount, GrossAmount, 0 AS IsFreebie FROM AccountInvoiceDetails WHERE AccountInvoiceID = @LocalAccountInvoiceID " + "\r\n";
             queryString = queryString + "                       UNION ALL " + "\r\n";
-            queryString = queryString + "                       SELECT AccountInvoiceID, AccountInvoiceDetailID, CommodityID, FreeQuantity AS Quantity, 0 AS ListedPrice, 0 AS ListedAmount, 0 AS DiscountPercent, 0 AS UnitPrice, 0 AS Amount, 0 AS VATPercent, 0 AS VATAmount, 0 AS GrossAmount, 1 AS IsFreebie FROM AccountInvoiceDetails WHERE AccountInvoiceID = @LocalAccountInvoiceID AND FreeQuantity <> 0 " + "\r\n";
+            queryString = queryString + "                       SELECT AccountInvoiceID, AccountInvoiceDetailID, CommodityID, N'' AS LineDescription, FreeQuantity AS Quantity, 0 AS ListedPrice, 0 AS ListedAmount, 0 AS DiscountPercent, 0 AS UnitPrice, 0 AS Amount, 0 AS VATPercent, 0 AS VATAmount, 0 AS GrossAmount, 1 AS IsFreebie FROM AccountInvoiceDetails WHERE AccountInvoiceID = @LocalAccountInvoiceID AND FreeQuantity <> 0 " + "\r\n";
             queryString = queryString + "                       UNION ALL " + "\r\n";
-            queryString = queryString + "                       SELECT AccountInvoiceID, -1 AS AccountInvoiceDetailID, -1 AS CommodityID, 0 AS Quantity, 0 AS ListedPrice, TotalListedAmount - TotalAmount AS ListedAmount, 0 AS DiscountPercent, 0 AS UnitPrice, 0 AS Amount, 0 AS VATPercent, 0 AS VATAmount, 0 AS GrossAmount, 2 AS IsFreebie FROM AccountInvoices WHERE AccountInvoiceID = @LocalAccountInvoiceID AND TotalListedAmount <> TotalAmount) AS AccountInvoiceCollections " + "\r\n";
+            queryString = queryString + "                       SELECT AccountInvoiceID, -1 AS AccountInvoiceDetailID, -1 AS CommodityID, N'Chiết khấu: ' + CAST(CAST(TradeDiscountRate AS Decimal(18, 1)) AS nvarchar(10)) + '%' AS LineDescription, 0 AS Quantity, 0 AS ListedPrice, -TradeDiscountAmount AS ListedAmount, 0 AS DiscountPercent, 0 AS UnitPrice, -TradeDiscountAmount AS Amount, 0 AS VATPercent, 0 AS VATAmount, 0 AS GrossAmount, 2 AS IsFreebie FROM AccountInvoices WHERE AccountInvoiceID = @LocalAccountInvoiceID AND TradeDiscountAmount <> 0) AS AccountInvoiceCollections " + "\r\n";
             
             queryString = queryString + "                       INNER JOIN AccountInvoices ON AccountInvoiceCollections.AccountInvoiceID = AccountInvoices.AccountInvoiceID " + "\r\n";
             queryString = queryString + "                       INNER JOIN Customers ON AccountInvoices.CustomerID = Customers.CustomerID " + "\r\n";

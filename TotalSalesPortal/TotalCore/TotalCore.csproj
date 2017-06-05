@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\Accounts\ICreditNoteRepository.cs" />
     <Compile Include="Repositories\Analysis\IReportRepository.cs" />
     <Compile Include="Repositories\Commons\IMonetaryAccountRepository.cs" />
     <Compile Include="Repositories\Commons\IPackingMaterialRepository.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Repositories\Inventories\IGoodsIssueRepository.cs" />
     <Compile Include="Repositories\Sales\IDeliveryAdviceRepository.cs" />
     <Compile Include="Services\Accounts\IAccountInvoiceService.cs" />
+    <Compile Include="Services\Accounts\ICreditNoteService.cs" />
     <Compile Include="Services\Accounts\IReceiptService.cs" />
     <Compile Include="Services\Commons\ICommodityService.cs" />
     <Compile Include="Services\Helpers\IHelperService.cs" />

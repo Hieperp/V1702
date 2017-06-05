@@ -227,6 +227,26 @@ namespace TotalModel.Models
 
 
 
+
+    public partial class CreditNote : IPrimitiveEntity, IBaseEntity, IBaseDetailEntity<CreditNoteDetail>
+    {
+        public int GetID() { return this.CreditNoteID; }
+
+        public virtual Employee Salesperson { get { return this.Employee; } }
+
+        public ICollection<CreditNoteDetail> GetDetails() { return this.CreditNoteDetails; }
+    }
+
+
+    public partial class CreditNoteDetail : IPrimitiveEntity, IHelperEntryDate, IHelperCommodityID, IHelperCommodityTypeID
+    {
+        public int GetID() { return this.CreditNoteDetailID; }
+    }
+
+    
+
+
+
     public partial class VoidType : IPrimitiveEntity, IBaseEntity
     {
         public int GetID() { return this.VoidTypeID; }

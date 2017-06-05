@@ -49,12 +49,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityFrameworkExtension.cs" />
+    <Compile Include="Helpers\SqlProgrammability\Accounts\CreditNote.cs" />
     <Compile Include="Helpers\SqlProgrammability\Commons\AccessControl.cs" />
     <Compile Include="Helpers\SqlProgrammability\Inventories\GoodsDelivery.cs" />
     <Compile Include="Helpers\SqlProgrammability\Inventories\HandlingUnit.cs" />
     <Compile Include="Helpers\SqlProgrammability\Reports\SaleReports.cs" />
     <Compile Include="Helpers\SqlProgrammability\Sales\SalesOrder.cs" />
     <Compile Include="Helpers\SqlProgrammability\Sales\SalesReturn.cs" />
+    <Compile Include="Repositories\Accounts\CreditNoteRepository.cs" />
     <Compile Include="Repositories\Analysis\ReportRepository.cs" />
     <Compile Include="Repositories\Commons\MonetaryAccountRepository.cs" />
     <Compile Include="Repositories\Commons\PackingMaterialRepository.cs" />

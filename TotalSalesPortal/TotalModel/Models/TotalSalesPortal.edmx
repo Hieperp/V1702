@@ -189,6 +189,32 @@
           <Property Name="AncestorID" Type="int" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="CreditNoteDetails">
+          <Key>
+            <PropertyRef Name="CreditNoteDetailID" />
+          </Key>
+          <Property Name="CreditNoteDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EntryDate" Type="datetime" Nullable="false" />
+          <Property Name="LocationID" Type="int" Nullable="false" />
+          <Property Name="CreditNoteID" Type="int" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="CommodityID" Type="int" Nullable="false" />
+          <Property Name="CommodityTypeID" Type="int" Nullable="false" />
+          <Property Name="PromotionID" Type="int" />
+          <Property Name="SalespersonID" Type="int" Nullable="false" />
+          <Property Name="CalculatingTypeID" Type="int" Nullable="false" />
+          <Property Name="VATbyRow" Type="bit" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TradeDiscountRate" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="VATPercent" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="GrossPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="VATAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="GrossAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
+          <Property Name="Approved" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="CreditNotes">
           <Key>
             <PropertyRef Name="CreditNoteID" />
@@ -207,6 +233,8 @@
           <Property Name="OrganizationalUnitID" Type="int" Nullable="false" />
           <Property Name="LocationID" Type="int" Nullable="false" />
           <Property Name="ApproverID" Type="int" Nullable="false" />
+          <Property Name="VATbyRow" Type="bit" Nullable="false" />
+          <Property Name="VATPercent" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TradeDiscountRate" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -223,11 +251,6 @@
           <Property Name="EditedDate" Type="datetime" Nullable="false" />
           <Property Name="Approved" Type="bit" Nullable="false" />
           <Property Name="ApprovedDate" Type="datetime" />
-          <Property Name="VATbyRow" Type="bit" Nullable="false" />
-          <Property Name="VATPercent" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="InActive" Type="bit" Nullable="false" />
-          <Property Name="InActivePartial" Type="bit" Nullable="false" />
-          <Property Name="InActiveDate" Type="datetime" />
         </EntityType>
         <EntityType Name="CustomerCategories">
           <Key>
@@ -1200,6 +1223,87 @@ warning 6035: The relationship 'FK_AccountInvoices_AspNetUsers2' has columns tha
             </Principal>
             <Dependent Role="CommodityTypes1">
               <PropertyRef Name="AncestorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CreditNoteDetails_Commodities">
+          <End Role="Commodities" Type="Self.Commodities" Multiplicity="1" />
+          <End Role="CreditNoteDetails" Type="Self.CreditNoteDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commodities">
+              <PropertyRef Name="CommodityID" />
+            </Principal>
+            <Dependent Role="CreditNoteDetails">
+              <PropertyRef Name="CommodityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CreditNoteDetails_CreditNotes">
+          <End Role="CreditNotes" Type="Self.CreditNotes" Multiplicity="1" />
+          <End Role="CreditNoteDetails" Type="Self.CreditNoteDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CreditNotes">
+              <PropertyRef Name="CreditNoteID" />
+            </Principal>
+            <Dependent Role="CreditNoteDetails">
+              <PropertyRef Name="CreditNoteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_CreditNotes_AspNetUsers' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_CreditNotes_AspNetUsers" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_CreditNotes_AspNetUsers1' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_CreditNotes_AspNetUsers1" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_CreditNotes_AspNetUsers2' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_CreditNotes_AspNetUsers2" />-->
+        <Association Name="FK_CreditNotes_Customers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="CreditNotes" Type="Self.CreditNotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="CreditNotes">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CreditNotes_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="CreditNotes" Type="Self.CreditNotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="CreditNotes">
+              <PropertyRef Name="SalespersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CreditNotes_Locations">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
+          <End Role="CreditNotes" Type="Self.CreditNotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="CreditNotes">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CreditNotes_Locations1">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
+          <End Role="CreditNotes" Type="Self.CreditNotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="CreditNotes">
+              <PropertyRef Name="LocationID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2281,6 +2385,23 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="EntityID" Type="int" Mode="In" />
           <Parameter Name="SaveRelativeOption" Type="int" Mode="In" />
         </Function>
+        <Function Name="CreditNoteApproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="CreditNoteEditable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="CreditNotePostSaveValidate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="CreditNoteSaveRelative" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+          <Parameter Name="SaveRelativeOption" Type="int" Mode="In" />
+        </Function>
+        <Function Name="CreditNoteToggleApproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+          <Parameter Name="Approved" Type="bit" Mode="In" />
+        </Function>
         <Function Name="DeliveryAdviceApproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
         </Function>
@@ -2338,6 +2459,11 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="PromotionID" Type="int" Mode="In" />
           <Parameter Name="EntryDate" Type="datetime" Mode="In" />
           <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetCreditNoteIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
         </Function>
         <Function Name="GetCustomerBases" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
@@ -2660,6 +2786,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySet Name="Commodities" EntityType="Self.Commodities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CommodityCategories" EntityType="Self.CommodityCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CommodityTypes" EntityType="Self.CommodityTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CreditNoteDetails" EntityType="Self.CreditNoteDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CreditNotes" EntityType="Self.CreditNotes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomerCategories" EntityType="Self.CustomerCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
@@ -2746,6 +2873,30 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <AssociationSet Name="FK_CommodityTypes_CommodityTypes" Association="Self.FK_CommodityTypes_CommodityTypes">
             <End Role="CommodityTypes" EntitySet="CommodityTypes" />
             <End Role="CommodityTypes1" EntitySet="CommodityTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CreditNoteDetails_Commodities" Association="Self.FK_CreditNoteDetails_Commodities">
+            <End Role="Commodities" EntitySet="Commodities" />
+            <End Role="CreditNoteDetails" EntitySet="CreditNoteDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CreditNoteDetails_CreditNotes" Association="Self.FK_CreditNoteDetails_CreditNotes">
+            <End Role="CreditNotes" EntitySet="CreditNotes" />
+            <End Role="CreditNoteDetails" EntitySet="CreditNoteDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CreditNotes_Customers" Association="Self.FK_CreditNotes_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="CreditNotes" EntitySet="CreditNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CreditNotes_Employees" Association="Self.FK_CreditNotes_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="CreditNotes" EntitySet="CreditNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CreditNotes_Locations" Association="Self.FK_CreditNotes_Locations">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="CreditNotes" EntitySet="CreditNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CreditNotes_Locations1" Association="Self.FK_CreditNotes_Locations1">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="CreditNotes" EntitySet="CreditNotes" />
           </AssociationSet>
           <AssociationSet Name="FK_CustomerCategories_CustomerCategories" Association="Self.FK_CustomerCategories_CustomerCategories">
             <End Role="CustomerCategories" EntitySet="CustomerCategories" />
@@ -3136,6 +3287,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="SalesOrders" Relationship="TotalSalesPortalModel.FK_SalesOrders_Locations" FromRole="Location" ToRole="SalesOrder" />
           <NavigationProperty Name="Warehouses" Relationship="TotalSalesPortalModel.FK_Warehouses_Locations" FromRole="Location" ToRole="Warehouse" />
           <NavigationProperty Name="SalesReturns" Relationship="TotalSalesPortalModel.FK_SalesReturns_Locations" FromRole="Location" ToRole="SalesReturn" />
+          <NavigationProperty Name="CreditNotes" Relationship="TotalSalesPortalModel.FK_CreditNotes_Locations" FromRole="Location" ToRole="CreditNote" />
+          <NavigationProperty Name="CreditNotes1" Relationship="TotalSalesPortalModel.FK_CreditNotes_Locations1" FromRole="Location" ToRole="CreditNote" />
         </EntityType>
         <EntityType Name="ModuleDetail">
           <Key>
@@ -3972,11 +4125,58 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="Warehouse" EntitySet="Warehouses" />
             <End Role="SalesReturn" EntitySet="SalesReturns" />
           </AssociationSet>
+          <EntitySet Name="CreditNoteDetails" EntityType="TotalSalesPortalModel.CreditNoteDetail" />
           <EntitySet Name="CreditNotes" EntityType="TotalSalesPortalModel.CreditNote" />
+          <AssociationSet Name="FK_CreditNoteDetails_Commodities" Association="TotalSalesPortalModel.FK_CreditNoteDetails_Commodities">
+            <End Role="Commodity" EntitySet="Commodities" />
+            <End Role="CreditNoteDetail" EntitySet="CreditNoteDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CreditNoteDetails_CreditNotes" Association="TotalSalesPortalModel.FK_CreditNoteDetails_CreditNotes">
+            <End Role="CreditNote" EntitySet="CreditNotes" />
+            <End Role="CreditNoteDetail" EntitySet="CreditNoteDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CreditNotes_Customers" Association="TotalSalesPortalModel.FK_CreditNotes_Customers">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="CreditNote" EntitySet="CreditNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CreditNotes_Employees" Association="TotalSalesPortalModel.FK_CreditNotes_Employees">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="CreditNote" EntitySet="CreditNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CreditNotes_Locations" Association="TotalSalesPortalModel.FK_CreditNotes_Locations">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="CreditNote" EntitySet="CreditNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CreditNotes_Locations1" Association="TotalSalesPortalModel.FK_CreditNotes_Locations1">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="CreditNote" EntitySet="CreditNotes" />
+          </AssociationSet>
           <AssociationSet Name="FK_Receipts_CreditNotes" Association="TotalSalesPortalModel.FK_Receipts_CreditNotes">
             <End Role="CreditNote" EntitySet="CreditNotes" />
             <End Role="Receipt" EntitySet="Receipts" />
           </AssociationSet>
+          <FunctionImport Name="CreditNoteApproved" ReturnType="Collection(String)">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CreditNoteEditable" ReturnType="Collection(String)">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CreditNotePostSaveValidate" ReturnType="Collection(String)">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CreditNoteSaveRelative">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+            <Parameter Name="SaveRelativeOption" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CreditNoteToggleApproved">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+            <Parameter Name="Approved" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="GetCreditNoteIndexes" ReturnType="Collection(TotalSalesPortalModel.CreditNoteIndex)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -4108,6 +4308,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="Receipts" Relationship="TotalSalesPortalModel.FK_Receipts_Employees" FromRole="Employee" ToRole="Receipt" />
           <NavigationProperty Name="SalesOrders" Relationship="TotalSalesPortalModel.FK_SalesOrders_Employees" FromRole="Employee" ToRole="SalesOrder" />
           <NavigationProperty Name="SalesReturns" Relationship="TotalSalesPortalModel.FK_SalesReturns_Employees" FromRole="Employee" ToRole="SalesReturn" />
+          <NavigationProperty Name="CreditNotes" Relationship="TotalSalesPortalModel.FK_CreditNotes_Employees" FromRole="Employee" ToRole="CreditNote" />
         </EntityType>
         <EntityType Name="EntireTerritory">
           <Key>
@@ -5160,6 +5361,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="SalesOrders1" Relationship="TotalSalesPortalModel.FK_SalesOrders_Customers1" FromRole="Customer" ToRole="SalesOrder" />
           <NavigationProperty Name="SalesReturns" Relationship="TotalSalesPortalModel.FK_SalesReturns_Customers" FromRole="Customer" ToRole="SalesReturn" />
           <NavigationProperty Name="SalesReturns1" Relationship="TotalSalesPortalModel.FK_SalesReturns_Customers1" FromRole="Customer" ToRole="SalesReturn" />
+          <NavigationProperty Name="CreditNotes" Relationship="TotalSalesPortalModel.FK_CreditNotes_Customers" FromRole="Customer" ToRole="CreditNote" />
         </EntityType>
         <EntityType Name="DeliveryAdviceDetail">
           <Key>
@@ -5983,6 +6185,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="GoodsIssueDetails" Relationship="TotalSalesPortalModel.FK_GoodsIssueDetails_Commodities" FromRole="Commodity" ToRole="GoodsIssueDetail" />
           <NavigationProperty Name="SalesOrderDetails" Relationship="TotalSalesPortalModel.FK_SalesOrderDetails_Commodities" FromRole="Commodity" ToRole="SalesOrderDetail" />
           <NavigationProperty Name="SalesReturnDetails" Relationship="TotalSalesPortalModel.FK_SalesReturnDetails_Commodities" FromRole="Commodity" ToRole="SalesReturnDetail" />
+          <NavigationProperty Name="CreditNoteDetails" Relationship="TotalSalesPortalModel.FK_CreditNoteDetails_Commodities" FromRole="Commodity" ToRole="CreditNoteDetail" />
         </EntityType>
         <Association Name="FK_AccountInvoiceDetails_Commodities">
           <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
@@ -7153,6 +7356,34 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CreditNoteDetail">
+          <Key>
+            <PropertyRef Name="CreditNoteDetailID" />
+          </Key>
+          <Property Name="CreditNoteDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="CreditNoteID" Type="Int32" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="CommodityID" Type="Int32" Nullable="false" />
+          <Property Name="CommodityTypeID" Type="Int32" Nullable="false" />
+          <Property Name="PromotionID" Type="Int32" />
+          <Property Name="SalespersonID" Type="Int32" Nullable="false" />
+          <Property Name="CalculatingTypeID" Type="Int32" Nullable="false" />
+          <Property Name="VATbyRow" Type="Boolean" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="UnitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TradeDiscountRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="VATPercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="GrossPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="VATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="GrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Approved" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Commodity" Relationship="TotalSalesPortalModel.FK_CreditNoteDetails_Commodities" FromRole="CreditNoteDetail" ToRole="Commodity" />
+          <NavigationProperty Name="CreditNote" Relationship="TotalSalesPortalModel.FK_CreditNoteDetails_CreditNotes" FromRole="CreditNoteDetail" ToRole="CreditNote" />
+        </EntityType>
         <EntityType Name="CreditNote">
           <Key>
             <PropertyRef Name="CreditNoteID" />
@@ -7171,6 +7402,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="OrganizationalUnitID" Type="Int32" Nullable="false" />
           <Property Name="LocationID" Type="Int32" Nullable="false" />
           <Property Name="ApproverID" Type="Int32" Nullable="false" />
+          <Property Name="VATbyRow" Type="Boolean" Nullable="false" />
+          <Property Name="VATPercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TotalQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TotalAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TradeDiscountRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
@@ -7187,13 +7420,85 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="EditedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Approved" Type="Boolean" Nullable="false" />
           <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
-          <Property Name="VATbyRow" Type="Boolean" Nullable="false" />
-          <Property Name="VATPercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="InActive" Type="Boolean" Nullable="false" />
-          <Property Name="InActivePartial" Type="Boolean" Nullable="false" />
-          <Property Name="InActiveDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CreditNoteDetails" Relationship="TotalSalesPortalModel.FK_CreditNoteDetails_CreditNotes" FromRole="CreditNote" ToRole="CreditNoteDetail" />
+          <NavigationProperty Name="Customer" Relationship="TotalSalesPortalModel.FK_CreditNotes_Customers" FromRole="CreditNote" ToRole="Customer" />
+          <NavigationProperty Name="Employee" Relationship="TotalSalesPortalModel.FK_CreditNotes_Employees" FromRole="CreditNote" ToRole="Employee" />
+          <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_CreditNotes_Locations" FromRole="CreditNote" ToRole="Location" />
+          <NavigationProperty Name="Location1" Relationship="TotalSalesPortalModel.FK_CreditNotes_Locations1" FromRole="CreditNote" ToRole="Location" />
           <NavigationProperty Name="Receipts" Relationship="TotalSalesPortalModel.FK_Receipts_CreditNotes" FromRole="CreditNote" ToRole="Receipt" />
         </EntityType>
+        <Association Name="FK_CreditNoteDetails_Commodities">
+          <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.CreditNoteDetail" Role="CreditNoteDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commodity">
+              <PropertyRef Name="CommodityID" />
+            </Principal>
+            <Dependent Role="CreditNoteDetail">
+              <PropertyRef Name="CommodityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CreditNoteDetails_CreditNotes">
+          <End Type="TotalSalesPortalModel.CreditNote" Role="CreditNote" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.CreditNoteDetail" Role="CreditNoteDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CreditNote">
+              <PropertyRef Name="CreditNoteID" />
+            </Principal>
+            <Dependent Role="CreditNoteDetail">
+              <PropertyRef Name="CreditNoteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CreditNotes_Customers">
+          <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.CreditNote" Role="CreditNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="CreditNote">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CreditNotes_Employees">
+          <End Type="TotalSalesPortalModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.CreditNote" Role="CreditNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="CreditNote">
+              <PropertyRef Name="SalespersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CreditNotes_Locations">
+          <End Type="TotalSalesPortalModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.CreditNote" Role="CreditNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="CreditNote">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CreditNotes_Locations1">
+          <End Type="TotalSalesPortalModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.CreditNote" Role="CreditNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="CreditNote">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Receipts_CreditNotes">
           <End Type="TotalSalesPortalModel.CreditNote" Role="CreditNote" Multiplicity="0..1" />
           <End Type="TotalSalesPortalModel.Receipt" Role="Receipt" Multiplicity="*" />
@@ -7206,6 +7511,22 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="CreditNoteIndex">
+          <Property Type="Int32" Name="CreditNoteID" Nullable="false" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="true" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="PromotionCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="PromotionVouchers" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MemoCode" Nullable="true" MaxLength="60" />
+          <Property Type="DateTime" Name="MemoDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="LocationCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="TotalQuantity" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TotalGrossAmountPending" Nullable="true" Precision="20" Scale="2" />
+          <Property Type="Boolean" Name="Approved" Nullable="false" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9341,14 +9662,36 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CreditNoteDetails">
+            <EntityTypeMapping TypeName="TotalSalesPortalModel.CreditNoteDetail">
+              <MappingFragment StoreEntitySet="CreditNoteDetails">
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="GrossAmount" ColumnName="GrossAmount" />
+                <ScalarProperty Name="VATAmount" ColumnName="VATAmount" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
+                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
+                <ScalarProperty Name="CalculatingTypeID" ColumnName="CalculatingTypeID" />
+                <ScalarProperty Name="SalespersonID" ColumnName="SalespersonID" />
+                <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
+                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
+                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CreditNoteID" ColumnName="CreditNoteID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="CreditNoteDetailID" ColumnName="CreditNoteDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CreditNotes">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.CreditNote">
               <MappingFragment StoreEntitySet="CreditNotes">
-                <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
-                <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />
-                <ScalarProperty Name="InActive" ColumnName="InActive" />
-                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
-                <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
                 <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
                 <ScalarProperty Name="Approved" ColumnName="Approved" />
                 <ScalarProperty Name="EditedDate" ColumnName="EditedDate" />
@@ -9365,6 +9708,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
                 <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
                 <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
                 <ScalarProperty Name="ApproverID" ColumnName="ApproverID" />
                 <ScalarProperty Name="LocationID" ColumnName="LocationID" />
                 <ScalarProperty Name="OrganizationalUnitID" ColumnName="OrganizationalUnitID" />
@@ -9382,6 +9727,31 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CreditNoteApproved" FunctionName="TotalSalesPortalModel.Store.CreditNoteApproved" />
+          <FunctionImportMapping FunctionImportName="CreditNoteEditable" FunctionName="TotalSalesPortalModel.Store.CreditNoteEditable" />
+          <FunctionImportMapping FunctionImportName="CreditNotePostSaveValidate" FunctionName="TotalSalesPortalModel.Store.CreditNotePostSaveValidate" />
+          <FunctionImportMapping FunctionImportName="CreditNoteSaveRelative" FunctionName="TotalSalesPortalModel.Store.CreditNoteSaveRelative" />
+          <FunctionImportMapping FunctionImportName="CreditNoteToggleApproved" FunctionName="TotalSalesPortalModel.Store.CreditNoteToggleApproved" />
+          <FunctionImportMapping FunctionImportName="GetCreditNoteIndexes" FunctionName="TotalSalesPortalModel.Store.GetCreditNoteIndexes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalSalesPortalModel.CreditNoteIndex">
+                <ScalarProperty Name="CreditNoteID" ColumnName="CreditNoteID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="PromotionCode" ColumnName="PromotionCode" />
+                <ScalarProperty Name="PromotionVouchers" ColumnName="PromotionVouchers" />
+                <ScalarProperty Name="MemoCode" ColumnName="MemoCode" />
+                <ScalarProperty Name="MemoDate" ColumnName="MemoDate" />
+                <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
+                <ScalarProperty Name="TotalGrossAmountPending" ColumnName="TotalGrossAmountPending" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

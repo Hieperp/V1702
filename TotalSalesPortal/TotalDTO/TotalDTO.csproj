@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Accounts\AccountInvoiceDetailDTO.cs" />
     <Compile Include="Accounts\AccountInvoiceDTO.cs" />
+    <Compile Include="Accounts\CreditNoteDetailDTO.cs" />
     <Compile Include="Accounts\CreditNoteDTO.cs" />
     <Compile Include="Accounts\ReceiptDetailDTO.cs" />
     <Compile Include="Accounts\ReceiptDTO.cs" />

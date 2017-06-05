@@ -17,6 +17,7 @@ namespace TotalModel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CreditNote()
         {
+            this.CreditNoteDetails = new HashSet<CreditNoteDetail>();
             this.Receipts = new HashSet<Receipt>();
         }
     
@@ -34,6 +35,8 @@ namespace TotalModel.Models
         public int OrganizationalUnitID { get; set; }
         public int LocationID { get; set; }
         public int ApproverID { get; set; }
+        public bool VATbyRow { get; set; }
+        public decimal VATPercent { get; set; }
         public decimal TotalQuantity { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal TradeDiscountRate { get; set; }
@@ -50,12 +53,13 @@ namespace TotalModel.Models
         public System.DateTime EditedDate { get; set; }
         public bool Approved { get; set; }
         public Nullable<System.DateTime> ApprovedDate { get; set; }
-        public bool VATbyRow { get; set; }
-        public decimal VATPercent { get; set; }
-        public bool InActive { get; set; }
-        public bool InActivePartial { get; set; }
-        public Nullable<System.DateTime> InActiveDate { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CreditNoteDetail> CreditNoteDetails { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual Location Location { get; set; }
+        public virtual Location Location1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Receipt> Receipts { get; set; }
     }
