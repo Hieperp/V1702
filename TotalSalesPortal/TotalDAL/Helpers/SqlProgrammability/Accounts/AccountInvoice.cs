@@ -310,7 +310,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
         private void AccountInvoiceSheet()
         {
             string queryString = " @AccountInvoiceID int " + "\r\n";
-            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
