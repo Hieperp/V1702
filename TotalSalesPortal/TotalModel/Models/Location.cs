@@ -27,7 +27,6 @@ namespace TotalModel.Models
             this.Warehouses = new HashSet<Warehouse>();
             this.SalesReturns = new HashSet<SalesReturn>();
             this.CreditNotes = new HashSet<CreditNote>();
-            this.CreditNotes1 = new HashSet<CreditNote>();
         }
     
         public int LocationID { get; set; }
@@ -62,7 +61,5 @@ namespace TotalModel.Models
         public virtual ICollection<SalesReturn> SalesReturns { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CreditNote> CreditNotes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CreditNote> CreditNotes1 { get; set; }
     }
 }
