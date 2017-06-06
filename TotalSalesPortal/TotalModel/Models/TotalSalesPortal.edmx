@@ -1295,18 +1295,6 @@ warning 6035: The relationship 'FK_CreditNotes_AspNetUsers2' has columns that ar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CreditNotes_Locations1">
-          <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
-          <End Role="CreditNotes" Type="Self.CreditNotes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Locations">
-              <PropertyRef Name="LocationID" />
-            </Principal>
-            <Dependent Role="CreditNotes">
-              <PropertyRef Name="LocationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CustomerCategories_CustomerCategories">
           <End Role="CustomerCategories" Type="Self.CustomerCategories" Multiplicity="0..1" />
           <End Role="CustomerCategories1" Type="Self.CustomerCategories" Multiplicity="*" />
@@ -2894,10 +2882,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="Locations" EntitySet="Locations" />
             <End Role="CreditNotes" EntitySet="CreditNotes" />
           </AssociationSet>
-          <AssociationSet Name="FK_CreditNotes_Locations1" Association="Self.FK_CreditNotes_Locations1">
-            <End Role="Locations" EntitySet="Locations" />
-            <End Role="CreditNotes" EntitySet="CreditNotes" />
-          </AssociationSet>
           <AssociationSet Name="FK_CustomerCategories_CustomerCategories" Association="Self.FK_CustomerCategories_CustomerCategories">
             <End Role="CustomerCategories" EntitySet="CustomerCategories" />
             <End Role="CustomerCategories1" EntitySet="CustomerCategories" />
@@ -4156,13 +4140,13 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="Receipt" EntitySet="Receipts" />
           </AssociationSet>
           <FunctionImport Name="CreditNoteApproved" ReturnType="Collection(String)">
-            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          <Parameter Name="EntityID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="CreditNoteEditable" ReturnType="Collection(String)">
-            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          <Parameter Name="EntityID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="CreditNotePostSaveValidate" ReturnType="Collection(String)">
-            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          <Parameter Name="EntityID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="CreditNoteSaveRelative">
             <Parameter Name="EntityID" Mode="In" Type="Int32" />
