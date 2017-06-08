@@ -31,7 +31,7 @@ namespace TotalPortal.Areas.Commons.APIs
         }
 
 
-        
+
 
 
         public JsonResult SearchCommodities(string searchText, string commodityTypeIDList, bool? isOnlyAlphaNumericString)
@@ -105,6 +105,14 @@ namespace TotalPortal.Areas.Commons.APIs
         public JsonResult GetCommodityAvailables(int? locationID, int? customerID, int? warehouseID, int? priceCategoryID, int? promotionID, DateTime? entryDate, string searchText)
         {
             var result = commodityRepository.GetCommodityAvailables(locationID, customerID, warehouseID, priceCategoryID, promotionID, entryDate, searchText).Select(s => new { s.CommodityID, s.CommodityCode, s.CommodityName, s.CommodityTypeID, s.WarehouseID, s.WarehouseCode, s.QuantityAvailable, s.ControlFreeQuantity, s.ListedPrice, s.GrossPrice, s.DiscountPercent, s.VATPercent, s.Bookable });
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public JsonResult GetCommodityBases(string commodityTypeIDList, string searchText, bool? isOnlyAlphaNumericString)
+        {
+            var result = commodityRepository.GetCommodityBases(commodityTypeIDList, searchText, isOnlyAlphaNumericString);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

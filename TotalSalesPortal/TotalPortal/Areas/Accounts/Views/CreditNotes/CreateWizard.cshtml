@@ -1,0 +1,53 @@
+﻿@{Layout = "~/Views/Shared/_LayoutPopup.cshtml";}
+
+@model TotalPortal.Areas.Accounts.ViewModels.CreditNoteViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
+
+    @Html.HiddenFor(model => model.ShowDiscount);
+
+    @Html.HiddenFor(model => model.PaymentTermID);
+
+    @Html.HiddenFor(model => model.Salesperson.EmployeeID);
+    @Html.HiddenFor(model => model.Salesperson.Name);
+
+
+    <div id="searchCustomer-div">
+        @Html.EditorFor(d => d.Customer, "AutoCompletes/CustomerBase", new { CustomerDescriptionHidden = "true", CustomerDisplayName = @Model.GetDisplayName(m => m.Customer) })
+    </div>
+
+
+    <div class="background-bar" style="height: 45px;">
+        <div class="popup-button-bar">
+            <input id="submitCreateWizard" type="submit" formaction="@Url.Action("CreateWizard", "CreditNotes")" formtarget="_top" style="display:none" />
+
+            <button type="button" class="k-button" onclick="handleOKEvent()"> <img src="~/Content/Images/Mains/Size24/Accept-Total.png" /> Tiếp tục </button>
+            <button type="button" class="k-button" onclick="window.parent.$('#myWindow').data('kendoWindow').close()"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png" /> Thoát </button>
+        </div>
+    </div>
+}
+
+<link href="@Url.Content("~/Content/CustomCss/GeneralPopup.css")" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+    function handleOKEvent(selectedGrid) {
+        if ($("#Customer_CustomerID").val() === null || $("#Customer_CustomerID").val() === "")
+            return false;
+
+        _setModelInput();
+        
+        $("#submitCreateWizard").trigger("click");
+
+        function _setModelInput(selectedDataItem) {
+            $("#PaymentTermID").val($("#Customer_PaymentTermID").val());
+
+            $("#Salesperson_EmployeeID").val($("#Customer_SalespersonID").val());
+            $("#Salesperson_Name").val($("#Customer_SalespersonName").val());
+        }
+    }
+
+</script>

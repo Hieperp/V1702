@@ -18,11 +18,13 @@ namespace TotalDTO.Accounts
         public int CustomerID { get; set; }
         public int SalespersonID { get; set; }
 
-        [UIHint("AutoCompletes/CommodityAvailable")]
+        [UIHint("AutoCompletes/CommodityBase")]
         public override string CommodityCode { get; set; }
 
         [UIHint("Decimal")]
         public override decimal Quantity { get; set; }
+        [UIHint("Decimal")]
+        public override decimal UnitPrice { get; set; }
 
         public Nullable<int> PromotionID { get; set; }
     }

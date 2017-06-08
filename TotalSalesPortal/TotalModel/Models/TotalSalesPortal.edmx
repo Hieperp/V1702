@@ -2449,6 +2449,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="EntryDate" Type="datetime" Mode="In" />
           <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="GetCommodityBases" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CommodityTypeIDList" Type="varchar" Mode="In" />
+          <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="GetCreditNoteIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
           <Parameter Name="FromDate" Type="datetime" Mode="In" />
@@ -4157,6 +4161,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="CreditNote" EntitySet="CreditNotes" />
             <End Role="Receipt" EntitySet="Receipts" />
           </AssociationSet>
+          <FunctionImport Name="GetCommodityBases" ReturnType="Collection(TotalSalesPortalModel.CommodityBase)">
+            <Parameter Name="CommodityTypeIDList" Mode="In" Type="String" />
+            <Parameter Name="SearchText" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -7495,6 +7503,17 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="CommodityBase">
+          <Property Type="Int32" Name="CommodityID" Nullable="false" />
+          <Property Type="String" Name="CommodityCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CommodityName" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="CommodityTypeID" Nullable="false" />
+          <Property Type="Decimal" Name="ListedPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="GrossPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="DiscountPercent" Nullable="false" Precision="1" Scale="1" />
+          <Property Type="Decimal" Name="TradeDiscountRate" Nullable="false" Precision="1" Scale="1" />
+          <Property Type="Decimal" Name="VATPercent" Nullable="false" Precision="18" Scale="2" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9721,6 +9740,21 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetCommodityBases" FunctionName="TotalSalesPortalModel.Store.GetCommodityBases">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalSalesPortalModel.CommodityBase">
+                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
+                <ScalarProperty Name="CommodityCode" ColumnName="CommodityCode" />
+                <ScalarProperty Name="CommodityName" ColumnName="CommodityName" />
+                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
+                <ScalarProperty Name="ListedPrice" ColumnName="ListedPrice" />
+                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
+                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
+                <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
+                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

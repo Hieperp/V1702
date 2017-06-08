@@ -24,6 +24,12 @@ namespace TotalDAL.Repositories.Sales
 
             return;
 
+
+            Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
+            deliveryAdvice.RestoreProcedure();
+
+            return;
+
             //AccountInvoice: NOT CHECK FOR Approved COMMPLETELY, PLS CHECK IT CAREFULLY LATER. (SaveRelative, GetPendingGoodsIssueDetails, ...). ALSO DO THE SAME CHECK FOR ALL OTHER MODULES
             //AccountInvoice: SHOULD SAVE BillingAddress
 
@@ -49,11 +55,7 @@ namespace TotalDAL.Repositories.Sales
             receipt.RestoreProcedure();
 
 
-            return;
-
-
-            Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
-            deliveryAdvice.RestoreProcedure();
+            
 
             
 

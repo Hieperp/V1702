@@ -26,19 +26,6 @@ namespace TotalPortal.Areas.Accounts.Controllers
             this.customerRepository = customerRepository;
         }
 
-
-        public override void AddRequireJsOptions()
-        {
-            base.AddRequireJsOptions();
-
-            StringBuilder warehouseTaskIDList = new StringBuilder();
-            warehouseTaskIDList.Append((int)GlobalEnums.WarehouseTaskID.DeliveryAdvice);
-
-            ViewBag.WarehouseTaskID = (int)GlobalEnums.WarehouseTaskID.DeliveryAdvice;
-            ViewBag.WarehouseTaskIDList = warehouseTaskIDList.ToString();
-        }
-
-
         protected override bool GetShowDiscount(AccountInvoiceViewModel simpleViewModel)
         {
             return base.GetShowDiscount(simpleViewModel) || this.customerRepository.GetShowDiscount(simpleViewModel == null ? 0 : simpleViewModel.CustomerID);

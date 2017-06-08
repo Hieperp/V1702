@@ -1,0 +1,53 @@
+﻿@using TotalPortal.Configuration
+
+@model string
+
+@(Html.Kendo().AutoCompleteFor(m => m)
+        .Name("CommodityName")
+            .DataTextField("CommodityName")
+        .Filter("contains")
+        .MinLength(SettingsManager.AutoCompleteMinLenght)
+        .Placeholder("Chọn mặt hàng...")
+        .HeaderTemplate("<div class=\"dropdown-header custom-header\">" +
+                "<span class=\"k-widget k-header\">Mã</span>" +
+                "<span class=\"k-widget k-header\">Tên</span>" +
+                "</div>")
+        .Template("<div class=\"dropdown-body\">" +
+                    "<span class=\"k-state-default\"><p>#: data.CommodityCode #</p></span>" +
+                    "<span class=\"k-state-default\"><p>#: data.CommodityName #</p></span>" +
+                "</div>")
+        .DataSource(source =>
+        {
+            source.Read(read =>
+            {
+                read.Action("GetCommodityBases", "CommodityAPIs", new { area = "Commons" }).Data(@<text>
+
+                    function(e) {
+                    return {
+                    searchText: $("#CommodityName").data("kendoAutoComplete").value(),
+                    commodityTypeIDList: requireConfig.pageOptions.commodityTypeIDList
+                    };}
+
+                </text>);//Send parameter to controller search action
+            })
+            .ServerFiltering(true);
+        })
+        .Events(e =>
+        {
+            e.Select("gridEditorCommoditySelect");
+            e.Change("gridEditorCommodityChange");
+            e.DataBound("gridEditorCommodityDataBound");
+        })
+        .Value(Model)
+        .HtmlAttributes(new { @class = "custom-control" })
+)
+
+<script type="text/javascript">
+    $("#CommodityName").focus(function (e) {
+        window.commodityNameBeforeChange = $("#CommodityName").val();
+    });
+</script>
+
+<link href="@Url.Content("~/Content/CustomCss/GeneralCommoditiesAutoComplete.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/CustomCss/CommoditiesAutoComplete.css")" rel="stylesheet" type="text/css" />
+

@@ -1,4 +1,4 @@
-﻿require(["kendoWidgetReadonly", "commonEditWithDetailInvoked", "gridWidgetSubscribeChange", "gridDatasourceAmountSubscribe", "gridEditorCommoditiesInWarehousesInvoked", "gridHandleKeyboardSubscribe"], function (kendoWidgetReadonly, commonEditWithDetailInvoked, gridWidgetSubscribeChange, gridDatasourceAmountSubscribe, gridEditorCommoditiesInWarehousesInvoked, gridHandleKeyboardSubscribe) {
+﻿require(["kendoWidgetReadonly", "commonEditWithDetailInvoked", "gridWidgetSubscribeChange", "gridDatasourceAmountSubscribe", "gridEditorCommodityInvoked", "gridHandleKeyboardSubscribe"], function (kendoWidgetReadonly, commonEditWithDetailInvoked, gridWidgetSubscribeChange, gridDatasourceAmountSubscribe, gridEditorCommodityInvoked, gridHandleKeyboardSubscribe) {
 
 });
 

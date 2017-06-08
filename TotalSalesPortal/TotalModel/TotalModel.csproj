@@ -80,6 +80,9 @@
     <Compile Include="Models\CommodityAvailable.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CommodityBase.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CommodityCategory.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>

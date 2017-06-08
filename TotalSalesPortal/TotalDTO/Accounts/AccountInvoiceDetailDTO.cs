@@ -43,6 +43,8 @@ namespace TotalDTO.Accounts
         [UIHint("DecimalReadonly")]
         public override decimal ListedPrice { get; set; }
         [UIHint("Decimal")]
-        public override decimal DiscountPercent { get; set; }        
+        public override decimal DiscountPercent { get; set; }
+        [UIHint("DecimalReadonly")]
+        public override decimal UnitPrice { get; set; }
     }
 }

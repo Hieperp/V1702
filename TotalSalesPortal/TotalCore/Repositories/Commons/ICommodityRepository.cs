@@ -15,6 +15,7 @@ namespace TotalCore.Repositories.Commons
 
         //IList<CommoditiesAvailable> GetCommoditiesAvailables(int? locationID, DateTime? entryDate, string searchText);
         //IList<VehicleAvailable> GetVehicleAvailables(int? locationID, DateTime? entryDate, string searchText);
+        IList<CommodityBase> GetCommodityBases(string commodityTypeIDList, string searchText, bool? isOnlyAlphaNumericString);
         IList<CommodityAvailable> GetCommodityAvailables(int? locationID, int? customerID, int? warehouseID, int? priceCategoryID, int? promotionID, DateTime? entryDate, string searchText);
     }
 }

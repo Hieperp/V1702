@@ -29,6 +29,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
             //this.GetCommoditiesInWarehouses("GetCommoditiesInWarehousesIncludeOutOfStock", false, true, true, true);
 
+            this.GetCommodityBases();
             this.GetCustomerBases();
             this.GetWarehouses();
 
@@ -433,6 +434,24 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             return queryString;
         }
 
+        private void GetCommodityBases()
+        {
+            string queryString;
+
+            queryString = " @CommodityTypeIDList varchar(200), @SearchText nvarchar(60) " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      TOP 30 Commodities.CommodityID, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, Commodities.CommodityTypeID, Commodities.ListedPrice, Commodities.GrossPrice, 0.0 AS DiscountPercent, 0.0 AS TradeDiscountRate, CommodityCategories.VATPercent " + " \r\n";
+            queryString = queryString + "       FROM        Commodities " + "\r\n";
+            queryString = queryString + "                   INNER JOIN CommodityCategories ON Commodities.InActive = 0 AND (@SearchText = '' OR Commodities.Code LIKE '%' + @SearchText + '%' OR Commodities.OfficialCode LIKE '%' + @SearchText + '%' OR Commodities.Name LIKE '%' + @SearchText + '%') AND Commodities.CommodityTypeID IN (SELECT Id FROM dbo.SplitToIntList (@CommodityTypeIDList)) AND Commodities.CommodityCategoryID = CommodityCategories.CommodityCategoryID " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("GetCommodityBases", queryString);
+        }
+
         private void GetCustomerBases()
         {
             string queryString;
@@ -442,7 +461,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      TOP 30 Customers.CustomerID, Customers.Code, Customers.Name, Customers.Code + ' - ' + Customers.Name AS CodeAndName, Customers.OfficialName, Customers.Birthday, Customers.VATCode, Customers.Telephone, Customers.BillingAddress, Customers.ShippingAddress, Customers.CustomerCategoryID, CustomerCategories.Name AS CustomerCategoryName, CustomerCategories.ShowDiscount, Customers.TerritoryID, EntireTerritories.EntireName AS EntireTerritoryEntireName, CustomerCategories.PaymentTermID, Customers.PriceCategoryID, PriceCategories.Code AS PriceCategoryCode, Customers.SalespersonID, Employees.Name AS SalespersonName, Warehouses.WarehouseID, Warehouses.Code AS WarehouseCode, Warehouses.Name AS WarehouseName " + "\r\n";
+            queryString = queryString + "       SELECT      TOP 30 Customers.CustomerID, Customers.Code, Customers.Name, Customers.Code + ' - ' + Customers.Name AS CodeAndName, Customers.OfficialName, Customers.Birthday, Customers.VATCode, Customers.Telephone, Customers.BillingAddress, Customers.ShippingAddress, Customers.CustomerCategoryID, CustomerCategories.Name AS CustomerCategoryName, CustomerCategories.ShowDiscount, Customers.TerritoryID, EntireTerritories.EntireName AS EntireTerritoryEntireName, CustomerCategories.PaymentTermID, Customers.PriceCategoryID, PriceCategories.Code AS PriceCategoryCode, Customers.SalespersonID, Employees.Name AS SalespersonName, ISNULL(Warehouses.WarehouseID, 999999) AS WarehouseID, Warehouses.Code AS WarehouseCode, Warehouses.Name AS WarehouseName " + "\r\n";
             queryString = queryString + "       FROM        Customers " + "\r\n";
             queryString = queryString + "                   INNER JOIN PriceCategories ON Customers.IsCustomer = 1 AND (@SearchText = '' OR Customers.Code LIKE '%' + @SearchText + '%' OR Customers.Name LIKE '%' + @SearchText + '%' OR Customers.OfficialName LIKE '%' + @SearchText + '%') AND Customers.PriceCategoryID = PriceCategories.PriceCategoryID " + "\r\n";
             queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";

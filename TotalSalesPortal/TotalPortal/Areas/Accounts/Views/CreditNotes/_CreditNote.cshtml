@@ -107,20 +107,20 @@
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}', UnitPrice) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].UnitPrice' value='#= UnitPrice #' />");
 
-                    columns.Bound(p => p.TradeDiscountRate).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(50).Hidden(!@GlobalEnums.VATbyRow)
+                    columns.Bound(p => p.TradeDiscountRate).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(50).Hidden(!@Model.VATbyRow)
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}%', TradeDiscountRate) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].TradeDiscountRate' value='#= TradeDiscountRate #' />");
 
                     columns.Bound(p => p.Amount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(110).Hidden(@Model.ShowDiscount ? false : true)
                         .Format("{0:n0}")
-                        .ClientFooterTemplate(@GlobalEnums.VATbyRow ? "#= kendo.format('{0:n0}', sum) #" : "<div>CK <span>#= data.TradeDiscountRate.max #</span>%: #= kendo.format('{0:n0}', DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + ")) #</div><div>TT: #= kendo.format('{0:n0}', DoRound(data.Amount.sum - DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + "), " + GlobalEnums.rndAmount + ")) #</div><div>VAT <span>#= data.VATPercent.max #</span>%: #= kendo.format('{0:n0}', DoRound(DoRound(data.Amount.sum - DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + "), " + GlobalEnums.rndAmount + ") * data.VATPercent.max/100, " + GlobalEnums.rndAmount + ")) #</div><div>TC: #= kendo.format('{0:n0}', DoRound(DoRound(data.Amount.sum - DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + "), " + GlobalEnums.rndAmount + ") - (-DoRound(DoRound(data.Amount.sum - DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + "), " + GlobalEnums.rndAmount + ") * data.VATPercent.max/100, " + GlobalEnums.rndAmount + ")), " + GlobalEnums.rndAmount + ")) #</div>")
+                        .ClientFooterTemplate(@Model.VATbyRow ? "#= kendo.format('{0:n0}', sum) #" : "<div>CK <span>#= data.TradeDiscountRate.max #</span>%: #= kendo.format('{0:n0}', DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + ")) #</div><div>TT: #= kendo.format('{0:n0}', DoRound(data.Amount.sum - DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + "), " + GlobalEnums.rndAmount + ")) #</div><div>VAT <span>#= data.VATPercent.max #</span>%: #= kendo.format('{0:n0}', DoRound(DoRound(data.Amount.sum - DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + "), " + GlobalEnums.rndAmount + ") * data.VATPercent.max/100, " + GlobalEnums.rndAmount + ")) #</div><div>TC: #= kendo.format('{0:n0}', DoRound(DoRound(data.Amount.sum - DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + "), " + GlobalEnums.rndAmount + ") - (-DoRound(DoRound(data.Amount.sum - DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + "), " + GlobalEnums.rndAmount + ") * data.VATPercent.max/100, " + GlobalEnums.rndAmount + ")), " + GlobalEnums.rndAmount + ")) #</div>")
                         .ClientTemplate("#= kendo.format('{0:n0}', Amount) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].Amount' value='#= Amount #' />");
 
-                    columns.Bound(p => p.VATPercent).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(50).Hidden(!@GlobalEnums.VATbyRow)
+                    columns.Bound(p => p.VATPercent).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(50).Hidden(!@Model.VATbyRow)
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}%', VATPercent) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].VATPercent' value='#= VATPercent #' />");
 
-                    columns.Bound(p => p.VATAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(90).Hidden(!@GlobalEnums.VATbyRow || !@Model.ShowDiscount ? true : false)
+                    columns.Bound(p => p.VATAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(90).Hidden(!@Model.VATbyRow || !@Model.ShowDiscount ? true : false)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', VATAmount) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].VATAmount' value='#= VATAmount #' />");
@@ -131,7 +131,7 @@
                         .ClientTemplate("#= kendo.format('{0:n0}', GrossPrice) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].GrossPrice' value='#= GrossPrice #' />");
 
 
-                    columns.Bound(p => p.GrossAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(90).Hidden(!@GlobalEnums.VATbyRow || !@Model.ShowDiscount ? true : false)
+                    columns.Bound(p => p.GrossAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(90).Hidden(!@Model.VATbyRow || !@Model.ShowDiscount ? true : false)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', GrossAmount) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].GrossAmount' value='#= GrossAmount #' />");
@@ -190,7 +190,7 @@
                             model.Field(m => m.CreditNoteDetailID).DefaultValue(0);
                             model.Field(m => m.CreditNoteID).DefaultValue(@Model.CreditNoteID);
                             model.Field(m => m.CalculatingTypeID).DefaultValue(@GlobalEnums.CalculatingTypeID);
-                            model.Field(m => m.VATbyRow).DefaultValue(@GlobalEnums.VATbyRow);
+                            model.Field(m => m.VATbyRow).DefaultValue(@Model.VATbyRow);
                         })
                         .Events(events =>
                         {

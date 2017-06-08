@@ -988,6 +988,7 @@
     <Content Include="Areas\Accounts\Views\CreditNotes\Open.cshtml" />
     <Content Include="Areas\Accounts\Views\CreditNotes\Print.cshtml" />
     <Content Include="Areas\Accounts\Views\CreditNotes\_CreditNote.cshtml" />
+    <Content Include="Areas\Accounts\Views\CreditNotes\CreateWizard.cshtml" />
     <None Include="Properties\PublishProfiles\VCP.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1880,6 +1881,7 @@
     <Content Include="Views\Helpers\Bases\_BaseSectionTopA.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Commons\SalesReturnBox.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Commons\CreditNoteBox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AutoCompletes\CommodityBase.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

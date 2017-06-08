@@ -24,7 +24,7 @@ namespace TotalPortal.Areas.Accounts.Controllers
     {
 
         public CreditNotesController(ICreditNoteService creditNoteService, ICreditNoteViewModelSelectListBuilder creditNoteViewModelSelectListBuilder)
-            : base(creditNoteService, creditNoteViewModelSelectListBuilder)
+            : base(creditNoteService, creditNoteViewModelSelectListBuilder, true)
         {
         }
 

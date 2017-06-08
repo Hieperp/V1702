@@ -1426,5 +1426,18 @@ namespace TotalModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CreditNoteIndex>("GetCreditNoteIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
         }
+    
+        public virtual ObjectResult<CommodityBase> GetCommodityBases(string commodityTypeIDList, string searchText)
+        {
+            var commodityTypeIDListParameter = commodityTypeIDList != null ?
+                new ObjectParameter("CommodityTypeIDList", commodityTypeIDList) :
+                new ObjectParameter("CommodityTypeIDList", typeof(string));
+    
+            var searchTextParameter = searchText != null ?
+                new ObjectParameter("SearchText", searchText) :
+                new ObjectParameter("SearchText", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommodityBase>("GetCommodityBases", commodityTypeIDListParameter, searchTextParameter);
+        }
     }
 }

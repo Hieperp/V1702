@@ -78,11 +78,19 @@ namespace TotalDAL.Repositories.Commons
         //    return vehicleAvailables;
         //}
 
+        public IList<CommodityBase> GetCommodityBases(string commodityTypeIDList, string searchText, bool? isOnlyAlphaNumericString)
+        {
+            if (isOnlyAlphaNumericString != null && (bool)isOnlyAlphaNumericString) searchText = TotalBase.CommonExpressions.AlphaNumericString(searchText);
+            List<CommodityBase> commodityBases = this.TotalSalesPortalEntities.GetCommodityBases(commodityTypeIDList, searchText).ToList();
+
+            return commodityBases;
+        }
+
         public IList<CommodityAvailable> GetCommodityAvailables(int? locationID, int? customerID, int? warehouseID, int? priceCategoryID, int? promotionID, DateTime? entryDate, string searchText)
         {
-            List<CommodityAvailable> partAvailables = this.TotalSalesPortalEntities.GetCommodityAvailables(locationID, customerID, warehouseID, priceCategoryID, promotionID, entryDate, searchText).ToList();
+            List<CommodityAvailable> commodityAvailables = this.TotalSalesPortalEntities.GetCommodityAvailables(locationID, customerID, warehouseID, priceCategoryID, promotionID, entryDate, searchText).ToList();
 
-            return partAvailables;
+            return commodityAvailables;
         }
 
 

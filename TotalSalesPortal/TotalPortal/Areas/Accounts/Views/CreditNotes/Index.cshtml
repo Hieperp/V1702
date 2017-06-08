@@ -24,7 +24,7 @@
             .ToolBar(toolbar =>
             {
                 toolbar.Template(@<text> 
-                    <button type="button" class="k-button" onclick="location.href = '@Url.Action("Create", "CreditNotes")'"> <img src="~/Content/Images/Mains/Size24/folder-documents-icon-24.png" /> Lập phiếu chiết khấu </button> 
+                    <button type="button" class="k-button" onclick="createWizard()"> <img src="~/Content/Images/Mains/Size24/folder-documents-icon-24.png" /> Lập phiếu chiết khấu </button> 
                     <div class="toolbar" style="float: right;">
                         <label>Nhập số đơn hàng hoặc tên khách hàng để tìm</label>
                         <input id="indexFilterText" class="k-textbox" style="text-align: center; " onkeyup="indexFilterText_KeyUp()" />
@@ -67,6 +67,13 @@
         require(["kindexGrid"], function (kindexGrid) {
             var kindexGridInstance = new kindexGrid("kendoGridIndex");
             kindexGridInstance.setSelectedRow("CreditNoteID", '@ViewBag.SelectedEntityID');
+        });
+    }
+
+    function createWizard() {
+        require(["kpopupWindow"], function (kpopupWindow) {
+            var createWizardWindow = new kpopupWindow();
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "CreditNotes")", "Chọn khách hàng được chiết khấu, thưởng doanh số", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeightWithTab");
         });
     }
 

@@ -61,6 +61,9 @@ namespace TotalDTO.Sales
     {
         [UIHint("Decimal")]
         public override decimal Quantity { get; set; }
+
+        [UIHint("DecimalReadonly")]
+        public override decimal UnitPrice { get; set; }
     }
 
     public class SaleDetailVa1DTO : SaleDetailVaDTO
