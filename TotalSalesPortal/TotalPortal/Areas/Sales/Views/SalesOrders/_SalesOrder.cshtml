@@ -164,7 +164,7 @@
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}', UnitPrice) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].UnitPrice' value='#= UnitPrice #' />");
 
-                    columns.Bound(p => p.TradeDiscountRate).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(50).Hidden(!@Model.VATbyRow)
+                    columns.Bound(p => p.TradeDiscountRate).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(50).Hidden()
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}%', TradeDiscountRate) #" + "<input type='hidden' name='SalesOrderViewDetails[#= index(data) #].TradeDiscountRate' value='#= TradeDiscountRate #' />");
 
