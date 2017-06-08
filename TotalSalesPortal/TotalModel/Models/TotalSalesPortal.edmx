@@ -233,6 +233,7 @@
           <Property Name="OrganizationalUnitID" Type="int" Nullable="false" />
           <Property Name="LocationID" Type="int" Nullable="false" />
           <Property Name="ApproverID" Type="int" Nullable="false" />
+          <Property Name="PaymentTermID" Type="int" Nullable="false" />
           <Property Name="VATbyRow" Type="bit" Nullable="false" />
           <Property Name="VATPercent" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -7432,6 +7433,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="Employee" Relationship="TotalSalesPortalModel.FK_CreditNotes_Employees" FromRole="CreditNote" ToRole="Employee" />
           <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_CreditNotes_Locations" FromRole="CreditNote" ToRole="Location" />
           <NavigationProperty Name="Receipts" Relationship="TotalSalesPortalModel.FK_Receipts_CreditNotes" FromRole="CreditNote" ToRole="Receipt" />
+          <Property Name="PaymentTermID" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_CreditNoteDetails_CreditNotes">
           <End Type="TotalSalesPortalModel.CreditNote" Role="CreditNote" Multiplicity="1" />
@@ -9683,6 +9685,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="CreditNotes">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.CreditNote">
               <MappingFragment StoreEntitySet="CreditNotes">
+                <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
                 <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
                 <ScalarProperty Name="Approved" ColumnName="Approved" />
                 <ScalarProperty Name="EditedDate" ColumnName="EditedDate" />

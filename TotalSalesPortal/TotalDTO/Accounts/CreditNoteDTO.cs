@@ -33,6 +33,9 @@ namespace TotalDTO.Accounts
         [Display(Name = "Chứng từ khuyến mãi")]
         public string PromotionVouchers { get; set; }
 
+        [Display(Name = "Phương thức TT")]
+        public int PaymentTermID { get; set; }
+
         public virtual int SalespersonID { get; set; }
 
         public override void PerformPresaveRule()
@@ -52,7 +55,7 @@ namespace TotalDTO.Accounts
 
         public override int CustomerID { get { return (this.Customer != null ? this.Customer.CustomerID : 0); } }
         [Display(Name = "Khách hàng")]
-        [UIHint("Commons/CustomerBase")]
+        [UIHint("AutoCompletes/CustomerBase")]
         public CustomerBaseDTO Customer { get; set; }
 
         public override Nullable<int> PromotionID { get { return (this.Promotion != null ? this.Promotion.PromotionID : null); } }

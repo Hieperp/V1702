@@ -96,7 +96,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
             queryString = queryString + "                       Customers.Code AS GoodsIssueCustomerCode, Customers.Name AS GoodsIssueCustomerName " + "\r\n";
 
             queryString = queryString + "       FROM            GoodsIssues " + "\r\n";
-            queryString = queryString + "                       INNER JOIN Customers ON GoodsIssues.GoodsIssueID IN (SELECT GoodsIssueID FROM GoodsIssueDetails WHERE Approved = 1 AND LocationID = @LocationID AND ROUND(Quantity - QuantityInvoice, " + (int)GlobalEnums.rndQuantity + ") > 0 OR ROUND(FreeQuantity - FreeQuantityInvoice, " + (int)GlobalEnums.rndQuantity + ") > 0) AND GoodsIssues.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                       INNER JOIN Customers ON GoodsIssues.GoodsIssueID IN (SELECT GoodsIssueID FROM GoodsIssueDetails WHERE Approved = 1 AND LocationID = @LocationID AND EntryDate > DATEADD(day, -30, GetDate()) AND ROUND(Quantity - QuantityInvoice, " + (int)GlobalEnums.rndQuantity + ") > 0 OR ROUND(FreeQuantity - FreeQuantityInvoice, " + (int)GlobalEnums.rndQuantity + ") > 0) AND GoodsIssues.CustomerID = Customers.CustomerID " + "\r\n";
             queryString = queryString + "                       INNER JOIN Customers Receivers ON GoodsIssues.ReceiverID = Receivers.CustomerID " + "\r\n";
             queryString = queryString + "                       INNER JOIN EntireTerritories ReceiverEntireTerritories ON Receivers.TerritoryID = ReceiverEntireTerritories.TerritoryID " + "\r\n";
 

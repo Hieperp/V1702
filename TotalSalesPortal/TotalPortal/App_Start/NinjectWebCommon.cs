@@ -139,6 +139,10 @@ namespace TotalPortal.App_Start
                 kernel.Bind<IReceiptAPIRepository>().To<ReceiptAPIRepository>();
                 kernel.Bind<IReceiptViewModelSelectListBuilder>().To<ReceiptViewModelSelectListBuilder>();
 
+                kernel.Bind<ICreditNoteService>().To<CreditNoteService>();
+                kernel.Bind<ICreditNoteRepository>().To<CreditNoteRepository>();
+                kernel.Bind<ICreditNoteAPIRepository>().To<CreditNoteAPIRepository>();
+                kernel.Bind<ICreditNoteViewModelSelectListBuilder>().To<CreditNoteViewModelSelectListBuilder>();
 
                 kernel.Bind<IInventoryRepository>().To<InventoryRepository>();
 

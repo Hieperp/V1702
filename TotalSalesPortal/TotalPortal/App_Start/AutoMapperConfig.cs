@@ -86,6 +86,13 @@ namespace TotalPortal.App_Start
                 cfg.CreateMap<ReceiptDetailDTO, ReceiptDetail>();
 
                 cfg.CreateMap<Receipt, ReceiptBoxDTO>();                
+                
+                cfg.CreateMap<CreditNote, CreditNoteViewModel>();
+                cfg.CreateMap<CreditNote, CreditNoteDTO>();
+                cfg.CreateMap<CreditNotePrimitiveDTO, CreditNote>();
+                cfg.CreateMap<CreditNoteDetail, CreditNoteDetailDTO>();
+                cfg.CreateMap<CreditNoteDetailDTO, CreditNoteDetail>();
+
                 cfg.CreateMap<CreditNote, CreditNoteBoxDTO>();
 
                 cfg.CreateMap<Employee, EmployeeBaseDTO>();

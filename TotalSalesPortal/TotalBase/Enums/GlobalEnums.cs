@@ -124,6 +124,7 @@
             Parts = 2,
             Consumables = 3,
             Services = 6,
+            CreditNote = 8,
             Unknown = 99
         };
 

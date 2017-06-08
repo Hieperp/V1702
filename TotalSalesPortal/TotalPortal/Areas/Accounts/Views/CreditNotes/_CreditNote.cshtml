@@ -1,0 +1,288 @@
+﻿@using TotalBase.Enums;
+@using TotalPortal.Configuration
+
+@model TotalPortal.Areas.Accounts.ViewModels.CreditNoteViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "MainForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
+
+    @Html.HiddenFor(model => model.CreditNoteID)
+
+    @Html.HiddenFor(model => model.TotalQuantity)
+    @Html.HiddenFor(model => model.TotalAmount)
+    @Html.HiddenFor(model => model.TradeDiscountRate)
+    @Html.HiddenFor(model => model.TradeDiscountAmount)
+    @Html.HiddenFor(model => model.TotalTaxableAmount)
+    @Html.HiddenFor(model => model.VATbyRow)
+    @Html.HiddenFor(model => model.VATPercent)
+    @Html.HiddenFor(model => model.TotalVATAmount)
+    @Html.HiddenFor(model => model.TotalGrossAmount)
+
+    <div class="left-panel">
+
+        @Html.Partial("~/Views/Helpers/Bases/_BaseSectionLeftA.cshtml")
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MemoCode)
+            <div class="div-input">
+                @Html.Kendo().MaskedTextBoxFor(model => model.MemoCode).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.MemoCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MemoDate)
+            <div class="div-input">
+                @Html.Kendo().DatePickerFor(model => model.MemoDate).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.MemoDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.EditorFor(d => d.Salesperson, new { EmployeeDisplayName = @Model.GetDisplayName(m => m.Salesperson) })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PromotionVouchers)
+            <div class="div-input">
+                @Html.Kendo().MaskedTextBoxFor(model => model.PromotionVouchers).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.PromotionVouchers, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="right-panel">
+
+        <div class="right-top-panel right-top-panel-H1">
+            @Html.EditorFor(d => d.Customer, new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Customer), CustomerIcon = "Customer White 24.png" })
+        </div>
+
+        <div class="div-k-grid-detail">
+            @(Html.Kendo().Grid(Model.CreditNoteDetails)
+                .Name("kendoGridDetails")
+                .Columns(columns =>
+                {
+
+                    columns.Bound(p => p.CreditNoteDetailID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= CreditNoteDetailID #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].CreditNoteDetailID' value='#= CreditNoteDetailID #' />");
+                    columns.Bound(p => p.CreditNoteID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= CreditNoteID #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].CreditNoteID' value='#= CreditNoteID #' />");
+
+
+                    columns.Bound(p => p.CommodityID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= CommodityID #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].CommodityID' value='#= CommodityID #' />");
+                    columns.Bound(p => p.CommodityName).DisplayNameTitle().Filterable(false).Width(90).HtmlAttributes(new { style = "" }).Hidden()
+                        .ClientTemplate("#= CommodityName #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].CommodityName' value='#= CommodityName #' />");
+                    columns.Bound(p => p.CommodityCode).DisplayNameTitle().Filterable(false).Width(200)
+                        .ClientFooterTemplate("Tổng cộng (#= kendo.format('{0:n0}', count) # dòng)")
+                        .ClientTemplate("#= CommodityCode #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].CommodityCode' value='#= CommodityCode #' />");
+                    columns.Bound(p => p.CommodityTypeID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= CommodityTypeID #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].CommodityTypeID' value='#= CommodityTypeID #' />");
+
+
+                    columns.Bound(p => p.CalculatingTypeID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= CalculatingTypeID #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].CalculatingTypeID' value='#= CalculatingTypeID #' />");
+                    columns.Bound(p => p.VATbyRow).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= VATbyRow #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].VATbyRow' value='#= VATbyRow #' />");
+
+
+                    columns.Bound(p => p.Quantity).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(50)
+                        .Format("{0:n0}")
+                        .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
+                        .ClientTemplate("#= kendo.format('{0:n0}', Quantity) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].Quantity' value='#= Quantity #' />");
+
+
+                    columns.Bound(p => p.UnitPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(70).Hidden(@Model.ShowDiscount ? false : true)
+                        .Format("{0:n0}")
+                        .ClientTemplate("#= kendo.format('{0:n0}', UnitPrice) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].UnitPrice' value='#= UnitPrice #' />");
+
+                    columns.Bound(p => p.TradeDiscountRate).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(50).Hidden(!@GlobalEnums.VATbyRow)
+                        .Format("{0:n0}")
+                        .ClientTemplate("#= kendo.format('{0:n0}%', TradeDiscountRate) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].TradeDiscountRate' value='#= TradeDiscountRate #' />");
+
+                    columns.Bound(p => p.Amount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(110).Hidden(@Model.ShowDiscount ? false : true)
+                        .Format("{0:n0}")
+                        .ClientFooterTemplate(@GlobalEnums.VATbyRow ? "#= kendo.format('{0:n0}', sum) #" : "<div>CK <span>#= data.TradeDiscountRate.max #</span>%: #= kendo.format('{0:n0}', DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + ")) #</div><div>TT: #= kendo.format('{0:n0}', DoRound(data.Amount.sum - DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + "), " + GlobalEnums.rndAmount + ")) #</div><div>VAT <span>#= data.VATPercent.max #</span>%: #= kendo.format('{0:n0}', DoRound(DoRound(data.Amount.sum - DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + "), " + GlobalEnums.rndAmount + ") * data.VATPercent.max/100, " + GlobalEnums.rndAmount + ")) #</div><div>TC: #= kendo.format('{0:n0}', DoRound(DoRound(data.Amount.sum - DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + "), " + GlobalEnums.rndAmount + ") - (-DoRound(DoRound(data.Amount.sum - DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + "), " + GlobalEnums.rndAmount + ") * data.VATPercent.max/100, " + GlobalEnums.rndAmount + ")), " + GlobalEnums.rndAmount + ")) #</div>")
+                        .ClientTemplate("#= kendo.format('{0:n0}', Amount) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].Amount' value='#= Amount #' />");
+
+                    columns.Bound(p => p.VATPercent).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(50).Hidden(!@GlobalEnums.VATbyRow)
+                        .Format("{0:n0}")
+                        .ClientTemplate("#= kendo.format('{0:n0}%', VATPercent) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].VATPercent' value='#= VATPercent #' />");
+
+                    columns.Bound(p => p.VATAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(90).Hidden(!@GlobalEnums.VATbyRow || !@Model.ShowDiscount ? true : false)
+                        .Format("{0:n0}")
+                        .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
+                        .ClientTemplate("#= kendo.format('{0:n0}', VATAmount) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].VATAmount' value='#= VATAmount #' />");
+
+
+                    columns.Bound(p => p.GrossPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(90).Hidden()
+                        .Format("{0:n0}")
+                        .ClientTemplate("#= kendo.format('{0:n0}', GrossPrice) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].GrossPrice' value='#= GrossPrice #' />");
+
+
+                    columns.Bound(p => p.GrossAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(90).Hidden(!@GlobalEnums.VATbyRow || !@Model.ShowDiscount ? true : false)
+                        .Format("{0:n0}")
+                        .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
+                        .ClientTemplate("#= kendo.format('{0:n0}', GrossAmount) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].GrossAmount' value='#= GrossAmount #' />");
+
+
+                    columns.Bound(p => p.Remarks).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= (Remarks == null)? '' : Remarks #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].Remarks' value='#= (Remarks == null) ? '' : Remarks #' />");
+
+
+                    columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50).Hidden(!@Model.Editable).HtmlAttributes(new { @class = "grid-column-center" });
+
+                    columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(50).Hidden(!@Model.Voidable && !@Model.UnVoidable)
+                        .ClientTemplate("<a class='k-button' style='padding:0px;' onclick='callVoidDetail(#= CreditNoteDetailID #)'><span class='k-icon k-edit'></span></a>");
+                })
+                    .Filterable()
+                    .Navigatable()
+
+                    .ToolBar(toolbar =>
+                    {
+                        if (Model.Editable)
+                        {
+                            toolbar.Template(@<text>
+                                <button type="button" class="k-button" onclick="$('#kendoGridDetails').data('kendoGrid').addRow()"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Thêm mặt hàng </button>
+
+                            </text>);
+                        }
+                        else
+                        {//Add a functionless button for display purpose only
+                            toolbar.Template(
+                                @<text>
+                                    <div>
+                                        @(Html.Kendo().Button()
+                                            .Name("iconButton")
+                                            .HtmlAttributes(new { type = "button" })
+                                            .SpriteCssClass("k-icon k-i-ungroup") //.Content("My button label")
+                                        )
+                                    </div>
+                                </text>);
+                        }
+                    })
+
+                    .Editable(editable => { editable.Enabled(Model.Editable); editable.Mode(GridEditMode.InCell).DisplayDeleteConfirmation(true).CreateAt(GridInsertRowPosition.Bottom); })
+                    .Selectable(settings =>
+                    {
+                        settings.Mode(GridSelectionMode.Multiple);
+                        settings.Type(GridSelectionType.Row);
+                    })
+                    
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Batch(true)
+                        .ServerOperation(false)
+                        .Model(model =>
+                        {
+                            model.Id(x => x.CreditNoteDetailID);
+                            model.Field(m => m.CreditNoteDetailID).DefaultValue(0);
+                            model.Field(m => m.CreditNoteID).DefaultValue(@Model.CreditNoteID);
+                            model.Field(m => m.CalculatingTypeID).DefaultValue(@GlobalEnums.CalculatingTypeID);
+                            model.Field(m => m.VATbyRow).DefaultValue(@GlobalEnums.VATbyRow);
+                        })
+                        .Events(events =>
+                        {
+                            events.Error("kendGrid_ErrorHandler");
+                        })
+                        .Aggregates(a => a.Add(x => x.CommodityCode).Count())
+                        .Aggregates(a => a.Add(x => x.TradeDiscountRate).Max())
+                        .Aggregates(a => a.Add(x => x.VATPercent).Max())
+                        .Aggregates(a => a.Add(x => x.Quantity).Sum())
+                        .Aggregates(a => a.Add(x => x.Amount).Sum())
+                        .Aggregates(a => a.Add(x => x.VATAmount).Sum())
+                        .Aggregates(a => a.Add(x => x.GrossAmount).Sum())
+                    )
+            )
+        </div>
+
+        <div class="div-k-panel">
+            @(Html.Kendo().PanelBar()
+                .Name("IntroPanelBar")
+                .Items(items =>
+                {
+                    items.Add()
+                        .Text("Thông tin khác")
+                        .Selected(true)
+                        .Expanded(false)
+                        .Content(@<text>
+                            <div class="right-first-panel">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Description, new { @class = "right-panel-label" })
+                                    <div class="div-input">
+                                        @Html.Kendo().MaskedTextBoxFor(model => model.Description).HtmlAttributes(new { @class = "right-panel-input" })
+                                    </div>
+                                    <div class="div-validation-message">
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PaymentTerm.cshtml")
+                            </div>
+
+                            <div class="right-second-panel">
+                                @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PreparedPerson.cshtml")
+                                @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/Approver.cshtml")
+                            </div>
+
+                        </text>).HtmlAttributes(new { @class = "panel-class" });
+                })
+            )
+        </div>
+
+
+        <div class="right-botton-panel">
+            @if (Model.Editable)
+            {
+                <button type="submit" class="k-button custom-button SubmitTypeOption-Closed" formaction="@Url.Action("Edit", "CreditNotes")"> <img src="~/Content/Images/New/save-icon.png" /> Lưu phiếu </button>
+            }
+
+            @if (Model.CreditNoteID > 0 && !Model.Approvable && !Model.UnApprovable)
+            {
+                <button type="button" class="k-button custom-button" onclick="location.href='@Url.Action("Approve", "CreditNotes", new {id = @Model.CreditNoteID })'"> <img src="~/Content/Images/Mains/@(!@Model.Approved ? "Actions-ok-icon32.png" : "Cross-icon-cancel32.png")" /> @(!Model.Approved ? "Duyệt đơn hàng" : "Hủy duyệt đơn hàng này") </button>
+            }
+
+        </div>
+
+        @Html.Partial("~/Views/Helpers/Bases/_BaseSubmit.cshtml")
+
+        @if (Model.Editable)
+        {
+            <div><input style="font-size: 11px;" type="file" name="xlfile" id="xlf" /></div>
+        }
+
+    </div>
+}
+
+
+<script src="@Url.Content("~/Scripts/Helpers/KendoGrid/gridHelper.js")"></script>
+<script src="@Url.Content("~/Scripts/Controllers/Accounts/CreditNotes/Import.js")"></script>
+
+<script type="text/javascript">
+    function GetQuotationDetails() {
+        require(["kpopupWindow"], function (kpopupWindow) {
+            var createWizardWindow = new kpopupWindow();
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("GetQuotationDetails", "ServicesInvoices")", "Chọn dịch vụ", "900px", "413px");
+        });
+    }
+
+
+    function callVoidDetail(creditNoteDetailID) {
+        require(["kpopupWindow"], function (kpopupWindow) {
+            var voidDetailWindow = new kpopupWindow();
+            voidDetailWindow.openWindow($("#popupWindow"), "@Url.Action("VoidDetail", "CreditNotes")" + "/" + $("#CreditNoteID").val() + "/" + creditNoteDetailID, "Hủy/ phục hồi một phần đơn hàng", @SettingsManager.PopupWidthVoid,  @SettingsManager.PopupHeightVoid);
+        });
+    }
+
+    window.urlCommoditiesApi = '@Url.Action("GetCommodityImport", "CommodityAPIs", new { area = "Commons" })';
+</script>
