@@ -83,8 +83,7 @@
                     columns.Bound(p => p.CommodityID).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= CommodityID #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].CommodityID' value='#= CommodityID #' />");
                     
-                    columns.Bound(p => p.CommodityCode).DisplayNameTitle().Filterable(false).Width(60)
-                        .ClientFooterTemplate("Tổng cộng (#= kendo.format('{0:n0}', count) # dòng)")
+                    columns.Bound(p => p.CommodityCode).DisplayNameTitle().Filterable(false).Width(60)                        
                         .ClientTemplate("#= CommodityCode #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].CommodityCode' value='#= CommodityCode #' />");
                     columns.Bound(p => p.CommodityName).DisplayNameTitle().Filterable(false).Width(120)
                         .ClientTemplate("#= CommodityName #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].CommodityName' value='#= CommodityName #' />");
@@ -93,6 +92,7 @@
 
 
                     columns.Bound(p => p.Remarks).DisplayNameTitle().Filterable(false).Width(180)
+                        .ClientFooterTemplate("Tổng cộng (#= kendo.format('{0:n0}', count) # dòng)")
                         .ClientTemplate("#= (Remarks == null)? '' : Remarks #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].Remarks' value='#= (Remarks == null) ? '' : Remarks #' />");
 
                     columns.Bound(p => p.CalculatingTypeID).DisplayNameTitle().Filterable(false).Hidden()
@@ -155,7 +155,7 @@
                         if (Model.Editable)
                         {
                             toolbar.Template(@<text>
-                                <button type="button" class="k-button" onclick="$('#kendoGridDetails').data('kendoGrid').addRow()"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Thêm mặt hàng </button>
+                                <button type="button" class="k-button" onclick="$('#kendoGridDetails').data('kendoGrid').addRow()"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Thêm mã chiết khấu </button>
 
                             </text>);
                         }
@@ -197,7 +197,7 @@
                         {
                             events.Error("kendGrid_ErrorHandler");
                         })
-                        .Aggregates(a => a.Add(x => x.CommodityCode).Count())
+                        .Aggregates(a => a.Add(x => x.Remarks).Count())
                         .Aggregates(a => a.Add(x => x.TradeDiscountRate).Max())
                         .Aggregates(a => a.Add(x => x.VATPercent).Max())
                         .Aggregates(a => a.Add(x => x.Quantity).Sum())

@@ -20,8 +20,13 @@ namespace TotalDTO.Accounts
 
         public Nullable<int> PromotionID { get; set; }
 
+      
+        [Display(Name = "Mã CK")]
         [UIHint("AutoCompletes/CommodityBase")]
         public override string CommodityCode { get; set; }
+
+        [Display(Name = "Tên chiết khấu")]
+        public override string CommodityName { get; set; }
 
         [UIHint("Decimal")]
         public override decimal Quantity { get; set; }

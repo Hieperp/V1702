@@ -3,19 +3,20 @@
 @model string
 
 @(Html.Kendo().AutoCompleteFor(m => m)
-        .Name("CommodityName")
-        .DataTextField("CommodityName")
+        .Name("CommodityCode")
+        .DataTextField("CommodityCode")
         .Filter("contains")
         .MinLength(SettingsManager.AutoCompleteMinLenght)
-        .Placeholder("Chọn mặt hàng...")
-        .HeaderTemplate("<div class=\"dropdown-header custom-header\">" +
+        .Placeholder("Chọn mã ck...")
+        .HeaderTemplate("<div class=\"dropdown-header general-custom-header commodity-custom-header\">" +
                 "<span class=\"k-widget k-header\">Mã</span>" +
-                "<span class=\"k-widget k-header\">Tên</span>" +
+                "<span class=\"k-widget k-header\">Tên chiết khấu</span>" +
                 "</div>")
-        .Template("<div class=\"dropdown-body\">" +
-                    "<span class=\"k-state-default\"><p>#: data.CommodityCode #</p></span>" +
+        .Template("<div class=\"dropdown-body general-custom-body commodity-custom-body\">" +
+                "<span class=\"k-state-default\"><p>#: data.CommodityCode #</p></span>" +
                     "<span class=\"k-state-default\"><p>#: data.CommodityName #</p></span>" +
                 "</div>")
+                    
         .DataSource(source =>
         {
             source.Read(read =>
@@ -24,7 +25,7 @@
 
                     function(e) {
                     return {
-                    searchText: $("#CommodityName").data("kendoAutoComplete").value(),
+                    searchText: $("#CommodityCode").data("kendoAutoComplete").value(),
                     commodityTypeIDList: requireConfig.pageOptions.commodityTypeIDList
                     };}
 
@@ -43,11 +44,57 @@
 )
 
 <script type="text/javascript">
-    $("#CommodityName").focus(function (e) {
-        window.commodityNameBeforeChange = $("#CommodityName").val();
+    $("#CommodityCode").focus(function (e) {
+        window.commodityCodeBeforeChange = $("#CommodityCode").val();
     });
 </script>
 
-<link href="@Url.Content("~/Content/CustomCss/GeneralCommoditiesAutoComplete.css")" rel="stylesheet" type="text/css" />
-<link href="@Url.Content("~/Content/CustomCss/CommoditiesAutoComplete.css")" rel="stylesheet" type="text/css" />
+
+<style>
+    /*#region styles for calculate span column with*/
+
+    /*Rule to calculate with:
+        1) Define column for each body span column
+        2) Header:
+            2.1) All header span column width = the same body span column width
+            2.2) Except: Last header width = Last body pan width + 10 (padding left 5, padding right 5 of .k-item) + 17 (17px is the scroll bar width)
+            2.3) Total header width = Sum (all header pan width): Using this total value => assign to .k-animation-container .css("width", "Total header span column width") AT the DataBound Events
+    */
+
+
+    .commodity-custom-header > span:first-child {
+        width: 85px;
+    }
+
+
+    .commodity-custom-header > span:last-child {
+        width: 297px;
+    }
+
+
+
+
+
+
+    .k-item > .commodity-custom-body > span:first-child {
+        width: 84px;
+    }
+
+    
+    .k-item > .commodity-custom-body > span:last-child {
+        width: 270px;
+    }
+
+    /*#endregion */
+
+
+    /*#region styles for each use of the Editor tenplate CommodityAvailable.cshtml*/
+    #CommodityCode-list .k-item {
+        white-space: nowrap;
+    }
+    /*CURRENT: Editor tenplate CommodityAvailable.cshtml bind with model CommodityCode => the autocomplete editor ID will be #CommodityCode */
+    /*LATER: if this Editor tenplate CommodityAvailable.cshtml is used for another model, Ex model: XyzName => the ID will be #XyzName, then new css will be add. for this example #XyzName-list .k-item {padding: 0px; white-space: nowrap;} */
+
+    /*#endregion */
+</style>
 

@@ -49,7 +49,7 @@ namespace TotalBase
                 case GlobalEnums.NmvnTaskID.Receipt:
                     return "R";
                 case GlobalEnums.NmvnTaskID.CreditNote:
-                    return "CN";
+                    return "CR";
 
                 case GlobalEnums.NmvnTaskID.GoodsReceipt:
                     return "N";

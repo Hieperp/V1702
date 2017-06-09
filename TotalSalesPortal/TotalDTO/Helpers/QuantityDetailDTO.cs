@@ -25,7 +25,7 @@ namespace TotalDTO.Helpers
 
         [Display(Name = "Mã hàng")]
         [UIHint("StringReadonly")]
-        public string CommodityName { get; set; }
+        public virtual string CommodityName { get; set; }
 
         [Range(1, 99999999999, ErrorMessage = "Lỗi bắt buộc phải có id loại hàng hóa")]
         [Required(ErrorMessage = "Lỗi bắt buộc phải có loại hàng hóa")]
