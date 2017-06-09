@@ -36,7 +36,7 @@ namespace TotalModel
         public int LocationID { get; set; }
 
         [Display(Name = "Ghi chú")]
-        public string Remarks { get; set; }
+        public virtual string Remarks { get; set; }
 
         public virtual bool Approved { get; set; }
         public Nullable<System.DateTime> ApprovedDate { get; set; }

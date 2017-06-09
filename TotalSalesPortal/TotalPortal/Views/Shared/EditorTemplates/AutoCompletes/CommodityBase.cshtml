@@ -4,7 +4,7 @@
 
 @(Html.Kendo().AutoCompleteFor(m => m)
         .Name("CommodityName")
-            .DataTextField("CommodityName")
+        .DataTextField("CommodityName")
         .Filter("contains")
         .MinLength(SettingsManager.AutoCompleteMinLenght)
         .Placeholder("Chọn mặt hàng...")

@@ -64,8 +64,8 @@
 
     <div class="right-panel">
 
-        <div class="right-top-panel right-top-panel-H1">
-            @Html.EditorFor(d => d.Customer, new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Customer), CustomerIcon = "Customer White 24.png" })
+        <div class="right-top-panel right-top-panel-H3">
+            @Html.EditorFor(d => d.Customer, new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Customer) })            
         </div>
 
         <div class="div-k-grid-detail">
@@ -82,14 +82,18 @@
 
                     columns.Bound(p => p.CommodityID).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= CommodityID #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].CommodityID' value='#= CommodityID #' />");
-                    columns.Bound(p => p.CommodityName).DisplayNameTitle().Filterable(false).Width(90).HtmlAttributes(new { style = "" }).Hidden()
-                        .ClientTemplate("#= CommodityName #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].CommodityName' value='#= CommodityName #' />");
-                    columns.Bound(p => p.CommodityCode).DisplayNameTitle().Filterable(false).Width(200)
+                    
+                    columns.Bound(p => p.CommodityCode).DisplayNameTitle().Filterable(false).Width(60)
                         .ClientFooterTemplate("Tổng cộng (#= kendo.format('{0:n0}', count) # dòng)")
                         .ClientTemplate("#= CommodityCode #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].CommodityCode' value='#= CommodityCode #' />");
+                    columns.Bound(p => p.CommodityName).DisplayNameTitle().Filterable(false).Width(120)
+                        .ClientTemplate("#= CommodityName #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].CommodityName' value='#= CommodityName #' />");
                     columns.Bound(p => p.CommodityTypeID).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= CommodityTypeID #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].CommodityTypeID' value='#= CommodityTypeID #' />");
 
+
+                    columns.Bound(p => p.Remarks).DisplayNameTitle().Filterable(false).Width(180)
+                        .ClientTemplate("#= (Remarks == null)? '' : Remarks #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].Remarks' value='#= (Remarks == null) ? '' : Remarks #' />");
 
                     columns.Bound(p => p.CalculatingTypeID).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= CalculatingTypeID #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].CalculatingTypeID' value='#= CalculatingTypeID #' />");
@@ -97,13 +101,13 @@
                         .ClientTemplate("#= VATbyRow #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].VATbyRow' value='#= VATbyRow #' />");
 
 
-                    columns.Bound(p => p.Quantity).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(50)
+                    columns.Bound(p => p.Quantity).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(20)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', Quantity) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].Quantity' value='#= Quantity #' />");
 
 
-                    columns.Bound(p => p.UnitPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(70).Hidden(@Model.ShowDiscount ? false : true)
+                    columns.Bound(p => p.UnitPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(50).Hidden(@Model.ShowDiscount ? false : true)
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}', UnitPrice) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].UnitPrice' value='#= UnitPrice #' />");
 
@@ -111,7 +115,7 @@
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}%', TradeDiscountRate) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].TradeDiscountRate' value='#= TradeDiscountRate #' />");
 
-                    columns.Bound(p => p.Amount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(110).Hidden(@Model.ShowDiscount ? false : true)
+                    columns.Bound(p => p.Amount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(60).Hidden(@Model.ShowDiscount ? false : true)
                         .Format("{0:n0}")
                         .ClientFooterTemplate(@Model.VATbyRow ? "#= kendo.format('{0:n0}', sum) #" : "<div>TT: #= kendo.format('{0:n0}', DoRound(data.Amount.sum - DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + "), " + GlobalEnums.rndAmount + ")) #</div><div>VAT <span>#= data.VATPercent.max #</span>%: #= kendo.format('{0:n0}', DoRound(DoRound(data.Amount.sum - DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + "), " + GlobalEnums.rndAmount + ") * data.VATPercent.max/100, " + GlobalEnums.rndAmount + ")) #</div><div>TC: #= kendo.format('{0:n0}', DoRound(DoRound(data.Amount.sum - DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + "), " + GlobalEnums.rndAmount + ") - (-DoRound(DoRound(data.Amount.sum - DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + "), " + GlobalEnums.rndAmount + ") * data.VATPercent.max/100, " + GlobalEnums.rndAmount + ")), " + GlobalEnums.rndAmount + ")) #</div>") //THERE IS NO TradeDiscountRate WITH CREDIT NOTE: <div>CK <span>#= data.TradeDiscountRate.max #</span>%: #= kendo.format('{0:n0}', DoRound(data.Amount.sum * data.TradeDiscountRate.max/100, " + GlobalEnums.rndAmount + ")) #</div>
                         .ClientTemplate("#= kendo.format('{0:n0}', Amount) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].Amount' value='#= Amount #' />");
@@ -136,9 +140,6 @@
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', GrossAmount) #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].GrossAmount' value='#= GrossAmount #' />");
 
-
-                    columns.Bound(p => p.Remarks).DisplayNameTitle().Filterable(false).Hidden()
-                        .ClientTemplate("#= (Remarks == null)? '' : Remarks #" + "<input type='hidden' name='CreditNoteDetails[#= index(data) #].Remarks' value='#= (Remarks == null) ? '' : Remarks #' />");
 
 
                     columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50).Hidden(!@Model.Editable).HtmlAttributes(new { @class = "grid-column-center" });
@@ -249,17 +250,12 @@
 
             @if (Model.CreditNoteID > 0 && !Model.Approvable && !Model.UnApprovable)
             {
-                <button type="button" class="k-button custom-button" onclick="location.href='@Url.Action("Approve", "CreditNotes", new {id = @Model.CreditNoteID })'"> <img src="~/Content/Images/Mains/@(!@Model.Approved ? "Actions-ok-icon32.png" : "Cross-icon-cancel32.png")" /> @(!Model.Approved ? "Duyệt đơn hàng" : "Hủy duyệt đơn hàng này") </button>
+                <button type="button" class="k-button custom-button" onclick="location.href='@Url.Action("Approve", "CreditNotes", new {id = @Model.CreditNoteID })'"> <img src="~/Content/Images/Mains/@(!@Model.Approved ? "Actions-ok-icon32.png" : "Cross-icon-cancel32.png")" /> @(!Model.Approved ? "Duyệt phiếu chiết khấu" : "Hủy duyệt phiếu chiết khấu") </button>
             }
 
         </div>
 
         @Html.Partial("~/Views/Helpers/Bases/_BaseSubmit.cshtml")
-
-        @if (Model.Editable)
-        {
-            <div><input style="font-size: 11px;" type="file" name="xlfile" id="xlf" /></div>
-        }
 
     </div>
 }

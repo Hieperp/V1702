@@ -55,7 +55,7 @@ namespace TotalDTO.Accounts
 
         public override int CustomerID { get { return (this.Customer != null ? this.Customer.CustomerID : 0); } }
         [Display(Name = "Khách hàng")]
-        [UIHint("AutoCompletes/CustomerBase")]
+        [UIHint("Commons/CustomerBase")]
         public CustomerBaseDTO Customer { get; set; }
 
         public override Nullable<int> PromotionID { get { return (this.Promotion != null ? this.Promotion.PromotionID : null); } }
