@@ -22,6 +22,13 @@ namespace TotalDAL.Repositories.Sales
             : base(totalSalesPortalEntities, "DeliveryAdviceEditable", "DeliveryAdviceApproved", null, "DeliveryAdviceVoidable")
         {
 
+
+            //return;
+
+            Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);
+            saleReports.RestoreProcedure();
+
+
             return;
 
 
@@ -42,11 +49,6 @@ namespace TotalDAL.Repositories.Sales
             Helpers.SqlProgrammability.Accounts.CreditNote creditNote = new Helpers.SqlProgrammability.Accounts.CreditNote(totalSalesPortalEntities);
             creditNote.RestoreProcedure();
 
-
-            return;
-
-            Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);
-            saleReports.RestoreProcedure();
 
 
             return;

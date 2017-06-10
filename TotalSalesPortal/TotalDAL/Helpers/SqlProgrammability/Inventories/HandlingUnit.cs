@@ -29,6 +29,10 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             this.HandlingUnitEditable();
 
             this.HandlingUnitInitReference();
+
+
+
+            this.HandlingUnitSheet();
         }
 
         private void GetHandlingUnitIndexes()
@@ -291,5 +295,44 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             SimpleInitReference simpleInitReference = new SimpleInitReference("HandlingUnits", "HandlingUnitID", "Reference", ModelSettingManager.ReferenceLength, ModelSettingManager.ReferencePrefix(GlobalEnums.NmvnTaskID.HandlingUnit));
             this.totalSalesPortalEntities.CreateTrigger("HandlingUnitInitReference", simpleInitReference.CreateQuery());
         }
+
+
+
+
+
+
+
+        private void HandlingUnitSheet()
+        {
+            string queryString;
+
+            queryString = " @HandlingUnitID int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SET NOCOUNT ON" + "\r\n";
+
+            queryString = queryString + "       DECLARE     @LocalHandlingUnitID int      SET @LocalHandlingUnitID = @HandlingUnitID" + "\r\n";
+
+            queryString = queryString + "       SELECT      HandlingUnits.HandlingUnitID, HandlingUnits.EntryDate, HandlingUnits.GoodsIssueReferences, HandlingUnits.Identification, HandlingUnits.CountIdentification, HandlingUnits.TotalWeight, HandlingUnits.RealWeight, PackingMaterials.PrintedLabel AS PackingMaterialPrintedLabel, HandlingUnits.Description, HandlingUnits.Remarks, " + "\r\n";
+            queryString = queryString + "                   HandlingUnits.ShippingAddress, Customers.Name AS ReceiverName, Customers.CustomerCategoryID AS ReceiverCategoryID, CustomerCategories.Code AS ReceiverCategoryCode, Customers.VendorCode, Customers.VendorCategory, PackagingStaffs.Name AS PackagingStaffName, Commodities.Code, Commodities.CodePartA, Commodities.CodePartB, Commodities.CodePartC, Commodities.CodePartD, Commodities.Name AS CommodityName, HandlingUnitDetails.Quantity " + "\r\n";
+            queryString = queryString + "       FROM        HandlingUnits " + "\r\n";
+            queryString = queryString + "                   INNER JOIN HandlingUnitDetails ON HandlingUnits.HandlingUnitID = @LocalHandlingUnitID AND HandlingUnits.HandlingUnitID = HandlingUnitDetails.HandlingUnitID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN GoodsIssueDetails ON HandlingUnitDetails.GoodsIssueDetailID = GoodsIssueDetails.GoodsIssueDetailID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Commodities ON GoodsIssueDetails.CommodityID = Commodities.CommodityID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers ON HandlingUnits.ReceiverID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Employees PackagingStaffs ON HandlingUnits.PackagingStaffID = PackagingStaffs.EmployeeID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN PackingMaterials ON HandlingUnits.PackingMaterialID = PackingMaterials.PackingMaterialID " + "\r\n";
+
+            queryString = queryString + "       SET NOCOUNT OFF" + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("HandlingUnitSheet", queryString);
+        }
+
+
     }
 }

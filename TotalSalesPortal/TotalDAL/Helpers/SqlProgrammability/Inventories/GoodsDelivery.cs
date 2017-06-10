@@ -26,6 +26,9 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             this.GoodsDeliveryPostSaveValidate();
 
             this.GoodsDeliveryInitReference();
+
+
+            this.GoodsDeliverySheet();
         }
 
         private void GetGoodsDeliveryIndexes()
@@ -232,5 +235,41 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             SimpleInitReference simpleInitReference = new SimpleInitReference("GoodsDeliveries", "GoodsDeliveryID", "Reference", ModelSettingManager.ReferenceLength, ModelSettingManager.ReferencePrefix(GlobalEnums.NmvnTaskID.GoodsDelivery));
             this.totalSalesPortalEntities.CreateTrigger("GoodsDeliveryInitReference", simpleInitReference.CreateQuery());
         }
+
+
+
+
+
+
+        private void GoodsDeliverySheet()
+        {
+            string queryString;
+
+            queryString = " @GoodsDeliveryID int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SET NOCOUNT ON" + "\r\n";
+
+            queryString = queryString + "       DECLARE     @LocalGoodsDeliveryID int      SET @LocalGoodsDeliveryID = @GoodsDeliveryID" + "\r\n";
+
+            queryString = queryString + "       SELECT      GoodsDeliveries.GoodsDeliveryID, GoodsDeliveries.EntryDate, GoodsDeliveries.Reference, Vehicles.Name AS VehicleName, Drivers.Name AS DriverName, Collectors.Name AS CollectorName, HandlingUnits.CustomerID, Customers.Name AS CustomerName, HandlingUnits.ReceiverID, Receivers.Name AS ReceiverName, CASE WHEN HandlingUnits.CustomerID = HandlingUnits.ReceiverID THEN '' ELSE Receivers.Name + ', ' END + HandlingUnits.ShippingAddress AS ShippingAddress, " + "\r\n";
+            queryString = queryString + "                   HandlingUnits.GoodsIssueReferences, HandlingUnits.PackingMaterialID, HandlingUnits.TotalQuantity AS Quantity, HandlingUnits.TotalWeight AS Weight, HandlingUnits.RealWeight " + "\r\n";
+            queryString = queryString + "       FROM        GoodsDeliveries " + "\r\n";
+            queryString = queryString + "                   INNER JOIN HandlingUnits ON GoodsDeliveries.GoodsDeliveryID = @LocalGoodsDeliveryID AND GoodsDeliveries.GoodsDeliveryID = HandlingUnits.GoodsDeliveryID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers ON HandlingUnits.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers AS Receivers ON HandlingUnits.ReceiverID = Receivers.CustomerID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Vehicles ON GoodsDeliveries.VehicleID = Vehicles.VehicleID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Employees AS Drivers ON GoodsDeliveries.DriverID = Drivers.EmployeeID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Employees AS Collectors ON GoodsDeliveries.CollectorID = Collectors.EmployeeID " + "\r\n";
+
+            queryString = queryString + "       SET NOCOUNT OFF" + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("GoodsDeliverySheet", queryString);
+        }
+
     }
 }

@@ -18,117 +18,13 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
 
         public void RestoreProcedure()
         {
-            this.DeliveryAdviceJournal();
             this.GoodsIssueJournal();
             this.AccountInvoiceJournal();
+
             this.GoodsIssueBalance();
+            
             this.SalesJournal();
             this.StatementOfAccount();
-
-            this.HandlingUnitSheet();
-            this.GoodsDeliverySheet();
-        }
-
-        private void DeliveryAdviceJournal()
-        {
-            string queryString;
-
-            queryString = " @DeliveryAdviceID int, @FromDate DateTime, @ToDate DateTime " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
-            queryString = queryString + " AS " + "\r\n";
-            queryString = queryString + "    BEGIN " + "\r\n";
-
-            queryString = queryString + "       SET NOCOUNT ON" + "\r\n";
-
-            queryString = queryString + "       DECLARE     @LocalDeliveryAdviceID int      SET @LocalDeliveryAdviceID = @DeliveryAdviceID" + "\r\n";
-            queryString = queryString + "       DECLARE     @LocalFromDate DateTime         SET @LocalFromDate = @FromDate" + "\r\n";
-            queryString = queryString + "       DECLARE     @LocalToDate DateTime           SET @LocalToDate = @ToDate" + "\r\n";
-
-            queryString = queryString + "       SELECT      DeliveryAdvices.DeliveryAdviceID, DeliveryAdvices.EntryDate, DeliveryAdvices.Reference, DeliveryAdvices.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, DeliveryAdvices.ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, " + "\r\n";
-            queryString = queryString + "                   DeliveryAdviceDetails.CommodityID, Commodities.Code AS CommodityCode, Commodities.CodePartA, Commodities.CodePartB, Commodities.CodePartC, Commodities.CodePartD, " + "\r\n";
-            queryString = queryString + "                   DeliveryAdviceDetails.Quantity, DeliveryAdviceDetails.QuantityIssue, DeliveryAdviceDetails.Quantity - DeliveryAdviceDetails.QuantityIssue AS QuantityRemains, DeliveryAdviceDetails.FreeQuantity, DeliveryAdviceDetails.FreeQuantityIssue, DeliveryAdviceDetails.FreeQuantity - DeliveryAdviceDetails.FreeQuantityIssue AS FreeQuantityRemains, DeliveryAdviceDetails.GrossAmount, " + "\r\n";
-            queryString = queryString + "                   GoodsIssueDetails.GoodsIssueID, GoodsIssueDetails.EntryDate AS GoodsIssueEntryDate, GoodsIssueDetails.Quantity AS GoodsIssueQuantity, GoodsIssueDetails.FreeQuantity AS GoodsIssueFreeQuantity, " + "\r\n";
-            queryString = queryString + "                   DeliveryAdviceDetails.InActive, DeliveryAdviceDetails.InActivePartial, DeliveryAdviceDetails.InActiveIssue, ISNULL(VoidDeliveryAdvices.Name, '') + IIF(DeliveryAdvices.VoidTypeID <> 0 AND DeliveryAdviceDetails.VoidTypeID <> 0, ', ', '') + ISNULL(VoidDeliveryAdviceDetails.Name, '') AS VoidDeliveryAdviceName, VoidGoodsIssues.Name AS VoidGoodsIssueName " + "\r\n";
-
-            queryString = queryString + "       FROM        DeliveryAdvices " + "\r\n";
-            queryString = queryString + "                   INNER JOIN DeliveryAdviceDetails ON (DeliveryAdvices.DeliveryAdviceID = @LocalDeliveryAdviceID OR (@LocalDeliveryAdviceID = 0 AND DeliveryAdvices.EntryDate >= @LocalFromDate AND DeliveryAdvices.EntryDate <= @LocalToDate)) AND DeliveryAdvices.DeliveryAdviceID = DeliveryAdviceDetails.DeliveryAdviceID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Customers ON DeliveryAdvices.CustomerID = Customers.CustomerID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Customers AS Receivers ON DeliveryAdvices.ReceiverID = Receivers.CustomerID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Commodities ON DeliveryAdviceDetails.CommodityID = Commodities.CommodityID " + "\r\n";
-            queryString = queryString + "                   LEFT JOIN GoodsIssueDetails ON DeliveryAdviceDetails.DeliveryAdviceDetailID = GoodsIssueDetails.DeliveryAdviceDetailID " + "\r\n";
-            queryString = queryString + "                   LEFT JOIN VoidTypes AS VoidDeliveryAdvices ON DeliveryAdvices.VoidTypeID = VoidDeliveryAdvices.VoidTypeID " + "\r\n";
-            queryString = queryString + "                   LEFT JOIN VoidTypes AS VoidDeliveryAdviceDetails ON DeliveryAdviceDetails.VoidTypeID = VoidDeliveryAdviceDetails.VoidTypeID " + "\r\n";
-            queryString = queryString + "                   LEFT JOIN VoidTypes AS VoidGoodsIssues ON GoodsIssueDetails.VoidTypeID = VoidGoodsIssues.VoidTypeID " + "\r\n";
-
-            queryString = queryString + "       SET NOCOUNT OFF" + "\r\n";
-
-            queryString = queryString + "    END " + "\r\n";
-
-            this.totalSalesPortalEntities.CreateStoredProcedure("DeliveryAdviceJournal", queryString);
-        }
-
-
-
-        private void GoodsDeliverySheet()
-        {
-            string queryString;
-
-            queryString = " @GoodsDeliveryID int " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
-            queryString = queryString + " AS " + "\r\n";
-            queryString = queryString + "    BEGIN " + "\r\n";
-
-            queryString = queryString + "       SET NOCOUNT ON" + "\r\n";
-
-            queryString = queryString + "       DECLARE     @LocalGoodsDeliveryID int      SET @LocalGoodsDeliveryID = @GoodsDeliveryID" + "\r\n";
-
-            queryString = queryString + "       SELECT      GoodsDeliveries.GoodsDeliveryID, GoodsDeliveries.EntryDate, GoodsDeliveries.Reference, Vehicles.Name AS VehicleName, Drivers.Name AS DriverName, Collectors.Name AS CollectorName, HandlingUnits.CustomerID, Customers.Name AS CustomerName, HandlingUnits.ReceiverID, Receivers.Name AS ReceiverName, CASE WHEN HandlingUnits.CustomerID = HandlingUnits.ReceiverID THEN '' ELSE Receivers.Name + ', ' END + HandlingUnits.ShippingAddress AS ShippingAddress, " + "\r\n";
-            queryString = queryString + "                   HandlingUnits.GoodsIssueReferences, HandlingUnits.PackingMaterialID, HandlingUnits.TotalQuantity AS Quantity, HandlingUnits.TotalWeight AS Weight, HandlingUnits.RealWeight " + "\r\n";
-            queryString = queryString + "       FROM        GoodsDeliveries " + "\r\n";
-            queryString = queryString + "                   INNER JOIN HandlingUnits ON GoodsDeliveries.GoodsDeliveryID = @LocalGoodsDeliveryID AND GoodsDeliveries.GoodsDeliveryID = HandlingUnits.GoodsDeliveryID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Customers ON HandlingUnits.CustomerID = Customers.CustomerID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Customers AS Receivers ON HandlingUnits.ReceiverID = Receivers.CustomerID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Vehicles ON GoodsDeliveries.VehicleID = Vehicles.VehicleID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Employees AS Drivers ON GoodsDeliveries.DriverID = Drivers.EmployeeID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Employees AS Collectors ON GoodsDeliveries.CollectorID = Collectors.EmployeeID " + "\r\n";
-
-            queryString = queryString + "       SET NOCOUNT OFF" + "\r\n";
-
-            queryString = queryString + "    END " + "\r\n";
-
-            this.totalSalesPortalEntities.CreateStoredProcedure("GoodsDeliverySheet", queryString);
-        }
-
-
-        private void HandlingUnitSheet()
-        {
-            string queryString;
-
-            queryString = " @HandlingUnitID int " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
-            queryString = queryString + " AS " + "\r\n";
-            queryString = queryString + "    BEGIN " + "\r\n";
-
-            queryString = queryString + "       SET NOCOUNT ON" + "\r\n";
-
-            queryString = queryString + "       DECLARE     @LocalHandlingUnitID int      SET @LocalHandlingUnitID = @HandlingUnitID" + "\r\n";
-
-            queryString = queryString + "       SELECT      HandlingUnits.HandlingUnitID, HandlingUnits.EntryDate, HandlingUnits.GoodsIssueReferences, HandlingUnits.Identification, HandlingUnits.CountIdentification, HandlingUnits.TotalWeight, HandlingUnits.RealWeight, PackingMaterials.PrintedLabel AS PackingMaterialPrintedLabel, HandlingUnits.Description, HandlingUnits.Remarks, " + "\r\n";
-            queryString = queryString + "                   HandlingUnits.ShippingAddress, Customers.Name AS ReceiverName, Customers.CustomerCategoryID AS ReceiverCategoryID, CustomerCategories.Code AS ReceiverCategoryCode, Customers.VendorCode, Customers.VendorCategory, PackagingStaffs.Name AS PackagingStaffName, Commodities.Code, Commodities.CodePartA, Commodities.CodePartB, Commodities.CodePartC, Commodities.CodePartD, Commodities.Name AS CommodityName, HandlingUnitDetails.Quantity " + "\r\n";
-            queryString = queryString + "       FROM        HandlingUnits " + "\r\n";
-            queryString = queryString + "                   INNER JOIN HandlingUnitDetails ON HandlingUnits.HandlingUnitID = @LocalHandlingUnitID AND HandlingUnits.HandlingUnitID = HandlingUnitDetails.HandlingUnitID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN GoodsIssueDetails ON HandlingUnitDetails.GoodsIssueDetailID = GoodsIssueDetails.GoodsIssueDetailID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Commodities ON GoodsIssueDetails.CommodityID = Commodities.CommodityID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Customers ON HandlingUnits.ReceiverID = Customers.CustomerID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Employees PackagingStaffs ON HandlingUnits.PackagingStaffID = PackagingStaffs.EmployeeID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN PackingMaterials ON HandlingUnits.PackingMaterialID = PackingMaterials.PackingMaterialID " + "\r\n";
-
-            queryString = queryString + "       SET NOCOUNT OFF" + "\r\n";
-
-            queryString = queryString + "    END " + "\r\n";
-
-            this.totalSalesPortalEntities.CreateStoredProcedure("HandlingUnitSheet", queryString);
         }
 
 
@@ -149,7 +45,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
 
             queryString = queryString + "       SELECT      GoodsIssues.GoodsIssueID, 'Inventories/GoodsIssues' AS TaskAction, GoodsIssues.EntryDate, GoodsIssues.Reference, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, CustomerCategories.Name AS CustomerCategoryName, Employees.Name AS SalespersonName, GoodsIssues.Description, GoodsIssues.DeliveryAdviceReferences, DeliveryAdvices.Reference AS DeliveryAdviceReference, " + "\r\n";
             queryString = queryString + "                   GoodsIssueDetails.GoodsIssueDetailID, GoodsIssueDetails.CommodityID, Commodities.Code AS CommodityCode, Commodities.CodePartA, Commodities.CodePartB, Commodities.CodePartC, Commodities.CodePartD, Commodities.Weight AS UnitWeight, " + "\r\n";
-            queryString = queryString + "                   GoodsIssueDetails.Quantity, GoodsIssueDetails.FreeQuantity, GoodsIssueDetails.ListedPrice, GoodsIssueDetails.DiscountPercent, GoodsIssueDetails.UnitPrice, GoodsIssueDetails.ListedAmount, GoodsIssueDetails.Amount, ROUND(GoodsIssueDetails.ListedAmount - GoodsIssueDetails.Amount, " + (int)GlobalEnums.rndAmount + ") AS DiscountAmount, GoodsIssueDetails.ListedGrossPrice, GoodsIssueDetails.ListedGrossAmount " + "\r\n";
+            queryString = queryString + "                   GoodsIssueDetails.Quantity, GoodsIssueDetails.FreeQuantity, GoodsIssueDetails.ListedPrice, GoodsIssueDetails.DiscountPercent, GoodsIssueDetails.UnitPrice, GoodsIssueDetails.ListedAmount, GoodsIssueDetails.Amount, ROUND(GoodsIssueDetails.ListedAmount - GoodsIssueDetails.Amount, " + (int)GlobalEnums.rndAmount + ") AS DiscountAmount, GoodsIssues.TotalQuantity, GoodsIssues.TotalAmount, GoodsIssues.TradeDiscountAmount, GoodsIssues.TotalTaxableAmount, GoodsIssues.TotalVATAmount, GoodsIssues.TotalGrossAmount " + "\r\n";
 
             queryString = queryString + "       FROM        GoodsIssues " + "\r\n";
             queryString = queryString + "                   INNER JOIN GoodsIssueDetails ON GoodsIssues.EntryDate >= @LocalFromDate AND GoodsIssues.EntryDate <= @LocalToDate AND GoodsIssues.GoodsIssueID = GoodsIssueDetails.GoodsIssueID " + "\r\n";
@@ -183,7 +79,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
 
             queryString = queryString + "       SELECT      AccountInvoices.AccountInvoiceID, 'Accounts/AccountInvoices' AS TaskAction, AccountInvoices.EntryDate, AccountInvoices.Reference, AccountInvoices.VATInvoiceNo, AccountInvoices.VATInvoiceDate, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.OfficialName AS CustomerOfficialName, Customers.VATCode, CustomerCategories.Name AS CustomerCategoryName, Customers.BillingAddress, AccountInvoices.Description, " + "\r\n";
             queryString = queryString + "                   AccountInvoiceDetails.AccountInvoiceDetailID, AccountInvoiceDetails.CommodityID, Commodities.Code AS CommodityCode, Commodities.CodePartA, Commodities.CodePartB, Commodities.CodePartC, Commodities.CodePartD, Commodities.OfficialName, Commodities.Weight AS UnitWeight, " + "\r\n";
-            queryString = queryString + "                   AccountInvoiceDetails.Quantity, AccountInvoiceDetails.FreeQuantity, AccountInvoiceDetails.ListedPrice, AccountInvoiceDetails.DiscountPercent, AccountInvoiceDetails.UnitPrice, AccountInvoiceDetails.ListedAmount, AccountInvoiceDetails.Amount, ROUND(AccountInvoiceDetails.ListedAmount - AccountInvoiceDetails.Amount, " + (int)GlobalEnums.rndAmount + ") AS DiscountAmount, AccountInvoiceDetails.ListedGrossPrice, AccountInvoiceDetails.ListedGrossAmount, AccountInvoices.TotalQuantity, AccountInvoices.TotalAmount, AccountInvoices.TotalVATAmount, AccountInvoices.TotalGrossAmount " + "\r\n";
+            queryString = queryString + "                   AccountInvoiceDetails.Quantity, AccountInvoiceDetails.FreeQuantity, AccountInvoiceDetails.ListedPrice, AccountInvoiceDetails.DiscountPercent, AccountInvoiceDetails.UnitPrice, AccountInvoiceDetails.ListedAmount, AccountInvoiceDetails.Amount, ROUND(AccountInvoiceDetails.ListedAmount - AccountInvoiceDetails.Amount, " + (int)GlobalEnums.rndAmount + ") AS DiscountAmount, AccountInvoices.TotalQuantity, AccountInvoices.TotalAmount, AccountInvoices.TradeDiscountAmount, AccountInvoices.TotalTaxableAmount, AccountInvoices.TotalVATAmount, AccountInvoices.TotalGrossAmount " + "\r\n";
 
             queryString = queryString + "       FROM        AccountInvoices " + "\r\n";
             queryString = queryString + "                   INNER JOIN AccountInvoiceDetails ON AccountInvoices.VATInvoiceDate >= @LocalFromDate AND AccountInvoices.VATInvoiceDate <= @LocalToDate AND AccountInvoices.AccountInvoiceID = AccountInvoiceDetails.AccountInvoiceID " + "\r\n";
@@ -198,91 +94,6 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             this.totalSalesPortalEntities.CreateStoredProcedure("AccountInvoiceJournal", queryString);
         }
 
-
-        private void SalesJournal()
-        {
-            string queryString;
-
-            queryString = " @FromDate DateTime, @ToDate DateTime, @CustomerCategoryID int, @CustomerID int " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
-            queryString = queryString + " AS " + "\r\n";
-            queryString = queryString + "    BEGIN " + "\r\n";
-
-            queryString = queryString + "       SET NOCOUNT ON" + "\r\n";
-
-            queryString = queryString + "       DECLARE     @LocalFromDate DateTime, @LocalToDate DateTime, @LocalCustomerCategoryID int, @LocalCustomerID int         SET @LocalFromDate = @FromDate         SET @LocalToDate = @ToDate          SET @LocalCustomerCategoryID = @CustomerCategoryID            SET @LocalCustomerID = @CustomerID " + "\r\n";
-
-            queryString = queryString + "       IF (@LocalCustomerID > 0) ";
-            queryString = queryString + "           " + this.SalesJournalSQL(false, true);
-            queryString = queryString + "       ELSE ";
-            queryString = queryString + "           IF (@LocalCustomerCategoryID > 0) ";
-            queryString = queryString + "               " + this.SalesJournalSQL(true, false);
-            queryString = queryString + "           ELSE ";
-            queryString = queryString + "               " + this.SalesJournalSQL(false, false);
-
-            queryString = queryString + "       SET NOCOUNT OFF" + "\r\n";
-
-            queryString = queryString + "    END " + "\r\n";
-
-            this.totalSalesPortalEntities.CreateStoredProcedure("SalesJournal", queryString);
-        }
-
-        private string SalesJournalSQL(bool isCustomerCategoryID, bool isCustomerID)
-        {
-            string queryString = "";
-
-            queryString = queryString + "   BEGIN " + "\r\n";
-
-
-            queryString = queryString + "       SELECT      NmvnTaskID, TaskAction, CustomerID, CustomerCode, CustomerName, BillingAddress, CustomerCategoryID, CustomerCategoryName, " + "\r\n";
-            queryString = queryString + "                   EntryID, EntryDate, Reference, BalanceAmount AS BeginningAmount, 0 AS TotalListedGrossAmount, 0 AS TotalGrossAmount, 0 AS TotalDiscountAmount, 0 AS TotalReturnAmount, 0 AS TotalCreditAmount, 0 AS TotalCashReceiptAmount, 0 AS TotalBankTransferAmount, 0 AS TotalCashDiscount, 0 AS TotalFluctuationAmount " + "\r\n";
-            queryString = queryString + "       FROM        dbo.GoodsIssueBalance(DATEADD(second, -1, @LocalFromDate), @LocalCustomerCategoryID, @LocalCustomerID) " + "\r\n";
-
-            queryString = queryString + "       UNION ALL " + "\r\n";
-
-            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.GoodsIssue + " AS NmvnTaskID, 'Inventories/GoodsIssues' AS TaskAction, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.BillingAddress, Customers.CustomerCategoryID, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
-            queryString = queryString + "                   GoodsIssues.GoodsIssueID AS EntryID, GoodsIssues.EntryDate, GoodsIssues.Reference, 0 AS BeginningAmount, GoodsIssues.TotalListedGrossAmount, GoodsIssues.TotalGrossAmount, ROUND(GoodsIssues.TotalListedGrossAmount - GoodsIssues.TotalGrossAmount, " + (int)GlobalEnums.rndAmount + ") AS TotalDiscountAmount, 0 AS TotalReturnAmount, 0 AS TotalCreditAmount, 0 AS TotalCashReceiptAmount, 0 AS TotalBankTransferAmount,  0 AS TotalCashDiscount, 0 AS TotalFluctuationAmount " + "\r\n";
-
-            queryString = queryString + "       FROM        GoodsIssues " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Customers ON " + (isCustomerID ? "GoodsIssues.CustomerID = @LocalCustomerID AND" : "") + (isCustomerCategoryID ? " Customers.CustomerCategoryID = @LocalCustomerCategoryID AND" : "") + " GoodsIssues.EntryDate >= @LocalFromDate AND GoodsIssues.EntryDate <= @LocalToDate AND GoodsIssues.CustomerID = Customers.CustomerID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
-
-            queryString = queryString + "       UNION ALL " + "\r\n";
-
-            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.SalesReturn + " AS NmvnTaskID, 'Sales/SalesReturns' AS TaskAction, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.BillingAddress, Customers.CustomerCategoryID, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
-            queryString = queryString + "                   SalesReturns.SalesReturnID AS EntryID, SalesReturns.EntryDate, SalesReturns.Reference, 0 AS BeginningAmount, 0 AS TotalListedGrossAmount, 0 AS TotalGrossAmount, 0 AS TotalDiscountAmount, SalesReturns.TotalGrossAmount AS TotalReturnAmount, 0 AS TotalCreditAmount, 0 AS TotalCashReceiptAmount, 0 AS TotalBankTransferAmount,  0 AS TotalCashDiscount, 0 AS TotalFluctuationAmount " + "\r\n";
-
-            queryString = queryString + "       FROM        SalesReturns " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Customers ON " + (isCustomerID ? "SalesReturns.CustomerID = @LocalCustomerID AND" : "") + (isCustomerCategoryID ? " Customers.CustomerCategoryID = @LocalCustomerCategoryID AND" : "") + " SalesReturns.EntryDate >= @LocalFromDate AND SalesReturns.EntryDate <= @LocalToDate AND SalesReturns.CustomerID = Customers.CustomerID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
-
-
-
-            queryString = queryString + "       UNION ALL " + "\r\n";
-
-            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.CreditNote + " AS NmvnTaskID, 'Accounts/CreditNotes' AS TaskAction, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.BillingAddress, Customers.CustomerCategoryID, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
-            queryString = queryString + "                   CreditNotes.CreditNoteID AS EntryID, CreditNotes.EntryDate, CreditNotes.Reference, 0 AS BeginningAmount, 0 AS TotalListedGrossAmount, 0 AS TotalGrossAmount, 0 AS TotalDiscountAmount, 0 AS TotalReturnAmount, CreditNotes.TotalGrossAmount AS TotalCreditAmount, 0 AS TotalCashReceiptAmount, 0 AS TotalBankTransferAmount,  0 AS TotalCashDiscount, 0 AS TotalFluctuationAmount " + "\r\n";
-
-            queryString = queryString + "       FROM        CreditNotes " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Customers ON " + (isCustomerID ? "CreditNotes.CustomerID = @LocalCustomerID AND" : "") + (isCustomerCategoryID ? " Customers.CustomerCategoryID = @LocalCustomerCategoryID AND" : "") + " CreditNotes.EntryDate >= @LocalFromDate AND CreditNotes.EntryDate <= @LocalToDate AND CreditNotes.CustomerID = Customers.CustomerID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
-
-
-
-            queryString = queryString + "       UNION ALL " + "\r\n";
-
-            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.Receipt + " AS NmvnTaskID, 'Accounts/Receipts' AS TaskAction, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.BillingAddress, Customers.CustomerCategoryID, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
-            queryString = queryString + "                   Receipts.ReceiptID AS EntryID, Receipts.EntryDate, Receipts.Reference, 0 AS BeginningAmount, 0 AS TotalListedGrossAmount, 0 AS TotalGrossAmount, 0 AS TotalDiscountAmount, 0 AS TotalReturnAmount, 0 AS TotalCreditAmount, CASE Receipts.MonetaryAccountID WHEN 3 THEN Receipts.TotalDepositAmount ELSE 0 END AS TotalCashReceiptAmount, CASE Receipts.MonetaryAccountID WHEN 3 THEN 0 ELSE Receipts.TotalDepositAmount END TotalBankTransferAmount, Receipts.TotalCashDiscount, Receipts.TotalFluctuationAmount " + "\r\n";
-
-            queryString = queryString + "       FROM        Receipts " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Customers ON " + (isCustomerID ? "Receipts.CustomerID = @LocalCustomerID AND" : "") + (isCustomerCategoryID ? " Customers.CustomerCategoryID = @LocalCustomerCategoryID AND" : "") + " Receipts.ReceiptTypeID = " + GlobalReceiptTypeID.ReceiveMoney + " AND Receipts.EntryDate >= @LocalFromDate AND Receipts.EntryDate <= @LocalToDate AND Receipts.CustomerID = Customers.CustomerID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
-
-
-            queryString = queryString + "   END " + "\r\n";
-
-            return queryString;
-        }
 
 
         private void GoodsIssueBalance()
@@ -401,6 +212,93 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
         }
 
 
+
+        private void SalesJournal()
+        {
+            string queryString;
+
+            queryString = " @FromDate DateTime, @ToDate DateTime, @CustomerCategoryID int, @CustomerID int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SET NOCOUNT ON" + "\r\n";
+
+            queryString = queryString + "       DECLARE     @LocalFromDate DateTime, @LocalToDate DateTime, @LocalCustomerCategoryID int, @LocalCustomerID int         SET @LocalFromDate = @FromDate         SET @LocalToDate = @ToDate          SET @LocalCustomerCategoryID = @CustomerCategoryID            SET @LocalCustomerID = @CustomerID " + "\r\n";
+
+            queryString = queryString + "       IF (@LocalCustomerID > 0) ";
+            queryString = queryString + "           " + this.SalesJournalSQL(false, true);
+            queryString = queryString + "       ELSE ";
+            queryString = queryString + "           IF (@LocalCustomerCategoryID > 0) ";
+            queryString = queryString + "               " + this.SalesJournalSQL(true, false);
+            queryString = queryString + "           ELSE ";
+            queryString = queryString + "               " + this.SalesJournalSQL(false, false);
+
+            queryString = queryString + "       SET NOCOUNT OFF" + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("SalesJournal", queryString);
+        }
+
+        private string SalesJournalSQL(bool isCustomerCategoryID, bool isCustomerID)
+        {
+            string queryString = "";
+
+            queryString = queryString + "   BEGIN " + "\r\n";
+
+
+            queryString = queryString + "       SELECT      NmvnTaskID, TaskAction, CustomerID, CustomerCode, CustomerName, BillingAddress, CustomerCategoryID, CustomerCategoryName, " + "\r\n";
+            queryString = queryString + "                   EntryID, EntryDate, Reference, BalanceAmount AS BeginningAmount, 0 AS TotalListedGrossAmount, 0 AS TotalGrossAmount, 0 AS TotalDiscountAmount, 0 AS TotalReturnAmount, 0 AS TotalCreditAmount, 0 AS TotalCashReceiptAmount, 0 AS TotalBankTransferAmount, 0 AS TotalCashDiscount, 0 AS TotalFluctuationAmount, BalanceAmount AS EndingAmount " + "\r\n";
+            queryString = queryString + "       FROM        dbo.GoodsIssueBalance(DATEADD(second, -1, @LocalFromDate), @LocalCustomerCategoryID, @LocalCustomerID) " + "\r\n";
+
+            queryString = queryString + "       UNION ALL " + "\r\n";
+
+            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.GoodsIssue + " AS NmvnTaskID, 'Inventories/GoodsIssues' AS TaskAction, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.BillingAddress, Customers.CustomerCategoryID, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
+            queryString = queryString + "                   GoodsIssues.GoodsIssueID AS EntryID, GoodsIssues.EntryDate, GoodsIssues.Reference, 0 AS BeginningAmount, ROUND(GoodsIssues.TotalListedAmount + ROUND(GoodsIssues.TotalListedAmount * VATPercent/100, " + (int)GlobalEnums.rndAmount + "), " + (int)GlobalEnums.rndAmount + ") AS TotalListedGrossAmount, GoodsIssues.TotalGrossAmount, ROUND(ROUND(GoodsIssues.TotalListedAmount + ROUND(GoodsIssues.TotalListedAmount * VATPercent/100, " + (int)GlobalEnums.rndAmount + "), " + (int)GlobalEnums.rndAmount + ") - GoodsIssues.TotalGrossAmount, " + (int)GlobalEnums.rndAmount + ") AS TotalDiscountAmount, 0 AS TotalReturnAmount, 0 AS TotalCreditAmount, 0 AS TotalCashReceiptAmount, 0 AS TotalBankTransferAmount, 0 AS TotalCashDiscount, 0 AS TotalFluctuationAmount, GoodsIssues.TotalGrossAmount AS EndingAmount " + "\r\n";
+
+            queryString = queryString + "       FROM        GoodsIssues " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers ON " + (isCustomerID ? "GoodsIssues.CustomerID = @LocalCustomerID AND" : "") + (isCustomerCategoryID ? " Customers.CustomerCategoryID = @LocalCustomerCategoryID AND" : "") + " GoodsIssues.EntryDate >= @LocalFromDate AND GoodsIssues.EntryDate <= @LocalToDate AND GoodsIssues.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
+
+            queryString = queryString + "       UNION ALL " + "\r\n";
+
+            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.SalesReturn + " AS NmvnTaskID, 'Sales/SalesReturns' AS TaskAction, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.BillingAddress, Customers.CustomerCategoryID, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
+            queryString = queryString + "                   SalesReturns.SalesReturnID AS EntryID, SalesReturns.EntryDate, SalesReturns.Reference, 0 AS BeginningAmount, 0 AS TotalListedGrossAmount, 0 AS TotalGrossAmount, 0 AS TotalDiscountAmount, SalesReturns.TotalGrossAmount AS TotalReturnAmount, 0 AS TotalCreditAmount, 0 AS TotalCashReceiptAmount, 0 AS TotalBankTransferAmount, 0 AS TotalCashDiscount, 0 AS TotalFluctuationAmount, -SalesReturns.TotalGrossAmount AS EndingAmount " + "\r\n";
+
+            queryString = queryString + "       FROM        SalesReturns " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers ON " + (isCustomerID ? "SalesReturns.CustomerID = @LocalCustomerID AND" : "") + (isCustomerCategoryID ? " Customers.CustomerCategoryID = @LocalCustomerCategoryID AND" : "") + " SalesReturns.EntryDate >= @LocalFromDate AND SalesReturns.EntryDate <= @LocalToDate AND SalesReturns.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
+
+
+
+            queryString = queryString + "       UNION ALL " + "\r\n";
+
+            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.CreditNote + " AS NmvnTaskID, 'Accounts/CreditNotes' AS TaskAction, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.BillingAddress, Customers.CustomerCategoryID, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
+            queryString = queryString + "                   CreditNotes.CreditNoteID AS EntryID, CreditNotes.EntryDate, CreditNotes.Reference, 0 AS BeginningAmount, 0 AS TotalListedGrossAmount, 0 AS TotalGrossAmount, 0 AS TotalDiscountAmount, 0 AS TotalReturnAmount, CreditNotes.TotalGrossAmount AS TotalCreditAmount, 0 AS TotalCashReceiptAmount, 0 AS TotalBankTransferAmount, 0 AS TotalCashDiscount, 0 AS TotalFluctuationAmount, -CreditNotes.TotalGrossAmount AS EndingAmount " + "\r\n";
+
+            queryString = queryString + "       FROM        CreditNotes " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers ON " + (isCustomerID ? "CreditNotes.CustomerID = @LocalCustomerID AND" : "") + (isCustomerCategoryID ? " Customers.CustomerCategoryID = @LocalCustomerCategoryID AND" : "") + " CreditNotes.EntryDate >= @LocalFromDate AND CreditNotes.EntryDate <= @LocalToDate AND CreditNotes.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
+
+
+
+            queryString = queryString + "       UNION ALL " + "\r\n";
+
+            queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.Receipt + " AS NmvnTaskID, 'Accounts/Receipts' AS TaskAction, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.BillingAddress, Customers.CustomerCategoryID, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
+            queryString = queryString + "                   Receipts.ReceiptID AS EntryID, Receipts.EntryDate, Receipts.Reference, 0 AS BeginningAmount, 0 AS TotalListedGrossAmount, 0 AS TotalGrossAmount, 0 AS TotalDiscountAmount, 0 AS TotalReturnAmount, 0 AS TotalCreditAmount, CASE Receipts.MonetaryAccountID WHEN 3 THEN Receipts.TotalDepositAmount ELSE 0 END AS TotalCashReceiptAmount, CASE Receipts.MonetaryAccountID WHEN 3 THEN 0 ELSE Receipts.TotalDepositAmount END TotalBankTransferAmount, Receipts.TotalCashDiscount, Receipts.TotalFluctuationAmount, -Receipts.TotalDepositAmount - Receipts.TotalCashDiscount - Receipts.TotalFluctuationAmount AS EndingAmount " + "\r\n";
+
+            queryString = queryString + "       FROM        Receipts " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers ON " + (isCustomerID ? "Receipts.CustomerID = @LocalCustomerID AND" : "") + (isCustomerCategoryID ? " Customers.CustomerCategoryID = @LocalCustomerCategoryID AND" : "") + " Receipts.ReceiptTypeID = " + GlobalReceiptTypeID.ReceiveMoney + " AND Receipts.EntryDate >= @LocalFromDate AND Receipts.EntryDate <= @LocalToDate AND Receipts.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
+
+
+            queryString = queryString + "   END " + "\r\n";
+
+            return queryString;
+        }
+
+
         public void StatementOfAccount()
         {
             string queryString;
@@ -415,7 +313,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             queryString = queryString + "       DECLARE     @LocalFromDate DateTime, @LocalToDate DateTime, @LocalCustomerCategoryID int, @LocalCustomerID int         SET @LocalFromDate = @FromDate         SET @LocalToDate = @ToDate          SET @LocalCustomerCategoryID = @CustomerCategoryID            SET @LocalCustomerID = @CustomerID " + "\r\n";
 
             queryString = queryString + "       DECLARE         @StatementTable TABLE (NmvnTaskID int NULL, TaskAction nvarchar(50) NULL, CustomerID int NOT NULL, CustomerCode nvarchar(50) NOT NULL, CustomerName nvarchar(100) NOT NULL, BillingAddress nvarchar(200) NOT NULL, CustomerCategoryID int NOT NULL, CustomerCategoryName nvarchar(100) NOT NULL, EntryID int NULL, EntryDate datetime NULL, GoodsIssueID int NULL, GoodsIssueReference nvarchar(30) NULL, GoodsIssueListedGrossAmount float NOT NULL, GoodsIssueGrossAmount float NOT NULL, GoodsIssueDiscountAmount float NOT NULL, AccountInvoiceID int NULL, AccountInvoiceReference nvarchar(30) NULL, VATInvoiceNo nvarchar(30) NULL, GoodsIssueReferences nvarchar(200) NULL, SerialID int NULL, AccountInvoiceListedGrossAmount float NOT NULL, AccountInvoiceGrossAmount float NOT NULL, AccountInvoiceDiscountAmount float NOT NULL, BeginningAmount float NOT NULL, TotalListedGrossAmount float NOT NULL, TotalGrossAmount float NOT NULL, TotalDiscountAmount float NOT NULL, TotalReturnAmount float NOT NULL, TotalCreditAmount float NOT NULL, TotalCashReceiptAmount float NOT NULL, TotalBankTransferAmount float NOT NULL, TotalCashDiscount float NOT NULL, TotalFluctuationAmount float NOT NULL, EndingAmount float NOT NULL, EndingAmountInWords nvarchar(100) NULL) " + "\r\n";
-            queryString = queryString + "       DECLARE         @SalesJournalTable TABLE (NmvnTaskID int NULL, TaskAction nvarchar(50) NULL, CustomerID int NOT NULL, CustomerCode nvarchar(50) NOT NULL, CustomerName nvarchar(100) NOT NULL, BillingAddress nvarchar(200) NOT NULL, CustomerCategoryID int NOT NULL, CustomerCategoryName nvarchar(100) NOT NULL, EntryID int NULL, EntryDate datetime NOT NULL, Reference nvarchar(30) NULL, BeginningAmount float NOT NULL, TotalListedGrossAmount float NOT NULL, TotalGrossAmount float NOT NULL, TotalDiscountAmount float NOT NULL, TotalReturnAmount float NOT NULL, TotalCreditAmount float NOT NULL, TotalCashReceiptAmount float NOT NULL, TotalBankTransferAmount float NOT NULL, TotalCashDiscount float NOT NULL, TotalFluctuationAmount float NOT NULL) " + "\r\n";
+            queryString = queryString + "       DECLARE         @SalesJournalTable TABLE (NmvnTaskID int NULL, TaskAction nvarchar(50) NULL, CustomerID int NOT NULL, CustomerCode nvarchar(50) NOT NULL, CustomerName nvarchar(100) NOT NULL, BillingAddress nvarchar(200) NOT NULL, CustomerCategoryID int NOT NULL, CustomerCategoryName nvarchar(100) NOT NULL, EntryID int NULL, EntryDate datetime NOT NULL, Reference nvarchar(30) NULL, BeginningAmount float NOT NULL, TotalListedGrossAmount float NOT NULL, TotalGrossAmount float NOT NULL, TotalDiscountAmount float NOT NULL, TotalReturnAmount float NOT NULL, TotalCreditAmount float NOT NULL, TotalCashReceiptAmount float NOT NULL, TotalBankTransferAmount float NOT NULL, TotalCashDiscount float NOT NULL, TotalFluctuationAmount float NOT NULL, EndingAmount float NOT NULL) " + "\r\n";
 
             queryString = queryString + "       IF (@LocalCustomerID > 0) " + "\r\n";
             queryString = queryString + "           " + this.StatementOfAccountSQL(false, true) + "\r\n";
@@ -488,9 +386,9 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             queryString = queryString + "       WHERE           CustomerID NOT IN (SELECT CustomerID FROM @StatementTable) " + "\r\n";
 
             queryString = queryString + "       UPDATE          StatementTable " + "\r\n"; //NOTE ... NOTE ... NOTE: THE VALUE OF EndingAmount & EndingAmountInWords ARE THE SAME. SHOULD COPY & PASTE TO ENSURE THE SAME FORMULA FOR THEM!!!
-            queryString = queryString + "       SET             StatementTable.BeginningAmount = SalesJournalSummary.BeginningAmount, StatementTable.TotalListedGrossAmount = SalesJournalSummary.TotalListedGrossAmount, StatementTable.TotalGrossAmount = SalesJournalSummary.TotalGrossAmount, StatementTable.TotalDiscountAmount = SalesJournalSummary.TotalDiscountAmount, StatementTable.TotalReturnAmount = SalesJournalSummary.TotalReturnAmount, StatementTable.TotalCreditAmount = SalesJournalSummary.TotalCreditAmount, StatementTable.TotalCashReceiptAmount = SalesJournalSummary.TotalCashReceiptAmount, StatementTable.TotalBankTransferAmount = SalesJournalSummary.TotalBankTransferAmount, StatementTable.TotalCashDiscount = SalesJournalSummary.TotalCashDiscount, StatementTable.TotalFluctuationAmount = SalesJournalSummary.TotalFluctuationAmount, StatementTable.EndingAmount = ROUND(SalesJournalSummary.BeginningAmount + SalesJournalSummary.TotalListedGrossAmount - SalesJournalSummary.TotalDiscountAmount - SalesJournalSummary.TotalReturnAmount - SalesJournalSummary.TotalCreditAmount - SalesJournalSummary.TotalCashReceiptAmount - SalesJournalSummary.TotalBankTransferAmount - SalesJournalSummary.TotalCashDiscount + SalesJournalSummary.TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + "), StatementTable.EndingAmountInWords = dbo.SayVND(ROUND(SalesJournalSummary.BeginningAmount + SalesJournalSummary.TotalListedGrossAmount - SalesJournalSummary.TotalDiscountAmount - SalesJournalSummary.TotalReturnAmount - SalesJournalSummary.TotalCreditAmount - SalesJournalSummary.TotalCashReceiptAmount - SalesJournalSummary.TotalBankTransferAmount - SalesJournalSummary.TotalCashDiscount + SalesJournalSummary.TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ")) " + "\r\n";
+            queryString = queryString + "       SET             StatementTable.BeginningAmount = SalesJournalSummary.BeginningAmount, StatementTable.TotalListedGrossAmount = SalesJournalSummary.TotalListedGrossAmount, StatementTable.TotalGrossAmount = SalesJournalSummary.TotalGrossAmount, StatementTable.TotalDiscountAmount = SalesJournalSummary.TotalDiscountAmount, StatementTable.TotalReturnAmount = SalesJournalSummary.TotalReturnAmount, StatementTable.TotalCreditAmount = SalesJournalSummary.TotalCreditAmount, StatementTable.TotalCashReceiptAmount = SalesJournalSummary.TotalCashReceiptAmount, StatementTable.TotalBankTransferAmount = SalesJournalSummary.TotalBankTransferAmount, StatementTable.TotalCashDiscount = SalesJournalSummary.TotalCashDiscount, StatementTable.TotalFluctuationAmount = SalesJournalSummary.TotalFluctuationAmount, StatementTable.EndingAmount = SalesJournalSummary.EndingAmount, StatementTable.EndingAmountInWords = dbo.SayVND(SalesJournalSummary.EndingAmount) " + "\r\n";
             queryString = queryString + "       FROM            @StatementTable StatementTable " + "\r\n";
-            queryString = queryString + "                       INNER JOIN (SELECT          CustomerID, SUM(BeginningAmount) AS BeginningAmount, SUM(TotalListedGrossAmount) AS TotalListedGrossAmount, SUM(TotalGrossAmount) AS TotalGrossAmount, SUM(TotalDiscountAmount) AS TotalDiscountAmount, SUM(TotalReturnAmount) AS TotalReturnAmount, SUM(TotalCreditAmount) AS TotalCreditAmount, SUM(TotalCashReceiptAmount) AS TotalCashReceiptAmount, SUM(TotalBankTransferAmount) AS TotalBankTransferAmount, SUM(TotalCashDiscount) AS TotalCashDiscount, SUM(TotalFluctuationAmount) AS TotalFluctuationAmount " + "\r\n";
+            queryString = queryString + "                       INNER JOIN (SELECT          CustomerID, SUM(BeginningAmount) AS BeginningAmount, SUM(TotalListedGrossAmount) AS TotalListedGrossAmount, SUM(TotalGrossAmount) AS TotalGrossAmount, SUM(TotalDiscountAmount) AS TotalDiscountAmount, SUM(TotalReturnAmount) AS TotalReturnAmount, SUM(TotalCreditAmount) AS TotalCreditAmount, SUM(TotalCashReceiptAmount) AS TotalCashReceiptAmount, SUM(TotalBankTransferAmount) AS TotalBankTransferAmount, SUM(TotalCashDiscount) AS TotalCashDiscount, SUM(TotalFluctuationAmount) AS TotalFluctuationAmount, SUM(EndingAmount) AS EndingAmount " + "\r\n";
             queryString = queryString + "                                   FROM            @SalesJournalTable " + "\r\n";
             queryString = queryString + "                                   GROUP BY        CustomerID) SalesJournalSummary ON StatementTable.CustomerID = SalesJournalSummary.CustomerID" + "\r\n";
 
