@@ -29,13 +29,13 @@ namespace TotalDAL.Repositories.Sales
             saleReports.RestoreProcedure();
 
 
-            return;
+            //return;
 
 
             Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
             deliveryAdvice.RestoreProcedure();
 
-            return;
+            //return;
 
             //AccountInvoice: NOT CHECK FOR Approved COMMPLETELY, PLS CHECK IT CAREFULLY LATER. (SaveRelative, GetPendingGoodsIssueDetails, ...). ALSO DO THE SAME CHECK FOR ALL OTHER MODULES
             //AccountInvoice: SHOULD SAVE BillingAddress
@@ -44,14 +44,14 @@ namespace TotalDAL.Repositories.Sales
             accountInvoice.RestoreProcedure();
 
 
-            return;
+            //return;
 
             Helpers.SqlProgrammability.Accounts.CreditNote creditNote = new Helpers.SqlProgrammability.Accounts.CreditNote(totalSalesPortalEntities);
             creditNote.RestoreProcedure();
 
 
 
-            return;
+            //return;
 
             Helpers.SqlProgrammability.Accounts.Receipt receipt = new Helpers.SqlProgrammability.Accounts.Receipt(totalSalesPortalEntities);
             receipt.RestoreProcedure();
@@ -61,22 +61,22 @@ namespace TotalDAL.Repositories.Sales
 
             
 
-            return;
+            //return;
 
             Helpers.SqlProgrammability.Sales.SalesReturn salesReturn = new Helpers.SqlProgrammability.Sales.SalesReturn(totalSalesPortalEntities);
             salesReturn.RestoreProcedure();
 
-            return;
+            //return;
 
 
             
-            return;
+            //return;
 
             Helpers.SqlProgrammability.Inventories.GoodsIssue goodsIssue = new Helpers.SqlProgrammability.Inventories.GoodsIssue(totalSalesPortalEntities);
             goodsIssue.RestoreProcedure();
 
 
-            return;
+            //return;
 
             Helpers.SqlProgrammability.Sales.SalesOrder salesOrder = new Helpers.SqlProgrammability.Sales.SalesOrder(totalSalesPortalEntities);
             salesOrder.RestoreProcedure();
@@ -88,21 +88,21 @@ namespace TotalDAL.Repositories.Sales
             
 
 
-            return;
+            //return;
 
             Helpers.SqlProgrammability.Inventories.HandlingUnit handlingUnit = new Helpers.SqlProgrammability.Inventories.HandlingUnit(totalSalesPortalEntities);
             handlingUnit.RestoreProcedure();
 
 
 
-            return;
+            //return;
             Helpers.SqlProgrammability.Inventories.Inventories inventories = new Helpers.SqlProgrammability.Inventories.Inventories(totalSalesPortalEntities);
             inventories.RestoreProcedure();
 
 
 
 
-            return;
+            //return;
 
 
             Helpers.SqlProgrammability.Commons.Commons commons = new Helpers.SqlProgrammability.Commons.Commons(totalSalesPortalEntities);
