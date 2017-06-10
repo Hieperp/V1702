@@ -16,7 +16,7 @@
     @Html.HiddenFor(model => model.Salesperson.Name);
 
 
-    <div id="searchCustomer-div">
+    <div id="searchCustomer-div" style="margin-top: 30px">
         @Html.EditorFor(d => d.Customer, "AutoCompletes/CustomerBase", new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Customer) })
     </div>
 
