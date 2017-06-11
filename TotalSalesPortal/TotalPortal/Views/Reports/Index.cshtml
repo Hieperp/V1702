@@ -4,7 +4,7 @@
 
     @{int reportGroupID = -1;}
 
-    @foreach (TotalModel.Models.Report report in Model.OrderBy(a => a.ReportGroupID))
+    @foreach (TotalModel.Models.Report report in Model.OrderBy(a => a.ReportGroupID).ThenBy(o => o.SerialID))
     {
         if (reportGroupID != report.ReportGroupID)
         {

@@ -62,7 +62,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
             string queryString = " @LocationID int " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
-            queryString = queryString + "       SELECT          TOP 1000 GoodsIssues.GoodsIssueID, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.EntryDate AS GoodsIssueEntryDate, GoodsIssues.TotalGrossAmount, ROUND(GoodsIssues.TotalGrossAmount - GoodsIssues.TotalReceiptAmount - GoodsIssues.TotalCashDiscount, " + (int)GlobalEnums.rndAmount + ") AS AmountDue, GoodsIssues.Description, GoodsIssues.Remarks, " + "\r\n";
+            queryString = queryString + "       SELECT          GoodsIssues.GoodsIssueID, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.EntryDate AS GoodsIssueEntryDate, GoodsIssues.TotalGrossAmount, ROUND(GoodsIssues.TotalGrossAmount - GoodsIssues.TotalReceiptAmount - GoodsIssues.TotalCashDiscount, " + (int)GlobalEnums.rndAmount + ") AS AmountDue, GoodsIssues.Description, GoodsIssues.Remarks, " + "\r\n";
             queryString = queryString + "                       GoodsIssues.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.VATCode AS CustomerVATCode, Customers.AttentionName AS CustomerAttentionName, Customers.Telephone AS CustomerTelephone, Customers.BillingAddress AS CustomerBillingAddress, EntireTerritories.EntireName AS CustomerEntireTerritoryEntireName, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, CASE WHEN Customers.MonetaryAccountID IS NULL THEN CustomerCategories.MonetaryAccountID ELSE Customers.MonetaryAccountID END AS MonetaryAccountID " + "\r\n";
 
             queryString = queryString + "       FROM            GoodsIssues " + "\r\n";
@@ -250,10 +250,27 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
 
         private void ReceiptPostSaveValidate()
         {
-            string[] queryArray = new string[2]; //Just check validate for detail only. When Apply to credit: It will be checked while SaveRelative. See ReceiptSaveRelative for more detail.
+            string[] queryArray = new string[4]; //Just check validate for detail only. When Apply to credit: It will be checked while SaveRelative. See ReceiptSaveRelative for more detail.
 
-            queryArray[0] = " SELECT TOP 1 @FoundEntity = 'D.A Date: ' + CAST(GoodsIssues.EntryDate AS nvarchar) FROM ReceiptDetails INNER JOIN GoodsIssues ON ReceiptDetails.ReceiptID = @EntityID AND ReceiptDetails.GoodsIssueID = GoodsIssues.GoodsIssueID AND ReceiptDetails.EntryDate < GoodsIssues.EntryDate ";
-            queryArray[1] = " SELECT TOP 1 @FoundEntity = 'Over amount due: ' + Reference + ': ' + CAST(ROUND(TotalGrossAmount - TotalReceiptAmount - TotalCashDiscount, " + (int)GlobalEnums.rndAmount + ") AS nvarchar) FROM GoodsIssues WHERE (ROUND(TotalGrossAmount - TotalReceiptAmount - TotalCashDiscount, " + (int)GlobalEnums.rndAmount + ") < 0) ";
+            queryArray[0] = " SELECT TOP 1 @FoundEntity = N'Ngày PXK: ' + CAST(GoodsIssues.EntryDate AS nvarchar) FROM ReceiptDetails INNER JOIN GoodsIssues ON ReceiptDetails.ReceiptID = @EntityID AND ReceiptDetails.GoodsIssueID = GoodsIssues.GoodsIssueID AND ReceiptDetails.EntryDate < GoodsIssues.EntryDate ";
+            queryArray[1] = " SELECT TOP 1 @FoundEntity = N'Số tiền cấn trừ vượt quá số phải thu: (PXK: ' + Reference + '): ' + CAST(ROUND(TotalGrossAmount - TotalReceiptAmount - TotalCashDiscount, " + (int)GlobalEnums.rndAmount + ") AS nvarchar) FROM GoodsIssues WHERE (ROUND(TotalGrossAmount - TotalReceiptAmount - TotalCashDiscount, " + (int)GlobalEnums.rndAmount + ") < 0) ";
+
+            queryArray[2] = "                 DECLARE   @AdvanceReceiptID Int, @SalesReturnID Int, @CreditNoteID Int            DECLARE @EntryDate Datetime " + "\r\n";
+            queryArray[2] = queryArray[2] + " SELECT TOP 1 @AdvanceReceiptID = AdvanceReceiptID, @SalesReturnID = SalesReturnID, @CreditNoteID = CreditNoteID, @EntryDate = EntryDate FROM Receipts WHERE ReceiptID = @EntityID " + "\r\n";
+            
+            queryArray[2] = queryArray[2] + " IF (@AdvanceReceiptID > 0) " + "\r\n";
+            queryArray[2] = queryArray[2] + "       SELECT TOP 1 @FoundEntity = N'Ngày thanh toán: ' + CAST(EntryDate AS nvarchar) FROM Receipts WHERE ReceiptID = @AdvanceReceiptID AND EntryDate > @EntryDate " + "\r\n";
+            queryArray[2] = queryArray[2] + " IF (@SalesReturnID > 0) " + "\r\n";
+            queryArray[2] = queryArray[2] + "       SELECT TOP 1 @FoundEntity = N'Ngày trả hàng: ' + CAST(EntryDate AS nvarchar) FROM SalesReturns WHERE SalesReturnID = @SalesReturnID AND EntryDate > @EntryDate " + "\r\n";
+            queryArray[2] = queryArray[2] + " IF (@CreditNoteID > 0) " + "\r\n";
+            queryArray[2] = queryArray[2] + "       SELECT TOP 1 @FoundEntity = N'Ngày chiết khấu: ' + CAST(EntryDate AS nvarchar) FROM CreditNotes WHERE CreditNoteID = @CreditNoteID AND EntryDate > @EntryDate " + "\r\n";
+
+            queryArray[3] = "                 IF (@AdvanceReceiptID > 0) " + "\r\n";
+            queryArray[3] = queryArray[3] + "       SELECT TOP 1 @FoundEntity = N'Số tiền cấn trừ vượt quá số tiền thanh toán: ' + CAST(ROUND(TotalDepositAmount - TotalReceiptAmount - TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") AS nvarchar) FROM Receipts WHERE ReceiptID = @AdvanceReceiptID AND ROUND(TotalDepositAmount - TotalReceiptAmount - TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") < 0 " + "\r\n";
+            queryArray[3] = queryArray[3] + " IF (@SalesReturnID > 0) " + "\r\n";
+            queryArray[3] = queryArray[3] + "       SELECT TOP 1 @FoundEntity = N'Số tiền cấn trừ vượt quá số tiền trả hàng: ' + CAST(ROUND(TotalGrossAmount - TotalReceiptAmount - TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") AS nvarchar) FROM SalesReturns WHERE SalesReturnID = @SalesReturnID AND ROUND(TotalGrossAmount - TotalReceiptAmount - TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") < 0 " + "\r\n";
+            queryArray[3] = queryArray[3] + " IF (@CreditNoteID > 0) " + "\r\n";
+            queryArray[3] = queryArray[3] + "       SELECT TOP 1 @FoundEntity = N'Số tiền cấn trừ vượt quá số tiền chiết khấu: ' + CAST(ROUND(TotalGrossAmount - TotalReceiptAmount - TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") AS nvarchar) FROM CreditNotes WHERE CreditNoteID = @CreditNoteID AND ROUND(TotalGrossAmount - TotalReceiptAmount - TotalFluctuationAmount, " + (int)GlobalEnums.rndAmount + ") < 0 " + "\r\n";
 
             this.totalSalesPortalEntities.CreateProcedureToCheckExisting("ReceiptPostSaveValidate", queryArray);
         }

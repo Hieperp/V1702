@@ -817,6 +817,7 @@
           <Property Name="ReportName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="ReportURL" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="ReportTypeID" Type="int" Nullable="false" />
+          <Property Name="SerialID" Type="int" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="SalesOrderDetails">
@@ -6423,6 +6424,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="ReportURL" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ReportTypeID" Type="Int32" Nullable="false" />
           <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SerialID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="SalesOrder">
           <Key>
@@ -9058,6 +9060,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="Reports">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.Report">
               <MappingFragment StoreEntitySet="Reports">
+                <ScalarProperty Name="SerialID" ColumnName="SerialID" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="ReportTypeID" ColumnName="ReportTypeID" />
                 <ScalarProperty Name="ReportURL" ColumnName="ReportURL" />
