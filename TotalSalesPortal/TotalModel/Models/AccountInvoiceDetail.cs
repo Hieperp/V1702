@@ -46,6 +46,7 @@ namespace TotalModel.Models
         public bool InActive { get; set; }
         public bool VATbyRow { get; set; }
         public decimal TradeDiscountRate { get; set; }
+        public System.DateTime VATInvoiceDate { get; set; }
     
         public virtual AccountInvoice AccountInvoice { get; set; }
         public virtual GoodsIssueDetail GoodsIssueDetail { get; set; }

@@ -46,5 +46,8 @@ namespace TotalDTO.Accounts
         public override decimal DiscountPercent { get; set; }
         [UIHint("DecimalReadonly")]
         public override decimal UnitPrice { get; set; }
+
+
+        public Nullable<System.DateTime> VATInvoiceDate { get; set; }
     }
 }

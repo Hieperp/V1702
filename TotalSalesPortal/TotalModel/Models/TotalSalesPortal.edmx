@@ -29,6 +29,7 @@
           </Key>
           <Property Name="AccountInvoiceDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EntryDate" Type="datetime" Nullable="false" />
+          <Property Name="VATInvoiceDate" Type="datetime" Nullable="false" />
           <Property Name="LocationID" Type="int" Nullable="false" />
           <Property Name="AccountInvoiceID" Type="int" Nullable="false" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
@@ -67,6 +68,9 @@
           <Property Name="AccountInvoiceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EntryDate" Type="datetime" Nullable="false" />
           <Property Name="Reference" Type="nvarchar" MaxLength="10" />
+          <Property Name="VATInvoiceNo" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="VATInvoiceDate" Type="datetime" Nullable="false" />
+          <Property Name="VATInvoiceSeries" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="ConsumerID" Type="int" />
           <Property Name="ReceiverID" Type="int" />
@@ -95,9 +99,6 @@
           <Property Name="TotalListedGrossAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalGrossAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="AverageDiscountPercent" Type="decimal" Precision="18" Scale="5" Nullable="false" />
-          <Property Name="VATInvoiceNo" Type="nvarchar" MaxLength="60" Nullable="false" />
-          <Property Name="VATInvoiceDate" Type="datetime" Nullable="false" />
-          <Property Name="VATInvoiceSeries" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="100" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -4833,6 +4834,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="InActive" Type="Boolean" Nullable="false" />
           <Property Name="VATbyRow" Type="Boolean" Nullable="false" />
           <Property Name="TradeDiscountRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="VATInvoiceDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="AccountInvoice">
           <Key>
@@ -8172,6 +8174,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="AccountInvoiceDetails">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.AccountInvoiceDetail">
               <MappingFragment StoreEntitySet="AccountInvoiceDetails">
+                <ScalarProperty Name="VATInvoiceDate" ColumnName="VATInvoiceDate" />
                 <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
                 <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
                 <ScalarProperty Name="InActive" ColumnName="InActive" />

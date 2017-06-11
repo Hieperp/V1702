@@ -49,7 +49,7 @@ namespace TotalDTO.Accounts
             base.PerformPresaveRule();
 
             int goodsIssueFirstID = 0; string goodsIssueReferences = ""; int i = 0;
-            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; if ((e.Quantity != 0 || e.FreeQuantity != 0) && (goodsIssueFirstID == 0 || goodsIssueFirstID > e.GoodsIssueID)) goodsIssueFirstID = e.GoodsIssueID; if ((e.Quantity != 0 || e.FreeQuantity != 0) && i <= 6 && goodsIssueReferences.IndexOf(e.GoodsIssueReference) < 0) goodsIssueReferences = goodsIssueReferences + (goodsIssueReferences != "" ? ", " : "") + (i++ < 6 ? e.GoodsIssueReference : "..."); });
+            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; e.VATInvoiceDate = this.VATInvoiceDate; if ((e.Quantity != 0 || e.FreeQuantity != 0) && (goodsIssueFirstID == 0 || goodsIssueFirstID > e.GoodsIssueID)) goodsIssueFirstID = e.GoodsIssueID; if ((e.Quantity != 0 || e.FreeQuantity != 0) && i <= 6 && goodsIssueReferences.IndexOf(e.GoodsIssueReference) < 0) goodsIssueReferences = goodsIssueReferences + (goodsIssueReferences != "" ? ", " : "") + (i++ < 6 ? e.GoodsIssueReference : "..."); });
             this.GoodsIssueFirstID = goodsIssueFirstID; this.GoodsIssueReferences = goodsIssueReferences;
         }
     }
