@@ -43,6 +43,9 @@
                 filters: [
                     { field: "GoodsIssueReference", operator: "contains", value: pendingGoodsIssueFilter },
 
+                    { field: "CustomerCode", operator: "contains", value: pendingGoodsIssueFilter },
+                    { field: "CustomerName", operator: "contains", value: pendingGoodsIssueFilter },
+
                     { field: "ReceiverCode", operator: "contains", value: pendingGoodsIssueFilter },
                     { field: "ReceiverName", operator: "contains", value: pendingGoodsIssueFilter },
                     { field: "ReceiverVATCode", operator: "contains", value: pendingGoodsIssueFilter },

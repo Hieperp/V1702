@@ -58,15 +58,22 @@
 
             @if (Model.ReceiverID != null && Model.ReceiverID > 0)
             {
-                @Html.EditorFor(d => d.Receiver, new { CustomerDescriptionHidden = "true", CustomerDisplayName = @Model.GetDisplayName(m => m.Receiver), CustomerIcon = "Customer Red 24.png"})}
+                @Html.EditorFor(d => d.Receiver, new { CustomerDescriptionHidden = "true", CustomerDisplayName = @Model.GetDisplayName(m => m.Receiver), CustomerIcon = "Customer Red 24.png"})
+
+                <div style="float: right; margin-top: -70px; " title="Khách hàng">
+                    @Html.DisplayFor(d => d.Consumer, "Commons/CustomerBox")
+                </div>
+            }
             else
             {
                 @Html.EditorFor(d => d.Consumer, new { CustomerDescriptionHidden = "true", CustomerDisplayName = @Model.GetDisplayName(m => m.Consumer), NullCustomer = (Model.ConsumerID > 0 ? null : "Xuất HĐ từ dữ liệu bán hàng tổng hợp của nhiều khách hàng") })}
 
-
-            <div style="float: right; margin-top: -70px; " title="Phiếu xuất kho">
-                @Html.DisplayFor(d => d.GoodsIssue)
-            </div>
+            @if (Model.GoodsIssueID != null && Model.GoodsIssueID > 0)
+            {
+                <div style="float: right; margin-top: -70px; " title="Phiếu xuất kho">
+                    @Html.DisplayFor(d => d.GoodsIssue)
+                </div>
+            }
         </div>
 
         <div class="div-k-grid-detail">

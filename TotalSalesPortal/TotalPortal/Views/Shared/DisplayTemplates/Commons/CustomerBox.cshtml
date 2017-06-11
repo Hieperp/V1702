@@ -1,0 +1,31 @@
+﻿@model TotalDTO.Commons.ICustomerBaseDTO
+
+@Html.HiddenFor(model => model.CustomerID)
+
+@if (@Model != null && @Model.CustomerID != null && @Model.Code != null && @Model.Code != "")
+{
+    <div id="show-CustomerBox">
+        <div style="margin-top: 12px;"> @Html.DisplayFor(m => m.Code) </div>
+        <div> @Html.DisplayFor(m => m.Name) </div>
+    </div>
+}
+
+<div style="display: none;">
+    @Html.Partial("~/Views/Helpers/Commons/_CustomerDescription.cshtml")
+</div>
+
+
+<style>
+    #show-CustomerBox {
+        width: 143px;
+        height: 100px;
+        padding: 4px;
+        border-style: dotted;
+        border-color: rgb(103, 175, 233);
+        border-width: 1px;
+        border-radius: 10em 0 5em 2em;
+        box-shadow: 0 0 4px 4px rgb(184, 216, 236);
+        background-color: burlywood;
+        text-align: center;
+    }
+</style>

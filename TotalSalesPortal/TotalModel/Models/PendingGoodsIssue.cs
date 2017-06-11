@@ -31,5 +31,8 @@ namespace TotalModel.Models
         public string GoodsIssueCustomerName { get; set; }
         public decimal VATPercent { get; set; }
         public decimal TradeDiscountRate { get; set; }
+        public int CustomerID { get; set; }
+        public string CustomerCode { get; set; }
+        public string CustomerName { get; set; }
     }
 }

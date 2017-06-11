@@ -84,16 +84,13 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
 
 
 
-
-
         private void GetPendingGoodsIssues()
         {
             string queryString = " @LocationID int " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
-            queryString = queryString + "       SELECT          Receivers.CustomerID AS ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Receivers.VATCode AS ReceiverVATCode, Receivers.AttentionName AS ReceiverAttentionName, Receivers.Telephone AS ReceiverTelephone, Receivers.BillingAddress AS ReceiverBillingAddress, ReceiverEntireTerritories.EntireName AS ReceiverEntireTerritoryEntireName, " + "\r\n";
-            queryString = queryString + "                       GoodsIssues.GoodsIssueID, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.EntryDate AS GoodsIssueEntryDate, GoodsIssues.PaymentTermID, GoodsIssues.TradeDiscountRate, GoodsIssues.VATPercent, GoodsIssues.Description, GoodsIssues.Remarks, " + "\r\n";
-            queryString = queryString + "                       Customers.Code AS GoodsIssueCustomerCode, Customers.Name AS GoodsIssueCustomerName " + "\r\n";
+            queryString = queryString + "       SELECT          GoodsIssues.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Receivers.CustomerID AS ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Receivers.VATCode AS ReceiverVATCode, Receivers.AttentionName AS ReceiverAttentionName, Receivers.Telephone AS ReceiverTelephone, Receivers.BillingAddress AS ReceiverBillingAddress, ReceiverEntireTerritories.EntireName AS ReceiverEntireTerritoryEntireName, " + "\r\n";
+            queryString = queryString + "                       GoodsIssues.GoodsIssueID, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.EntryDate AS GoodsIssueEntryDate, Customers.Code AS GoodsIssueCustomerCode, Customers.Name AS GoodsIssueCustomerName, GoodsIssues.PaymentTermID, GoodsIssues.TradeDiscountRate, GoodsIssues.VATPercent, GoodsIssues.Description, GoodsIssues.Remarks " + "\r\n";            
 
             queryString = queryString + "       FROM            GoodsIssues " + "\r\n";
             queryString = queryString + "                       INNER JOIN Customers ON GoodsIssues.GoodsIssueID IN (SELECT GoodsIssueID FROM GoodsIssueDetails WHERE Approved = 1 AND LocationID = @LocationID AND EntryDate > DATEADD(day, -30, GetDate()) AND ROUND(Quantity - QuantityInvoice, " + (int)GlobalEnums.rndQuantity + ") > 0 OR ROUND(FreeQuantity - FreeQuantityInvoice, " + (int)GlobalEnums.rndQuantity + ") > 0) AND GoodsIssues.CustomerID = Customers.CustomerID " + "\r\n";
@@ -126,16 +123,23 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
-            queryString = queryString + "       SELECT          Receivers.CustomerID AS ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Receivers.VATCode AS ReceiverVATCode, Receivers.AttentionName AS ReceiverAttentionName, Receivers.Telephone AS ReceiverTelephone, Receivers.BillingAddress AS ReceiverBillingAddress, ReceiverEntireTerritories.EntireName AS ReceiverEntireTerritoryEntireName, ReceiverCategories.PaymentTermID, PENDINGReceivers.TradeDiscountRate, PENDINGReceivers.VATPercent " + "\r\n";
+            queryString = queryString + "       SELECT          PENDINGReceivers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, PENDINGReceivers.ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Receivers.VATCode AS ReceiverVATCode, Receivers.AttentionName AS ReceiverAttentionName, Receivers.Telephone AS ReceiverTelephone, Receivers.BillingAddress AS ReceiverBillingAddress, ReceiverEntireTerritories.EntireName AS ReceiverEntireTerritoryEntireName, ReceiverCategories.PaymentTermID, PENDINGReceivers.TradeDiscountRate, PENDINGReceivers.VATPercent " + "\r\n";
 
-            queryString = queryString + "       FROM            Customers Receivers " + "\r\n";
-            queryString = queryString + "                       INNER JOIN (SELECT DISTINCT ReceiverID, TradeDiscountRate, " + (GlobalEnums.VATbyRow ? "0.0 AS" : "") + " VATPercent FROM GoodsIssueDetails WHERE LocationID = @LocationID AND Approved = 1 AND (ROUND(Quantity - QuantityInvoice, " + (int)GlobalEnums.rndQuantity + ") > 0 OR ROUND(FreeQuantity - FreeQuantityInvoice, " + (int)GlobalEnums.rndQuantity + ") > 0)) PENDINGReceivers ON Receivers.CustomerID = PENDINGReceivers.ReceiverID " + "\r\n";
+            queryString = queryString + "       FROM            Customers " + "\r\n";
+            queryString = queryString + "                       INNER JOIN (SELECT DISTINCT CustomerID, ReceiverID, TradeDiscountRate, " + (GlobalEnums.VATbyRow ? "0.0 AS" : "") + " VATPercent FROM GoodsIssueDetails WHERE LocationID = @LocationID AND Approved = 1 AND (ROUND(Quantity - QuantityInvoice, " + (int)GlobalEnums.rndQuantity + ") > 0 OR ROUND(FreeQuantity - FreeQuantityInvoice, " + (int)GlobalEnums.rndQuantity + ") > 0)) PENDINGReceivers ON Customers.CustomerID = PENDINGReceivers.CustomerID " + "\r\n";
+            queryString = queryString + "                       INNER JOIN Customers Receivers ON PENDINGReceivers.ReceiverID = Receivers.CustomerID " + "\r\n";
             queryString = queryString + "                       INNER JOIN EntireTerritories ReceiverEntireTerritories ON Receivers.TerritoryID = ReceiverEntireTerritories.TerritoryID " + "\r\n";
             queryString = queryString + "                       INNER JOIN CustomerCategories ReceiverCategories ON Receivers.CustomerCategoryID = ReceiverCategories.CustomerCategoryID " + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetPendingGoodsIssueReceivers", queryString);
         }
 
+
+        //WE HAVE 3 OPTIONS TO FILTER GoodsIssues TO ISSUE INVOICE: GetPendingGoodsIssues, GetPendingGoodsIssueConsumers, GetPendingGoodsIssueReceivers
+        //ALL OF THESE 3 OPTIONS: WE ALWAYS HAVE A SPECIFIC CustomerID. THIS MEANS: 
+        //+GetPendingGoodsIssues: WE CAN ISSUE INVOICE FOR A SPECIFIC GOODSISSUE (OF THE SELECTED CUSTOMER)
+        //+GetPendingGoodsIssueConsumers: WE CAN ISSUE INVOICE FOR A SPECIFIC CUSTOMER (COMBINE MULTI GOODSISSUES OF THE SELECTED CUSTOMER)
+        //+GetPendingGoodsIssueReceivers: WE CAN ISSUE INVOICE FOR A SPECIFIC CUSTOMER WITH A SPECIFIC RECEIVER (COMBINE MULTI GOODSISSUES OF THE SELECTED CUSTOMER AND THE SELECTED RECEIVER)
         private void GetPendingGoodsIssueDetails()
         {
             string queryString;
@@ -159,7 +163,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
         {
             string queryString = "";
             queryString = queryString + "   BEGIN " + "\r\n";
-            queryString = queryString + "       IF  (@CustomerID <> 0) " + "\r\n";
+            queryString = queryString + "       IF  (@CustomerID <> 0 AND @ReceiverID IS NULL) " + "\r\n";
             queryString = queryString + "           " + this.GetPGIDsBuildSQLGoodsIssueCustomer(isGoodsIssueID, true) + "\r\n";
             queryString = queryString + "       ELSE " + "\r\n";
             queryString = queryString + "           " + this.GetPGIDsBuildSQLGoodsIssueCustomer(isGoodsIssueID, false) + "\r\n";
@@ -172,7 +176,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
         {
             string queryString = "";
             queryString = queryString + "   BEGIN " + "\r\n";
-            queryString = queryString + "       IF  (@ReceiverID <> 0) " + "\r\n";
+            queryString = queryString + "       IF  (@CustomerID <> 0 AND @ReceiverID <> 0) " + "\r\n";
             queryString = queryString + "           " + this.GetPGIDsBuildSQLGoodsIssueReceiver(isGoodsIssueID, isCustomerID, true) + "\r\n";
             queryString = queryString + "       ELSE " + "\r\n";
             queryString = queryString + "           " + this.GetPGIDsBuildSQLGoodsIssueReceiver(isGoodsIssueID, isCustomerID, false) + "\r\n";
@@ -247,7 +251,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
             queryString = queryString + "                   0.0 AS Quantity, 0.0 AS FreeQuantity, GoodsIssueDetails.ListedPrice, GoodsIssueDetails.DiscountPercent, GoodsIssueDetails.UnitPrice, GoodsIssueDetails.TradeDiscountRate, GoodsIssueDetails.VATPercent, GoodsIssueDetails.ListedGrossPrice, GoodsIssueDetails.GrossPrice, 0.0 AS ListedAmount, 0.0 AS Amount, 0.0 AS ListedVATAmount, 0.0 AS VATAmount, 0.0 AS ListedGrossAmount, 0.0 AS GrossAmount, GoodsIssueDetails.IsBonus, CAST(1 AS bit) AS IsSelected " + "\r\n";
 
             queryString = queryString + "       FROM        GoodsIssueDetails " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Commodities ON " + (isGoodsIssueID ? " GoodsIssueDetails.GoodsIssueID = @GoodsIssueID " : "") + (!isGoodsIssueID && isCustomerID ? " GoodsIssueDetails.CustomerID = @CustomerID " : "") + (!isGoodsIssueID && !isCustomerID && isReceiverID ? " GoodsIssueDetails.ReceiverID = @ReceiverID " : "") + (!isGoodsIssueID && !isCustomerID && !isReceiverID ? " GoodsIssueDetails.GoodsIssueID IN (SELECT GoodsIssueID FROM GoodsIssues WHERE EntryDate >= @FromDate AND EntryDate <= @ToDate AND LocationID = @LocationID AND OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)TotalBase.Enums.GlobalEnums.NmvnTaskID.GoodsIssue + " AND AccessControls.AccessLevel = 2)) " : "") + (!isGoodsIssueID ? " AND GoodsIssueDetails.TradeDiscountRate = @TradeDiscountRate " : "") + (!GlobalEnums.VATbyRow && !isGoodsIssueID ? " AND GoodsIssueDetails.VATPercent = @VATPercent " : "") + " AND (ROUND(GoodsIssueDetails.Quantity - GoodsIssueDetails.QuantityInvoice, 0) > 0 OR ROUND(GoodsIssueDetails.FreeQuantity - GoodsIssueDetails.FreeQuantityInvoice, 0) > 0) AND GoodsIssueDetails.CommodityID = Commodities.CommodityID AND GoodsIssueDetails.Approved = 1 AND Commodities.IsRegularCheckUps = 0 " + (isCommodityTypeID ? " AND Commodities.CommodityTypeID = @CommodityTypeID" : "") + (isGoodsIssueDetailIDs ? " AND GoodsIssueDetails.GoodsIssueDetailID NOT IN (SELECT Id FROM dbo.SplitToIntList (@GoodsIssueDetailIDs))" : "") + "\r\n";
+            queryString = queryString + "                   INNER JOIN Commodities ON " + (isGoodsIssueID ? " GoodsIssueDetails.GoodsIssueID = @GoodsIssueID " : "") + (!isGoodsIssueID && isCustomerID ? " GoodsIssueDetails.CustomerID = @CustomerID " : "") + (!isGoodsIssueID && !isCustomerID && isReceiverID ? " GoodsIssueDetails.CustomerID = @CustomerID AND GoodsIssueDetails.ReceiverID = @ReceiverID " : "") + (!isGoodsIssueID && !isCustomerID && !isReceiverID ? " GoodsIssueDetails.GoodsIssueID IN (SELECT GoodsIssueID FROM GoodsIssues WHERE EntryDate >= @FromDate AND EntryDate <= @ToDate AND LocationID = @LocationID AND OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)TotalBase.Enums.GlobalEnums.NmvnTaskID.GoodsIssue + " AND AccessControls.AccessLevel = 2)) " : "") + (!isGoodsIssueID ? " AND GoodsIssueDetails.TradeDiscountRate = @TradeDiscountRate " : "") + (!GlobalEnums.VATbyRow && !isGoodsIssueID ? " AND GoodsIssueDetails.VATPercent = @VATPercent " : "") + " AND (ROUND(GoodsIssueDetails.Quantity - GoodsIssueDetails.QuantityInvoice, 0) > 0 OR ROUND(GoodsIssueDetails.FreeQuantity - GoodsIssueDetails.FreeQuantityInvoice, 0) > 0) AND GoodsIssueDetails.CommodityID = Commodities.CommodityID AND GoodsIssueDetails.Approved = 1 AND Commodities.IsRegularCheckUps = 0 " + (isCommodityTypeID ? " AND Commodities.CommodityTypeID = @CommodityTypeID" : "") + (isGoodsIssueDetailIDs ? " AND GoodsIssueDetails.GoodsIssueDetailID NOT IN (SELECT Id FROM dbo.SplitToIntList (@GoodsIssueDetailIDs))" : "") + "\r\n";
             queryString = queryString + "                   INNER JOIN Customers ON GoodsIssueDetails.CustomerID = Customers.CustomerID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Customers Receivers ON GoodsIssueDetails.ReceiverID = Receivers.CustomerID " + "\r\n";
             queryString = queryString + "                   INNER JOIN GoodsIssues ON GoodsIssueDetails.GoodsIssueID = GoodsIssues.GoodsIssueID " + "\r\n";

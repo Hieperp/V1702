@@ -1882,6 +1882,7 @@
     <Content Include="Views\Shared\DisplayTemplates\Commons\SalesReturnBox.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Commons\CreditNoteBox.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AutoCompletes\CommodityBase.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Commons\CustomerBox.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
