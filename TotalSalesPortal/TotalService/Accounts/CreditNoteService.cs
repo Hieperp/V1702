@@ -11,11 +11,5 @@ namespace TotalService.Accounts
             : base(creditNoteRepository, "CreditNotePostSaveValidate", "CreditNoteSaveRelative", "CreditNoteToggleApproved")
         {
         }
-
-        public override bool Save(CreditNoteDTO creditNoteDTO)
-        {
-            creditNoteDTO.CreditNoteDetails.RemoveAll(x => x.Quantity == 0 || x.UnitPrice == 0 || x.Amount == 0);
-            return base.Save(creditNoteDTO);
-        }
     }
 }
