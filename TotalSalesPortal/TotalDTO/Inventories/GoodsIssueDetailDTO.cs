@@ -27,6 +27,7 @@ namespace TotalDTO.Inventories
         {
             foreach (var result in base.Validate(validationContext)) { yield return result; }
 
+            if (this.Quantity > this.QuantityRemains || this.FreeQuantity > this.FreeQuantityRemains) yield return new ValidationResult("Số lượng xuất không được lớn hơn số lượng còn lại [" + this.CommodityName + "]", new[] { "Quantity" });
             if ((this.Quantity != this.QuantityRemains || this.FreeQuantity != this.FreeQuantityRemains) && this.VoidTypeID == null) yield return new ValidationResult("Vui lòng chọn lý do không xuất kho [" + this.CommodityName + "]", new[] { "VoidTypeName" });
         }
 

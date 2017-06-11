@@ -39,7 +39,7 @@ namespace TotalDTO.Inventories
         public override decimal Quantity { get; set; }
 
         [Display(Name = "TL chuẩn (g)")]
-        [UIHint("DecimalReadonly")] 
+        [UIHint("DecimalReadonly")]
         public virtual decimal UnitWeight { get; set; }
 
         [Display(Name = "Trọng lượng")]
@@ -51,7 +51,8 @@ namespace TotalDTO.Inventories
         {
             foreach (var result in base.Validate(validationContext)) { yield return result; }
 
-            if (Math.Round(this.Quantity * this.UnitWeight /1000, GlobalEnums.rndWeight, MidpointRounding.AwayFromZero) != this.Weight) yield return new ValidationResult("Lỗi trọng lượng", new[] { "TotalWeight" });
+            if (Math.Round(this.Quantity * this.UnitWeight / 1000, GlobalEnums.rndWeight, MidpointRounding.AwayFromZero) != this.Weight) yield return new ValidationResult("Lỗi trọng lượng", new[] { "TotalWeight" });
+            if (this.Quantity > this.QuantityRemains) yield return new ValidationResult("Số lượng xuất không được lớn hơn số lượng còn lại [" + this.CommodityName + "]", new[] { "Quantity" });
         }
 
     }

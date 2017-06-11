@@ -104,5 +104,12 @@ namespace TotalDTO.Sales
         
 
         public bool InActiveIssue { get; set; }
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            foreach (var result in base.Validate(validationContext)) { yield return result; }
+
+            if (this.SalesOrderID > 0 && (this.Quantity > this.QuantityRemains || this.FreeQuantity > this.FreeQuantityRemains)) yield return new ValidationResult("Số lượng xuất không được lớn hơn số lượng còn lại [" + this.CommodityName + "]", new[] { "Quantity" });
+        }
     }
 }
