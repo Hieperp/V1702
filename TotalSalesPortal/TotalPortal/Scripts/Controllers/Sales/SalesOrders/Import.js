@@ -42,7 +42,7 @@
         function _getCommoditiesByCode(dataRow, excelRow) {
             return $.ajax({
                 url: window.urlCommoditiesApi,
-                data: JSON.stringify({ "locationID": requireConfig.pageOptions.LocationID, "customerID": $("#Customer_CustomerID").val(), "priceCategoryID": $("#PriceCategoryID").val(), "promotionID": $("#Promotion_PromotionID").val(), "entryDate": $("#EntryDate").data("kendoDateTimePicker").value().toUTCString(), "searchText": excelRow["CommodityCode"] }),
+                data: JSON.stringify({ "locationID": requireConfig.pageOptions.LocationID, "customerID": $("#Customer_CustomerID").val(), "warehouseID": $("#Warehouse_WarehouseID").val(), "priceCategoryID": $("#PriceCategoryID").val(), "promotionID": $("#Promotion_PromotionID").val(), "entryDate": $("#EntryDate").data("kendoDateTimePicker").value().toUTCString(), "searchText": excelRow["CommodityCode"] }),
 
                 type: 'POST',
                 contentType: 'application/json;',
@@ -57,6 +57,7 @@
                         dataRow.set("WarehouseID", result.WarehouseID);
                         dataRow.set("WarehouseCode", result.WarehouseCode);
 
+                        dataRow.set("TradeDiscountRate", $("#VATbyRow").val() == 'True' ? result.TradeDiscountRate : $("#TradeDiscountRate").val());
                         dataRow.set("VATPercent", Math.round(result.VATPercent, 0));
 
                         if (result.ListedPrice > 0) {

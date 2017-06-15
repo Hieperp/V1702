@@ -1006,7 +1006,6 @@
     <Content Include="Scripts\Controllers\Accounts\CreditNotes\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Accounts\CreditNotes\Delete.js" />
     <Content Include="Scripts\Controllers\Accounts\CreditNotes\Edit.js" />
-    <Content Include="Scripts\Controllers\Accounts\CreditNotes\Import.js" />
     <Content Include="Scripts\Controllers\Accounts\CreditNotes\Index.js" />
     <Content Include="Scripts\Controllers\Accounts\CreditNotes\Open.js" />
     <Content Include="Scripts\Controllers\Accounts\CreditNotes\Print.js" />
@@ -1091,7 +1090,6 @@
     <Content Include="Scripts\Controllers\Sales\DeliveryAdvices\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Sales\DeliveryAdvices\Delete.js" />
     <Content Include="Scripts\Controllers\Sales\DeliveryAdvices\Edit.js" />
-    <Content Include="Scripts\Controllers\Sales\DeliveryAdvices\Import.js" />
     <Content Include="Scripts\Controllers\Sales\DeliveryAdvices\Index.js" />
     <Content Include="Scripts\Controllers\Sales\DeliveryAdvices\Open.js" />
     <Content Include="Scripts\Controllers\Sales\DeliveryAdvices\Print.js" />
@@ -1112,7 +1110,6 @@
     <Content Include="Scripts\Controllers\Sales\SalesReturns\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Sales\SalesReturns\Delete.js" />
     <Content Include="Scripts\Controllers\Sales\SalesReturns\Edit.js" />
-    <Content Include="Scripts\Controllers\Sales\SalesReturns\Import.js" />
     <Content Include="Scripts\Controllers\Sales\SalesReturns\Index.js" />
     <Content Include="Scripts\Controllers\Sales\SalesReturns\Open.js" />
     <Content Include="Scripts\Controllers\Sales\SalesReturns\Print.js" />
