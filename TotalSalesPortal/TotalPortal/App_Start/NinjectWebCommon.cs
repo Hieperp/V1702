@@ -151,7 +151,7 @@ namespace TotalPortal.App_Start
                 kernel.Bind<ICustomerService>().To<CustomerService>();
                 kernel.Bind<ICustomerRepository>().To<CustomerRepository>();
                 kernel.Bind<ICustomerAPIRepository>().To<CustomerAPIRepository>();
-                kernel.Bind<ICustomerViewModelSelectListBuilder>().To<CustomerViewModelSelectListBuilder>();
+                kernel.Bind<ICustomerSelectListBuilder>().To<CustomerSelectListBuilder>();
 
 
                 kernel.Bind<IInventoryRepository>().To<InventoryRepository>();
@@ -159,6 +159,10 @@ namespace TotalPortal.App_Start
                 kernel.Bind<IAspNetUserSelectListBuilder>().To<AspNetUserSelectListBuilder>();
                 kernel.Bind<IPaymentTermSelectListBuilder>().To<PaymentTermSelectListBuilder>();
                 kernel.Bind<IMonetaryAccountSelectListBuilder>().To<MonetaryAccountSelectListBuilder>();
+                kernel.Bind<IPriceCategorySelectListBuilder>().To<PriceCategorySelectListBuilder>();
+                kernel.Bind<ICustomerCategorySelectListBuilder>().To<CustomerCategorySelectListBuilder>();
+                kernel.Bind<ICustomerTypeSelectListBuilder>().To<CustomerTypeSelectListBuilder>();
+                kernel.Bind<ITerritorySelectListBuilder>().To<TerritorySelectListBuilder>();                
                 kernel.Bind<IPackingMaterialSelectListBuilder>().To<PackingMaterialSelectListBuilder>();
                 kernel.Bind<IVehicleSelectListBuilder>().To<VehicleSelectListBuilder>();
 
@@ -172,6 +176,10 @@ namespace TotalPortal.App_Start
                 kernel.Bind<IPromotionRepository>().To<PromotionRepository>();
                 kernel.Bind<IPaymentTermRepository>().To<PaymentTermRepository>();
                 kernel.Bind<IMonetaryAccountRepository>().To<MonetaryAccountRepository>();
+                kernel.Bind<IPriceCategoryRepository>().To<PriceCategoryRepository>();
+                kernel.Bind<ICustomerCategoryRepository>().To<CustomerCategoryRepository>();
+                kernel.Bind<ICustomerTypeRepository>().To<CustomerTypeRepository>();
+                kernel.Bind<ITerritoryRepository>().To<TerritoryRepository>();
                 kernel.Bind<IPackingMaterialRepository>().To<PackingMaterialRepository>();
                 kernel.Bind<IVehicleRepository>().To<VehicleRepository>();
 

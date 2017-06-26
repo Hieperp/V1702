@@ -50,8 +50,12 @@
   <ItemGroup>
     <Compile Include="Repositories\Accounts\ICreditNoteRepository.cs" />
     <Compile Include="Repositories\Analysis\IReportRepository.cs" />
+    <Compile Include="Repositories\Commons\ICustomerCategoryRepository.cs" />
+    <Compile Include="Repositories\Commons\ICustomerTypeRepository.cs" />
     <Compile Include="Repositories\Commons\IMonetaryAccountRepository.cs" />
     <Compile Include="Repositories\Commons\IPackingMaterialRepository.cs" />
+    <Compile Include="Repositories\Commons\IPriceCategoryRepository.cs" />
+    <Compile Include="Repositories\Commons\ITerritoryRepository.cs" />
     <Compile Include="Repositories\Commons\IVehicleRepository.cs" />
     <Compile Include="Repositories\Commons\IVoidTypeRepository.cs" />
     <Compile Include="Repositories\Commons\IWarehouseRepository.cs" />

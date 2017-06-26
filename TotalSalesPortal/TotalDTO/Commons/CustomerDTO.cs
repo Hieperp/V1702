@@ -108,6 +108,7 @@ namespace TotalDTO.Commons
         [Display(Name = "Mã nhà cung cấp [siêu thị]")]
         public string VendorCode { get; set; }
         [Display(Name = "Mã ngành NCC [siêu thị]")]
+        [Required(ErrorMessage = "ASAS")]
         public string VendorCategory { get; set; }
 
         [Display(Name = "Tài khoản thanh toán")]
@@ -147,8 +148,8 @@ namespace TotalDTO.Commons
     public class CustomerDTO : CustomerPrimitiveDTO
     {
         public override int SalespersonID { get { return (this.Salesperson != null ? this.Salesperson.EmployeeID : 0); } }
-        [Required(ErrorMessage = "Vui lòng nhập tên nhân viên")]
-        public override string SalespersonName { get { return (this.Salesperson != null ? this.Salesperson.Name : ""); } }
+        //[Required(ErrorMessage = "Vui lòng nhập tên nhân viên")]
+        //public override string SalespersonName { get { return (this.Salesperson != null ? this.Salesperson.Name : ""); } }
         [Display(Name = "Nhân viên tiếp thị")]
         [UIHint("AutoCompletes/EmployeeBase")]
         public EmployeeBaseDTO Salesperson { get; set; }

@@ -225,15 +225,21 @@
     <Compile Include="Areas\Commons\APIs\VoidTypeAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\PromotionAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\WarehouseAPIsController.cs" />
-    <Compile Include="Areas\Commons\Builders\ICustomerViewModelSelectListBuilder.cs" />
+    <Compile Include="Areas\Commons\Builders\ICustomerCategorySelectListBuilder.cs" />
+    <Compile Include="Areas\Commons\Builders\ICustomerTypeSelectListBuilder.cs" />
+    <Compile Include="Areas\Commons\Builders\ICustomerSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\IMonetaryAccountSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\IPackingMaterialSelectListBuilder.cs" />
+    <Compile Include="Areas\Commons\Builders\IPriceCategorySelectListBuilder.cs" />
+    <Compile Include="Areas\Commons\Builders\ITerritorySelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\IVehicleSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\CommonsAreaRegistration.cs" />
     <Compile Include="Areas\Commons\Controllers\CustomersController.cs" />
     <Compile Include="Areas\Commons\ViewModels\CustomerViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\Helpers\IMonetaryAccountDropDownViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\Helpers\IPackingMaterialDropDownViewModel.cs" />
+    <Compile Include="Areas\Commons\ViewModels\Helpers\IPriceCategoryDropDownViewModel.cs" />
+    <Compile Include="Areas\Commons\ViewModels\Helpers\ITerritoryDropDownViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\Helpers\IVehicleDropDownViewModel.cs" />
     <Compile Include="Areas\Inventories\APIs\GoodsDeliveryAPIsController.cs" />
     <Compile Include="Areas\Inventories\APIs\GoodsIssueAPIsController.cs" />
@@ -1894,6 +1900,10 @@
     <Content Include="Views\Shared\DisplayTemplates\Commons\CreditNoteBox.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AutoCompletes\CommodityBase.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Commons\CustomerBox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DropDowns\Territory.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DropDowns\PriceCategory.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DropDowns\CustomerCategory.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DropDowns\CustomerType.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

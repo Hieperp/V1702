@@ -1,0 +1,11 @@
+﻿@model TotalPortal.Areas.Commons.ViewModels.Helpers.ITerritoryDropDownViewModel
+
+<div class="form-group">
+    @Html.LabelFor(model => model.TerritoryID)
+    <div class="div-input">
+        @Html.Kendo().DropDownListFor(m => m.TerritoryID).BindTo(Model.TerritorySelectList).HtmlAttributes(new { @class = "left-panel-input" })
+    </div>
+    <div class="div-validation-message">
+        @Html.ValidationMessageFor(model => model.TerritoryID, "", new { @class = "text-danger" })
+    </div>
+</div>

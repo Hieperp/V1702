@@ -12,7 +12,7 @@ namespace TotalPortal.Areas.Commons.Controllers
 {
     public class CustomersController : GenericSimpleController<Customer, CustomerDTO, CustomerPrimitiveDTO, CustomerViewModel>
     {
-        public CustomersController(ICustomerService customerService, ICustomerViewModelSelectListBuilder customerViewModelSelectListBuilder)
+        public CustomersController(ICustomerService customerService, ICustomerSelectListBuilder customerViewModelSelectListBuilder)
             : base(customerService, customerViewModelSelectListBuilder)
         {
         }

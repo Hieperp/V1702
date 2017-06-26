@@ -50,6 +50,11 @@
             @Html.EditorFor(d => d.Salesperson, new { EmployeeDisplayName = @Model.GetDisplayName(m => m.Salesperson) })
         </div>
 
+        @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/CustomerCategory.cshtml")
+        @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PriceCategory.cshtml")
+        
+        @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/CustomerType.cshtml")
+        @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/Territory.cshtml")
 
         <div class="form-group">
             @Html.LabelFor(model => model.VATCode)
