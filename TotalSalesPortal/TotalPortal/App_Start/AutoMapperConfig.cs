@@ -14,6 +14,7 @@ using TotalDTO.Accounts;
 using TotalPortal.Areas.Sales.ViewModels;
 using TotalPortal.Areas.Inventories.ViewModels;
 using TotalPortal.Areas.Accounts.ViewModels;
+using TotalPortal.Areas.Commons.ViewModels;
 
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(TotalPortal.App_Start.AutoMapperConfig), "SetupMappings")]
@@ -95,8 +96,14 @@ namespace TotalPortal.App_Start
 
                 cfg.CreateMap<CreditNote, CreditNoteBoxDTO>();
 
-                cfg.CreateMap<Employee, EmployeeBaseDTO>();
+                cfg.CreateMap<Customer, CustomerViewModel>();
+                cfg.CreateMap<Customer, CustomerDTO>();
                 cfg.CreateMap<Customer, CustomerBaseDTO>();
+                cfg.CreateMap<CustomerPrimitiveDTO, Customer>();
+
+                cfg.CreateMap<Customer, CustomerBaseDTO>();
+
+                cfg.CreateMap<Employee, EmployeeBaseDTO>();
                 cfg.CreateMap<Warehouse, WarehouseBaseDTO>();
                 cfg.CreateMap<Promotion, PromotionDTO>();
                 cfg.CreateMap<VoidType, VoidTypeBaseDTO>();

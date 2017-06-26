@@ -107,6 +107,9 @@
     <Compile Include="Models\CustomerCategory.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomerIndex.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CustomerReceivable.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>

@@ -22,6 +22,7 @@ namespace TotalPortal.App_Start
     using TotalCore.Repositories.Sessions;
     using TotalCore.Repositories.Analysis;
 
+    using TotalCore.Services.Commons;
     using TotalCore.Services.Sales;
     using TotalCore.Services.Inventories;
     using TotalCore.Services.Accounts;
@@ -36,6 +37,7 @@ namespace TotalPortal.App_Start
     using TotalDAL.Repositories.Analysis;
 
 
+    using TotalService.Commons;
     using TotalService.Sales;
     using TotalService.Inventories;
     using TotalService.Accounts;
@@ -45,6 +47,7 @@ namespace TotalPortal.App_Start
     using TotalPortal.Areas.Inventories.Builders;
     using TotalPortal.Areas.Commons.Builders;
     using TotalPortal.Areas.Accounts.Builders;
+        
         
 
 
@@ -144,6 +147,13 @@ namespace TotalPortal.App_Start
                 kernel.Bind<ICreditNoteAPIRepository>().To<CreditNoteAPIRepository>();
                 kernel.Bind<ICreditNoteViewModelSelectListBuilder>().To<CreditNoteViewModelSelectListBuilder>();
 
+
+                kernel.Bind<ICustomerService>().To<CustomerService>();
+                kernel.Bind<ICustomerRepository>().To<CustomerRepository>();
+                kernel.Bind<ICustomerAPIRepository>().To<CustomerAPIRepository>();
+                kernel.Bind<ICustomerViewModelSelectListBuilder>().To<CustomerViewModelSelectListBuilder>();
+
+
                 kernel.Bind<IInventoryRepository>().To<InventoryRepository>();
 
                 kernel.Bind<IAspNetUserSelectListBuilder>().To<AspNetUserSelectListBuilder>();
@@ -155,8 +165,7 @@ namespace TotalPortal.App_Start
 
 
                 kernel.Bind<IAspNetUserRepository>().To<AspNetUserRepository>();
-                kernel.Bind<ICommodityRepository>().To<CommodityRepository>();
-                kernel.Bind<ICustomerRepository>().To<CustomerRepository>();
+                kernel.Bind<ICommodityRepository>().To<CommodityRepository>();                
                 kernel.Bind<IWarehouseRepository>().To<WarehouseRepository>();
                 kernel.Bind<IEmployeeRepository>().To<EmployeeRepository>();
                 kernel.Bind<IVoidTypeRepository>().To<VoidTypeRepository>();

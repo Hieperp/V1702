@@ -2393,6 +2393,9 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="EntityID" Type="int" Mode="In" />
           <Parameter Name="Approved" Type="bit" Mode="In" />
         </Function>
+        <Function Name="CustomerEditable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
         <Function Name="DeliveryAdviceApproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
         </Function>
@@ -2463,6 +2466,11 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         <Function Name="GetCustomerBases" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
           <Parameter Name="WarehouseTaskID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetCustomerIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
         </Function>
         <Function Name="GetCustomerReceivables" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
@@ -4166,6 +4174,14 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <FunctionImport Name="GetCommodityBases" ReturnType="Collection(TotalSalesPortalModel.CommodityBase)">
             <Parameter Name="CommodityTypeIDList" Mode="In" Type="String" />
             <Parameter Name="SearchText" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CustomerEditable" ReturnType="Collection(String)">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetCustomerIndexes" ReturnType="Collection(TotalSalesPortalModel.CustomerIndex)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
@@ -7524,6 +7540,14 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Decimal" Name="TradeDiscountRate" Nullable="false" Precision="1" Scale="1" />
           <Property Type="Decimal" Name="VATPercent" Nullable="false" Precision="18" Scale="2" />
         </ComplexType>
+        <ComplexType Name="CustomerIndex">
+          <Property Type="Int32" Name="CustomerID" Nullable="false" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="OfficialName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="BillingAddress" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Telephone" Nullable="false" MaxLength="100" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9770,6 +9794,19 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
                 <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
                 <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CustomerEditable" FunctionName="TotalSalesPortalModel.Store.CustomerEditable" />
+          <FunctionImportMapping FunctionImportName="GetCustomerIndexes" FunctionName="TotalSalesPortalModel.Store.GetCustomerIndexes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalSalesPortalModel.CustomerIndex">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OfficialName" ColumnName="OfficialName" />
+                <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

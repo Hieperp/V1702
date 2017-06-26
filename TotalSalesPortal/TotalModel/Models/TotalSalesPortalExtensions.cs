@@ -301,6 +301,8 @@ namespace TotalModel.Models
     {
         public int GetID() { return this.CustomerID; }
 
+        public virtual Employee Salesperson { get { return this.Employee; } }
+
         public int UserID { get; set; }
         public int PreparedPersonID { get; set; }
         public int OrganizationalUnitID { get; set; }

@@ -16,4 +16,9 @@ namespace TotalCore.Repositories.Commons
 
         bool GetShowDiscount(int customerID);
     }
+
+    public interface ICustomerAPIRepository : IGenericAPIRepository
+    {
+    }
+
 }

@@ -51,6 +51,7 @@
     <Compile Include="EntityFrameworkExtension.cs" />
     <Compile Include="Helpers\SqlProgrammability\Accounts\CreditNote.cs" />
     <Compile Include="Helpers\SqlProgrammability\Commons\AccessControl.cs" />
+    <Compile Include="Helpers\SqlProgrammability\Commons\Customer.cs" />
     <Compile Include="Helpers\SqlProgrammability\Inventories\GoodsDelivery.cs" />
     <Compile Include="Helpers\SqlProgrammability\Inventories\HandlingUnit.cs" />
     <Compile Include="Helpers\SqlProgrammability\Reports\SaleReports.cs" />

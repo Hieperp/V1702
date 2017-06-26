@@ -23,6 +23,12 @@ namespace TotalDAL.Repositories.Sales
         {
 
 
+            //return;
+
+            Helpers.SqlProgrammability.Commons.Customer customer = new Helpers.SqlProgrammability.Commons.Customer(totalSalesPortalEntities);
+            customer.RestoreProcedure();
+
+
             return;
 
             Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);

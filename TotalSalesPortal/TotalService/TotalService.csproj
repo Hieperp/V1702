@@ -57,6 +57,7 @@
     <Compile Include="Accounts\ReceiptService.cs" />
     <Compile Include="BaseService.cs" />
     <Compile Include="Commons\CommodityService.cs" />
+    <Compile Include="Commons\CustomerService.cs" />
     <Compile Include="GenericService.cs" />
     <Compile Include="GenericWithDetailService.cs" />
     <Compile Include="GenericWithViewDetailService.cs" />

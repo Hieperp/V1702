@@ -66,5 +66,16 @@ namespace TotalDAL.Repositories.Commons
         }
 
     }
+
+
+
+    public class CustomerAPIRepository : GenericAPIRepository, ICustomerAPIRepository
+    {
+        public CustomerAPIRepository(TotalSalesPortalEntities totalSalesPortalEntities)
+            : base(totalSalesPortalEntities, "GetCustomerIndexes")
+        {
+        }
+    }
+
 }
 

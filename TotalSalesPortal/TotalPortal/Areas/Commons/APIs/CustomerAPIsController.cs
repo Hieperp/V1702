@@ -2,12 +2,15 @@
 using System.Linq;
 using System.Web.Mvc;
 
+using Microsoft.AspNet.Identity;
+
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 
 using TotalCore.Repositories.Commons;
 using TotalModel.Models;
 using TotalDTO.Commons;
+using TotalPortal.APIs.Sessions;
 //using TotalPortal.ViewModels.Commons;
 
 namespace TotalPortal.Areas.Commons.APIs
@@ -16,12 +19,22 @@ namespace TotalPortal.Areas.Commons.APIs
     public class CustomerAPIsController : Controller
     {
         private readonly ICustomerRepository customerRepository;
+        private readonly ICustomerAPIRepository customerAPIRepository;
 
-        public CustomerAPIsController(ICustomerRepository customerRepository)
+        public CustomerAPIsController(ICustomerRepository customerRepository, ICustomerAPIRepository customerAPIRepository)
         {
             this.customerRepository = customerRepository;
+            this.customerAPIRepository = customerAPIRepository;
         }
 
+        public JsonResult GetCustomerIndexes([DataSourceRequest] DataSourceRequest request)
+        {
+            ICollection<CustomerIndex> CustomerIndexes = this.customerAPIRepository.GetEntityIndexes<CustomerIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext));
+
+            DataSourceResult response = CustomerIndexes.ToDataSourceResult(request);
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult SearchSuppliers(string searchText)
         {

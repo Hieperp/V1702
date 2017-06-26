@@ -225,10 +225,13 @@
     <Compile Include="Areas\Commons\APIs\VoidTypeAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\PromotionAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\WarehouseAPIsController.cs" />
+    <Compile Include="Areas\Commons\Builders\ICustomerViewModelSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\IMonetaryAccountSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\IPackingMaterialSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\IVehicleSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\CommonsAreaRegistration.cs" />
+    <Compile Include="Areas\Commons\Controllers\CustomersController.cs" />
+    <Compile Include="Areas\Commons\ViewModels\CustomerViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\Helpers\IMonetaryAccountDropDownViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\Helpers\IPackingMaterialDropDownViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\Helpers\IVehicleDropDownViewModel.cs" />
@@ -989,6 +992,12 @@
     <Content Include="Areas\Accounts\Views\CreditNotes\Print.cshtml" />
     <Content Include="Areas\Accounts\Views\CreditNotes\_CreditNote.cshtml" />
     <Content Include="Areas\Accounts\Views\CreditNotes\CreateWizard.cshtml" />
+    <Content Include="Areas\Commons\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Commons\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Commons\Views\Customers\_Customer.cshtml" />
+    <Content Include="Areas\Commons\Views\Customers\Create.cshtml" />
+    <Content Include="Areas\Commons\Views\Customers\Edit.cshtml" />
+    <Content Include="Areas\Commons\Views\Customers\Index.cshtml" />
     <None Include="Properties\PublishProfiles\VCP.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1015,6 +1024,10 @@
     <Content Include="Scripts\Controllers\Accounts\Receipts\Edit.js" />
     <Content Include="Scripts\Controllers\Accounts\Receipts\Index.js" />
     <Content Include="Scripts\Controllers\Accounts\Receipts\Open.js" />
+    <Content Include="Scripts\Controllers\Commons\Customers\Create.js" />
+    <Content Include="Scripts\Controllers\Commons\Customers\Delete.js" />
+    <Content Include="Scripts\Controllers\Commons\Customers\Edit.js" />
+    <Content Include="Scripts\Controllers\Commons\Customers\Index.js" />
     <Content Include="Scripts\Controllers\Inventories\GoodsDeliveries\AddPendingHandlingUnit.js" />
     <Content Include="Scripts\Controllers\Inventories\GoodsDeliveries\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Inventories\GoodsDeliveries\Delete.js" />
