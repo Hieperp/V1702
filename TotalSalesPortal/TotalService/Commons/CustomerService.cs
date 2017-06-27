@@ -8,7 +8,7 @@ namespace TotalService.Commons
     public class CustomerService : GenericService<Customer, CustomerDTO, CustomerPrimitiveDTO>, ICustomerService
     {
         public CustomerService(ICustomerRepository customerRepository)
-            : base(customerRepository)
+            : base(customerRepository, "", "CustomerSaveRelative")
         {
         }
 

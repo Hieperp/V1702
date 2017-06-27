@@ -287,7 +287,7 @@
           <Property Name="BillingAddress" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="ShippingAddress" Type="nvarchar" MaxLength="200" />
           <Property Name="VATCode" Type="nvarchar" MaxLength="60" />
-          <Property Name="Telephone" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="100" />
           <Property Name="Facsimile" Type="nvarchar" MaxLength="60" />
           <Property Name="AttentionName" Type="nvarchar" MaxLength="60" />
           <Property Name="AttentionTitle" Type="nvarchar" MaxLength="60" />
@@ -2396,6 +2396,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         <Function Name="CustomerEditable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
         </Function>
+        <Function Name="CustomerSaveRelative" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+          <Parameter Name="SaveRelativeOption" Type="int" Mode="In" />
+        </Function>
         <Function Name="DeliveryAdviceApproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
         </Function>
@@ -4176,12 +4180,16 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="SearchText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="CustomerEditable" ReturnType="Collection(String)">
-            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          <Parameter Name="EntityID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetCustomerIndexes" ReturnType="Collection(TotalSalesPortalModel.CustomerIndex)">
             <Parameter Name="AspUserID" Mode="In" Type="String" />
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="CustomerSaveRelative">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+            <Parameter Name="SaveRelativeOption" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
@@ -4604,7 +4612,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Int32" Name="CustomerID" Nullable="false" />
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="CustomerAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="CustomerTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CustomerTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="CustomerCode" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="CustomerVATCode" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
@@ -4614,7 +4622,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="ReceiverVATCode" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="ReceiverAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="ReceiverTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReceiverTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="CustomerBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ShippingAddress" Nullable="false" MaxLength="200" />
@@ -4634,7 +4642,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Int32" Name="CustomerID" Nullable="false" />
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="CustomerAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="CustomerTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CustomerTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="CustomerEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="CustomerCode" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="CustomerVATCode" Nullable="true" MaxLength="60" />
@@ -4643,7 +4651,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="ReceiverVATCode" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="ReceiverAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="ReceiverTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReceiverTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="CustomerBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
@@ -4708,7 +4716,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         <ComplexType Name="CustomerReceivable">
           <Property Type="Int32" Name="CustomerID" Nullable="false" />
           <Property Type="String" Name="CustomerAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="CustomerTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CustomerTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="CustomerEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="CustomerCode" Nullable="false" MaxLength="50" />
@@ -4725,7 +4733,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
           <Property Type="Int32" Name="CustomerID" Nullable="false" />
           <Property Type="String" Name="CustomerAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="CustomerTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CustomerTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="CustomerEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="CustomerCode" Nullable="false" MaxLength="50" />
@@ -4975,7 +4983,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="CustomerVATCode" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="CustomerAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="CustomerTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CustomerTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="CustomerEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="CustomerBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="Int32" Name="PaymentTermID" Nullable="false" />
@@ -4994,7 +5002,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="ReceiverVATCode" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="ReceiverAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="ReceiverTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReceiverTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="GoodsIssueCustomerCode" Nullable="false" MaxLength="50" />
@@ -5130,7 +5138,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="ReceiverVATCode" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="ReceiverAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="ReceiverTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReceiverTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="EntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
         </ComplexType>
@@ -5145,7 +5153,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Int32" Name="ReceiverID" Nullable="false" />
           <Property Type="String" Name="ReceiverCode" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="ReceiverTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReceiverTelephone" Nullable="true" MaxLength="100" />
           <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="Weight" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="RealWeight" Nullable="false" Precision="18" Scale="2" />
@@ -5220,7 +5228,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="CustomerVATCode" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="CustomerAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="CustomerTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CustomerTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="CustomerBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="CustomerEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="Int32" Name="ReceiverID" Nullable="false" />
@@ -5228,7 +5236,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="ReceiverVATCode" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="ReceiverAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="ReceiverTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReceiverTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="ShippingAddress" Nullable="false" MaxLength="200" />
@@ -5260,7 +5268,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="CustomerVATCode" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="CustomerAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="CustomerTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CustomerTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="CustomerBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="CustomerEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="Int32" Name="ReceiverID" Nullable="false" />
@@ -5268,7 +5276,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="ReceiverVATCode" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="ReceiverAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="ReceiverTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReceiverTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="ShippingAddress" Nullable="false" MaxLength="200" />
@@ -5337,7 +5345,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="BillingAddress" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ShippingAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="VATCode" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="Telephone" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Facsimile" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
           <Property Name="AttentionName" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
           <Property Name="AttentionTitle" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
@@ -6099,7 +6107,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="ReceiverVATCode" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="ReceiverAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="ReceiverTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReceiverTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="Int32" Name="PaymentTermID" Nullable="false" />
@@ -6679,7 +6687,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="CustomerVATCode" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="CustomerAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="CustomerTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CustomerTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="CustomerBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="CustomerEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="Int32" Name="ReceiverID" Nullable="false" />
@@ -6687,7 +6695,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="ReceiverVATCode" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="ReceiverAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="ReceiverTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReceiverTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="ShippingAddress" Nullable="false" MaxLength="200" />
@@ -6769,7 +6777,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="CustomerVATCode" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="CustomerAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="CustomerTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CustomerTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="CustomerBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="CustomerEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="Int32" Name="ReceiverID" Nullable="false" />
@@ -6777,7 +6785,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="ReceiverVATCode" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="ReceiverAttentionName" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="ReceiverTelephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReceiverTelephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="ShippingAddress" Nullable="false" MaxLength="200" />
@@ -6957,7 +6965,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="OfficialName" Nullable="true" MaxLength="150" />
           <Property Type="DateTime" Name="Birthday" Nullable="true" Precision="23" />
           <Property Type="String" Name="VATCode" Nullable="true" MaxLength="60" />
-          <Property Type="String" Name="Telephone" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Telephone" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="BillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ShippingAddress" Nullable="true" MaxLength="200" />
           <Property Type="Int32" Name="CustomerCategoryID" Nullable="false" />
@@ -6970,7 +6978,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="PriceCategoryCode" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="SalespersonID" Nullable="false" />
           <Property Type="String" Name="SalespersonName" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="WarehouseID" Nullable="true" />
+          <Property Type="Int32" Name="WarehouseID" Nullable="false" />
           <Property Type="String" Name="WarehouseCode" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="WarehouseName" Nullable="true" MaxLength="60" />
         </ComplexType>
@@ -7546,7 +7554,13 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="Name" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="OfficialName" Nullable="true" MaxLength="150" />
           <Property Type="String" Name="BillingAddress" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="Telephone" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="CustomerCategoryID" Nullable="false" />
+          <Property Type="String" Name="VATCode" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ShippingAddress" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="PriceCategoryCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SalespersonName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TerritoryName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Category" Nullable="false" MaxLength="100" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -9806,10 +9820,17 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="OfficialName" ColumnName="OfficialName" />
                 <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
-                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="CustomerCategoryID" ColumnName="CustomerCategoryID" />
+                <ScalarProperty Name="VATCode" ColumnName="VATCode" />
+                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="PriceCategoryCode" ColumnName="PriceCategoryCode" />
+                <ScalarProperty Name="SalespersonName" ColumnName="SalespersonName" />
+                <ScalarProperty Name="TerritoryName" ColumnName="TerritoryName" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CustomerSaveRelative" FunctionName="TotalSalesPortalModel.Store.CustomerSaveRelative" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

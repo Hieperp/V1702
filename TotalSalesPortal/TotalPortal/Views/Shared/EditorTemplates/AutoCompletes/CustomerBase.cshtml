@@ -92,7 +92,7 @@
         $("#" + modelID + "ShowDiscount").val(dataItem.ShowDiscount);
 
         //Set display label
-        $("#" + modelID + "label_Telephone").text(dataItem.Telephone);
+        $("#" + modelID + "label_Telephone").text(dataItem.Telephone == null ? "" : dataItem.Telephone);
         $("#" + modelID + "label_VATCode").text(dataItem.VATCode == null ? "" : dataItem.VATCode);
         $("#" + modelID + "label_BillingAddress").text(dataItem.BillingAddress);
         $("#" + modelID + "label_EntireTerritoryEntireName").text(dataItem.EntireTerritoryEntireName);

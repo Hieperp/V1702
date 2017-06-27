@@ -18,6 +18,12 @@ namespace TotalModel.Models
         public string Name { get; set; }
         public string OfficialName { get; set; }
         public string BillingAddress { get; set; }
-        public string Telephone { get; set; }
+        public int CustomerCategoryID { get; set; }
+        public string VATCode { get; set; }
+        public string ShippingAddress { get; set; }
+        public string PriceCategoryCode { get; set; }
+        public string SalespersonName { get; set; }
+        public string TerritoryName { get; set; }
+        public string Category { get; set; }
     }
 }

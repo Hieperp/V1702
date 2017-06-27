@@ -33,7 +33,7 @@ namespace TotalModel.Models
         public string PriceCategoryCode { get; set; }
         public int SalespersonID { get; set; }
         public string SalespersonName { get; set; }
-        public Nullable<int> WarehouseID { get; set; }
+        public int WarehouseID { get; set; }
         public string WarehouseCode { get; set; }
         public string WarehouseName { get; set; }
     }
