@@ -150,9 +150,9 @@ namespace TotalDTO.Commons
 
     public class CustomerDTO : CustomerPrimitiveDTO
     {
+        public CustomerDTO() { this.Salesperson = new EmployeeBaseDTO(); }
+
         public override int SalespersonID { get { return (this.Salesperson != null ? this.Salesperson.EmployeeID : 0); } }
-        //[Required(ErrorMessage = "Vui lòng nhập tên nhân viên")]
-        //public override string SalespersonName { get { return (this.Salesperson != null ? this.Salesperson.Name : ""); } }
         [Display(Name = "Nhân viên tiếp thị")]
         [UIHint("AutoCompletes/EmployeeBase")]
         public EmployeeBaseDTO Salesperson { get; set; }
