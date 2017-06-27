@@ -43,15 +43,17 @@ namespace TotalDTO.Commons
         public int CustomerID { get; set; }
 
         [Display(Name = "Mã khách hàng")]
+        [Required(ErrorMessage = "Vui lòng nhập mã khách hàng")]
         public string Code { get; set; }
 
-        [Display(Name = "Khách hàng")]
+        [Display(Name = "Tên khách hàng")]
+        [Required(ErrorMessage = "Vui lòng nhập tên khách hàng")]
         public string Name { get; set; }
 
         public string CodeAndName { get { return this.Code + (this.Code != null && this.Code != "" && this.Name != null && this.Name != "" ? "  -  " : "") + this.Name; } }
 
         [Display(Name = "Tên xuất hóa đơn")]
-        public string OfficialName { get; set; }
+        public virtual string OfficialName { get; set; }
 
         [Display(Name = "Ngày sinh nhật")]
         public Nullable<System.DateTime> Birthday { get; set; }
@@ -60,7 +62,7 @@ namespace TotalDTO.Commons
         public string VATCode { get; set; }
 
         [Display(Name = "Điện thoại")]
-        public string Telephone { get; set; }
+        public virtual string Telephone { get; set; }
 
         [Display(Name = "Địa chỉ xuất hóa đơn")]
         public virtual string BillingAddress { get; set; }
@@ -104,11 +106,15 @@ namespace TotalDTO.Commons
         public int GetID() { return this.CustomerID; }
         public void SetID(int id) { this.CustomerID = id; }
 
+        [Required(ErrorMessage = "Vui lòng nhập tên xuất hóa đơn")]
+        public override string OfficialName { get; set; }
+
+        [Required(ErrorMessage = "Vui lòng nhập địa chỉ xuất hóa đơn")]
+        public override string BillingAddress { get; set; }
 
         [Display(Name = "Mã nhà cung cấp [siêu thị]")]
         public string VendorCode { get; set; }
         [Display(Name = "Mã ngành NCC [siêu thị]")]
-        [Required(ErrorMessage = "ASAS")]
         public string VendorCategory { get; set; }
 
         [Display(Name = "Tài khoản thanh toán")]
@@ -128,9 +134,6 @@ namespace TotalDTO.Commons
         public string AttentionName { get; set; }
         [Display(Name = "Chức danh")]
         public string AttentionTitle { get; set; }
-
-        [Required(ErrorMessage = "Vui lòng nhập địa chỉ xuất hóa đơn")]
-        public override string BillingAddress { get; set; }
 
         [Display(Name = "Hạn mức tín dụng")]
         public Nullable<double> LimitAmount { get; set; }
