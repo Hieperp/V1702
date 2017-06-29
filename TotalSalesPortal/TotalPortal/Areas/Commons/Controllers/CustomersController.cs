@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Linq;
 using System.Web.Mvc;
 
 using TotalBase.Enums;
@@ -39,7 +40,7 @@ namespace TotalPortal.Areas.Commons.Controllers
             CustomerViewModel customerViewModel = this.GetViewModel(id, GlobalEnums.AccessLevel.Readable);
             if (customerViewModel == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            ViewBag.Promotions = promotionRepository.GetPromotionByCustomers(null);
+            ViewBag.Promotions = promotionRepository.GetPromotionByCustomers(null).Select(pt => new SelectListItem { Text = pt.Name + " (" + pt.Code + ")" + " (" + pt.DiscountPercent.ToString("N0") + "%) " + " => " + pt.EndDate.ToString(), Value = pt.PromotionID.ToString() }).ToList() ;
 
             return View(customerViewModel);
         }

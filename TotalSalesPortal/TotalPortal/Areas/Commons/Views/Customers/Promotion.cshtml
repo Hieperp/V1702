@@ -37,9 +37,9 @@
        
 
             <div class="form-group">
-                @Html.LabelFor(model => model.CustomerCategoryID)
+                @Html.Label("Vui lòng chọn chương trình khuyến mãi, sau đó nhấn thêm vào")
                 <div class="div-input">
-                    @(Html.Kendo().DropDownList().Name("DropDownPromotionID").DataValueField("PromotionID").DataTextField("Name").BindTo((System.Collections.IEnumerable)ViewBag.Promotions))
+                    @(Html.Kendo().DropDownList().Name("DropDownPromotionID").DataValueField("Value").DataTextField("Text").BindTo((System.Collections.IEnumerable)ViewBag.Promotions).HtmlAttributes(new { @class = "left-panel-input"}))
                 </div>
             </div>
 
