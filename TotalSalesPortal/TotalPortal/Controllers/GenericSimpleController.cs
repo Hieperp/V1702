@@ -79,10 +79,10 @@ namespace TotalPortal.Controllers
         [OnResultExecutingFilterAttribute]
         public virtual ActionResult Open(int? id)
         {
-            TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Readable);
-            if (entity == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            TSimpleViewModel simpleViewModel = this.GetViewModel(id, GlobalEnums.AccessLevel.Readable, false, false, true);
+            if (simpleViewModel == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            return View(this.GetViewModel(entity, false, false, true));
+            return View(simpleViewModel);
         }
 
 
@@ -166,10 +166,10 @@ namespace TotalPortal.Controllers
         [OnResultExecutingFilterAttribute]
         public virtual ActionResult Edit(int? id)
         {
-            TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Readable);
-            if (entity == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            TSimpleViewModel simpleViewModel = this.GetViewModel(id, GlobalEnums.AccessLevel.Readable);
+            if (simpleViewModel == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            return View(this.GetViewModel(entity));
+            return View(simpleViewModel);
         }
 
 
@@ -224,19 +224,17 @@ namespace TotalPortal.Controllers
         [OnResultExecutingFilterAttribute]
         public virtual ActionResult Approve(int? id)
         {
-            TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Readable);
-            if (entity == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            TSimpleViewModel simpleViewModel = this.GetViewModel(entity, true);
+            TSimpleViewModel simpleViewModel = this.GetViewModel(id, GlobalEnums.AccessLevel.Readable, true);
+            if (simpleViewModel == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             if (!simpleViewModel.Approved)
-                if (this.GenericService.GetApprovalPermitted(entity.OrganizationalUnitID))
+                if (this.GenericService.GetApprovalPermitted(simpleViewModel.OrganizationalUnitID))
                     simpleViewModel.Approvable = this.GenericService.Approvable(simpleViewModel);
                 else //USER DON'T HAVE PERMISSION TO DO
                     return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
             if (simpleViewModel.Approved)
-                if (this.GenericService.GetUnApprovalPermitted(entity.OrganizationalUnitID))
+                if (this.GenericService.GetUnApprovalPermitted(simpleViewModel.OrganizationalUnitID))
                     simpleViewModel.UnApprovable = this.GenericService.UnApprovable(simpleViewModel);
                 else //USER DON'T HAVE PERMISSION TO DO
                     return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
@@ -273,10 +271,10 @@ namespace TotalPortal.Controllers
         [OnResultExecutingFilterAttribute]
         public virtual ActionResult Delete(int? id)
         {
-            TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Editable);
-            if (entity == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            TSimpleViewModel simpleViewModel = this.GetViewModel(id, GlobalEnums.AccessLevel.Editable, true);
+            if (simpleViewModel == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            return View(this.GetViewModel(entity, true));
+            return View(simpleViewModel);
         }
 
 
@@ -309,10 +307,10 @@ namespace TotalPortal.Controllers
         [OnResultExecutingFilterAttribute]
         public virtual ActionResult Alter(int? id)
         {
-            TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Editable);
-            if (entity == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            TSimpleViewModel simpleViewModel = this.GetViewModel(id, GlobalEnums.AccessLevel.Editable, false, true);
+            if (simpleViewModel == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            return View(this.GetViewModel(entity, false, true));
+            return View(simpleViewModel);
         }
 
 
@@ -352,13 +350,11 @@ namespace TotalPortal.Controllers
         [OnResultExecutingFilterAttribute]
         public virtual ActionResult Void(int? id)
         {
-            TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Readable);
-            if (entity == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            TSimpleViewModel simpleViewModel = this.GetViewModel(entity, true);
+            TSimpleViewModel simpleViewModel = this.GetViewModel(id, GlobalEnums.AccessLevel.Readable, true);
+            if (simpleViewModel == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             if (!simpleViewModel.InActive)
-                if (this.GenericService.GetVoidablePermitted(entity.OrganizationalUnitID))
+                if (this.GenericService.GetVoidablePermitted(simpleViewModel.OrganizationalUnitID))
                 {
                     simpleViewModel.Voidable = this.GenericService.Voidable(simpleViewModel);
                     RequireJsOptions.Add("Voidable", simpleViewModel.Voidable, RequireJsOptionsScope.Page);
@@ -367,7 +363,7 @@ namespace TotalPortal.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
             if (simpleViewModel.InActive)
-                if (this.GenericService.GetUnVoidablePermitted(entity.OrganizationalUnitID))
+                if (this.GenericService.GetUnVoidablePermitted(simpleViewModel.OrganizationalUnitID))
                     simpleViewModel.UnVoidable = this.GenericService.UnVoidable(simpleViewModel);
                 else //USER DON'T HAVE PERMISSION TO DO
                     return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
@@ -405,10 +401,10 @@ namespace TotalPortal.Controllers
         [OnResultExecutingFilterAttribute]
         public virtual ActionResult VoidDetail(int? id, int? detailID)
         {
-            TEntity entity = this.GetEntityAndCheckAccessLevel(id, GlobalEnums.AccessLevel.Readable);
-            if (entity == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            TSimpleViewModel simpleViewModel = this.GetViewModel(id, GlobalEnums.AccessLevel.Readable, true);
+            if (simpleViewModel == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            return View(this.PrepareVoidDetail(this.GetViewModel(entity, true), detailID));
+            return View(this.PrepareVoidDetail(simpleViewModel, detailID));
         }
 
         [HttpPost, ActionName("VoidDetail")]
@@ -560,10 +556,9 @@ namespace TotalPortal.Controllers
 
 
 
-
-        protected virtual TSimpleViewModel DecorateViewModel(TSimpleViewModel simpleViewModel)
+        private TSimpleViewModel BuildViewModel(TEntity entity, bool forDelete, bool forAlter, bool forOpen)
         {
-            return simpleViewModel;
+            return this.TailorViewModel(this.DecorateViewModel(this.MapEntityToViewModel(entity)), forDelete, forAlter, forOpen);
         }
 
         protected virtual TSimpleViewModel TailorViewModel(TSimpleViewModel simpleViewModel)
@@ -607,12 +602,15 @@ namespace TotalPortal.Controllers
             return simpleViewModel;
         }
 
+        protected virtual TSimpleViewModel DecorateViewModel(TSimpleViewModel simpleViewModel)
+        {
+            return simpleViewModel;
+        }
 
         protected virtual bool GetShowDiscount(TSimpleViewModel simpleViewModel)
         {
             return this.GenericService.GetShowDiscount();
         }
-
 
         #region GetViewModel
         /// <summary>
@@ -621,27 +619,31 @@ namespace TotalPortal.Controllers
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        private TSimpleViewModel GetViewModel(TEntity entity)
+        protected TSimpleViewModel GetViewModel(int? id, GlobalEnums.AccessLevel accessLevel)
         {
-            return this.GetViewModel(entity, false);
+            return this.GetViewModel(id, accessLevel,  false);
         }
 
-        private TSimpleViewModel GetViewModel(TEntity entity, bool forDelete)
+        protected TSimpleViewModel GetViewModel(int? id, GlobalEnums.AccessLevel accessLevel, bool forDelete)
         {
-            return this.GetViewModel(entity, forDelete, false);
+            return this.GetViewModel(id, accessLevel,  forDelete, false);
         }
 
-        private TSimpleViewModel GetViewModel(TEntity entity, bool forDelete, bool forAlter)
+        protected TSimpleViewModel GetViewModel(int? id, GlobalEnums.AccessLevel accessLevel, bool forDelete, bool forAlter)
         {
-            return this.GetViewModel(entity, forDelete, forAlter, false);
+            return this.GetViewModel(id, accessLevel,  forDelete, forAlter, false);
         }
 
-        private TSimpleViewModel GetViewModel(TEntity entity, bool forDelete, bool forAlter, bool forOpen)
+        protected TSimpleViewModel GetViewModel(int? id, GlobalEnums.AccessLevel accessLevel, bool forDelete, bool forAlter, bool forOpen)
         {
-            return this.TailorViewModel(this.DecorateViewModel(this.MapEntityToViewModel(entity)), forDelete, forAlter, forOpen);
+            TEntity entity = this.GetEntityAndCheckAccessLevel(id, accessLevel);
+            if (entity == null) return null;
+
+            return this.BuildViewModel(entity, forDelete, forAlter, forOpen);
         }
         #endregion GetViewModel
 
+        
 
 
         [OnResultExecutingFilterAttribute]

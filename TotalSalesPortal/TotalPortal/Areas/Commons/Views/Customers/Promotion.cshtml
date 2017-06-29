@@ -1,0 +1,74 @@
+﻿@using TotalModel.Models;
+@using TotalPortal.Configuration;
+
+@{Layout = "~/Views/Shared/_LayoutPopup.cshtml";}
+
+@model TotalPortal.Areas.Commons.ViewModels.CustomerViewModel
+
+
+<div>
+    @Html.HiddenFor(model => model.CustomerID)
+    @Html.HiddenFor(model => model.ShowDiscount)
+    <div class="left-panel" style="height:30px;"></div>
+    <div class="right-panel">
+        <div class="right-first-panel">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Code)
+                <div class="div-input">
+                    @Html.Kendo().MaskedTextBoxFor(model => model.Code).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" }).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+                </div>
+                <div class="div-validation-message">
+                    @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name)
+                <div class="div-input">
+                    @Html.Kendo().MaskedTextBoxFor(model => model.Name).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+                </div>
+                <div class="div-validation-message">
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="right-second-panel">
+            @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/CustomerCategory.cshtml")
+            @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PriceCategory.cshtml")
+        </div>
+
+    </div>
+</div>
+
+<div class="form-group">
+    @(Html.Kendo().Grid<Promotion>()
+    .Name("gridPromotion")
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.Code).Title("Mã khuyến mãi").Width(12);
+        columns.Bound(c => c.Name).Title("Tên chương trình").Width(35);
+
+        columns.Bound(c => c.DiscountPercent).Title("% CK").Width(5).HtmlAttributes(new { @class = "grid-number-column" }).Format("{0:n0}");
+        columns.Bound(c => c.StartDate).Title("Ngày BĐ").Width(10).Format("{0:" + SettingsManager.DateFormat + "}");
+        columns.Bound(c => c.EndDate).Title("Ngày KT").Width(10).Format("{0:" + SettingsManager.DateFormat + "}");
+        columns.Template(t => { }).Title("CK").ClientTemplate("<input class='IsSelected' #= ApplyToTradeDiscount ? checked='checked':'' #  type='checkbox' />").Width(3);
+        columns.Bound(c => c.Remarks).Title("Ghi chú").Width(30);
+    })
+
+    .Scrollable(s => s.Height(180))
+    .DataSource(ds => ds.Ajax()
+    .Read(read => read.Action("GetPromotionByCustomers", "PromotionAPIs", new { area = "Commons" }).Data("onGetPromotionByCustomers"))
+    .ServerOperation(true))
+    .Selectable()
+    )
+
+</div>
+
+<script type="text/javascript">
+    function onGetPromotionByCustomers(e) {
+        return {
+            customerID: ($("#ShowDiscount").val() == 'True' ? $("#CustomerID").val() : 0)
+        };
+    }
+</script>

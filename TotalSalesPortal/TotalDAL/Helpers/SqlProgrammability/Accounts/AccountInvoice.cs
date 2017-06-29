@@ -315,7 +315,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
 
         private void AccountInvoiceSheet()
         {
-            string queryString = " @AccountInvoiceID int " + "\r\n";
+            string queryString = " @AccountInvoiceID int, @GroupByLine bit " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
@@ -325,7 +325,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
             
             queryString = queryString + "       SELECT          AccountInvoices.AccountInvoiceID, AccountInvoices.EntryDate, AccountInvoices.Reference, AccountInvoices.VATInvoiceNo, AccountInvoices.VATInvoiceDate, " + "\r\n";
             queryString = queryString + "                       Customers.CustomerID, Customers.OfficialName AS CustomerOfficialName, Customers.VATCode, Customers.BillingAddress, PaymentTerms.Name AS PaymentTermName, " + "\r\n";
-            queryString = queryString + "                       AccountInvoiceCollections.AccountInvoiceDetailID, AccountInvoiceCollections.IsFreebie, Commodities.CommodityID, Commodities.Code, Commodities.CodePartA, Commodities.CodePartB, ISNULL(Commodities.CodePartA + ' ' + Commodities.CodePartB, AccountInvoiceCollections.LineDescription) AS LineDescription, CommoditySKU.CodeSKU, Commodities.OfficialName, Commodities.SalesUnit, " + "\r\n";
+            queryString = queryString + "                       AccountInvoiceCollections.AccountInvoiceDetailID, AccountInvoiceCollections.IsFreebie, Commodities.CommodityID, Commodities.Code, Commodities.CodePartA, Commodities.CodePartB, ISNULL(Commodities.CodePartA + CASE WHEN @GroupByLine = 1 THEN '' ELSE ' ' + Commodities.CodePartB END, AccountInvoiceCollections.LineDescription) AS LineDescription, CommoditySKU.CodeSKU, Commodities.OfficialName, Commodities.SalesUnit, " + "\r\n";
             queryString = queryString + "                       AccountInvoiceCollections.Quantity, AccountInvoiceCollections.ListedPrice, AccountInvoiceCollections.ListedAmount, AccountInvoiceCollections.DiscountPercent, ROUND(AccountInvoiceCollections.ListedAmount - AccountInvoiceCollections.Amount, " + (int)GlobalEnums.rndAmount + ") AS DiscountAmount, AccountInvoiceCollections.UnitPrice, AccountInvoiceCollections.Amount, " + (GlobalEnums.VATbyRow ? "AccountInvoiceCollections.VATPercent" : "AccountInvoices.VATPercent") + " AS VATPercent, AccountInvoiceCollections.VATAmount, AccountInvoiceCollections.GrossAmount, " + "\r\n";
             queryString = queryString + "                       AccountInvoices.TotalQuantity, AccountInvoices.TotalAmount, AccountInvoices.TotalVATAmount, AccountInvoices.TotalGrossAmount, dbo.SayVND(AccountInvoices.TotalGrossAmount) AS TotalGrossAmountInWords, AccountInvoices.Description " + "\r\n";
 

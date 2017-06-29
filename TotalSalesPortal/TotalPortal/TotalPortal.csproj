@@ -1004,6 +1004,7 @@
     <Content Include="Areas\Commons\Views\Customers\Create.cshtml" />
     <Content Include="Areas\Commons\Views\Customers\Edit.cshtml" />
     <Content Include="Areas\Commons\Views\Customers\Index.cshtml" />
+    <Content Include="Areas\Commons\Views\Customers\Promotion.cshtml" />
     <None Include="Properties\PublishProfiles\VCP.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1034,6 +1035,7 @@
     <Content Include="Scripts\Controllers\Commons\Customers\Delete.js" />
     <Content Include="Scripts\Controllers\Commons\Customers\Edit.js" />
     <Content Include="Scripts\Controllers\Commons\Customers\Index.js" />
+    <Content Include="Scripts\Controllers\Commons\Customers\Promotion.js" />
     <Content Include="Scripts\Controllers\Inventories\GoodsDeliveries\AddPendingHandlingUnit.js" />
     <Content Include="Scripts\Controllers\Inventories\GoodsDeliveries\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Inventories\GoodsDeliveries\Delete.js" />
