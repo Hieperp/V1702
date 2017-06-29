@@ -7,6 +7,6 @@ namespace TotalCore.Repositories.Commons
 {
     public interface IPromotionRepository : IGenericRepository<Promotion>
     {
-        IList<Promotion> GetPromotionByCustomers(int customerID);
+        IList<Promotion> GetPromotionByCustomers(int? customerID);
     }
 }

@@ -12,7 +12,7 @@ namespace TotalDAL.Repositories.Commons
             : base(totalSalesPortalEntities)
         { }
 
-        public IList<Promotion> GetPromotionByCustomers(int customerID)
+        public IList<Promotion> GetPromotionByCustomers(int? customerID)
         {
             this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = false;
             List<Promotion> promotions = this.TotalSalesPortalEntities.GetPromotionByCustomers(customerID).ToList();
