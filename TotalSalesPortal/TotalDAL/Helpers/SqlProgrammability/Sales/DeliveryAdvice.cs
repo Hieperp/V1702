@@ -20,7 +20,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
         {
             this.GetDeliveryAdviceIndexes();
 
-            this.GetPromotionByCustomers();
+            
 
             //this.GetCommoditiesInWarehouses("GetVehicleAvailables", true, false, false, false);
             this.GetCommoditiesInWarehouses("GetCommodityAvailables", false, true, true, false, false, false); //GetPartAvailables
@@ -79,39 +79,6 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             this.totalSalesPortalEntities.CreateStoredProcedure("GetDeliveryAdviceIndexes", queryString);
         }
 
-
-        private void GetPromotionByCustomers()
-        {
-            string queryString;
-
-            queryString = " @CustomerID int " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
-            queryString = queryString + " AS " + "\r\n";
-            queryString = queryString + "    BEGIN " + "\r\n";
-
-            queryString = queryString + "       IF (@CustomerID IS NULL) ";
-            queryString = queryString + "           BEGIN ";
-            queryString = queryString + "               SELECT * FROM Promotions WHERE Promotions.InActive = 0 AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate " + "\r\n";
-            queryString = queryString + "           END ";
-            queryString = queryString + "       ELSE ";
-            queryString = queryString + "           BEGIN ";
-
-            queryString = queryString + "               DECLARE @CustomerCategoryID int " + "\r\n";
-            queryString = queryString + "               SELECT  @CustomerCategoryID = CustomerCategoryID FROM Customers WHERE CustomerID = @CustomerID "; //GET @CustomerCategoryID OF @CustomerID
-
-            queryString = queryString + "               SELECT * FROM Promotions WHERE PromotionID IN " + "\r\n";
-            queryString = queryString + "                  (SELECT Promotions.PromotionID FROM Promotions WHERE Promotions.InActive = 0 AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate AND Promotions.ApplyToAllCustomers = 1 " + "\r\n";
-            queryString = queryString + "                   UNION ALL " + "\r\n";
-            queryString = queryString + "                   SELECT Promotions.PromotionID FROM Promotions INNER JOIN PromotionCustomers ON Promotions.InActive = 0 AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate AND PromotionCustomers.CustomerID = @CustomerID AND Promotions.PromotionID = PromotionCustomers.PromotionID " + "\r\n";
-            queryString = queryString + "                   UNION ALL " + "\r\n";
-            queryString = queryString + "                   SELECT Promotions.PromotionID FROM Promotions INNER JOIN PromotionCustomerCategoryies ON Promotions.InActive = 0 AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate AND Promotions.PromotionID = PromotionCustomerCategoryies.PromotionID INNER JOIN AncestorCustomerCategories ON PromotionCustomerCategoryies.CustomerCategoryID = AncestorCustomerCategories.AncestorID AND AncestorCustomerCategories.CustomerCategoryID = @CustomerCategoryID " + "\r\n";
-            queryString = queryString + "                  )" + "\r\n";
-            queryString = queryString + "               ORDER BY Code, Name ";
-            queryString = queryString + "           END ";
-            queryString = queryString + "    END " + "\r\n";
-
-            this.totalSalesPortalEntities.CreateStoredProcedure("GetPromotionByCustomers", queryString);
-        }
 
         /// <summary>
         /// Get QuantityAvailable (Remaining) Commodities BY EVERY (WarehouseID, CommodityID)

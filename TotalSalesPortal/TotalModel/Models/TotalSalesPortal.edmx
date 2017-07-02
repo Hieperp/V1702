@@ -2376,6 +2376,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="EntityID" Type="int" Mode="In" />
           <Parameter Name="SaveRelativeOption" Type="int" Mode="In" />
         </Function>
+        <Function Name="AddPromotionCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PromotionID" Type="int" Mode="In" />
+          <Parameter Name="CustomerID" Type="int" Mode="In" />
+        </Function>
         <Function Name="CreditNoteApproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
         </Function>
@@ -2733,6 +2737,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         <Function Name="ReceiptSaveRelative" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
           <Parameter Name="SaveRelativeOption" Type="int" Mode="In" />
+        </Function>
+        <Function Name="RemovePromotionCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PromotionID" Type="int" Mode="In" />
+          <Parameter Name="CustomerID" Type="int" Mode="In" />
         </Function>
         <Function Name="SalesOrderApproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
@@ -4190,6 +4198,14 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <FunctionImport Name="CustomerSaveRelative">
             <Parameter Name="EntityID" Mode="In" Type="Int32" />
             <Parameter Name="SaveRelativeOption" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddPromotionCustomers">
+            <Parameter Name="PromotionID" Mode="In" Type="Int32" />
+            <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="RemovePromotionCustomers">
+            <Parameter Name="PromotionID" Mode="In" Type="Int32" />
+            <Parameter Name="CustomerID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
@@ -9831,6 +9847,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="CustomerSaveRelative" FunctionName="TotalSalesPortalModel.Store.CustomerSaveRelative" />
+          <FunctionImportMapping FunctionImportName="AddPromotionCustomers" FunctionName="TotalSalesPortalModel.Store.AddPromotionCustomers" />
+          <FunctionImportMapping FunctionImportName="RemovePromotionCustomers" FunctionName="TotalSalesPortalModel.Store.RemovePromotionCustomers" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

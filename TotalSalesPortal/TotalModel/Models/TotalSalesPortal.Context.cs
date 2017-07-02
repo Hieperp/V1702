@@ -1478,5 +1478,31 @@ namespace TotalModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CustomerSaveRelative", entityIDParameter, saveRelativeOptionParameter);
         }
+    
+        public virtual int AddPromotionCustomers(Nullable<int> promotionID, Nullable<int> customerID)
+        {
+            var promotionIDParameter = promotionID.HasValue ?
+                new ObjectParameter("PromotionID", promotionID) :
+                new ObjectParameter("PromotionID", typeof(int));
+    
+            var customerIDParameter = customerID.HasValue ?
+                new ObjectParameter("CustomerID", customerID) :
+                new ObjectParameter("CustomerID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddPromotionCustomers", promotionIDParameter, customerIDParameter);
+        }
+    
+        public virtual int RemovePromotionCustomers(Nullable<int> promotionID, Nullable<int> customerID)
+        {
+            var promotionIDParameter = promotionID.HasValue ?
+                new ObjectParameter("PromotionID", promotionID) :
+                new ObjectParameter("PromotionID", typeof(int));
+    
+            var customerIDParameter = customerID.HasValue ?
+                new ObjectParameter("CustomerID", customerID) :
+                new ObjectParameter("CustomerID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RemovePromotionCustomers", promotionIDParameter, customerIDParameter);
+        }
     }
 }

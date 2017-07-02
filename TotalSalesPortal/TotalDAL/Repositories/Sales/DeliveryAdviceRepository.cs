@@ -22,6 +22,10 @@ namespace TotalDAL.Repositories.Sales
             : base(totalSalesPortalEntities, "DeliveryAdviceEditable", "DeliveryAdviceApproved", null, "DeliveryAdviceVoidable")
         {
 
+            //return;
+
+            Helpers.SqlProgrammability.Commons.Promotion promotion = new Helpers.SqlProgrammability.Commons.Promotion(totalSalesPortalEntities);
+            promotion.RestoreProcedure();
 
             //return;
 
@@ -32,7 +36,7 @@ namespace TotalDAL.Repositories.Sales
             accountInvoice.RestoreProcedure();
 
 
-            //return;
+            return;
 
             Helpers.SqlProgrammability.Commons.Customer customer = new Helpers.SqlProgrammability.Commons.Customer(totalSalesPortalEntities);
             customer.RestoreProcedure();

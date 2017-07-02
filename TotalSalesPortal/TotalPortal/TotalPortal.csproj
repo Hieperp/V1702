@@ -359,10 +359,12 @@
     <Content Include="Content\Images\Mains\Cross-icon-cancel64.png" />
     <Content Include="Content\Images\Mains\Customer Black 24.png.png" />
     <Content Include="Content\Images\Mains\Customer Blue 24.png" />
+    <Content Include="Content\Images\Mains\Customer Blue 32.png" />
     <Content Include="Content\Images\Mains\Customer Orange 24.png" />
     <Content Include="Content\Images\Mains\Customer Red 24.png" />
     <Content Include="Content\Images\Mains\Customer White 24.png" />
     <Content Include="Content\Images\Mains\data-add-icon-32.png" />
+    <Content Include="Content\Images\Mains\Ecommerce-Sale-icon-32.png" />
     <Content Include="Content\Images\Mains\folder-documents-icon-32.png" />
     <Content Include="Content\Images\Mains\iSync-icon32.png" />
     <Content Include="Content\Images\Mains\iSync-icon64.png" />
@@ -388,6 +390,7 @@
     <Content Include="Content\Images\Mains\Size24\contacts-icon-24.png" />
     <Content Include="Content\Images\Mains\Size24\data-add-icon-24.png" />
     <Content Include="Content\Images\Mains\Size24\Delivery-80-24.png" />
+    <Content Include="Content\Images\Mains\Size24\Ecommerce-Sale-icon-24.png" />
     <Content Include="Content\Images\Mains\Size24\folder-documents-icon-24.png" />
     <Content Include="Content\Images\Mains\Size24\Location-30-24.png" />
     <Content Include="Content\Images\Mains\Size24\Map-11-24.png" />

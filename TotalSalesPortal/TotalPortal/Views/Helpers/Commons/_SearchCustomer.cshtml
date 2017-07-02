@@ -13,7 +13,7 @@
 
     @Html.EditorFor(d => d.Warehouse, new { WarehouseDisplayName = @Model.GetDisplayName(m => m.Warehouse) })
 
-    @*<div style="float: right; margin-top: -135px; text-align: center; width: 110px; height: 110px; ">
+    @*<div style="float: right; margin-top: -135px; text-align: center; width: 110px; height: 110px; "> -VIỆC ÁP DỤNG TẤT CẢ/ HAY SELECTED ONLY NÀY KHÔNG CÓ Ý NGHĨA TRONG THỰC TẾ - VÌ THÔNG THƯỜNG: KHÁCH HÀNG LUÔN LUÔN ÁP DỤNG TẤT CẢ CHƯƠNG TRÌNH
             <div style="height: 90px; text-align: center; padding-left: 22px; padding-right: 22px; padding-top: 35px;">
                 <span> <img src="~/Content/Images/Mains/Blowout-Sale-icon-48.png" title="Áp dụng tổng hợp các chương trình khuyến mãi còn hiệu lực cho khách hàng này" /> </span>
             </div>
@@ -25,14 +25,14 @@
     .Name("gridPromotion")
     .Columns(columns =>
     {
-        columns.Bound(c => c.Code).Title("Mã khuyến mãi").Width(12);
+        columns.Bound(c => c.Code).Title("Mã KM").Width(12);
         columns.Bound(c => c.Name).Title("Tên chương trình").Width(35);
 
         columns.Bound(c => c.DiscountPercent).Title("% CK").Width(5).HtmlAttributes(new { @class = "grid-number-column" }).Format("{0:n0}");
-        columns.Bound(c => c.StartDate).Title("Ngày BĐ").Width(10).Format("{0:" + SettingsManager.DateFormat + "}");
-        columns.Bound(c => c.EndDate).Title("Ngày KT").Width(10).Format("{0:" + SettingsManager.DateFormat + "}");
-        columns.Template(t => { }).Title("CK").ClientTemplate("<input class='IsSelected' #= ApplyToTradeDiscount ? checked='checked':'' #  type='checkbox' />").Width(3);
-        columns.Bound(c => c.Remarks).Title("Ghi chú").Width(30);
+        columns.Bound(c => c.StartDate).Title("Ngày BĐ").Width(12).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Bound(c => c.EndDate).Title("Ngày KT").Width(12).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Template(t => { }).Title("CK").ClientTemplate("<input class='IsSelected' #= ApplyToTradeDiscount ? checked='checked':'' #  type='checkbox' />").Width(5);
+        columns.Bound(c => c.Remarks).Title("Ghi chú").Width(15);
     })
 
     .Scrollable(s => s.Height(180))

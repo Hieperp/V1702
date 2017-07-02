@@ -173,11 +173,12 @@
         <div class="left-panel-input">
             @if (Model.Editable)
             {
-                <button type="submit" class="k-button custom-button SubmitTypeOption-Closed" formaction="@Url.Action("Edit", "Customers")"> <img src="~/Content/Images/New/save-icon.png" /> Save </button>
+                <button type="submit" class="k-button custom-button SubmitTypeOption-Closed" formaction="@Url.Action("Edit", "Customers")"> <img src="~/Content/Images/New/save-icon.png" /> Lưu dữ liệu khách hàng </button>
             }
             @if (Model.CustomerID > 0 && Model.ShowDiscount)
             {
-                <button type="button" class="k-button custom-button" onclick="ShowPromotions()"> <img src="~/Content/Images/New/save-icon.png" /> Quản lý chiết khấu, khuyến mãi </button>
+                <button type="button" class="k-button custom-button" onclick="ShowPromotions()"> <img src="~/Content/Images/Mains/Ecommerce-Sale-icon-32.png" /> Quản lý chiết khấu, khuyến mãi </button>
+    <button type="button" class="k-button custom-button" onclick="location.href='@Url.Action("Create", "Customers")'"> <img src="~/Content/Images/Mains/Customer Blue 32.png" /> Thêm khách hàng mới </button>
             } 
         </div>
 
@@ -197,7 +198,7 @@
     function ShowPromotions() {
         require(["kpopupWindow"], function (kpopupWindow) {
             var createWizardWindow = new kpopupWindow();
-            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("Promotion", "Customers", new { area = "Commons", id = @Model.CustomerID })", "Quản lý chiết khấu, khuyến mãi", "@SettingsManager.PopupWidthLarge", "@SettingsManager.PopupHeightWithTab");
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("Promotion", "Customers", new { area = "Commons", id = @Model.CustomerID })", "Quản lý chiết khấu, khuyến mãi", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeightWithTab");
         });
     }
 </script>

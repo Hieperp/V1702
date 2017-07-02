@@ -6,53 +6,59 @@
 @model TotalPortal.Areas.Commons.ViewModels.CustomerViewModel
 
 
-<div>
-    @Html.HiddenFor(model => model.CustomerID)
-    @Html.HiddenFor(model => model.ShowDiscount)
-    <div class="left-panel" style="height:30px;"></div>
-    <div class="right-panel">
-        <div class="right-first-panel">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Code)
-                <div class="div-input">
-                    @Html.Kendo().MaskedTextBoxFor(model => model.Code).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" }).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
-                </div>
-                <div class="div-validation-message">
-                    @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
-                </div>
+
+@Html.HiddenFor(model => model.CustomerID)
+@Html.HiddenFor(model => model.ShowDiscount)
+<div class="left-panel" style="height:30px;"></div>
+<div class="right-panel">
+    <div class="right-first-panel">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Code)
+            <div class="div-input">
+                @Html.Kendo().MaskedTextBoxFor(model => model.Code).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" }).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Name)
-                <div class="div-input">
-                    @Html.Kendo().MaskedTextBoxFor(model => model.Name).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
-                </div>
-                <div class="div-validation-message">
-                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
             </div>
-
-
-            
-       
-
-            <div class="form-group">
-                @Html.Label("Vui lòng chọn chương trình khuyến mãi, sau đó nhấn thêm vào")
-                <div class="div-input">
-                    @(Html.Kendo().DropDownList().Name("DropDownPromotionID").DataValueField("Value").DataTextField("Text").BindTo((System.Collections.IEnumerable)ViewBag.Promotions).HtmlAttributes(new { @class = "left-panel-input"}))
-                </div>
-            </div>
-
-
-
         </div>
 
-        <div class="right-second-panel">
-            @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/CustomerCategory.cshtml", @Model, new ViewDataDictionary { { "CustomerCategoryReadonly", true } })
-            @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PriceCategory.cshtml", @Model, new ViewDataDictionary { { "PriceCategoryReadonly", true } })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name)
+            <div class="div-input">
+                @Html.Kendo().MaskedTextBoxFor(model => model.Name).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
         </div>
+
+
+
+
+
+        <div class="form-group" style="padding-top: 16px;">
+            @Html.Label("Vui lòng chọn chương trình khuyến mãi, sau đó nhấn thêm vào")
+            <div class="div-input">
+                @(Html.Kendo().DropDownList().Name("PromotionID").DataValueField("Value").DataTextField("Text").BindTo((System.Collections.IEnumerable)ViewBag.Promotions).HtmlAttributes(new { @class = "left-panel-input" }))
+            </div>
+        </div>
+
+
 
     </div>
+
+    <div class="right-second-panel">
+        @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/CustomerCategory.cshtml", @Model, new ViewDataDictionary { { "CustomerCategoryReadonly", true } })
+        @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PriceCategory.cshtml", @Model, new ViewDataDictionary { { "PriceCategoryReadonly", true } })
+
+        <div class="form-group" style="padding-top: 17px;">
+            @Html.Label(" ")
+            <div class="div-input">
+                <button type="button" class="k-button" onclick="AddPromotionCustomers()"> <img src="~/Content/Images/Mains/Size24/Ecommerce-Sale-icon-24.png" /> Thêm khuyến mãi vào KH: @Model.Code </button>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <div class="form-group">
@@ -60,17 +66,19 @@
     .Name("gridPromotion")
     .Columns(columns =>
     {
-        columns.Bound(c => c.Code).Title("Mã khuyến mãi").Width(12);
+        columns.Bound(c => c.Code).Title("Mã KM").Width(12);
         columns.Bound(c => c.Name).Title("Tên chương trình").Width(35);
 
         columns.Bound(c => c.DiscountPercent).Title("% CK").Width(5).HtmlAttributes(new { @class = "grid-number-column" }).Format("{0:n0}");
-        columns.Bound(c => c.StartDate).Title("Ngày BĐ").Width(10).Format("{0:" + SettingsManager.DateFormat + "}");
-        columns.Bound(c => c.EndDate).Title("Ngày KT").Width(10).Format("{0:" + SettingsManager.DateFormat + "}");
-        columns.Template(t => { }).Title("CK").ClientTemplate("<input class='IsSelected' #= ApplyToTradeDiscount ? checked='checked':'' #  type='checkbox' />").Width(3);
-        columns.Bound(c => c.Remarks).Title("Ghi chú").Width(30);
+        columns.Bound(c => c.StartDate).Title("Ngày bắt đầu").Width(12).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Bound(c => c.EndDate).Title("Ngày kết thúc").Width(12).Format("{0:" + SettingsManager.DateTimeFormat + "}");
+        columns.Template(t => { }).Title("CK").ClientTemplate("<input class='IsSelected' #= ApplyToTradeDiscount ? checked='checked':'' #  type='checkbox' />").Width(5);
+        columns.Bound(c => c.Remarks).Title("Ghi chú").Width(10);
+        columns.Template(model => null).Width(5)
+            .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' onclick='RemovePromotionCustomers(#=PromotionID#)'><span class='k-icon k-delete'></span></a>");
     })
 
-    .Scrollable(s => s.Height(180))
+    .Scrollable(s => s.Height(217))
     .DataSource(ds => ds.Ajax()
     .Read(read => read.Action("GetPromotionByCustomers", "PromotionAPIs", new { area = "Commons" }).Data("onGetPromotionByCustomers"))
     .ServerOperation(true))
@@ -79,10 +87,76 @@
 
 </div>
 
+
+<div class="background-bar" style="height: 45px;">
+    <div class="popup-button-bar">
+        <button type="button" class="k-button" onclick="window.parent.$('#myWindow').data('kendoWindow').close()"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png" /> Thoát </button>
+    </div>
+</div>
+
 <script type="text/javascript">
     function onGetPromotionByCustomers(e) {
         return {
             customerID: ($("#ShowDiscount").val() == 'True' ? $("#CustomerID").val() : 0)
         };
     }
+
+    function AddPromotionCustomers(e) {
+        return $.ajax({
+            url: '@Url.Action("AddPromotionCustomers", "PromotionAPIs", new { area = "Commons" })',
+            data: JSON.stringify({ "promotionID": $("#PromotionID").val(), "customerID": $("#CustomerID").val() }),
+
+            type: 'POST',
+            contentType: 'application/json;',
+            dataType: 'json',
+            success: function (result) {
+                if (result.AddResult == "Successfully") {
+                    $("#gridPromotion").data("kendoGrid").dataSource.read();
+                }
+                else
+                    alert(result.AddResult);
+            },
+            error: function (jqXHR, textStatus) {
+                alert(textStatus);
+            }
+        });
+    }
+
+    function RemovePromotionCustomers(promotionID) {
+        return $.ajax({
+            url: '@Url.Action("RemovePromotionCustomers", "PromotionAPIs", new { area = "Commons" })',
+            data: JSON.stringify({ "promotionID": promotionID, "customerID": $("#CustomerID").val() }),
+
+            type: 'POST',
+            contentType: 'application/json;',
+            dataType: 'json',
+            success: function (result) {
+                if (result.RemoveResult == "Successfully") {
+                    $("#gridPromotion").data("kendoGrid").dataSource.read();
+                }
+                else
+                    alert(result.RemoveResult);
+            },
+            error: function (jqXHR, textStatus) {
+                alert(textStatus);
+            }
+        });
+
+    }
+
 </script>
+
+<style>
+    .right-first-panel {
+        padding-right: 30px;
+    }
+
+    .right-second-panel {
+        padding-top: 1px;
+        padding-right: 13px;
+    }
+
+    .left-panel-input {
+        width: 100%;
+    }
+</style>
