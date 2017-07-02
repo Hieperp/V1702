@@ -103,7 +103,13 @@ namespace TotalPortal.App_Start
 
                 cfg.CreateMap<Customer, CustomerBaseDTO>();
 
+                cfg.CreateMap<Employee, EmployeeViewModel>();
+                cfg.CreateMap<Employee, EmployeeDTO>();
                 cfg.CreateMap<Employee, EmployeeBaseDTO>();
+                cfg.CreateMap<EmployeePrimitiveDTO, Employee>();
+
+                cfg.CreateMap<Employee, EmployeeBaseDTO>();
+
                 cfg.CreateMap<Warehouse, WarehouseBaseDTO>();
                 cfg.CreateMap<Promotion, PromotionDTO>();
                 cfg.CreateMap<VoidType, VoidTypeBaseDTO>();

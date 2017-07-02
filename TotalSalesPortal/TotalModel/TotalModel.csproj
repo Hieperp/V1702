@@ -140,6 +140,9 @@
     <Compile Include="Models\Employee.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmployeeIndex.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EntireTerritory.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>

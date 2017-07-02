@@ -154,6 +154,14 @@ namespace TotalPortal.App_Start
                 kernel.Bind<ICustomerSelectListBuilder>().To<CustomerSelectListBuilder>();
 
 
+                kernel.Bind<IEmployeeService>().To<EmployeeService>();
+                kernel.Bind<IEmployeeRepository>().To<EmployeeRepository>();
+                kernel.Bind<IEmployeeAPIRepository>().To<EmployeeAPIRepository>();
+                kernel.Bind<IEmployeeSelectListBuilder>().To<EmployeeSelectListBuilder>();
+
+                
+
+
                 kernel.Bind<IInventoryRepository>().To<InventoryRepository>();
 
                 kernel.Bind<IAspNetUserSelectListBuilder>().To<AspNetUserSelectListBuilder>();
@@ -170,8 +178,7 @@ namespace TotalPortal.App_Start
 
                 kernel.Bind<IAspNetUserRepository>().To<AspNetUserRepository>();
                 kernel.Bind<ICommodityRepository>().To<CommodityRepository>();                
-                kernel.Bind<IWarehouseRepository>().To<WarehouseRepository>();
-                kernel.Bind<IEmployeeRepository>().To<EmployeeRepository>();
+                kernel.Bind<IWarehouseRepository>().To<WarehouseRepository>();                
                 kernel.Bind<IVoidTypeRepository>().To<VoidTypeRepository>();
                 kernel.Bind<IPromotionRepository>().To<PromotionRepository>();
                 kernel.Bind<IPaymentTermRepository>().To<PaymentTermRepository>();

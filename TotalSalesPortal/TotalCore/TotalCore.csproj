@@ -87,6 +87,7 @@
     <Compile Include="Services\Accounts\IReceiptService.cs" />
     <Compile Include="Services\Commons\ICommodityService.cs" />
     <Compile Include="Services\Commons\ICustomerService.cs" />
+    <Compile Include="Services\Commons\IEmployeeService.cs" />
     <Compile Include="Services\Helpers\IHelperService.cs" />
     <Compile Include="Services\IBaseService.cs" />
     <Compile Include="Services\IGenericService.cs" />

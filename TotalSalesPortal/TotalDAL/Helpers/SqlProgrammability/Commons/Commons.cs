@@ -19,6 +19,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             this.EntireTerritories();
             this.EntireCommodityCategories();
             this.EntireCustomerCategories();
+
+            this.EntireCommodityBrands();
         }
 
 
@@ -41,6 +43,13 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
         //----UNION ALL 
         //----SELECT CommodityCategoryID3 AS AncestorID, CommodityCategoryID FROM EntireCommodityCategories WHERE CommodityCategoryID3 <> 0 
 
+        //----DELETE FROM AncestorCommodityBrands 
+        //----INSERT INTO AncestorCommodityBrands (AncestorID, CommodityBrandID)
+        //----SELECT CommodityBrandID1 AS AncestorID, CommodityBrandID FROM EntireCommodityBrands
+        //----UNION ALL 
+        //----SELECT CommodityBrandID2 AS AncestorID, CommodityBrandID FROM EntireCommodityBrands WHERE CommodityBrandID2 <> 0 
+        //----UNION ALL 
+        //----SELECT CommodityBrandID3 AS AncestorID, CommodityBrandID FROM EntireCommodityBrands WHERE CommodityBrandID3 <> 0 
 
 
 
@@ -194,6 +203,65 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             //--------A3.END
 
             this.totalSalesPortalEntities.CreateView("VWCommodityCategories", queryString);
+        }
+
+
+        private void EntireCommodityBrands()
+        {
+
+            //--------A1.BIGIN
+            string queryString = "   SELECT      " + "\r\n";
+            queryString = queryString + "               CommodityBrandID, Name, Name AS EntireName, " + "\r\n";
+
+            queryString = queryString + "               CommodityBrandID AS CommodityBrandID1, Name AS Name1, " + "\r\n";
+            queryString = queryString + "               0 AS CommodityBrandID2, '' AS Name2, " + "\r\n";
+            queryString = queryString + "               0 AS CommodityBrandID3, '' AS Name3 " + "\r\n";
+
+            queryString = queryString + "   FROM        CommodityBrands WHERE AncestorID IS NULL " + "\r\n";
+
+            //--------A1.END
+            //--------A2.BEGIN
+            queryString = queryString + "   UNION ALL   " + "\r\n";
+
+            queryString = queryString + "   SELECT      " + "\r\n";
+            queryString = queryString + "               CommodityBrands2.CommodityBrandID, CommodityBrands2.Name, CommodityBrands2.Name + ', ' + CommodityBrands1.Name AS EntireName, " + "\r\n";
+
+            queryString = queryString + "               CommodityBrands1.CommodityBrandID AS CommodityBrandID1, CommodityBrands1.Name AS Name1, " + "\r\n";
+            queryString = queryString + "               CommodityBrands2.CommodityBrandID AS CommodityBrandID2, CommodityBrands2.Name AS Name2, " + "\r\n";
+            queryString = queryString + "               0 AS CommodityBrandID3, '' AS Name3 " + "\r\n";
+
+            queryString = queryString + "   FROM        " + "\r\n";
+
+            queryString = queryString + "               (SELECT     CommodityBrandID, Name, AncestorID FROM CommodityBrands WHERE AncestorID IS NULL) AS CommodityBrands1 " + "\r\n";
+            queryString = queryString + "               INNER JOIN " + "\r\n";
+            queryString = queryString + "               (SELECT     CommodityBrandID, Name, AncestorID FROM CommodityBrands WHERE AncestorID IN (SELECT CommodityBrandID FROM CommodityBrands WHERE AncestorID IS NULL)) AS CommodityBrands2 " + "\r\n";
+            queryString = queryString + "               ON CommodityBrands1.CommodityBrandID = CommodityBrands2.AncestorID " + "\r\n";
+            //--------A2.END
+
+            //--------A3.BEGIN
+            queryString = queryString + "   UNION ALL   " + "\r\n";
+
+            queryString = queryString + "   SELECT      " + "\r\n";
+            queryString = queryString + "               CommodityBrands3.CommodityBrandID, CommodityBrands3.Name, CommodityBrands3.Name + ', ' + CommodityBrands2.Name + ', ' + CommodityBrands1.Name AS EntireName, " + "\r\n";
+
+            queryString = queryString + "               CommodityBrands1.CommodityBrandID AS CommodityBrandID1, CommodityBrands1.Name AS Name1, " + "\r\n";
+            queryString = queryString + "               CommodityBrands2.CommodityBrandID AS CommodityBrandID2, CommodityBrands2.Name AS Name2, " + "\r\n";
+            queryString = queryString + "               CommodityBrands3.CommodityBrandID AS CommodityBrandID3, CommodityBrands3.Name AS Name3 " + "\r\n";
+
+            queryString = queryString + "   FROM        " + "\r\n";
+
+            queryString = queryString + "               (SELECT     CommodityBrandID, Name, AncestorID FROM CommodityBrands WHERE AncestorID IS NULL) AS CommodityBrands1 " + "\r\n";
+
+            queryString = queryString + "               INNER JOIN " + "\r\n";
+            queryString = queryString + "               (SELECT     CommodityBrandID, Name, AncestorID FROM CommodityBrands WHERE AncestorID IN (SELECT CommodityBrandID FROM CommodityBrands WHERE AncestorID IS NULL)) AS CommodityBrands2 " + "\r\n";
+            queryString = queryString + "               ON CommodityBrands1.CommodityBrandID = CommodityBrands2.AncestorID " + "\r\n";
+
+            queryString = queryString + "               INNER JOIN " + "\r\n";
+            queryString = queryString + "               (SELECT     CommodityBrandID, Name, AncestorID FROM CommodityBrands WHERE AncestorID IN (SELECT CommodityBrandID FROM CommodityBrands WHERE AncestorID IN (SELECT CommodityBrandID FROM CommodityBrands WHERE AncestorID IS NULL))) AS CommodityBrands3 " + "\r\n";
+            queryString = queryString + "               ON CommodityBrands2.CommodityBrandID = CommodityBrands3.AncestorID " + "\r\n";
+            //--------A3.END
+
+            this.totalSalesPortalEntities.CreateView("VWCommodityBrands", queryString);
         }
 
 

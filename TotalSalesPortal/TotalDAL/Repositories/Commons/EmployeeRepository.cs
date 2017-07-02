@@ -22,4 +22,13 @@ namespace TotalDAL.Repositories.Commons
             return employees;
         }
     }
+
+
+    public class EmployeeAPIRepository : GenericAPIRepository, IEmployeeAPIRepository
+    {
+        public EmployeeAPIRepository(TotalSalesPortalEntities totalSalesPortalEntities)
+            : base(totalSalesPortalEntities, "GetEmployeeIndexes")
+        {
+        }
+    }
 }

@@ -21,6 +21,17 @@ namespace TotalDAL.Repositories.Sales
         public DeliveryAdviceRepository(TotalSalesPortalEntities totalSalesPortalEntities)
             : base(totalSalesPortalEntities, "DeliveryAdviceEditable", "DeliveryAdviceApproved", null, "DeliveryAdviceVoidable")
         {
+            //return;
+
+
+            Helpers.SqlProgrammability.Commons.Commons commons = new Helpers.SqlProgrammability.Commons.Commons(totalSalesPortalEntities);
+            commons.RestoreProcedure();
+
+
+            //return;
+
+            Helpers.SqlProgrammability.Commons.Employee employee = new Helpers.SqlProgrammability.Commons.Employee(totalSalesPortalEntities);
+            employee.RestoreProcedure();
 
             //return;
 
@@ -36,19 +47,19 @@ namespace TotalDAL.Repositories.Sales
             accountInvoice.RestoreProcedure();
 
 
-            return;
+            //return;
 
             Helpers.SqlProgrammability.Commons.Customer customer = new Helpers.SqlProgrammability.Commons.Customer(totalSalesPortalEntities);
             customer.RestoreProcedure();
 
 
-            return;
+            //return;
 
             Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);
             saleReports.RestoreProcedure();
 
 
-            return;
+            //return;
 
 
             Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
@@ -113,11 +124,6 @@ namespace TotalDAL.Repositories.Sales
 
 
 
-            return;
-
-
-            Helpers.SqlProgrammability.Commons.Commons commons = new Helpers.SqlProgrammability.Commons.Commons(totalSalesPortalEntities);
-            commons.RestoreProcedure();
 
 
 

@@ -8,6 +8,10 @@ using Kendo.Mvc.Extensions;
 using TotalCore.Repositories.Commons;
 using TotalModel.Models;
 using TotalDTO.Commons;
+using TotalPortal.APIs.Sessions;
+
+using Microsoft.AspNet.Identity;
+
 
 namespace TotalPortal.Areas.Commons.APIs
 {
@@ -15,12 +19,22 @@ namespace TotalPortal.Areas.Commons.APIs
     public class EmployeeAPIsController : Controller
     {
         private readonly IEmployeeRepository employeeRepository;
+        private readonly IEmployeeAPIRepository employeeAPIRepository;
 
-        public EmployeeAPIsController(IEmployeeRepository employeeRepository)
+        public EmployeeAPIsController(IEmployeeRepository employeeRepository, IEmployeeAPIRepository employeeAPIRepository)
         {
             this.employeeRepository = employeeRepository;
+            this.employeeAPIRepository = employeeAPIRepository;
         }
 
+        public JsonResult GetEmployeeIndexes([DataSourceRequest] DataSourceRequest request)
+        {
+            ICollection<EmployeeIndex> EmployeeIndexes = this.employeeAPIRepository.GetEntityIndexes<EmployeeIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext));
+
+            DataSourceResult response = EmployeeIndexes.ToDataSourceResult(request);
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult SearchEmployees(string searchText)
         {

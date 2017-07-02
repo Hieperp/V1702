@@ -105,36 +105,36 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
             queryString = queryString + "       SET NOCOUNT ON " + "\r\n";
 
-            queryString = queryString + "       DECLARE @Commodities TABLE (CommodityID int NOT NULL, Code nvarchar(50) NOT NULL, CodePartA nvarchar(20) NOT NULL, CodePartB nvarchar(20) NOT NULL, CodePartC nvarchar(20) NOT NULL, Name nvarchar(200) NOT NULL, ListedPrice decimal(18, 2) NOT NULL, GrossPrice decimal(18, 2) NOT NULL, DiscountPercent decimal(18, 2) NOT NULL, ControlFreeQuantity decimal(18, 2) NOT NULL, CommodityTypeID int NOT NULL, CommodityCategoryID int NOT NULL)" + "\r\n";
+            queryString = queryString + "       DECLARE @Commodities TABLE (CommodityID int NOT NULL, Code nvarchar(50) NOT NULL, CodePartA nvarchar(20) NOT NULL, CodePartB nvarchar(20) NOT NULL, CodePartC nvarchar(20) NOT NULL, Name nvarchar(200) NOT NULL, ListedPrice decimal(18, 2) NOT NULL, GrossPrice decimal(18, 2) NOT NULL, DiscountPercent decimal(18, 2) NOT NULL, ControlFreeQuantity decimal(18, 2) NOT NULL, CommodityBrandID int NOT NULL, CommodityTypeID int NOT NULL, CommodityCategoryID int NOT NULL)" + "\r\n";
             queryString = queryString + "       DECLARE @CommoditiesAvailable TABLE (WarehouseID int NOT NULL, CommodityID int NOT NULL, QuantityAvailable decimal(18, 2) NOT NULL, Bookable bit NULL)" + "\r\n";
             queryString = queryString + "       DECLARE @HasCommoditiesAvailable int SET @HasCommoditiesAvailable = 0" + "\r\n";
 
-            queryString = queryString + "       INSERT INTO @Commodities SELECT TOP 10 CommodityID, Code, CodePartA, CodePartB, CodePartC, Name, 0 AS ListedPrice, 0 AS GrossPrice, 0 AS DiscountPercent, 0 AS ControlFreeQuantity, CommodityTypeID, CommodityCategoryID FROM Commodities WHERE CommodityTypeID IN (" + (withCommoditiesInGoodsReceipts ? "" + (int)GlobalEnums.CommodityTypeID.Vehicles : "") + (withCommoditiesInGoodsReceipts && withCommoditiesInWarehouses ? ", " : "") + (withCommoditiesInWarehouses ? (int)GlobalEnums.CommodityTypeID.Parts + ", " + (int)GlobalEnums.CommodityTypeID.Consumables : "") + (withCommodityTypeServices & (withCommoditiesInGoodsReceipts || withCommoditiesInWarehouses) ? ", " : "") + (withCommodityTypeServices ? "" + (int)GlobalEnums.CommodityTypeID.Services : "") + ") AND (Code LIKE '%' + @SearchText + '%' OR Name LIKE '%' + @SearchText + '%') " + "\r\n";
+            queryString = queryString + "       INSERT INTO @Commodities SELECT TOP 10 CommodityID, Code, CodePartA, CodePartB, CodePartC, Name, 0 AS ListedPrice, 0 AS GrossPrice, 0 AS DiscountPercent, 0 AS ControlFreeQuantity, CommodityBrandID, CommodityTypeID, CommodityCategoryID FROM Commodities WHERE CommodityTypeID IN (" + (withCommoditiesInGoodsReceipts ? "" + (int)GlobalEnums.CommodityTypeID.Vehicles : "") + (withCommoditiesInGoodsReceipts && withCommoditiesInWarehouses ? ", " : "") + (withCommoditiesInWarehouses ? (int)GlobalEnums.CommodityTypeID.Parts + ", " + (int)GlobalEnums.CommodityTypeID.Consumables : "") + (withCommodityTypeServices & (withCommoditiesInGoodsReceipts || withCommoditiesInWarehouses) ? ", " : "") + (withCommodityTypeServices ? "" + (int)GlobalEnums.CommodityTypeID.Services : "") + ") AND (Code LIKE '%' + @SearchText + '%' OR Name LIKE '%' + @SearchText + '%') " + "\r\n";
 
 
             queryString = queryString + "       IF (@@ROWCOUNT > 0) " + "\r\n";
             {
                 string queryCodePart = "          ( " + "\r\n"; //By CodeParts (TRY TO SEARCH ALL COMBINABLE CASE OF CodePartA, CodePartB AND CodePartC: => WE HAVE 7 CASES)
-                queryCodePart = queryCodePart + "    (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = N'') " + "\r\n";
-                queryCodePart = queryCodePart + " OR (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
-                queryCodePart = queryCodePart + " OR (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') " + "\r\n";
-                queryCodePart = queryCodePart + " OR (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
+                queryCodePart = queryCodePart + "      (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = N'') " + "\r\n";
+                queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
+                queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') " + "\r\n";
+                queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
 
-                queryCodePart = queryCodePart + " OR (PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
-                queryCodePart = queryCodePart + " OR (PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') " + "\r\n";
-                queryCodePart = queryCodePart + " OR (PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
+                queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
+                queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') " + "\r\n";
+                queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
                 queryCodePart = queryCodePart + " ) " + "\r\n";
 
 
                 string queryPriority = "          CASE " + "\r\n"; //We set PriorityIndex for each case (1, 2, 3, ...) to implement the priority for EACH MATCH CASE (REASON: most of case, it will match some cases: for example: [CodePartA = A106 AND CodePartC = A3] -> PriorityIndex = 4  versus [CodePartC = A3] only -> PriorityIndex = 7)
-                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = N'') THEN 4 " + "\r\n";
-                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) THEN 2 " + "\r\n";
-                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') THEN 3 " + "\r\n";
-                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) THEN 1 " + "\r\n";
+                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = N'') THEN 4 " + "\r\n";
+                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) THEN 2 " + "\r\n";
+                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') THEN 3 " + "\r\n";
+                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) THEN 1 " + "\r\n";
 
-                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) THEN 7 " + "\r\n";
-                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') THEN 6 " + "\r\n";
-                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) THEN 5 " + "\r\n";
+                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = N'' AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) THEN 7 " + "\r\n";
+                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = N'') THEN 6 " + "\r\n";
+                queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = N'' AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) THEN 5 " + "\r\n";
                 queryPriority = queryPriority + " END " + "\r\n";
 
 
@@ -162,8 +162,14 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
                     queryString = queryString + "                           UNION ALL ";
                     queryString = queryString + "                           SELECT  CommodityID FROM @Commodities WHERE CommodityCategoryID IN "; //By CommodityCategories
                     queryString = queryString + "                                  (SELECT  AncestorCommodityCategories.CommodityCategoryID ";
-                    queryString = queryString + "                                   FROM    PromotionCommodityCategoryies ";
-                    queryString = queryString + "                                           INNER JOIN AncestorCommodityCategories ON PromotionCommodityCategoryies.PromotionID = @PromotionID AND PromotionCommodityCategoryies.CommodityCategoryID = AncestorCommodityCategories.AncestorID ";
+                    queryString = queryString + "                                   FROM    PromotionCommodityCategories ";
+                    queryString = queryString + "                                           INNER JOIN AncestorCommodityCategories ON PromotionCommodityCategories.PromotionID = @PromotionID AND PromotionCommodityCategories.CommodityCategoryID = AncestorCommodityCategories.AncestorID ";
+                    queryString = queryString + "                                  )";
+                    queryString = queryString + "                           UNION ALL ";
+                    queryString = queryString + "                           SELECT  CommodityID FROM @Commodities WHERE CommodityBrandID IN "; //By CommodityBrands
+                    queryString = queryString + "                                  (SELECT  AncestorCommodityBrands.CommodityBrandID ";
+                    queryString = queryString + "                                   FROM    PromotionCommodityBrands ";
+                    queryString = queryString + "                                           INNER JOIN AncestorCommodityBrands ON PromotionCommodityBrands.PromotionID = @PromotionID AND PromotionCommodityBrands.CommodityBrandID = AncestorCommodityBrands.AncestorID ";
                     queryString = queryString + "                                  )";
                     queryString = queryString + "                       )";
 
@@ -178,7 +184,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
                     queryString = queryString + "           SELECT  @CustomerCategoryID = CustomerCategoryID FROM Customers WHERE CustomerID = @CustomerID "; //GET @CustomerCategoryID OF @CustomerID
 
-                    queryString = queryString + "           SELECT  @PromotionIDList = STUFF((SELECT ',' + CAST(PromotionID AS varchar) " + "\r\n"; //CONVERT TO @PromotionIDList OF @CustomerID, USING @PromotionIDList AS FILTER FOR PromotionCommodities OR PromotionCommodityCategoryies AT NEXT STEP 
+                    queryString = queryString + "           SELECT  @PromotionIDList = STUFF((SELECT ',' + CAST(PromotionID AS varchar) " + "\r\n"; //CONVERT TO @PromotionIDList OF @CustomerID, USING @PromotionIDList AS FILTER FOR PromotionCommodities OR PromotionCommodityCategories OR PromotionCommodityBrands AT NEXT STEP 
                     queryString = queryString + "           FROM    (" + "\r\n";
                     queryString = queryString + "                    SELECT DISTINCT PromotionID FROM " + "\r\n"; //GET DISTINCT PromotionID BY: @CustomerID UNION @CustomerCategoryID
                     queryString = queryString + "                          (SELECT Promotions.PromotionID FROM Promotions WHERE Promotions.InActive = 0 AND Promotions.ApplyToTradeDiscount = 0 AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate AND Promotions.ApplyToAllCustomers = 1 " + "\r\n";
@@ -227,10 +233,15 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
                     queryString = queryString + "           UNION ALL ";
                     queryString = queryString + "           SELECT  Commodities.CommodityID, Promotions.DiscountPercent, Promotions.ControlFreeQuantity ";
                     queryString = queryString + "           FROM    Promotions "; //By CommodityCategories
-                    queryString = queryString + "                   INNER JOIN  PromotionCommodityCategoryies ON Promotions.PromotionID IN (SELECT Id FROM dbo.SplitToIntList (@PromotionIDList)) AND Promotions.PromotionID = PromotionCommodityCategoryies.PromotionID ";
-                    queryString = queryString + "                   INNER JOIN  AncestorCommodityCategories ON PromotionCommodityCategoryies.CommodityCategoryID = AncestorCommodityCategories.AncestorID ";
+                    queryString = queryString + "                   INNER JOIN  PromotionCommodityCategories ON Promotions.PromotionID IN (SELECT Id FROM dbo.SplitToIntList (@PromotionIDList)) AND Promotions.PromotionID = PromotionCommodityCategories.PromotionID ";
+                    queryString = queryString + "                   INNER JOIN  AncestorCommodityCategories ON PromotionCommodityCategories.CommodityCategoryID = AncestorCommodityCategories.AncestorID ";
                     queryString = queryString + "                   INNER JOIN  @Commodities Commodities ON AncestorCommodityCategories.CommodityCategoryID = Commodities.CommodityCategoryID ";
-
+                    queryString = queryString + "           UNION ALL ";
+                    queryString = queryString + "           SELECT  Commodities.CommodityID, Promotions.DiscountPercent, Promotions.ControlFreeQuantity ";
+                    queryString = queryString + "           FROM    Promotions "; //By CommodityBrands
+                    queryString = queryString + "                   INNER JOIN  PromotionCommodityBrands ON Promotions.PromotionID IN (SELECT Id FROM dbo.SplitToIntList (@PromotionIDList)) AND Promotions.PromotionID = PromotionCommodityBrands.PromotionID ";
+                    queryString = queryString + "                   INNER JOIN  AncestorCommodityBrands ON PromotionCommodityBrands.CommodityBrandID = AncestorCommodityBrands.AncestorID ";
+                    queryString = queryString + "                   INNER JOIN  @Commodities Commodities ON AncestorCommodityBrands.CommodityBrandID = Commodities.CommodityBrandID ";
 
 
 

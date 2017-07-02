@@ -52,6 +52,7 @@
     <Compile Include="Helpers\SqlProgrammability\Accounts\CreditNote.cs" />
     <Compile Include="Helpers\SqlProgrammability\Commons\AccessControl.cs" />
     <Compile Include="Helpers\SqlProgrammability\Commons\Customer.cs" />
+    <Compile Include="Helpers\SqlProgrammability\Commons\Employee.cs" />
     <Compile Include="Helpers\SqlProgrammability\Commons\Promotion.cs" />
     <Compile Include="Helpers\SqlProgrammability\Inventories\GoodsDelivery.cs" />
     <Compile Include="Helpers\SqlProgrammability\Inventories\HandlingUnit.cs" />

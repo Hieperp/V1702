@@ -228,6 +228,7 @@
     <Compile Include="Areas\Commons\Builders\ICustomerCategorySelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\ICustomerTypeSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\ICustomerSelectListBuilder.cs" />
+    <Compile Include="Areas\Commons\Builders\IEmployeeSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\IMonetaryAccountSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\IPackingMaterialSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\IPriceCategorySelectListBuilder.cs" />
@@ -235,7 +236,9 @@
     <Compile Include="Areas\Commons\Builders\IVehicleSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\CommonsAreaRegistration.cs" />
     <Compile Include="Areas\Commons\Controllers\CustomersController.cs" />
+    <Compile Include="Areas\Commons\Controllers\EmployeesController.cs" />
     <Compile Include="Areas\Commons\ViewModels\CustomerViewModel.cs" />
+    <Compile Include="Areas\Commons\ViewModels\EmployeeViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\Helpers\IMonetaryAccountDropDownViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\Helpers\IPackingMaterialDropDownViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\Helpers\IPriceCategoryDropDownViewModel.cs" />
@@ -1008,6 +1011,10 @@
     <Content Include="Areas\Commons\Views\Customers\Edit.cshtml" />
     <Content Include="Areas\Commons\Views\Customers\Index.cshtml" />
     <Content Include="Areas\Commons\Views\Customers\Promotion.cshtml" />
+    <Content Include="Areas\Commons\Views\Employees\_Employee.cshtml" />
+    <Content Include="Areas\Commons\Views\Employees\Create.cshtml" />
+    <Content Include="Areas\Commons\Views\Employees\Edit.cshtml" />
+    <Content Include="Areas\Commons\Views\Employees\Index.cshtml" />
     <None Include="Properties\PublishProfiles\VCP.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1039,6 +1046,10 @@
     <Content Include="Scripts\Controllers\Commons\Customers\Edit.js" />
     <Content Include="Scripts\Controllers\Commons\Customers\Index.js" />
     <Content Include="Scripts\Controllers\Commons\Customers\Promotion.js" />
+    <Content Include="Scripts\Controllers\Commons\Employees\Create.js" />
+    <Content Include="Scripts\Controllers\Commons\Employees\Delete.js" />
+    <Content Include="Scripts\Controllers\Commons\Employees\Edit.js" />
+    <Content Include="Scripts\Controllers\Commons\Employees\Index.js" />
     <Content Include="Scripts\Controllers\Inventories\GoodsDeliveries\AddPendingHandlingUnit.js" />
     <Content Include="Scripts\Controllers\Inventories\GoodsDeliveries\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Inventories\GoodsDeliveries\Delete.js" />

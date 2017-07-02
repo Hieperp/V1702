@@ -8,5 +8,10 @@ namespace TotalCore.Repositories.Commons
     {
         IList<Employee> SearchEmployees(string searchText);
     }
+
+    public interface IEmployeeAPIRepository : IGenericAPIRepository
+    {
+    }
+
 }
 
