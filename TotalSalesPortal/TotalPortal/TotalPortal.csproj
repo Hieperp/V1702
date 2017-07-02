@@ -446,6 +446,7 @@
     <Content Include="Content\Images\Menu\Shipped-32.png" />
     <Content Include="Content\Images\Menu\Shipped-50.png" />
     <Content Include="Content\Images\Menu\Spark Plug-50.png" />
+    <Content Include="Content\Images\Menu\telephone-operator.png" />
     <Content Include="Content\Images\Menu\Ticket-50.png" />
     <Content Include="Content\Images\Menu\Under Computer-50.png" />
     <Content Include="Content\Images\Menu\Vehicle.png" />
