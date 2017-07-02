@@ -55,6 +55,7 @@ namespace TotalModel.Models
         public string Specifycation { get; set; }
         public string Remarks { get; set; }
         public Nullable<bool> InActive { get; set; }
+        public int CommodityBrandID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountInvoiceDetail> AccountInvoiceDetails { get; set; }
