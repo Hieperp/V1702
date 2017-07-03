@@ -2481,6 +2481,15 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="CommodityTypeIDList" Type="varchar" Mode="In" />
           <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="GetCommodityCodePartA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetCommodityCodePartB" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetCommodityCodePartC" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="GetCommodityPriceIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
           <Parameter Name="FromDate" Type="datetime" Mode="In" />
@@ -4243,6 +4252,15 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="AspUserID" Mode="In" Type="String" />
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetCommodityCodePartA" ReturnType="Collection(TotalSalesPortalModel.CommodityCodePart)">
+          <Parameter Name="SearchText" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetCommodityCodePartB" ReturnType="Collection(TotalSalesPortalModel.CommodityCodePart)">
+          <Parameter Name="SearchText" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetCommodityCodePartC" ReturnType="Collection(TotalSalesPortalModel.CommodityCodePart)">
+          <Parameter Name="SearchText" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
@@ -7652,6 +7670,9 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="CodePartABC" Nullable="false" MaxLength="62" />
         </ComplexType>
+        <ComplexType Name="CommodityCodePart">
+          <Property Type="String" Name="CodePart" Nullable="false" MaxLength="20" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9966,6 +9987,27 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="PriceCategory" ColumnName="PriceCategory" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="CodePartABC" ColumnName="CodePartABC" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCommodityCodePartA" FunctionName="TotalSalesPortalModel.Store.GetCommodityCodePartA" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalSalesPortalModel.CommodityCodePart">
+                <ScalarProperty Name="CodePart" ColumnName="CodePart" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCommodityCodePartB" FunctionName="TotalSalesPortalModel.Store.GetCommodityCodePartB" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalSalesPortalModel.CommodityCodePart">
+                <ScalarProperty Name="CodePart" ColumnName="CodePart" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCommodityCodePartC" FunctionName="TotalSalesPortalModel.Store.GetCommodityCodePartC" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalSalesPortalModel.CommodityCodePart">
+                <ScalarProperty Name="CodePart" ColumnName="CodePart" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

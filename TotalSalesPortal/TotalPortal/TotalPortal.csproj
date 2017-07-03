@@ -419,6 +419,7 @@
     <Content Include="Content\Images\Menu\arrow-up-16.png" />
     <Content Include="Content\Images\Menu\Automatic-32.png" />
     <Content Include="Content\Images\Menu\Automotive-32.png" />
+    <Content Include="Content\Images\Menu\badge.png" />
     <Content Include="Content\Images\Menu\Bullish-32.png" />
     <Content Include="Content\Images\Menu\Businessman-32.png" />
     <Content Include="Content\Images\Menu\Callback Filled-32.png" />
@@ -426,9 +427,12 @@
     <Content Include="Content\Images\Menu\Checked User Filled-32.png" />
     <Content Include="Content\Images\Menu\Conference Call-32.png" />
     <Content Include="Content\Images\Menu\Conference-32.png" />
+    <Content Include="Content\Images\Menu\credit-card.png" />
     <Content Include="Content\Images\Menu\Factory-32.png" />
     <Content Include="Content\Images\Menu\Factory-32x.png" />
     <Content Include="Content\Images\Menu\Ferry-32.png" />
+    <Content Include="Content\Images\Menu\group24.png" />
+    <Content Include="Content\Images\Menu\group32.png" />
     <Content Include="Content\Images\Menu\Motorcycle-32.png" />
     <Content Include="Content\Images\Menu\Motorcycle-32y.png" />
     <Content Include="Content\Images\Menu\Motorcycle-50-1.png" />
@@ -441,6 +445,7 @@
     <Content Include="Content\Images\Menu\Navigate-up-icon-24.png" />
     <Content Include="Content\Images\Menu\Overview Pages 2-32.png" />
     <Content Include="Content\Images\Menu\Overview Pages 2-50.png" />
+    <Content Include="Content\Images\Menu\price-tag32.png" />
     <Content Include="Content\Images\Menu\Root Server-32.png" />
     <Content Include="Content\Images\Menu\Rules-32.png" />
     <Content Include="Content\Images\Menu\Rules-50.png" />
@@ -450,6 +455,8 @@
     <Content Include="Content\Images\Menu\Shipped-32.png" />
     <Content Include="Content\Images\Menu\Shipped-50.png" />
     <Content Include="Content\Images\Menu\Spark Plug-50.png" />
+    <Content Include="Content\Images\Menu\strategic24.png" />
+    <Content Include="Content\Images\Menu\strategic32.png" />
     <Content Include="Content\Images\Menu\telephone-operator.png" />
     <Content Include="Content\Images\Menu\Ticket-50.png" />
     <Content Include="Content\Images\Menu\Under Computer-50.png" />
@@ -1934,6 +1941,7 @@
     <Content Include="Views\Shared\EditorTemplates\DropDowns\PriceCategory.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropDowns\CustomerCategory.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropDowns\CustomerType.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AutoCompletes\CodePart.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

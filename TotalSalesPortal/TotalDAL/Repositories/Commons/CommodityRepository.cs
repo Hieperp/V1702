@@ -94,5 +94,29 @@ namespace TotalDAL.Repositories.Commons
         }
 
 
+
+
+
+        public IList<CommodityCodePart> GetCommodityCodePartA(string searchText)
+        {
+            List<CommodityCodePart> codePartAs = this.TotalSalesPortalEntities.GetCommodityCodePartA(searchText).ToList();
+
+            return codePartAs;
+        }
+
+        public IList<CommodityCodePart> GetCommodityCodePartB(string searchText)
+        {
+            List<CommodityCodePart> codePartBs = this.TotalSalesPortalEntities.GetCommodityCodePartB(searchText).ToList();
+
+            return codePartBs;
+        }
+
+        public IList<CommodityCodePart> GetCommodityCodePartC(string searchText)
+        {
+            List<CommodityCodePart> codePartCs = this.TotalSalesPortalEntities.GetCommodityCodePartC(searchText).ToList();
+
+            return codePartCs;
+        }
+
     }
 }

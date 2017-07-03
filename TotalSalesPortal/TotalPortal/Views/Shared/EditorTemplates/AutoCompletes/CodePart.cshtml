@@ -1,0 +1,57 @@
+﻿@using TotalPortal.Configuration
+
+@model TotalModel.Helpers.ICodePartDTO
+
+@Html.Hidden("TempCodePart", (@Model != null ? @Model.CodePart : ""))
+
+
+@Html.Label((ViewData["CodePartLabel"] != null ? (ViewData["CodePartLabel"]).ToString() : "Mã sản phẩm"))
+<div class="div-input">
+
+    @(Html.Kendo().AutoCompleteFor(model => model.CodePart)
+        .DataTextField("CodePart")
+        .Filter("contains")
+        .MinLength(2)
+        .Placeholder("Vui lòng nhập ít nhất 2 ký tự...")
+        .DataSource(source =>
+        {
+            source.Read(read =>
+            {
+                read.Action((ViewData["SearchActionName"] != null ? (ViewData["SearchActionName"]).ToString() : "SearchCodePart"), "CommodityAPIs", new { area = "Commons" }).Data(@<text> function(e) {return {searchText: e.filter.filters[0].value};} </text>);//Send parameter to controller search action
+            })
+            .ServerFiltering(true);
+        })
+                .Events(e =>
+                {
+                    e.Select("codePart_Select");
+                })
+                .HtmlAttributes(new { @class = "left-panel-input codePart_AutoComplete" })
+    )
+
+</div>
+<div class="div-validation-message">
+    @Html.ValidationMessageFor(model => model.CodePart, "", new { @class = "text-danger" })
+</div>
+
+<script type="text/javascript">
+
+    getCodePartModelID = function (modelID) {
+        return modelID.substring(0, modelID.length - 8); //At first: Pass: modelID = this.element.attr('id') = 'CodePartDTOA_CodePart', Then: Return: ('CodePartDTOA_CodePart').substring(0, modelID.length - 4) = 'CodePartDTOA_'
+    }
+
+    codePart_Select = function (e) {
+        var modelID = getCodePartModelID(this.element.attr('id'));
+
+        var dataItem = e.sender.dataItem(e.item.index());
+
+        //Remember last AutoComplete value
+        $("#" + modelID + "TempCodePart").val(dataItem.CodePart);
+    }
+
+    $(".codePart_AutoComplete").focusout(function (e) {
+        var modelID = getCodePartModelID(this.id);
+        if ($(this).val() != "")
+            $(this).val($("#" + modelID + "TempCodePart").val());
+    });
+
+</script>

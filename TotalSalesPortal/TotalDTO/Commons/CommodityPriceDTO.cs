@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 using TotalModel;
+using TotalModel.Helpers;
 using TotalBase.Enums;
 
 namespace TotalDTO.Commons
@@ -22,14 +23,14 @@ namespace TotalDTO.Commons
 
         [Display(Name = "Mã sản phẩm")]
         [Required(ErrorMessage = "Vui lòng nhập mã sản phẩm")]
-        public string CodePartA { get; set; }
+        public virtual string CodePartA { get; set; }
 
         [Display(Name = "Mã bông")]
-        public string CodePartB { get; set; }
+        public virtual string CodePartB { get; set; }
 
         [Display(Name = "Nguyên liệu")]
         [Required(ErrorMessage = "Vui lòng nhập nguyên liệu")]
-        public string CodePartC { get; set; }
+        public virtual string CodePartC { get; set; }
 
         [Display(Name = "Giá chưa thuế")]
         public decimal ListedPrice { get; set; }
@@ -51,5 +52,20 @@ namespace TotalDTO.Commons
 
     public class CommodityPriceDTO : CommodityPricePrimitiveDTO
     {
+        public override string CodePartA { get { return (this.CodePartDTOA != null ? this.CodePartDTOA.CodePart : null); } }
+        [Display(Name = "Mã sản phẩm")]
+        [UIHint("AutoCompletes/CodePart")]
+        public CodePartDTO CodePartDTOA { get; set; }
+
+        public override string CodePartB { get { return (this.CodePartDTOB != null ? this.CodePartDTOB.CodePart : null); } }
+        [Display(Name = "Mã bông")]
+        [UIHint("AutoCompletes/CodePart")]
+        public CodePartDTO CodePartDTOB { get; set; }
+
+        public override string CodePartC { get { return (this.CodePartDTOC != null ? this.CodePartDTOC.CodePart : null); } }
+        [Display(Name = "Nguyên liệu")]
+        [UIHint("AutoCompletes/CodePart")]
+        public CodePartDTO CodePartDTOC { get; set; }
     }
+
 }

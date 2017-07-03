@@ -137,5 +137,35 @@ namespace TotalPortal.Areas.Commons.APIs
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+
+
+
+
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public JsonResult GetCommodityCodePartA(string searchText)
+        {
+            var result = commodityRepository.GetCommodityCodePartA(searchText);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public JsonResult GetCommodityCodePartB(string searchText)
+        {
+            var result = commodityRepository.GetCommodityCodePartB(searchText);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public JsonResult GetCommodityCodePartC(string searchText)
+        {
+            var result = commodityRepository.GetCommodityCodePartC(searchText);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

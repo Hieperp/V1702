@@ -5,7 +5,7 @@ using TotalModel.Helpers;
 
 namespace TotalModel.Models
 {
-    
+
     public partial class SalesOrder : IPrimitiveEntity, IBaseEntity, IBaseDetailEntity<SalesOrderDetail>
     {
         public int GetID() { return this.SalesOrderID; }
@@ -243,7 +243,7 @@ namespace TotalModel.Models
         public int GetID() { return this.CreditNoteDetailID; }
     }
 
-    
+
 
 
 
@@ -308,6 +308,11 @@ namespace TotalModel.Models
 
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime EditedDate { get; set; }
+
+
+        public virtual CodePartDTO CodePartDTOA { get { return new CodePartDTO() { CodePart = this.CodePartA }; } }
+        public virtual CodePartDTO CodePartDTOB { get { return new CodePartDTO() { CodePart = this.CodePartB }; } }
+        public virtual CodePartDTO CodePartDTOC { get { return new CodePartDTO() { CodePart = this.CodePartC }; } }
     }
 
     public partial class Customer : IPrimitiveEntity, IBaseEntity

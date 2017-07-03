@@ -9,9 +9,9 @@
         {
             columns.Bound(p => p.CommodityPriceID).DisplayNameTitle().Hidden();
 
-            columns.Bound(p => p.CodePartA).Title("Mã SP").HtmlAttributes(new { @class = "grid-column-center" }).Width(20).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Commons/CommodityPrices", action = "Edit" }) + "/#= CommodityPriceID #'>#=CodePartA#</a>");
-            columns.Bound(p => p.CodePartB).Title("Mã bông").HtmlAttributes(new { @class = "grid-column-center" }).Width(20);
-            columns.Bound(p => p.CodePartC).Title("Nguyên liệu").HtmlAttributes(new { @class = "grid-column-center" }).Width(20);
+            columns.Bound(p => p.CodePartA).Title("Mã SP").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(20).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Commons/CommodityPrices", action = "Edit" }) + "/#= CommodityPriceID #'>#=CodePartA#</a>");
+            columns.Bound(p => p.CodePartB).Title("Mã bông").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(20);
+            columns.Bound(p => p.CodePartC).Title("Nguyên liệu").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(20);
             columns.Bound(p => p.ListedPrice).Title("ĐG chưa thuế").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).Width(30);
             columns.Bound(p => p.GrossPrice).Title("ĐG bao gồm VAT").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).Width(30);
             columns.Bound(p => p.Remarks).Title("Ghi chú").Width(180);
@@ -24,7 +24,7 @@
             toolbar.Template(@<text>
                 <button type="button" class="k-button" onclick="location.href='@Url.Action("Create", "CommodityPrices")'"> <img src="~/Content/Images/Mains/Customer Orange 24.png" /> Thêm đơn giá sản phẩm </button>
                 <div class="toolbar" style="float: right;">
-                    <label>Nhập mã sản phẩm, mã bông, nguyên liệu để tìm</label>
+                    <label>Nhập mã sản phẩm, mã bông, nguyên liệu hoặc ghi chú để tìm</label>
                     <input id="indexFilterText" class="k-textbox" style="text-align: center; " onkeyup="indexFilterText_KeyUp()" />
                 </div>
             </text>);
@@ -85,7 +85,8 @@
                     { field: "CodePartA", operator: "contains", value: indexFilterText },
                     { field: "CodePartB", operator: "contains", value: indexFilterText },
                     { field: "CodePartC", operator: "contains", value: indexFilterText },
-                    { field: "CodePartABC", operator: "contains", value: indexFilterText }
+                    { field: "CodePartABC", operator: "contains", value: indexFilterText },
+                    { field: "Remarks", operator: "contains", value: indexFilterText }
                 ]
             });
 

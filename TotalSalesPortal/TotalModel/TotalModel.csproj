@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseModel.cs" />
+    <Compile Include="Helpers\ICodePartDTO.cs" />
     <Compile Include="Helpers\IHelper.cs" />
     <Compile Include="IAccessControlAttribute.cs" />
     <Compile Include="IBaseDetailEntity.cs" />
@@ -84,6 +85,9 @@
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CommodityCategory.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CommodityCodePart.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CommodityPrice.cs">

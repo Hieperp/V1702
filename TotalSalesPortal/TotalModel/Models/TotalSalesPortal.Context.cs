@@ -1539,5 +1539,32 @@ namespace TotalModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommodityPriceIndex>("GetCommodityPriceIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
         }
+    
+        public virtual ObjectResult<CommodityCodePart> GetCommodityCodePartA(string searchText)
+        {
+            var searchTextParameter = searchText != null ?
+                new ObjectParameter("SearchText", searchText) :
+                new ObjectParameter("SearchText", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommodityCodePart>("GetCommodityCodePartA", searchTextParameter);
+        }
+    
+        public virtual ObjectResult<CommodityCodePart> GetCommodityCodePartB(string searchText)
+        {
+            var searchTextParameter = searchText != null ?
+                new ObjectParameter("SearchText", searchText) :
+                new ObjectParameter("SearchText", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommodityCodePart>("GetCommodityCodePartB", searchTextParameter);
+        }
+    
+        public virtual ObjectResult<CommodityCodePart> GetCommodityCodePartC(string searchText)
+        {
+            var searchTextParameter = searchText != null ?
+                new ObjectParameter("SearchText", searchText) :
+                new ObjectParameter("SearchText", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommodityCodePart>("GetCommodityCodePartC", searchTextParameter);
+        }
     }
 }
