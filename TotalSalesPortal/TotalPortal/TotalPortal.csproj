@@ -220,11 +220,13 @@
     <Compile Include="Areas\Accounts\ViewModels\CreditNoteViewModel.cs" />
     <Compile Include="Areas\Accounts\ViewModels\ReceiptViewModel.cs" />
     <Compile Include="Areas\Commons\APIs\CommodityAPIsController.cs" />
+    <Compile Include="Areas\Commons\APIs\CommodityPriceAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\CustomerAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\EmployeeAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\VoidTypeAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\PromotionAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\WarehouseAPIsController.cs" />
+    <Compile Include="Areas\Commons\Builders\ICommodityPriceSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\ICustomerCategorySelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\ICustomerTypeSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\ICustomerSelectListBuilder.cs" />
@@ -235,8 +237,10 @@
     <Compile Include="Areas\Commons\Builders\ITerritorySelectListBuilder.cs" />
     <Compile Include="Areas\Commons\Builders\IVehicleSelectListBuilder.cs" />
     <Compile Include="Areas\Commons\CommonsAreaRegistration.cs" />
+    <Compile Include="Areas\Commons\Controllers\CommodityPricesController.cs" />
     <Compile Include="Areas\Commons\Controllers\CustomersController.cs" />
     <Compile Include="Areas\Commons\Controllers\EmployeesController.cs" />
+    <Compile Include="Areas\Commons\ViewModels\CommodityPriceViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\CustomerViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\EmployeeViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\Helpers\IMonetaryAccountDropDownViewModel.cs" />
@@ -1016,6 +1020,11 @@
     <Content Include="Areas\Commons\Views\Employees\Create.cshtml" />
     <Content Include="Areas\Commons\Views\Employees\Edit.cshtml" />
     <Content Include="Areas\Commons\Views\Employees\Index.cshtml" />
+    <Content Include="Areas\Commons\Views\CommodityPrices\Index.cshtml" />
+    <Content Include="Areas\Commons\Views\CommodityPrices\_CommodityPrice.cshtml" />
+    <Content Include="Areas\Commons\Views\CommodityPrices\Create.cshtml" />
+    <Content Include="Areas\Commons\Views\CommodityPrices\Edit.cshtml" />
+    <Content Include="Areas\Commons\Views\CommodityPrices\Delete.cshtml" />
     <None Include="Properties\PublishProfiles\VCP.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1042,6 +1051,10 @@
     <Content Include="Scripts\Controllers\Accounts\Receipts\Edit.js" />
     <Content Include="Scripts\Controllers\Accounts\Receipts\Index.js" />
     <Content Include="Scripts\Controllers\Accounts\Receipts\Open.js" />
+    <Content Include="Scripts\Controllers\Commons\CommodityPrices\Create.js" />
+    <Content Include="Scripts\Controllers\Commons\CommodityPrices\Delete.js" />
+    <Content Include="Scripts\Controllers\Commons\CommodityPrices\Edit.js" />
+    <Content Include="Scripts\Controllers\Commons\CommodityPrices\Index.js" />
     <Content Include="Scripts\Controllers\Commons\Customers\Create.js" />
     <Content Include="Scripts\Controllers\Commons\Customers\Delete.js" />
     <Content Include="Scripts\Controllers\Commons\Customers\Edit.js" />

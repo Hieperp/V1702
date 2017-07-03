@@ -7,8 +7,8 @@ namespace TotalService.Commons
 {
     public class EmployeeService : GenericService<Employee, EmployeeDTO, EmployeePrimitiveDTO>, IEmployeeService
     {
-        public EmployeeService(IEmployeeRepository EmployeeRepository)
-            : base(EmployeeRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository)
+            : base(employeeRepository)
         {
         }
 

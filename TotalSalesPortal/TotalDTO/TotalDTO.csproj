@@ -85,6 +85,7 @@
     <Compile Include="BaseDTO.cs" />
     <Compile Include="BaseWithDetailDTO.cs" />
     <Compile Include="Commons\CommodityDTO.cs" />
+    <Compile Include="Commons\CommodityPriceDTO.cs" />
     <Compile Include="Commons\CustomerDTO.cs" />
     <Compile Include="Commons\EmployeeDTO.cs" />
     <Compile Include="Commons\PromotionDTO.cs" />

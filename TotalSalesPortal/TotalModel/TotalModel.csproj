@@ -86,6 +86,12 @@
     <Compile Include="Models\CommodityCategory.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CommodityPrice.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CommodityPriceIndex.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CommodityType.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>

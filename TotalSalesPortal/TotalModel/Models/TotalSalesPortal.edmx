@@ -181,6 +181,20 @@
           <Property Name="ClearancePercent" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="CommodityPrices">
+          <Key>
+            <PropertyRef Name="CommodityPriceID" />
+          </Key>
+          <Property Name="CommodityPriceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EntryDate" Type="datetime" Nullable="false" />
+          <Property Name="PriceCategoryID" Type="int" Nullable="false" />
+          <Property Name="ListedPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="GrossPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="CodePartA" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CodePartB" Type="nvarchar" MaxLength="20" />
+          <Property Name="CodePartC" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="CommodityTypes">
           <Key>
             <PropertyRef Name="CommodityTypeID" />
@@ -2467,6 +2481,11 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="CommodityTypeIDList" Type="varchar" Mode="In" />
           <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="GetCommodityPriceIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="GetCreditNoteIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
           <Parameter Name="FromDate" Type="datetime" Mode="In" />
@@ -2806,6 +2825,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Commodities" EntityType="Self.Commodities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CommodityCategories" EntityType="Self.CommodityCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CommodityPrices" EntityType="Self.CommodityPrices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CommodityTypes" EntityType="Self.CommodityTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CreditNoteDetails" EntityType="Self.CreditNoteDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CreditNotes" EntityType="Self.CreditNotes" Schema="dbo" store:Type="Tables" />
@@ -4214,6 +4234,12 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="CustomerID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetEmployeeIndexes" ReturnType="Collection(TotalSalesPortalModel.EmployeeIndex)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="CommodityPrices" EntityType="TotalSalesPortalModel.CommodityPrice" />
+          <FunctionImport Name="GetCommodityPriceIndexes" ReturnType="Collection(TotalSalesPortalModel.CommodityPriceIndex)">
             <Parameter Name="AspUserID" Mode="In" Type="String" />
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
@@ -7600,6 +7626,32 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="Address" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
         </ComplexType>
+        <EntityType Name="CommodityPrice">
+          <Key>
+            <PropertyRef Name="CommodityPriceID" />
+          </Key>
+          <Property Name="CommodityPriceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PriceCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="ListedPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="GrossPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CodePartA" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CodePartB" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CodePartC" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="CommodityPriceIndex">
+          <Property Type="Int32" Name="PriceCategoryID" Nullable="false" />
+          <Property Type="String" Name="CodePartA" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="CodePartB" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="CodePartC" Nullable="false" MaxLength="20" />
+          <Property Type="Decimal" Name="ListedPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="GrossPrice" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="CommodityPriceID" Nullable="false" />
+          <Property Type="String" Name="PriceCategory" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CodePartABC" Nullable="false" MaxLength="62" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9883,6 +9935,37 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="Telephone" ColumnName="Telephone" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CommodityPrices">
+            <EntityTypeMapping TypeName="TotalSalesPortalModel.CommodityPrice">
+              <MappingFragment StoreEntitySet="CommodityPrices">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="CodePartC" ColumnName="CodePartC" />
+                <ScalarProperty Name="CodePartB" ColumnName="CodePartB" />
+                <ScalarProperty Name="CodePartA" ColumnName="CodePartA" />
+                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
+                <ScalarProperty Name="ListedPrice" ColumnName="ListedPrice" />
+                <ScalarProperty Name="PriceCategoryID" ColumnName="PriceCategoryID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="CommodityPriceID" ColumnName="CommodityPriceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetCommodityPriceIndexes" FunctionName="TotalSalesPortalModel.Store.GetCommodityPriceIndexes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalSalesPortalModel.CommodityPriceIndex">
+                <ScalarProperty Name="PriceCategoryID" ColumnName="PriceCategoryID" />
+                <ScalarProperty Name="CodePartA" ColumnName="CodePartA" />
+                <ScalarProperty Name="CodePartB" ColumnName="CodePartB" />
+                <ScalarProperty Name="CodePartC" ColumnName="CodePartC" />
+                <ScalarProperty Name="ListedPrice" ColumnName="ListedPrice" />
+                <ScalarProperty Name="GrossPrice" ColumnName="GrossPrice" />
+                <ScalarProperty Name="CommodityPriceID" ColumnName="CommodityPriceID" />
+                <ScalarProperty Name="PriceCategory" ColumnName="PriceCategory" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="CodePartABC" ColumnName="CodePartABC" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

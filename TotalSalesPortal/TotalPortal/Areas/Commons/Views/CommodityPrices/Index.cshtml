@@ -1,0 +1,101 @@
+﻿@using TotalPortal.Configuration
+
+@model TotalPortal.Areas.Commons.ViewModels.CommodityPriceViewModel
+
+<div>
+    @(Html.Kendo().Grid<TotalModel.Models.CommodityPriceIndex>()
+        .Name("kendoGridIndex")
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.CommodityPriceID).DisplayNameTitle().Hidden();
+
+            columns.Bound(p => p.CodePartA).Title("Mã SP").HtmlAttributes(new { @class = "grid-column-center" }).Width(20).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Commons/CommodityPrices", action = "Edit" }) + "/#= CommodityPriceID #'>#=CodePartA#</a>");
+            columns.Bound(p => p.CodePartB).Title("Mã bông").HtmlAttributes(new { @class = "grid-column-center" }).Width(20);
+            columns.Bound(p => p.CodePartC).Title("Nguyên liệu").HtmlAttributes(new { @class = "grid-column-center" }).Width(20);
+            columns.Bound(p => p.ListedPrice).Title("ĐG chưa thuế").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).Width(30);
+            columns.Bound(p => p.GrossPrice).Title("ĐG bao gồm VAT").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).Width(30);
+            columns.Bound(p => p.Remarks).Title("Ghi chú").Width(180);
+            
+            columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(80)
+                .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Commons/CommodityPrices", action = "Edit" }) + "/#= CommodityPriceID #'><span class='k-icon k-edit'></span></a> <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Commons/CommodityPrices", action = "Delete" }) + "/#= CommodityPriceID #'><span class='k-icon k-delete'></span></a>");
+        })
+        .ToolBar(toolbar =>
+        {
+            toolbar.Template(@<text>
+                <button type="button" class="k-button" onclick="location.href='@Url.Action("Create", "CommodityPrices")'"> <img src="~/Content/Images/Mains/Customer Orange 24.png" /> Thêm đơn giá sản phẩm </button>
+                <div class="toolbar" style="float: right;">
+                    <label>Nhập mã sản phẩm, mã bông, nguyên liệu để tìm</label>
+                    <input id="indexFilterText" class="k-textbox" style="text-align: center; " onkeyup="indexFilterText_KeyUp()" />
+                </div>
+            </text>);
+        })
+                .Pageable()
+                .Groupable()
+            //.Filterable()
+                .Selectable()
+                .Sortable()
+                .Events(e =>
+                {
+                    e.DataBound("hightLightSelectedRow");
+                })
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .Group(group => group.AddDescending(p => p.PriceCategory))
+                    .Read(read => read.Action("GetCommodityPriceIndexes", "CommodityPriceAPIs", new { area = "Commons" }))
+                    //.Sort(sort =>
+                    //    {
+                    //        sort.Add(p => p.Name).Descending();
+                    //    })
+                    .PageSize(20)
+                    .Model(model =>
+                    {
+                        model.Id(x => x.CommodityPriceID);
+                        model.Field(m => m.CommodityPriceID).DefaultValue(0);
+                    })
+                    .ServerOperation(true)
+                )
+                .HtmlAttributes(new { @class = "grid-class" }))
+</div>
+
+
+
+<script type="text/javascript">
+    function hightLightSelectedRow(e) {
+        require(["kindexGrid"], function (kindexGrid) {
+            var kindexGridInstance = new kindexGrid("kendoGridIndex");
+            kindexGridInstance.setSelectedRow("CommodityPriceID", '@ViewBag.SelectedEntityID');
+        });
+    }
+
+    function createWizard() {
+        require(["kpopupWindow"], function (kpopupWindow) {
+            var createWizardWindow = new kpopupWindow();
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "CommodityPrices")", "Chọn khách hàng, chương trình khuyến mãi áp dụng cho khách hàng", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeightWithTab");
+        });
+    }
+
+
+    function indexFilterText_KeyUp() {
+        var indexFilterText = $("#indexFilterText").val(), gridDetails = $("#kendoGridIndex").data("kendoGrid");
+
+        if (indexFilterText && indexFilterText.length >= "@SettingsManager.AutoCompleteMinLenght") {
+            gridDetails.dataSource.filter({
+                logic: "or",
+                filters: [
+                    { field: "CodePartA", operator: "contains", value: indexFilterText },
+                    { field: "CodePartB", operator: "contains", value: indexFilterText },
+                    { field: "CodePartC", operator: "contains", value: indexFilterText },
+                    { field: "CodePartABC", operator: "contains", value: indexFilterText }
+                ]
+            });
+
+
+        } else {
+            if (gridDetails.dataSource.filter() != undefined)
+                gridDetails.dataSource.filter({});
+        }
+    }
+</script>
+
+
+

@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Repositories\Accounts\ICreditNoteRepository.cs" />
     <Compile Include="Repositories\Analysis\IReportRepository.cs" />
+    <Compile Include="Repositories\Commons\ICommodityPriceRepository.cs" />
     <Compile Include="Repositories\Commons\ICustomerCategoryRepository.cs" />
     <Compile Include="Repositories\Commons\ICustomerTypeRepository.cs" />
     <Compile Include="Repositories\Commons\IMonetaryAccountRepository.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Services\Accounts\IAccountInvoiceService.cs" />
     <Compile Include="Services\Accounts\ICreditNoteService.cs" />
     <Compile Include="Services\Accounts\IReceiptService.cs" />
+    <Compile Include="Services\Commons\ICommodityPriceService.cs" />
     <Compile Include="Services\Commons\ICommodityService.cs" />
     <Compile Include="Services\Commons\ICustomerService.cs" />
     <Compile Include="Services\Commons\IEmployeeService.cs" />

@@ -110,6 +110,10 @@ namespace TotalPortal.App_Start
 
                 cfg.CreateMap<Employee, EmployeeBaseDTO>();
 
+                cfg.CreateMap<CommodityPrice, CommodityPriceViewModel>();
+                cfg.CreateMap<CommodityPrice, CommodityPriceDTO>();
+                cfg.CreateMap<CommodityPricePrimitiveDTO, CommodityPrice>();
+
                 cfg.CreateMap<Warehouse, WarehouseBaseDTO>();
                 cfg.CreateMap<Promotion, PromotionDTO>();
                 cfg.CreateMap<VoidType, VoidTypeBaseDTO>();

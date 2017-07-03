@@ -159,7 +159,13 @@ namespace TotalPortal.App_Start
                 kernel.Bind<IEmployeeAPIRepository>().To<EmployeeAPIRepository>();
                 kernel.Bind<IEmployeeSelectListBuilder>().To<EmployeeSelectListBuilder>();
 
-                
+
+                kernel.Bind<ICommodityPriceService>().To<CommodityPriceService>();
+                kernel.Bind<ICommodityPriceRepository>().To<CommodityPriceRepository>();
+                kernel.Bind<ICommodityPriceAPIRepository>().To<CommodityPriceAPIRepository>();
+                kernel.Bind<ICommodityPriceSelectListBuilder>().To<CommodityPriceSelectListBuilder>();
+
+
 
 
                 kernel.Bind<IInventoryRepository>().To<InventoryRepository>();

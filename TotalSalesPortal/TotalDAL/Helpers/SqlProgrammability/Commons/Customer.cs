@@ -20,7 +20,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
         {
             this.GetCustomerIndexes();
 
-            this.CustomerEditable();
+            this.CustomerEditable(); //CÓ THỂ KHÔNG CẦN Editable/ NHƯNG CẦN PHẢI CÓ Deletable
             this.CustomerSaveRelative();
         }
 

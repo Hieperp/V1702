@@ -1,0 +1,100 @@
+﻿@using TotalBase.Enums;
+@using TotalPortal.Configuration
+
+@model TotalPortal.Areas.Commons.ViewModels.CommodityPriceViewModel
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "MainForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
+
+    @Html.HiddenFor(model => model.CommodityPriceID)
+
+    <div class="left-panel" style="height:30px;"></div>
+
+    <div class="right-first-panel">
+
+        @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PriceCategory.cshtml")
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CodePartA)
+            <div class="div-input">
+                @Html.Kendo().MaskedTextBoxFor(model => model.CodePartA).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.CodePartA, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CodePartB)
+            <div class="div-input">
+                @Html.Kendo().MaskedTextBoxFor(model => model.CodePartB).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.CodePartB, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CodePartC)
+            <div class="div-input">
+                @Html.Kendo().MaskedTextBoxFor(model => model.CodePartC).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.CodePartC, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ListedPrice)
+            <div class="div-input">
+                @Html.Kendo().NumericTextBoxFor(model => model.ListedPrice).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.ListedPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GrossPrice)
+            <div class="div-input">
+                @Html.Kendo().NumericTextBoxFor(model => model.GrossPrice).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.GrossPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Remarks)
+            <div class="div-input">
+                @Html.Kendo().MaskedTextBoxFor(model => model.Remarks).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="left-panel-input">
+            @if (Model.Editable)
+            {
+                <button type="submit" class="k-button custom-button SubmitTypeOption-Closed" formaction="@Url.Action("Edit", "CommodityPrices")"> <img src="~/Content/Images/New/save-icon.png" /> Lưu giá bán sản phẩm </button>
+            }
+        </div>
+
+        @Html.Partial("~/Views/Helpers/Bases/_BaseSubmit.cshtml")
+
+    </div>
+    <div class="left-panel" style="height:30px;"></div>
+    <div class="left-panel" style="height:30px;"></div>
+    <div class="right-panel">
+
+
+    </div>
+}
+

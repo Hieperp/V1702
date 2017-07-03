@@ -33,6 +33,7 @@
             Commodity = 8002,
             Promotion = 8003,
             Employee = 8005,
+            CommodityPrice = 8006,
 
             PurchaseOrder = 8021,
             PurchaseInvoice = 8022,

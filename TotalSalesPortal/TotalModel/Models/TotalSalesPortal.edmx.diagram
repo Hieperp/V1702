@@ -151,6 +151,7 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_CreditNotes_Employees" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_CreditNotes_Locations" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_CreditNotes" />
+        <EntityTypeShape EntityType="TotalSalesPortalModel.CommodityPrice" Width="1.5" PointX="11.375" PointY="3.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

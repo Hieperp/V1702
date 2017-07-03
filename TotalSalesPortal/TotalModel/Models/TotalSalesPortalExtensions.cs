@@ -297,6 +297,19 @@ namespace TotalModel.Models
         public System.DateTime EditedDate { get; set; }
     }
 
+    public partial class CommodityPrice : IPrimitiveEntity, IBaseEntity
+    {
+        public int GetID() { return this.CommodityPriceID; }
+
+        public int UserID { get; set; }
+        public int PreparedPersonID { get; set; }
+        public int OrganizationalUnitID { get; set; }
+        public int LocationID { get; set; }
+
+        public System.DateTime CreatedDate { get; set; }
+        public System.DateTime EditedDate { get; set; }
+    }
+
     public partial class Customer : IPrimitiveEntity, IBaseEntity
     {
         public int GetID() { return this.CustomerID; }

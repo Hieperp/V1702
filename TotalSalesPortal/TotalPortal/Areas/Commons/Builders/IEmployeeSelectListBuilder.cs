@@ -12,7 +12,7 @@ namespace TotalPortal.Areas.Commons.Builders
 
     public class EmployeeSelectListBuilder : IEmployeeSelectListBuilder
     {
-        public virtual void BuildSelectLists(EmployeeViewModel EmployeeViewModel)
+        public virtual void BuildSelectLists(EmployeeViewModel employeeViewModel)
         {
         }
     }

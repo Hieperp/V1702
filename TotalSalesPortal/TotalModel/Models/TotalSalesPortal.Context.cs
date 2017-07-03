@@ -70,6 +70,7 @@ namespace TotalModel.Models
         public virtual DbSet<SalesReturn> SalesReturns { get; set; }
         public virtual DbSet<CreditNoteDetail> CreditNoteDetails { get; set; }
         public virtual DbSet<CreditNote> CreditNotes { get; set; }
+        public virtual DbSet<CommodityPrice> CommodityPrices { get; set; }
     
         public virtual ObjectResult<Nullable<int>> GetAccessLevel(Nullable<int> userID, Nullable<int> nMVNTaskID, Nullable<int> organizationalUnitID)
         {
@@ -1520,6 +1521,23 @@ namespace TotalModel.Models
                 new ObjectParameter("ToDate", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<EmployeeIndex>("GetEmployeeIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<CommodityPriceIndex> GetCommodityPriceIndexes(string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        {
+            var aspUserIDParameter = aspUserID != null ?
+                new ObjectParameter("AspUserID", aspUserID) :
+                new ObjectParameter("AspUserID", typeof(string));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommodityPriceIndex>("GetCommodityPriceIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
         }
     }
 }
