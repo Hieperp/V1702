@@ -173,7 +173,7 @@
         <div class="left-panel-input">
             @if (Model.Editable)
             {
-                <button type="submit" class="k-button custom-button SubmitTypeOption-Closed" formaction="@Url.Action("Edit", "Customers")"> <img src="~/Content/Images/New/save-icon.png" /> Lưu dữ liệu khách hàng </button>
+                <button type="submit" class="k-button custom-button SubmitTypeOption-Save" formaction="@Url.Action("Edit", "Customers")"> <img src="~/Content/Images/New/save-icon.png" /> Lưu dữ liệu khách hàng </button>
             }
             @if (Model.CustomerID > 0 && Model.ShowDiscount)
             {
