@@ -78,11 +78,11 @@ namespace TotalModel.Models
         public virtual GoodsIssue GoodsIssue { get; set; }
         public virtual Location Location { get; set; }
         public virtual PriceCategory PriceCategory { get; set; }
-        public virtual Promotion Promotion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Receipt> Receipts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesReturnDetail> SalesReturnDetails { get; set; }
         public virtual Warehouse Warehouse { get; set; }
+        public virtual Promotion Promotion { get; set; }
     }
 }

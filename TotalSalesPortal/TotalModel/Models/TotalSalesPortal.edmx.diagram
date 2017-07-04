@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d15db0f3b87b40d8a37bac669a0fa729" Name="Diagram1" ZoomLevel="14">
+      <Diagram DiagramId="d15db0f3b87b40d8a37bac669a0fa729" Name="Diagram1" ZoomLevel="33">
         <EntityTypeShape EntityType="TotalSalesPortalModel.AspNetUser" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.Location" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.ModuleDetail" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
@@ -29,7 +29,6 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_Territories_Territories" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.Warehouse" Width="1.5" PointX="7" PointY="4.25" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Warehouses_Locations" />
-        <EntityTypeShape EntityType="TotalSalesPortalModel.Promotion" Width="1.5" PointX="0.75" PointY="9" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.PriceCategory" Width="1.5" PointX="7" PointY="5.875" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.AccessControl" Width="1.5" PointX="9.375" PointY="11.75" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.VoidType" Width="1.5" PointX="11.375" PointY="24.75" />
@@ -71,7 +70,6 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdvices_Locations" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdvices_PaymentTerms" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdvices_PriceCategories" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdvices_Promotions" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdvices_VoidTypes" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssues_DeliveryAdvices" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssueDetails_GoodsIssues" />
@@ -118,7 +116,6 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesOrders_Locations" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesOrders_PaymentTerms" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesOrders_PriceCategories" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_SalesOrders_Promotions" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesOrders_VoidTypes" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.SalesOrderDetail" Width="1.5" PointX="16.75" PointY="30.75" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesOrderDetails_Commodities" />
@@ -139,7 +136,6 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_GoodsIssues" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_Locations" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_PriceCategories" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_Promotions" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Receipts_SalesReturns" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturnDetails_SalesReturns" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_Warehouses" />
@@ -155,7 +151,13 @@
         <EntityTypeShape EntityType="TotalSalesPortalModel.CommodityBrand" Width="1.5" PointX="0.75" PointY="22.25" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Commodities_CommodityBrands" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_CommodityBrands_CommodityBrands" />
+        <EntityTypeShape EntityType="TotalSalesPortalModel.PromotionCommodityCodePart" Width="1.5" PointX="3" PointY="27.625" />
+        <EntityTypeShape EntityType="TotalSalesPortalModel.Promotion" Width="1.5" PointX="0.75" PointY="15.875" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Promotions_CommodityBrands" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdvices_Promotions" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_PromotionCommodityCodeParts_Promotions" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_SalesOrders_Promotions" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_Promotions" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

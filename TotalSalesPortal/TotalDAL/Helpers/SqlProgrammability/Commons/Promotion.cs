@@ -25,6 +25,15 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             this.AddPromotionCustomers();
             this.RemovePromotionCustomers();
 
+
+            this.PromotionApproved();
+            this.PromotionEditable();
+            this.PromotionDeletable();
+            this.PromotionVoidable();
+
+            this.PromotionToggleApproved();
+            this.PromotionToggleVoid();
+
             this.PromotionInitReference();
         }
 
@@ -113,6 +122,86 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             this.totalSalesPortalEntities.CreateStoredProcedure("RemovePromotionCustomers", queryString);
 
         }
+
+
+
+
+
+        private void PromotionApproved()
+        {
+            string[] queryArray = new string[1];
+
+            queryArray[0] = " SELECT TOP 1 @FoundEntity = PromotionID FROM Promotions WHERE PromotionID = @EntityID AND Approved = 1";
+
+            this.totalSalesPortalEntities.CreateProcedureToCheckExisting("PromotionApproved", queryArray);
+        }
+
+
+        private void PromotionEditable()
+        {
+            string[] queryArray = new string[1];
+
+            queryArray[0] = " SELECT TOP 1 @FoundEntity = PromotionID FROM Promotions WHERE PromotionID = @EntityID AND InActive = 1"; //Don't allow approve after void
+
+            this.totalSalesPortalEntities.CreateProcedureToCheckExisting("PromotionEditable", queryArray);
+        }
+
+        private void PromotionDeletable()
+        {
+            string[] queryArray = new string[3];
+
+            queryArray[0] = " SELECT TOP 1 @FoundEntity = PromotionID FROM SalesOrders WHERE PromotionID = @EntityID ";
+            queryArray[1] = " SELECT TOP 1 @FoundEntity = PromotionID FROM DeliveryAdvices WHERE PromotionID = @EntityID ";
+            queryArray[2] = " SELECT TOP 1 @FoundEntity = PromotionID FROM SalesReturns WHERE PromotionID = @EntityID ";
+
+            this.totalSalesPortalEntities.CreateProcedureToCheckExisting("PromotionDeletable", queryArray);
+        }
+
+        private void PromotionVoidable()
+        {
+            string[] queryArray = new string[1];
+
+            queryArray[0] = " SELECT TOP 1 @FoundEntity = PromotionID FROM Promotions WHERE PromotionID = @EntityID AND Approved = 0"; //Must approve in order to allow void
+
+            this.totalSalesPortalEntities.CreateProcedureToCheckExisting("PromotionVoidable", queryArray);
+        }
+
+
+        private void PromotionToggleApproved()
+        {
+            string queryString = " @EntityID int, @Approved bit " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "       UPDATE      Promotions  SET Approved = @Approved, ApprovedDate = GetDate(), InActive = 0, InActiveDate = NULL WHERE PromotionID = @EntityID AND Approved = ~@Approved" + "\r\n";
+
+            queryString = queryString + "       IF @@ROWCOUNT <> 1 " + "\r\n";
+            queryString = queryString + "           BEGIN " + "\r\n";
+            queryString = queryString + "               DECLARE     @msg NVARCHAR(300) = N'Dữ liệu không tồn tại hoặc đã ' + iif(@Approved = 0, 'hủy', '')  + ' duyệt' ; " + "\r\n";
+            queryString = queryString + "               THROW       61001,  @msg, 1; " + "\r\n";
+            queryString = queryString + "           END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("PromotionToggleApproved", queryString);
+        }
+
+        private void PromotionToggleVoid()
+        {
+            string queryString = " @EntityID int, @InActive bit " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "       UPDATE      Promotions  SET InActive = @InActive, InActiveDate = GetDate() WHERE PromotionID = @EntityID AND InActive = ~@InActive" + "\r\n";
+
+            queryString = queryString + "       IF @@ROWCOUNT <> 1 " + "\r\n";
+            queryString = queryString + "           BEGIN " + "\r\n";
+            queryString = queryString + "               DECLARE     @msg NVARCHAR(300) = N'Dữ liệu không tồn tại hoặc đã ' + iif(@InActive = 0, 'phục hồi lệnh', '')  + ' hủy' ; " + "\r\n";
+            queryString = queryString + "               THROW       61001,  @msg, 1; " + "\r\n";
+            queryString = queryString + "           END " + "\r\n";
+
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("PromotionToggleVoid", queryString);
+        }
+
 
 
         private void PromotionInitReference()

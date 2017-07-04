@@ -267,6 +267,9 @@
     <Compile Include="Models\Promotion.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PromotionCommodityCodePart.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PromotionIndex.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>

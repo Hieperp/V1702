@@ -41,7 +41,6 @@ namespace TotalModel.Models
         public virtual DbSet<EntireTerritory> EntireTerritories { get; set; }
         public virtual DbSet<PaymentTerm> PaymentTerms { get; set; }
         public virtual DbSet<Territory> Territories { get; set; }
-        public virtual DbSet<Promotion> Promotions { get; set; }
         public virtual DbSet<PriceCategory> PriceCategories { get; set; }
         public virtual DbSet<AccessControl> AccessControls { get; set; }
         public virtual DbSet<VoidType> VoidTypes { get; set; }
@@ -72,6 +71,8 @@ namespace TotalModel.Models
         public virtual DbSet<CreditNote> CreditNotes { get; set; }
         public virtual DbSet<CommodityPrice> CommodityPrices { get; set; }
         public virtual DbSet<CommodityBrand> CommodityBrands { get; set; }
+        public virtual DbSet<PromotionCommodityCodePart> PromotionCommodityCodeParts { get; set; }
+        public virtual DbSet<Promotion> Promotions { get; set; }
     
         public virtual ObjectResult<Nullable<int>> GetAccessLevel(Nullable<int> userID, Nullable<int> nMVNTaskID, Nullable<int> organizationalUnitID)
         {
@@ -1583,6 +1584,68 @@ namespace TotalModel.Models
                 new ObjectParameter("ToDate", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PromotionIndex>("GetPromotionIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<string> PromotionApproved(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("PromotionApproved", entityIDParameter);
+        }
+    
+        public virtual ObjectResult<string> PromotionEditable(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("PromotionEditable", entityIDParameter);
+        }
+    
+        public virtual int PromotionToggleApproved(Nullable<int> entityID, Nullable<bool> approved)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            var approvedParameter = approved.HasValue ?
+                new ObjectParameter("Approved", approved) :
+                new ObjectParameter("Approved", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PromotionToggleApproved", entityIDParameter, approvedParameter);
+        }
+    
+        public virtual int PromotionToggleVoid(Nullable<int> entityID, Nullable<bool> inActive)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            var inActiveParameter = inActive.HasValue ?
+                new ObjectParameter("InActive", inActive) :
+                new ObjectParameter("InActive", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PromotionToggleVoid", entityIDParameter, inActiveParameter);
+        }
+    
+        public virtual ObjectResult<string> PromotionVoidable(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("PromotionVoidable", entityIDParameter);
+        }
+    
+        public virtual ObjectResult<string> PromotionDeletable(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("PromotionDeletable", entityIDParameter);
         }
     }
 }

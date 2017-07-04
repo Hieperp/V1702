@@ -761,6 +761,18 @@
           <Property Name="Remarks" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="InActive" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="PromotionCommodityCodeParts">
+          <Key>
+            <PropertyRef Name="PromotionCommodityCodePartID" />
+          </Key>
+          <Property Name="PromotionCommodityCodePartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PromotionID" Type="int" Nullable="false" />
+          <Property Name="CommodityBrandID" Type="int" Nullable="false" />
+          <Property Name="CodePartA" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CodePartB" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CodePartC" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="InActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Promotions">
           <Key>
             <PropertyRef Name="PromotionID" />
@@ -780,7 +792,10 @@
           <Property Name="ApplyToAllCommodities" Type="bit" Nullable="false" />
           <Property Name="ApplyToTradeDiscount" Type="bit" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
+          <Property Name="Approved" Type="bit" Nullable="false" />
+          <Property Name="ApprovedDate" Type="datetime" />
           <Property Name="InActive" Type="bit" Nullable="false" />
+          <Property Name="InActiveDate" Type="datetime" />
         </EntityType>
         <EntityType Name="ReceiptDetails">
           <Key>
@@ -1991,6 +2006,18 @@ warning 6035: The relationship 'FK_OrganizationalUnitIUsers_AspNetUsers' has col
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PromotionCommodityCodeParts_Promotions">
+          <End Role="Promotions" Type="Self.Promotions" Multiplicity="1" />
+          <End Role="PromotionCommodityCodeParts" Type="Self.PromotionCommodityCodeParts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotions">
+              <PropertyRef Name="PromotionID" />
+            </Principal>
+            <Dependent Role="PromotionCommodityCodeParts">
+              <PropertyRef Name="PromotionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Promotions_CommodityBrands">
           <End Role="CommodityBrands" Type="Self.CommodityBrands" Multiplicity="1" />
           <End Role="Promotions" Type="Self.Promotions" Multiplicity="*" />
@@ -2815,6 +2842,26 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="EntityID" Type="int" Mode="In" />
           <Parameter Name="SaveRelativeOption" Type="int" Mode="In" />
         </Function>
+        <Function Name="PromotionApproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PromotionDeletable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PromotionEditable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PromotionToggleApproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+          <Parameter Name="Approved" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="PromotionToggleVoid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+          <Parameter Name="InActive" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="PromotionVoidable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
         <Function Name="ReceiptEditable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
         </Function>
@@ -2914,6 +2961,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySet Name="PackingMaterials" EntityType="Self.PackingMaterials" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentTerms" EntityType="Self.PaymentTerms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PriceCategories" EntityType="Self.PriceCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PromotionCommodityCodeParts" EntityType="Self.PromotionCommodityCodeParts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Promotions" EntityType="Self.Promotions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReceiptDetails" EntityType="Self.ReceiptDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Receipts" EntityType="Self.Receipts" Schema="dbo" store:Type="Tables" />
@@ -3209,6 +3257,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <AssociationSet Name="FK_OrganizationalUnits_Locations" Association="Self.FK_OrganizationalUnits_Locations">
             <End Role="Locations" EntitySet="Locations" />
             <End Role="OrganizationalUnits" EntitySet="OrganizationalUnits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PromotionCommodityCodeParts_Promotions" Association="Self.FK_PromotionCommodityCodeParts_Promotions">
+            <End Role="Promotions" EntitySet="Promotions" />
+            <End Role="PromotionCommodityCodeParts" EntitySet="PromotionCommodityCodeParts" />
           </AssociationSet>
           <AssociationSet Name="FK_Promotions_CommodityBrands" Association="Self.FK_Promotions_CommodityBrands">
             <End Role="CommodityBrands" EntitySet="CommodityBrands" />
@@ -3520,7 +3572,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <FunctionImport Name="GetPromotionByCustomers" EntitySet="Promotions" ReturnType="Collection(TotalSalesPortalModel.Promotion)">
           <Parameter Name="CustomerID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="Promotions" EntityType="TotalSalesPortalModel.Promotion" />
           <EntitySet Name="PriceCategories" EntityType="TotalSalesPortalModel.PriceCategory" />
           <FunctionImport Name="GetGoodsIssueIndexes" ReturnType="Collection(TotalSalesPortalModel.GoodsIssueIndex)">
             <Parameter Name="AspUserID" Mode="In" Type="String" />
@@ -3830,10 +3881,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="PriceCategory" EntitySet="PriceCategories" />
             <End Role="DeliveryAdvice" EntitySet="DeliveryAdvices" />
           </AssociationSet>
-          <AssociationSet Name="FK_DeliveryAdvices_Promotions" Association="TotalSalesPortalModel.FK_DeliveryAdvices_Promotions">
-            <End Role="Promotion" EntitySet="Promotions" />
-            <End Role="DeliveryAdvice" EntitySet="DeliveryAdvices" />
-          </AssociationSet>
           <AssociationSet Name="FK_DeliveryAdvices_VoidTypes" Association="TotalSalesPortalModel.FK_DeliveryAdvices_VoidTypes">
             <End Role="VoidType" EntitySet="VoidTypes" />
             <End Role="DeliveryAdvice" EntitySet="DeliveryAdvices" />
@@ -4021,10 +4068,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           </AssociationSet>
           <AssociationSet Name="FK_SalesOrders_PriceCategories" Association="TotalSalesPortalModel.FK_SalesOrders_PriceCategories">
             <End Role="PriceCategory" EntitySet="PriceCategories" />
-            <End Role="SalesOrder" EntitySet="SalesOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SalesOrders_Promotions" Association="TotalSalesPortalModel.FK_SalesOrders_Promotions">
-            <End Role="Promotion" EntitySet="Promotions" />
             <End Role="SalesOrder" EntitySet="SalesOrders" />
           </AssociationSet>
           <AssociationSet Name="FK_SalesOrders_VoidTypes" Association="TotalSalesPortalModel.FK_SalesOrders_VoidTypes">
@@ -4220,10 +4263,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="PriceCategory" EntitySet="PriceCategories" />
             <End Role="SalesReturn" EntitySet="SalesReturns" />
           </AssociationSet>
-          <AssociationSet Name="FK_SalesReturns_Promotions" Association="TotalSalesPortalModel.FK_SalesReturns_Promotions">
-            <End Role="Promotion" EntitySet="Promotions" />
-            <End Role="SalesReturn" EntitySet="SalesReturns" />
-          </AssociationSet>
           <AssociationSet Name="FK_Receipts_SalesReturns" Association="TotalSalesPortalModel.FK_Receipts_SalesReturns">
             <End Role="SalesReturn" EntitySet="SalesReturns" />
             <End Role="Receipt" EntitySet="Receipts" />
@@ -4337,14 +4376,52 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="CommodityBrand" EntitySet="CommodityBrands" />
             <End Role="CommodityBrand1" EntitySet="CommodityBrands" />
           </AssociationSet>
-          <AssociationSet Name="FK_Promotions_CommodityBrands" Association="TotalSalesPortalModel.FK_Promotions_CommodityBrands">
-            <End Role="CommodityBrand" EntitySet="CommodityBrands" />
-            <End Role="Promotion" EntitySet="Promotions" />
-          </AssociationSet>
           <FunctionImport Name="GetPromotionIndexes" ReturnType="Collection(TotalSalesPortalModel.PromotionIndex)">
             <Parameter Name="AspUserID" Mode="In" Type="String" />
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="PromotionCommodityCodeParts" EntityType="TotalSalesPortalModel.PromotionCommodityCodePart" />
+          <EntitySet Name="Promotions" EntityType="TotalSalesPortalModel.Promotion" />
+          <AssociationSet Name="FK_Promotions_CommodityBrands" Association="TotalSalesPortalModel.FK_Promotions_CommodityBrands">
+            <End Role="CommodityBrand" EntitySet="CommodityBrands" />
+            <End Role="Promotion" EntitySet="Promotions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryAdvices_Promotions" Association="TotalSalesPortalModel.FK_DeliveryAdvices_Promotions">
+            <End Role="Promotion" EntitySet="Promotions" />
+            <End Role="DeliveryAdvice" EntitySet="DeliveryAdvices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PromotionCommodityCodeParts_Promotions" Association="TotalSalesPortalModel.FK_PromotionCommodityCodeParts_Promotions">
+            <End Role="Promotion" EntitySet="Promotions" />
+            <End Role="PromotionCommodityCodePart" EntitySet="PromotionCommodityCodeParts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesOrders_Promotions" Association="TotalSalesPortalModel.FK_SalesOrders_Promotions">
+            <End Role="Promotion" EntitySet="Promotions" />
+            <End Role="SalesOrder" EntitySet="SalesOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesReturns_Promotions" Association="TotalSalesPortalModel.FK_SalesReturns_Promotions">
+            <End Role="Promotion" EntitySet="Promotions" />
+            <End Role="SalesReturn" EntitySet="SalesReturns" />
+          </AssociationSet>
+          <FunctionImport Name="PromotionApproved" ReturnType="Collection(String)">
+          <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PromotionEditable" ReturnType="Collection(String)">
+          <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PromotionToggleApproved">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+            <Parameter Name="Approved" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="PromotionToggleVoid">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+            <Parameter Name="InActive" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="PromotionVoidable" ReturnType="Collection(String)">
+          <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PromotionDeletable" ReturnType="Collection(String)">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
@@ -4672,31 +4749,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Decimal" Name="ListedPrice" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="TradeDiscountRate" Nullable="false" Precision="1" Scale="1" />
         </ComplexType>
-        <EntityType Name="Promotion">
-          <Key>
-            <PropertyRef Name="PromotionID" />
-          </Key>
-          <Property Name="PromotionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Reference" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DiscountPercent" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-          <Property Name="ApplyToAllCustomers" Type="Boolean" Nullable="false" />
-          <Property Name="ApplyToAllCommodities" Type="Boolean" Nullable="false" />
-          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="InActive" Type="Boolean" Nullable="false" />
-          <Property Name="ControlFreeQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-          <NavigationProperty Name="DeliveryAdvices" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Promotions" FromRole="Promotion" ToRole="DeliveryAdvice" />
-          <NavigationProperty Name="SalesOrders" Relationship="TotalSalesPortalModel.FK_SalesOrders_Promotions" FromRole="Promotion" ToRole="SalesOrder" />
-          <NavigationProperty Name="SalesReturns" Relationship="TotalSalesPortalModel.FK_SalesReturns_Promotions" FromRole="Promotion" ToRole="SalesReturn" />
-          <Property Name="ApplyToTradeDiscount" Type="Boolean" Nullable="false" />
-          <Property Name="CommodityBrandID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="CommodityBrand" Relationship="TotalSalesPortalModel.FK_Promotions_CommodityBrands" FromRole="Promotion" ToRole="CommodityBrand" />
-          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="LocationID" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityType Name="PriceCategory">
           <Key>
             <PropertyRef Name="PriceCategoryID" />
@@ -5639,7 +5691,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Locations" FromRole="DeliveryAdvice" ToRole="Location" />
           <NavigationProperty Name="PaymentTerm" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_PaymentTerms" FromRole="DeliveryAdvice" ToRole="PaymentTerm" />
           <NavigationProperty Name="PriceCategory" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_PriceCategories" FromRole="DeliveryAdvice" ToRole="PriceCategory" />
-          <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Promotions" FromRole="DeliveryAdvice" ToRole="Promotion" />
           <NavigationProperty Name="VoidType" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_VoidTypes" FromRole="DeliveryAdvice" ToRole="VoidType" />
           <NavigationProperty Name="GoodsIssues" Relationship="TotalSalesPortalModel.FK_GoodsIssues_DeliveryAdvices" FromRole="DeliveryAdvice" ToRole="GoodsIssue" />
           <Property Name="TotalListedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
@@ -5658,6 +5709,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="TradeDiscountAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TotalListedTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TotalTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Promotions" FromRole="DeliveryAdvice" ToRole="Promotion" />
         </EntityType>
         <EntityType Name="GoodsIssueDetail">
           <Key>
@@ -6001,18 +6053,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Principal>
             <Dependent Role="DeliveryAdvice">
               <PropertyRef Name="PriceCategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DeliveryAdvices_Promotions">
-          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="0..1" />
-          <End Type="TotalSalesPortalModel.DeliveryAdvice" Role="DeliveryAdvice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Promotion">
-              <PropertyRef Name="PromotionID" />
-            </Principal>
-            <Dependent Role="DeliveryAdvice">
-              <PropertyRef Name="PromotionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6663,7 +6703,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_SalesOrders_Locations" FromRole="SalesOrder" ToRole="Location" />
           <NavigationProperty Name="PaymentTerm" Relationship="TotalSalesPortalModel.FK_SalesOrders_PaymentTerms" FromRole="SalesOrder" ToRole="PaymentTerm" />
           <NavigationProperty Name="PriceCategory" Relationship="TotalSalesPortalModel.FK_SalesOrders_PriceCategories" FromRole="SalesOrder" ToRole="PriceCategory" />
-          <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_SalesOrders_Promotions" FromRole="SalesOrder" ToRole="Promotion" />
           <NavigationProperty Name="VoidType" Relationship="TotalSalesPortalModel.FK_SalesOrders_VoidTypes" FromRole="SalesOrder" ToRole="VoidType" />
           <NavigationProperty Name="SalesOrderDetails" Relationship="TotalSalesPortalModel.FK_SalesOrderDetails_SalesOrders" FromRole="SalesOrder" ToRole="SalesOrderDetail" />
           <Property Name="Code" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
@@ -6675,6 +6714,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="TradeDiscountAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TotalListedTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TotalTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_SalesOrders_Promotions" FromRole="SalesOrder" ToRole="Promotion" />
         </EntityType>
         <Association Name="FK_SalesOrders_Customers">
           <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
@@ -6757,18 +6797,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Principal>
             <Dependent Role="SalesOrder">
               <PropertyRef Name="PriceCategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SalesOrders_Promotions">
-          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="0..1" />
-          <End Type="TotalSalesPortalModel.SalesOrder" Role="SalesOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Promotion">
-              <PropertyRef Name="PromotionID" />
-            </Principal>
-            <Dependent Role="SalesOrder">
-              <PropertyRef Name="PromotionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7383,7 +7411,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="GoodsIssue" Relationship="TotalSalesPortalModel.FK_SalesReturns_GoodsIssues" FromRole="SalesReturn" ToRole="GoodsIssue" />
           <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_SalesReturns_Locations" FromRole="SalesReturn" ToRole="Location" />
           <NavigationProperty Name="PriceCategory" Relationship="TotalSalesPortalModel.FK_SalesReturns_PriceCategories" FromRole="SalesReturn" ToRole="PriceCategory" />
-          <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_SalesReturns_Promotions" FromRole="SalesReturn" ToRole="Promotion" />
           <NavigationProperty Name="Receipts" Relationship="TotalSalesPortalModel.FK_Receipts_SalesReturns" FromRole="SalesReturn" ToRole="Receipt" />
           <NavigationProperty Name="SalesReturnDetails" Relationship="TotalSalesPortalModel.FK_SalesReturnDetails_SalesReturns" FromRole="SalesReturn" ToRole="SalesReturnDetail" />
           <NavigationProperty Name="Warehouse" Relationship="TotalSalesPortalModel.FK_SalesReturns_Warehouses" FromRole="SalesReturn" ToRole="Warehouse" />
@@ -7394,6 +7421,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="TradeDiscountAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TotalListedTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TotalTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_SalesReturns_Promotions" FromRole="SalesReturn" ToRole="Promotion" />
         </EntityType>
         <Association Name="FK_SalesReturnDetails_Commodities">
           <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
@@ -7488,18 +7516,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Principal>
             <Dependent Role="SalesReturn">
               <PropertyRef Name="PriceCategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SalesReturns_Promotions">
-          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="0..1" />
-          <End Type="TotalSalesPortalModel.SalesReturn" Role="SalesReturn" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Promotion">
-              <PropertyRef Name="PromotionID" />
-            </Principal>
-            <Dependent Role="SalesReturn">
-              <PropertyRef Name="PromotionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7799,18 +7815,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Promotions_CommodityBrands">
-          <End Type="TotalSalesPortalModel.CommodityBrand" Role="CommodityBrand" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CommodityBrand">
-              <PropertyRef Name="CommodityBrandID" />
-            </Principal>
-            <Dependent Role="Promotion">
-              <PropertyRef Name="CommodityBrandID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="PromotionIndex">
           <Property Type="Int32" Name="PromotionID" Nullable="false" />
           <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
@@ -7829,6 +7833,108 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
           <Property Type="Boolean" Name="InActive" Nullable="false" />
         </ComplexType>
+        <EntityType Name="PromotionCommodityCodePart">
+          <Key>
+            <PropertyRef Name="PromotionCommodityCodePartID" />
+          </Key>
+          <Property Name="PromotionCommodityCodePartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PromotionID" Type="Int32" Nullable="false" />
+          <Property Name="CommodityBrandID" Type="Int32" Nullable="false" />
+          <Property Name="CodePartA" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CodePartB" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CodePartC" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="InActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_PromotionCommodityCodeParts_Promotions" FromRole="PromotionCommodityCodePart" ToRole="Promotion" />
+        </EntityType>
+        <EntityType Name="Promotion">
+          <Key>
+            <PropertyRef Name="PromotionID" />
+          </Key>
+          <Property Name="PromotionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Reference" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DiscountPercent" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="ControlFreeQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="CommodityBrandID" Type="Int32" Nullable="false" />
+          <Property Name="ApplyToAllCustomers" Type="Boolean" Nullable="false" />
+          <Property Name="ApplyToAllCommodities" Type="Boolean" Nullable="false" />
+          <Property Name="ApplyToTradeDiscount" Type="Boolean" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="InActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CommodityBrand" Relationship="TotalSalesPortalModel.FK_Promotions_CommodityBrands" FromRole="Promotion" ToRole="CommodityBrand" />
+          <NavigationProperty Name="DeliveryAdvices" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Promotions" FromRole="Promotion" ToRole="DeliveryAdvice" />
+          <NavigationProperty Name="PromotionCommodityCodeParts" Relationship="TotalSalesPortalModel.FK_PromotionCommodityCodeParts_Promotions" FromRole="Promotion" ToRole="PromotionCommodityCodePart" />
+          <NavigationProperty Name="SalesOrders" Relationship="TotalSalesPortalModel.FK_SalesOrders_Promotions" FromRole="Promotion" ToRole="SalesOrder" />
+          <NavigationProperty Name="SalesReturns" Relationship="TotalSalesPortalModel.FK_SalesReturns_Promotions" FromRole="Promotion" ToRole="SalesReturn" />
+          <Property Name="Approved" Type="Boolean" Nullable="false" />
+          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
+          <Property Name="InActiveDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK_Promotions_CommodityBrands">
+          <End Type="TotalSalesPortalModel.CommodityBrand" Role="CommodityBrand" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommodityBrand">
+              <PropertyRef Name="CommodityBrandID" />
+            </Principal>
+            <Dependent Role="Promotion">
+              <PropertyRef Name="CommodityBrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryAdvices_Promotions">
+          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.DeliveryAdvice" Role="DeliveryAdvice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotion">
+              <PropertyRef Name="PromotionID" />
+            </Principal>
+            <Dependent Role="DeliveryAdvice">
+              <PropertyRef Name="PromotionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PromotionCommodityCodeParts_Promotions">
+          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.PromotionCommodityCodePart" Role="PromotionCommodityCodePart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotion">
+              <PropertyRef Name="PromotionID" />
+            </Principal>
+            <Dependent Role="PromotionCommodityCodePart">
+              <PropertyRef Name="PromotionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesOrders_Promotions">
+          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.SalesOrder" Role="SalesOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotion">
+              <PropertyRef Name="PromotionID" />
+            </Principal>
+            <Dependent Role="SalesOrder">
+              <PropertyRef Name="PromotionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesReturns_Promotions">
+          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.SalesReturn" Role="SalesReturn" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotion">
+              <PropertyRef Name="PromotionID" />
+            </Principal>
+            <Dependent Role="SalesReturn">
+              <PropertyRef Name="PromotionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8126,28 +8232,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetPromotionByCustomers" FunctionName="TotalSalesPortalModel.Store.GetPromotionByCustomers">
           </FunctionImportMapping>
-          <EntitySetMapping Name="Promotions">
-            <EntityTypeMapping TypeName="TotalSalesPortalModel.Promotion">
-              <MappingFragment StoreEntitySet="Promotions">
-                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
-                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
-                <ScalarProperty Name="CommodityBrandID" ColumnName="CommodityBrandID" />
-                <ScalarProperty Name="ApplyToTradeDiscount" ColumnName="ApplyToTradeDiscount" />
-                <ScalarProperty Name="ControlFreeQuantity" ColumnName="ControlFreeQuantity" />
-                <ScalarProperty Name="InActive" ColumnName="InActive" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="ApplyToAllCommodities" ColumnName="ApplyToAllCommodities" />
-                <ScalarProperty Name="ApplyToAllCustomers" ColumnName="ApplyToAllCustomers" />
-                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Reference" ColumnName="Reference" />
-                <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PriceCategories">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.PriceCategory">
               <MappingFragment StoreEntitySet="PriceCategories">
@@ -10202,6 +10286,50 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="PromotionCommodityCodeParts">
+            <EntityTypeMapping TypeName="TotalSalesPortalModel.PromotionCommodityCodePart">
+              <MappingFragment StoreEntitySet="PromotionCommodityCodeParts">
+                <ScalarProperty Name="InActive" ColumnName="InActive" />
+                <ScalarProperty Name="CodePartC" ColumnName="CodePartC" />
+                <ScalarProperty Name="CodePartB" ColumnName="CodePartB" />
+                <ScalarProperty Name="CodePartA" ColumnName="CodePartA" />
+                <ScalarProperty Name="CommodityBrandID" ColumnName="CommodityBrandID" />
+                <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
+                <ScalarProperty Name="PromotionCommodityCodePartID" ColumnName="PromotionCommodityCodePartID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Promotions">
+            <EntityTypeMapping TypeName="TotalSalesPortalModel.Promotion">
+              <MappingFragment StoreEntitySet="Promotions">
+                <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
+                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="InActive" ColumnName="InActive" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ApplyToTradeDiscount" ColumnName="ApplyToTradeDiscount" />
+                <ScalarProperty Name="ApplyToAllCommodities" ColumnName="ApplyToAllCommodities" />
+                <ScalarProperty Name="ApplyToAllCustomers" ColumnName="ApplyToAllCustomers" />
+                <ScalarProperty Name="CommodityBrandID" ColumnName="CommodityBrandID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="ControlFreeQuantity" ColumnName="ControlFreeQuantity" />
+                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="PromotionApproved" FunctionName="TotalSalesPortalModel.Store.PromotionApproved" />
+          <FunctionImportMapping FunctionImportName="PromotionEditable" FunctionName="TotalSalesPortalModel.Store.PromotionEditable" />
+          <FunctionImportMapping FunctionImportName="PromotionToggleApproved" FunctionName="TotalSalesPortalModel.Store.PromotionToggleApproved" />
+          <FunctionImportMapping FunctionImportName="PromotionToggleVoid" FunctionName="TotalSalesPortalModel.Store.PromotionToggleVoid" />
+          <FunctionImportMapping FunctionImportName="PromotionVoidable" FunctionName="TotalSalesPortalModel.Store.PromotionVoidable" />
+          <FunctionImportMapping FunctionImportName="PromotionDeletable" FunctionName="TotalSalesPortalModel.Store.PromotionDeletable" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
