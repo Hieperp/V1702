@@ -67,12 +67,12 @@
     .Columns(columns =>
     {
         columns.Bound(c => c.Code).Title("Mã KM").Width(12);
-        columns.Bound(c => c.Name).Title("Tên chương trình").Width(35);
+        columns.Bound(c => c.Name).Title("Tên chương trình").Width(25);
 
-        columns.Bound(c => c.DiscountPercent).Title("% CK").Width(5).HtmlAttributes(new { @class = "grid-number-column" }).Format("{0:n0}");
-        columns.Bound(c => c.StartDate).Title("Ngày bắt đầu").Width(12).Format("{0:" + SettingsManager.DateTimeFormat + "}");
-        columns.Bound(c => c.EndDate).Title("Ngày kết thúc").Width(12).Format("{0:" + SettingsManager.DateTimeFormat + "}");
-        columns.Template(t => { }).Title("CK").ClientTemplate("<input class='IsSelected' #= ApplyToTradeDiscount ? checked='checked':'' #  type='checkbox' />").Width(5);
+        columns.Bound(c => c.DiscountPercent).Title("% CK").Width(5).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Format("{0:n0}");
+        columns.Bound(c => c.StartDate).Title("Ngày bắt đầu").Width(12).Format("{0:" + SettingsManager.DateTimeFormat + "}").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" });
+        columns.Bound(c => c.EndDate).Title("Ngày kết thúc").Width(12).Format("{0:" + SettingsManager.DateTimeFormat + "}").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" });
+        columns.Template(t => { }).Title("CK 1 dòng").ClientTemplate("<input class='IsSelected' #= ApplyToTradeDiscount ? checked='checked':'' #  type='checkbox' />").HtmlAttributes(new { @class = "grid-column-center", @readonly = "readonly" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(8);
         columns.Bound(c => c.Remarks).Title("Ghi chú").Width(10);
         columns.Template(model => null).Width(5)
             .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' onclick='RemovePromotionCustomers(#=PromotionID#)'><span class='k-icon k-delete'></span></a>");
@@ -82,7 +82,7 @@
     .DataSource(ds => ds.Ajax()
     .Read(read => read.Action("GetPromotionByCustomers", "PromotionAPIs", new { area = "Commons" }).Data("onGetPromotionByCustomers"))
     .ServerOperation(true))
-    .Selectable()
+    .Selectable()            
     )
 
 </div>
