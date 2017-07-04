@@ -165,6 +165,15 @@
           <Property Name="Remarks" Type="nvarchar" MaxLength="200" />
           <Property Name="InActive" Type="bit" />
         </EntityType>
+        <EntityType Name="CommodityBrands">
+          <Key>
+            <PropertyRef Name="CommodityBrandID" />
+          </Key>
+          <Property Name="CommodityBrandID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="AncestorID" Type="int" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="CommodityCategories">
           <Key>
             <PropertyRef Name="CommodityCategoryID" />
@@ -764,6 +773,7 @@
           <Property Name="EndDate" Type="datetime" Nullable="false" />
           <Property Name="DiscountPercent" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="ControlFreeQuantity" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="CommodityBrandID" Type="int" Nullable="false" />
           <Property Name="ApplyToAllCustomers" Type="bit" Nullable="false" />
           <Property Name="ApplyToAllCommodities" Type="bit" Nullable="false" />
           <Property Name="ApplyToTradeDiscount" Type="bit" Nullable="false" />
@@ -1196,6 +1206,18 @@ warning 6035: The relationship 'FK_AccountInvoices_AspNetUsers2' has columns tha
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Commodities_CommodityBrands">
+          <End Role="CommodityBrands" Type="Self.CommodityBrands" Multiplicity="1" />
+          <End Role="Commodities" Type="Self.Commodities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommodityBrands">
+              <PropertyRef Name="CommodityBrandID" />
+            </Principal>
+            <Dependent Role="Commodities">
+              <PropertyRef Name="CommodityBrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Commodities_CommodityCategories">
           <End Role="CommodityCategories" Type="Self.CommodityCategories" Multiplicity="1" />
           <End Role="Commodities" Type="Self.Commodities" Multiplicity="*" />
@@ -1217,6 +1239,18 @@ warning 6035: The relationship 'FK_AccountInvoices_AspNetUsers2' has columns tha
             </Principal>
             <Dependent Role="Commodities">
               <PropertyRef Name="CommodityTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CommodityBrands_CommodityBrands">
+          <End Role="CommodityBrands" Type="Self.CommodityBrands" Multiplicity="0..1" />
+          <End Role="CommodityBrands1" Type="Self.CommodityBrands" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommodityBrands">
+              <PropertyRef Name="CommodityBrandID" />
+            </Principal>
+            <Dependent Role="CommodityBrands1">
+              <PropertyRef Name="AncestorID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1952,6 +1986,18 @@ warning 6035: The relationship 'FK_OrganizationalUnitIUsers_AspNetUsers' has col
             </Principal>
             <Dependent Role="OrganizationalUnits">
               <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Promotions_CommodityBrands">
+          <End Role="CommodityBrands" Type="Self.CommodityBrands" Multiplicity="1" />
+          <End Role="Promotions" Type="Self.Promotions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommodityBrands">
+              <PropertyRef Name="CommodityBrandID" />
+            </Principal>
+            <Dependent Role="Promotions">
+              <PropertyRef Name="CommodityBrandID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2833,6 +2879,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySet Name="AccountInvoices" EntityType="Self.AccountInvoices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Commodities" EntityType="Self.Commodities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CommodityBrands" EntityType="Self.CommodityBrands" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CommodityCategories" EntityType="Self.CommodityCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CommodityPrices" EntityType="Self.CommodityPrices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CommodityTypes" EntityType="Self.CommodityTypes" Schema="dbo" store:Type="Tables" />
@@ -2908,6 +2955,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="PaymentTerms" EntitySet="PaymentTerms" />
             <End Role="AccountInvoices" EntitySet="AccountInvoices" />
           </AssociationSet>
+          <AssociationSet Name="FK_Commodities_CommodityBrands" Association="Self.FK_Commodities_CommodityBrands">
+            <End Role="CommodityBrands" EntitySet="CommodityBrands" />
+            <End Role="Commodities" EntitySet="Commodities" />
+          </AssociationSet>
           <AssociationSet Name="FK_Commodities_CommodityCategories" Association="Self.FK_Commodities_CommodityCategories">
             <End Role="CommodityCategories" EntitySet="CommodityCategories" />
             <End Role="Commodities" EntitySet="Commodities" />
@@ -2915,6 +2966,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <AssociationSet Name="FK_Commodities_CommodityTypes" Association="Self.FK_Commodities_CommodityTypes">
             <End Role="CommodityTypes" EntitySet="CommodityTypes" />
             <End Role="Commodities" EntitySet="Commodities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CommodityBrands_CommodityBrands" Association="Self.FK_CommodityBrands_CommodityBrands">
+            <End Role="CommodityBrands" EntitySet="CommodityBrands" />
+            <End Role="CommodityBrands1" EntitySet="CommodityBrands" />
           </AssociationSet>
           <AssociationSet Name="FK_CommodityCategories_CommodityCategories" Association="Self.FK_CommodityCategories_CommodityCategories">
             <End Role="CommodityCategories" EntitySet="CommodityCategories" />
@@ -3147,6 +3202,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <AssociationSet Name="FK_OrganizationalUnits_Locations" Association="Self.FK_OrganizationalUnits_Locations">
             <End Role="Locations" EntitySet="Locations" />
             <End Role="OrganizationalUnits" EntitySet="OrganizationalUnits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Promotions_CommodityBrands" Association="Self.FK_Promotions_CommodityBrands">
+            <End Role="CommodityBrands" EntitySet="CommodityBrands" />
+            <End Role="Promotions" EntitySet="Promotions" />
           </AssociationSet>
           <AssociationSet Name="FK_ReceiptDetails_GoodsIssues" Association="Self.FK_ReceiptDetails_GoodsIssues">
             <End Role="GoodsIssues" EntitySet="GoodsIssues" />
@@ -4262,6 +4321,19 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <FunctionImport Name="GetCommodityCodePartC" ReturnType="Collection(TotalSalesPortalModel.CommodityCodePart)">
           <Parameter Name="SearchText" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="CommodityBrands" EntityType="TotalSalesPortalModel.CommodityBrand" />
+          <AssociationSet Name="FK_Commodities_CommodityBrands" Association="TotalSalesPortalModel.FK_Commodities_CommodityBrands">
+            <End Role="CommodityBrand" EntitySet="CommodityBrands" />
+            <End Role="Commodity" EntitySet="Commodities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CommodityBrands_CommodityBrands" Association="TotalSalesPortalModel.FK_CommodityBrands_CommodityBrands">
+            <End Role="CommodityBrand" EntitySet="CommodityBrands" />
+            <End Role="CommodityBrand1" EntitySet="CommodityBrands" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Promotions_CommodityBrands" Association="TotalSalesPortalModel.FK_Promotions_CommodityBrands">
+            <End Role="CommodityBrand" EntitySet="CommodityBrands" />
+            <End Role="Promotion" EntitySet="Promotions" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -4608,6 +4680,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="SalesOrders" Relationship="TotalSalesPortalModel.FK_SalesOrders_Promotions" FromRole="Promotion" ToRole="SalesOrder" />
           <NavigationProperty Name="SalesReturns" Relationship="TotalSalesPortalModel.FK_SalesReturns_Promotions" FromRole="Promotion" ToRole="SalesReturn" />
           <Property Name="ApplyToTradeDiscount" Type="Boolean" Nullable="false" />
+          <Property Name="CommodityBrandID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CommodityBrand" Relationship="TotalSalesPortalModel.FK_Promotions_CommodityBrands" FromRole="Promotion" ToRole="CommodityBrand" />
         </EntityType>
         <EntityType Name="PriceCategory">
           <Key>
@@ -6279,6 +6353,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="SalesReturnDetails" Relationship="TotalSalesPortalModel.FK_SalesReturnDetails_Commodities" FromRole="Commodity" ToRole="SalesReturnDetail" />
           <NavigationProperty Name="CreditNoteDetails" Relationship="TotalSalesPortalModel.FK_CreditNoteDetails_Commodities" FromRole="Commodity" ToRole="CreditNoteDetail" />
           <Property Name="CommodityBrandID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CommodityBrand" Relationship="TotalSalesPortalModel.FK_Commodities_CommodityBrands" FromRole="Commodity" ToRole="CommodityBrand" />
         </EntityType>
         <Association Name="FK_AccountInvoiceDetails_Commodities">
           <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
@@ -7673,6 +7748,55 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         <ComplexType Name="CommodityCodePart">
           <Property Type="String" Name="CodePart" Nullable="false" MaxLength="20" />
         </ComplexType>
+        <EntityType Name="CommodityBrand">
+          <Key>
+            <PropertyRef Name="CommodityBrandID" />
+          </Key>
+          <Property Name="CommodityBrandID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AncestorID" Type="Int32" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Commodities" Relationship="TotalSalesPortalModel.FK_Commodities_CommodityBrands" FromRole="CommodityBrand" ToRole="Commodity" />
+          <NavigationProperty Name="CommodityBrands1" Relationship="TotalSalesPortalModel.FK_CommodityBrands_CommodityBrands" FromRole="CommodityBrand" ToRole="CommodityBrand1" />
+          <NavigationProperty Name="CommodityBrand1" Relationship="TotalSalesPortalModel.FK_CommodityBrands_CommodityBrands" FromRole="CommodityBrand1" ToRole="CommodityBrand" />
+          <NavigationProperty Name="Promotions" Relationship="TotalSalesPortalModel.FK_Promotions_CommodityBrands" FromRole="CommodityBrand" ToRole="Promotion" />
+        </EntityType>
+        <Association Name="FK_Commodities_CommodityBrands">
+          <End Type="TotalSalesPortalModel.CommodityBrand" Role="CommodityBrand" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommodityBrand">
+              <PropertyRef Name="CommodityBrandID" />
+            </Principal>
+            <Dependent Role="Commodity">
+              <PropertyRef Name="CommodityBrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CommodityBrands_CommodityBrands">
+          <End Type="TotalSalesPortalModel.CommodityBrand" Role="CommodityBrand" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.CommodityBrand" Role="CommodityBrand1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommodityBrand">
+              <PropertyRef Name="CommodityBrandID" />
+            </Principal>
+            <Dependent Role="CommodityBrand1">
+              <PropertyRef Name="AncestorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Promotions_CommodityBrands">
+          <End Type="TotalSalesPortalModel.CommodityBrand" Role="CommodityBrand" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommodityBrand">
+              <PropertyRef Name="CommodityBrandID" />
+            </Principal>
+            <Dependent Role="Promotion">
+              <PropertyRef Name="CommodityBrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7973,6 +8097,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="Promotions">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.Promotion">
               <MappingFragment StoreEntitySet="Promotions">
+                <ScalarProperty Name="CommodityBrandID" ColumnName="CommodityBrandID" />
                 <ScalarProperty Name="ApplyToTradeDiscount" ColumnName="ApplyToTradeDiscount" />
                 <ScalarProperty Name="ControlFreeQuantity" ColumnName="ControlFreeQuantity" />
                 <ScalarProperty Name="InActive" ColumnName="InActive" />
@@ -10011,6 +10136,16 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="CommodityBrands">
+            <EntityTypeMapping TypeName="TotalSalesPortalModel.CommodityBrand">
+              <MappingFragment StoreEntitySet="CommodityBrands">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="AncestorID" ColumnName="AncestorID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CommodityBrandID" ColumnName="CommodityBrandID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

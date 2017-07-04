@@ -28,7 +28,7 @@ namespace TotalDAL.Repositories.Sales
             Helpers.SqlProgrammability.Commons.CommodityPrice commodityPrice = new Helpers.SqlProgrammability.Commons.CommodityPrice(totalSalesPortalEntities);
             commodityPrice.RestoreProcedure();
 
-            return;
+            //return;
 
 
             Helpers.SqlProgrammability.Commons.Commons commons = new Helpers.SqlProgrammability.Commons.Commons(totalSalesPortalEntities);
@@ -73,14 +73,14 @@ namespace TotalDAL.Repositories.Sales
             deliveryAdvice.RestoreProcedure();
 
 
-            return;
+            //return;
 
             Helpers.SqlProgrammability.Accounts.CreditNote creditNote = new Helpers.SqlProgrammability.Accounts.CreditNote(totalSalesPortalEntities);
             creditNote.RestoreProcedure();
 
 
 
-            return;
+            //return;
 
             Helpers.SqlProgrammability.Accounts.Receipt receipt = new Helpers.SqlProgrammability.Accounts.Receipt(totalSalesPortalEntities);
             receipt.RestoreProcedure();
@@ -90,7 +90,7 @@ namespace TotalDAL.Repositories.Sales
 
             
 
-            return;
+            //return;
 
             Helpers.SqlProgrammability.Sales.SalesReturn salesReturn = new Helpers.SqlProgrammability.Sales.SalesReturn(totalSalesPortalEntities);
             salesReturn.RestoreProcedure();

@@ -12,37 +12,27 @@ namespace TotalModel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Promotion
+    public partial class CommodityBrand
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Promotion()
+        public CommodityBrand()
         {
-            this.DeliveryAdvices = new HashSet<DeliveryAdvice>();
-            this.SalesOrders = new HashSet<SalesOrder>();
-            this.SalesReturns = new HashSet<SalesReturn>();
+            this.Commodities = new HashSet<Commodity>();
+            this.CommodityBrands1 = new HashSet<CommodityBrand>();
+            this.Promotions = new HashSet<Promotion>();
         }
     
-        public int PromotionID { get; set; }
-        public string Reference { get; set; }
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public System.DateTime EndDate { get; set; }
-        public decimal DiscountPercent { get; set; }
-        public bool ApplyToAllCustomers { get; set; }
-        public bool ApplyToAllCommodities { get; set; }
-        public string Remarks { get; set; }
-        public bool InActive { get; set; }
-        public decimal ControlFreeQuantity { get; set; }
-        public bool ApplyToTradeDiscount { get; set; }
         public int CommodityBrandID { get; set; }
+        public string Name { get; set; }
+        public Nullable<int> AncestorID { get; set; }
+        public string Remarks { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DeliveryAdvice> DeliveryAdvices { get; set; }
+        public virtual ICollection<Commodity> Commodities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesOrder> SalesOrders { get; set; }
+        public virtual ICollection<CommodityBrand> CommodityBrands1 { get; set; }
+        public virtual CommodityBrand CommodityBrand1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesReturn> SalesReturns { get; set; }
-        public virtual CommodityBrand CommodityBrand { get; set; }
+        public virtual ICollection<Promotion> Promotions { get; set; }
     }
 }

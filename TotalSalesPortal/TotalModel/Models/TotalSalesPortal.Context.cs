@@ -71,6 +71,7 @@ namespace TotalModel.Models
         public virtual DbSet<CreditNoteDetail> CreditNoteDetails { get; set; }
         public virtual DbSet<CreditNote> CreditNotes { get; set; }
         public virtual DbSet<CommodityPrice> CommodityPrices { get; set; }
+        public virtual DbSet<CommodityBrand> CommodityBrands { get; set; }
     
         public virtual ObjectResult<Nullable<int>> GetAccessLevel(Nullable<int> userID, Nullable<int> nMVNTaskID, Nullable<int> organizationalUnitID)
         {

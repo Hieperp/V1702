@@ -15,7 +15,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Code)
             <div class="div-input">
-                @Html.Kendo().MaskedTextBoxFor(model => model.Code).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" }).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+                @Html.Kendo().MaskedTextBoxFor(model => model.Code).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
             </div>
             <div class="div-validation-message">
                 @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
@@ -54,7 +54,7 @@
         <div class="form-group" style="padding-top: 17px;">
             @Html.Label(" ")
             <div class="div-input">
-                <button type="button" class="k-button" onclick="AddPromotionCustomers()"> <img src="~/Content/Images/Mains/Size24/Ecommerce-Sale-icon-24.png" /> Thêm khuyến mãi vào KH: @Model.Code </button>
+                <button type="button" class="k-button left-panel-input" onclick="AddPromotionCustomers()"> <img src="~/Content/Images/Mains/Size24/Ecommerce-Sale-icon-24.png" /> Thêm khuyến mãi vào KH: @Model.Code </button>
             </div>
         </div>
     </div>

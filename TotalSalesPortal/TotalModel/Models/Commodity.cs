@@ -71,5 +71,6 @@ namespace TotalModel.Models
         public virtual ICollection<SalesReturnDetail> SalesReturnDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CreditNoteDetail> CreditNoteDetails { get; set; }
+        public virtual CommodityBrand CommodityBrand { get; set; }
     }
 }
