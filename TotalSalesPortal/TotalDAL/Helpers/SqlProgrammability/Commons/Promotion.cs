@@ -46,7 +46,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      Promotions.PromotionID, Promotions.Reference, CommodityBrands.CommodityBrandID, CommodityBrands.Name AS Brand, ISNULL(CustomerCategories.Name, 'THỊ TRƯỜNG') AS Category, " + "\r\n";
+            queryString = queryString + "       SELECT      Promotions.PromotionID, CAST(Promotions.EntryDate AS DATE) AS EntryDate, Promotions.Reference, CommodityBrands.CommodityBrandID, CommodityBrands.Name AS Brand, ISNULL(CustomerCategories.Name, N'Thị trường') AS Category, " + "\r\n";
             queryString = queryString + "                   Promotions.Code, Promotions.Name, Promotions.StartDate, Promotions.EndDate, Promotions.DiscountPercent, Promotions.ControlFreeQuantity, Promotions.ApplyToAllCustomers, Promotions.ApplyToAllCommodities, Promotions.ApplyToTradeDiscount, Promotions.Remarks, Promotions.InActive " + "\r\n";
 
             queryString = queryString + "       FROM        Promotions " + "\r\n";

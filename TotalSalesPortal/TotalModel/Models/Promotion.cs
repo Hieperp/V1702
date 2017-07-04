@@ -42,6 +42,8 @@ namespace TotalModel.Models
         public bool Approved { get; set; }
         public Nullable<System.DateTime> ApprovedDate { get; set; }
         public Nullable<System.DateTime> InActiveDate { get; set; }
+        public int UserID { get; set; }
+        public int OrganizationalUnitID { get; set; }
     
         public virtual CommodityBrand CommodityBrand { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

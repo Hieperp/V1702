@@ -21,13 +21,13 @@ namespace TotalPortal.Areas.Commons.Controllers
     public class CustomersController : GenericSimpleController<Customer, CustomerDTO, CustomerPrimitiveDTO, CustomerViewModel>
     {
         private ICustomerService customerService;
-        private readonly IPromotionRepository promotionRepository;
+        private readonly IPromotionAPIRepository promotionAPIRepository;
 
-        public CustomersController(ICustomerService customerService, ICustomerSelectListBuilder customerViewModelSelectListBuilder, IPromotionRepository promotionRepository)
+        public CustomersController(ICustomerService customerService, ICustomerSelectListBuilder customerViewModelSelectListBuilder, IPromotionAPIRepository promotionAPIRepository)
             : base(customerService, customerViewModelSelectListBuilder)
         {
             this.customerService = customerService;
-            this.promotionRepository = promotionRepository;
+            this.promotionAPIRepository = promotionAPIRepository;
         }
 
         protected override bool GetShowDiscount(CustomerViewModel simpleViewModel)
@@ -40,7 +40,7 @@ namespace TotalPortal.Areas.Commons.Controllers
             CustomerViewModel customerViewModel = this.GetViewModel(id, GlobalEnums.AccessLevel.Readable);
             if (customerViewModel == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            ViewBag.Promotions = promotionRepository.GetPromotionByCustomers(null).Select(pt => new SelectListItem { Text = pt.Name + " (" + pt.Code + ")" + " (" + pt.DiscountPercent.ToString("N0") + "%) " + " => " + pt.EndDate.ToString(), Value = pt.PromotionID.ToString() }).ToList() ;
+            ViewBag.Promotions = promotionAPIRepository.GetPromotionByCustomers(null).Select(pt => new SelectListItem { Text = pt.Name + " (" + pt.Code + ")" + " (" + pt.DiscountPercent.ToString("N0") + "%) " + " => " + pt.EndDate.ToString(), Value = pt.PromotionID.ToString() }).ToList() ;
 
             return View(customerViewModel);
         }

@@ -7,11 +7,22 @@ using TotalCore.Repositories.Commons;
 
 namespace TotalDAL.Repositories.Commons
 {
-    public class PromotionRepository : GenericRepository<Promotion>, IPromotionRepository
+    public class PromotionRepository : GenericWithDetailRepository<Promotion, PromotionCommodityCodePart>, IPromotionRepository
     {
         public PromotionRepository(TotalSalesPortalEntities totalSalesPortalEntities)
-            : base(totalSalesPortalEntities)
+            : base(totalSalesPortalEntities, "PromotionEditable", "PromotionApproved", "PromotionDeletable", "PromotionVoidable")
         { }
+
+    }
+
+
+    public class PromotionAPIRepository : GenericAPIRepository, IPromotionAPIRepository
+    {
+        public PromotionAPIRepository(TotalSalesPortalEntities totalSalesPortalEntities)
+            : base(totalSalesPortalEntities, "GetPromotionIndexes")
+        {
+        }
+
 
         public IList<Promotion> GetPromotionByCustomers(int? customerID)
         {
@@ -35,4 +46,5 @@ namespace TotalDAL.Repositories.Commons
         }
 
     }
+
 }

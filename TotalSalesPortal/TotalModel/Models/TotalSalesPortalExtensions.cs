@@ -330,18 +330,24 @@ namespace TotalModel.Models
         public System.DateTime EditedDate { get; set; }
     }
 
-    public partial class Promotion : IPrimitiveEntity, IBaseEntity
+    
+    public partial class Promotion : IPrimitiveEntity, IBaseEntity, IBaseDetailEntity<PromotionCommodityCodePart>
     {
         public int GetID() { return this.PromotionID; }
 
-        public int UserID { get; set; }
         public int PreparedPersonID { get; set; }
-        public int OrganizationalUnitID { get; set; }
 
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime EditedDate { get; set; }
+
+        public ICollection<PromotionCommodityCodePart> GetDetails() { return this.PromotionCommodityCodeParts; }
     }
 
+
+    public partial class PromotionCommodityCodePart : IPrimitiveEntity
+    {
+        public int GetID() { return this.PromotionCommodityCodePartID; }
+    }
 
 
 

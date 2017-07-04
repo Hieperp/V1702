@@ -6,28 +6,42 @@ using System.Collections.Generic;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 
+using Microsoft.AspNet.Identity;
+
 using TotalBase.Enums;
 
 using TotalCore.Repositories.Commons;
 
 using TotalDTO.Commons;
 using TotalDAL.Repositories;
-using TotalService.Commons;
-
-
-
 using TotalModel.Models;
+
+using TotalService.Commons;
+using TotalPortal.APIs.Sessions;
 
 namespace TotalPortal.Areas.Commons.APIs
 {
+    [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
     public class PromotionAPIsController : Controller
     {
-        private readonly IPromotionRepository promotionRepository;
+        private readonly IPromotionAPIRepository promotionAPIRepository;
 
-        public PromotionAPIsController(IPromotionRepository promotionRepository)
+        public PromotionAPIsController(IPromotionAPIRepository promotionAPIRepository)
         {
-            this.promotionRepository = promotionRepository;
+            this.promotionAPIRepository = promotionAPIRepository;
         }
+
+
+
+        public JsonResult GetPromotionIndexes([DataSourceRequest] DataSourceRequest request)
+        {
+            ICollection<PromotionIndex> promotionIndexes = this.promotionAPIRepository.GetEntityIndexes<PromotionIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext));
+
+            DataSourceResult response = promotionIndexes.ToDataSourceResult(request);
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
 
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
@@ -35,7 +49,7 @@ namespace TotalPortal.Areas.Commons.APIs
         {
             if (customerID == null) return Json(null);
 
-            var result = promotionRepository.GetPromotionByCustomers((int) customerID);
+            var result = promotionAPIRepository.GetPromotionByCustomers((int) customerID);
             return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
         }
 
@@ -45,7 +59,7 @@ namespace TotalPortal.Areas.Commons.APIs
         {
             try
             {
-                this.promotionRepository.AddPromotionCustomers(promotionID, customerID);
+                this.promotionAPIRepository.AddPromotionCustomers(promotionID, customerID);
                 return Json(new { AddResult = "Successfully" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -60,7 +74,7 @@ namespace TotalPortal.Areas.Commons.APIs
         {
             try
             {
-                this.promotionRepository.RemovePromotionCustomers(promotionID, customerID);
+                this.promotionAPIRepository.RemovePromotionCustomers(promotionID, customerID);
                 return Json(new { RemoveResult = "Successfully" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

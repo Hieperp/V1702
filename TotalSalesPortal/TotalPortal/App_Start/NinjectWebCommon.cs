@@ -166,6 +166,10 @@ namespace TotalPortal.App_Start
                 kernel.Bind<ICommodityPriceSelectListBuilder>().To<CommodityPriceSelectListBuilder>();
 
 
+                kernel.Bind<IPromotionService>().To<PromotionService>();
+                kernel.Bind<IPromotionRepository>().To<PromotionRepository>();
+                kernel.Bind<IPromotionAPIRepository>().To<PromotionAPIRepository>();
+                kernel.Bind<IPromotionViewModelSelectListBuilder>().To<PromotionViewModelSelectListBuilder>();
 
 
                 kernel.Bind<IInventoryRepository>().To<InventoryRepository>();
@@ -186,7 +190,7 @@ namespace TotalPortal.App_Start
                 kernel.Bind<ICommodityRepository>().To<CommodityRepository>();                
                 kernel.Bind<IWarehouseRepository>().To<WarehouseRepository>();                
                 kernel.Bind<IVoidTypeRepository>().To<VoidTypeRepository>();
-                kernel.Bind<IPromotionRepository>().To<PromotionRepository>();
+                
                 kernel.Bind<IPaymentTermRepository>().To<PaymentTermRepository>();
                 kernel.Bind<IMonetaryAccountRepository>().To<MonetaryAccountRepository>();
                 kernel.Bind<IPriceCategoryRepository>().To<PriceCategoryRepository>();

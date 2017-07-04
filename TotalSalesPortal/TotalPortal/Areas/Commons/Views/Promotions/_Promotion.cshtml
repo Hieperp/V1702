@@ -1,0 +1,245 @@
+﻿@using TotalBase.Enums;
+@using TotalPortal.Configuration
+
+@model TotalPortal.Areas.Commons.ViewModels.PromotionViewModel
+
+<div id="popupWindow"></div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "MainForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.Partial("~/Views/Helpers/Bases/_BaseSectionTop.cshtml")
+
+    @Html.HiddenFor(model => model.PromotionID)
+
+    <div class="left-panel">
+
+        @Html.Partial("~/Views/Helpers/Bases/_BaseSectionLeftA.cshtml")
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Code)
+            <div class="div-input">
+                @Html.Kendo().MaskedTextBoxFor(model => model.Code).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name)
+            <div class="div-input">
+                @Html.Kendo().MaskedTextBoxFor(model => model.Name).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StartDate)
+            <div class="div-input">
+                @Html.Kendo().DateTimePickerFor(model => model.StartDate).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EndDate)
+            <div class="div-input">
+                @Html.Kendo().DateTimePickerFor(model => model.EndDate).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DiscountPercent)
+            <div class="div-input">
+                @Html.Kendo().NumericTextBoxFor(model => model.DiscountPercent).Format("{0:n1}").Decimals(1).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.DiscountPercent, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ControlFreeQuantity)
+            <div class="div-input">
+                @Html.Kendo().NumericTextBoxFor(model => model.ControlFreeQuantity).Format("{0:n0}").Decimals(0).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.ControlFreeQuantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+
+    <div class="right-panel">
+
+        <div class="right-top-panel right-top-panel-H1">
+            @Html.HiddenFor(model => model.CommodityBrandID)
+            <div class="form-group">
+                @Html.LabelFor(model => model.CommodityBrandName)
+                <div class="div-input">
+                    @Html.Kendo().MaskedTextBoxFor(model => model.CommodityBrandName).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+                </div>
+                <div class="div-validation-message">
+                    @Html.ValidationMessageFor(model => model.CommodityBrandName, "", new { @class = "text-danger" })
+                </div>
+            </div>            
+        </div>
+
+        <div class="div-k-grid-detail">
+            @(Html.Kendo().Grid(Model.ViewDetails)
+                .Name("kendoGridDetails")
+                .Columns(columns =>
+                {
+
+                    columns.Bound(p => p.PromotionCommodityCodePartID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= PromotionCommodityCodePartID #" + "<input type='hidden' name='PromotionViewDetails[#= index(data) #].PromotionCommodityCodePartID' value='#= PromotionCommodityCodePartID #' />");
+                    columns.Bound(p => p.PromotionID).DisplayNameTitle().Filterable(false).Hidden()
+                        .ClientTemplate("#= PromotionID #" + "<input type='hidden' name='PromotionViewDetails[#= index(data) #].PromotionID' value='#= PromotionID #' />");
+
+                    columns.Bound(p => p.CodePartA).DisplayNameTitle().Filterable(false).Width(120)
+                        .ClientTemplate("#= CodePartA #" + "<input type='hidden' name='PromotionViewDetails[#= index(data) #].CodePartA' value='#= CodePartA #' />");
+
+                    columns.Bound(p => p.CodePartB).DisplayNameTitle().Filterable(false).Width(120)
+                        .ClientTemplate("#= CodePartB #" + "<input type='hidden' name='PromotionViewDetails[#= index(data) #].CodePartB' value='#= CodePartB #' />");
+
+                    columns.Bound(p => p.CodePartC).DisplayNameTitle().Filterable(false).Width(120)
+                    .ClientTemplate("#= CodePartC #" + "<input type='hidden' name='PromotionViewDetails[#= index(data) #].CodePartC' value='#= CodePartC #' />");
+
+                    
+                    columns.Bound(p => p.Remarks).DisplayNameTitle().Filterable(false)
+                        .ClientTemplate("#= (Remarks == null)? '' : Remarks #" + "<input type='hidden' name='PromotionViewDetails[#= index(data) #].Remarks' value='#= (Remarks == null) ? '' : Remarks #' />");
+
+                    columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50).Hidden(!@Model.Editable).HtmlAttributes(new { @class = "grid-column-center" });
+                    
+                })
+                    .Filterable()
+                    .Navigatable()
+
+                    .ToolBar(toolbar =>
+                    {
+                        if (Model.Editable)
+                        {
+                            toolbar.Template(@<text>
+                                <button type="button" class="k-button" onclick="GetCommodityCodeParts()"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Chọn mặt hàng từ đơn đặt hàng </button>
+                                <button type="button" class="k-button" onclick="copyRemainsToQuantity()"> <img src="~/Content/Images/Mains/Size24/Borderlands-Select-icon-24.png" /> Giao hàng toàn bộ đơn hàng </button>
+                            </text>);
+                            
+                        }
+                        else
+                        {//Add a functionless button for display purpose only
+                            toolbar.Template(
+                                @<text>
+                                    <div>
+                                        @(Html.Kendo().Button()
+                                            .Name("iconButton")
+                                            .HtmlAttributes(new { type = "button" })
+                                            .SpriteCssClass("k-icon k-i-ungroup") //.Content("My button label")
+                                        )
+                                    </div>
+                                </text>);
+                        }
+                    })
+
+                    .Editable(editable => { editable.Enabled(Model.Editable); editable.Mode(GridEditMode.InCell).DisplayDeleteConfirmation(true).CreateAt(GridInsertRowPosition.Bottom); })
+                    .Selectable(settings =>
+                    {
+                        settings.Mode(GridSelectionMode.Multiple);
+                        settings.Type(GridSelectionType.Row);
+                    })
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Batch(true)
+                        .ServerOperation(false)
+                        .Model(model =>
+                        {
+                            model.Id(x => x.PromotionCommodityCodePartID);
+                            model.Field(m => m.PromotionCommodityCodePartID).DefaultValue(0);
+                            model.Field(m => m.PromotionID).DefaultValue(@Model.PromotionID);
+                        })
+                        .Events(events =>
+                        {
+                            events.Error("kendGrid_ErrorHandler");
+                        })
+                    )
+            )
+        </div>
+
+        <div class="div-k-panel">
+            @(Html.Kendo().PanelBar()
+                .Name("IntroPanelBar")
+                .Items(items =>
+                {
+                    items.Add()
+                        .Text("Thông tin khác")
+                        .Selected(true)
+                        .Expanded(false)
+                        .Content(@<text>
+                            <div class="right-first-panel">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Description, new { @class = "right-panel-label" })
+                                    <div class="div-input">
+                                        @Html.Kendo().MaskedTextBoxFor(model => model.Description).HtmlAttributes(new { @class = "right-panel-input" })
+                                    </div>
+                                    <div class="div-validation-message">
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                @*@Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PaymentTerm.cshtml")*@
+                            </div>
+
+                            @*<div class="right-second-panel">
+                                @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PreparedPerson.cshtml")
+                                @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/Approver.cshtml")
+                            </div>*@
+
+                        </text>).HtmlAttributes(new { @class = "panel-class" });
+                })
+            )
+        </div>
+
+
+        <div class="right-botton-panel">
+            @if (Model.Editable)
+            {
+                <button type="submit" class="k-button custom-button SubmitTypeOption-Closed" formaction="@Url.Action("Edit", "Promotions")"> <img src="~/Content/Images/New/save-icon.png" /> Lưu phiếu </button>
+            }
+            else
+            {
+                if (!Model.Voidable && !Model.UnVoidable)
+                {
+                    <button type="button" class="k-button custom-button" onclick="location.href='@Url.Action("Print", "Promotions", new { id = @Model.PromotionID })'"> <img src="~/Content/Images/New/Apps-printer-icon.png" /> In tổng hợp xuất kho </button>
+                }
+            }
+        </div>
+
+        @Html.Partial("~/Views/Helpers/Bases/_BaseSubmit.cshtml")
+
+    </div>
+}
+
+
+<script src="@Url.Content("~/Scripts/Helpers/KendoGrid/gridHelper.js")"></script>
+@*<script src="@Url.Content("~/Scripts/Controllers/Commons/SalesOrders/Import.js")"></script>*@
+
+<script type="text/javascript">
+    function GetCommodityCodeParts() {
+        require(["kpopupWindow"], function (kpopupWindow) {
+            var createWizardWindow = new kpopupWindow();
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("GetCommodityCodeParts", "Promotions", new { area = "Commons" })", "Chọn mặt hàng từ đơn đặt hàng", "@SettingsManager.PopupWidthLarge", "@SettingsManager.PopupHeightWithTab");
+        });
+    }
+</script>
+
