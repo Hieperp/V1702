@@ -1567,5 +1567,22 @@ namespace TotalModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommodityCodePart>("GetCommodityCodePartC", searchTextParameter);
         }
+    
+        public virtual ObjectResult<PromotionIndex> GetPromotionIndexes(string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        {
+            var aspUserIDParameter = aspUserID != null ?
+                new ObjectParameter("AspUserID", aspUserID) :
+                new ObjectParameter("AspUserID", typeof(string));
+    
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PromotionIndex>("GetPromotionIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
+        }
     }
 }

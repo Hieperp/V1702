@@ -88,6 +88,7 @@
     <Compile Include="Commons\CommodityPriceDTO.cs" />
     <Compile Include="Commons\CustomerDTO.cs" />
     <Compile Include="Commons\EmployeeDTO.cs" />
+    <Compile Include="Commons\PromotionCommodityCodePartDTO.cs" />
     <Compile Include="Commons\PromotionDTO.cs" />
     <Compile Include="Commons\VoidTypeDTO.cs" />
     <Compile Include="Commons\WarehouseDTO.cs" />

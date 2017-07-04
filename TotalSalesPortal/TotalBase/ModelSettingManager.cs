@@ -77,6 +77,9 @@ namespace TotalBase
                                     " + (int)GlobalEnums.InventoryAdjustmentTypeID.PartAdjustment + @" THEN 'AP' ELSE '#' END 
                              END";
 
+                case GlobalEnums.NmvnTaskID.Promotion:
+                    return "PS";
+
                 default:
                     return "A";
             }

@@ -19,11 +19,36 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
 
         public void RestoreProcedure()
         {
+            this.GetPromotionIndexes();
+
             this.GetPromotionByCustomers();
             this.AddPromotionCustomers();
             this.RemovePromotionCustomers();
+
+            this.PromotionInitReference();
         }
 
+        private void GetPromotionIndexes()
+        {
+            string queryString;
+
+            queryString = " @AspUserID nvarchar(128), @FromDate DateTime, @ToDate DateTime " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      Promotions.PromotionID, Promotions.Reference, CommodityBrands.CommodityBrandID, CommodityBrands.Name AS Brand, ISNULL(CustomerCategories.Name, 'THỊ TRƯỜNG') AS Category, " + "\r\n";
+            queryString = queryString + "                   Promotions.Code, Promotions.Name, Promotions.StartDate, Promotions.EndDate, Promotions.DiscountPercent, Promotions.ControlFreeQuantity, Promotions.ApplyToAllCustomers, Promotions.ApplyToAllCommodities, Promotions.ApplyToTradeDiscount, Promotions.Remarks, Promotions.InActive " + "\r\n";
+
+            queryString = queryString + "       FROM        Promotions " + "\r\n";
+            queryString = queryString + "                   INNER JOIN  CommodityBrands ON Promotions.CommodityBrandID = CommodityBrands.CommodityBrandID " + "\r\n";
+            queryString = queryString + "                   LEFT JOIN   (SELECT PromotionID, MIN(CustomerCategoryID) AS CustomerCategoryID FROM PromotionCustomerCategoryies GROUP BY PromotionID) AS DERIVEDPromotionCustomerCategoryies ON Promotions.PromotionID = DERIVEDPromotionCustomerCategoryies.PromotionID " + "\r\n";
+            queryString = queryString + "                   LEFT JOIN   CustomerCategories ON DERIVEDPromotionCustomerCategoryies.CustomerCategoryID = CustomerCategories.CustomerCategoryID  " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("GetPromotionIndexes", queryString);
+        }
 
         private void GetPromotionByCustomers()
         {
@@ -87,6 +112,13 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
 
             this.totalSalesPortalEntities.CreateStoredProcedure("RemovePromotionCustomers", queryString);
 
+        }
+
+
+        private void PromotionInitReference()
+        {
+            SimpleInitReference simpleInitReference = new SimpleInitReference("Promotions", "PromotionID", "Reference", ModelSettingManager.ReferenceLength, ModelSettingManager.ReferencePrefix(GlobalEnums.NmvnTaskID.Promotion));
+            this.totalSalesPortalEntities.CreateTrigger("PromotionInitReference", simpleInitReference.CreateQuery());
         }
 
     }

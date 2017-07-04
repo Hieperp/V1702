@@ -36,6 +36,8 @@ namespace TotalModel.Models
         public decimal ControlFreeQuantity { get; set; }
         public bool ApplyToTradeDiscount { get; set; }
         public int CommodityBrandID { get; set; }
+        public System.DateTime EntryDate { get; set; }
+        public int LocationID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DeliveryAdvice> DeliveryAdvices { get; set; }

@@ -766,6 +766,7 @@
             <PropertyRef Name="PromotionID" />
           </Key>
           <Property Name="PromotionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EntryDate" Type="datetime" Nullable="false" />
           <Property Name="Reference" Type="nvarchar" MaxLength="10" />
           <Property Name="Code" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
@@ -773,6 +774,7 @@
           <Property Name="EndDate" Type="datetime" Nullable="false" />
           <Property Name="DiscountPercent" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="ControlFreeQuantity" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="LocationID" Type="int" Nullable="false" />
           <Property Name="CommodityBrandID" Type="int" Nullable="false" />
           <Property Name="ApplyToAllCustomers" Type="bit" Nullable="false" />
           <Property Name="ApplyToAllCommodities" Type="bit" Nullable="false" />
@@ -2699,6 +2701,11 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         <Function Name="GetPromotionByCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CustomerID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetPromotionIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="FromDate" Type="datetime" Mode="In" />
+          <Parameter Name="ToDate" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="GetReceiptIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
           <Parameter Name="FromDate" Type="datetime" Mode="In" />
@@ -4334,6 +4341,11 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="CommodityBrand" EntitySet="CommodityBrands" />
             <End Role="Promotion" EntitySet="Promotions" />
           </AssociationSet>
+          <FunctionImport Name="GetPromotionIndexes" ReturnType="Collection(TotalSalesPortalModel.PromotionIndex)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -4682,6 +4694,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="ApplyToTradeDiscount" Type="Boolean" Nullable="false" />
           <Property Name="CommodityBrandID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CommodityBrand" Relationship="TotalSalesPortalModel.FK_Promotions_CommodityBrands" FromRole="Promotion" ToRole="CommodityBrand" />
+          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="PriceCategory">
           <Key>
@@ -7797,6 +7811,24 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="PromotionIndex">
+          <Property Type="Int32" Name="PromotionID" Nullable="false" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="CommodityBrandID" Nullable="false" />
+          <Property Type="String" Name="Brand" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Category" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="DateTime" Name="StartDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EndDate" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="DiscountPercent" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="ControlFreeQuantity" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Boolean" Name="ApplyToAllCustomers" Nullable="false" />
+          <Property Type="Boolean" Name="ApplyToAllCommodities" Nullable="false" />
+          <Property Type="Boolean" Name="ApplyToTradeDiscount" Nullable="false" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="InActive" Nullable="false" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8097,6 +8129,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="Promotions">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.Promotion">
               <MappingFragment StoreEntitySet="Promotions">
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
                 <ScalarProperty Name="CommodityBrandID" ColumnName="CommodityBrandID" />
                 <ScalarProperty Name="ApplyToTradeDiscount" ColumnName="ApplyToTradeDiscount" />
                 <ScalarProperty Name="ControlFreeQuantity" ColumnName="ControlFreeQuantity" />
@@ -10146,6 +10180,28 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetPromotionIndexes" FunctionName="TotalSalesPortalModel.Store.GetPromotionIndexes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalSalesPortalModel.PromotionIndex">
+                <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="CommodityBrandID" ColumnName="CommodityBrandID" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
+                <ScalarProperty Name="ControlFreeQuantity" ColumnName="ControlFreeQuantity" />
+                <ScalarProperty Name="ApplyToAllCustomers" ColumnName="ApplyToAllCustomers" />
+                <ScalarProperty Name="ApplyToAllCommodities" ColumnName="ApplyToAllCommodities" />
+                <ScalarProperty Name="ApplyToTradeDiscount" ColumnName="ApplyToTradeDiscount" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="InActive" ColumnName="InActive" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
