@@ -40,7 +40,7 @@ namespace TotalPortal.Areas.Commons.Controllers
         public virtual ActionResult GetCommodityCodeParts()
         {
             this.AddRequireJsOptions();
-            return View();
+            return View(new CommodityCodePartABC());
         }
 
     }

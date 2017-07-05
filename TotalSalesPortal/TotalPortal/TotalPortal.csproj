@@ -1039,6 +1039,7 @@
     <Content Include="Areas\Commons\Views\Promotions\_Promotion.cshtml" />
     <Content Include="Areas\Commons\Views\Promotions\Edit.cshtml" />
     <Content Include="Areas\Commons\Views\Promotions\CreateWizard.cshtml" />
+    <Content Include="Areas\Commons\Views\Promotions\GetCommodityCodeParts.cshtml" />
     <None Include="Properties\PublishProfiles\VCP.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1078,6 +1079,7 @@
     <Content Include="Scripts\Controllers\Commons\Employees\Delete.js" />
     <Content Include="Scripts\Controllers\Commons\Employees\Edit.js" />
     <Content Include="Scripts\Controllers\Commons\Employees\Index.js" />
+    <Content Include="Scripts\Controllers\Commons\Promotions\AddCommodityCodePart.js" />
     <Content Include="Scripts\Controllers\Commons\Promotions\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Commons\Promotions\Delete.js" />
     <Content Include="Scripts\Controllers\Commons\Promotions\Edit.js" />

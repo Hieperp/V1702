@@ -1,0 +1,43 @@
+﻿@using TotalModel.Models;
+@using TotalPortal.Configuration;
+
+@{Layout = "~/Views/Shared/_LayoutPopup.cshtml";}
+
+@model TotalDTO.Commons.CommodityCodePartABC
+
+<div class="form-group">
+    @Html.EditorFor(d => d.CodePartA, new { SearchActionName = "GetCommodityCodePartA", CodePartLabel = @Model.GetDisplayName(m => m.CodePartA) })
+    <div class="div-validation-message">
+        @Html.ValidationMessageFor(model => model.CodePartA, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.EditorFor(d => d.CodePartB, new { SearchActionName = "GetCommodityCodePartB", CodePartLabel = @Model.GetDisplayName(m => m.CodePartB) })
+    <div class="div-validation-message">
+        @Html.ValidationMessageFor(model => model.CodePartB, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.EditorFor(d => d.CodePartC, new { SearchActionName = "GetCommodityCodePartC", CodePartLabel = @Model.GetDisplayName(m => m.CodePartC) })
+    <div class="div-validation-message">
+        @Html.ValidationMessageFor(model => model.CodePartC, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+
+<div class="background-bar" style="height: 45px;">
+    <div class="popup-button-bar">
+        <button type="button" class="k-button" onclick="okButton_Click()"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Thêm măt hàng đang chọn vào HĐ</button>
+        <button type="button" class="k-button" onclick="cancelButton_Click()"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png" /> Thoát </button>
+    </div>
+</div>
+
+<script src="@Url.Content("~/Scripts/Controllers/Commons/Promotions/AddCommodityCodePart.js")"></script>
+
+<script type="text/javascript">
+    function okButton_Click() {
+        handleOKEvent(window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource);
+    }
+</script>

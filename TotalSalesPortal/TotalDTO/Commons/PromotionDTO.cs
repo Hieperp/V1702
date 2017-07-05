@@ -6,8 +6,10 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 using TotalModel;
+using TotalModel.Helpers;
 using TotalBase.Enums;
 using TotalDTO.Helpers.Interfaces;
+
 
 namespace TotalDTO.Commons
 {
@@ -20,29 +22,34 @@ namespace TotalDTO.Commons
 
         public int PromotionID { get; set; }
 
-        [Required]
         [Display(Name = "Mã chương trình")]
+        [Required(ErrorMessage = "Vui lòng nhập mã chương trình")]
         public string Code { get; set; }
-        [Required]
+        
         [Display(Name = "Tên chương trình khuyến mãi")]
+        [Required(ErrorMessage = "Vui lòng nhập tên chương trình khuyến mãi")]
         public string Name { get; set; }
-
-        [Required]
+        
         [Display(Name = "Nhãn hàng")]
+        [Required(ErrorMessage = "Vui lòng nhập nhãn hàng")]
         public int CommodityBrandID { get; set; }
         [Display(Name = "Nhãn hàng")]
+        [Required(ErrorMessage = "Vui lòng nhập nhãn hàng")]
         public string CommodityBrandName { get; set; }
-
-        [Required]
+        
         [Display(Name = "Ngày bắt đầu")]
+        [Required(ErrorMessage = "Vui lòng nhập ngày bắt đầu")]
         public Nullable<System.DateTime> StartDate { get; set; }
-        [Required]
+        
         [Display(Name = "Ngày kết thúc")]
+        [Required(ErrorMessage = "Vui lòng nhập ngày kết thúc")]
         public Nullable<System.DateTime> EndDate { get; set; }
 
-        [Display(Name = "Tỷ lệ chiết khấu")]
+        [Display(Name = "Tỷ lệ % chiết khấu")]
         public decimal DiscountPercent { get; set; }
+
         [Display(Name = "Số lượng mua hàng được tặng sản phẩm cùng loại")]
+        [Range(0, 999999, ErrorMessage = "Số lượng mua hàng phải >= 0")]
         public decimal ControlFreeQuantity { get; set; }
 
         public bool ApplyToAllCustomers { get; set; }
@@ -51,6 +58,13 @@ namespace TotalDTO.Commons
 
         public override int PreparedPersonID { get { return 1; } }
 
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            foreach (var result in base.Validate(validationContext)) { yield return result; }
+
+            if (!(this.DiscountPercent == -1 || this.DiscountPercent >= 0)) yield return new ValidationResult("Tỷ lệ chiết khấu >= 0 hoặc = -1", new[] { "DiscountPercent" });
+        }
 
         public override void PerformPresaveRule()
         {
@@ -96,6 +110,21 @@ namespace TotalDTO.Commons
         public Nullable<decimal> ControlFreeQuantity { get; set; }
         public bool ApplyToAllCustomers { get; set; }
         public bool ApplyToAllCommodities { get; set; }
+    }
+
+    public class CommodityCodePartABC
+    {
+        [Display(Name = "Mã sản phẩm")]
+        [UIHint("AutoCompletes/CodePart")]
+        public CodePartDTO CodePartA { get; set; }
+
+        [Display(Name = "Mã bông")]
+        [UIHint("AutoCompletes/CodePart")]
+        public CodePartDTO CodePartB { get; set; }
+
+        [Display(Name = "Nguyên liệu")]
+        [UIHint("AutoCompletes/CodePart")]
+        public CodePartDTO CodePartC { get; set; }
     }
 
 }

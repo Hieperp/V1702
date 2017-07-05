@@ -45,7 +45,7 @@ namespace TotalDAL.Repositories.Sales
             Helpers.SqlProgrammability.Commons.Promotion promotion = new Helpers.SqlProgrammability.Commons.Promotion(totalSalesPortalEntities);
             promotion.RestoreProcedure();
 
-            return;
+            //return;
 
             //AccountInvoice: NOT CHECK FOR Approved COMMPLETELY, PLS CHECK IT CAREFULLY LATER. (SaveRelative, GetPendingGoodsIssueDetails, ...). ALSO DO THE SAME CHECK FOR ALL OTHER MODULES
             //AccountInvoice: SHOULD SAVE BillingAddress

@@ -16,14 +16,12 @@ namespace TotalDTO.Commons
         public int CommodityBrandID { get; set; }
 
         [Display(Name = "Mã sản phẩm")]
-        [Required(ErrorMessage = "Vui lòng nhập mã sản phẩm")]
         public virtual string CodePartA { get; set; }
 
         [Display(Name = "Mã bông")]
         public virtual string CodePartB { get; set; }
 
         [Display(Name = "Nguyên liệu")]
-        [Required(ErrorMessage = "Vui lòng nhập nguyên liệu")]
         public virtual string CodePartC { get; set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
