@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Repositories\Accounts\ICreditNoteRepository.cs" />
     <Compile Include="Repositories\Analysis\IReportRepository.cs" />
+    <Compile Include="Repositories\Commons\ICommodityBrandRepository.cs" />
     <Compile Include="Repositories\Commons\ICommodityPriceRepository.cs" />
     <Compile Include="Repositories\Commons\ICustomerCategoryRepository.cs" />
     <Compile Include="Repositories\Commons\ICustomerTypeRepository.cs" />

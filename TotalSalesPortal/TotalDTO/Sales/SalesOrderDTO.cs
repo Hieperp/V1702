@@ -92,7 +92,7 @@ namespace TotalDTO.Sales
 
         public override Nullable<int> PromotionID { get { return (this.Promotion != null ? this.Promotion.PromotionID : null); } }
         [UIHint("Commons/Promotion")]
-        public PromotionDTO Promotion { get; set; }
+        public PromotionBaseDTO Promotion { get; set; }
 
         public override int SalespersonID { get { return (this.Salesperson != null ? this.Salesperson.EmployeeID : 0); } }
         [Display(Name = "Nhân viên tiếp thị")]

@@ -62,6 +62,7 @@
     <Compile Include="Helpers\SqlProgrammability\Sales\SalesReturn.cs" />
     <Compile Include="Repositories\Accounts\CreditNoteRepository.cs" />
     <Compile Include="Repositories\Analysis\ReportRepository.cs" />
+    <Compile Include="Repositories\Commons\CommodityBrandRepository.cs" />
     <Compile Include="Repositories\Commons\CommodityPriceRepository.cs" />
     <Compile Include="Repositories\Commons\CustomerCategoryRepository.cs" />
     <Compile Include="Repositories\Commons\CustomerTypeRepository.cs" />

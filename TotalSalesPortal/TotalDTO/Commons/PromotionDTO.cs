@@ -15,13 +15,15 @@ namespace TotalDTO.Commons
     {
         public GlobalEnums.NmvnTaskID NMVNTaskID { get { return GlobalEnums.NmvnTaskID.Promotion; } }
 
-        public int GetID() { return (int)this.PromotionID; }
+        public int GetID() { return this.PromotionID; }
         public void SetID(int id) { this.PromotionID = id; }
 
-        public Nullable<int> PromotionID { get; set; }
+        public int PromotionID { get; set; }
 
+        [Required]
         [Display(Name = "Mã chương trình")]
         public string Code { get; set; }
+        [Required]
         [Display(Name = "Tên chương trình khuyến mãi")]
         public string Name { get; set; }
 
@@ -31,15 +33,17 @@ namespace TotalDTO.Commons
         [Display(Name = "Nhãn hàng")]
         public string CommodityBrandName { get; set; }
 
+        [Required]
         [Display(Name = "Ngày bắt đầu")]
         public Nullable<System.DateTime> StartDate { get; set; }
+        [Required]
         [Display(Name = "Ngày kết thúc")]
         public Nullable<System.DateTime> EndDate { get; set; }
 
         [Display(Name = "Tỷ lệ chiết khấu")]
-        public Nullable<decimal> DiscountPercent { get; set; }
+        public decimal DiscountPercent { get; set; }
         [Display(Name = "Số lượng mua hàng được tặng sản phẩm cùng loại")]
-        public Nullable<decimal> ControlFreeQuantity { get; set; }
+        public decimal ControlFreeQuantity { get; set; }
 
         public bool ApplyToAllCustomers { get; set; }
         public bool ApplyToAllCommodities { get; set; }
@@ -47,7 +51,7 @@ namespace TotalDTO.Commons
 
         public override int PreparedPersonID { get { return 1; } }
 
-        
+
         public override void PerformPresaveRule()
         {
             base.PerformPresaveRule();
@@ -72,5 +76,26 @@ namespace TotalDTO.Commons
         protected override IEnumerable<PromotionCommodityCodePartDTO> DtoDetails() { return this.PromotionCommodityCodeParts; }
     }
 
+
+
+
+
+
+    public class PromotionBaseDTO : BaseDTO
+    {
+        public Nullable<int> PromotionID { get; set; }
+        [Display(Name = "Chương trình khuyến mãi")]
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public Nullable<System.DateTime> StartDate { get; set; }
+        [Display(Name = "Ngày kết thúc")]
+        public Nullable<System.DateTime> EndDate { get; set; }
+        [Display(Name = "Tỷ lệ chiết khấu")]
+        public Nullable<decimal> DiscountPercent { get; set; }
+        [Display(Name = "Tặng quà")]
+        public Nullable<decimal> ControlFreeQuantity { get; set; }
+        public bool ApplyToAllCustomers { get; set; }
+        public bool ApplyToAllCommodities { get; set; }
+    }
 
 }

@@ -123,6 +123,7 @@ namespace TotalPortal.App_Start
                 cfg.CreateMap<PromotionCommodityCodePartDTO, PromotionCommodityCodePart>();
 
 
+                cfg.CreateMap<Promotion, PromotionBaseDTO>();
 
                 cfg.CreateMap<Warehouse, WarehouseBaseDTO>();
                 cfg.CreateMap<VoidType, VoidTypeBaseDTO>();

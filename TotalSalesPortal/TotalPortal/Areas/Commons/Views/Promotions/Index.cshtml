@@ -8,7 +8,7 @@
         .Columns(columns =>
         {
             columns.Bound(p => p.PromotionID).DisplayNameTitle().Hidden();
-            //columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(90).Filterable(false);
+            ////columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(90).Filterable(false);
 
             columns.Bound(p => p.Reference).Title("#").Width(10).Filterable(false).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Commons/Promotions", action = "Edit" }) + "/#= PromotionID #'>#=Reference#</a>");
             columns.Bound(p => p.Code).Title("Số ĐH").Width(10).Filterable(false);

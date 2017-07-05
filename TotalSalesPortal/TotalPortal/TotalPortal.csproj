@@ -1038,6 +1038,7 @@
     <Content Include="Areas\Commons\Views\Promotions\Index.cshtml" />
     <Content Include="Areas\Commons\Views\Promotions\_Promotion.cshtml" />
     <Content Include="Areas\Commons\Views\Promotions\Edit.cshtml" />
+    <Content Include="Areas\Commons\Views\Promotions\CreateWizard.cshtml" />
     <None Include="Properties\PublishProfiles\VCP.pubxml" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
