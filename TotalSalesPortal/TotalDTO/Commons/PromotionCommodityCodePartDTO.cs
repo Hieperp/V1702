@@ -16,12 +16,15 @@ namespace TotalDTO.Commons
         public int CommodityBrandID { get; set; }
 
         [Display(Name = "Mã sản phẩm")]
+        [UIHint("StringReadonly")]
         public virtual string CodePartA { get; set; }
 
         [Display(Name = "Mã bông")]
+        [UIHint("StringReadonly")]
         public virtual string CodePartB { get; set; }
 
         [Display(Name = "Nguyên liệu")]
+        [UIHint("StringReadonly")]
         public virtual string CodePartC { get; set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

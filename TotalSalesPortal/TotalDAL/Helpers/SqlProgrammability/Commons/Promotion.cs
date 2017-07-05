@@ -25,6 +25,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             this.AddPromotionCustomers();
             this.RemovePromotionCustomers();
 
+            this.PromotionSaveRelative();
 
             this.PromotionApproved();
             this.PromotionEditable();
@@ -47,10 +48,10 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             queryString = queryString + "    BEGIN " + "\r\n";
 
             queryString = queryString + "       SELECT      Promotions.PromotionID, CAST(Promotions.EntryDate AS DATE) AS EntryDate, Promotions.Reference, CommodityBrands.CommodityBrandID, CommodityBrands.Name AS Brand, ISNULL(CustomerCategories.Name, N'Thị trường') AS Category, " + "\r\n";
-            queryString = queryString + "                   Promotions.Code, Promotions.Name, Promotions.StartDate, Promotions.EndDate, Promotions.DiscountPercent, Promotions.ControlFreeQuantity, Promotions.ApplyToAllCustomers, Promotions.ApplyToAllCommodities, Promotions.ApplyToTradeDiscount, Promotions.Remarks, Promotions.InActive " + "\r\n";
+            queryString = queryString + "                   Promotions.Code, Promotions.Name, Promotions.StartDate, Promotions.EndDate, Promotions.DiscountPercent, Promotions.ControlFreeQuantity, Promotions.ApplyToAllCustomers, Promotions.ApplyToAllCommodities, Promotions.ApplyToTradeDiscount, Promotions.Remarks, Promotions.Approved, Promotions.InActive " + "\r\n";
 
             queryString = queryString + "       FROM        Promotions " + "\r\n";
-            queryString = queryString + "                   INNER JOIN  CommodityBrands ON Promotions.CommodityBrandID = CommodityBrands.CommodityBrandID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN  CommodityBrands ON Promotions.EndDate >= GetDate() AND Promotions.CommodityBrandID = CommodityBrands.CommodityBrandID " + "\r\n";
             queryString = queryString + "                   LEFT JOIN   (SELECT PromotionID, MIN(CustomerCategoryID) AS CustomerCategoryID FROM PromotionCustomerCategoryies GROUP BY PromotionID) AS DERIVEDPromotionCustomerCategoryies ON Promotions.PromotionID = DERIVEDPromotionCustomerCategoryies.PromotionID " + "\r\n";
             queryString = queryString + "                   LEFT JOIN   CustomerCategories ON DERIVEDPromotionCustomerCategoryies.CustomerCategoryID = CustomerCategories.CustomerCategoryID  " + "\r\n";
 
@@ -125,6 +126,24 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
 
 
 
+
+        private void PromotionSaveRelative()
+        {
+            string queryString = " @EntityID int, @SaveRelativeOption int " + "\r\n"; //SaveRelativeOption: 1: Update, -1:Undo
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "   IF (@SaveRelativeOption = 1) " + "\r\n";
+            queryString = queryString + "       BEGIN " + "\r\n";
+            queryString = queryString + "           IF (SELECT COUNT(*) FROM PromotionCommodityCodeParts WHERE PromotionID = @EntityID) = 0 " + "\r\n";
+            queryString = queryString + "               INSERT INTO     PromotionCommodityBrands (PromotionID, CommodityBrandID, InActive) " + "\r\n";
+            queryString = queryString + "               SELECT          PromotionID, CommodityBrandID, 0 FROM Promotions WHERE PromotionID = @EntityID " + "\r\n";
+            queryString = queryString + "       END " + "\r\n";
+            queryString = queryString + "   ELSE " + "\r\n";
+            queryString = queryString + "           DELETE FROM PromotionCommodityBrands WHERE PromotionID = @EntityID " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("PromotionSaveRelative", queryString);
+        }
 
 
         private void PromotionApproved()

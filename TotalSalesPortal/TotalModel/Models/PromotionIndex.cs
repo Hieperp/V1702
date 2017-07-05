@@ -29,5 +29,6 @@ namespace TotalModel.Models
         public bool ApplyToTradeDiscount { get; set; }
         public string Remarks { get; set; }
         public bool InActive { get; set; }
+        public Nullable<System.DateTime> EntryDate { get; set; }
     }
 }

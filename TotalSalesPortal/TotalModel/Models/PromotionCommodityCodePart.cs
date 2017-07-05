@@ -21,6 +21,7 @@ namespace TotalModel.Models
         public string CodePartB { get; set; }
         public string CodePartC { get; set; }
         public bool InActive { get; set; }
+        public string Remarks { get; set; }
     
         public virtual Promotion Promotion { get; set; }
     }

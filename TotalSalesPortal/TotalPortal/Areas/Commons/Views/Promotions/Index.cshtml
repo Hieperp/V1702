@@ -8,26 +8,29 @@
         .Columns(columns =>
         {
             columns.Bound(p => p.PromotionID).DisplayNameTitle().Hidden();
-            ////columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(90).Filterable(false);
 
-            columns.Bound(p => p.Reference).Title("#").Width(10).Filterable(false).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Commons/Promotions", action = "Edit" }) + "/#= PromotionID #'>#=Reference#</a>");
-            columns.Bound(p => p.Code).Title("Số ĐH").Width(10).Filterable(false);
+            columns.Bound(p => p.Code).Title("Mã KM").Width(150).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Commons/Promotions", action = "Edit" }) + "/#= PromotionID #'>#=Code#</a>");
+            columns.Bound(p => p.Name).Title("Tên chương trình").Width(150);
 
-            columns.Bound(p => p.DiscountPercent).Title("% CK").Width(5).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Format("{0:n0}");
+            columns.Bound(p => p.DiscountPercent).Title("% CK").Width(5).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Format("{0:n1}");
+            columns.Bound(p => p.ControlFreeQuantity).Title("SL/ 1 quà tặng").Width(5).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Format("{0:n0}");
+            
             columns.Bound(p => p.StartDate).Title("Ngày bắt đầu").Width(12).Format("{0:" + SettingsManager.DateTimeFormat + "}").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" });
             columns.Bound(p => p.EndDate).Title("Ngày kết thúc").Width(12).Format("{0:" + SettingsManager.DateTimeFormat + "}").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" });
-            columns.Template(t => { }).Title("CK 1 dòng").ClientTemplate("<input class='IsSelected' #= ApplyToTradeDiscount ? checked='checked':'' #  type='checkbox' />").HtmlAttributes(new { @class = "grid-column-center", @readonly = "readonly" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(8);
-            columns.Bound(p => p.Remarks).Title("Ghi chú").Width(10);
 
+            columns.Template(t => { }).Title("Tất cả KH").ClientTemplate("<input class='IsSelected' #= ApplyToAllCustomers ? checked='checked':'' #  type='checkbox' />").HtmlAttributes(new { @class = "grid-column-center", @readonly = "readonly" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(5);
+            columns.Template(t => { }).Title("Tất cả SP").ClientTemplate("<input class='IsSelected' #= ApplyToAllCommodities ? checked='checked':'' #  type='checkbox' />").HtmlAttributes(new { @class = "grid-column-center", @readonly = "readonly" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(5);
+            columns.Template(t => { }).Title("CK 1 dòng").ClientTemplate("<input class='IsSelected' #= ApplyToTradeDiscount ? checked='checked':'' #  type='checkbox' />").HtmlAttributes(new { @class = "grid-column-center", @readonly = "readonly" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(5);
+            
             columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(92)
                 .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Commons/Promotions", action = "Void" }) + "/#= PromotionID #'><span class='k-icon k-edit'></span></a> <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Commons/Promotions", action = "Print" }) + "/#= PromotionID #'><span class='k-icon k-i-folder-add'></span></a>");
         })
         .ToolBar(toolbar =>
         {
             toolbar.Template(@<text>
-                <button type="button" class="k-button" onclick="createWizard()"> <img src="~/Content/Images/Mains/Size24/folder-documents-icon-24.png" /> Lập đề nghị giao hàng </button>
+                <button type="button" class="k-button" onclick="createWizard()"> <img src="~/Content/Images/Mains/Size24/Ecommerce-Sale-icon-24.png" /> Đăng ký chương trình khuyến mãi mới </button>
                 <div class="toolbar" style="float: right;">
-                    <label>Nhập số phiếu ĐNGH, số đơn hàng hoặc tên khách hàng để tìm</label>
+                    <label>Nhập mã hoặc tên chương trình khuyến mãi để tìm</label>
                     <input id="indexFilterText" class="k-textbox" style="text-align: center; " onkeyup="indexFilterText_KeyUp()" />
                 </div>
             </text>);
@@ -47,8 +50,8 @@
             .Read(read => read.Action("GetPromotionIndexes", "PromotionAPIs", new { area = "Commons" }))
             .Sort(sort =>
                 {
-                    sort.Add(p => p.StartDate).Descending();
-                    sort.Add(p => p.EndDate).Descending();
+                    sort.Add(p => p.StartDate);
+                    sort.Add(p => p.EndDate);
                 })
             .PageSize(20)
             .Model(model =>
@@ -74,13 +77,12 @@
     function createWizard() {
         require(["kpopupWindow"], function (kpopupWindow) {
             var createWizardWindow = new kpopupWindow();
-            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "Promotions")", "Chọn khách hàng, chương trình khuyến mãi áp dụng cho khách hàng", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeightWithTab");
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "Promotions")", "Nhập nhãn hàng, mã và tên chương trình mới", @SettingsManager.PopupWidthVoid,  @SettingsManager.PopupHeightVoid);
         });
     }
 
 
     decoratingKindex = function (idx, elem) {
-
         if (elem.Approved == null || elem.Approved == false) {
             $('tr[data-uid="' + elem.uid + '"]').addClass("NotApproved");
         }
@@ -91,7 +93,6 @@
         }
 
     }
-
 
 
 

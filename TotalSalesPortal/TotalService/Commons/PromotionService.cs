@@ -8,7 +8,7 @@ namespace TotalService.Commons
     public class PromotionService : GenericWithDetailService<Promotion, PromotionCommodityCodePart, PromotionDTO, PromotionPrimitiveDTO, PromotionCommodityCodePartDTO>, IPromotionService
     {
         public PromotionService(IPromotionRepository promotionRepository)
-            : base(promotionRepository, null, null, "PromotionToggleApproved", "PromotionToggleVoid")
+            : base(promotionRepository, null, "PromotionSaveRelative", "PromotionToggleApproved", "PromotionToggleVoid")
         {
         }
     }

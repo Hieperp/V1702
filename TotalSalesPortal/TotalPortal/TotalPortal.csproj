@@ -1079,7 +1079,6 @@
     <Content Include="Scripts\Controllers\Commons\Employees\Delete.js" />
     <Content Include="Scripts\Controllers\Commons\Employees\Edit.js" />
     <Content Include="Scripts\Controllers\Commons\Employees\Index.js" />
-    <Content Include="Scripts\Controllers\Commons\Promotions\AddCommodityCodePart.js" />
     <Content Include="Scripts\Controllers\Commons\Promotions\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Commons\Promotions\Delete.js" />
     <Content Include="Scripts\Controllers\Commons\Promotions\Edit.js" />

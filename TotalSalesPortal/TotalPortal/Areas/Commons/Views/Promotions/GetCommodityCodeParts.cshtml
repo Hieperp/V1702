@@ -30,14 +30,35 @@
 <div class="background-bar" style="height: 45px;">
     <div class="popup-button-bar">
         <button type="button" class="k-button" onclick="okButton_Click()"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Thêm măt hàng đang chọn vào HĐ</button>
-        <button type="button" class="k-button" onclick="cancelButton_Click()"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png" /> Thoát </button>
+        <button type="button" class="k-button" onclick="window.parent.$('#myWindow').data('kendoWindow').close();"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png" /> Thoát </button>
     </div>
 </div>
 
-<script src="@Url.Content("~/Scripts/Controllers/Commons/Promotions/AddCommodityCodePart.js")"></script>
 
 <script type="text/javascript">
     function okButton_Click() {
-        handleOKEvent(window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource);
+        
+        var deliveryAdviceGridDataSource = window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource;
+        if (deliveryAdviceGridDataSource != undefined && ($("#CodePartA_CodePart").val() != "" || $("#CodePartB_CodePart").val() != "" || $("#CodePartC_CodePart").val() != "")) {
+
+            var dataRow = new Object();
+
+            dataRow.PromotionCommodityCodePartID = 0;
+            dataRow.PromotionID = window.parent.$("#PromotionID").val();
+
+            dataRow.CommodityBrandID = null;
+            dataRow.Remarks = null;
+            dataRow.InActive = false;
+
+            dataRow.CodePartA = $("#CodePartA_CodePart").val();
+            dataRow.CodePartB = $("#CodePartB_CodePart").val();
+            dataRow.CodePartC = $("#CodePartC_CodePart").val();
+
+            var deliveryAdviceJSON = deliveryAdviceGridDataSource.data().toJSON();
+            deliveryAdviceJSON.push(dataRow);
+
+            deliveryAdviceGridDataSource.data(deliveryAdviceJSON);
+        }
     }
+
 </script>

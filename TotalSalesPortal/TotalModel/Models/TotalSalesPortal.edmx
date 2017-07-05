@@ -771,6 +771,7 @@
           <Property Name="CodePartA" Type="nvarchar" MaxLength="20" />
           <Property Name="CodePartB" Type="nvarchar" MaxLength="20" />
           <Property Name="CodePartC" Type="nvarchar" MaxLength="20" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
           <Property Name="InActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Promotions">
@@ -2853,6 +2854,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         <Function Name="PromotionEditable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
         </Function>
+        <Function Name="PromotionSaveRelative" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+          <Parameter Name="SaveRelativeOption" Type="int" Mode="In" />
+        </Function>
         <Function Name="PromotionToggleApproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
           <Parameter Name="Approved" Type="bit" Mode="In" />
@@ -4425,6 +4430,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="Promotion" EntitySet="Promotions" />
             <End Role="PromotionCommodityCodePart" EntitySet="PromotionCommodityCodeParts" />
           </AssociationSet>
+          <FunctionImport Name="PromotionSaveRelative">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+            <Parameter Name="SaveRelativeOption" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -7834,6 +7843,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Boolean" Name="ApplyToTradeDiscount" Nullable="false" />
           <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
           <Property Type="Boolean" Name="InActive" Nullable="false" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="true" />
         </ComplexType>
         <EntityType Name="Promotion">
           <Key>
@@ -7926,6 +7936,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="CodePartC" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="InActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_PromotionCommodityCodeParts_Promotions" FromRole="PromotionCommodityCodePart" ToRole="Promotion" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_PromotionCommodityCodeParts_Promotions">
           <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="1" />
@@ -10287,6 +10298,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="ApplyToTradeDiscount" ColumnName="ApplyToTradeDiscount" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="InActive" ColumnName="InActive" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -10326,6 +10338,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="PromotionCommodityCodeParts">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.PromotionCommodityCodePart">
               <MappingFragment StoreEntitySet="PromotionCommodityCodeParts">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="InActive" ColumnName="InActive" />
                 <ScalarProperty Name="CodePartC" ColumnName="CodePartC" />
                 <ScalarProperty Name="CodePartB" ColumnName="CodePartB" />
@@ -10336,6 +10349,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="PromotionSaveRelative" FunctionName="TotalSalesPortalModel.Store.PromotionSaveRelative" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

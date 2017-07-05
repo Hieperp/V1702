@@ -48,7 +48,7 @@ namespace TotalDTO.Commons
         [Display(Name = "Tỷ lệ % chiết khấu")]
         public decimal DiscountPercent { get; set; }
 
-        [Display(Name = "Số lượng mua hàng được tặng sản phẩm cùng loại")]
+        [Display(Name = "Số lượng mua/ 1 quà tặng")]
         [Range(0, 999999, ErrorMessage = "Số lượng mua hàng phải >= 0")]
         public decimal ControlFreeQuantity { get; set; }
 
@@ -94,6 +94,20 @@ namespace TotalDTO.Commons
 
 
 
+    public class CommodityCodePartABC
+    {
+        [Display(Name = "Mã sản phẩm")]
+        [UIHint("AutoCompletes/CodePart")]
+        public CodePartDTO CodePartA { get; set; }
+
+        [Display(Name = "Mã bông")]
+        [UIHint("AutoCompletes/CodePart")]
+        public CodePartDTO CodePartB { get; set; }
+
+        [Display(Name = "Nguyên liệu")]
+        [UIHint("AutoCompletes/CodePart")]
+        public CodePartDTO CodePartC { get; set; }
+    }
 
     public class PromotionBaseDTO : BaseDTO
     {
@@ -111,20 +125,4 @@ namespace TotalDTO.Commons
         public bool ApplyToAllCustomers { get; set; }
         public bool ApplyToAllCommodities { get; set; }
     }
-
-    public class CommodityCodePartABC
-    {
-        [Display(Name = "Mã sản phẩm")]
-        [UIHint("AutoCompletes/CodePart")]
-        public CodePartDTO CodePartA { get; set; }
-
-        [Display(Name = "Mã bông")]
-        [UIHint("AutoCompletes/CodePart")]
-        public CodePartDTO CodePartB { get; set; }
-
-        [Display(Name = "Nguyên liệu")]
-        [UIHint("AutoCompletes/CodePart")]
-        public CodePartDTO CodePartC { get; set; }
-    }
-
 }
