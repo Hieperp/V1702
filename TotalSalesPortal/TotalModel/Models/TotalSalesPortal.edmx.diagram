@@ -151,13 +151,13 @@
         <EntityTypeShape EntityType="TotalSalesPortalModel.CommodityBrand" Width="1.5" PointX="0.75" PointY="22.25" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Commodities_CommodityBrands" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_CommodityBrands_CommodityBrands" />
-        <EntityTypeShape EntityType="TotalSalesPortalModel.PromotionCommodityCodePart" Width="1.5" PointX="3" PointY="27.625" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.Promotion" Width="1.5" PointX="0.75" PointY="15.875" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_Promotions_CommodityBrands" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdvices_Promotions" />
-        <AssociationConnector Association="TotalSalesPortalModel.FK_PromotionCommodityCodeParts_Promotions" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesOrders_Promotions" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_Promotions" />
+        <EntityTypeShape EntityType="TotalSalesPortalModel.PromotionCommodityCodePart" Width="1.5" PointX="3" PointY="26.625" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_PromotionCommodityCodeParts_Promotions" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

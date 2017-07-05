@@ -768,9 +768,9 @@
           <Property Name="PromotionCommodityCodePartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PromotionID" Type="int" Nullable="false" />
           <Property Name="CommodityBrandID" Type="int" Nullable="false" />
-          <Property Name="CodePartA" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="CodePartB" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="CodePartC" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CodePartA" Type="nvarchar" MaxLength="20" />
+          <Property Name="CodePartB" Type="nvarchar" MaxLength="20" />
+          <Property Name="CodePartC" Type="nvarchar" MaxLength="20" />
           <Property Name="InActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Promotions">
@@ -4383,7 +4383,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <EntitySet Name="PromotionCommodityCodeParts" EntityType="TotalSalesPortalModel.PromotionCommodityCodePart" />
           <EntitySet Name="Promotions" EntityType="TotalSalesPortalModel.Promotion" />
           <AssociationSet Name="FK_Promotions_CommodityBrands" Association="TotalSalesPortalModel.FK_Promotions_CommodityBrands">
             <End Role="CommodityBrand" EntitySet="CommodityBrands" />
@@ -4392,10 +4391,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <AssociationSet Name="FK_DeliveryAdvices_Promotions" Association="TotalSalesPortalModel.FK_DeliveryAdvices_Promotions">
             <End Role="Promotion" EntitySet="Promotions" />
             <End Role="DeliveryAdvice" EntitySet="DeliveryAdvices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PromotionCommodityCodeParts_Promotions" Association="TotalSalesPortalModel.FK_PromotionCommodityCodeParts_Promotions">
-            <End Role="Promotion" EntitySet="Promotions" />
-            <End Role="PromotionCommodityCodePart" EntitySet="PromotionCommodityCodeParts" />
           </AssociationSet>
           <AssociationSet Name="FK_SalesOrders_Promotions" Association="TotalSalesPortalModel.FK_SalesOrders_Promotions">
             <End Role="Promotion" EntitySet="Promotions" />
@@ -4425,6 +4420,11 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <FunctionImport Name="PromotionDeletable" ReturnType="Collection(String)">
           <Parameter Name="EntityID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="PromotionCommodityCodeParts" EntityType="TotalSalesPortalModel.PromotionCommodityCodePart" />
+          <AssociationSet Name="FK_PromotionCommodityCodeParts_Promotions" Association="TotalSalesPortalModel.FK_PromotionCommodityCodeParts_Promotions">
+            <End Role="Promotion" EntitySet="Promotions" />
+            <End Role="PromotionCommodityCodePart" EntitySet="PromotionCommodityCodeParts" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -7835,19 +7835,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
           <Property Type="Boolean" Name="InActive" Nullable="false" />
         </ComplexType>
-        <EntityType Name="PromotionCommodityCodePart">
-          <Key>
-            <PropertyRef Name="PromotionCommodityCodePartID" />
-          </Key>
-          <Property Name="PromotionCommodityCodePartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PromotionID" Type="Int32" Nullable="false" />
-          <Property Name="CommodityBrandID" Type="Int32" Nullable="false" />
-          <Property Name="CodePartA" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="CodePartB" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="CodePartC" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="InActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_PromotionCommodityCodeParts_Promotions" FromRole="PromotionCommodityCodePart" ToRole="Promotion" />
-        </EntityType>
         <EntityType Name="Promotion">
           <Key>
             <PropertyRef Name="PromotionID" />
@@ -7870,7 +7857,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="InActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="CommodityBrand" Relationship="TotalSalesPortalModel.FK_Promotions_CommodityBrands" FromRole="Promotion" ToRole="CommodityBrand" />
           <NavigationProperty Name="DeliveryAdvices" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Promotions" FromRole="Promotion" ToRole="DeliveryAdvice" />
-          <NavigationProperty Name="PromotionCommodityCodeParts" Relationship="TotalSalesPortalModel.FK_PromotionCommodityCodeParts_Promotions" FromRole="Promotion" ToRole="PromotionCommodityCodePart" />
           <NavigationProperty Name="SalesOrders" Relationship="TotalSalesPortalModel.FK_SalesOrders_Promotions" FromRole="Promotion" ToRole="SalesOrder" />
           <NavigationProperty Name="SalesReturns" Relationship="TotalSalesPortalModel.FK_SalesReturns_Promotions" FromRole="Promotion" ToRole="SalesReturn" />
           <Property Name="Approved" Type="Boolean" Nullable="false" />
@@ -7878,6 +7864,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="InActiveDate" Type="DateTime" Precision="3" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="OrganizationalUnitID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PromotionCommodityCodeParts" Relationship="TotalSalesPortalModel.FK_PromotionCommodityCodeParts_Promotions" FromRole="Promotion" ToRole="PromotionCommodityCodePart" />
         </EntityType>
         <Association Name="FK_Promotions_CommodityBrands">
           <End Type="TotalSalesPortalModel.CommodityBrand" Role="CommodityBrand" Multiplicity="1" />
@@ -7903,18 +7890,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PromotionCommodityCodeParts_Promotions">
-          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.PromotionCommodityCodePart" Role="PromotionCommodityCodePart" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Promotion">
-              <PropertyRef Name="PromotionID" />
-            </Principal>
-            <Dependent Role="PromotionCommodityCodePart">
-              <PropertyRef Name="PromotionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SalesOrders_Promotions">
           <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="0..1" />
           <End Type="TotalSalesPortalModel.SalesOrder" Role="SalesOrder" Multiplicity="*" />
@@ -7935,6 +7910,31 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               <PropertyRef Name="PromotionID" />
             </Principal>
             <Dependent Role="SalesReturn">
+              <PropertyRef Name="PromotionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PromotionCommodityCodePart">
+          <Key>
+            <PropertyRef Name="PromotionCommodityCodePartID" />
+          </Key>
+          <Property Name="PromotionCommodityCodePartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PromotionID" Type="Int32" Nullable="false" />
+          <Property Name="CommodityBrandID" Type="Int32" Nullable="false" />
+          <Property Name="CodePartA" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CodePartB" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CodePartC" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="InActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_PromotionCommodityCodeParts_Promotions" FromRole="PromotionCommodityCodePart" ToRole="Promotion" />
+        </EntityType>
+        <Association Name="FK_PromotionCommodityCodeParts_Promotions">
+          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.PromotionCommodityCodePart" Role="PromotionCommodityCodePart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotion">
+              <PropertyRef Name="PromotionID" />
+            </Principal>
+            <Dependent Role="PromotionCommodityCodePart">
               <PropertyRef Name="PromotionID" />
             </Dependent>
           </ReferentialConstraint>
@@ -10290,19 +10290,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="PromotionCommodityCodeParts">
-            <EntityTypeMapping TypeName="TotalSalesPortalModel.PromotionCommodityCodePart">
-              <MappingFragment StoreEntitySet="PromotionCommodityCodeParts">
-                <ScalarProperty Name="InActive" ColumnName="InActive" />
-                <ScalarProperty Name="CodePartC" ColumnName="CodePartC" />
-                <ScalarProperty Name="CodePartB" ColumnName="CodePartB" />
-                <ScalarProperty Name="CodePartA" ColumnName="CodePartA" />
-                <ScalarProperty Name="CommodityBrandID" ColumnName="CommodityBrandID" />
-                <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
-                <ScalarProperty Name="PromotionCommodityCodePartID" ColumnName="PromotionCommodityCodePartID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Promotions">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.Promotion">
               <MappingFragment StoreEntitySet="Promotions">
@@ -10336,6 +10323,19 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <FunctionImportMapping FunctionImportName="PromotionToggleVoid" FunctionName="TotalSalesPortalModel.Store.PromotionToggleVoid" />
           <FunctionImportMapping FunctionImportName="PromotionVoidable" FunctionName="TotalSalesPortalModel.Store.PromotionVoidable" />
           <FunctionImportMapping FunctionImportName="PromotionDeletable" FunctionName="TotalSalesPortalModel.Store.PromotionDeletable" />
+          <EntitySetMapping Name="PromotionCommodityCodeParts">
+            <EntityTypeMapping TypeName="TotalSalesPortalModel.PromotionCommodityCodePart">
+              <MappingFragment StoreEntitySet="PromotionCommodityCodeParts">
+                <ScalarProperty Name="InActive" ColumnName="InActive" />
+                <ScalarProperty Name="CodePartC" ColumnName="CodePartC" />
+                <ScalarProperty Name="CodePartB" ColumnName="CodePartB" />
+                <ScalarProperty Name="CodePartA" ColumnName="CodePartA" />
+                <ScalarProperty Name="CommodityBrandID" ColumnName="CommodityBrandID" />
+                <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
+                <ScalarProperty Name="PromotionCommodityCodePartID" ColumnName="PromotionCommodityCodePartID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
