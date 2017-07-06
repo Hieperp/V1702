@@ -25,21 +25,21 @@ namespace TotalDTO.Commons
         [Display(Name = "Mã chương trình")]
         [Required(ErrorMessage = "Vui lòng nhập mã chương trình")]
         public string Code { get; set; }
-        
+
         [Display(Name = "Diễn giải")]
         public string Name { get; set; }
-        
+
         [Display(Name = "Nhãn hàng")]
         [Required(ErrorMessage = "Vui lòng nhập nhãn hàng")]
         public int CommodityBrandID { get; set; }
         [Display(Name = "Nhãn hàng")]
         [Required(ErrorMessage = "Vui lòng nhập nhãn hàng")]
         public string CommodityBrandName { get; set; }
-        
+
         [Display(Name = "Ngày bắt đầu")]
         [Required(ErrorMessage = "Vui lòng nhập ngày bắt đầu")]
         public Nullable<System.DateTime> StartDate { get; set; }
-        
+
         [Display(Name = "Ngày kết thúc")]
         [Required(ErrorMessage = "Vui lòng nhập ngày kết thúc")]
         public Nullable<System.DateTime> EndDate { get; set; }
@@ -61,7 +61,7 @@ namespace TotalDTO.Commons
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             foreach (var result in base.Validate(validationContext)) { yield return result; }
-
+            if (this.EndDate <= DateTime.Now.AddHours(1)) yield return new ValidationResult("Xem lại ngày giờ kết thúc");
             if (!(this.DiscountPercent == -1 || this.DiscountPercent >= 0)) yield return new ValidationResult("Tỷ lệ chiết khấu >= 0 hoặc = -1", new[] { "DiscountPercent" });
         }
 

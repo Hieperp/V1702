@@ -56,7 +56,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.CommodityBrandName, new { @class = "right-panel-label" })
                     <div class="div-input">
-                        @Html.Kendo().MaskedTextBoxFor(model => model.CommodityBrandName).HtmlAttributes(new { @class = "right-panel-input" })
+                        @Html.Kendo().MaskedTextBoxFor(model => model.CommodityBrandName).HtmlAttributes(new { @class = "right-panel-input", @readonly = "readonly" })
                     </div>
                     <div class="div-validation-message">
                         @Html.ValidationMessageFor(model => model.CommodityBrandName, "", new { @class = "text-danger" })
@@ -236,7 +236,7 @@
     function GetCommodityCodeParts() {
         require(["kpopupWindow"], function (kpopupWindow) {
             var createWizardWindow = new kpopupWindow();
-            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("GetCommodityCodeParts", "Promotions", new { area = "Commons" })", "Chọn mặt hàng từ đơn đặt hàng", "@SettingsManager.PopupWidthLarge", "@SettingsManager.PopupHeightWithTab");
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("GetCommodityCodeParts", "Promotions", new { area = "Commons" })", "Chọn mặt hàng được chiết khấu", @SettingsManager.PopupWidthVoid,  @SettingsManager.PopupHeightSmall);
         });
     }
 </script>
