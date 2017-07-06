@@ -26,8 +26,7 @@ namespace TotalDTO.Commons
         [Required(ErrorMessage = "Vui lòng nhập mã chương trình")]
         public string Code { get; set; }
         
-        [Display(Name = "Tên chương trình khuyến mãi")]
-        [Required(ErrorMessage = "Vui lòng nhập tên chương trình khuyến mãi")]
+        [Display(Name = "Diễn giải")]
         public string Name { get; set; }
         
         [Display(Name = "Nhãn hàng")]
@@ -48,7 +47,7 @@ namespace TotalDTO.Commons
         [Display(Name = "Tỷ lệ % chiết khấu")]
         public decimal DiscountPercent { get; set; }
 
-        [Display(Name = "Số lượng mua/ 1 quà tặng")]
+        [Display(Name = "SL mua/ 1 quà tặng")]
         [Range(0, 999999, ErrorMessage = "Số lượng mua hàng phải >= 0")]
         public decimal ControlFreeQuantity { get; set; }
 

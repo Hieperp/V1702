@@ -22,6 +22,12 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             this.GetPromotionIndexes();
 
             this.GetPromotionByCustomers();
+
+            this.GetPromotionCustomerCategories();
+
+            this.AddPromotionCustomerCategories();
+            this.RemovePromotionCustomerCategories();
+
             this.AddPromotionCustomers();
             this.RemovePromotionCustomers();
 
@@ -52,13 +58,14 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
 
             queryString = queryString + "       FROM        Promotions " + "\r\n";
             queryString = queryString + "                   INNER JOIN  CommodityBrands ON Promotions.EndDate >= GetDate() AND Promotions.CommodityBrandID = CommodityBrands.CommodityBrandID " + "\r\n";
-            queryString = queryString + "                   LEFT JOIN   (SELECT PromotionID, MIN(CustomerCategoryID) AS CustomerCategoryID FROM PromotionCustomerCategoryies GROUP BY PromotionID) AS DERIVEDPromotionCustomerCategoryies ON Promotions.PromotionID = DERIVEDPromotionCustomerCategoryies.PromotionID " + "\r\n";
-            queryString = queryString + "                   LEFT JOIN   CustomerCategories ON DERIVEDPromotionCustomerCategoryies.CustomerCategoryID = CustomerCategories.CustomerCategoryID  " + "\r\n";
+            queryString = queryString + "                   LEFT JOIN   (SELECT PromotionID, MIN(CustomerCategoryID) AS CustomerCategoryID FROM PromotionCustomerCategories GROUP BY PromotionID) AS DERIVEDPromotionCustomerCategories ON Promotions.PromotionID = DERIVEDPromotionCustomerCategories.PromotionID " + "\r\n";
+            queryString = queryString + "                   LEFT JOIN   CustomerCategories ON DERIVEDPromotionCustomerCategories.CustomerCategoryID = CustomerCategories.CustomerCategoryID  " + "\r\n";
 
             queryString = queryString + "    END " + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetPromotionIndexes", queryString);
         }
+
 
         private void GetPromotionByCustomers()
         {
@@ -84,7 +91,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             queryString = queryString + "                   UNION ALL " + "\r\n";
             queryString = queryString + "                   SELECT Promotions.PromotionID FROM Promotions INNER JOIN PromotionCustomers ON Promotions.InActive = 0 AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate AND PromotionCustomers.CustomerID = @CustomerID AND Promotions.PromotionID = PromotionCustomers.PromotionID " + "\r\n";
             queryString = queryString + "                   UNION ALL " + "\r\n";
-            queryString = queryString + "                   SELECT Promotions.PromotionID FROM Promotions INNER JOIN PromotionCustomerCategoryies ON Promotions.InActive = 0 AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate AND Promotions.PromotionID = PromotionCustomerCategoryies.PromotionID INNER JOIN AncestorCustomerCategories ON PromotionCustomerCategoryies.CustomerCategoryID = AncestorCustomerCategories.AncestorID AND AncestorCustomerCategories.CustomerCategoryID = @CustomerCategoryID " + "\r\n";
+            queryString = queryString + "                   SELECT Promotions.PromotionID FROM Promotions INNER JOIN PromotionCustomerCategories ON Promotions.InActive = 0 AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate AND Promotions.PromotionID = PromotionCustomerCategories.PromotionID INNER JOIN AncestorCustomerCategories ON PromotionCustomerCategories.CustomerCategoryID = AncestorCustomerCategories.AncestorID AND AncestorCustomerCategories.CustomerCategoryID = @CustomerCategoryID " + "\r\n";
             queryString = queryString + "                  )" + "\r\n";
             queryString = queryString + "               ORDER BY Code, Name ";
             queryString = queryString + "           END ";
@@ -92,6 +99,54 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetPromotionByCustomers", queryString);
         }
+
+
+        private void GetPromotionCustomerCategories()
+        {
+            string queryString;
+
+            queryString = " @PromotionID int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "       SELECT * FROM CustomerCategories WHERE CustomerCategoryID IN (SELECT CustomerCategoryID FROM PromotionCustomerCategories WHERE PromotionID = @PromotionID) " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("GetPromotionCustomerCategories", queryString);
+        }
+
+
+
+        private void AddPromotionCustomerCategories()
+        {
+            string queryString;
+
+            queryString = " @PromotionID int, @CustomerCategoryID int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+            queryString = queryString + "       INSERT INTO     PromotionCustomerCategories (PromotionID, CustomerCategoryID, InActive) " + "\r\n";
+            queryString = queryString + "       VALUES          (@PromotionID, @CustomerCategoryID, 0) " + "\r\n";
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("AddPromotionCustomerCategories", queryString);
+        }
+
+        private void RemovePromotionCustomerCategories()
+        {
+            string queryString;
+
+            queryString = " @PromotionID int, @CustomerCategoryID int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+            queryString = queryString + "       DELETE FROM     PromotionCustomerCategories " + "\r\n";
+            queryString = queryString + "       WHERE           PromotionID = @PromotionID AND CustomerCategoryID = @CustomerCategoryID " + "\r\n";
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("RemovePromotionCustomerCategories", queryString);
+
+        }
+
+
 
         private void AddPromotionCustomers()
         {

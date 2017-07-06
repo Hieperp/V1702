@@ -6,16 +6,18 @@ using TotalCore.Repositories.Commons;
 
 namespace TotalDAL.Repositories.Commons
 {
-    public class CommodityBrandAPIRepository : GenericAPIRepository, ICommodityBrandAPIRepository
+    public class CommodityBrandRepository : ICommodityBrandRepository
     {
-        public CommodityBrandAPIRepository(TotalSalesPortalEntities totalSalesPortalEntities)
-            : base(totalSalesPortalEntities, "GetCommodityBrandIndexes")
+        private readonly TotalSalesPortalEntities totalSalesPortalEntities;
+
+        public CommodityBrandRepository(TotalSalesPortalEntities totalSalesPortalEntities)
         {
+            this.totalSalesPortalEntities = totalSalesPortalEntities;
         }
 
         public IList<CommodityBrand> GetAllCommodityBrands()
         {
-            return base.TotalSalesPortalEntities.CommodityBrands.ToList();
+            return this.totalSalesPortalEntities.CommodityBrands.ToList();
         }
 
     }

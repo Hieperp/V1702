@@ -172,7 +172,7 @@ namespace TotalPortal.App_Start
                 kernel.Bind<IPromotionViewModelSelectListBuilder>().To<PromotionViewModelSelectListBuilder>();
 
 
-                kernel.Bind<ICommodityBrandAPIRepository>().To<CommodityBrandAPIRepository>();
+                kernel.Bind<ICommodityBrandRepository>().To<CommodityBrandRepository>();
 
                 kernel.Bind<IInventoryRepository>().To<InventoryRepository>();
 

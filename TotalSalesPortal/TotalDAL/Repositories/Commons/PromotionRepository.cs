@@ -33,6 +33,31 @@ namespace TotalDAL.Repositories.Commons
             return promotions;
         }
 
+        public IList<CustomerCategory> GetPromotionCustomerCategories(int? promotionID)
+        {
+            this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = false;
+            List<CustomerCategory> promotionCustomerCategory = this.TotalSalesPortalEntities.GetPromotionCustomerCategories(promotionID).ToList();
+            this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = true;
+
+            return promotionCustomerCategory;
+        }
+
+
+
+
+        public void AddPromotionCustomerCategories(int? promotionID, int? customerCategoryID)
+        {
+            ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("PromotionID", promotionID), new ObjectParameter("CustomerCategoryID", customerCategoryID) };
+            this.ExecuteFunction("AddPromotionCustomerCategories", parameters);
+        }
+
+        public void RemovePromotionCustomerCategories(int? promotionID, int? customerCategoryID)
+        {
+            ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("PromotionID", promotionID), new ObjectParameter("CustomerCategoryID", customerCategoryID) };
+            this.ExecuteFunction("RemovePromotionCustomerCategories", parameters);
+        }
+
+
         public void AddPromotionCustomers(int? promotionID, int? customerID)
         {
             ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("PromotionID", promotionID), new ObjectParameter("CustomerID", customerID) };

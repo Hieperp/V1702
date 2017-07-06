@@ -782,7 +782,7 @@
           <Property Name="EntryDate" Type="datetime" Nullable="false" />
           <Property Name="Reference" Type="nvarchar" MaxLength="10" />
           <Property Name="Code" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
           <Property Name="StartDate" Type="datetime" Nullable="false" />
           <Property Name="EndDate" Type="datetime" Nullable="false" />
           <Property Name="DiscountPercent" Type="decimal" Precision="18" Scale="5" Nullable="false" />
@@ -2469,6 +2469,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="EntityID" Type="int" Mode="In" />
           <Parameter Name="SaveRelativeOption" Type="int" Mode="In" />
         </Function>
+        <Function Name="AddPromotionCustomerCategories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PromotionID" Type="int" Mode="In" />
+          <Parameter Name="CustomerCategoryID" Type="int" Mode="In" />
+        </Function>
         <Function Name="AddPromotionCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PromotionID" Type="int" Mode="In" />
           <Parameter Name="CustomerID" Type="int" Mode="In" />
@@ -2731,6 +2735,9 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         <Function Name="GetPromotionByCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CustomerID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetPromotionCustomerCategories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PromotionID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetPromotionIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
           <Parameter Name="FromDate" Type="datetime" Mode="In" />
@@ -2878,6 +2885,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         <Function Name="ReceiptSaveRelative" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
           <Parameter Name="SaveRelativeOption" Type="int" Mode="In" />
+        </Function>
+        <Function Name="RemovePromotionCustomerCategories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PromotionID" Type="int" Mode="In" />
+          <Parameter Name="CustomerCategoryID" Type="int" Mode="In" />
         </Function>
         <Function Name="RemovePromotionCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PromotionID" Type="int" Mode="In" />
@@ -4433,6 +4444,17 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <FunctionImport Name="PromotionSaveRelative">
             <Parameter Name="EntityID" Mode="In" Type="Int32" />
             <Parameter Name="SaveRelativeOption" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetPromotionCustomerCategories" EntitySet="CustomerCategories" ReturnType="Collection(TotalSalesPortalModel.CustomerCategory)">
+          <Parameter Name="PromotionID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddPromotionCustomerCategories">
+            <Parameter Name="PromotionID" Mode="In" Type="Int32" />
+            <Parameter Name="CustomerCategoryID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="RemovePromotionCustomerCategories">
+            <Parameter Name="PromotionID" Mode="In" Type="Int32" />
+            <Parameter Name="CustomerCategoryID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
@@ -7844,6 +7866,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
           <Property Type="Boolean" Name="InActive" Nullable="false" />
           <Property Type="DateTime" Name="EntryDate" Nullable="true" />
+          <Property Type="Boolean" Name="Approved" Nullable="false" />
         </ComplexType>
         <EntityType Name="Promotion">
           <Key>
@@ -7853,7 +7876,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Reference" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DiscountPercent" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
@@ -10299,6 +10322,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="InActive" ColumnName="InActive" />
                 <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -10350,6 +10374,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="PromotionSaveRelative" FunctionName="TotalSalesPortalModel.Store.PromotionSaveRelative" />
+          <FunctionImportMapping FunctionImportName="GetPromotionCustomerCategories" FunctionName="TotalSalesPortalModel.Store.GetPromotionCustomerCategories">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddPromotionCustomerCategories" FunctionName="TotalSalesPortalModel.Store.AddPromotionCustomerCategories" />
+          <FunctionImportMapping FunctionImportName="RemovePromotionCustomerCategories" FunctionName="TotalSalesPortalModel.Store.RemovePromotionCustomerCategories" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

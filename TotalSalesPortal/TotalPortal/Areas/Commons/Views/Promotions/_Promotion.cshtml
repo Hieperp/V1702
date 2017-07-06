@@ -14,88 +14,76 @@
     @Html.HiddenFor(model => model.PromotionID)
     @Html.HiddenFor(model => model.CommodityBrandID)
 
-    <div class="left-panel">
-
-        @Html.Partial("~/Views/Helpers/Bases/_BaseSectionLeftA.cshtml")
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.StartDate)
-            <div class="div-input">
-                @Html.Kendo().DateTimePickerFor(model => model.StartDate).HtmlAttributes(new { @class = "left-panel-input" })
-            </div>
-            <div class="div-validation-message">
-                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EndDate)
-            <div class="div-input">
-                @Html.Kendo().DateTimePickerFor(model => model.EndDate).HtmlAttributes(new { @class = "left-panel-input" })
-            </div>
-            <div class="div-validation-message">
-                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DiscountPercent)
-            <div class="div-input">
-                @Html.Kendo().NumericTextBoxFor(model => model.DiscountPercent).Format("{0:n1}").Decimals(1).HtmlAttributes(new { @class = "left-panel-input" })
-            </div>
-            <div class="div-validation-message">
-                @Html.ValidationMessageFor(model => model.DiscountPercent, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ControlFreeQuantity)
-            <div class="div-input">
-                @Html.Kendo().NumericTextBoxFor(model => model.ControlFreeQuantity).Format("{0:n0}").Decimals(0).HtmlAttributes(new { @class = "left-panel-input" })
-            </div>
-            <div class="div-validation-message">
-                @Html.ValidationMessageFor(model => model.ControlFreeQuantity, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
+    <div class="left-panel" style="height:30px;">
+        <div style="visibility: hidden;" >@Html.Partial("~/Views/Helpers/Bases/_BaseSectionLeftA.cshtml")</div>
     </div>
 
     <div class="right-panel">
 
-        <div class="right-top-panel right-top-panel-H1">
+        <div class="right-top-panel right-top-panel-H4">
+            <div class="right-first-panel">
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.CommodityBrandName)
-                <div class="div-input">
-                    @Html.Kendo().MaskedTextBoxFor(model => model.CommodityBrandName).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Code, new { @class = "right-panel-label" })
+                    <div class="div-input">
+                        @Html.Kendo().MaskedTextBoxFor(model => model.Code).HtmlAttributes(new { @class = "right-panel-input" })
+                    </div>
+                    <div class="div-validation-message">
+                        @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-                <div class="div-validation-message">
-                    @Html.ValidationMessageFor(model => model.CommodityBrandName, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StartDate, new { @class = "right-panel-label" })
+                    <div class="div-input">
+                        @Html.Kendo().DateTimePickerFor(model => model.StartDate).HtmlAttributes(new { @class = "right-panel-input" })
+                    </div>
+                    <div class="div-validation-message">
+                        @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })@Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                    </div>
                 </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EndDate, new { @class = "right-panel-label" })
+                    <div class="div-input">
+                        @Html.Kendo().DateTimePickerFor(model => model.EndDate).HtmlAttributes(new { @class = "right-panel-input" })
+                    </div>
+                </div>
+
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Code)
-                <div class="div-input">
-                    @Html.Kendo().MaskedTextBoxFor(model => model.Code).HtmlAttributes(new { @class = "left-panel-input" })
+            <div class="right-second-panel">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CommodityBrandName, new { @class = "right-panel-label" })
+                    <div class="div-input">
+                        @Html.Kendo().MaskedTextBoxFor(model => model.CommodityBrandName).HtmlAttributes(new { @class = "right-panel-input" })
+                    </div>
+                    <div class="div-validation-message">
+                        @Html.ValidationMessageFor(model => model.CommodityBrandName, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-                <div class="div-validation-message">
-                    @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DiscountPercent, new { @class = "right-panel-label" })
+                    <div class="div-input">
+                        @Html.Kendo().NumericTextBoxFor(model => model.DiscountPercent).Format("{0:n1}").Decimals(1).HtmlAttributes(new { @class = "right-panel-input" })
+                    </div>
+                    <div class="div-validation-message">
+                        @Html.ValidationMessageFor(model => model.DiscountPercent, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ControlFreeQuantity, new { @class = "right-panel-label" })
+                    <div class="div-input">
+                        @Html.Kendo().NumericTextBoxFor(model => model.ControlFreeQuantity).Format("{0:n0}").Decimals(0).HtmlAttributes(new { @class = "right-panel-input" })
+                    </div>
+                    <div class="div-validation-message">
+                        @Html.ValidationMessageFor(model => model.ControlFreeQuantity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Name)
-                <div class="div-input">
-                    @Html.Kendo().MaskedTextBoxFor(model => model.Name).HtmlAttributes(new { @class = "left-panel-input" })
-                </div>
-                <div class="div-validation-message">
-                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                </div>
             </div>
 
         </div>
@@ -111,13 +99,13 @@
                     columns.Bound(p => p.PromotionID).DisplayNameTitle().Hidden()
                         .ClientTemplate("#= PromotionID #" + "<input type='hidden' name='ViewDetails[#= index(data) #].PromotionID' value='#= PromotionID #' />");
 
-                    columns.Bound(p => p.CodePartA).DisplayNameTitle()
+                    columns.Bound(p => p.CodePartA).DisplayNameTitle().HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" })
                         .ClientTemplate("#= (CodePartA == null)? '' : CodePartA #" + "<input type='hidden' name='ViewDetails[#= index(data) #].CodePartA' value='#= (CodePartA == null) ? '' : CodePartA #' />");
 
-                    columns.Bound(p => p.CodePartB).DisplayNameTitle()
+                    columns.Bound(p => p.CodePartB).DisplayNameTitle().HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" })
                         .ClientTemplate("#= (CodePartB == null)? '' : CodePartB #" + "<input type='hidden' name='ViewDetails[#= index(data) #].CodePartB' value='#= (CodePartB == null) ? '' : CodePartB #' />");
 
-                    columns.Bound(p => p.CodePartC).DisplayNameTitle()
+                    columns.Bound(p => p.CodePartC).DisplayNameTitle().HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" })
                         .ClientTemplate("#= (CodePartC == null)? '' : CodePartC #" + "<input type='hidden' name='ViewDetails[#= index(data) #].CodePartC' value='#= (CodePartC == null) ? '' : CodePartC #' />");
 
                     columns.Bound(p => p.Remarks).DisplayNameTitle()
@@ -134,8 +122,7 @@
                         if (Model.Editable)
                         {
                             toolbar.Template(@<text>
-                                <button type="button" class="k-button" onclick="GetCommodityCodeParts()"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Chọn mặt hàng từ đơn đặt hàng </button>
-                                <button type="button" class="k-button" onclick="copyRemainsToQuantity()"> <img src="~/Content/Images/Mains/Size24/Borderlands-Select-icon-24.png" /> Giao hàng toàn bộ đơn hàng </button>
+                                <button type="button" class="k-button" onclick="GetCommodityCodeParts()"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Thêm mặt hàng </button>
                             </text>);
 
                         }
@@ -154,27 +141,27 @@
                         }
                     })
 
-                                                        .Editable(editable => { editable.Enabled(Model.Editable); editable.Mode(GridEditMode.InCell).DisplayDeleteConfirmation(true).CreateAt(GridInsertRowPosition.Bottom); })
-                                                        .Selectable(settings =>
-                                                        {
-                                                            settings.Mode(GridSelectionMode.Multiple);
-                                                            settings.Type(GridSelectionType.Row);
-                                                        })
-                                                        .DataSource(dataSource => dataSource
-                                                            .Ajax()
-                                                            .Batch(true)
-                                                            .ServerOperation(false)
-                                                            .Model(model =>
-                                                            {
-                                                                model.Id(x => x.PromotionCommodityCodePartID);
-                                                                model.Field(m => m.PromotionCommodityCodePartID).DefaultValue(0);
-                                                                model.Field(m => m.PromotionID).DefaultValue(@Model.PromotionID);
-                                                            })
-                                                            .Events(events =>
-                                                            {
-                                                                events.Error("kendGrid_ErrorHandler");
-                                                            })
-                                                        )
+                    .Editable(editable => { editable.Enabled(Model.Editable); editable.Mode(GridEditMode.InCell).DisplayDeleteConfirmation(true).CreateAt(GridInsertRowPosition.Bottom); })
+                    .Selectable(settings =>
+                    {
+                        settings.Mode(GridSelectionMode.Multiple);
+                        settings.Type(GridSelectionType.Row);
+                    })
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Batch(true)
+                        .ServerOperation(false)
+                        .Model(model =>
+                        {
+                            model.Id(x => x.PromotionCommodityCodePartID);
+                            model.Field(m => m.PromotionCommodityCodePartID).DefaultValue(0);
+                            model.Field(m => m.PromotionID).DefaultValue(@Model.PromotionID);
+                        })
+                        .Events(events =>
+                        {
+                            events.Error("kendGrid_ErrorHandler");
+                        })
+                    )
             )
         </div>
 
@@ -190,21 +177,27 @@
                         .Content(@<text>
                             <div class="right-first-panel">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Description, new { @class = "right-panel-label" })
+                                    @Html.LabelFor(model => model.Name, new { @class = "right-panel-label" })
                                     <div class="div-input">
-                                        @Html.Kendo().MaskedTextBoxFor(model => model.Description).HtmlAttributes(new { @class = "right-panel-input" })
+                                        @Html.Kendo().MaskedTextBoxFor(model => model.Name).HtmlAttributes(new { @class = "right-panel-input" })
                                     </div>
                                     <div class="div-validation-message">
-                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                @*@Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PaymentTerm.cshtml")*@
                             </div>
 
-                            @*<div class="right-second-panel">
-                                    @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PreparedPerson.cshtml")
-                                    @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/Approver.cshtml")
-                                </div>*@
+                            <div class="right-second-panel">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Remarks, new { @class = "right-panel-label" })
+                                    <div class="div-input">
+                                        @Html.Kendo().MaskedTextBoxFor(model => model.Remarks).HtmlAttributes(new { @class = "right-panel-input" })
+                                    </div>
+                                    <div class="div-validation-message">
+                                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
 
                         </text>).HtmlAttributes(new { @class = "panel-class" });
                 })
@@ -224,6 +217,11 @@
                     <button type="button" class="k-button custom-button" onclick="location.href='@Url.Action("Print", "Promotions", new { id = @Model.PromotionID })'"> <img src="~/Content/Images/New/Apps-printer-icon.png" /> In tổng hợp xuất kho </button>
                 }
             }
+
+            @if (Model.PromotionID > 0)
+            {
+                <button type="button" class="k-button custom-button" onclick="ShowPromotionCustomerCategories()"> <img src="~/Content/Images/Mains/Ecommerce-Sale-icon-32.png" /> Cài đặt kênh khách hàng </button>
+            }
         </div>
 
         @Html.Partial("~/Views/Helpers/Bases/_BaseSubmit.cshtml")
@@ -233,13 +231,22 @@
 
 
 <script src="@Url.Content("~/Scripts/Helpers/KendoGrid/gridHelper.js")"></script>
-@*<script src="@Url.Content("~/Scripts/Controllers/Commons/SalesOrders/Import.js")"></script>*@
 
 <script type="text/javascript">
     function GetCommodityCodeParts() {
         require(["kpopupWindow"], function (kpopupWindow) {
             var createWizardWindow = new kpopupWindow();
             createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("GetCommodityCodeParts", "Promotions", new { area = "Commons" })", "Chọn mặt hàng từ đơn đặt hàng", "@SettingsManager.PopupWidthLarge", "@SettingsManager.PopupHeightWithTab");
+        });
+    }
+</script>
+
+
+<script type="text/javascript">
+    function ShowPromotionCustomerCategories() {
+        require(["kpopupWindow"], function (kpopupWindow) {
+            var createWizardWindow = new kpopupWindow();
+            createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("PromotionCustomerCategories", "Promotions", new { area = "Commons", id = @Model.PromotionID })", "Cài đặt kênh khách hàng", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeightWithTab");
         });
     }
 </script>

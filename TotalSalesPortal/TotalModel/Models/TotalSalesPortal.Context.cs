@@ -1660,5 +1660,49 @@ namespace TotalModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PromotionSaveRelative", entityIDParameter, saveRelativeOptionParameter);
         }
+    
+        public virtual ObjectResult<CustomerCategory> GetPromotionCustomerCategories(Nullable<int> promotionID)
+        {
+            var promotionIDParameter = promotionID.HasValue ?
+                new ObjectParameter("PromotionID", promotionID) :
+                new ObjectParameter("PromotionID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CustomerCategory>("GetPromotionCustomerCategories", promotionIDParameter);
+        }
+    
+        public virtual ObjectResult<CustomerCategory> GetPromotionCustomerCategories(Nullable<int> promotionID, MergeOption mergeOption)
+        {
+            var promotionIDParameter = promotionID.HasValue ?
+                new ObjectParameter("PromotionID", promotionID) :
+                new ObjectParameter("PromotionID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CustomerCategory>("GetPromotionCustomerCategories", mergeOption, promotionIDParameter);
+        }
+    
+        public virtual int AddPromotionCustomerCategories(Nullable<int> promotionID, Nullable<int> customerCategoryID)
+        {
+            var promotionIDParameter = promotionID.HasValue ?
+                new ObjectParameter("PromotionID", promotionID) :
+                new ObjectParameter("PromotionID", typeof(int));
+    
+            var customerCategoryIDParameter = customerCategoryID.HasValue ?
+                new ObjectParameter("CustomerCategoryID", customerCategoryID) :
+                new ObjectParameter("CustomerCategoryID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddPromotionCustomerCategories", promotionIDParameter, customerCategoryIDParameter);
+        }
+    
+        public virtual int RemovePromotionCustomerCategories(Nullable<int> promotionID, Nullable<int> customerCategoryID)
+        {
+            var promotionIDParameter = promotionID.HasValue ?
+                new ObjectParameter("PromotionID", promotionID) :
+                new ObjectParameter("PromotionID", typeof(int));
+    
+            var customerCategoryIDParameter = customerCategoryID.HasValue ?
+                new ObjectParameter("CustomerCategoryID", customerCategoryID) :
+                new ObjectParameter("CustomerCategoryID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RemovePromotionCustomerCategories", promotionIDParameter, customerCategoryIDParameter);
+        }
     }
 }

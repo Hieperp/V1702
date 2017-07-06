@@ -330,7 +330,11 @@ namespace TotalModel.Models
         public System.DateTime EditedDate { get; set; }
     }
 
-    
+    public partial class PromotionIndex
+    {
+        public string FilterText { get { return this.Brand + " " + this.Category + " " + this.Code + " " + this.Name; } }
+    }
+
     public partial class Promotion : IPrimitiveEntity, IBaseEntity, IBaseDetailEntity<PromotionCommodityCodePart>
     {
         public int GetID() { return this.PromotionID; }

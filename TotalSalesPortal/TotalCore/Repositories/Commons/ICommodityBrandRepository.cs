@@ -5,7 +5,7 @@ using TotalModel.Models;
 
 namespace TotalCore.Repositories.Commons
 {
-    public interface ICommodityBrandAPIRepository : IGenericAPIRepository
+    public interface ICommodityBrandRepository
     {
         IList<CommodityBrand> GetAllCommodityBrands();
     }

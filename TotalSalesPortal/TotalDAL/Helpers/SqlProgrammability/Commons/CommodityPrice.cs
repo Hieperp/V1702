@@ -28,11 +28,11 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             string queryString;
 
             queryString = " @AspUserID nvarchar(128), @FromDate DateTime, @ToDate DateTime " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      CommodityPrices.CommodityPriceID, PriceCategories.PriceCategoryID, PriceCategories.Code AS PriceCategory, CommodityPrices.CodePartA, CommodityPrices.CodePartB, CommodityPrices.CodePartC, CommodityPrices.CodePartA + ISNULL(' ' + CommodityPrices.CodePartB, '') + ' '+ CommodityPrices.CodePartC AS CodePartABC, CommodityPrices.ListedPrice, CommodityPrices.GrossPrice, CommodityPrices.Remarks " + "\r\n";
+            queryString = queryString + "       SELECT      CommodityPrices.CommodityPriceID, PriceCategories.PriceCategoryID, PriceCategories.Code AS PriceCategory, CommodityPrices.CodePartA, CommodityPrices.CodePartB, CommodityPrices.CodePartC, PriceCategories.Code + ' ' + CommodityPrices.CodePartA + ISNULL(' ' + CommodityPrices.CodePartB, '') + ' '+ CommodityPrices.CodePartC AS CodePartABC, CommodityPrices.ListedPrice, CommodityPrices.GrossPrice, CommodityPrices.Remarks " + "\r\n";
             queryString = queryString + "       FROM        PriceCategories " + "\r\n";
             queryString = queryString + "                   INNER JOIN CommodityPrices ON PriceCategories.PriceCategoryID = CommodityPrices.PriceCategoryID " + "\r\n";
 

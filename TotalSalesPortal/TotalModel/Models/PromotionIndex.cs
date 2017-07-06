@@ -30,5 +30,6 @@ namespace TotalModel.Models
         public string Remarks { get; set; }
         public bool InActive { get; set; }
         public Nullable<System.DateTime> EntryDate { get; set; }
+        public bool Approved { get; set; }
     }
 }

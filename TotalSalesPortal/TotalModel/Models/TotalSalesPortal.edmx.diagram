@@ -158,6 +158,7 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_Promotions" />
         <EntityTypeShape EntityType="TotalSalesPortalModel.PromotionCommodityCodePart" Width="1.5" PointX="3" PointY="26.625" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_PromotionCommodityCodeParts_Promotions" />
+        <EntityTypeShape EntityType="TotalSalesPortalModel.PromotionCustomerCategoryy" Width="1.5" PointX="3" PointY="31.375" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

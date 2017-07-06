@@ -54,6 +54,55 @@ namespace TotalPortal.Areas.Commons.APIs
         }
 
 
+
+
+
+
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public JsonResult GetPromotionCustomerCategories([DataSourceRequest] DataSourceRequest dataSourceRequest, int? promotionID)
+        {
+            if (promotionID == null) return Json(null);
+
+            var result = promotionAPIRepository.GetPromotionCustomerCategories((int)promotionID);
+            return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+        [HttpPost]
+        public JsonResult AddPromotionCustomerCategories(int? promotionID, int? customerCategoryID)
+        {
+            try
+            {
+                this.promotionAPIRepository.AddPromotionCustomerCategories(promotionID, customerCategoryID);
+                return Json(new { AddResult = "Successfully" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { AddResult = "Trùng chương trình, hoặc " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult RemovePromotionCustomerCategories(int? promotionID, int? customerCategoryID)
+        {
+            try
+            {
+                this.promotionAPIRepository.RemovePromotionCustomerCategories(promotionID, customerCategoryID);
+                return Json(new { RemoveResult = "Successfully" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { RemoveResult = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
+
+
         [HttpPost]
         public JsonResult AddPromotionCustomers(int? promotionID, int? customerID)
         {

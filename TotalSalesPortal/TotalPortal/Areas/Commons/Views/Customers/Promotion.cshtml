@@ -9,7 +9,11 @@
 
 @Html.HiddenFor(model => model.CustomerID)
 @Html.HiddenFor(model => model.ShowDiscount)
-<div class="left-panel" style="height:30px;"></div>
+@Html.HiddenFor(model => model.Editable)
+
+<div class="left-panel">
+    <div style="padding-left: 48px; padding-top: 16px; "> <img src="~/Content/Images/Mains/blue-cross-icon64.png" /> </div>
+</div>
 <div class="right-panel">
     <div class="right-first-panel">
         <div class="form-group">
@@ -37,7 +41,7 @@
 
 
         <div class="form-group" style="padding-top: 16px;">
-            @Html.Label("Vui lòng chọn chương trình khuyến mãi, sau đó nhấn thêm vào")
+            @Html.Label("Vui lòng chọn CTKM, sau đó nhấn 'Thêm CTKM vào KH'")
             <div class="div-input">
                 @(Html.Kendo().DropDownList().Name("PromotionID").DataValueField("Value").DataTextField("Text").BindTo((System.Collections.IEnumerable)ViewBag.Promotions).HtmlAttributes(new { @class = "left-panel-input" }))
             </div>
@@ -54,7 +58,7 @@
         <div class="form-group" style="padding-top: 17px;">
             @Html.Label(" ")
             <div class="div-input">
-                <button type="button" class="k-button left-panel-input" onclick="AddPromotionCustomers()"> <img src="~/Content/Images/Mains/Size24/Ecommerce-Sale-icon-24.png" /> Thêm khuyến mãi vào KH: @Model.Code </button>
+                <button type="button" class="k-button left-panel-input" onclick="AddPromotionCustomers()"> <img src="~/Content/Images/Mains/Size24/Ecommerce-Sale-icon-24.png" /> Thêm CTKM vào KH: @Model.Code </button>
             </div>
         </div>
     </div>
@@ -91,7 +95,7 @@
 
 <div class="background-bar" style="height: 45px;">
     <div class="popup-button-bar">
-        <button type="button" class="k-button" onclick="window.parent.$('#myWindow').data('kendoWindow').close()"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png" /> Thoát </button>
+        <button type="button" class="k-button" onclick="window.parent.$('#myWindow').data('kendoWindow').close()"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png" /> Đóng </button>
     </div>
 </div>
 
@@ -103,6 +107,8 @@
     }
 
     function AddPromotionCustomers(e) {
+        if ($("#Editable").val() != 'True' || $("#ShowDiscount").val() != 'True')
+            return;
         return $.ajax({
             url: '@Url.Action("AddPromotionCustomers", "PromotionAPIs", new { area = "Commons" })',
             data: JSON.stringify({ "promotionID": $("#PromotionID").val(), "customerID": $("#CustomerID").val() }),
@@ -124,6 +130,8 @@
     }
 
     function RemovePromotionCustomers(promotionID) {
+        if ($("#Editable").val() != 'True' || $("#ShowDiscount").val() != 'True')
+            return;
         return $.ajax({
             url: '@Url.Action("RemovePromotionCustomers", "PromotionAPIs", new { area = "Commons" })',
             data: JSON.stringify({ "promotionID": promotionID, "customerID": $("#CustomerID").val() }),

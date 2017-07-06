@@ -1,0 +1,184 @@
+﻿@using TotalModel.Models;
+@using TotalPortal.Configuration;
+
+@{Layout = "~/Views/Shared/_LayoutPopup.cshtml";}
+
+@model TotalPortal.Areas.Commons.ViewModels.PromotionViewModel
+
+
+
+@Html.HiddenFor(model => model.PromotionID)
+@Html.HiddenFor(model => model.Editable)
+
+<div class="left-panel">
+    <div style="padding-left: 48px; padding-top: 16px; "> <img src="~/Content/Images/Mains/blue-cross-icon64.png" /> </div>
+</div>
+<div class="right-panel">
+    <div class="right-first-panel">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Code)
+            <div class="div-input">
+                @Html.Kendo().MaskedTextBoxFor(model => model.Code).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name)
+            <div class="div-input">
+                @Html.Kendo().MaskedTextBoxFor(model => model.Name).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+
+
+        <div class="form-group" style="padding-top: 16px;">
+            @Html.Label("Vui lòng chọn kênh KH, sau đó nhấn 'Thêm kênh KH vào CTKM'")
+            <div class="div-input">
+                @(Html.Kendo().DropDownList().Name("CustomerCategoryID").DataValueField("Value").DataTextField("Text").BindTo((System.Collections.IEnumerable)ViewBag.CustomerCategories).HtmlAttributes(new { @class = "left-panel-input" }))
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <div class="right-second-panel">
+        <div class="form-group">
+            @Html.LabelFor(model => model.DiscountPercent)
+            <div class="div-input">
+                @Html.Kendo().NumericTextBoxFor(model => model.DiscountPercent).Format("{0:n1}").Decimals(1).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.DiscountPercent, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ControlFreeQuantity)
+            <div class="div-input">
+                @Html.Kendo().NumericTextBoxFor(model => model.ControlFreeQuantity).Format("{0:n0}").Decimals(0).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.ControlFreeQuantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" style="padding-top: 17px;">
+            @Html.Label(" ")
+            <div class="div-input">
+                <button type="button" class="k-button left-panel-input" onclick="AddPromotionCustomerCategories()"> <img src="~/Content/Images/Mains/Size24/Ecommerce-Sale-icon-24.png" /> Thêm kênh KH vào CTKM: @Model.Code </button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-group" style="padding-right: 13px;" >
+        @(Html.Kendo().Grid<CustomerCategory>()
+            .Name("gridCustomerCategories")
+            .Columns(columns =>
+            {
+                columns.Bound(c => c.Name).Title("Kênh khách hàng").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(60);
+
+                columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(10)
+                    .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' onclick='RemovePromotionCustomerCategories(#=CustomerCategoryID#)'><span class='k-icon k-delete'></span></a>");
+            })
+
+            .Scrollable(s => s.Height(217))
+            .DataSource(ds => ds.Ajax()
+            .Read(read => read.Action("GetPromotionCustomerCategories", "PromotionAPIs", new { area = "Commons" }).Data("onGetPromotionCustomerCategories"))
+            .ServerOperation(true))
+            .Selectable()
+        )
+
+    </div>
+
+</div>
+
+
+
+<div class="background-bar" style="height: 45px;">
+    <div class="popup-button-bar">
+        <button type="button" class="k-button" onclick="window.parent.$('#myWindow').data('kendoWindow').close()"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png" /> Đóng </button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function onGetPromotionCustomerCategories(e) {
+        return {
+            promotionID: $("#PromotionID").val()
+        };
+    }
+
+    function AddPromotionCustomerCategories(e) {
+        if ($("#Editable").val() != 'True')
+            return;
+
+        return $.ajax({
+            url: '@Url.Action("AddPromotionCustomerCategories", "PromotionAPIs", new { area = "Commons" })',
+            data: JSON.stringify({ "promotionID": $("#PromotionID").val(), "customerCategoryID": $("#CustomerCategoryID").val() }),
+
+            type: 'POST',
+            contentType: 'application/json;',
+            dataType: 'json',
+            success: function (result) {
+                if (result.AddResult == "Successfully") {
+                    $("#gridCustomerCategories").data("kendoGrid").dataSource.read();
+                }
+                else
+                    alert(result.AddResult);
+            },
+            error: function (jqXHR, textStatus) {
+                alert(textStatus);
+            }
+        });
+    }
+
+    function RemovePromotionCustomerCategories(customerCategoryID) {
+        if ($("#Editable").val() != 'True')
+            return;
+        return $.ajax({
+            url: '@Url.Action("RemovePromotionCustomerCategories", "PromotionAPIs", new { area = "Commons" })',
+            data: JSON.stringify({ "promotionID": $("#PromotionID").val(), "customerCategoryID": customerCategoryID }),
+
+            type: 'POST',
+            contentType: 'application/json;',
+            dataType: 'json',
+            success: function (result) {
+                if (result.RemoveResult == "Successfully") {
+                    $("#gridCustomerCategories").data("kendoGrid").dataSource.read();
+                }
+                else
+                    alert(result.RemoveResult);
+            },
+            error: function (jqXHR, textStatus) {
+                alert(textStatus);
+            }
+        });
+
+    }
+
+</script>
+
+<style>
+    .right-first-panel {
+        padding-right: 30px;
+    }
+
+    .right-second-panel {
+        padding-top: 1px;
+        padding-right: 13px;
+    }
+
+    .left-panel-input {
+        width: 100%;
+    }
+</style>
