@@ -3,7 +3,7 @@
 <div id="popupWindow"></div>
 
 <div>
-            @(Html.Kendo().Grid<TotalModel.Models.PromotionIndex>()
+    @(Html.Kendo().Grid<TotalModel.Models.PromotionIndex>()
         .Name("kendoGridIndex")
         .Columns(columns =>
         {
@@ -31,7 +31,7 @@
             toolbar.Template(@<text>
                 <button type="button" class="k-button" onclick="createWizard()"> <img src="~/Content/Images/New/2017/red-discount-24.png" /> Đăng ký chương trình khuyến mãi mới </button>
                 <div class="toolbar" style="float: right;">
-                    <label>Nhập mã hoặc tên chương trình khuyến mãi để tìm</label>
+                    <label>Nhập kênh khách hàng, mã hoặc tên chương trình khuyến mãi để tìm</label>
                     <input id="indexFilterText" class="k-textbox" style="text-align: center; " onkeyup="indexFilterText_KeyUp()" />
                 </div>
             </text>);

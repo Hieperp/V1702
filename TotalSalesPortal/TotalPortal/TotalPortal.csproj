@@ -478,6 +478,13 @@
     <Content Include="Content\Images\New\2017\sale-off-icon-24.png" />
     <Content Include="Content\Images\New\2017\sale-off-icon-32.png" />
     <Content Include="Content\Images\New\2017\sale-off-icon-64.png" />
+    <Content Include="Content\Images\New\2017\Tags\tag-0.png" />
+    <Content Include="Content\Images\New\2017\Tags\tag-24.png" />
+    <Content Include="Content\Images\New\2017\Tags\tag-32.png" />
+    <Content Include="Content\Images\New\2017\Tags\tag-64.png" />
+    <Content Include="Content\Images\New\2017\Tags\tags-24.png" />
+    <Content Include="Content\Images\New\2017\Tags\tags-32.png" />
+    <Content Include="Content\Images\New\2017\Tags\tags-64.png" />
     <Content Include="Content\Images\New\Actions-document-print-icon.png" />
     <Content Include="Content\Images\New\Actions-ok-icon.png" />
     <Content Include="Content\Images\New\Address-icon.png" />
