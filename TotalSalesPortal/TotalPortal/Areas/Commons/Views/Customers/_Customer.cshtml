@@ -173,12 +173,11 @@
         <div class="left-panel-input">
             @if (Model.Editable)
             {
-                <button type="submit" class="k-button custom-button SubmitTypeOption-Save" formaction="@Url.Action("Edit", "Customers")"> <img src="~/Content/Images/New/save-icon.png" /> Lưu dữ liệu khách hàng </button>
+                <button type="submit" class="@(Model.CustomerID > 0 ? "k-button custom-button SubmitTypeOption-Closed" : "k-button custom-button SubmitTypeOption-Save")" formaction="@Url.Action("Edit", "Customers")"> <img src="~/Content/Images/New/save-icon.png" /> Lưu dữ liệu khách hàng </button>
             }
             @if (Model.CustomerID > 0 && Model.ShowDiscount)
             {
-                <button type="button" class="k-button custom-button" onclick="ShowPromotions()"> <img src="~/Content/Images/Mains/Ecommerce-Sale-icon-32.png" /> Quản lý chiết khấu, khuyến mãi </button>
-                <button type="button" class="k-button custom-button" onclick="location.href='@Url.Action("Create", "Customers")'"> <img src="~/Content/Images/Mains/Customer Blue 32.png" /> Thêm khách hàng mới </button>
+                <button type="button" class="k-button custom-button" onclick="ShowPromotions()"> <img src="~/Content/Images/New/2017/sale-off-icon-32.png" /> @(Model.Editable ? "Quản lý chiết khấu, khuyến mãi" : "Xem chiết khấu, khuyến mãi") </button>
             } 
         </div>
 

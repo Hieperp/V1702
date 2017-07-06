@@ -61,7 +61,7 @@ namespace TotalDTO.Commons
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             foreach (var result in base.Validate(validationContext)) { yield return result; }
-            if (this.EndDate <= DateTime.Now.AddHours(1)) yield return new ValidationResult("Xem lại ngày giờ kết thúc");
+            if (this.EndDate <= DateTime.Now.AddHours(1)) yield return new ValidationResult("Ngày giờ kết thúc phải còn ít nhất 60 phút kể từ bây giờ");
             if (!(this.DiscountPercent == -1 || this.DiscountPercent >= 0)) yield return new ValidationResult("Tỷ lệ chiết khấu >= 0 hoặc = -1", new[] { "DiscountPercent" });
         }
 

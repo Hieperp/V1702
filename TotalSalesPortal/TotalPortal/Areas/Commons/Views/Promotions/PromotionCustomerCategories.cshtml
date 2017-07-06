@@ -11,7 +11,7 @@
 @Html.HiddenFor(model => model.Editable)
 
 <div class="left-panel">
-    <div style="padding-left: 48px; padding-top: 16px; "> <img src="~/Content/Images/Mains/blue-cross-icon64.png" /> </div>
+    <div style="padding-left: 48px; padding-top: 16px; "> <img src="~/Content/Images/New/2017/price-tag-64.png" /> </div>
 </div>
 <div class="right-panel">
     <div class="right-first-panel">
@@ -42,7 +42,7 @@
         <div class="form-group" style="padding-top: 16px;">
             @Html.Label("Vui lòng chọn kênh KH, sau đó nhấn 'Thêm kênh KH vào CTKM'")
             <div class="div-input">
-                @(Html.Kendo().DropDownList().Name("CustomerCategoryID").DataValueField("Value").DataTextField("Text").BindTo((System.Collections.IEnumerable)ViewBag.CustomerCategories).HtmlAttributes(new { @class = "left-panel-input" }))
+                @(Html.Kendo().DropDownList().Name("CustomerCategoryID").DataValueField("Value").DataTextField("Text").BindTo((System.Collections.IEnumerable)ViewBag.CustomerCategories).HtmlAttributes((@Model.Editable ? (object)new { @class = "left-panel-input" } : (object)new { @class = "left-panel-input", @readonly = "readonly" })))
             </div>
         </div>
 
@@ -74,7 +74,7 @@
         <div class="form-group" style="padding-top: 17px;">
             @Html.Label(" ")
             <div class="div-input">
-                <button type="button" class="k-button left-panel-input" onclick="AddPromotionCustomerCategories()"> <img src="~/Content/Images/Mains/Size24/Ecommerce-Sale-icon-24.png" /> Thêm kênh KH vào CTKM: @Model.Code </button>
+                <button type="button" class="k-button left-panel-input" onclick="AddPromotionCustomerCategories()"> <img src="~/Content/Images/New/2017/price-tag-24.png" /> Thêm kênh KH vào CTKM: @Model.Code </button>
             </div>
         </div>
     </div>

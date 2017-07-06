@@ -16,7 +16,7 @@
 
 
     <div class="left-panel">
-        <div style="padding: 16px;"> <img src="~/Content/Images/Mains/blue-cross-icon64.png" /> </div>
+        <div style="padding: 16px;"> <img src="~/Content/Images/New/2017/red-discount-64.png" /> </div>
     </div>
     <div class="right-panel" style="padding-right:17px;">
 
@@ -48,18 +48,12 @@
                 @Html.Kendo().NumericTextBoxFor(model => model.ControlFreeQuantity).Format("{0:n0}").Decimals(0).HtmlAttributes(new { @class = "left-panel-input" })
             </div>
         </div>
-
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.Name)@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                <div class="div-input">
-                    @Html.Kendo().MaskedTextBoxFor(model => model.Name).HtmlAttributes(new { @class = "left-panel-input"})
-                </div>
-            </div>*@
+        
     </div>
 
     <div class="background-bar" style="height: 45px;">
         <div class="popup-button-bar">
-            <button type="submit" class="k-button" formaction="@Url.Action("CreateWizard", "Promotions")" onclick="$('#CommodityBrandName').val($('#CommodityBrandID').data('kendoDropDownList').text());" formtarget="_top"> <img src="~/Content/Images/Mains/Size24/Accept-Total.png" /> Tiếp tục </button>
+            <button type="submit" class="k-button" formaction="@Url.Action("CreateWizard", "Promotions")" onclick="$('#CommodityBrandName').val($('#CommodityBrandID').data('kendoDropDownList').text());" formtarget="_top"> <img src="~/Content/Images/New/2017/red-discount-24.png" /> Tiếp tục </button>
             <button type="button" class="k-button" onclick="window.parent.$('#myWindow').data('kendoWindow').close()"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png" alt="" /> Thoát </button>
         </div>
     </div>

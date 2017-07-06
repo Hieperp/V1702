@@ -25,15 +25,14 @@
     .Name("gridPromotion")
     .Columns(columns =>
     {
-        columns.Bound(c => c.Code).Title("Mã KM").Width(10);
-        columns.Bound(c => c.Name).Title("Tên chương trình").Width(20);
+        columns.Bound(c => c.Code).Title("Mã KM").Width(25);
 
         columns.Bound(c => c.DiscountPercent).Title("% CK").Width(5).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Format("{0:n1}");
-        columns.Bound(c => c.ControlFreeQuantity).Title("SL/ 1 QT").Width(6).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Format("{0:n0}");
+        columns.Bound(c => c.ControlFreeQuantity).Title("SL/ 1 QT").Width(8).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Format("{0:n0}");
         columns.Bound(c => c.StartDate).Title("Ngày BĐ").Width(12).Format("{0:" + SettingsManager.DateTimeFormat + "}").HtmlAttributes(new { @class = "grid-column-center"}).HeaderHtmlAttributes(new { @style = "text-align: center" });
         columns.Bound(c => c.EndDate).Title("Ngày KT").Width(12).Format("{0:" + SettingsManager.DateTimeFormat + "}").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" });
         columns.Template(t => { }).Title("CK 1 dòng").ClientTemplate("<input class='IsSelected' #= ApplyToTradeDiscount ? checked='checked':'' #  type='checkbox' />").HtmlAttributes(new { @class = "grid-column-center", @readonly = "readonly" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(8);
-        columns.Bound(c => c.Remarks).Title("Ghi chú").Width(12);
+        columns.Bound(c => c.Name).Title("Diễn giải").Width(20);
     })
 
     .Scrollable(s => s.Height(180))

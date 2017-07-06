@@ -468,6 +468,16 @@
     <Content Include="Content\Images\Menu\Work-50.png" />
     <Content Include="Content\Images\New\1.png" />
     <Content Include="Content\Images\New\2.png" />
+    <Content Include="Content\Images\New\2017\Autodesk-Product-Design-Suite-icon-64.png" />
+    <Content Include="Content\Images\New\2017\price-tag-24.png" />
+    <Content Include="Content\Images\New\2017\price-tag-32.png" />
+    <Content Include="Content\Images\New\2017\price-tag-64.png" />
+    <Content Include="Content\Images\New\2017\price-tag-icon-24.png" />
+    <Content Include="Content\Images\New\2017\red-discount-24.png" />
+    <Content Include="Content\Images\New\2017\red-discount-64.png" />
+    <Content Include="Content\Images\New\2017\sale-off-icon-24.png" />
+    <Content Include="Content\Images\New\2017\sale-off-icon-32.png" />
+    <Content Include="Content\Images\New\2017\sale-off-icon-64.png" />
     <Content Include="Content\Images\New\Actions-document-print-icon.png" />
     <Content Include="Content\Images\New\Actions-ok-icon.png" />
     <Content Include="Content\Images\New\Address-icon.png" />

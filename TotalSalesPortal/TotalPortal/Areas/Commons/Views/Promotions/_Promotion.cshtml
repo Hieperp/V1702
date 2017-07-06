@@ -208,19 +208,12 @@
         <div class="right-botton-panel">
             @if (Model.Editable)
             {
-                <button type="submit" class="k-button custom-button SubmitTypeOption-Closed" formaction="@Url.Action("Edit", "Promotions")"> <img src="~/Content/Images/New/save-icon.png" /> Lưu phiếu </button>
+                <button type="submit" class= "@(Model.PromotionID > 0 ? "k-button custom-button SubmitTypeOption-Closed" : "k-button custom-button SubmitTypeOption-Save")" formaction="@Url.Action("Edit", "Promotions")"> <img src="~/Content/Images/New/save-icon.png" /> Lưu phiếu </button>
             }
-            else
-            {
-                if (!Model.Voidable && !Model.UnVoidable)
-                {
-                    <button type="button" class="k-button custom-button" onclick="location.href='@Url.Action("Print", "Promotions", new { id = @Model.PromotionID })'"> <img src="~/Content/Images/New/Apps-printer-icon.png" /> In tổng hợp xuất kho </button>
-                }
-            }
-
+            
             @if (Model.PromotionID > 0)
             {
-                <button type="button" class="k-button custom-button" onclick="ShowPromotionCustomerCategories()"> <img src="~/Content/Images/Mains/Ecommerce-Sale-icon-32.png" /> Cài đặt kênh khách hàng </button>
+                <button type="button" class="k-button custom-button" onclick="ShowPromotionCustomerCategories()"> <img src="~/Content/Images/New/2017/price-tag-32.png" /> @(Model.Editable? "Cài đặt kênh khách hàng": "Xem kênh khách hàng")  </button>
             }
         </div>
 
