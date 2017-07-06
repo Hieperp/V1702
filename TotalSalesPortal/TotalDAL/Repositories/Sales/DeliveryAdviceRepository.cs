@@ -23,7 +23,7 @@ namespace TotalDAL.Repositories.Sales
         {
 
 
-            //return;
+            return;
 
             Helpers.SqlProgrammability.Commons.CommodityPrice commodityPrice = new Helpers.SqlProgrammability.Commons.CommodityPrice(totalSalesPortalEntities);
             commodityPrice.RestoreProcedure();
