@@ -7855,7 +7855,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="Brand" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Category" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Code" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="250" />
           <Property Type="DateTime" Name="StartDate" Nullable="false" Precision="23" />
           <Property Type="DateTime" Name="EndDate" Nullable="false" Precision="23" />
           <Property Type="Decimal" Name="DiscountPercent" Nullable="false" Precision="18" Scale="5" />
