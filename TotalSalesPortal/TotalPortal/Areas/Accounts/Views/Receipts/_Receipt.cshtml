@@ -21,7 +21,7 @@
     
     <div class="left-panel">
 
-        @Html.Partial("~/Views/Helpers/Bases/_BaseSectionLeftA.cshtml")
+        @Html.Partial("~/Views/Helpers/Bases/_BaseSectionLeftA.cshtml", @Model, new ViewDataDictionary { { "EntryDateReadonly", false } })
 
         @if (@Model.ReceiptTypeID == GlobalReceiptTypeID.ReceiveMoney)
         {
