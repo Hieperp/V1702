@@ -63,6 +63,7 @@ namespace TotalModel.Models
         public decimal TradeDiscountAmount { get; set; }
         public decimal TotalListedTaxableAmount { get; set; }
         public decimal TotalTaxableAmount { get; set; }
+        public string CustomerPO { get; set; }
     
         public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

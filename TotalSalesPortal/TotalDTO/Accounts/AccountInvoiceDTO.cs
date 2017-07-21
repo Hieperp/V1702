@@ -44,6 +44,9 @@ namespace TotalDTO.Accounts
         [Required(ErrorMessage = "Vui lòng nhập ngày hóa đơn")]
         public Nullable<System.DateTime> VATInvoiceDate { get; set; }
 
+        [Display(Name = "Số PO")]
+        public string CustomerPO { get; set; }
+
         public override void PerformPresaveRule()
         {
             base.PerformPresaveRule();

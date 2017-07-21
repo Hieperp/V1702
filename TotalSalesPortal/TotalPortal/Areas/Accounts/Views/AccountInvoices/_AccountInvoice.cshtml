@@ -50,6 +50,16 @@
             </div>
         </div>
 
+        <div class="form-group">
+            @Html.LabelFor(model => model.CustomerPO)
+            <div class="div-input">
+                @Html.Kendo().MaskedTextBoxFor(model => model.CustomerPO).HtmlAttributes(new { @class = "left-panel-input" })
+            </div>
+            <div class="div-validation-message">
+                @Html.ValidationMessageFor(model => model.CustomerPO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
     </div>
 
     <div class="right-panel">

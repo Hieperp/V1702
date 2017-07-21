@@ -71,6 +71,7 @@
           <Property Name="VATInvoiceNo" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="VATInvoiceDate" Type="datetime" Nullable="false" />
           <Property Name="VATInvoiceSeries" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="CustomerPO" Type="nvarchar" MaxLength="60" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="ConsumerID" Type="int" />
           <Property Name="ReceiverID" Type="int" />
@@ -4922,6 +4923,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="BillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="DateTime" Name="GoodsIssueEntryDate" Nullable="true" Precision="23" />
           <Property Type="String" Name="GoodsIssueReferences" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="CustomerPO" Nullable="true" MaxLength="60" />
         </ComplexType>
         <ComplexType Name="AccountInvoiceViewDetail">
           <Property Type="Int32" Name="AccountInvoiceDetailID" Nullable="false" />
@@ -5159,6 +5161,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="TradeDiscountAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TotalListedTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TotalTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="CustomerPO" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
           </EntityType>
         <Association Name="FK_AccountInvoices_Locations">
           <End Type="TotalSalesPortalModel.Location" Role="Location" Multiplicity="1" />
@@ -8430,6 +8433,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
                 <ScalarProperty Name="GoodsIssueEntryDate" ColumnName="GoodsIssueEntryDate" />
                 <ScalarProperty Name="GoodsIssueReferences" ColumnName="GoodsIssueReferences" />
+                <ScalarProperty Name="CustomerPO" ColumnName="CustomerPO" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -8645,6 +8649,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="AccountInvoices">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.AccountInvoice">
               <MappingFragment StoreEntitySet="AccountInvoices">
+                <ScalarProperty Name="CustomerPO" ColumnName="CustomerPO" />
                 <ScalarProperty Name="TotalTaxableAmount" ColumnName="TotalTaxableAmount" />
                 <ScalarProperty Name="TotalListedTaxableAmount" ColumnName="TotalListedTaxableAmount" />
                 <ScalarProperty Name="TradeDiscountAmount" ColumnName="TradeDiscountAmount" />

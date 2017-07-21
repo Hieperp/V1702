@@ -119,17 +119,17 @@
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', FreeQuantityRemains) #" + "<input type='hidden' name='SalesReturnViewDetails[#= index(data) #].FreeQuantityRemains' value='#= FreeQuantityRemains #' />");
-                    columns.Bound(p => p.FreeQuantity).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).EditorTemplateName(@Model.HasGoodsIssue ? "DecimalReadonly" : "Decimal").Width(50)
+                    columns.Bound(p => p.FreeQuantity).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).EditorTemplateName(@Model.HasGoodsIssue || !@Model.ShowDiscount ? "DecimalReadonly" : "Decimal").Width(50)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', FreeQuantity) #" + "<input type='hidden' name='SalesReturnViewDetails[#= index(data) #].FreeQuantity' value='#= FreeQuantity #' />");
 
 
-                    columns.Bound(p => p.ListedPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).EditorTemplateName(@Model.HasGoodsIssue ? "DecimalReadonly" : "Decimal").Width(70)
+                    columns.Bound(p => p.ListedPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).EditorTemplateName(@Model.HasGoodsIssue || !@Model.ShowDiscount ? "DecimalReadonly" : "Decimal").Width(70)
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}', ListedPrice) #" + "<input type='hidden' name='SalesReturnViewDetails[#= index(data) #].ListedPrice' value='#= ListedPrice #' />");
 
-                    columns.Bound(p => p.DiscountPercent).DisplayNameTitle().Filterable(false).Width(50).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Hidden(@Model.ShowDiscount ? false : true).EditorTemplateName(@Model.HasGoodsIssue ? "DecimalReadonly" : "Decimal")
+                    columns.Bound(p => p.DiscountPercent).DisplayNameTitle().Filterable(false).Width(50).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Hidden(@Model.ShowDiscount ? false : true).EditorTemplateName(@Model.HasGoodsIssue || !@Model.ShowDiscount ? "DecimalReadonly" : "Decimal")
                         .Format("{0:n1}%")
                         .ClientFooterTemplate("#= kendo.format('{0:n1}%', average) #")
                         .ClientTemplate("#= kendo.format('{0:n1}%', DiscountPercent) #" + "<input type='hidden' name='SalesReturnViewDetails[#= index(data) #].DiscountPercent' value='#= DiscountPercent #' />");
