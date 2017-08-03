@@ -47,6 +47,10 @@ namespace TotalDTO.Sales
         [Display(Name = "Chứng từ trả hàng")]
         public string ReturnVouchers { get; set; }
 
+        public virtual Nullable<int> TradePromotionID { get; set; }
+        [Display(Name = "Chiết khấu tổng")]
+        public string TradePromotionSpecs { get; set; }
+
         [Display(Name = "Ngày nhận hàng")]
         public Nullable<System.DateTime> ReceivedDate { get; set; }
         [Display(Name = "Địa chỉ giao hàng")]

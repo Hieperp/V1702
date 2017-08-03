@@ -395,6 +395,7 @@
           <Property Name="WarehouseID" Type="int" Nullable="false" />
           <Property Name="PriceCategoryID" Type="int" Nullable="false" />
           <Property Name="PromotionID" Type="int" />
+          <Property Name="TradePromotionID" Type="int" />
           <Property Name="PromotionVouchers" Type="nvarchar" MaxLength="50" />
           <Property Name="SalespersonID" Type="int" Nullable="false" />
           <Property Name="DeliveryDate" Type="datetime" />
@@ -784,6 +785,7 @@
           <Property Name="Reference" Type="nvarchar" MaxLength="10" />
           <Property Name="Code" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="Specs" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="StartDate" Type="datetime" Nullable="false" />
           <Property Name="EndDate" Type="datetime" Nullable="false" />
           <Property Name="DiscountPercent" Type="decimal" Precision="18" Scale="5" Nullable="false" />
@@ -924,6 +926,7 @@
           <Property Name="WarehouseID" Type="int" Nullable="false" />
           <Property Name="PriceCategoryID" Type="int" Nullable="false" />
           <Property Name="PromotionID" Type="int" />
+          <Property Name="TradePromotionID" Type="int" />
           <Property Name="PromotionVouchers" Type="nvarchar" MaxLength="50" />
           <Property Name="SalespersonID" Type="int" Nullable="false" />
           <Property Name="DeliveryDate" Type="datetime" />
@@ -1024,6 +1027,7 @@
           <Property Name="WarehouseID" Type="int" Nullable="false" />
           <Property Name="PriceCategoryID" Type="int" Nullable="false" />
           <Property Name="PromotionID" Type="int" />
+          <Property Name="TradePromotionID" Type="int" />
           <Property Name="PromotionVouchers" Type="nvarchar" MaxLength="50" />
           <Property Name="SalespersonID" Type="int" Nullable="false" />
           <Property Name="DeliveryDate" Type="datetime" />
@@ -1614,6 +1618,18 @@ warning 6035: The relationship 'FK_DeliveryAdvices_AspNetUsers2' has columns tha
             </Principal>
             <Dependent Role="DeliveryAdvices">
               <PropertyRef Name="SalesOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryAdvices_TradePromotions">
+          <End Role="Promotions" Type="Self.Promotions" Multiplicity="0..1" />
+          <End Role="DeliveryAdvices" Type="Self.DeliveryAdvices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotions">
+              <PropertyRef Name="PromotionID" />
+            </Principal>
+            <Dependent Role="DeliveryAdvices">
+              <PropertyRef Name="TradePromotionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2274,6 +2290,18 @@ warning 6035: The relationship 'FK_SalesOrders_AspNetUsers2' has columns that ar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SalesOrders_TradePromotions">
+          <End Role="Promotions" Type="Self.Promotions" Multiplicity="0..1" />
+          <End Role="SalesOrders" Type="Self.SalesOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotions">
+              <PropertyRef Name="PromotionID" />
+            </Principal>
+            <Dependent Role="SalesOrders">
+              <PropertyRef Name="TradePromotionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SalesOrders_VoidTypes">
           <End Role="VoidTypes" Type="Self.VoidTypes" Multiplicity="0..1" />
           <End Role="SalesOrders" Type="Self.SalesOrders" Multiplicity="*" />
@@ -2424,6 +2452,18 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Principal>
             <Dependent Role="SalesReturns">
               <PropertyRef Name="PromotionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesReturns_TradePromotions">
+          <End Role="Promotions" Type="Self.Promotions" Multiplicity="0..1" />
+          <End Role="SalesReturns" Type="Self.SalesReturns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotions">
+              <PropertyRef Name="PromotionID" />
+            </Principal>
+            <Dependent Role="SalesReturns">
+              <PropertyRef Name="TradePromotionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2735,6 +2775,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         </Function>
         <Function Name="GetPromotionByCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CustomerID" Type="int" Mode="In" />
+          <Parameter Name="FilterApplyToTradeDiscount" Type="int" Mode="In" />
         </Function>
         <Function Name="GetPromotionCustomerCategories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PromotionID" Type="int" Mode="In" />
@@ -3153,6 +3194,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="SalesOrders" EntitySet="SalesOrders" />
             <End Role="DeliveryAdvices" EntitySet="DeliveryAdvices" />
           </AssociationSet>
+          <AssociationSet Name="FK_DeliveryAdvices_TradePromotions" Association="Self.FK_DeliveryAdvices_TradePromotions">
+            <End Role="Promotions" EntitySet="Promotions" />
+            <End Role="DeliveryAdvices" EntitySet="DeliveryAdvices" />
+          </AssociationSet>
           <AssociationSet Name="FK_DeliveryAdvices_VoidTypes" Association="Self.FK_DeliveryAdvices_VoidTypes">
             <End Role="VoidTypes" EntitySet="VoidTypes" />
             <End Role="DeliveryAdvices" EntitySet="DeliveryAdvices" />
@@ -3361,6 +3406,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="Promotions" EntitySet="Promotions" />
             <End Role="SalesOrders" EntitySet="SalesOrders" />
           </AssociationSet>
+          <AssociationSet Name="FK_SalesOrders_TradePromotions" Association="Self.FK_SalesOrders_TradePromotions">
+            <End Role="Promotions" EntitySet="Promotions" />
+            <End Role="SalesOrders" EntitySet="SalesOrders" />
+          </AssociationSet>
           <AssociationSet Name="FK_SalesOrders_VoidTypes" Association="Self.FK_SalesOrders_VoidTypes">
             <End Role="VoidTypes" EntitySet="VoidTypes" />
             <End Role="SalesOrders" EntitySet="SalesOrders" />
@@ -3406,6 +3455,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="SalesReturns" EntitySet="SalesReturns" />
           </AssociationSet>
           <AssociationSet Name="FK_SalesReturns_Promotions" Association="Self.FK_SalesReturns_Promotions">
+            <End Role="Promotions" EntitySet="Promotions" />
+            <End Role="SalesReturns" EntitySet="SalesReturns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesReturns_TradePromotions" Association="Self.FK_SalesReturns_TradePromotions">
             <End Role="Promotions" EntitySet="Promotions" />
             <End Role="SalesReturns" EntitySet="SalesReturns" />
           </AssociationSet>
@@ -3589,7 +3642,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="SearchText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetPromotionByCustomers" EntitySet="Promotions" ReturnType="Collection(TotalSalesPortalModel.Promotion)">
-          <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+            <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+            <Parameter Name="FilterApplyToTradeDiscount" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="PriceCategories" EntityType="TotalSalesPortalModel.PriceCategory" />
           <FunctionImport Name="GetGoodsIssueIndexes" ReturnType="Collection(TotalSalesPortalModel.GoodsIssueIndex)">
@@ -4457,6 +4511,18 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="PromotionID" Mode="In" Type="Int32" />
             <Parameter Name="CustomerCategoryID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="FK_DeliveryAdvices_TradePromotions" Association="TotalSalesPortalModel.FK_DeliveryAdvices_TradePromotions">
+            <End Role="Promotion" EntitySet="Promotions" />
+            <End Role="DeliveryAdvice" EntitySet="DeliveryAdvices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesOrders_TradePromotions" Association="TotalSalesPortalModel.FK_SalesOrders_TradePromotions">
+            <End Role="Promotion" EntitySet="Promotions" />
+            <End Role="SalesOrder" EntitySet="SalesOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesReturns_TradePromotions" Association="TotalSalesPortalModel.FK_SalesReturns_TradePromotions">
+            <End Role="Promotion" EntitySet="Promotions" />
+            <End Role="SalesReturn" EntitySet="SalesReturns" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -5746,6 +5812,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="TotalListedTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TotalTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Promotions" FromRole="DeliveryAdvice" ToRole="Promotion" />
+          <Property Name="TradePromotionID" Type="Int32" />
+          <NavigationProperty Name="Promotion1" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_TradePromotions" FromRole="DeliveryAdvice" ToRole="Promotion" />
         </EntityType>
         <EntityType Name="GoodsIssueDetail">
           <Key>
@@ -6751,6 +6819,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="TotalListedTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TotalTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_SalesOrders_Promotions" FromRole="SalesOrder" ToRole="Promotion" />
+          <Property Name="TradePromotionID" Type="Int32" />
+          <NavigationProperty Name="Promotion1" Relationship="TotalSalesPortalModel.FK_SalesOrders_TradePromotions" FromRole="SalesOrder" ToRole="Promotion" />
         </EntityType>
         <Association Name="FK_SalesOrders_Customers">
           <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
@@ -7458,6 +7528,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="TotalListedTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="TotalTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_SalesReturns_Promotions" FromRole="SalesReturn" ToRole="Promotion" />
+          <Property Name="TradePromotionID" Type="Int32" />
+          <NavigationProperty Name="Promotion1" Relationship="TotalSalesPortalModel.FK_SalesReturns_TradePromotions" FromRole="SalesReturn" ToRole="Promotion" />
         </EntityType>
         <Association Name="FK_SalesReturnDetails_Commodities">
           <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
@@ -7901,6 +7973,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="OrganizationalUnitID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="PromotionCommodityCodeParts" Relationship="TotalSalesPortalModel.FK_PromotionCommodityCodeParts_Promotions" FromRole="Promotion" ToRole="PromotionCommodityCodePart" />
+          <Property Name="Specs" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DeliveryAdvices1" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_TradePromotions" FromRole="Promotion" ToRole="DeliveryAdvice" />
+          <NavigationProperty Name="SalesOrders1" Relationship="TotalSalesPortalModel.FK_SalesOrders_TradePromotions" FromRole="Promotion" ToRole="SalesOrder" />
+          <NavigationProperty Name="SalesReturns1" Relationship="TotalSalesPortalModel.FK_SalesReturns_TradePromotions" FromRole="Promotion" ToRole="SalesReturn" />
         </EntityType>
         <Association Name="FK_Promotions_CommodityBrands">
           <End Type="TotalSalesPortalModel.CommodityBrand" Role="CommodityBrand" Multiplicity="1" />
@@ -7973,6 +8049,42 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Principal>
             <Dependent Role="PromotionCommodityCodePart">
               <PropertyRef Name="PromotionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryAdvices_TradePromotions">
+          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.DeliveryAdvice" Role="DeliveryAdvice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotion">
+              <PropertyRef Name="PromotionID" />
+            </Principal>
+            <Dependent Role="DeliveryAdvice">
+              <PropertyRef Name="TradePromotionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesOrders_TradePromotions">
+          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.SalesOrder" Role="SalesOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotion">
+              <PropertyRef Name="PromotionID" />
+            </Principal>
+            <Dependent Role="SalesOrder">
+              <PropertyRef Name="TradePromotionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesReturns_TradePromotions">
+          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.SalesReturn" Role="SalesReturn" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotion">
+              <PropertyRef Name="PromotionID" />
+            </Principal>
+            <Dependent Role="SalesReturn">
+              <PropertyRef Name="TradePromotionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9152,6 +9264,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="DeliveryAdvices">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.DeliveryAdvice">
               <MappingFragment StoreEntitySet="DeliveryAdvices">
+                <ScalarProperty Name="TradePromotionID" ColumnName="TradePromotionID" />
                 <ScalarProperty Name="TotalTaxableAmount" ColumnName="TotalTaxableAmount" />
                 <ScalarProperty Name="TotalListedTaxableAmount" ColumnName="TotalListedTaxableAmount" />
                 <ScalarProperty Name="TradeDiscountAmount" ColumnName="TradeDiscountAmount" />
@@ -9511,6 +9624,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="SalesOrders">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.SalesOrder">
               <MappingFragment StoreEntitySet="SalesOrders">
+                <ScalarProperty Name="TradePromotionID" ColumnName="TradePromotionID" />
                 <ScalarProperty Name="TotalTaxableAmount" ColumnName="TotalTaxableAmount" />
                 <ScalarProperty Name="TotalListedTaxableAmount" ColumnName="TotalListedTaxableAmount" />
                 <ScalarProperty Name="TradeDiscountAmount" ColumnName="TradeDiscountAmount" />
@@ -10050,6 +10164,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="SalesReturns">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.SalesReturn">
               <MappingFragment StoreEntitySet="SalesReturns">
+                <ScalarProperty Name="TradePromotionID" ColumnName="TradePromotionID" />
                 <ScalarProperty Name="TotalTaxableAmount" ColumnName="TotalTaxableAmount" />
                 <ScalarProperty Name="TotalListedTaxableAmount" ColumnName="TotalListedTaxableAmount" />
                 <ScalarProperty Name="TradeDiscountAmount" ColumnName="TradeDiscountAmount" />
@@ -10334,6 +10449,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="Promotions">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.Promotion">
               <MappingFragment StoreEntitySet="Promotions">
+                <ScalarProperty Name="Specs" ColumnName="Specs" />
                 <ScalarProperty Name="OrganizationalUnitID" ColumnName="OrganizationalUnitID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />

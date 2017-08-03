@@ -24,8 +24,11 @@
     @Html.HiddenFor(model => model.PaymentTermID);
 
     @Html.HiddenFor(model => model.VATbyRow);
-    @Html.HiddenFor(model => model.TradeDiscountRate);
     @Html.HiddenFor(model => model.VATPercent);
+
+    @Html.HiddenFor(model => model.TradePromotionID);
+    @Html.HiddenFor(model => model.TradePromotionSpecs);
+    @Html.HiddenFor(model => model.TradeDiscountRate);
 
     @Html.HiddenFor(model => model.Salesperson.EmployeeID);
     @Html.HiddenFor(model => model.Salesperson.Name);
@@ -177,7 +180,10 @@
                 $("#Warehouse_Code").val(selectedDataItem === undefined || selectedDataItem.WarehouseCode === undefined ? null : selectedDataItem.WarehouseCode);
                 $("#Warehouse_Name").val(selectedDataItem === undefined || selectedDataItem.WarehouseName === undefined ? null : selectedDataItem.WarehouseName);
 
+                $("#TradePromotionID").val(selectedDataItem === undefined || selectedDataItem.TradePromotionID === undefined ? null : selectedDataItem.TradePromotionID);
+                $("#TradePromotionSpecs").val(selectedDataItem === undefined || selectedDataItem.TradePromotionSpecs === undefined ? null : selectedDataItem.TradePromotionSpecs);
                 $("#TradeDiscountRate").val(selectedDataItem === undefined || selectedDataItem.TradeDiscountRate === undefined ? null : selectedDataItem.TradeDiscountRate);
+
                 $("#VATPercent").val(selectedDataItem === undefined || selectedDataItem.VATPercent === undefined ? null : selectedDataItem.VATPercent);
                 $("#PaymentTermID").val(selectedDataItem === undefined || selectedDataItem.PaymentTermID === undefined ? null : selectedDataItem.PaymentTermID);
 

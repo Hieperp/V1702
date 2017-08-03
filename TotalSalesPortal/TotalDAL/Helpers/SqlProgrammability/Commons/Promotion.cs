@@ -71,14 +71,16 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
         {
             string queryString;
 
-            queryString = " @CustomerID int " + "\r\n";
+            string queryWhere = "Promotions.InActive = 0 AND (Promotions.ApplyToTradeDiscount = @FilterApplyToTradeDiscount OR @FilterApplyToTradeDiscount IS NULL) AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate ";
+
+            queryString = " @CustomerID int, @FilterApplyToTradeDiscount int " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
             queryString = queryString + "       IF (@CustomerID IS NULL) ";
             queryString = queryString + "           BEGIN ";
-            queryString = queryString + "               SELECT * FROM Promotions WHERE Promotions.InActive = 0 AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate " + "\r\n";
+            queryString = queryString + "               SELECT * FROM Promotions WHERE " + queryWhere + "\r\n";
             queryString = queryString + "           END ";
             queryString = queryString + "       ELSE ";
             queryString = queryString + "           BEGIN ";
@@ -87,13 +89,13 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             queryString = queryString + "               SELECT  @CustomerCategoryID = CustomerCategoryID FROM Customers WHERE CustomerID = @CustomerID "; //GET @CustomerCategoryID OF @CustomerID
 
             queryString = queryString + "               SELECT * FROM Promotions WHERE PromotionID IN " + "\r\n";
-            queryString = queryString + "                  (SELECT Promotions.PromotionID FROM Promotions WHERE Promotions.InActive = 0 AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate AND Promotions.ApplyToAllCustomers = 1 " + "\r\n";
+            queryString = queryString + "                  (SELECT Promotions.PromotionID FROM Promotions WHERE " + queryWhere + " AND Promotions.ApplyToAllCustomers = 1 " + "\r\n";
             queryString = queryString + "                   UNION ALL " + "\r\n";
-            queryString = queryString + "                   SELECT Promotions.PromotionID FROM Promotions INNER JOIN PromotionCustomers ON Promotions.InActive = 0 AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate AND PromotionCustomers.CustomerID = @CustomerID AND Promotions.PromotionID = PromotionCustomers.PromotionID " + "\r\n";
+            queryString = queryString + "                   SELECT Promotions.PromotionID FROM Promotions INNER JOIN PromotionCustomers ON " + queryWhere + " AND PromotionCustomers.CustomerID = @CustomerID AND Promotions.PromotionID = PromotionCustomers.PromotionID " + "\r\n";
             queryString = queryString + "                   UNION ALL " + "\r\n";
-            queryString = queryString + "                   SELECT Promotions.PromotionID FROM Promotions INNER JOIN PromotionCustomerCategories ON Promotions.InActive = 0 AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate AND Promotions.PromotionID = PromotionCustomerCategories.PromotionID INNER JOIN AncestorCustomerCategories ON PromotionCustomerCategories.CustomerCategoryID = AncestorCustomerCategories.AncestorID AND AncestorCustomerCategories.CustomerCategoryID = @CustomerCategoryID " + "\r\n";
+            queryString = queryString + "                   SELECT Promotions.PromotionID FROM Promotions INNER JOIN PromotionCustomerCategories ON " + queryWhere + " AND Promotions.PromotionID = PromotionCustomerCategories.PromotionID INNER JOIN AncestorCustomerCategories ON PromotionCustomerCategories.CustomerCategoryID = AncestorCustomerCategories.AncestorID AND AncestorCustomerCategories.CustomerCategoryID = @CustomerCategoryID " + "\r\n";
             queryString = queryString + "                  )" + "\r\n";
-            queryString = queryString + "               ORDER BY Code, Name ";
+            queryString = queryString + "               ORDER BY ApplyToAllCommodities DESC, Code, Name ";
             queryString = queryString + "           END ";
             queryString = queryString + "    END " + "\r\n";
 
@@ -213,20 +215,20 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
 
         private void PromotionEditable()
         {
-            string[] queryArray = new string[1];
+            string[] queryArray = new string[4];
 
             queryArray[0] = " SELECT TOP 1 @FoundEntity = PromotionID FROM Promotions WHERE PromotionID = @EntityID AND InActive = 1"; //Don't allow approve after void
+
+            queryArray[1] = " SELECT TOP 1 @FoundEntity = PromotionID FROM SalesOrders WHERE PromotionID = @EntityID OR TradePromotionID = @EntityID ";
+            queryArray[2] = " SELECT TOP 1 @FoundEntity = PromotionID FROM DeliveryAdvices WHERE PromotionID = @EntityID OR TradePromotionID = @EntityID ";
+            queryArray[3] = " SELECT TOP 1 @FoundEntity = PromotionID FROM SalesReturns WHERE PromotionID = @EntityID OR TradePromotionID = @EntityID ";
 
             this.totalSalesPortalEntities.CreateProcedureToCheckExisting("PromotionEditable", queryArray);
         }
 
         private void PromotionDeletable()
         {
-            string[] queryArray = new string[3];
-
-            queryArray[0] = " SELECT TOP 1 @FoundEntity = PromotionID FROM SalesOrders WHERE PromotionID = @EntityID ";
-            queryArray[1] = " SELECT TOP 1 @FoundEntity = PromotionID FROM DeliveryAdvices WHERE PromotionID = @EntityID ";
-            queryArray[2] = " SELECT TOP 1 @FoundEntity = PromotionID FROM SalesReturns WHERE PromotionID = @EntityID ";
+            string[] queryArray = new string[0];
 
             this.totalSalesPortalEntities.CreateProcedureToCheckExisting("PromotionDeletable", queryArray);
         }

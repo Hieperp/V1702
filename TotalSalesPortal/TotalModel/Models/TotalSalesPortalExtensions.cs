@@ -13,6 +13,8 @@ namespace TotalModel.Models
         public virtual Employee Salesperson { get { return this.Employee; } }
         public virtual Customer Receiver { get { return this.Customer1; } }
 
+        public virtual Promotion TradePromotion { get { return this.Promotion1; } }
+
         public ICollection<SalesOrderDetail> GetDetails() { return this.SalesOrderDetails; }
     }
 
@@ -38,6 +40,8 @@ namespace TotalModel.Models
 
         public virtual Employee Salesperson { get { return this.Employee; } }
         public virtual Customer Receiver { get { return this.Customer1; } }
+
+        public virtual Promotion TradePromotion { get { return this.Promotion1; } }
 
         public ICollection<DeliveryAdviceDetail> GetDetails() { return this.DeliveryAdviceDetails; }
     }
@@ -67,6 +71,8 @@ namespace TotalModel.Models
 
         public virtual Employee Salesperson { get { return this.Employee; } }
         public virtual Customer Receiver { get { return this.Customer1; } }
+
+        public virtual Promotion TradePromotion { get { return this.Promotion1; } }
 
         public ICollection<SalesReturnDetail> GetDetails() { return this.SalesReturnDetails; }
     }

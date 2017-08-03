@@ -24,10 +24,10 @@ namespace TotalDAL.Repositories.Commons
         }
 
 
-        public IList<Promotion> GetPromotionByCustomers(int? customerID)
+        public IList<Promotion> GetPromotionByCustomers(int? customerID, int? filterApplyToTradeDiscount)
         {
             this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = false;
-            List<Promotion> promotions = this.TotalSalesPortalEntities.GetPromotionByCustomers(customerID).ToList();
+            List<Promotion> promotions = this.TotalSalesPortalEntities.GetPromotionByCustomers(customerID, filterApplyToTradeDiscount).ToList();
             this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = true;
 
             return promotions;

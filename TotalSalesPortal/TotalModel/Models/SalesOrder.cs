@@ -70,6 +70,7 @@ namespace TotalModel.Models
         public decimal TradeDiscountAmount { get; set; }
         public decimal TotalListedTaxableAmount { get; set; }
         public decimal TotalTaxableAmount { get; set; }
+        public Nullable<int> TradePromotionID { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Customer Customer1 { get; set; }
@@ -84,5 +85,6 @@ namespace TotalModel.Models
         public virtual ICollection<SalesOrderDetail> SalesOrderDetails { get; set; }
         public virtual Warehouse Warehouse { get; set; }
         public virtual Promotion Promotion { get; set; }
+        public virtual Promotion Promotion1 { get; set; }
     }
 }

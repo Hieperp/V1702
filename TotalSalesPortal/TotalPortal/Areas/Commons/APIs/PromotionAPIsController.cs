@@ -45,12 +45,20 @@ namespace TotalPortal.Areas.Commons.APIs
 
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public JsonResult GetPromotionByCustomers([DataSourceRequest] DataSourceRequest dataSourceRequest, int? customerID)
+        public JsonResult GetPromotionByCustomers([DataSourceRequest] DataSourceRequest dataSourceRequest, int? customerID, int? filterApplyToTradeDiscount, bool? forDropDownList)
         {
             if (customerID == null) return Json(null);
 
-            var result = promotionAPIRepository.GetPromotionByCustomers((int) customerID);
-            return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
+            IList<Promotion> result = promotionAPIRepository.GetPromotionByCustomers(customerID, filterApplyToTradeDiscount); //filterApplyToTradeDiscount == 0 || 1 || -1 => WHERE: -1 MEAN: SELECT ALL
+            if (forDropDownList != null && (bool)forDropDownList)
+            {
+                if (result.Count() > 0 && result.FirstOrDefault(w => w.ApplyToAllCommodities) == null)
+                    result.Insert(0, new Promotion() { Code = "KHÔNG ÁP DỤNG CK TỔNG  [CK 1 DÒNG]" });
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
         }
 
 

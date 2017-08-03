@@ -25,9 +25,12 @@
     @Html.HiddenFor(model => model.PaymentTermID);
 
     @Html.HiddenFor(model => model.VATbyRow);
-    @Html.HiddenFor(model => model.TradeDiscountRate); //WHEN HasGoodsIssue WITHOUT GoodsIssueID => NOW: THE TradeDiscountRate WILL BE THE CURRENT TradeDiscountRate OF SELECTED CUSTOMER (GET CURRENT TradeDiscountRate FROM PROMOTION SETTING). LATER: WE SHOULD TO IMPLEMENT TradeDiscountRate->Evemt: Change TO ALLOW USER CHANGE TradeDiscountRate
-    @Html.HiddenFor(model => model.VATPercent); //NOW: USER UNABLE TO CHANGE TradeDiscountRate => WHEN HasGoodsIssue WITHOUT GoodsIssueID: => THE GoodsIssueDetails WITH TradeDiscountRate DIFFER FROM CURRENT TradeDiscountRate WILL BE NEVER LISTED IN GetPendingGoodsIssueDetails FOR SELECTION 
+    @Html.HiddenFor(model => model.VATPercent);
 
+    @Html.HiddenFor(model => model.TradePromotionID);
+    @Html.HiddenFor(model => model.TradePromotionSpecs);//WHEN HasGoodsIssue WITHOUT GoodsIssueID => NOW: THE TradeDiscountRate WILL BE THE CURRENT TradeDiscountRate OF SELECTED CUSTOMER (GET CURRENT TradeDiscountRate FROM PROMOTION SETTING). LATER: WE SHOULD TO IMPLEMENT TradeDiscountRate->Evemt: Change TO ALLOW USER CHANGE TradeDiscountRate
+    @Html.HiddenFor(model => model.TradeDiscountRate);//NOW: USER UNABLE TO CHANGE TradeDiscountRate => WHEN HasGoodsIssue WITHOUT GoodsIssueID: => THE GoodsIssueDetails WITH TradeDiscountRate DIFFER FROM CURRENT TradeDiscountRate WILL BE NEVER LISTED IN GetPendingGoodsIssueDetails FOR SELECTION 
+    
     @Html.HiddenFor(model => model.Salesperson.EmployeeID);
     @Html.HiddenFor(model => model.Salesperson.Name);
 
@@ -101,6 +104,8 @@
                 $("#GoodsIssue_CustomerCode").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueID === undefined || selectedDataItem.CustomerCode === undefined ? null : selectedDataItem.CustomerCode);
                 $("#GoodsIssue_CustomerName").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueID === undefined || selectedDataItem.CustomerName === undefined ? null : selectedDataItem.CustomerName);
 
+                $("#TradePromotionID").val(selectedDataItem === undefined || selectedDataItem.TradePromotionID === undefined ? null : selectedDataItem.TradePromotionID);
+                $("#TradePromotionSpecs").val(selectedDataItem === undefined || selectedDataItem.TradePromotionSpecs === undefined ? null : selectedDataItem.TradePromotionSpecs);
                 $("#TradeDiscountRate").val(selectedDataItem === undefined || selectedDataItem.TradeDiscountRate === undefined ? null : selectedDataItem.TradeDiscountRate);
                 $("#VATPercent").val(selectedDataItem === undefined || selectedDataItem.VATPercent === undefined ? null : selectedDataItem.VATPercent);                                
 

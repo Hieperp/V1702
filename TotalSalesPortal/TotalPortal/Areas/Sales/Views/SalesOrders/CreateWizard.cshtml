@@ -18,8 +18,12 @@
     @Html.HiddenFor(model => model.PaymentTermID);
 
     @Html.HiddenFor(model => model.VATbyRow);
-    @Html.HiddenFor(model => model.TradeDiscountRate);
     @Html.HiddenFor(model => model.VATPercent);
+
+    @Html.HiddenFor(model => model.TradePromotionID);
+    @Html.HiddenFor(model => model.TradePromotionSpecs);
+    @Html.HiddenFor(model => model.TradeDiscountRate);
+    
     
     @Html.HiddenFor(model => model.Salesperson.EmployeeID);
     @Html.HiddenFor(model => model.Salesperson.Name);

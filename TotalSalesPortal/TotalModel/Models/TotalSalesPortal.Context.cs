@@ -215,22 +215,30 @@ namespace TotalModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommodityAvailable>("GetCommodityAvailables", locationIDParameter, customerIDParameter, warehouseIDParameter, priceCategoryIDParameter, promotionIDParameter, entryDateParameter, searchTextParameter);
         }
     
-        public virtual ObjectResult<Promotion> GetPromotionByCustomers(Nullable<int> customerID)
+        public virtual ObjectResult<Promotion> GetPromotionByCustomers(Nullable<int> customerID, Nullable<int> filterApplyToTradeDiscount)
         {
             var customerIDParameter = customerID.HasValue ?
                 new ObjectParameter("CustomerID", customerID) :
                 new ObjectParameter("CustomerID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Promotion>("GetPromotionByCustomers", customerIDParameter);
+            var filterApplyToTradeDiscountParameter = filterApplyToTradeDiscount.HasValue ?
+                new ObjectParameter("FilterApplyToTradeDiscount", filterApplyToTradeDiscount) :
+                new ObjectParameter("FilterApplyToTradeDiscount", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Promotion>("GetPromotionByCustomers", customerIDParameter, filterApplyToTradeDiscountParameter);
         }
     
-        public virtual ObjectResult<Promotion> GetPromotionByCustomers(Nullable<int> customerID, MergeOption mergeOption)
+        public virtual ObjectResult<Promotion> GetPromotionByCustomers(Nullable<int> customerID, Nullable<int> filterApplyToTradeDiscount, MergeOption mergeOption)
         {
             var customerIDParameter = customerID.HasValue ?
                 new ObjectParameter("CustomerID", customerID) :
                 new ObjectParameter("CustomerID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Promotion>("GetPromotionByCustomers", mergeOption, customerIDParameter);
+            var filterApplyToTradeDiscountParameter = filterApplyToTradeDiscount.HasValue ?
+                new ObjectParameter("FilterApplyToTradeDiscount", filterApplyToTradeDiscount) :
+                new ObjectParameter("FilterApplyToTradeDiscount", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Promotion>("GetPromotionByCustomers", mergeOption, customerIDParameter, filterApplyToTradeDiscountParameter);
         }
     
         public virtual ObjectResult<GoodsIssueIndex> GetGoodsIssueIndexes(string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)

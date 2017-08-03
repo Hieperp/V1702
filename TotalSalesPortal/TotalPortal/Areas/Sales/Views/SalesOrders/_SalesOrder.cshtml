@@ -32,6 +32,17 @@
             @Html.EditorFor(d => d.Salesperson, new { EmployeeDisplayName = @Model.GetDisplayName(m => m.Salesperson) })
         </div>
 
+        @if (@Model.TradePromotionID != null)
+        {
+            @Html.HiddenFor(model => model.TradePromotionID)
+            <div class="form-group">
+                @Html.LabelFor(model => model.TradePromotionSpecs)
+                <div class="div-input">
+                    @Html.Kendo().MaskedTextBoxFor(model => model.TradePromotionSpecs).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+                </div>
+            </div>
+        }
+
         <div class="form-group">
             @Html.LabelFor(model => model.PromotionVouchers)
             <div class="div-input">

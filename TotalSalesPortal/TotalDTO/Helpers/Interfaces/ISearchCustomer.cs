@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using TotalDTO.Commons;
 
 namespace TotalDTO.Helpers.Interfaces
@@ -22,5 +22,7 @@ namespace TotalDTO.Helpers.Interfaces
         [Display(Name = "Kho hàng")]
         [UIHint("AutoCompletes/WarehouseBase")]
         WarehouseBaseDTO Warehouse { get; set; }
+
+        Nullable<int> TradePromotionID { get; set; }
     }
 }

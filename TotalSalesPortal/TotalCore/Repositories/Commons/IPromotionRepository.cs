@@ -11,7 +11,7 @@ namespace TotalCore.Repositories.Commons
 
     public interface IPromotionAPIRepository : IGenericAPIRepository
     {
-        IList<Promotion> GetPromotionByCustomers(int? customerID);
+        IList<Promotion> GetPromotionByCustomers(int? customerID, int? filterApplyToTradeDiscount);
 
         IList<CustomerCategory> GetPromotionCustomerCategories(int? promotionID);
 

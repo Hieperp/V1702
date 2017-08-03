@@ -13,6 +13,21 @@
 
     @Html.EditorFor(d => d.Warehouse, new { WarehouseDisplayName = @Model.GetDisplayName(m => m.Warehouse) })
 
+    @(Html.Kendo().DropDownList()
+        .Name("dropDownTradePromotionID")
+        .DataTextField("Code")
+        .DataValueField("PromotionID")
+        .DataSource(source =>
+        {
+            source.Read(read =>
+            {
+                read.Action("GetPromotionByCustomers", "PromotionAPIs", new { area = "Commons" }).Data("onGetTradePromotionByCustomers");
+            });            
+        })
+        .Events(e => e.Change("changeDropDownTradePromotionID")).Events(e => e.DataBound("changeDropDownTradePromotionID"))
+        .HtmlAttributes(new { @class = "right-panel-input right-panel-input-whole-width" })
+    )
+
     @*<div style="float: right; margin-top: -135px; text-align: center; width: 110px; height: 110px; "> -VIỆC ÁP DỤNG TẤT CẢ/ HAY SELECTED ONLY NÀY KHÔNG CÓ Ý NGHĨA TRONG THỰC TẾ - VÌ THÔNG THƯỜNG: KHÁCH HÀNG LUÔN LUÔN ÁP DỤNG TẤT CẢ CHƯƠNG TRÌNH
             <div style="height: 90px; text-align: center; padding-left: 22px; padding-right: 22px; padding-top: 35px;">
                 <span> <img src="~/Content/Images/Mains/Blowout-Sale-icon-48.png" title="Áp dụng tổng hợp các chương trình khuyến mãi còn hiệu lực cho khách hàng này" /> </span>
@@ -29,7 +44,7 @@
 
         columns.Bound(c => c.DiscountPercent).Title("% CK").Width(5).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Format("{0:n1}");
         columns.Bound(c => c.ControlFreeQuantity).Title("SL/ 1 QT").Width(8).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Format("{0:n0}");
-        columns.Bound(c => c.StartDate).Title("Ngày BĐ").Width(12).Format("{0:" + SettingsManager.DateTimeFormat + "}").HtmlAttributes(new { @class = "grid-column-center"}).HeaderHtmlAttributes(new { @style = "text-align: center" });
+        columns.Bound(c => c.StartDate).Title("Ngày BĐ").Width(12).Format("{0:" + SettingsManager.DateTimeFormat + "}").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" });
         columns.Bound(c => c.EndDate).Title("Ngày KT").Width(12).Format("{0:" + SettingsManager.DateTimeFormat + "}").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" });
         columns.Template(t => { }).Title("CK 1 dòng").ClientTemplate("<input class='IsSelected' #= ApplyToTradeDiscount ? checked='checked':'' #  type='checkbox' />").HtmlAttributes(new { @class = "grid-column-center", @readonly = "readonly" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(8);
         columns.Bound(c => c.Name).Title("Diễn giải").Width(20);
@@ -39,18 +54,46 @@
     .DataSource(ds => ds.Ajax()
     .Read(read => read.Action("GetPromotionByCustomers", "PromotionAPIs", new { area = "Commons" }).Data("onGetPromotionByCustomers"))
     .ServerOperation(true))
-    .Selectable()    
+    .Selectable()
 )
 
 
 <script type="text/javascript">
     function onGetPromotionByCustomers(e) {
         return {
-            customerID: (($("#ShowDiscount").val() == 'True' || $("#Customer_ShowDiscount").val() == 'true') ? $("#Customer_CustomerID").val() : 0)
+            customerID: (($("#ShowDiscount").val() == 'True' || $("#Customer_ShowDiscount").val() == 'true') ? $("#Customer_CustomerID").val() : 0),
+            filterApplyToTradeDiscount: 0
         };
     }
 
+    function onGetTradePromotionByCustomers(e) {
+        return {
+            customerID: ($("#Customer_CustomerID").val()),
+            filterApplyToTradeDiscount: 1,
+            forDropDownList: true
+        };
+    }
+
+    function changeDropDownTradePromotionID(e) {
+        var dataItem = this.dataItem(this.selectedIndex);
+        if (dataItem != null && dataItem.PromotionID > 0) {
+            $("#TradePromotionID").val(dataItem.PromotionID);
+            $("#TradePromotionSpecs").val(dataItem.Specs);
+            $("#TradeDiscountRate").val(dataItem.DiscountPercent);
+        }
+        else
+        {
+            $("#TradePromotionID").val(null);
+            $("#TradePromotionSpecs").val(null);
+            $("#TradeDiscountRate").val(0);
+        }
+    }
+
+    
     $("#Customer_CustomerID").change(function (e) {
+
+        $("#dropDownTradePromotionID").data("kendoDropDownList").value("");
+        $("#dropDownTradePromotionID").data("kendoDropDownList").dataSource.read();
 
         $("#gridPromotion").data("kendoGrid").dataSource.read();
 
@@ -58,9 +101,9 @@
         $("#PriceCategoryCode").val($("#Customer_PriceCategoryCode").val());
 
 
-        //temporary for AEON ONLY
-        if ($("#TradeDiscountRate") != undefined && $("#Customer_PriceCategoryID").val() == 4)
-            $("#TradeDiscountRate").val(5);
+        ////temporary for AEON ONLY
+        //if ($("#TradeDiscountRate") != undefined && $("#Customer_PriceCategoryID").val() == 4)
+        //    $("#TradeDiscountRate").val(5);
 
         $("#Warehouse_WarehouseID").val($("#Customer_WarehouseID").val());
         $("#Warehouse_Code").val($("#Customer_WarehouseCode").val());
@@ -121,21 +164,16 @@
 
 <style>
     #searchCustomer-div {
-        height: 212px;
-        
+        height: 282px;
         border-color: rgb(204, 204, 204);
-        
         border-top-style: solid;
         border-left-style: solid;
         border-right-style: solid;
-
         border-top-width: 0.8px;
         border-left-width: 0.8px;
         border-right-width: 0.8px;
-        
         border-top-left-radius: 4px;
         border-top-right-radius: 4px;
-
         padding-bottom: 4.2px;
         padding-left: 3px;
         padding-right: 16px;
