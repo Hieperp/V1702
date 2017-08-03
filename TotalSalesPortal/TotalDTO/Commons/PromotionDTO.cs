@@ -57,7 +57,7 @@ namespace TotalDTO.Commons
 
         public override int PreparedPersonID { get { return 1; } }
 
-        public string Specs { get { return this.Code + " [" + this.DiscountPercent.ToString("N1") + "%" + (this.ControlFreeQuantity > 0 ? ", " + this.ControlFreeQuantity.ToString("N0") + "/1QT" : "") + "] " + " => " + this.EndDate.ToString(); } }
+        public string Specs { get { return this.Code + " [" + this.DiscountPercent.ToString("N1") + "%" + (this.ControlFreeQuantity > 0 ? ", " + this.ControlFreeQuantity.ToString("N0") + "/1QT" : "") + "] "; } }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

@@ -60,6 +60,17 @@
             </div>
         </div>
 
+        @Html.HiddenFor(model => model.TradePromotionID)
+        @if (@Model.TradePromotionID != null)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.TradePromotionSpecs)
+                <div class="div-input">
+                    @Html.Kendo().MaskedTextBoxFor(model => model.TradePromotionSpecs).HtmlAttributes(new { @class = "left-panel-input", @readonly = "readonly" })
+                </div>
+            </div>
+        }
+        
     </div>
 
     <div class="right-panel">
