@@ -41,5 +41,7 @@ namespace TotalModel.Models
         public string WarehouseCode { get; set; }
         public string WarehouseName { get; set; }
         public decimal TradeDiscountRate { get; set; }
+        public Nullable<int> TradePromotionID { get; set; }
+        public string TradePromotionSpecs { get; set; }
     }
 }

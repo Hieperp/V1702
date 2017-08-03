@@ -64,6 +64,7 @@ namespace TotalModel.Models
         public decimal TotalListedTaxableAmount { get; set; }
         public decimal TotalTaxableAmount { get; set; }
         public string CustomerPO { get; set; }
+        public Nullable<int> TradePromotionID { get; set; }
     
         public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -73,5 +74,6 @@ namespace TotalModel.Models
         public virtual GoodsIssue GoodsIssue { get; set; }
         public virtual Customer Customer2 { get; set; }
         public virtual PaymentTerm PaymentTerm { get; set; }
+        public virtual Promotion Promotion { get; set; }
     }
 }

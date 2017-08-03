@@ -23,9 +23,10 @@ namespace TotalModel.Models
         public string ReceiverEntireTerritoryEntireName { get; set; }
         public int PaymentTermID { get; set; }
         public decimal VATPercent { get; set; }
-        public decimal TradeDiscountRate { get; set; }
         public int CustomerID { get; set; }
         public string CustomerCode { get; set; }
         public string CustomerName { get; set; }
+        public Nullable<int> TradePromotionID { get; set; }
+        public string TradePromotionSpecs { get; set; }
     }
 }

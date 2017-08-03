@@ -100,6 +100,8 @@ namespace TotalModel.Models
         public virtual Employee Storekeeper { get { return this.Employee; } }
         public virtual Customer Receiver { get { return this.Customer1; } }
 
+        public virtual Promotion TradePromotion { get { return this.Promotion; } }
+
         public ICollection<GoodsIssueDetail> GetDetails() { return this.GoodsIssueDetails; }
     }
 
@@ -187,6 +189,8 @@ namespace TotalModel.Models
 
         public virtual Customer Consumer { get { return this.Customer1; } }
         public virtual Customer Receiver { get { return this.Customer2; } }
+
+        public virtual Promotion TradePromotion { get { return this.Promotion; } }
 
         public ICollection<AccountInvoiceDetail> GetDetails() { return this.AccountInvoiceDetails; }
     }

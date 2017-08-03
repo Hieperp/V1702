@@ -162,6 +162,8 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdvices_TradePromotions" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesOrders_TradePromotions" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_TradePromotions" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_AccountInvoices_TradePromotions" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_GoodsIssues_TradePromotions" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
