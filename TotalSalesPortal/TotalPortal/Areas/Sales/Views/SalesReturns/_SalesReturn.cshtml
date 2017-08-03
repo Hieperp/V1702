@@ -25,9 +25,9 @@
         </div>
 
 
+        @Html.HiddenFor(model => model.TradePromotionID)
         @if (@Model.TradePromotionID != null)
-        {
-            @Html.HiddenFor(model => model.TradePromotionID)
+        {            
             <div class="form-group">
                 @Html.LabelFor(model => model.TradePromotionSpecs)
                 <div class="div-input">

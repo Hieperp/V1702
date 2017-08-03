@@ -28,8 +28,8 @@
     @Html.HiddenFor(model => model.VATPercent);
 
     @Html.HiddenFor(model => model.TradePromotionID);
-    @Html.HiddenFor(model => model.TradePromotionSpecs);//WHEN HasGoodsIssue WITHOUT GoodsIssueID => NOW: THE TradeDiscountRate WILL BE THE CURRENT TradeDiscountRate OF SELECTED CUSTOMER (GET CURRENT TradeDiscountRate FROM PROMOTION SETTING). LATER: WE SHOULD TO IMPLEMENT TradeDiscountRate->Evemt: Change TO ALLOW USER CHANGE TradeDiscountRate
-    @Html.HiddenFor(model => model.TradeDiscountRate);//NOW: USER UNABLE TO CHANGE TradeDiscountRate => WHEN HasGoodsIssue WITHOUT GoodsIssueID: => THE GoodsIssueDetails WITH TradeDiscountRate DIFFER FROM CURRENT TradeDiscountRate WILL BE NEVER LISTED IN GetPendingGoodsIssueDetails FOR SELECTION 
+    @Html.HiddenFor(model => model.TradePromotionSpecs);//WHEN HasGoodsIssue WITHOUT GoodsIssueID => NOW: THE TradePromotionID WILL BE ONE OF THESE CURRENT/ ACTIVE TradePromotionID OF SELECTED CUSTOMER (GET CURRENT/ ACTIVE TradePromotionID FROM PROMOTION SETTING). LATER: WE SHOULD TO IMPLEMENT TradePromotionID->TO ALLOW USER CHANGE TradePromotionID MANUALLY (OR TO ALLOW TO SELECT IN-ACTIVE TradePromotionID, BACAUSE: AT THE TIME OF RETURN, THE SELLING PROMOTION WAS CLOSED)
+    @Html.HiddenFor(model => model.TradeDiscountRate);//NOW: USER UNABLE TO CHANGE TradePromotionID (JUST SELECT ONE OF THESE CURRENT/ ACTIVE TradePromotionID OF SELECTED CUSTOMER) => WHEN HasGoodsIssue WITHOUT GoodsIssueID: => THE GoodsIssueDetails WITH TradePromotionID DIFFER FROM THE SELECTED TradePromotionID WILL BE NEVER LISTED IN GetPendingGoodsIssueDetails FOR SELECTION 
     
     @Html.HiddenFor(model => model.Salesperson.EmployeeID);
     @Html.HiddenFor(model => model.Salesperson.Name);

@@ -36,6 +36,10 @@ namespace TotalDTO.Inventories
 
         public string DeliveryAdviceReferences { get; set; }
 
+        public virtual Nullable<int> TradePromotionID { get; set; }
+        [Display(Name = "Chiết khấu tổng")]
+        public string TradePromotionSpecs { get; set; }
+
         [Display(Name = "Ngày giao hàng")]
         public Nullable<System.DateTime> DeliveryDate { get; set; }
 

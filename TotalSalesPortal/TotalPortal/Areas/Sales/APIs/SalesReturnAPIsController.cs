@@ -52,9 +52,9 @@ namespace TotalPortal.Areas.Sales.APIs
             return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetPendingGoodsIssueDetails([DataSourceRequest] DataSourceRequest dataSourceRequest, int? locationID, int? salesReturnID, int? goodsIssueID, int? customerID, int? receiverID, decimal? tradeDiscountRate, decimal? vATPercent, DateTime? fromDate, DateTime? toDate, string goodsIssueDetailIDs, bool isReadonly)
+        public JsonResult GetPendingGoodsIssueDetails([DataSourceRequest] DataSourceRequest dataSourceRequest, int? locationID, int? salesReturnID, int? goodsIssueID, int? customerID, int? receiverID, int? tradePromotionID, decimal? vATPercent, DateTime? fromDate, DateTime? toDate, string goodsIssueDetailIDs, bool isReadonly)
         {
-            var result = this.salesReturnAPIRepository.GetPendingGoodsIssueDetails(locationID, salesReturnID, goodsIssueID, customerID, receiverID, tradeDiscountRate, vATPercent, fromDate, toDate, goodsIssueDetailIDs, isReadonly);
+            var result = this.salesReturnAPIRepository.GetPendingGoodsIssueDetails(locationID, salesReturnID, goodsIssueID, customerID, receiverID, tradePromotionID, vATPercent, fromDate, toDate, goodsIssueDetailIDs, isReadonly);
             return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
         }
 

@@ -30,6 +30,10 @@ namespace TotalDTO.Accounts
         public int GoodsIssueFirstID { get; set; }
         public string GoodsIssueReferences { get; set; }
 
+        public virtual Nullable<int> TradePromotionID { get; set; }
+        [Display(Name = "Chiết khấu tổng")]
+        public string TradePromotionSpecs { get; set; }
+
         [Display(Name = "Phương thức TT")]
         public int PaymentTermID { get; set; }
 

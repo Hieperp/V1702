@@ -25,5 +25,6 @@ namespace TotalModel.Models
         public decimal VATPercent { get; set; }
         public Nullable<int> TradePromotionID { get; set; }
         public string TradePromotionSpecs { get; set; }
+        public decimal TradeDiscountRate { get; set; }
     }
 }
