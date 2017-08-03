@@ -6,7 +6,7 @@ namespace TotalCore.Repositories.Inventories
 {
     public interface IGoodsIssueRepository : IGenericWithDetailRepository<GoodsIssue, GoodsIssueDetail>
     {
-        List<PendingDeliveryAdviceDescription> GetDescriptions(int locationID, int customerID, int receiverID, int warehouseID, string shippingAddress, decimal? tradeDiscountRate, decimal? vatPercent);
+        List<PendingDeliveryAdviceDescription> GetDescriptions(int locationID, int customerID, int receiverID, int warehouseID, string shippingAddress, int? tradePromotionID, decimal? vatPercent);
     }
 
     public interface IGoodsIssueAPIRepository : IGenericAPIRepository
