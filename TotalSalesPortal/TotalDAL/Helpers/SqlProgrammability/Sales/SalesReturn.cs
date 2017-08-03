@@ -100,11 +100,12 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
             queryString = queryString + "       SET             @ToDate = DATEADD (hour, 23, DATEADD (minute, 59, DATEADD (second, 59, @ToDate))) " + "\r\n";
 
-            queryString = queryString + "       SELECT          GoodsIssueID, Reference AS GoodsIssueReference, EntryDate AS GoodsIssueEntryDate, DeliveryAdviceReferences, N'' AS CustomerCode, N'' AS CustomerName, ShippingAddress, Description, TradeDiscountRate, VATPercent, TotalQuantity, TotalFreeQuantity, TotalGrossAmount " + "\r\n";
+            queryString = queryString + "       SELECT          GoodsIssues.GoodsIssueID, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.EntryDate AS GoodsIssueEntryDate, GoodsIssues.DeliveryAdviceReferences, N'' AS CustomerCode, N'' AS CustomerName, GoodsIssues.ShippingAddress, GoodsIssues.Description, GoodsIssues.TradePromotionID, TradePromotions.Specs AS TradePromotionSpecs, GoodsIssues.TradeDiscountRate, GoodsIssues.VATPercent, GoodsIssues.TotalQuantity, GoodsIssues.TotalFreeQuantity, GoodsIssues.TotalGrossAmount " + "\r\n";
 
             queryString = queryString + "       FROM            GoodsIssues " + "\r\n";
+            queryString = queryString + "                       LEFT  JOIN Promotions AS TradePromotions ON GoodsIssues.TradePromotionID = TradePromotions.PromotionID " + "\r\n";
             queryString = queryString + "       WHERE           GoodsIssueID IN (SELECT GoodsIssueID FROM GoodsIssueDetails WHERE LocationID = @LocationID AND CustomerID = @CustomerID AND ReceiverID = @ReceiverID AND EntryDate >= @FromDate AND EntryDate <= @ToDate AND Approved = 1 AND InActive = 0 AND InActivePartial = 0  AND ROUND(Quantity + FreeQuantity - QuantityReturned - FreeQuantityReturned, " + (int)GlobalEnums.rndQuantity + ") > 0) " + "\r\n";
-            queryString = queryString + "       ORDER BY        EntryDate DESC " + "\r\n";
+            queryString = queryString + "       ORDER BY        GoodsIssues.EntryDate DESC " + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetSalesReturnPendingGoodsIssues", queryString);
         }
@@ -116,7 +117,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
             SqlProgrammability.Inventories.Inventories inventories = new SqlProgrammability.Inventories.Inventories(this.totalSalesPortalEntities);
 
-            queryString = " @LocationID Int, @SalesReturnID Int, @GoodsIssueID Int, @CustomerID Int, @ReceiverID Int, @TradeDiscountRate decimal(18, 2), @VATPercent decimal(18, 2), @FromDate DateTime, @ToDate DateTime, @GoodsIssueDetailIDs varchar(3999), @IsReadonly bit " + "\r\n";
+            queryString = " @LocationID Int, @SalesReturnID Int, @GoodsIssueID Int, @CustomerID Int, @ReceiverID Int, @TradePromotionID int, @VATPercent decimal(18, 2), @FromDate DateTime, @ToDate DateTime, @GoodsIssueDetailIDs varchar(3999), @IsReadonly bit " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
@@ -189,7 +190,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + "                   0 AS Quantity, GoodsIssueDetails.ControlFreeQuantity, 0 AS FreeQuantity, GoodsIssueDetails.ListedPrice, GoodsIssueDetails.DiscountPercent, GoodsIssueDetails.UnitPrice, GoodsIssueDetails.TradeDiscountRate, GoodsIssueDetails.VATPercent, GoodsIssueDetails.ListedGrossPrice, GoodsIssueDetails.GrossPrice, 0 AS ListedAmount, 0 AS Amount, 0 AS ListedVATAmount, 0 AS VATAmount, 0 AS ListedGrossAmount, 0 AS GrossAmount, GoodsIssueDetails.IsBonus, GoodsIssues.Description, GoodsIssueDetails.Remarks, CAST(1 AS bit) AS IsSelected " + "\r\n";
 
             queryString = queryString + "       FROM        GoodsIssues " + "\r\n";
-            queryString = queryString + "                   INNER JOIN GoodsIssueDetails ON " + (isGoodsIssueID ? " GoodsIssues.GoodsIssueID = @GoodsIssueID " : "GoodsIssues.LocationID = @LocationID AND GoodsIssues.CustomerID = @CustomerID AND GoodsIssues.ReceiverID = @ReceiverID AND GoodsIssues.TradeDiscountRate = @TradeDiscountRate " + (GlobalEnums.VATbyRow ? "" : "AND GoodsIssues.VATPercent = @VATPercent") + " AND GoodsIssues.EntryDate >= @FromDate AND GoodsIssues.EntryDate <= @ToDate ") + " AND GoodsIssueDetails.Approved = 1 AND GoodsIssueDetails.InActive = 0 AND GoodsIssueDetails.InActivePartial = 0 AND ROUND(GoodsIssueDetails.Quantity + GoodsIssueDetails.FreeQuantity - GoodsIssueDetails.QuantityReturned - GoodsIssueDetails.FreeQuantityReturned, " + (int)GlobalEnums.rndQuantity + ") > 0 AND GoodsIssues.GoodsIssueID = GoodsIssueDetails.GoodsIssueID" + (isGoodsIssueDetailIDs ? " AND GoodsIssueDetails.GoodsIssueDetailID NOT IN (SELECT Id FROM dbo.SplitToIntList (@GoodsIssueDetailIDs))" : "") + "\r\n";
+            queryString = queryString + "                   INNER JOIN GoodsIssueDetails ON " + (isGoodsIssueID ? " GoodsIssues.GoodsIssueID = @GoodsIssueID " : "GoodsIssues.LocationID = @LocationID AND GoodsIssues.CustomerID = @CustomerID AND GoodsIssues.ReceiverID = @ReceiverID AND GoodsIssues.TradePromotionID = @TradePromotionID " + (GlobalEnums.VATbyRow ? "" : "AND GoodsIssues.VATPercent = @VATPercent") + " AND GoodsIssues.EntryDate >= @FromDate AND GoodsIssues.EntryDate <= @ToDate ") + " AND GoodsIssueDetails.Approved = 1 AND GoodsIssueDetails.InActive = 0 AND GoodsIssueDetails.InActivePartial = 0 AND ROUND(GoodsIssueDetails.Quantity + GoodsIssueDetails.FreeQuantity - GoodsIssueDetails.QuantityReturned - GoodsIssueDetails.FreeQuantityReturned, " + (int)GlobalEnums.rndQuantity + ") > 0 AND GoodsIssues.GoodsIssueID = GoodsIssueDetails.GoodsIssueID" + (isGoodsIssueDetailIDs ? " AND GoodsIssueDetails.GoodsIssueDetailID NOT IN (SELECT Id FROM dbo.SplitToIntList (@GoodsIssueDetailIDs))" : "") + "\r\n";
             queryString = queryString + "                   INNER JOIN Commodities ON GoodsIssueDetails.CommodityID = Commodities.CommodityID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Warehouses ON GoodsIssueDetails.WarehouseID = Warehouses.WarehouseID " + "\r\n";
 
