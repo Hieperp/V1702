@@ -52,7 +52,9 @@ namespace TotalDTO.Commons
         public decimal ControlFreeQuantity { get; set; }
 
         public bool ApplyToAllCustomers { get; set; }
+        [Display(Name = "Áp dụng tất cả mặt hàng")]
         public bool ApplyToAllCommodities { get; set; }
+        [Display(Name = "Chiết khấu tổng (chiết khấu 1 dòng)")]
         public bool ApplyToTradeDiscount { get; set; }
 
         public override int PreparedPersonID { get { return 1; } }

@@ -9,6 +9,7 @@ using TotalModel.Models;
 using TotalDTO.Inventories;
 using TotalCore.Repositories.Inventories;
 using TotalCore.Services.Inventories;
+using System;
 
 namespace TotalService.Inventories
 {
@@ -29,7 +30,7 @@ namespace TotalService.Inventories
 
         public ICollection<GoodsIssueViewDetail> GetGoodsIssueViewDetails(int goodsIssueID, int locationID, int deliveryAdviceID, int customerID, int receiverID, int warehouseID, string shippingAddress, int? tradePromotionID, decimal? vatPercent, bool isReadOnly)
         {
-            ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("GoodsIssueID", goodsIssueID), new ObjectParameter("LocationID", locationID), new ObjectParameter("DeliveryAdviceID", deliveryAdviceID), new ObjectParameter("CustomerID", customerID), new ObjectParameter("ReceiverID", receiverID), new ObjectParameter("WarehouseID", warehouseID), new ObjectParameter("ShippingAddress", shippingAddress), new ObjectParameter("TradePromotionID", tradePromotionID), new ObjectParameter("VATPercent", vatPercent), new ObjectParameter("IsReadOnly", isReadOnly) };
+            ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("GoodsIssueID", goodsIssueID), new ObjectParameter("LocationID", locationID), new ObjectParameter("DeliveryAdviceID", deliveryAdviceID), new ObjectParameter("CustomerID", customerID), new ObjectParameter("ReceiverID", receiverID), new ObjectParameter("WarehouseID", warehouseID), new ObjectParameter("ShippingAddress", shippingAddress), tradePromotionID.HasValue ? new ObjectParameter("TradePromotionID", tradePromotionID) : new ObjectParameter("TradePromotionID", typeof(int)), new ObjectParameter("VATPercent", vatPercent), new ObjectParameter("IsReadOnly", isReadOnly) };
             return this.GetViewDetails(parameters);
         }
 

@@ -8,10 +8,11 @@
         columns.Bound(c => c.GoodsIssueReference).Title("PXK").Width(25);
         columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày XK").Width(35).Format("{0:" + SettingsManager.DateFormat + "}");
         columns.Bound(c => c.DeliveryAdviceReferences).Title("ĐNGH").Width(45);
-        columns.Bound(c => c.ShippingAddress).Title("Đ/c giao hàng").Width(120);
+        columns.Bound(c => c.TradePromotionSpecs).Title("CK tổng").Width(55);
+        columns.Bound(c => c.ShippingAddress).Title("Đ/c giao hàng").Width(95);
         columns.Bound(p => p.TotalQuantity).Title("SL").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(22);
         columns.Bound(p => p.TotalFreeQuantity).Title("QT").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(18);
-        columns.Bound(c => c.Description).Title("Diễn giải").Width(90);
+        columns.Bound(c => c.Description).Title("Diễn giải").Width(65);
     })
     .ToolBar(toolbar =>
     {
@@ -25,7 +26,7 @@
             </div>
         </text>);
     })
-        .Scrollable(s => s.Height(252))
+        .Scrollable(s => s.Height(210))
         .DataSource(ds => ds.Ajax()
             .Read(read => read.Action("GetGoodsIssues", "SalesReturnAPIs", new { area = "Sales" }).Data("onAdditionalGetGoodsIssues"))
             .ServerOperation(false)

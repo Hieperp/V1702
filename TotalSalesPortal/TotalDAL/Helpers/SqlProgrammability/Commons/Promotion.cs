@@ -215,13 +215,15 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
 
         private void PromotionEditable()
         {
-            string[] queryArray = new string[4];
+            string[] queryArray = new string[6];
 
             queryArray[0] = " SELECT TOP 1 @FoundEntity = PromotionID FROM Promotions WHERE PromotionID = @EntityID AND InActive = 1"; //Don't allow approve after void
 
-            queryArray[1] = " SELECT TOP 1 @FoundEntity = PromotionID FROM SalesOrders WHERE PromotionID = @EntityID OR TradePromotionID = @EntityID ";
-            queryArray[2] = " SELECT TOP 1 @FoundEntity = PromotionID FROM DeliveryAdvices WHERE PromotionID = @EntityID OR TradePromotionID = @EntityID ";
-            queryArray[3] = " SELECT TOP 1 @FoundEntity = PromotionID FROM SalesReturns WHERE PromotionID = @EntityID OR TradePromotionID = @EntityID ";
+            queryArray[1] = " SELECT TOP 1 @FoundEntity = SalesOrderID FROM SalesOrders WHERE PromotionID = @EntityID OR TradePromotionID = @EntityID ";
+            queryArray[2] = " SELECT TOP 1 @FoundEntity = DeliveryAdviceID FROM DeliveryAdvices WHERE PromotionID = @EntityID OR TradePromotionID = @EntityID ";
+            queryArray[3] = " SELECT TOP 1 @FoundEntity = SalesReturnID FROM SalesReturns WHERE PromotionID = @EntityID OR TradePromotionID = @EntityID ";
+            queryArray[4] = " SELECT TOP 1 @FoundEntity = GoodsIssueID FROM GoodsIssues WHERE TradePromotionID = @EntityID ";
+            queryArray[5] = " SELECT TOP 1 @FoundEntity = AccountInvoiceID FROM AccountInvoices WHERE TradePromotionID = @EntityID ";
 
             this.totalSalesPortalEntities.CreateProcedureToCheckExisting("PromotionEditable", queryArray);
         }

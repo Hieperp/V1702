@@ -6,10 +6,11 @@
 
     .Columns(columns =>
     {
-        columns.Bound(c => c.CustomerName).Title("Khách hàng").Width(180);
-        columns.Bound(c => c.ReceiverCode).Title("Mã đơn vị nhận").Width(70);
-        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(180);
-        columns.Bound(c => c.ReceiverBillingAddress).Title("Địa chỉ").Width(180);
+        columns.Bound(c => c.CustomerName).Title("Khách hàng").Width(190);
+        columns.Bound(c => c.ReceiverCode).Title("Mã ĐVN").Width(70);
+        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(190);
+        columns.Bound(c => c.TradePromotionSpecs).Title("CK tổng").Width(100);
+        columns.Bound(c => c.ReceiverBillingAddress).Title("Địa chỉ").Width(150);
     })
     .ToolBar(toolbar =>
     {

@@ -119,26 +119,12 @@
 
                     .ToolBar(toolbar =>
                     {
-                        if (Model.Editable)
-                        {
-                            toolbar.Template(@<text>
-                                <button type="button" class="k-button" onclick="GetCommodityCodeParts()"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Thêm mặt hàng </button>
-                            </text>);
-
-                        }
-                        else
-                        {//Add a functionless button for display purpose only
-                            toolbar.Template(
-                                @<text>
-                                    <div>
-                                        @(Html.Kendo().Button()
-                                            .Name("iconButton")
-                                            .HtmlAttributes(new { type = "button" })
-                                            .SpriteCssClass("k-icon k-i-ungroup") //.Content("My button label")
-                                        )
-                                    </div>
-                                </text>);
-                        }
+                        toolbar.Template(@<text>
+                            <button type="button" class="k-button" onclick="@Model.Editable? GetCommodityCodeParts(): ''"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Thêm mặt hàng </button>
+                            
+                            @Html.CheckBoxFor(model => model.ApplyToAllCommodities, Model.Editable ? (object)new { @style = "margin-left: 25px; margin-right: 3px; " } : (object)new { @style = "margin-left: 25px; margin-right: 3px; ", @disabled = "disabled" }) @Html.LabelFor(model => model.ApplyToAllCommodities)            
+                            @Html.CheckBoxFor(model => model.ApplyToTradeDiscount, Model.Editable ? (object)new { @style = "margin-left: 25px; margin-right: 3px; " } : (object)new { @style = "margin-left: 65px; margin-right: 3px; ", @disabled = "disabled" }) @Html.LabelFor(model => model.ApplyToTradeDiscount)                            
+                        </text>);
                     })
 
                     .Editable(editable => { editable.Enabled(Model.Editable); editable.Mode(GridEditMode.InCell).DisplayDeleteConfirmation(true).CreateAt(GridInsertRowPosition.Bottom); })

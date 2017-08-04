@@ -53,7 +53,7 @@ namespace TotalPortal.Areas.Commons.APIs
             if (forDropDownList != null && (bool)forDropDownList)
             {
                 if (result.Count() > 0 && result.FirstOrDefault(w => w.ApplyToAllCommodities) == null)
-                    result.Insert(0, new Promotion() { Code = "KHÔNG ÁP DỤNG CK TỔNG  [CK 1 DÒNG]" });
+                    result.Insert(0, new Promotion() { Specs = "KHÔNG ÁP DỤNG CK TỔNG  [CK 1 DÒNG]" });
 
                 return Json(result, JsonRequestBehavior.AllowGet);
             }

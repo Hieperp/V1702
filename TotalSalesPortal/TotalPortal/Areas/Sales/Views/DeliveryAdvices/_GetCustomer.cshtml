@@ -9,7 +9,8 @@
         columns.Bound(c => c.WarehouseCode).Title("Kho").Width(35);
         columns.Bound(c => c.CustomerCode).Title("Mã khách hàng").Width(90);
         columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(250);
-        columns.Bound(c => c.ReceiverDescription).Title("Giao hàng").Width(280);
+        columns.Bound(c => c.TradePromotionSpecs).Title("CK tổng").Width(100);
+        columns.Bound(c => c.ReceiverDescription).Title("Giao hàng").Width(230);
     })
     .ToolBar(toolbar =>
     {
