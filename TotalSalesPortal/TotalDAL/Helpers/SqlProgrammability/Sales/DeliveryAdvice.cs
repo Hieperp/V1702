@@ -80,6 +80,23 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
         }
 
 
+
+        public static string whereCodePart()
+        {
+            string queryCodePart = "          ( " + "\r\n"; //By CodeParts (TRY TO SEARCH ALL COMBINABLE CASE OF CodePartA, CodePartB AND CodePartC: => WE HAVE 7 CASES)
+            queryCodePart = queryCodePart + "      (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB IS NULL AND PromotionCommodityCodeParts.CodePartC IS NULL) " + "\r\n";
+            queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB IS NULL AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
+            queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC IS NULL) " + "\r\n";
+            queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
+
+            queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA IS NULL AND PromotionCommodityCodeParts.CodePartB IS NULL AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
+            queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA IS NULL AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC IS NULL) " + "\r\n";
+            queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA IS NULL AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
+            queryCodePart = queryCodePart + " ) " + "\r\n";
+
+            return queryCodePart;
+        }
+
         /// <summary>
         /// Get QuantityAvailable (Remaining) Commodities BY EVERY (WarehouseID, CommodityID)
         /// </summary>
@@ -113,19 +130,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
 
             queryString = queryString + "       IF (@@ROWCOUNT > 0) " + "\r\n";
-            {
-                string queryCodePart = "          ( " + "\r\n"; //By CodeParts (TRY TO SEARCH ALL COMBINABLE CASE OF CodePartA, CodePartB AND CodePartC: => WE HAVE 7 CASES)
-                queryCodePart = queryCodePart + "      (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB IS NULL AND PromotionCommodityCodeParts.CodePartC IS NULL) " + "\r\n";
-                queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB IS NULL AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
-                queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC IS NULL) " + "\r\n";
-                queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
-
-                queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA IS NULL AND PromotionCommodityCodeParts.CodePartB IS NULL AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
-                queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA IS NULL AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC IS NULL) " + "\r\n";
-                queryCodePart = queryCodePart + "   OR (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA IS NULL AND PromotionCommodityCodeParts.CodePartB = Commodities.CodePartB AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) " + "\r\n";
-                queryCodePart = queryCodePart + " ) " + "\r\n";
-
-
+            {                
                 string queryPriority = "          CASE " + "\r\n"; //We set PriorityIndex for each case (1, 2, 3, ...) to implement the priority for EACH MATCH CASE (REASON: most of case, it will match some cases: for example: [CodePartA = A106 AND CodePartC = A3] -> PriorityIndex = 4  versus [CodePartC = A3] only -> PriorityIndex = 7)
                 queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB IS NULL AND PromotionCommodityCodeParts.CodePartC IS NULL) THEN 4 " + "\r\n";
                 queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB IS NULL AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) THEN 2 " + "\r\n";
@@ -156,7 +161,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
                     queryString = queryString + "                       UPDATE @Commodities SET DiscountPercent = @DiscountPercent, ControlFreeQuantity = @ControlFreeQuantity "; //All Commodities 
                     queryString = queryString + "                   ELSE ";
                     queryString = queryString + "                       UPDATE @Commodities SET DiscountPercent = @DiscountPercent, ControlFreeQuantity = @ControlFreeQuantity WHERE CommodityID IN (";
-                    queryString = queryString + "                           SELECT CommodityID FROM @Commodities Commodities INNER JOIN PromotionCommodityCodeParts ON PromotionCommodityCodeParts.PromotionID = @PromotionID AND " + queryCodePart;
+                    queryString = queryString + "                           SELECT CommodityID FROM @Commodities Commodities INNER JOIN PromotionCommodityCodeParts ON PromotionCommodityCodeParts.PromotionID = @PromotionID AND " + TotalDAL.Helpers.SqlProgrammability.Sales.DeliveryAdvice.whereCodePart();
                     queryString = queryString + "                           UNION ALL ";
                     queryString = queryString + "                           SELECT CommodityID FROM PromotionCommodities WHERE PromotionID = @PromotionID"; //Concrete Commodities
                     queryString = queryString + "                           UNION ALL ";
@@ -204,7 +209,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
                     queryString = queryString + "           SELECT  Commodities.CommodityID, Promotions.DiscountPercent, CASE WHEN Promotions.ControlFreeQuantity = 0 THEN 9999999 ELSE Promotions.ControlFreeQuantity END AS ControlFreeQuantity, " + queryPriority + " AS PriorityIndex ";
                     queryString = queryString + "           FROM    Promotions "; //Get Promotion By CodeParts (BOTH CodePartA AND CodePartC UNION CodePartA Only UNION CodePartC Only. ---BUT---> We set PriorityIndex = 1 when BOTH CodePartA <> N'' AND CodePartA <> N'' to implement the priority for MATCH BOTH CodePartA AND CodePartC than MATCH ONLY CodePartA or CodePartC)
                     queryString = queryString + "                   INNER JOIN  PromotionCommodityCodeParts ON Promotions.PromotionID IN (SELECT Id FROM dbo.SplitToIntList (@PromotionIDList)) AND Promotions.PromotionID = PromotionCommodityCodeParts.PromotionID ";
-                    queryString = queryString + "                   INNER JOIN  @Commodities Commodities ON " + queryCodePart;
+                    queryString = queryString + "                   INNER JOIN  @Commodities Commodities ON " + TotalDAL.Helpers.SqlProgrammability.Sales.DeliveryAdvice.whereCodePart();
 
 
 
@@ -475,6 +480,56 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
         }
 
 
+        public static string postSaveValidateTradePromotion(GlobalEnums.NmvnTaskID nmvnTaskID)
+        {
+            string queryString = ""; string nameEntities; string nameEntityDetails; string nameEntityID;
+
+            switch (nmvnTaskID)
+            {
+                case GlobalEnums.NmvnTaskID.SalesOrder:
+                    nameEntities = "SalesOrders"; nameEntityDetails = "SalesOrderDetails"; nameEntityID = "SalesOrderID"; break;
+                case GlobalEnums.NmvnTaskID.DeliveryAdvice:
+                    nameEntities = "DeliveryAdvices" ; nameEntityDetails = "DeliveryAdviceDetails"; nameEntityID = "DeliveryAdviceID"; break;
+                case GlobalEnums.NmvnTaskID.SalesReturn:
+                    nameEntities = "SalesReturns"; nameEntityDetails = "SalesReturnDetails"; nameEntityID = "SalesReturnID"; break;
+                default:
+                    nameEntities = ""; nameEntityDetails = ""; nameEntityID = ""; break;
+            } 
+           
+            queryString = queryString + "   DECLARE     @PromotionID int, @ApplyToAllCommodities bit, @Specs nvarchar(200) ";
+            queryString = queryString + "   SELECT      @PromotionID = TradePromotionID FROM " + nameEntities + " WHERE " + nameEntityID + " = @EntityID ";
+
+            queryString = queryString + "   IF (@PromotionID IS NOT NULL) ";
+            queryString = queryString + "       BEGIN ";
+            queryString = queryString + "                   SELECT  @ApplyToAllCommodities = ApplyToAllCommodities, @Specs = Specs FROM Promotions WHERE PromotionID = @PromotionID ";
+
+            queryString = queryString + "                   IF (@ApplyToAllCommodities = 1) ";
+            queryString = queryString + "                       SELECT NULL ";
+            queryString = queryString + "                   ELSE ";
+            queryString = queryString + "                       SELECT TOP 1 @FoundEntity = N'Đon hàng xuất hiện mặt hàng không thuộc chương trình chiết khấu: ' + @Specs FROM " + nameEntityDetails + " WHERE " + nameEntityID + " = @EntityID AND CommodityID NOT IN (";
+            queryString = queryString + "                           SELECT CommodityID FROM Commodities INNER JOIN PromotionCommodityCodeParts ON PromotionCommodityCodeParts.PromotionID = @PromotionID AND " + TotalDAL.Helpers.SqlProgrammability.Sales.DeliveryAdvice.whereCodePart();
+            queryString = queryString + "                           UNION ALL ";
+            queryString = queryString + "                           SELECT CommodityID FROM PromotionCommodities WHERE PromotionID = @PromotionID"; //Concrete Commodities
+            queryString = queryString + "                           UNION ALL ";
+            queryString = queryString + "                           SELECT  CommodityID FROM Commodities WHERE CommodityCategoryID IN "; //By CommodityCategories
+            queryString = queryString + "                                  (SELECT  AncestorCommodityCategories.CommodityCategoryID ";
+            queryString = queryString + "                                   FROM    PromotionCommodityCategories ";
+            queryString = queryString + "                                           INNER JOIN AncestorCommodityCategories ON PromotionCommodityCategories.PromotionID = @PromotionID AND PromotionCommodityCategories.CommodityCategoryID = AncestorCommodityCategories.AncestorID ";
+            queryString = queryString + "                                  )";
+            queryString = queryString + "                           UNION ALL ";
+            queryString = queryString + "                           SELECT  CommodityID FROM Commodities WHERE CommodityBrandID IN "; //By CommodityBrands
+            queryString = queryString + "                                  (SELECT  AncestorCommodityBrands.CommodityBrandID ";
+            queryString = queryString + "                                   FROM    PromotionCommodityBrands ";
+            queryString = queryString + "                                           INNER JOIN AncestorCommodityBrands ON PromotionCommodityBrands.PromotionID = @PromotionID AND PromotionCommodityBrands.CommodityBrandID = AncestorCommodityBrands.AncestorID ";
+            queryString = queryString + "                                  )";
+            queryString = queryString + "                       )";
+            queryString = queryString + "       END ";
+
+            queryString = queryString + "   ELSE ";
+            queryString = queryString + "       SELECT NULL ";
+
+            return queryString;
+        }
         #region X
 
 
@@ -749,12 +804,13 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
         private void DeliveryAdvicePostSaveValidate()
         {
-            string[] queryArray = new string[2];
+            string[] queryArray = new string[3];
 
             queryArray[0] = " SELECT TOP 1 @FoundEntity = N'Ngày đặt hàng: ' + CAST(SalesOrders.EntryDate AS nvarchar) FROM DeliveryAdviceDetails INNER JOIN SalesOrders ON DeliveryAdviceDetails.DeliveryAdviceID = @EntityID AND DeliveryAdviceDetails.SalesOrderID = SalesOrders.SalesOrderID AND DeliveryAdviceDetails.EntryDate < SalesOrders.EntryDate ";
             queryArray[1] = " SELECT TOP 1 @FoundEntity = N'Số lượng xuất vượt quá số lượng đặt hàng: ' + CAST(ROUND(Quantity - QuantityAdvice, " + (int)GlobalEnums.rndQuantity + ") AS nvarchar) + ' OR free quantity: ' + CAST(ROUND(FreeQuantity - FreeQuantityAdvice, " + (int)GlobalEnums.rndQuantity + ") AS nvarchar) FROM SalesOrderDetails WHERE (ROUND(Quantity - QuantityAdvice, " + (int)GlobalEnums.rndQuantity + ") < 0) OR (ROUND(FreeQuantity - FreeQuantityAdvice, " + (int)GlobalEnums.rndQuantity + ") < 0) ";
+            queryArray[2] = TotalDAL.Helpers.SqlProgrammability.Sales.DeliveryAdvice.postSaveValidateTradePromotion(GlobalEnums.NmvnTaskID.DeliveryAdvice);
 
-            this.totalSalesPortalEntities.CreateProcedureToCheckExisting("DeliveryAdvicePostSaveValidate", queryArray);
+            this.totalSalesPortalEntities.CreateProcedureToCheckExisting("DeliveryAdvicePostSaveValidate", queryArray);            
         }
 
 

@@ -21,7 +21,26 @@ namespace TotalDAL.Repositories.Sales
         public DeliveryAdviceRepository(TotalSalesPortalEntities totalSalesPortalEntities)
             : base(totalSalesPortalEntities, "DeliveryAdviceEditable", "DeliveryAdviceApproved", null, "DeliveryAdviceVoidable")
         {
+
             //return;
+            //return;
+
+            Helpers.SqlProgrammability.Sales.SalesOrder salesOrder = new Helpers.SqlProgrammability.Sales.SalesOrder(totalSalesPortalEntities);
+            salesOrder.RestoreProcedure();
+
+
+            //return;
+
+            Helpers.SqlProgrammability.Sales.SalesReturn salesReturn = new Helpers.SqlProgrammability.Sales.SalesReturn(totalSalesPortalEntities);
+            salesReturn.RestoreProcedure();
+
+
+            //return;
+
+
+            Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
+            deliveryAdvice.RestoreProcedure();
+            
 
             //return;
 
@@ -68,11 +87,7 @@ namespace TotalDAL.Repositories.Sales
             saleReports.RestoreProcedure();
 
 
-            //return;
-
-
-            Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
-            deliveryAdvice.RestoreProcedure();
+            
 
 
             //return;
@@ -91,12 +106,6 @@ namespace TotalDAL.Repositories.Sales
             
 
             
-
-            //return;
-
-            Helpers.SqlProgrammability.Sales.SalesReturn salesReturn = new Helpers.SqlProgrammability.Sales.SalesReturn(totalSalesPortalEntities);
-            salesReturn.RestoreProcedure();
-
             //return;
 
 
@@ -105,12 +114,6 @@ namespace TotalDAL.Repositories.Sales
 
             Helpers.SqlProgrammability.Inventories.GoodsIssue goodsIssue = new Helpers.SqlProgrammability.Inventories.GoodsIssue(totalSalesPortalEntities);
             goodsIssue.RestoreProcedure();
-
-
-            //return;
-
-            Helpers.SqlProgrammability.Sales.SalesOrder salesOrder = new Helpers.SqlProgrammability.Sales.SalesOrder(totalSalesPortalEntities);
-            salesOrder.RestoreProcedure();
 
 
             

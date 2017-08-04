@@ -129,10 +129,11 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
         private void SalesOrderPostSaveValidate()
         {
-            string[] queryArray = new string[0];
+            string[] queryArray = new string[1];
 
             //queryArray[0] = " SELECT TOP 1 @FoundEntity = 'TEST Date: ' + CAST(EntryDate AS nvarchar) FROM SalesOrders WHERE SalesOrderID = @EntityID "; //FOR TEST TO BREAK OUT WHEN SAVE -> CHECK ROLL BACK OF TRANSACTION
             //queryArray[0] = " SELECT TOP 1 @FoundEntity = 'Service Date: ' + CAST(ServiceInvoices.EntryDate AS nvarchar) FROM SalesOrders INNER JOIN SalesOrders AS ServiceInvoices ON SalesOrders.SalesOrderID = @EntityID AND SalesOrders.ServiceInvoiceID = ServiceInvoices.SalesOrderID AND SalesOrders.EntryDate < ServiceInvoices.EntryDate ";
+            queryArray[0] = TotalDAL.Helpers.SqlProgrammability.Sales.DeliveryAdvice.postSaveValidateTradePromotion(GlobalEnums.NmvnTaskID.SalesOrder);
 
             this.totalSalesPortalEntities.CreateProcedureToCheckExisting("SalesOrderPostSaveValidate", queryArray);
         }

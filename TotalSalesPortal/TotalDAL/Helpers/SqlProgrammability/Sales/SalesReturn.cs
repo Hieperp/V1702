@@ -269,10 +269,11 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
         private void SalesReturnPostSaveValidate()
         {
-            string[] queryArray = new string[2];
+            string[] queryArray = new string[3];
 
             queryArray[0] = " SELECT TOP 1 @FoundEntity = N'Ngày xuất kho: ' + CAST(GoodsIssues.EntryDate AS nvarchar) FROM SalesReturnDetails INNER JOIN GoodsIssues ON SalesReturnDetails.SalesReturnID = @EntityID AND SalesReturnDetails.GoodsIssueID = GoodsIssues.GoodsIssueID AND SalesReturnDetails.EntryDate < GoodsIssues.EntryDate ";
             queryArray[1] = " SELECT TOP 1 @FoundEntity = N'Số lượng trả hàng vượt quá số lượng xuất kho: ' + CAST(ROUND(Quantity - QuantityReturned, " + (int)GlobalEnums.rndQuantity + ") AS nvarchar) + ' OR free quantity: ' + CAST(ROUND(FreeQuantity - FreeQuantityReturned, " + (int)GlobalEnums.rndQuantity + ") AS nvarchar) FROM GoodsIssueDetails WHERE (ROUND(Quantity - QuantityReturned, " + (int)GlobalEnums.rndQuantity + ") < 0) OR (ROUND(FreeQuantity - FreeQuantityReturned, " + (int)GlobalEnums.rndQuantity + ") < 0) ";
+            queryArray[2] = TotalDAL.Helpers.SqlProgrammability.Sales.DeliveryAdvice.postSaveValidateTradePromotion(GlobalEnums.NmvnTaskID.SalesReturn);
 
             this.totalSalesPortalEntities.CreateProcedureToCheckExisting("SalesReturnPostSaveValidate", queryArray);
         }
