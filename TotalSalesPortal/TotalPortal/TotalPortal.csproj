@@ -1058,7 +1058,9 @@
     <Content Include="Areas\Commons\Views\Promotions\CreateWizard.cshtml" />
     <Content Include="Areas\Commons\Views\Promotions\GetCommodityCodeParts.cshtml" />
     <Content Include="Areas\Commons\Views\Promotions\PromotionCustomerCategories.cshtml" />
-    <None Include="Properties\PublishProfiles\VCP.pubxml" />
+    <None Include="Properties\PublishProfiles\VCP.pubxml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
