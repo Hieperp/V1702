@@ -11,8 +11,8 @@
     @(Html.Kendo().AutoCompleteFor(model => model.CodePart)
         .DataTextField("CodePart")
         .Filter("contains")
-        .MinLength(2)
-        .Placeholder("Vui lòng nhập ít nhất 2 ký tự...")
+        .MinLength(1)
+        .Placeholder("Vui lòng nhập ít nhất 1 ký tự...")
         .DataSource(source =>
         {
             source.Read(read =>
