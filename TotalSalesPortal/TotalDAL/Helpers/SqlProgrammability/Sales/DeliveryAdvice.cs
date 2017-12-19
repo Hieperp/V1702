@@ -446,7 +446,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      TOP 30 Customers.CustomerID, Customers.Code, Customers.Name, Customers.Code + ' - ' + Customers.Name AS CodeAndName, Customers.OfficialName, Customers.Birthday, Customers.VATCode, Customers.Telephone, Customers.BillingAddress, Customers.ShippingAddress, Customers.CustomerCategoryID, CustomerCategories.Name AS CustomerCategoryName, CustomerCategories.ShowDiscount, Customers.TerritoryID, EntireTerritories.EntireName AS EntireTerritoryEntireName, CustomerCategories.PaymentTermID, Customers.PriceCategoryID, PriceCategories.Code AS PriceCategoryCode, Customers.SalespersonID, Employees.Name AS SalespersonName, ISNULL(Warehouses.WarehouseID, 999999) AS WarehouseID, Warehouses.Code AS WarehouseCode, Warehouses.Name AS WarehouseName " + "\r\n";
+            queryString = queryString + "       SELECT      TOP 100 Customers.CustomerID, Customers.Code, Customers.Name, Customers.Code + ' - ' + Customers.Name AS CodeAndName, Customers.OfficialName, Customers.Birthday, Customers.VATCode, Customers.Telephone, Customers.BillingAddress, Customers.ShippingAddress, Customers.CustomerCategoryID, CustomerCategories.Name AS CustomerCategoryName, CustomerCategories.ShowDiscount, Customers.TerritoryID, EntireTerritories.EntireName AS EntireTerritoryEntireName, CustomerCategories.PaymentTermID, Customers.PriceCategoryID, PriceCategories.Code AS PriceCategoryCode, Customers.SalespersonID, Employees.Name AS SalespersonName, ISNULL(Warehouses.WarehouseID, 999999) AS WarehouseID, Warehouses.Code AS WarehouseCode, Warehouses.Name AS WarehouseName " + "\r\n";
             queryString = queryString + "       FROM        Customers " + "\r\n";
             queryString = queryString + "                   INNER JOIN PriceCategories ON Customers.IsCustomer = 1 AND (@SearchText = '' OR Customers.Code LIKE '%' + @SearchText + '%' OR Customers.Name LIKE '%' + @SearchText + '%' OR Customers.OfficialName LIKE '%' + @SearchText + '%') AND Customers.PriceCategoryID = PriceCategories.PriceCategoryID " + "\r\n";
             queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
@@ -455,7 +455,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
             queryString = queryString + "                   LEFT JOIN (SELECT CustomerID, MIN(WarehouseID) AS WarehouseID FROM CustomerWarehouses WHERE WarehouseTaskID = @WarehouseTaskID GROUP BY CustomerID) UNIQUECustomerWarehouses ON Customers.CustomerID = UNIQUECustomerWarehouses.CustomerID " + "\r\n";
             queryString = queryString + "                   LEFT JOIN Warehouses ON UNIQUECustomerWarehouses.WarehouseID = Warehouses.WarehouseID " + "\r\n";
-
+            queryString = queryString + "       ORDER BY    Customers.Code " + "\r\n";
             queryString = queryString + "    END " + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetCustomerBases", queryString);

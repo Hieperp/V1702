@@ -40,7 +40,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             queryString = queryString + "                   INNER JOIN PriceCategories ON Customers.PriceCategoryID = PriceCategories.PriceCategoryID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Employees ON Customers.SalespersonID = Employees.EmployeeID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Territories ON Customers.TerritoryID = Territories.TerritoryID " + "\r\n";
-
+            queryString = queryString + "       ORDER BY    Customers.Code " + "\r\n";
             queryString = queryString + "    END " + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetCustomerIndexes", queryString);

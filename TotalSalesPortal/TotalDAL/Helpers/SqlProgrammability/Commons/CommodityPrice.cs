@@ -28,7 +28,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             string queryString;
 
             queryString = " @AspUserID nvarchar(128), @FromDate DateTime, @ToDate DateTime " + "\r\n";
-            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
@@ -50,7 +50,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      DISTINCT CodePartA AS CodePart FROM Commodities WHERE CodePartA LIKE '%' + @SearchText + '%' " + "\r\n";
+            queryString = queryString + "       SELECT      DISTINCT CodePartA AS CodePart FROM Commodities WHERE CodePartA LIKE '%' + @SearchText + '%' ORDER BY CodePart " + "\r\n";
 
             queryString = queryString + "    END " + "\r\n";
 
@@ -61,7 +61,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      DISTINCT CodePartB AS CodePart FROM Commodities WHERE CodePartB LIKE '%' + @SearchText + '%' " + "\r\n";
+            queryString = queryString + "       SELECT      DISTINCT CodePartB AS CodePart FROM Commodities WHERE CodePartB LIKE @SearchText + '%' ORDER BY CodePart " + "\r\n";
 
             queryString = queryString + "    END " + "\r\n";
 
@@ -72,7 +72,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      DISTINCT CodePartC AS CodePart FROM Commodities WHERE CodePartC LIKE '%' + @SearchText + '%' " + "\r\n";
+            queryString = queryString + "       SELECT      DISTINCT CodePartC AS CodePart FROM Commodities WHERE CodePartC LIKE '%' + @SearchText + '%' ORDER BY CodePart " + "\r\n";
 
             queryString = queryString + "    END " + "\r\n";
 
