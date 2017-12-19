@@ -29,7 +29,7 @@ namespace TotalDAL.Repositories.Sales
             salesOrder.RestoreProcedure();
 
 
-            //return;
+            return;
 
             Helpers.SqlProgrammability.Sales.SalesReturn salesReturn = new Helpers.SqlProgrammability.Sales.SalesReturn(totalSalesPortalEntities);
             salesReturn.RestoreProcedure();
