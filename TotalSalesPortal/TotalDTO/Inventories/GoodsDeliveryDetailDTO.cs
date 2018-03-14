@@ -39,6 +39,9 @@ namespace TotalDTO.Inventories
         [UIHint("StringReadonly")]
         public string ShippingAddress { get; set; }
 
+        [Display(Name = "Tên người nhận hàng")]
+        public string Addressee { get; set; }
+
         [Display(Name = "Giao hàng")]
         [UIHint("StringReadonly")]
         public string ReceiverDescription { get { return (this.CustomerID == this.ReceiverID ? "" : this.ReceiverName + ", ") + this.ShippingAddress; } }

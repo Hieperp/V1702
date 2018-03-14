@@ -933,6 +933,7 @@
           <Property Name="SalespersonID" Type="int" Nullable="false" />
           <Property Name="DeliveryDate" Type="datetime" />
           <Property Name="ShippingAddress" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Addressee" Type="nvarchar" MaxLength="200" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="PreparedPersonID" Type="int" Nullable="false" />
           <Property Name="OrganizationalUnitID" Type="int" Nullable="false" />
@@ -6877,6 +6878,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_SalesOrders_Promotions" FromRole="SalesOrder" ToRole="Promotion" />
           <Property Name="TradePromotionID" Type="Int32" />
           <NavigationProperty Name="Promotion1" Relationship="TotalSalesPortalModel.FK_SalesOrders_TradePromotions" FromRole="SalesOrder" ToRole="Promotion" />
+          <Property Name="Addressee" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_SalesOrders_Customers">
           <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
@@ -9724,6 +9726,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="SalesOrders">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.SalesOrder">
               <MappingFragment StoreEntitySet="SalesOrders">
+                <ScalarProperty Name="Addressee" ColumnName="Addressee" />
                 <ScalarProperty Name="TradePromotionID" ColumnName="TradePromotionID" />
                 <ScalarProperty Name="TotalTaxableAmount" ColumnName="TotalTaxableAmount" />
                 <ScalarProperty Name="TotalListedTaxableAmount" ColumnName="TotalListedTaxableAmount" />
