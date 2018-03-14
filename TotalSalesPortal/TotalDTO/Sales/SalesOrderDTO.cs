@@ -44,6 +44,7 @@ namespace TotalDTO.Sales
 
         [Display(Name = "Số đơn hàng")]
         [Required(ErrorMessage = "Vui lòng nhập số đơn hàng")]
+        [UIHint("Commons/SOCode")]
         public string Code { get; set; }
         public virtual Nullable<int> PromotionID { get; set; }
         [Display(Name = "Chứng từ khuyến mãi")]
@@ -61,6 +62,7 @@ namespace TotalDTO.Sales
         public string ShippingAddress { get; set; }
 
         [Display(Name = "Tên người nhận hàng")]
+        [UIHint("Commons/Addressee")]
         public string Addressee { get; set; }
 
         public virtual int SalespersonID { get; set; }

@@ -58,6 +58,10 @@ namespace TotalDTO.Sales
         [UIHint("Commons/ShippingAddress")]
         public string ShippingAddress { get; set; }
 
+        [Display(Name = "Tên người nhận hàng")]
+        [UIHint("Commons/Addressee")]
+        public string Addressee { get; set; }
+
         public virtual int SalespersonID { get; set; }
 
         public override void PerformPresaveRule()

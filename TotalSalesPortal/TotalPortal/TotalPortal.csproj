@@ -1974,6 +1974,8 @@
     <Content Include="Views\Shared\EditorTemplates\DropDowns\CustomerCategory.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropDowns\CustomerType.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AutoCompletes\CodePart.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Commons\Addressee.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Commons\SOCode.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -49,6 +49,9 @@ namespace TotalDTO.Sales
         [Display(Name = "Ngày đặt hàng")]
         public Nullable<System.DateTime> SalesOrderEntryDate { get; set; }
 
+        [Display(Name = "Số đơn hàng")]
+        [UIHint("Commons/SOCode")]
+        public string Code { get; set; }
         public virtual Nullable<int> PromotionID { get; set; }
         [Display(Name = "Chứng từ khuyến mãi")]
         public string PromotionVouchers { get; set; }
@@ -65,6 +68,7 @@ namespace TotalDTO.Sales
         public string ShippingAddress { get; set; }
 
         [Display(Name = "Tên người nhận hàng")]
+        [UIHint("Commons/Addressee")]
         public string Addressee { get; set; }
 
         public virtual int SalespersonID { get; set; }

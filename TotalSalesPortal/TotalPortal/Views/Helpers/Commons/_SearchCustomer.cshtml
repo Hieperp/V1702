@@ -8,6 +8,7 @@
     @Html.EditorFor(d => d.Receiver, "AutoCompletes/CustomerBase", new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Receiver), CustomerIcon = "Customer Red 24.png" })
 
     @Html.EditorFor(d => d.ShippingAddress)
+    @Html.EditorFor(d => d.Addressee)
 
     @Html.Partial("~/Views/Helpers/Commons/_PriceCategory.cshtml")
 
@@ -167,7 +168,7 @@
 
 <style>
     #searchCustomer-div {
-        height: 255px;
+        height: 298px;
         border-color: rgb(204, 204, 204);
         border-top-style: solid;
         border-left-style: solid;

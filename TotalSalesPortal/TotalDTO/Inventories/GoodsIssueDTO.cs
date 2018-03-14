@@ -33,6 +33,7 @@ namespace TotalDTO.Inventories
         public string ShippingAddress { get; set; }
 
         [Display(Name = "Tên người nhận hàng")]
+        [UIHint("Commons/Addressee")]
         public string Addressee { get; set; }
 
         public virtual Nullable<int> DeliveryAdviceID { get; set; }

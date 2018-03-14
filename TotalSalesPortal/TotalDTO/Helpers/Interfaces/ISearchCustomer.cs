@@ -19,6 +19,10 @@ namespace TotalDTO.Helpers.Interfaces
         [UIHint("Commons/ShippingAddress")]
         string ShippingAddress { get; set; }
 
+        [Display(Name = "Tên người nhận hàng")]
+        [UIHint("Commons/Addressee")]
+        string Addressee { get; set; }
+
         [Display(Name = "Kho hàng")]
         [UIHint("AutoCompletes/WarehouseBase")]
         WarehouseBaseDTO Warehouse { get; set; }

@@ -40,6 +40,7 @@ namespace TotalDTO.Inventories
         public string ShippingAddress { get; set; }
 
         [Display(Name = "Tên người nhận hàng")]
+        [UIHint("StringReadonly")]
         public string Addressee { get; set; }
 
         [Display(Name = "Giao hàng")]

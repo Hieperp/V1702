@@ -1,0 +1,11 @@
+﻿@model string
+
+<div class="form-group">
+    <div class="right-panel-label right-panel-label-whole-width"> @Html.LabelFor(model => model) </div>
+    <div class="div-input">
+        @Html.Kendo().MaskedTextBoxFor(model => model).HtmlAttributes((ViewData["AddresseeReadonly"] != null && (bool)ViewData["AddresseeReadonly"] == true ? (object)new { @class = "right-panel-input right-panel-input-whole-width", @readonly = "readonly" } : (object)new { @class = "right-panel-input right-panel-input-whole-width" }))
+    </div>
+    <div class="div-validation-message">
+        @Html.ValidationMessageFor(model => model, "", new { @class = "text-danger" })
+    </div>
+</div>
