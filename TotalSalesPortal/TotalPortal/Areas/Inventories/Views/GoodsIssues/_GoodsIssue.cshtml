@@ -16,6 +16,8 @@
     <div class="left-panel">
 
         @Html.Partial("~/Views/Helpers/Bases/_BaseSectionLeftA.cshtml")
+        
+        @Html.EditorFor(d => d.Code, new { SOCodeReadonly = true })
 
         <div class="form-group">
             @Html.EditorFor(d => d.Storekeeper, new { EmployeeDisplayName = @Model.GetDisplayName(m => m.Storekeeper) })
@@ -52,8 +54,9 @@
             @Html.EditorFor(d => d.Receiver, new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Receiver), CustomerIcon = "Customer Red 24.png" })
 
             @Html.EditorFor(d => d.ShippingAddress, new { ShippingAddressReadonly = true })
+            @Html.EditorFor(d => d.Addressee, new { AddresseeReadonly = true })
 
-            <div style="float: right; margin-top: -156px; " title="Phiếu đề nghị giao hàng">
+            <div style="float: right; margin-top: -199px; " title="Phiếu đề nghị giao hàng">
                 @Html.DisplayFor(d => d.DeliveryAdvice)
             </div>
 
@@ -80,6 +83,9 @@
                     columns.Bound(p => p.DeliveryAdviceReference).DisplayNameTitle().Filterable(false).Width(60).Hidden(@Model.DeliveryAdvice != null && @Model.DeliveryAdvice.DeliveryAdviceID != null ? true : false)
                         .ClientTemplate("#= DeliveryAdviceReference #" + "<input type='hidden' name='GoodsIssueViewDetails[#= index(data) #].DeliveryAdviceReference' value='#= DeliveryAdviceReference #' />");
 
+                    columns.Bound(p => p.DeliveryAdviceCode).DisplayNameTitle().Filterable(false).Width(90).Hidden(@Model.DeliveryAdvice != null && @Model.DeliveryAdvice.DeliveryAdviceID != null ? true : false)
+                        .ClientTemplate("#= DeliveryAdviceCode #" + "<input type='hidden' name='GoodsIssueViewDetails[#= index(data) #].DeliveryAdviceCode' value='#= DeliveryAdviceCode #' />");
+                    
                     columns.Bound(p => p.EntryDate).DisplayNameTitle().Filterable(false).Width(80).Hidden(@Model.DeliveryAdvice != null && @Model.DeliveryAdvice.DeliveryAdviceID != null ? true : false)
                         .Format("{0:" + @SettingsManager.DateFormat + "}")
                         .ClientTemplate("#= kendo.format('{0:" + @SettingsManager.DateFormat + "}', EntryDate) #" + "<input type='hidden' name='GoodsIssueViewDetails[#= index(data) #].EntryDate' value='#= kendo.format('{0:" + @SettingsManager.DateFormat + "}', EntryDate) #' />");

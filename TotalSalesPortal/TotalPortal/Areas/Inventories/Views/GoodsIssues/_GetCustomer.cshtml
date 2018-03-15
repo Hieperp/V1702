@@ -9,9 +9,10 @@
     {
         columns.Bound(c => c.WarehouseCode).Title("Kho").Width(35);
         columns.Bound(c => c.CustomerCode).Title("Mã khách hàng").Width(90);
-        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(250);
+        columns.Bound(c => c.CustomerName).Title("Tên khách hàng").Width(200);
         columns.Bound(c => c.TradePromotionSpecs).Title("CK tổng").Width(100);
-        columns.Bound(c => c.ReceiverDescription).Title("Giao hàng").Width(230);
+        columns.Bound(c => c.Addressee).Title("Người nhận").Width(100);
+        columns.Bound(c => c.ReceiverDescription).Title("Giao hàng").Width(180);
     })
     .ToolBar(toolbar =>
     {
@@ -55,6 +56,8 @@
                     { field: "ReceiverVATCode", operator: "contains", value: pendingDeliveryAdviceCustomerFilter },
 
                     { field: "WarehouseCode", operator: "contains", value: pendingDeliveryAdviceCustomerFilter },
+
+                    { field: "Addressee", operator: "contains", value: pendingDeliveryAdviceCustomerFilter },
 
                     { field: "ShippingAddress", operator: "contains", value: pendingDeliveryAdviceCustomerFilter }
                 ]

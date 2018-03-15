@@ -19,6 +19,8 @@ namespace TotalDTO.Inventories
         [Display(Name = "Phiếu ĐN")]
         [UIHint("StringReadonly")]
         public string DeliveryAdviceReference { get; set; }
+        [Display(Name = "Đơn hàng")]
+        public string DeliveryAdviceCode { get; set; }
 
         [UIHint("StringReadonly")]
         public override string CommodityCode { get; set; }        

@@ -39,6 +39,9 @@ namespace TotalDTO.Inventories
         public virtual Nullable<int> DeliveryAdviceID { get; set; }
 
         public string DeliveryAdviceReferences { get; set; }
+        [Display(Name = "Số đơn hàng")]
+        [UIHint("Commons/SOCode")]
+        public string Code { get; set; }
 
         public virtual Nullable<int> TradePromotionID { get; set; }
         [Display(Name = "Chiết khấu tổng")]
@@ -57,9 +60,11 @@ namespace TotalDTO.Inventories
         {
             base.PerformPresaveRule();
 
-            string deliveryAdviceReferences = "";
-            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; e.ReceiverID = this.ReceiverID; e.StorekeeperID = this.StorekeeperID; if (deliveryAdviceReferences.IndexOf(e.DeliveryAdviceReference) < 0) deliveryAdviceReferences = deliveryAdviceReferences + (deliveryAdviceReferences != "" ? ", " : "") + e.DeliveryAdviceReference; });
-            this.DeliveryAdviceReferences = deliveryAdviceReferences;
+            if (this.Addressee == null) { this.Addressee = ""; } this.Addressee = this.Addressee.Trim();
+
+            string deliveryAdviceReferences = ""; string deliveryAdviceCodes = "";
+            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; e.ReceiverID = this.ReceiverID; e.StorekeeperID = this.StorekeeperID; if (deliveryAdviceReferences.IndexOf(e.DeliveryAdviceReference) < 0) deliveryAdviceReferences = deliveryAdviceReferences + (deliveryAdviceReferences != "" ? ", " : "") + e.DeliveryAdviceReference; if (e.DeliveryAdviceCode != null && deliveryAdviceCodes.IndexOf(e.DeliveryAdviceCode) < 0) deliveryAdviceCodes = deliveryAdviceCodes + (deliveryAdviceCodes != "" ? ", " : "") + e.DeliveryAdviceCode; });
+            this.DeliveryAdviceReferences = deliveryAdviceReferences; this.Code = deliveryAdviceCodes != "" ? deliveryAdviceCodes : null;
         }
     }
 

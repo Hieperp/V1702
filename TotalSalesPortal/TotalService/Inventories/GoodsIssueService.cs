@@ -28,15 +28,15 @@ namespace TotalService.Inventories
             throw new System.ArgumentException("Invalid call GetViewDetails(id). Use GetGoodsIssueViewDetails instead.", "Purchase Invoice Service");
         }
 
-        public ICollection<GoodsIssueViewDetail> GetGoodsIssueViewDetails(int goodsIssueID, int locationID, int deliveryAdviceID, int customerID, int receiverID, int warehouseID, string shippingAddress, int? tradePromotionID, decimal? vatPercent, bool isReadOnly)
+        public ICollection<GoodsIssueViewDetail> GetGoodsIssueViewDetails(int goodsIssueID, int locationID, int deliveryAdviceID, int customerID, int receiverID, int warehouseID, string shippingAddress, string addressee, int? tradePromotionID, decimal? vatPercent, bool isReadOnly)
         {
-            ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("GoodsIssueID", goodsIssueID), new ObjectParameter("LocationID", locationID), new ObjectParameter("DeliveryAdviceID", deliveryAdviceID), new ObjectParameter("CustomerID", customerID), new ObjectParameter("ReceiverID", receiverID), new ObjectParameter("WarehouseID", warehouseID), new ObjectParameter("ShippingAddress", shippingAddress), tradePromotionID.HasValue ? new ObjectParameter("TradePromotionID", tradePromotionID) : new ObjectParameter("TradePromotionID", typeof(int)), new ObjectParameter("VATPercent", vatPercent), new ObjectParameter("IsReadOnly", isReadOnly) };
+            ObjectParameter[] parameters = new ObjectParameter[] { new ObjectParameter("GoodsIssueID", goodsIssueID), new ObjectParameter("LocationID", locationID), new ObjectParameter("DeliveryAdviceID", deliveryAdviceID), new ObjectParameter("CustomerID", customerID), new ObjectParameter("ReceiverID", receiverID), new ObjectParameter("WarehouseID", warehouseID), new ObjectParameter("ShippingAddress", shippingAddress), new ObjectParameter("Addressee", addressee), tradePromotionID.HasValue ? new ObjectParameter("TradePromotionID", tradePromotionID) : new ObjectParameter("TradePromotionID", typeof(int)), new ObjectParameter("VATPercent", vatPercent), new ObjectParameter("IsReadOnly", isReadOnly) };
             return this.GetViewDetails(parameters);
         }
 
-        public List<PendingDeliveryAdviceDescription> GetDescriptions(int locationID, int customerID, int receiverID, int warehouseID, string shippingAddress, int? tradePromotionID, decimal? vatPercent)
+        public List<PendingDeliveryAdviceDescription> GetDescriptions(int locationID, int customerID, int receiverID, int warehouseID, string shippingAddress, string addressee, int? tradePromotionID, decimal? vatPercent)
         {
-            return this.goodsIssueRepository.GetDescriptions(locationID, customerID, receiverID, warehouseID, shippingAddress, tradePromotionID, vatPercent);
+            return this.goodsIssueRepository.GetDescriptions(locationID, customerID, receiverID, warehouseID, shippingAddress, addressee, tradePromotionID, vatPercent);
         }
 
     }

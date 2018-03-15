@@ -15,9 +15,9 @@ namespace TotalDAL.Repositories.Inventories
         {
         }
 
-        public List<PendingDeliveryAdviceDescription> GetDescriptions(int locationID, int customerID, int receiverID, int warehouseID, string shippingAddress, int? tradePromotionID, decimal? vatPercent)
+        public List<PendingDeliveryAdviceDescription> GetDescriptions(int locationID, int customerID, int receiverID, int warehouseID, string shippingAddress, string addressee, int? tradePromotionID, decimal? vatPercent)
         {
-            return this.TotalSalesPortalEntities.GetPendingDeliveryAdviceDescriptions(locationID, customerID, receiverID, warehouseID, shippingAddress, tradePromotionID, vatPercent).ToList();
+            return this.TotalSalesPortalEntities.GetPendingDeliveryAdviceDescriptions(locationID, customerID, receiverID, warehouseID, shippingAddress, addressee, tradePromotionID, vatPercent).ToList();
         }
     }
 
