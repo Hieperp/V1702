@@ -1024,6 +1024,7 @@
           <Property Name="SalesReturnID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EntryDate" Type="datetime" Nullable="false" />
           <Property Name="Reference" Type="nvarchar" MaxLength="10" />
+          <Property Name="Code" Type="nvarchar" MaxLength="60" />
           <Property Name="HasGoodsIssue" Type="bit" Nullable="false" />
           <Property Name="GoodsIssueID" Type="int" />
           <Property Name="GoodsIssueReferences" Type="nvarchar" MaxLength="200" />
@@ -1037,6 +1038,7 @@
           <Property Name="SalespersonID" Type="int" Nullable="false" />
           <Property Name="DeliveryDate" Type="datetime" />
           <Property Name="ShippingAddress" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Addressee" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="PreparedPersonID" Type="int" Nullable="false" />
           <Property Name="OrganizationalUnitID" Type="int" Nullable="false" />
@@ -7602,6 +7604,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_SalesReturns_Promotions" FromRole="SalesReturn" ToRole="Promotion" />
           <Property Name="TradePromotionID" Type="Int32" />
           <NavigationProperty Name="Promotion1" Relationship="TotalSalesPortalModel.FK_SalesReturns_TradePromotions" FromRole="SalesReturn" ToRole="Promotion" />
+          <Property Name="Code" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Addressee" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_SalesReturnDetails_Commodities">
           <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
@@ -10285,6 +10289,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="SalesReturns">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.SalesReturn">
               <MappingFragment StoreEntitySet="SalesReturns">
+                <ScalarProperty Name="Addressee" ColumnName="Addressee" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="TradePromotionID" ColumnName="TradePromotionID" />
                 <ScalarProperty Name="TotalTaxableAmount" ColumnName="TotalTaxableAmount" />
                 <ScalarProperty Name="TotalListedTaxableAmount" ColumnName="TotalListedTaxableAmount" />

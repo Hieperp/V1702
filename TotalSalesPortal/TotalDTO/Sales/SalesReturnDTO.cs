@@ -42,10 +42,11 @@ namespace TotalDTO.Sales
 
         public virtual Nullable<int> GoodsIssueID { get; set; }
         public string GoodsIssueReferences { get; set; }
-
-        public virtual Nullable<int> PromotionID { get; set; }
+        
         [Display(Name = "Chứng từ trả hàng")]
-        public string ReturnVouchers { get; set; }
+        [UIHint("Commons/SOCode")]
+        public string Code { get; set; }
+        public virtual Nullable<int> PromotionID { get; set; }
 
         public virtual Nullable<int> TradePromotionID { get; set; }
         [Display(Name = "Chiết khấu tổng")]
@@ -67,6 +68,8 @@ namespace TotalDTO.Sales
         public override void PerformPresaveRule()
         {
             base.PerformPresaveRule();
+
+            if (this.Addressee == null) { this.Addressee = ""; } this.Addressee = this.Addressee.Trim();
 
             string goodsIssueReferences = "";
             this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; e.ReceiverID = this.ReceiverID; e.WarehouseID = this.WarehouseID; e.PromotionID = this.PromotionID; e.SalespersonID = this.SalespersonID; if (this.HasGoodsIssue && goodsIssueReferences.IndexOf(e.GoodsIssueReference) < 0) goodsIssueReferences = goodsIssueReferences + (goodsIssueReferences != "" ? ", " : "") + e.GoodsIssueReference; });
