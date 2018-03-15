@@ -41,10 +41,10 @@ namespace TotalDAL.Repositories.Inventories
         }
 
 
-        public IEnumerable<HandlingUnitPendingGoodsIssueDetail> GetPendingGoodsIssueDetails(int? locationID, int? handlingUnitID, int? goodsIssueID, int? customerID, int? receiverID, string shippingAddress, string goodsIssueDetailIDs, bool isReadonly)
+        public IEnumerable<HandlingUnitPendingGoodsIssueDetail> GetPendingGoodsIssueDetails(int? locationID, int? handlingUnitID, int? goodsIssueID, int? customerID, int? receiverID, string shippingAddress, string addressee, string goodsIssueDetailIDs, bool isReadonly)
         {
             this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = false;
-            IEnumerable<HandlingUnitPendingGoodsIssueDetail> pendingGoodsIssueDetails = base.TotalSalesPortalEntities.GetHandlingUnitPendingGoodsIssueDetails(locationID, handlingUnitID, goodsIssueID, customerID, receiverID, shippingAddress, goodsIssueDetailIDs, isReadonly).ToList();
+            IEnumerable<HandlingUnitPendingGoodsIssueDetail> pendingGoodsIssueDetails = base.TotalSalesPortalEntities.GetHandlingUnitPendingGoodsIssueDetails(locationID, handlingUnitID, goodsIssueID, customerID, receiverID, shippingAddress, addressee, goodsIssueDetailIDs, isReadonly).ToList();
             this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = true;
 
             return pendingGoodsIssueDetails;

@@ -84,8 +84,8 @@
                         .ClientTemplate("#= DeliveryAdviceReference #" + "<input type='hidden' name='GoodsIssueViewDetails[#= index(data) #].DeliveryAdviceReference' value='#= DeliveryAdviceReference #' />");
 
                     columns.Bound(p => p.DeliveryAdviceCode).DisplayNameTitle().Filterable(false).Width(90).Hidden(@Model.DeliveryAdvice != null && @Model.DeliveryAdvice.DeliveryAdviceID != null ? true : false)
-                        .ClientTemplate("#= DeliveryAdviceCode #" + "<input type='hidden' name='GoodsIssueViewDetails[#= index(data) #].DeliveryAdviceCode' value='#= DeliveryAdviceCode #' />");
-                    
+                        .ClientTemplate("#= (DeliveryAdviceCode == null)? '' : DeliveryAdviceCode #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].DeliveryAdviceCode' value='#= (DeliveryAdviceCode == null) ? '' : DeliveryAdviceCode #' />");
+                                        
                     columns.Bound(p => p.EntryDate).DisplayNameTitle().Filterable(false).Width(80).Hidden(@Model.DeliveryAdvice != null && @Model.DeliveryAdvice.DeliveryAdviceID != null ? true : false)
                         .Format("{0:" + @SettingsManager.DateFormat + "}")
                         .ClientTemplate("#= kendo.format('{0:" + @SettingsManager.DateFormat + "}', EntryDate) #" + "<input type='hidden' name='GoodsIssueViewDetails[#= index(data) #].EntryDate' value='#= kendo.format('{0:" + @SettingsManager.DateFormat + "}', EntryDate) #' />");

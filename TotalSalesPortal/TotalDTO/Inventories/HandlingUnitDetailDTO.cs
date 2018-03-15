@@ -27,6 +27,8 @@ namespace TotalDTO.Inventories
         [Display(Name = "Ngày, giờ XK")]
         [UIHint("DateTimeReadonly")]
         public System.DateTime GoodsIssueEntryDate { get; set; }
+        [Display(Name = "Đơn hàng")]
+        public string GoodsIssueCode { get; set; }
 
         [UIHint("StringReadonly")]
         public override string CommodityCode { get; set; }

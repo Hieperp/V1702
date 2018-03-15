@@ -11,54 +11,61 @@
             columns.Bound(p => p.LocationCode).Title("CN").Hidden().Width(10);
             columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(40).Hidden();
             columns.Bound(p => p.CustomerDescription).Title("KH").Width(410).Hidden();
-            columns.Bound(p => p.GoodsIssueReferences).Title("Phiếu xuất kho").Width(160);
+            columns.Bound(p => p.GoodsIssueReferences).Title("Phiếu xuất kho").Width(230).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Inventories/HandlingUnits", action = "Edit" }) + "/#= HandlingUnitID #'>#=GoodsIssueReferences#</a>");
+            columns.Bound(p => p.Code).Title("Đơn hàng").Width(80);
             columns.Bound(p => p.LotNo).Title("Lô").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Filterable(false).Width(115).Width(20).Sortable(false);
             columns.Bound(p => p.PackingMaterialCode).Title("BB").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(50);
             columns.Bound(p => p.Identification).Title("Stt").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Filterable(false).Width(115).Width(20).Sortable(false);
             columns.Bound(p => p.CountIdentification).Title("TC").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Filterable(false).Width(115).Width(20);
-            columns.Bound(p => p.Description).Title("Diễn giải").Filterable(false).Width(190);
-            columns.Bound(p => p.TotalQuantity).Title("SL").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Filterable(false).Width(20);
-            columns.Bound(p => p.TotalWeight).Title("TL").Format("{0:n2}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Filterable(false).Width(20);
-            columns.Bound(p => p.RealWeight).Title("TL TT").Format("{0:n2}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Filterable(false).Width(20);
-            columns.Bound(p => p.WeightDifference).Title("CL").Format("{0:n2}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Filterable(false).Width(30);
+            columns.Bound(p => p.Description).Title("Diễn giải").Filterable(false).Width(160);
+            columns.Bound(p => p.TotalQuantity).Title("SL").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).Width(30);
+            columns.Bound(p => p.TotalWeight).Title("TL").Format("{0:n2}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).Width(30);
+            columns.Bound(p => p.RealWeight).Title("TL TT").Format("{0:n2}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).Width(30);
+            columns.Bound(p => p.WeightDifference).Title("CL").Format("{0:n2}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).Width(30);
 
-            columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(135)
-                .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Inventories/HandlingUnits", action = "Edit" }) + "/#= HandlingUnitID #'><span class='k-icon k-edit'></span></a> <a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Inventories/HandlingUnits", action = "Print" }) + "/#= HandlingUnitID #' target='_blank'><span class='k-icon k-i-folder-add'></span></a> <a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Inventories/HandlingUnits", action = "PrintDetail" }) + "/#= HandlingUnitID #' target='_blank'><span class='k-icon k-i-folder-up'></span></a> <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Inventories/HandlingUnits", action = "Delete" }) + "/#= HandlingUnitID #'><span class='k-icon k-delete'></span></a>");
+            columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(115)
+                .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Inventories/HandlingUnits", action = "Edit" }) + "/#= HandlingUnitID #'><span class='k-icon k-edit'></span></a> <a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Inventories/HandlingUnits", action = "Print" }) + "/#= HandlingUnitID #' target='_blank'><span class='k-icon k-i-folder-add'></span></a> <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Inventories/HandlingUnits", action = "Delete" }) + "/#= HandlingUnitID #'><span class='k-icon k-delete'></span></a>");
 
         })
         .ToolBar(toolbar =>
         {
-            toolbar.Template(@<text> <button type="button" class="k-button" onclick="createWizard()"> <img src="~/Content/Images/Mains/Size24/folder-documents-icon-24.png" /> Lập phiếu đóng gói </button> </text>);
+            toolbar.Template(@<text>
+                <button type="button" class="k-button" onclick="createWizard()"> <img src="~/Content/Images/Mains/Size24/folder-documents-icon-24.png" /> Lập phiếu đóng gói </button>
+                <div class="toolbar" style="float: right;">
+                    <label>Nhập số phiếu xuất kho hoặc tên khách hàng để tìm</label>
+                    <input id="indexFilterText" class="k-textbox" style="text-align: center; " onkeyup="indexFilterText_KeyUp()" />
+                </div>
+            </text>);
         })
 
-                .Pageable()
-                .Groupable(g => g.Messages(messages => messages.Empty("Phân nhóm dữ liệu: Kéo và thả tiêu đề một hoặc nhiều cột dữ liệu ngay bên dưới vào đây để phân nhóm hiển thị theo phân cấp của các cột dữ liệu")))
-                .Filterable()
-                .Selectable()
-                .Sortable()
-                .Events(e =>
-                {
-                    e.DataBound("hightLightSelectedRow");
-                })
-                .DataSource(dataSource => dataSource
-                    .Ajax()
-                    .Group(group => group.AddDescending(p => p.EntryDate)).Group(group => group.Add(p => p.CustomerDescription))
-                    .Read(read => read.Action("GetHandlingUnitIndexes", "HandlingUnitAPIs", new { area = "Inventories" }))
-                    .Sort(sort =>
-                        {
-                            sort.Add(p => p.GoodsIssueID);
-                            sort.Add(p => p.LotNo);
-                            sort.Add(p => p.Identification);
-                        })
-                    .PageSize(20)
-                    .Model(model =>
+            .Pageable()
+            .Groupable(g => g.Messages(messages => messages.Empty("Phân nhóm dữ liệu: Kéo và thả tiêu đề một hoặc nhiều cột dữ liệu ngay bên dưới vào đây để phân nhóm hiển thị theo phân cấp của các cột dữ liệu")))
+            .Filterable()
+            .Selectable()
+            .Sortable()
+            .Events(e =>
+            {
+                e.DataBound("hightLightSelectedRow");
+            })
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Group(group => group.AddDescending(p => p.EntryDate)).Group(group => group.Add(p => p.CustomerDescription))
+                .Read(read => read.Action("GetHandlingUnitIndexes", "HandlingUnitAPIs", new { area = "Inventories" }))
+                .Sort(sort =>
                     {
-                        model.Id(x => x.HandlingUnitID);
-                        model.Field(m => m.HandlingUnitID).DefaultValue(0);
+                        sort.Add(p => p.GoodsIssueID);
+                        sort.Add(p => p.LotNo);
+                        sort.Add(p => p.Identification);
                     })
-                    .ServerOperation(true)
-                )
-                .HtmlAttributes(new { @class = "grid-class" })
+                .PageSize(20)
+                .Model(model =>
+                {
+                    model.Id(x => x.HandlingUnitID);
+                    model.Field(m => m.HandlingUnitID).DefaultValue(0);
+                })
+                .ServerOperation(true)
+            )
+            .HtmlAttributes(new { @class = "grid-class" })
     )
 </div>
 
@@ -77,5 +84,24 @@
             var createWizardWindow = new kpopupWindow();
             createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("CreateWizard", "HandlingUnits")", "Chọn phiếu xuất kho, hoặc khách hàng", "@SettingsManager.PopupWidthLarge", "@SettingsManager.PopupHeightWithTab");
         });
+    }
+
+    function indexFilterText_KeyUp() {
+        var indexFilterText = $("#indexFilterText").val(), gridDetails = $("#kendoGridIndex").data("kendoGrid");
+
+        if (indexFilterText && indexFilterText.length >= "@SettingsManager.AutoCompleteMinLenght") {
+            gridDetails.dataSource.filter({
+                logic: "or",
+                filters: [
+                    { field: "GoodsIssueReferences", operator: "contains", value: indexFilterText },
+                    { field: "CustomerDescription", operator: "contains", value: indexFilterText }
+                ]
+            });
+
+
+        } else {
+            if (gridDetails.dataSource.filter() != undefined)
+                gridDetails.dataSource.filter({});
+        }
     }
 </script>

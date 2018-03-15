@@ -27,5 +27,6 @@ namespace TotalModel.Models
         public string GoodsIssueReference { get; set; }
         public System.DateTime GoodsIssueEntryDate { get; set; }
         public string Description { get; set; }
+        public string GoodsIssueCode { get; set; }
     }
 }

@@ -31,5 +31,7 @@ namespace TotalModel.Models
         public string ShippingAddress { get; set; }
         public string GoodsIssueReferences { get; set; }
         public string HandlingUnitIdentification { get; set; }
+        public string Addressee { get; set; }
+        public string Code { get; set; }
     }
 }

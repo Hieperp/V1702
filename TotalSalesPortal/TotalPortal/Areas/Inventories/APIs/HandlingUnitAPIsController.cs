@@ -57,9 +57,9 @@ namespace TotalPortal.Areas.Inventories.APIs
         }
 
 
-        public JsonResult GetPendingGoodsIssueDetails([DataSourceRequest] DataSourceRequest dataSourceRequest, int? locationID, int? handlingUnitID, int? goodsIssueID, int? customerID, int? receiverID, string shippingAddress, string goodsIssueDetailIDs, bool isReadonly)
+        public JsonResult GetPendingGoodsIssueDetails([DataSourceRequest] DataSourceRequest dataSourceRequest, int? locationID, int? handlingUnitID, int? goodsIssueID, int? customerID, int? receiverID, string shippingAddress, string addressee, string goodsIssueDetailIDs, bool isReadonly)
         {
-            var result = this.handlingUnitAPIRepository.GetPendingGoodsIssueDetails(locationID, handlingUnitID, goodsIssueID, customerID, receiverID, shippingAddress, goodsIssueDetailIDs, false);
+            var result = this.handlingUnitAPIRepository.GetPendingGoodsIssueDetails(locationID, handlingUnitID, goodsIssueID, customerID, receiverID, shippingAddress, addressee, goodsIssueDetailIDs, false);
             return Json(result.ToDataSourceResult(dataSourceRequest), JsonRequestBehavior.AllowGet);
         }
 

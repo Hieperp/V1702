@@ -18,6 +18,8 @@
 
         @Html.Partial("~/Views/Helpers/Bases/_BaseSectionLeftA.cshtml")
 
+        @Html.EditorFor(d => d.Code, new { SOCodeReadonly = true })
+
         <div class="form-group">
             @Html.LabelFor(model => model.RealWeight)
             <div class="div-input">
@@ -86,6 +88,7 @@
             @Html.EditorFor(d => d.Receiver, new { CustomerDescriptionHidden = "false", CustomerDisplayName = @Model.GetDisplayName(m => m.Receiver), CustomerIcon = "Customer Red 24.png" })
 
             @Html.EditorFor(d => d.ShippingAddress, new { ShippingAddressReadonly = true })
+            @Html.EditorFor(d => d.Addressee, new { AddresseeReadonly = true })
 
             <div style="float: right; margin-top: -156px; " title="Phiếu xuất kho">
                 @Html.DisplayFor(d => d.GoodsIssue, new { ShowByReceiver = "" })
@@ -111,7 +114,10 @@
                         .ClientTemplate("#= GoodsIssueDetailID #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].GoodsIssueDetailID' value='#= GoodsIssueDetailID #' />");
 
                     columns.Bound(p => p.GoodsIssueReference).DisplayNameTitle().Filterable(false).Width(50)
-                        .ClientTemplate("#= GoodsIssueReference #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].GoodsIssueReference' value='#= GoodsIssueReference #' />");
+                        .ClientTemplate("#= GoodsIssueReference #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].GoodsIssueReference' value='#= GoodsIssueReference #' />");                    
+                    columns.Bound(p => p.GoodsIssueCode).DisplayNameTitle().Filterable(false).Width(50)
+                        .ClientTemplate("#= (GoodsIssueCode == null)? '' : GoodsIssueCode #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].GoodsIssueCode' value='#= (GoodsIssueCode == null) ? '' : GoodsIssueCode #' />");
+                                        
                     columns.Bound(p => p.GoodsIssueEntryDate).DisplayNameTitle().Filterable(false).Width(150)
                         .ClientTemplate("#= GoodsIssueEntryDate ? kendo.toString(kendo.parseDate(GoodsIssueEntryDate), '" + SettingsManager.DateTimeFormat + "') : '' #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].GoodsIssueEntryDate' value='#= kendo.toString(GoodsIssueEntryDate, '" + SettingsManager.DateTimeFormat + "') #' />");
                     

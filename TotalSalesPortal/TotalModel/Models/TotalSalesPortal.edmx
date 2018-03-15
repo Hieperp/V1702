@@ -637,12 +637,14 @@
           <Property Name="HandlingUnitID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EntryDate" Type="datetime" Nullable="false" />
           <Property Name="Reference" Type="nvarchar" MaxLength="10" />
+          <Property Name="Code" Type="nvarchar" MaxLength="60" />
           <Property Name="LotNo" Type="int" Nullable="false" />
           <Property Name="Identification" Type="int" Nullable="false" />
           <Property Name="CountIdentification" Type="int" Nullable="false" />
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="ReceiverID" Type="int" Nullable="false" />
           <Property Name="ShippingAddress" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Addressee" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="GoodsIssueID" Type="int" />
           <Property Name="GoodsIssueReferences" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="GoodsDeliveryID" Type="int" />
@@ -2747,6 +2749,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="CustomerID" Type="int" Mode="In" />
           <Parameter Name="ReceiverID" Type="int" Mode="In" />
           <Parameter Name="ShippingAddress" Type="nvarchar" Mode="In" />
+          <Parameter Name="Addressee" Type="nvarchar" Mode="In" />
           <Parameter Name="GoodsIssueDetailIDs" Type="varchar" Mode="In" />
           <Parameter Name="IsReadonly" Type="bit" Mode="In" />
         </Function>
@@ -3899,6 +3902,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="CustomerID" Mode="In" Type="Int32" />
             <Parameter Name="ReceiverID" Mode="In" Type="Int32" />
             <Parameter Name="ShippingAddress" Mode="In" Type="String" />
+            <Parameter Name="Addressee" Mode="In" Type="String" />
             <Parameter Name="GoodsIssueDetailIDs" Mode="In" Type="String" />
             <Parameter Name="IsReadonly" Mode="In" Type="Boolean" />
           </FunctionImport>
@@ -5426,6 +5430,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Decimal" Name="WeightDifference" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Int32" Name="LotNo" Nullable="false" />
           <Property Type="Int32" Name="GoodsIssueID" Nullable="true" />
+          <Property Type="String" Name="Addressee" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Code" Nullable="true" MaxLength="60" />
         </ComplexType>
         <ComplexType Name="HandlingUnitViewDetail">
           <Property Type="Int32" Name="HandlingUnitDetailID" Nullable="false" />
@@ -5443,6 +5449,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Decimal" Name="UnitWeight" Nullable="false" Precision="18" Scale="2" />
           <Property Type="String" Name="GoodsIssueReference" Nullable="true" MaxLength="10" />
           <Property Type="DateTime" Name="GoodsIssueEntryDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="GoodsIssueCode" Nullable="true" MaxLength="60" />
         </ComplexType>
         <EntityType Name="HandlingUnitDetail">
           <Key>
@@ -5513,6 +5520,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="ShippingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="GoodsIssueReferences" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="HandlingUnitIdentification" Nullable="true" MaxLength="61" />
+          <Property Type="String" Name="Addressee" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Code" Nullable="true" MaxLength="60" />
         </ComplexType>
         <ComplexType Name="PendingHandlingUnitReceiver">
           <Property Type="Int32" Name="ReceiverID" Nullable="false" />
@@ -5544,6 +5553,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="ShippingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="HandlingUnitIdentification" Nullable="true" MaxLength="61" />
           <Property Type="Int32" Name="LotNo" Nullable="false" />
+          <Property Type="String" Name="Addressee" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Code" Nullable="true" MaxLength="60" />
         </ComplexType>
         <EntityType Name="GoodsDelivery">
           <Key>
@@ -5622,6 +5633,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="ShippingAddress" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Addressee" Nullable="false" MaxLength="200" />
         </ComplexType>
         <ComplexType Name="HandlingUnitPendingGoodsIssueDetail">
           <Property Type="Int32" Name="GoodsIssueID" Nullable="false" />
@@ -5638,6 +5650,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="GoodsIssueReference" Nullable="true" MaxLength="10" />
           <Property Type="DateTime" Name="GoodsIssueEntryDate" Nullable="false" Precision="23" />
           <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="GoodsIssueCode" Nullable="true" MaxLength="60" />
         </ComplexType>
         <ComplexType Name="HandlingUnitPendingGoodsIssue">
           <Property Type="Int32" Name="GoodsIssueID" Nullable="false" />
@@ -5662,6 +5675,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="ReceiverBillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="ReceiverEntireTerritoryEntireName" Nullable="false" MaxLength="508" />
           <Property Type="String" Name="ShippingAddress" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Addressee" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="GoodsIssueCode" Nullable="true" MaxLength="60" />
         </ComplexType>
         <EntityType Name="Vehicle">
           <Key>
@@ -6364,6 +6379,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="HandlingUnitDetails" Relationship="TotalSalesPortalModel.FK_HandlingUnitDetails_HandlingUnits" FromRole="HandlingUnit" ToRole="HandlingUnitDetail" />
           <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Locations" FromRole="HandlingUnit" ToRole="Location" />
           <NavigationProperty Name="PackingMaterial" Relationship="TotalSalesPortalModel.FK_HandlingUnits_PackingMaterials" FromRole="HandlingUnit" ToRole="PackingMaterial" />
+          <Property Name="Code" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Addressee" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_HandlingUnits_Customers">
           <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
@@ -9053,6 +9070,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="WeightDifference" ColumnName="WeightDifference" />
                 <ScalarProperty Name="LotNo" ColumnName="LotNo" />
                 <ScalarProperty Name="GoodsIssueID" ColumnName="GoodsIssueID" />
+                <ScalarProperty Name="Addressee" ColumnName="Addressee" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9074,6 +9093,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="UnitWeight" ColumnName="UnitWeight" />
                 <ScalarProperty Name="GoodsIssueReference" ColumnName="GoodsIssueReference" />
                 <ScalarProperty Name="GoodsIssueEntryDate" ColumnName="GoodsIssueEntryDate" />
+                <ScalarProperty Name="GoodsIssueCode" ColumnName="GoodsIssueCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9152,6 +9172,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
                 <ScalarProperty Name="GoodsIssueReferences" ColumnName="GoodsIssueReferences" />
                 <ScalarProperty Name="HandlingUnitIdentification" ColumnName="HandlingUnitIdentification" />
+                <ScalarProperty Name="Addressee" ColumnName="Addressee" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9191,6 +9213,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
                 <ScalarProperty Name="HandlingUnitIdentification" ColumnName="HandlingUnitIdentification" />
                 <ScalarProperty Name="LotNo" ColumnName="LotNo" />
+                <ScalarProperty Name="Addressee" ColumnName="Addressee" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9246,6 +9270,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="ReceiverBillingAddress" ColumnName="ReceiverBillingAddress" />
                 <ScalarProperty Name="ReceiverEntireTerritoryEntireName" ColumnName="ReceiverEntireTerritoryEntireName" />
                 <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="Addressee" ColumnName="Addressee" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9266,6 +9291,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="GoodsIssueReference" ColumnName="GoodsIssueReference" />
                 <ScalarProperty Name="GoodsIssueEntryDate" ColumnName="GoodsIssueEntryDate" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="GoodsIssueCode" ColumnName="GoodsIssueCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9294,6 +9320,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="ReceiverBillingAddress" ColumnName="ReceiverBillingAddress" />
                 <ScalarProperty Name="ReceiverEntireTerritoryEntireName" ColumnName="ReceiverEntireTerritoryEntireName" />
                 <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="Addressee" ColumnName="Addressee" />
+                <ScalarProperty Name="GoodsIssueCode" ColumnName="GoodsIssueCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9555,6 +9583,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="HandlingUnits">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.HandlingUnit">
               <MappingFragment StoreEntitySet="HandlingUnits">
+                <ScalarProperty Name="Addressee" ColumnName="Addressee" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
                 <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />
                 <ScalarProperty Name="InActive" ColumnName="InActive" />

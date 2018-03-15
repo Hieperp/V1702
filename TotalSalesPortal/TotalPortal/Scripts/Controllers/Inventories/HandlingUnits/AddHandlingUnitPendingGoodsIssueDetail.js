@@ -50,6 +50,7 @@ function handleOKEvent(handlingUnitGridDataSource, pendingGoodsIssueDetailGridDa
         dataRow.GoodsIssueDetailID = goodsIssueGridDataItem.GoodsIssueDetailID;
         dataRow.GoodsIssueReference = goodsIssueGridDataItem.GoodsIssueReference;
         dataRow.GoodsIssueEntryDate = goodsIssueGridDataItem.GoodsIssueEntryDate;
+        dataRow.GoodsIssueCode = goodsIssueGridDataItem.GoodsIssueCode;
 
         dataRow.CommodityID = goodsIssueGridDataItem.CommodityID;
         dataRow.CommodityName = goodsIssueGridDataItem.CommodityName;

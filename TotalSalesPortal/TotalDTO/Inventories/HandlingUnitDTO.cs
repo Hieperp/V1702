@@ -35,6 +35,9 @@ namespace TotalDTO.Inventories
 
         public virtual Nullable<int> GoodsIssueID { get; set; }
         public string GoodsIssueReferences { get; set; }
+        [Display(Name = "Số đơn hàng")]
+        [UIHint("Commons/SOCode")]
+        public string Code { get; set; }
 
         public virtual int PackagingStaffID { get; set; }
 
@@ -76,9 +79,11 @@ namespace TotalDTO.Inventories
         {
             base.PerformPresaveRule();
 
-            string goodsIssueReferences = "";
-            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; e.ReceiverID = this.ReceiverID; if (goodsIssueReferences.IndexOf(e.GoodsIssueReference) < 0) goodsIssueReferences = goodsIssueReferences + (goodsIssueReferences != "" ? ", " : "") + e.GoodsIssueReference; });
-            this.GoodsIssueReferences = goodsIssueReferences;
+            if (this.Addressee == null) { this.Addressee = ""; } this.Addressee = this.Addressee.Trim();
+
+            string goodsIssueReferences = ""; string goodsIssueCodes = "";
+            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; e.ReceiverID = this.ReceiverID; if (goodsIssueReferences.IndexOf(e.GoodsIssueReference) < 0) goodsIssueReferences = goodsIssueReferences + (goodsIssueReferences != "" ? ", " : "") + e.GoodsIssueReference; if (e.Quantity > 0 && e.GoodsIssueCode != null && goodsIssueCodes.IndexOf(e.GoodsIssueCode) < 0) goodsIssueCodes = goodsIssueCodes + (goodsIssueCodes != "" ? ", " : "") + e.GoodsIssueCode; });
+            this.GoodsIssueReferences = goodsIssueReferences; this.Code = goodsIssueCodes != "" ? goodsIssueCodes : null;
         }
     }
 

@@ -31,5 +31,7 @@ namespace TotalModel.Models
         public decimal WeightDifference { get; set; }
         public int LotNo { get; set; }
         public Nullable<int> GoodsIssueID { get; set; }
+        public string Addressee { get; set; }
+        public string Code { get; set; }
     }
 }

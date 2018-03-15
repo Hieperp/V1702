@@ -830,7 +830,7 @@ namespace TotalModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<HandlingUnitPendingCustomer>("GetHandlingUnitPendingCustomers", locationIDParameter);
         }
     
-        public virtual ObjectResult<HandlingUnitPendingGoodsIssueDetail> GetHandlingUnitPendingGoodsIssueDetails(Nullable<int> locationID, Nullable<int> handlingUnitID, Nullable<int> goodsIssueID, Nullable<int> customerID, Nullable<int> receiverID, string shippingAddress, string goodsIssueDetailIDs, Nullable<bool> isReadonly)
+        public virtual ObjectResult<HandlingUnitPendingGoodsIssueDetail> GetHandlingUnitPendingGoodsIssueDetails(Nullable<int> locationID, Nullable<int> handlingUnitID, Nullable<int> goodsIssueID, Nullable<int> customerID, Nullable<int> receiverID, string shippingAddress, string addressee, string goodsIssueDetailIDs, Nullable<bool> isReadonly)
         {
             var locationIDParameter = locationID.HasValue ?
                 new ObjectParameter("LocationID", locationID) :
@@ -856,6 +856,10 @@ namespace TotalModel.Models
                 new ObjectParameter("ShippingAddress", shippingAddress) :
                 new ObjectParameter("ShippingAddress", typeof(string));
     
+            var addresseeParameter = addressee != null ?
+                new ObjectParameter("Addressee", addressee) :
+                new ObjectParameter("Addressee", typeof(string));
+    
             var goodsIssueDetailIDsParameter = goodsIssueDetailIDs != null ?
                 new ObjectParameter("GoodsIssueDetailIDs", goodsIssueDetailIDs) :
                 new ObjectParameter("GoodsIssueDetailIDs", typeof(string));
@@ -864,7 +868,7 @@ namespace TotalModel.Models
                 new ObjectParameter("IsReadonly", isReadonly) :
                 new ObjectParameter("IsReadonly", typeof(bool));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<HandlingUnitPendingGoodsIssueDetail>("GetHandlingUnitPendingGoodsIssueDetails", locationIDParameter, handlingUnitIDParameter, goodsIssueIDParameter, customerIDParameter, receiverIDParameter, shippingAddressParameter, goodsIssueDetailIDsParameter, isReadonlyParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<HandlingUnitPendingGoodsIssueDetail>("GetHandlingUnitPendingGoodsIssueDetails", locationIDParameter, handlingUnitIDParameter, goodsIssueIDParameter, customerIDParameter, receiverIDParameter, shippingAddressParameter, addresseeParameter, goodsIssueDetailIDsParameter, isReadonlyParameter);
         }
     
         public virtual ObjectResult<HandlingUnitPendingGoodsIssue> GetHandlingUnitPendingGoodsIssues(Nullable<int> locationID)

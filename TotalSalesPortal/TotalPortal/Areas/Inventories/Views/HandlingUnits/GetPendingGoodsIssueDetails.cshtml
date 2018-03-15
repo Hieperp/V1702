@@ -8,11 +8,12 @@
     .Name("gridHandlingUnitPendingGoodsIssueDetails")
     .Columns(columns =>
     {
-        columns.Bound(c => c.GoodsIssueReference).Title("PXK").Width(35);
+        columns.Bound(c => c.GoodsIssueReference).Title("PXK").Width(30);
+        columns.Bound(c => c.GoodsIssueCode).Title("Đơn hàng").Width(56);
         columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày, giờ xuất kho").Width(60).Format("{0:" + SettingsManager.DateTimeFormat + "}");
         columns.Bound(c => c.CommodityCode).Title("Mã hàng").Width(90);
         columns.Bound(c => c.Description).Title("Diễn giải").Width(162);
-        columns.Bound(c => c.QuantityRemains).Title("SLXK").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"});
+        columns.Bound(c => c.QuantityRemains).Title("SLXK").Format("{0:n0}").Width(25).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" });
 
         columns.Template(t => { }).Title("&nbsp;").ClientTemplate("<input class='IsSelected' #= IsSelected ? checked='checked':'' #  type='checkbox' />").Width(15);
     })
@@ -30,17 +31,18 @@
             .Read(read => read.Action("GetPendingGoodsIssueDetails", "HandlingUnitAPIs", new { area = "Inventories" }).Data(@<text>
             function(e) {
 
-                var handlingUnitJSON = window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource.data().toJSON();
+            var handlingUnitJSON = window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource.data().toJSON();
 
-                return {
-                    locationID: window.parent.requireConfig.pageOptions.LocationID,
-                    handlingUnitID: window.parent.$("#HandlingUnitID").val(),
-                    goodsIssueID: window.parent.$("#GoodsIssue_GoodsIssueID").val(),
-                    customerID: window.parent.$("#Customer_CustomerID").val(),
-                    receiverID: window.parent.$("#Receiver_CustomerID").val(),
-                    shippingAddress: window.parent.$("#ShippingAddress").val(),
-                    goodsIssueDetailIDs : handlingUnitJSON.map(function(elem){return elem.GoodsIssueDetailID;}).join(","),
-                    isReadonly: false
+            return {
+            locationID: window.parent.requireConfig.pageOptions.LocationID,
+            handlingUnitID: window.parent.$("#HandlingUnitID").val(),
+            goodsIssueID: window.parent.$("#GoodsIssue_GoodsIssueID").val(),
+            customerID: window.parent.$("#Customer_CustomerID").val(),
+            receiverID: window.parent.$("#Receiver_CustomerID").val(),
+            shippingAddress: window.parent.$("#ShippingAddress").val(),
+            addressee: window.parent.$("#Addressee").val(),
+            goodsIssueDetailIDs : handlingUnitJSON.map(function(elem){return elem.GoodsIssueDetailID;}).join(","),
+            isReadonly: false
             };}
             </text>))
     .ServerOperation(false)) //If this is TRUE: Apply filter to datasource will call Ajax to get new datasource result. If this is FALSE: filter will run on client
