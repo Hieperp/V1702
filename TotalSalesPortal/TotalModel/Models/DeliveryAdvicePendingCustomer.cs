@@ -60,5 +60,6 @@ namespace TotalModel.Models
         public Nullable<int> TradePromotionID { get; set; }
         public string TradePromotionSpecs { get; set; }
         public decimal TradeDiscountRate { get; set; }
+        public string Addressee { get; set; }
     }
 }

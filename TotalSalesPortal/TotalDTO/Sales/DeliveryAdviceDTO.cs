@@ -44,7 +44,7 @@ namespace TotalDTO.Sales
         public string SalesOrderCodes { get; set; }
         [Display(Name = "Phiếu đặt hàng")]
         public string SalesOrderReferenceNote { get { return this.SalesOrderID != null ? this.SalesOrderReference : (this.SalesOrderReferences != "" ? this.SalesOrderReferences : "Giao hàng tổng hợp của nhiều ĐH"); } }
-        [Display(Name = "Số đơn đặt hàng")]
+        [Display(Name = "Số đơn hàng")]
         public string SalesOrderCodeNote { get { return this.SalesOrderID != null ? this.SalesOrderCode : (this.SalesOrderCodes != "" ? this.SalesOrderCodes : ""); } }
         [Display(Name = "Ngày đặt hàng")]
         public Nullable<System.DateTime> SalesOrderEntryDate { get; set; }
@@ -79,9 +79,11 @@ namespace TotalDTO.Sales
 
             base.PerformPresaveRule();
 
+            if (this.Addressee == null) { this.Addressee = ""; } this.Addressee = this.Addressee.Trim(); 
+
             string salesOrderReferences = ""; string salesOrderCodes = "";
             this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; e.ReceiverID = this.ReceiverID; e.PromotionID = this.PromotionID; e.SalespersonID = this.SalespersonID; if (this.HasSalesOrder && salesOrderReferences.IndexOf(e.SalesOrderReference) < 0) salesOrderReferences = salesOrderReferences + (salesOrderReferences != "" ? ", " : "") + e.SalesOrderReference; if (this.HasSalesOrder && salesOrderCodes.IndexOf(e.SalesOrderCode) < 0) salesOrderCodes = salesOrderCodes + (salesOrderCodes != "" ? ", " : "") + e.SalesOrderCode; });
-            this.SalesOrderReferences = salesOrderReferences; this.SalesOrderCodes = salesOrderCodes;
+            this.SalesOrderReferences = salesOrderReferences; this.SalesOrderCodes = salesOrderCodes; if (this.HasSalesOrder) this.Code = this.SalesOrderCodes;
         }
     }
 

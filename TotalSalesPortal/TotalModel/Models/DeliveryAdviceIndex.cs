@@ -30,6 +30,6 @@ namespace TotalModel.Models
         public string CustomerName { get; set; }
         public string ReceiverDescription { get; set; }
         public string Description { get; set; }
-        public string SalesOrderCodes { get; set; }
+        public string Code { get; set; }
     }
 }

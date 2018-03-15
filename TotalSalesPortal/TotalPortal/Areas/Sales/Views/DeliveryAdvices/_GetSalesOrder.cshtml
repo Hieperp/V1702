@@ -8,9 +8,10 @@
         columns.Bound(c => c.WarehouseCode).Title("Kho").Width(35);
         columns.Bound(c => c.SalesOrderCode).Title("Số ĐH").Width(50);
         columns.Bound(c => c.SalesOrderEntryDate).Title("Ngày ĐH").Width(55).Format("{0:" + SettingsManager.DateFormat + "}");
-        columns.Bound(c => c.CustomerName).Title("khách hàng").Width(150);
-        columns.Bound(c => c.ReceiverDescription).Title("Giao hàng").Width(200);
-        columns.Bound(c => c.Description).Title("Diễn giải").Width(90);
+        columns.Bound(c => c.CustomerName).Title("khách hàng").Width(140);
+        columns.Bound(c => c.ReceiverDescription).Title("Giao hàng").Width(150);
+        columns.Bound(c => c.Addressee).Title("Người nhận").Width(80);
+        columns.Bound(c => c.Description).Title("Diễn giải").Width(80);
     })
     .ToolBar(toolbar =>
     {
@@ -52,6 +53,8 @@
 
                     { field: "ReceiverCode", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter },
                     { field: "ReceiverName", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter },
+
+                    { field: "Addressee", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter },
 
                     { field: "WarehouseCode", operator: "contains", value: deliveryAdvicePendingSalesOrderFilter }
                 ]

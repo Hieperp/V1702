@@ -72,6 +72,7 @@ namespace TotalDTO.Sales
             //this.Approved = true; this.ApprovedDate = this.EntryDate; //At SalesOrder, Approve right after save. Surely, It can be UnApprove later for editing
             base.PerformPresaveRule();
 
+            if (this.Addressee == null) { this.Addressee = ""; } this.Addressee = this.Addressee.Trim(); 
             this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; e.ReceiverID = this.ReceiverID; e.PromotionID = this.PromotionID; e.SalespersonID = this.SalespersonID; });
         }
     }
