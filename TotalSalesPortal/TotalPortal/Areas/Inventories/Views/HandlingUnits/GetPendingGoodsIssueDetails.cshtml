@@ -50,17 +50,23 @@
 )
 
 <div class="background-bar" style="height: 45px;">
+    <button type="button" style="margin-top: 7px;margin-left: 7px;" class="k-button" onclick="doSelectAll_Click()"> <img src="~/Content/Images/Mains/Size24/CheckAll.png" /> Chọn tất cả </button>
     <div class="popup-button-bar">
         <button type="button" class="k-button" onclick="okButton_Click()"> <img src="~/Content/Images/Mains/Size24/Actions-bookmark-add-icon-24.png" /> Thêm măt hàng vào phiếu đóng gói</button>
         <button type="button" class="k-button" onclick="cancelButton_Click()"> <img src="~/Content/Images/Mains/Size24/Users-Exit-icon-24.png" /> Thoát </button>
     </div>
 </div>
 
+<script src="@Url.Content("~/Scripts/Helpers/KendoGrid/gridActions.js")"></script>
 <script src="@Url.Content("~/Scripts/Controllers/Inventories/HandlingUnits/AddHandlingUnitPendingGoodsIssueDetail.js")"></script>
 
 <script type="text/javascript">
     function okButton_Click() {
         handleOKEvent(window.parent.$("#kendoGridDetails").data("kendoGrid").dataSource, $("#gridHandlingUnitPendingGoodsIssueDetails").data("kendoGrid").dataSource);
+    }
+
+    function doSelectAll_Click() {
+        doSelectAll($("#gridHandlingUnitPendingGoodsIssueDetails").data("kendoGrid"));
     }
 
     $('#gridHandlingUnitPendingGoodsIssueDetails').on('click', '.IsSelected', function () {

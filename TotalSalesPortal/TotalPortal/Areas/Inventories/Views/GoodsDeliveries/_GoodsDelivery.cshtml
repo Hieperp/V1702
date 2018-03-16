@@ -53,7 +53,7 @@
                         .ClientTemplate("#= CustomerID #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].CustomerID' value='#= CustomerID #' />");
                     columns.Bound(p => p.CustomerCode).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= CustomerCode #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].CustomerCode' value='#= CustomerCode #' />");
-                    columns.Bound(p => p.CustomerName).DisplayNameTitle().Filterable(false).Width(200)
+                    columns.Bound(p => p.CustomerName).DisplayNameTitle().Filterable(false).Width(168)
                         .ClientTemplate("#= CustomerName #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].CustomerName' value='#= CustomerName #' />");
 
 
@@ -66,7 +66,7 @@
                     columns.Bound(p => p.ShippingAddress).DisplayNameTitle().Filterable(false).Hidden()
                         .ClientTemplate("#= ShippingAddress #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].ShippingAddress' value='#= ShippingAddress #' />");
 
-                    columns.Bound(p => p.ReceiverDescription).DisplayNameTitle().Filterable(false).Width(200)
+                    columns.Bound(p => p.ReceiverDescription).DisplayNameTitle().Filterable(false).Width(232)
                         .ClientFooterTemplate("Tổng cộng (#= kendo.format('{0:n0}', count) # dòng)")
                         .ClientTemplate("#= ReceiverDescription #" + "<input type='hidden' name='GoodsDeliveryViewDetails[#= index(data) #].ReceiverDescription' value='#= ReceiverDescription #' />");
                     
