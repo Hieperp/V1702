@@ -79,11 +79,11 @@ namespace TotalDTO.Sales
 
             base.PerformPresaveRule();
 
-            if (this.Addressee == null) { this.Addressee = ""; } this.Addressee = this.Addressee.Trim(); 
+            if (this.Addressee == null) { this.Addressee = ""; } this.Addressee = this.Addressee.Trim();
 
             string salesOrderReferences = ""; string salesOrderCodes = "";
             this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; e.ReceiverID = this.ReceiverID; e.PromotionID = this.PromotionID; e.SalespersonID = this.SalespersonID; if (this.HasSalesOrder && salesOrderReferences.IndexOf(e.SalesOrderReference) < 0) salesOrderReferences = salesOrderReferences + (salesOrderReferences != "" ? ", " : "") + e.SalesOrderReference; if (this.HasSalesOrder && salesOrderCodes.IndexOf(e.SalesOrderCode) < 0) salesOrderCodes = salesOrderCodes + (salesOrderCodes != "" ? ", " : "") + e.SalesOrderCode; });
-            this.SalesOrderReferences = salesOrderReferences; this.SalesOrderCodes = salesOrderCodes; if (this.HasSalesOrder) this.Code = this.SalesOrderCodes;
+            this.SalesOrderReferences = salesOrderReferences; this.SalesOrderCodes = salesOrderCodes != "" ? salesOrderCodes : null; if (this.HasSalesOrder) this.Code = this.SalesOrderCodes;
         }
     }
 
