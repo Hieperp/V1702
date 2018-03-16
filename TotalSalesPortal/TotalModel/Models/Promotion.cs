@@ -24,8 +24,8 @@ namespace TotalModel.Models
             this.DeliveryAdvices1 = new HashSet<DeliveryAdvice>();
             this.SalesOrders1 = new HashSet<SalesOrder>();
             this.SalesReturns1 = new HashSet<SalesReturn>();
-            this.AccountInvoices = new HashSet<AccountInvoice>();
             this.GoodsIssues = new HashSet<GoodsIssue>();
+            this.AccountInvoices = new HashSet<AccountInvoice>();
         }
     
         public int PromotionID { get; set; }
@@ -67,8 +67,8 @@ namespace TotalModel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesReturn> SalesReturns1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GoodsIssue> GoodsIssues { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }
     }
 }

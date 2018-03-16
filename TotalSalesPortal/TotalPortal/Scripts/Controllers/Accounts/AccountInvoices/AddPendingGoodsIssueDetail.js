@@ -49,6 +49,7 @@ function handleOKEvent(accountInvoiceGridDataSource, pendingGoodsIssueDetailGrid
         dataRow.GoodsIssueDetailID = goodsIssueGridDataItem.GoodsIssueDetailID;
         dataRow.GoodsIssueReference = goodsIssueGridDataItem.GoodsIssueReference;
         dataRow.GoodsIssueEntryDate = goodsIssueGridDataItem.GoodsIssueEntryDate;
+        dataRow.GoodsIssueCode = goodsIssueGridDataItem.GoodsIssueCode;
 
         dataRow.CustomerID = goodsIssueGridDataItem.CustomerID;
         dataRow.CommodityID = goodsIssueGridDataItem.CommodityID;

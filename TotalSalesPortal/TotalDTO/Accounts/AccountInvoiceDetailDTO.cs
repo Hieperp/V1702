@@ -25,6 +25,9 @@ namespace TotalDTO.Accounts
         [Display(Name = "Ngày XK")]
         [UIHint("DateTimeReadonly")]
         public System.DateTime GoodsIssueEntryDate { get; set; }
+        [Display(Name = "ĐH")]
+        [UIHint("StringReadonly")]
+        public string GoodsIssueCode { get; set; }
 
         [UIHint("StringReadonly")]
         public override string CommodityCode { get; set; }

@@ -27,6 +27,7 @@ namespace TotalModel.Models
         public string BillingAddress { get; set; }
         public Nullable<System.DateTime> GoodsIssueEntryDate { get; set; }
         public string GoodsIssueReferences { get; set; }
+        public string Code { get; set; }
         public string CustomerPO { get; set; }
     }
 }

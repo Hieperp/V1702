@@ -12,10 +12,10 @@
             columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(40);
             columns.Bound(p => p.VATInvoiceNo).Title("HĐ").Width(45).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Accounts/AccountInvoices", action = "Edit" }) + "/#= AccountInvoiceID #'>#=VATInvoiceNo#</a>");
             columns.Bound(p => p.VATInvoiceDate).Title("Ngày HĐ").Format("{0:dd/MM/yyyy}").Width(40);
-            columns.Bound(p => p.CustomerPO).Title("PO").Width(40);
+            columns.Bound(p => p.CodeCustomerPO).Title("PO").Width(60);
             columns.Bound(p => p.GoodsIssueReferences).Title("PXK").Width(110);
             columns.Bound(p => p.GoodsIssueEntryDate).Title("Ngày XK").Format("{0:dd/MM/yyyy}").Width(40);
-            columns.Bound(p => p.CustomerName).Title("Khách hàng").Width(330);
+            columns.Bound(p => p.CustomerName).Title("Khách hàng").Width(310);
 
             columns.Bound(p => p.TotalQuantity).Title("Số lượng").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Filterable(false).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
 

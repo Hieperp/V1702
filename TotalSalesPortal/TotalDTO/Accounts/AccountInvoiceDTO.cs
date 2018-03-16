@@ -29,6 +29,11 @@ namespace TotalDTO.Accounts
 
         public int GoodsIssueFirstID { get; set; }
         public string GoodsIssueReferences { get; set; }
+        [Display(Name = "Số đơn hàng")]
+        [UIHint("Commons/SOCode")]
+        public string Code { get; set; }
+        [Display(Name = "Số PO")]
+        public string CustomerPO { get; set; }
 
         public virtual Nullable<int> TradePromotionID { get; set; }
         [Display(Name = "Chiết khấu tổng")]
@@ -48,16 +53,14 @@ namespace TotalDTO.Accounts
         [Required(ErrorMessage = "Vui lòng nhập ngày hóa đơn")]
         public Nullable<System.DateTime> VATInvoiceDate { get; set; }
 
-        [Display(Name = "Số PO")]
-        public string CustomerPO { get; set; }
 
         public override void PerformPresaveRule()
         {
             base.PerformPresaveRule();
 
-            int goodsIssueFirstID = 0; string goodsIssueReferences = ""; int i = 0;
-            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; e.VATInvoiceDate = this.VATInvoiceDate; if ((e.Quantity != 0 || e.FreeQuantity != 0) && (goodsIssueFirstID == 0 || goodsIssueFirstID > e.GoodsIssueID)) goodsIssueFirstID = e.GoodsIssueID; if ((e.Quantity != 0 || e.FreeQuantity != 0) && i <= 6 && goodsIssueReferences.IndexOf(e.GoodsIssueReference) < 0) goodsIssueReferences = goodsIssueReferences + (goodsIssueReferences != "" ? ", " : "") + (i++ < 6 ? e.GoodsIssueReference : "..."); });
-            this.GoodsIssueFirstID = goodsIssueFirstID; this.GoodsIssueReferences = goodsIssueReferences;
+            int goodsIssueFirstID = 0; string goodsIssueReferences = ""; string goodsIssueCodes = ""; int i = 0; int j = 0;
+            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; e.VATInvoiceDate = this.VATInvoiceDate; if ((e.Quantity != 0 || e.FreeQuantity != 0) && (goodsIssueFirstID == 0 || goodsIssueFirstID > e.GoodsIssueID)) goodsIssueFirstID = e.GoodsIssueID; if ((e.Quantity != 0 || e.FreeQuantity != 0) && i <= 6 && goodsIssueReferences.IndexOf(e.GoodsIssueReference) < 0) goodsIssueReferences = goodsIssueReferences + (goodsIssueReferences != "" ? ", " : "") + (i++ < 6 ? e.GoodsIssueReference : "..."); if ((e.Quantity != 0 || e.FreeQuantity != 0) && j <= 6 && e.GoodsIssueCode != null && goodsIssueCodes.IndexOf(e.GoodsIssueCode) < 0) goodsIssueCodes = goodsIssueCodes + (goodsIssueCodes != "" ? ", " : "") + (j++ < 6 ? e.GoodsIssueCode : "..."); });
+            this.GoodsIssueFirstID = goodsIssueFirstID; this.GoodsIssueReferences = goodsIssueReferences; this.Code = goodsIssueCodes != "" ? goodsIssueCodes : null;            
         }
     }
 

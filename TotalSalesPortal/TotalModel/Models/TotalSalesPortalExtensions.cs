@@ -182,6 +182,11 @@ namespace TotalModel.Models
     }
 
 
+    public partial class AccountInvoiceIndex
+    {
+        public string CodeCustomerPO { get { return ((this.Code != null ? this.Code + " " : "") + (this.CustomerPO != null ? this.CustomerPO : "")).Trim(); } }
+    }
+
 
     public partial class AccountInvoice : IPrimitiveEntity, IBaseEntity, IBaseDetailEntity<AccountInvoiceDetail>
     {

@@ -18,10 +18,10 @@ namespace TotalModel.Models
         public PaymentTerm()
         {
             this.DeliveryAdvices = new HashSet<DeliveryAdvice>();
-            this.AccountInvoices = new HashSet<AccountInvoice>();
             this.CustomerCategories = new HashSet<CustomerCategory>();
             this.GoodsIssues = new HashSet<GoodsIssue>();
             this.SalesOrders = new HashSet<SalesOrder>();
+            this.AccountInvoices = new HashSet<AccountInvoice>();
         }
     
         public int PaymentTermID { get; set; }
@@ -34,12 +34,12 @@ namespace TotalModel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DeliveryAdvice> DeliveryAdvices { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustomerCategory> CustomerCategories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GoodsIssue> GoodsIssues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrder> SalesOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }
     }
 }

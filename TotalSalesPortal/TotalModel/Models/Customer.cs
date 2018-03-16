@@ -17,8 +17,6 @@ namespace TotalModel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Customer()
         {
-            this.AccountInvoices = new HashSet<AccountInvoice>();
-            this.AccountInvoices1 = new HashSet<AccountInvoice>();
             this.DeliveryAdvices = new HashSet<DeliveryAdvice>();
             this.DeliveryAdvices1 = new HashSet<DeliveryAdvice>();
             this.GoodsDeliveries = new HashSet<GoodsDelivery>();
@@ -26,13 +24,15 @@ namespace TotalModel.Models
             this.GoodsIssues1 = new HashSet<GoodsIssue>();
             this.HandlingUnits = new HashSet<HandlingUnit>();
             this.HandlingUnits1 = new HashSet<HandlingUnit>();
-            this.AccountInvoices2 = new HashSet<AccountInvoice>();
             this.Receipts = new HashSet<Receipt>();
             this.SalesOrders = new HashSet<SalesOrder>();
             this.SalesOrders1 = new HashSet<SalesOrder>();
             this.SalesReturns = new HashSet<SalesReturn>();
             this.SalesReturns1 = new HashSet<SalesReturn>();
             this.CreditNotes = new HashSet<CreditNote>();
+            this.AccountInvoices = new HashSet<AccountInvoice>();
+            this.AccountInvoices1 = new HashSet<AccountInvoice>();
+            this.AccountInvoices2 = new HashSet<AccountInvoice>();
         }
     
         public int CustomerID { get; set; }
@@ -62,10 +62,6 @@ namespace TotalModel.Models
         public string VendorCategory { get; set; }
         public Nullable<int> MonetaryAccountID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccountInvoice> AccountInvoices1 { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual EntireTerritory EntireTerritory { get; set; }
         public virtual PriceCategory PriceCategory { get; set; }
@@ -86,8 +82,6 @@ namespace TotalModel.Models
         public virtual ICollection<HandlingUnit> HandlingUnits1 { get; set; }
         public virtual CustomerCategory CustomerCategory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccountInvoice> AccountInvoices2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Receipt> Receipts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrder> SalesOrders { get; set; }
@@ -99,5 +93,11 @@ namespace TotalModel.Models
         public virtual ICollection<SalesReturn> SalesReturns1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CreditNote> CreditNotes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccountInvoice> AccountInvoices1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccountInvoice> AccountInvoices2 { get; set; }
     }
 }

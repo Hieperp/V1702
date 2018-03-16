@@ -19,7 +19,6 @@ namespace TotalModel.Models
         {
             this.OrganizationalUnits = new HashSet<OrganizationalUnit>();
             this.Employees = new HashSet<Employee>();
-            this.AccountInvoices = new HashSet<AccountInvoice>();
             this.GoodsDeliveries = new HashSet<GoodsDelivery>();
             this.DeliveryAdvices = new HashSet<DeliveryAdvice>();
             this.HandlingUnits = new HashSet<HandlingUnit>();
@@ -27,6 +26,7 @@ namespace TotalModel.Models
             this.Warehouses = new HashSet<Warehouse>();
             this.SalesReturns = new HashSet<SalesReturn>();
             this.CreditNotes = new HashSet<CreditNote>();
+            this.AccountInvoices = new HashSet<AccountInvoice>();
         }
     
         public int LocationID { get; set; }
@@ -46,8 +46,6 @@ namespace TotalModel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GoodsDelivery> GoodsDeliveries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DeliveryAdvice> DeliveryAdvices { get; set; }
@@ -61,5 +59,7 @@ namespace TotalModel.Models
         public virtual ICollection<SalesReturn> SalesReturns { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CreditNote> CreditNotes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }
     }
 }

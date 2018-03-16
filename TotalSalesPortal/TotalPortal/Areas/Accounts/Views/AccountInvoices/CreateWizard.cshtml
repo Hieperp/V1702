@@ -10,6 +10,8 @@
 
     @Html.HiddenFor(model => model.AccountInvoiceID);
 
+    @Html.HiddenFor(model => model.Code);
+    
     @Html.HiddenFor(model => model.PaymentTermID);
 
     @Html.HiddenFor(model => model.VATbyRow);    
@@ -124,6 +126,8 @@
 
 
         function _setModelInput(selectedDataItem) {
+            $("#Code").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueCode === undefined ? null : selectedDataItem.GoodsIssueCode);
+
             $("#GoodsIssue_GoodsIssueID").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueID === undefined ? null : selectedDataItem.GoodsIssueID);
             $("#GoodsIssue_Reference").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueReference === undefined ? null : selectedDataItem.GoodsIssueReference);
             $("#GoodsIssue_EntryDate").val(selectedDataItem === undefined || selectedDataItem.GoodsIssueEntryDate === undefined ? null : kendo.toString(selectedDataItem.GoodsIssueEntryDate, SettingsManager.DateFormat));

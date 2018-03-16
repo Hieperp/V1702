@@ -6,9 +6,10 @@
     .Columns(columns =>
     {
         columns.Bound(c => c.GoodsIssueReference).Title("PXK").Width(35);
+        columns.Bound(c => c.GoodsIssueCode).Title("Đơn hàng").Width(50);
         columns.Bound(c => c.GoodsIssueEntryDate).Title("Ngày, giờ xuất kho").Width(85).Format("{0:" + SettingsManager.DateTimeFormat + "}");
-        columns.Bound(c => c.GoodsIssueCustomerName).Title("Tên khách hàng").Width(240);
-        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(240);
+        columns.Bound(c => c.GoodsIssueCustomerName).Title("Tên khách hàng").Width(190);
+        columns.Bound(c => c.ReceiverName).Title("Tên đơn vị nhận").Width(180);
     })
     .ToolBar(toolbar =>
     {

@@ -68,6 +68,7 @@
           <Property Name="AccountInvoiceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EntryDate" Type="datetime" Nullable="false" />
           <Property Name="Reference" Type="nvarchar" MaxLength="10" />
+          <Property Name="Code" Type="nvarchar" MaxLength="60" />
           <Property Name="VATInvoiceNo" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="VATInvoiceDate" Type="datetime" Nullable="false" />
           <Property Name="VATInvoiceSeries" Type="nvarchar" MaxLength="60" Nullable="false" />
@@ -3563,7 +3564,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="EditedDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="OrganizationalUnits" Relationship="TotalSalesPortalModel.FK_OrganizationalUnits_Locations" FromRole="Location" ToRole="OrganizationalUnit" />
           <NavigationProperty Name="Employees" Relationship="TotalSalesPortalModel.FK_Employees_Locations" FromRole="Location" ToRole="Employee" />
-          <NavigationProperty Name="AccountInvoices" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Locations" FromRole="Location" ToRole="AccountInvoice" />
           <NavigationProperty Name="GoodsDeliveries" Relationship="TotalSalesPortalModel.FK_GoodsDeliveries_Locations" FromRole="Location" ToRole="GoodsDelivery" />
           <NavigationProperty Name="DeliveryAdvices" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Locations" FromRole="Location" ToRole="DeliveryAdvice" />
           <NavigationProperty Name="HandlingUnits" Relationship="TotalSalesPortalModel.FK_HandlingUnits_Locations" FromRole="Location" ToRole="HandlingUnit" />
@@ -3571,6 +3571,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="Warehouses" Relationship="TotalSalesPortalModel.FK_Warehouses_Locations" FromRole="Location" ToRole="Warehouse" />
           <NavigationProperty Name="SalesReturns" Relationship="TotalSalesPortalModel.FK_SalesReturns_Locations" FromRole="Location" ToRole="SalesReturn" />
           <NavigationProperty Name="CreditNotes" Relationship="TotalSalesPortalModel.FK_CreditNotes_Locations" FromRole="Location" ToRole="CreditNote" />
+          <NavigationProperty Name="AccountInvoices" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Locations" FromRole="Location" ToRole="AccountInvoice" />
           </EntityType>
         <EntityType Name="ModuleDetail">
           <Key>
@@ -3811,15 +3812,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="Approved" Mode="In" Type="Boolean" />
           </FunctionImport>
           <EntitySet Name="AccountInvoiceDetails" EntityType="TotalSalesPortalModel.AccountInvoiceDetail" />
-          <EntitySet Name="AccountInvoices" EntityType="TotalSalesPortalModel.AccountInvoice" />
-          <AssociationSet Name="FK_AccountInvoices_Locations" Association="TotalSalesPortalModel.FK_AccountInvoices_Locations">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AccountInvoiceDetails_AccountInvoices" Association="TotalSalesPortalModel.FK_AccountInvoiceDetails_AccountInvoices">
-            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
-            <End Role="AccountInvoiceDetail" EntitySet="AccountInvoiceDetails" />
-          </AssociationSet>
           <FunctionImport Name="GetPendingGoodsIssueDetails" ReturnType="Collection(TotalSalesPortalModel.PendingGoodsIssueDetail)">
             <Parameter Name="AccountInvoiceID" Mode="In" Type="Int32" />
             <Parameter Name="LocationID" Mode="In" Type="Int32" />
@@ -3930,18 +3922,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <AssociationSet Name="FK_AccountInvoiceDetails_GoodsIssueDetails" Association="TotalSalesPortalModel.FK_AccountInvoiceDetails_GoodsIssueDetails">
             <End Role="GoodsIssueDetail" EntitySet="GoodsIssueDetails" />
             <End Role="AccountInvoiceDetail" EntitySet="AccountInvoiceDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AccountInvoices_Customers" Association="TotalSalesPortalModel.FK_AccountInvoices_Customers">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AccountInvoices_Customers1" Association="TotalSalesPortalModel.FK_AccountInvoices_Customers1">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AccountInvoices_GoodsIssues" Association="TotalSalesPortalModel.FK_AccountInvoices_GoodsIssues">
-            <End Role="GoodsIssue" EntitySet="GoodsIssues" />
-            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
           </AssociationSet>
           <AssociationSet Name="FK_Customers_Employees" Association="TotalSalesPortalModel.FK_Customers_Employees">
             <End Role="Employee" EntitySet="Employees" />
@@ -4091,14 +4071,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <FunctionImport Name="GetPendingGoodsIssueReceivers" ReturnType="Collection(TotalSalesPortalModel.PendingGoodsIssueReceiver)">
           <Parameter Name="LocationID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <AssociationSet Name="FK_AccountInvoices_Customers2" Association="TotalSalesPortalModel.FK_AccountInvoices_Customers2">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AccountInvoices_PaymentTerms" Association="TotalSalesPortalModel.FK_AccountInvoices_PaymentTerms">
-            <End Role="PaymentTerm" EntitySet="PaymentTerms" />
-            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
-          </AssociationSet>
           <AssociationSet Name="FK_CustomerCategories_PaymentTerms" Association="TotalSalesPortalModel.FK_CustomerCategories_PaymentTerms">
             <End Role="PaymentTerm" EntitySet="PaymentTerms" />
             <End Role="CustomerCategory" EntitySet="CustomerCategories" />
@@ -4574,13 +4546,42 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="Promotion" EntitySet="Promotions" />
             <End Role="SalesReturn" EntitySet="SalesReturns" />
           </AssociationSet>
-          <AssociationSet Name="FK_AccountInvoices_TradePromotions" Association="TotalSalesPortalModel.FK_AccountInvoices_TradePromotions">
-            <End Role="Promotion" EntitySet="Promotions" />
-            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
-          </AssociationSet>
           <AssociationSet Name="FK_GoodsIssues_TradePromotions" Association="TotalSalesPortalModel.FK_GoodsIssues_TradePromotions">
             <End Role="Promotion" EntitySet="Promotions" />
             <End Role="GoodsIssue" EntitySet="GoodsIssues" />
+          </AssociationSet>
+          <EntitySet Name="AccountInvoices" EntityType="TotalSalesPortalModel.AccountInvoice" />
+          <AssociationSet Name="FK_AccountInvoiceDetails_AccountInvoices" Association="TotalSalesPortalModel.FK_AccountInvoiceDetails_AccountInvoices">
+            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
+            <End Role="AccountInvoiceDetail" EntitySet="AccountInvoiceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoices_Customers" Association="TotalSalesPortalModel.FK_AccountInvoices_Customers">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoices_Customers1" Association="TotalSalesPortalModel.FK_AccountInvoices_Customers1">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoices_Customers2" Association="TotalSalesPortalModel.FK_AccountInvoices_Customers2">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoices_GoodsIssues" Association="TotalSalesPortalModel.FK_AccountInvoices_GoodsIssues">
+            <End Role="GoodsIssue" EntitySet="GoodsIssues" />
+            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoices_Locations" Association="TotalSalesPortalModel.FK_AccountInvoices_Locations">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoices_PaymentTerms" Association="TotalSalesPortalModel.FK_AccountInvoices_PaymentTerms">
+            <End Role="PaymentTerm" EntitySet="PaymentTerms" />
+            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountInvoices_TradePromotions" Association="TotalSalesPortalModel.FK_AccountInvoices_TradePromotions">
+            <End Role="Promotion" EntitySet="Promotions" />
+            <End Role="AccountInvoice" EntitySet="AccountInvoices" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
@@ -4741,10 +4742,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="IsDefault" Type="Boolean" Nullable="false" />
           <Property Name="CalculateID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="DeliveryAdvices" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_PaymentTerms" FromRole="PaymentTerm" ToRole="DeliveryAdvice" />
-          <NavigationProperty Name="AccountInvoices" Relationship="TotalSalesPortalModel.FK_AccountInvoices_PaymentTerms" FromRole="PaymentTerm" ToRole="AccountInvoice" />
           <NavigationProperty Name="CustomerCategories" Relationship="TotalSalesPortalModel.FK_CustomerCategories_PaymentTerms" FromRole="PaymentTerm" ToRole="CustomerCategory" />
           <NavigationProperty Name="GoodsIssues" Relationship="TotalSalesPortalModel.FK_GoodsIssues_PaymentTerms" FromRole="PaymentTerm" ToRole="GoodsIssue" />
           <NavigationProperty Name="SalesOrders" Relationship="TotalSalesPortalModel.FK_SalesOrders_PaymentTerms" FromRole="PaymentTerm" ToRole="SalesOrder" />
+          <NavigationProperty Name="AccountInvoices" Relationship="TotalSalesPortalModel.FK_AccountInvoices_PaymentTerms" FromRole="PaymentTerm" ToRole="AccountInvoice" />
         </EntityType>
         <EntityType Name="Territory">
           <Key>
@@ -5056,6 +5057,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="BillingAddress" Nullable="false" MaxLength="200" />
           <Property Type="DateTime" Name="GoodsIssueEntryDate" Nullable="true" Precision="23" />
           <Property Type="String" Name="GoodsIssueReferences" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Code" Nullable="true" MaxLength="60" />
           <Property Type="String" Name="CustomerPO" Nullable="true" MaxLength="60" />
         </ComplexType>
         <ComplexType Name="AccountInvoiceViewDetail">
@@ -5091,6 +5093,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="DateTime" Name="GoodsIssueEntryDate" Nullable="false" Precision="23" />
           <Property Type="Boolean" Name="VATbyRow" Nullable="false" />
           <Property Type="Decimal" Name="TradeDiscountRate" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="GoodsIssueCode" Nullable="true" MaxLength="60" />
         </ComplexType>
         <ComplexType Name="CustomerReceivable">
           <Property Type="Int32" Name="CustomerID" Nullable="false" />
@@ -5224,7 +5227,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="GrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="IsBonus" Type="Boolean" />
           <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AccountInvoice" Relationship="TotalSalesPortalModel.FK_AccountInvoiceDetails_AccountInvoices" FromRole="AccountInvoiceDetail" ToRole="AccountInvoice" />
           <NavigationProperty Name="GoodsIssueDetail" Relationship="TotalSalesPortalModel.FK_AccountInvoiceDetails_GoodsIssueDetails" FromRole="AccountInvoiceDetail" ToRole="GoodsIssueDetail" />
           <Property Name="CalculatingTypeID" Type="Int32" Nullable="false" />
           <Property Name="ListedGrossPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
@@ -5239,89 +5241,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="VATbyRow" Type="Boolean" Nullable="false" />
           <Property Name="TradeDiscountRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="VATInvoiceDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AccountInvoice" Relationship="TotalSalesPortalModel.FK_AccountInvoiceDetails_AccountInvoices" FromRole="AccountInvoiceDetail" ToRole="AccountInvoice" />
         </EntityType>
-        <EntityType Name="AccountInvoice">
-          <Key>
-            <PropertyRef Name="AccountInvoiceID" />
-          </Key>
-          <Property Name="AccountInvoiceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Reference" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="PreparedPersonID" Type="Int32" Nullable="false" />
-          <Property Name="OrganizationalUnitID" Type="Int32" Nullable="false" />
-          <Property Name="LocationID" Type="Int32" Nullable="false" />
-          <Property Name="ApproverID" Type="Int32" Nullable="false" />
-          <Property Name="TotalQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TotalAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TotalVATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TotalGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="VATInvoiceNo" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="VATInvoiceDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="VATInvoiceSeries" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EditedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Approved" Type="Boolean" Nullable="false" />
-          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
-          <Property Name="InActive" Type="Boolean" Nullable="false" />
-          <Property Name="InActivePartial" Type="Boolean" Nullable="false" />
-          <Property Name="InActiveDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Locations" FromRole="AccountInvoice" ToRole="Location" />
-          <NavigationProperty Name="AccountInvoiceDetails" Relationship="TotalSalesPortalModel.FK_AccountInvoiceDetails_AccountInvoices" FromRole="AccountInvoice" ToRole="AccountInvoiceDetail" />
-          <Property Name="ConsumerID" Type="Int32" />
-          <Property Name="GoodsIssueID" Type="Int32" />
-          <NavigationProperty Name="Customer" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers" FromRole="AccountInvoice" ToRole="Customer" />
-          <NavigationProperty Name="Customer1" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers1" FromRole="AccountInvoice" ToRole="Customer" />
-          <NavigationProperty Name="GoodsIssue" Relationship="TotalSalesPortalModel.FK_AccountInvoices_GoodsIssues" FromRole="AccountInvoice" ToRole="GoodsIssue" />
-          <Property Name="TotalListedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TotalListedVATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TotalListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="AverageDiscountPercent" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
-          <Property Name="ReceiverID" Type="Int32" />
-          <NavigationProperty Name="Customer2" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers2" FromRole="AccountInvoice" ToRole="Customer" />
-          <Property Name="PaymentTermID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="PaymentTerm" Relationship="TotalSalesPortalModel.FK_AccountInvoices_PaymentTerms" FromRole="AccountInvoice" ToRole="PaymentTerm" />
-          <Property Name="TotalFreeQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="VATPercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="GoodsIssueFirstID" Type="Int32" Nullable="false" />
-          <Property Name="GoodsIssueReferences" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="VATbyRow" Type="Boolean" Nullable="false" />
-          <Property Name="TradeDiscountRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="ListedTradeDiscountAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TradeDiscountAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TotalListedTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TotalTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="CustomerPO" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
-          <Property Name="TradePromotionID" Type="Int32" />
-          <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_AccountInvoices_TradePromotions" FromRole="AccountInvoice" ToRole="Promotion" />
-          </EntityType>
-        <Association Name="FK_AccountInvoices_Locations">
-          <End Type="TotalSalesPortalModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="LocationID" />
-            </Principal>
-            <Dependent Role="AccountInvoice">
-              <PropertyRef Name="LocationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AccountInvoiceDetails_AccountInvoices">
-          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.AccountInvoiceDetail" Role="AccountInvoiceDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AccountInvoice">
-              <PropertyRef Name="AccountInvoiceID" />
-            </Principal>
-            <Dependent Role="AccountInvoiceDetail">
-              <PropertyRef Name="AccountInvoiceID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="PendingGoodsIssueDetail">
           <Property Type="Int32" Name="GoodsIssueID" Nullable="false" />
           <Property Type="Int32" Name="GoodsIssueDetailID" Nullable="false" />
@@ -5358,6 +5279,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="DateTime" Name="GoodsIssueEntryDate" Nullable="false" Precision="23" />
           <Property Type="Boolean" Name="VATbyRow" Nullable="false" />
           <Property Type="Decimal" Name="TradeDiscountRate" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="GoodsIssueCode" Nullable="true" MaxLength="60" />
         </ComplexType>
         <ComplexType Name="PendingGoodsIssueConsumer">
           <Property Type="Int32" Name="CustomerID" Nullable="false" />
@@ -5398,6 +5320,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
           <Property Type="Int32" Name="TradePromotionID" Nullable="true" />
           <Property Type="String" Name="TradePromotionSpecs" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="GoodsIssueCode" Nullable="true" MaxLength="60" />
         </ComplexType>
         <EntityType Name="PackingMaterial">
           <Key>
@@ -5753,8 +5676,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="IsCustomer" Type="Boolean" Nullable="false" />
           <Property Name="IsSupplier" Type="Boolean" Nullable="false" />
           <Property Name="IsFemale" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="AccountInvoices" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers" FromRole="Customer" ToRole="AccountInvoice" />
-          <NavigationProperty Name="AccountInvoices1" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers1" FromRole="Customer" ToRole="AccountInvoice" />
           <NavigationProperty Name="Employee" Relationship="TotalSalesPortalModel.FK_Customers_Employees" FromRole="Customer" ToRole="Employee" />
           <NavigationProperty Name="EntireTerritory" Relationship="TotalSalesPortalModel.FK_Customers_EntireTerritories" FromRole="Customer" ToRole="EntireTerritory" />
           <NavigationProperty Name="PriceCategory" Relationship="TotalSalesPortalModel.FK_Customers_PriceCategories" FromRole="Customer" ToRole="PriceCategory" />
@@ -5769,7 +5690,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="VendorCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="VendorCategory" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CustomerCategory" Relationship="TotalSalesPortalModel.FK_Customers_CustomerCategories" FromRole="Customer" ToRole="CustomerCategory" />
-          <NavigationProperty Name="AccountInvoices2" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers2" FromRole="Customer" ToRole="AccountInvoice" />
           <NavigationProperty Name="Receipts" Relationship="TotalSalesPortalModel.FK_Receipts_Customers" FromRole="Customer" ToRole="Receipt" />
           <Property Name="MonetaryAccountID" Type="Int32" />
           <NavigationProperty Name="SalesOrders" Relationship="TotalSalesPortalModel.FK_SalesOrders_Customers" FromRole="Customer" ToRole="SalesOrder" />
@@ -5777,6 +5697,9 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="SalesReturns" Relationship="TotalSalesPortalModel.FK_SalesReturns_Customers" FromRole="Customer" ToRole="SalesReturn" />
           <NavigationProperty Name="SalesReturns1" Relationship="TotalSalesPortalModel.FK_SalesReturns_Customers1" FromRole="Customer" ToRole="SalesReturn" />
           <NavigationProperty Name="CreditNotes" Relationship="TotalSalesPortalModel.FK_CreditNotes_Customers" FromRole="Customer" ToRole="CreditNote" />
+          <NavigationProperty Name="AccountInvoices" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers" FromRole="Customer" ToRole="AccountInvoice" />
+          <NavigationProperty Name="AccountInvoices1" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers1" FromRole="Customer" ToRole="AccountInvoice" />
+          <NavigationProperty Name="AccountInvoices2" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers2" FromRole="Customer" ToRole="AccountInvoice" />
         </EntityType>
         <EntityType Name="DeliveryAdviceDetail">
           <Key>
@@ -5991,7 +5914,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="InActive" Type="Boolean" Nullable="false" />
           <Property Name="InActivePartial" Type="Boolean" Nullable="false" />
           <Property Name="InActiveDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="AccountInvoices" Relationship="TotalSalesPortalModel.FK_AccountInvoices_GoodsIssues" FromRole="GoodsIssue" ToRole="AccountInvoice" />
           <NavigationProperty Name="Customer" Relationship="TotalSalesPortalModel.FK_GoodsIssues_Customers" FromRole="GoodsIssue" ToRole="Customer" />
           <NavigationProperty Name="Customer1" Relationship="TotalSalesPortalModel.FK_GoodsIssues_Customers1" FromRole="GoodsIssue" ToRole="Customer" />
           <NavigationProperty Name="DeliveryAdvice" Relationship="TotalSalesPortalModel.FK_GoodsIssues_DeliveryAdvices" FromRole="GoodsIssue" ToRole="DeliveryAdvice" />
@@ -6021,6 +5943,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_GoodsIssues_TradePromotions" FromRole="GoodsIssue" ToRole="Promotion" />
           <Property Name="Code" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
           <Property Name="Addressee" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AccountInvoices" Relationship="TotalSalesPortalModel.FK_AccountInvoices_GoodsIssues" FromRole="GoodsIssue" ToRole="AccountInvoice" />
         </EntityType>
         <Association Name="FK_AccountInvoiceDetails_GoodsIssueDetails">
           <End Type="TotalSalesPortalModel.GoodsIssueDetail" Role="GoodsIssueDetail" Multiplicity="1" />
@@ -6031,42 +5954,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Principal>
             <Dependent Role="AccountInvoiceDetail">
               <PropertyRef Name="GoodsIssueDetailID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AccountInvoices_Customers">
-          <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerID" />
-            </Principal>
-            <Dependent Role="AccountInvoice">
-              <PropertyRef Name="CustomerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AccountInvoices_Customers1">
-          <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="0..1" />
-          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerID" />
-            </Principal>
-            <Dependent Role="AccountInvoice">
-              <PropertyRef Name="ConsumerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AccountInvoices_GoodsIssues">
-          <End Type="TotalSalesPortalModel.GoodsIssue" Role="GoodsIssue" Multiplicity="0..1" />
-          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GoodsIssue">
-              <PropertyRef Name="GoodsIssueID" />
-            </Principal>
-            <Dependent Role="AccountInvoice">
-              <PropertyRef Name="GoodsIssueID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6514,30 +6401,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="TradePromotionSpecs" Nullable="true" MaxLength="150" />
           <Property Type="Decimal" Name="TradeDiscountRate" Nullable="false" Precision="18" Scale="2" />
         </ComplexType>
-        <Association Name="FK_AccountInvoices_Customers2">
-          <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="0..1" />
-          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="CustomerID" />
-            </Principal>
-            <Dependent Role="AccountInvoice">
-              <PropertyRef Name="ReceiverID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AccountInvoices_PaymentTerms">
-          <End Type="TotalSalesPortalModel.PaymentTerm" Role="PaymentTerm" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaymentTerm">
-              <PropertyRef Name="PaymentTermID" />
-            </Principal>
-            <Dependent Role="AccountInvoice">
-              <PropertyRef Name="PaymentTermID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CustomerCategories_PaymentTerms">
           <End Type="TotalSalesPortalModel.PaymentTerm" Role="PaymentTerm" Multiplicity="1" />
           <End Type="TotalSalesPortalModel.CustomerCategory" Role="CustomerCategory" Multiplicity="*" />
@@ -8082,8 +7945,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="DeliveryAdvices1" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_TradePromotions" FromRole="Promotion" ToRole="DeliveryAdvice" />
           <NavigationProperty Name="SalesOrders1" Relationship="TotalSalesPortalModel.FK_SalesOrders_TradePromotions" FromRole="Promotion" ToRole="SalesOrder" />
           <NavigationProperty Name="SalesReturns1" Relationship="TotalSalesPortalModel.FK_SalesReturns_TradePromotions" FromRole="Promotion" ToRole="SalesReturn" />
-          <NavigationProperty Name="AccountInvoices" Relationship="TotalSalesPortalModel.FK_AccountInvoices_TradePromotions" FromRole="Promotion" ToRole="AccountInvoice" />
           <NavigationProperty Name="GoodsIssues" Relationship="TotalSalesPortalModel.FK_GoodsIssues_TradePromotions" FromRole="Promotion" ToRole="GoodsIssue" />
+          <NavigationProperty Name="AccountInvoices" Relationship="TotalSalesPortalModel.FK_AccountInvoices_TradePromotions" FromRole="Promotion" ToRole="AccountInvoice" />
         </EntityType>
         <Association Name="FK_Promotions_CommodityBrands">
           <End Type="TotalSalesPortalModel.CommodityBrand" Role="CommodityBrand" Multiplicity="1" />
@@ -8195,18 +8058,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AccountInvoices_TradePromotions">
-          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="0..1" />
-          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Promotion">
-              <PropertyRef Name="PromotionID" />
-            </Principal>
-            <Dependent Role="AccountInvoice">
-              <PropertyRef Name="TradePromotionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_GoodsIssues_TradePromotions">
           <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="0..1" />
           <End Type="TotalSalesPortalModel.GoodsIssue" Role="GoodsIssue" Multiplicity="*" />
@@ -8215,6 +8066,161 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               <PropertyRef Name="PromotionID" />
             </Principal>
             <Dependent Role="GoodsIssue">
+              <PropertyRef Name="TradePromotionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AccountInvoice">
+          <Key>
+            <PropertyRef Name="AccountInvoiceID" />
+          </Key>
+          <Property Name="AccountInvoiceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Reference" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="VATInvoiceNo" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="VATInvoiceDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="VATInvoiceSeries" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerPO" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="ConsumerID" Type="Int32" />
+          <Property Name="ReceiverID" Type="Int32" />
+          <Property Name="GoodsIssueID" Type="Int32" />
+          <Property Name="GoodsIssueFirstID" Type="Int32" Nullable="false" />
+          <Property Name="GoodsIssueReferences" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="TradePromotionID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="PreparedPersonID" Type="Int32" Nullable="false" />
+          <Property Name="OrganizationalUnitID" Type="Int32" Nullable="false" />
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="ApproverID" Type="Int32" Nullable="false" />
+          <Property Name="PaymentTermID" Type="Int32" Nullable="false" />
+          <Property Name="VATbyRow" Type="Boolean" Nullable="false" />
+          <Property Name="VATPercent" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalFreeQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalListedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TradeDiscountRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ListedTradeDiscountAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TradeDiscountAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalListedTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalTaxableAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalListedVATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalVATAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="AverageDiscountPercent" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EditedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Approved" Type="Boolean" Nullable="false" />
+          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
+          <Property Name="InActive" Type="Boolean" Nullable="false" />
+          <Property Name="InActivePartial" Type="Boolean" Nullable="false" />
+          <Property Name="InActiveDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AccountInvoiceDetails" Relationship="TotalSalesPortalModel.FK_AccountInvoiceDetails_AccountInvoices" FromRole="AccountInvoice" ToRole="AccountInvoiceDetail" />
+          <NavigationProperty Name="Customer" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers" FromRole="AccountInvoice" ToRole="Customer" />
+          <NavigationProperty Name="Customer1" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers1" FromRole="AccountInvoice" ToRole="Customer" />
+          <NavigationProperty Name="Customer2" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers2" FromRole="AccountInvoice" ToRole="Customer" />
+          <NavigationProperty Name="GoodsIssue" Relationship="TotalSalesPortalModel.FK_AccountInvoices_GoodsIssues" FromRole="AccountInvoice" ToRole="GoodsIssue" />
+          <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Locations" FromRole="AccountInvoice" ToRole="Location" />
+          <NavigationProperty Name="PaymentTerm" Relationship="TotalSalesPortalModel.FK_AccountInvoices_PaymentTerms" FromRole="AccountInvoice" ToRole="PaymentTerm" />
+          <NavigationProperty Name="Promotion" Relationship="TotalSalesPortalModel.FK_AccountInvoices_TradePromotions" FromRole="AccountInvoice" ToRole="Promotion" />
+        </EntityType>
+        <Association Name="FK_AccountInvoiceDetails_AccountInvoices">
+          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.AccountInvoiceDetail" Role="AccountInvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountInvoice">
+              <PropertyRef Name="AccountInvoiceID" />
+            </Principal>
+            <Dependent Role="AccountInvoiceDetail">
+              <PropertyRef Name="AccountInvoiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountInvoices_Customers">
+          <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="AccountInvoice">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountInvoices_Customers1">
+          <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="AccountInvoice">
+              <PropertyRef Name="ConsumerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountInvoices_Customers2">
+          <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="AccountInvoice">
+              <PropertyRef Name="ReceiverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountInvoices_GoodsIssues">
+          <End Type="TotalSalesPortalModel.GoodsIssue" Role="GoodsIssue" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GoodsIssue">
+              <PropertyRef Name="GoodsIssueID" />
+            </Principal>
+            <Dependent Role="AccountInvoice">
+              <PropertyRef Name="GoodsIssueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountInvoices_Locations">
+          <End Type="TotalSalesPortalModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="AccountInvoice">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountInvoices_PaymentTerms">
+          <End Type="TotalSalesPortalModel.PaymentTerm" Role="PaymentTerm" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTerm">
+              <PropertyRef Name="PaymentTermID" />
+            </Principal>
+            <Dependent Role="AccountInvoice">
+              <PropertyRef Name="PaymentTermID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountInvoices_TradePromotions">
+          <End Type="TotalSalesPortalModel.Promotion" Role="Promotion" Multiplicity="0..1" />
+          <End Type="TotalSalesPortalModel.AccountInvoice" Role="AccountInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotion">
+              <PropertyRef Name="PromotionID" />
+            </Principal>
+            <Dependent Role="AccountInvoice">
               <PropertyRef Name="TradePromotionID" />
             </Dependent>
           </ReferentialConstraint>
@@ -8684,6 +8690,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
                 <ScalarProperty Name="GoodsIssueEntryDate" ColumnName="GoodsIssueEntryDate" />
                 <ScalarProperty Name="GoodsIssueReferences" ColumnName="GoodsIssueReferences" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="CustomerPO" ColumnName="CustomerPO" />
               </ComplexTypeMapping>
             </ResultMapping>
@@ -8723,6 +8730,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="GoodsIssueEntryDate" ColumnName="GoodsIssueEntryDate" />
                 <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
                 <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
+                <ScalarProperty Name="GoodsIssueCode" ColumnName="GoodsIssueCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -8897,57 +8905,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="AccountInvoices">
-            <EntityTypeMapping TypeName="TotalSalesPortalModel.AccountInvoice">
-              <MappingFragment StoreEntitySet="AccountInvoices">
-                <ScalarProperty Name="TradePromotionID" ColumnName="TradePromotionID" />
-                <ScalarProperty Name="CustomerPO" ColumnName="CustomerPO" />
-                <ScalarProperty Name="TotalTaxableAmount" ColumnName="TotalTaxableAmount" />
-                <ScalarProperty Name="TotalListedTaxableAmount" ColumnName="TotalListedTaxableAmount" />
-                <ScalarProperty Name="TradeDiscountAmount" ColumnName="TradeDiscountAmount" />
-                <ScalarProperty Name="ListedTradeDiscountAmount" ColumnName="ListedTradeDiscountAmount" />
-                <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
-                <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
-                <ScalarProperty Name="GoodsIssueReferences" ColumnName="GoodsIssueReferences" />
-                <ScalarProperty Name="GoodsIssueFirstID" ColumnName="GoodsIssueFirstID" />
-                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
-                <ScalarProperty Name="TotalFreeQuantity" ColumnName="TotalFreeQuantity" />
-                <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
-                <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
-                <ScalarProperty Name="AverageDiscountPercent" ColumnName="AverageDiscountPercent" />
-                <ScalarProperty Name="TotalListedGrossAmount" ColumnName="TotalListedGrossAmount" />
-                <ScalarProperty Name="TotalListedVATAmount" ColumnName="TotalListedVATAmount" />
-                <ScalarProperty Name="TotalListedAmount" ColumnName="TotalListedAmount" />
-                <ScalarProperty Name="GoodsIssueID" ColumnName="GoodsIssueID" />
-                <ScalarProperty Name="ConsumerID" ColumnName="ConsumerID" />
-                <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
-                <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />
-                <ScalarProperty Name="InActive" ColumnName="InActive" />
-                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
-                <ScalarProperty Name="Approved" ColumnName="Approved" />
-                <ScalarProperty Name="EditedDate" ColumnName="EditedDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="VATInvoiceSeries" ColumnName="VATInvoiceSeries" />
-                <ScalarProperty Name="VATInvoiceDate" ColumnName="VATInvoiceDate" />
-                <ScalarProperty Name="VATInvoiceNo" ColumnName="VATInvoiceNo" />
-                <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
-                <ScalarProperty Name="TotalVATAmount" ColumnName="TotalVATAmount" />
-                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
-                <ScalarProperty Name="ApproverID" ColumnName="ApproverID" />
-                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
-                <ScalarProperty Name="OrganizationalUnitID" ColumnName="OrganizationalUnitID" />
-                <ScalarProperty Name="PreparedPersonID" ColumnName="PreparedPersonID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-                <ScalarProperty Name="Reference" ColumnName="Reference" />
-                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
-                <ScalarProperty Name="AccountInvoiceID" ColumnName="AccountInvoiceID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetPendingGoodsIssueDetails" FunctionName="TotalSalesPortalModel.Store.GetPendingGoodsIssueDetails">
             <ResultMapping>
               <ComplexTypeMapping TypeName="TotalSalesPortalModel.PendingGoodsIssueDetail">
@@ -8986,6 +8943,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="GoodsIssueEntryDate" ColumnName="GoodsIssueEntryDate" />
                 <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
                 <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
+                <ScalarProperty Name="GoodsIssueCode" ColumnName="GoodsIssueCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9034,6 +8992,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="TradePromotionID" ColumnName="TradePromotionID" />
                 <ScalarProperty Name="TradePromotionSpecs" ColumnName="TradePromotionSpecs" />
+                <ScalarProperty Name="GoodsIssueCode" ColumnName="GoodsIssueCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -10674,6 +10633,58 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="AddPromotionCustomerCategories" FunctionName="TotalSalesPortalModel.Store.AddPromotionCustomerCategories" />
           <FunctionImportMapping FunctionImportName="RemovePromotionCustomerCategories" FunctionName="TotalSalesPortalModel.Store.RemovePromotionCustomerCategories" />
+          <EntitySetMapping Name="AccountInvoices">
+            <EntityTypeMapping TypeName="TotalSalesPortalModel.AccountInvoice">
+              <MappingFragment StoreEntitySet="AccountInvoices">
+                <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
+                <ScalarProperty Name="InActivePartial" ColumnName="InActivePartial" />
+                <ScalarProperty Name="InActive" ColumnName="InActive" />
+                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="EditedDate" ColumnName="EditedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AverageDiscountPercent" ColumnName="AverageDiscountPercent" />
+                <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
+                <ScalarProperty Name="TotalListedGrossAmount" ColumnName="TotalListedGrossAmount" />
+                <ScalarProperty Name="TotalVATAmount" ColumnName="TotalVATAmount" />
+                <ScalarProperty Name="TotalListedVATAmount" ColumnName="TotalListedVATAmount" />
+                <ScalarProperty Name="TotalTaxableAmount" ColumnName="TotalTaxableAmount" />
+                <ScalarProperty Name="TotalListedTaxableAmount" ColumnName="TotalListedTaxableAmount" />
+                <ScalarProperty Name="TradeDiscountAmount" ColumnName="TradeDiscountAmount" />
+                <ScalarProperty Name="ListedTradeDiscountAmount" ColumnName="ListedTradeDiscountAmount" />
+                <ScalarProperty Name="TradeDiscountRate" ColumnName="TradeDiscountRate" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="TotalListedAmount" ColumnName="TotalListedAmount" />
+                <ScalarProperty Name="TotalFreeQuantity" ColumnName="TotalFreeQuantity" />
+                <ScalarProperty Name="TotalQuantity" ColumnName="TotalQuantity" />
+                <ScalarProperty Name="VATPercent" ColumnName="VATPercent" />
+                <ScalarProperty Name="VATbyRow" ColumnName="VATbyRow" />
+                <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
+                <ScalarProperty Name="ApproverID" ColumnName="ApproverID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="OrganizationalUnitID" ColumnName="OrganizationalUnitID" />
+                <ScalarProperty Name="PreparedPersonID" ColumnName="PreparedPersonID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="TradePromotionID" ColumnName="TradePromotionID" />
+                <ScalarProperty Name="GoodsIssueReferences" ColumnName="GoodsIssueReferences" />
+                <ScalarProperty Name="GoodsIssueFirstID" ColumnName="GoodsIssueFirstID" />
+                <ScalarProperty Name="GoodsIssueID" ColumnName="GoodsIssueID" />
+                <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
+                <ScalarProperty Name="ConsumerID" ColumnName="ConsumerID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerPO" ColumnName="CustomerPO" />
+                <ScalarProperty Name="VATInvoiceSeries" ColumnName="VATInvoiceSeries" />
+                <ScalarProperty Name="VATInvoiceDate" ColumnName="VATInvoiceDate" />
+                <ScalarProperty Name="VATInvoiceNo" ColumnName="VATInvoiceNo" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="AccountInvoiceID" ColumnName="AccountInvoiceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

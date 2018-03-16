@@ -17,12 +17,12 @@ namespace TotalModel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public GoodsIssue()
         {
-            this.AccountInvoices = new HashSet<AccountInvoice>();
             this.GoodsIssueDetails = new HashSet<GoodsIssueDetail>();
             this.HandlingUnits = new HashSet<HandlingUnit>();
             this.ReceiptDetails = new HashSet<ReceiptDetail>();
             this.Receipts = new HashSet<Receipt>();
             this.SalesReturns = new HashSet<SalesReturn>();
+            this.AccountInvoices = new HashSet<AccountInvoice>();
         }
     
         public int GoodsIssueID { get; set; }
@@ -73,8 +73,6 @@ namespace TotalModel.Models
         public string Code { get; set; }
         public string Addressee { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Customer Customer1 { get; set; }
         public virtual DeliveryAdvice DeliveryAdvice { get; set; }
@@ -92,5 +90,7 @@ namespace TotalModel.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesReturn> SalesReturns { get; set; }
         public virtual Promotion Promotion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccountInvoice> AccountInvoices { get; set; }
     }
 }

@@ -48,8 +48,8 @@ namespace TotalModel.Models
         public decimal TradeDiscountRate { get; set; }
         public System.DateTime VATInvoiceDate { get; set; }
     
-        public virtual AccountInvoice AccountInvoice { get; set; }
         public virtual GoodsIssueDetail GoodsIssueDetail { get; set; }
         public virtual Commodity Commodity { get; set; }
+        public virtual AccountInvoice AccountInvoice { get; set; }
     }
 }

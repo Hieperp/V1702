@@ -36,5 +36,6 @@ namespace TotalModel.Models
         public string CustomerName { get; set; }
         public Nullable<int> TradePromotionID { get; set; }
         public string TradePromotionSpecs { get; set; }
+        public string GoodsIssueCode { get; set; }
     }
 }
