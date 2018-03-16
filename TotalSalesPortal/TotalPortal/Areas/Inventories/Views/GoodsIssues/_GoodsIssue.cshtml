@@ -65,7 +65,7 @@
 
 
         <div class="div-k-grid-detail">
-                                    @(Html.Kendo().Grid(Model.GoodsIssueViewDetails)
+            @(Html.Kendo().Grid(Model.GoodsIssueViewDetails)
                 .Name("kendoGridDetails")
                 .Columns(columns =>
                 {
@@ -84,7 +84,7 @@
                         .ClientTemplate("#= DeliveryAdviceReference #" + "<input type='hidden' name='GoodsIssueViewDetails[#= index(data) #].DeliveryAdviceReference' value='#= DeliveryAdviceReference #' />");
 
                     columns.Bound(p => p.DeliveryAdviceCode).DisplayNameTitle().Filterable(false).Width(90).Hidden(@Model.DeliveryAdvice != null && @Model.DeliveryAdvice.DeliveryAdviceID != null ? true : false)
-                        .ClientTemplate("#= (DeliveryAdviceCode == null)? '' : DeliveryAdviceCode #" + "<input type='hidden' name='HandlingUnitViewDetails[#= index(data) #].DeliveryAdviceCode' value='#= (DeliveryAdviceCode == null) ? '' : DeliveryAdviceCode #' />");
+                        .ClientTemplate("#= (DeliveryAdviceCode == null)? '' : DeliveryAdviceCode #" + "<input type='hidden' name='GoodsIssueViewDetails[#= index(data) #].DeliveryAdviceCode' value='#= (DeliveryAdviceCode == null) ? '' : DeliveryAdviceCode #' />");
                                         
                     columns.Bound(p => p.EntryDate).DisplayNameTitle().Filterable(false).Width(80).Hidden(@Model.DeliveryAdvice != null && @Model.DeliveryAdvice.DeliveryAdviceID != null ? true : false)
                         .Format("{0:" + @SettingsManager.DateFormat + "}")
