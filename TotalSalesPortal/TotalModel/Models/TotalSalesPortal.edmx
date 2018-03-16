@@ -4934,9 +4934,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Decimal" Name="TotalFreeQuantity" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="TotalListedGrossAmount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="ReceiverDescription" Nullable="false" MaxLength="302" />
+          <Property Type="String" Name="ReceiverDescription" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="DeliveryAdviceReferences" Nullable="false" MaxLength="200" />
           <Property Type="Boolean" Name="Approved" Nullable="false" />
+          <Property Type="String" Name="GoodsIssueCode" Nullable="true" MaxLength="60" />
         </ComplexType>
         <ComplexType Name="GoodsIssueViewDetail">
           <Property Type="Int32" Name="DeliveryAdviceID" Nullable="false" />
@@ -8549,6 +8550,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="ReceiverDescription" ColumnName="ReceiverDescription" />
                 <ScalarProperty Name="DeliveryAdviceReferences" ColumnName="DeliveryAdviceReferences" />
                 <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="GoodsIssueCode" ColumnName="GoodsIssueCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
