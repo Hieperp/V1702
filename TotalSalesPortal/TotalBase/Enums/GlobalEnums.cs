@@ -4,7 +4,10 @@
     {
         public static bool ERPConnected = false;
 
-        public static int CalculatingTypeID = 1; //JUST CHANGE FROM 0 TO 1 AT 12.00PM ON 24.MAR.2O18 => TO SHOW THE ORIGINAL GROSS PRICE, GROSS AMOUNT ON PXK
+        public static int CalculatingTypeID = 1; //JUST CHANGE FROM [0] TO [1] AT 12.00PM ON 24.MAR.2O18 => TO SHOW THE ORIGINAL GROSS PRICE, GROSS AMOUNT ON PXK. 
+        //THEO SỰ XEM XÉT NGÀY 24.MAR.2O18 THÌ THAY ĐỔI NÀY SẼ THAY ĐỔI 4 GIÁ TRỊ: ListedVATAmount, VATAmount, ListedGrossAmount, GrossAmount. 
+        //TUY NHIÊN, NÓ HOÀN TOÀN KHÔNG THAY ĐỔI GIÁ TRỊ CỦA TABLE MASTER, VÌ: VATbyRow = false: TỨC LÀ: TotalListedVATAmount, TotalVATAmount, TotalListedGrossAmount, TotalGrossAmount ĐƯỢC TÍNH BỞI definedExemplar.prototype._updateTotalVATAmountToModelProperty: CÁCH TÍNH VAT 1 DÒNG
+        //TÚM LẠI: CalculatingTypeID = [0] HAY [1] KHI VATbyRow = false: THÌ GIÁ TRỊ TỔNG CỦA TotalListedVATAmount, TotalVATAmount, TotalListedGrossAmount, TotalGrossAmount LÀ KHÔNG ĐỔI [DO: VATbyRow = false: CÁCH TÍNH VAT 1 DÒNG]
 
         public static bool VATbyRow = false;
         public static decimal VATPercent = 10; 
