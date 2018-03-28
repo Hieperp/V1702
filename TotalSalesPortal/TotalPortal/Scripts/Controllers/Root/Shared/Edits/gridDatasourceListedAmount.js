@@ -22,6 +22,8 @@
         else
             this._updateTotalListedVATAmountToModelProperty();
 
+        this._updateTotalToModelProperty("SumListedGrossAmount", "ListedGrossAmount", "sum", requireConfig.websiteOptions.rndAmount, false);
+
         definedExemplar._super._removeTotalToModelProperty.call(this, dataRow);
     }
 
@@ -90,6 +92,8 @@
 
         if (dataRow.VATbyRow == true)
             this._updateTotalToModelProperty("TotalListedGrossAmount", "ListedGrossAmount", "sum", requireConfig.websiteOptions.rndAmount);
+
+        this._updateTotalToModelProperty("SumListedGrossAmount", "ListedGrossAmount", "sum", requireConfig.websiteOptions.rndAmount);
     }
 
 

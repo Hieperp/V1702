@@ -18,6 +18,8 @@ namespace TotalDTO.Helpers
         decimal VATPercent { get; set; }
         decimal TotalVATAmount { get; set; }
         decimal TotalGrossAmount { get; set; }
+
+        decimal SumGrossAmount { get; set; }//SumGrossAmount = SUM(GrossAmount OF ALL DETAILS). WHEN VATbyRow == true THEN SumGrossAmount IS THE SAME TotalGrossAmount. SEE: GetSumGrossAmount, GetTotalGrossAmount, gridDatasourceAmount.js FOR MORE DETAIL
     }
 
     public abstract class VATAmountDTO<TVATAmountDetailDTO> : AmountDTO<TVATAmountDetailDTO>, IVATAmountDTO
@@ -40,6 +42,9 @@ namespace TotalDTO.Helpers
         [Display(Name = "Tổng cộng")]
         public decimal TotalGrossAmount { get; set; }
 
+        [Display(Name = "Tổng cộng")]
+        public decimal SumGrossAmount { get; set; }
+
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             foreach (var result in base.Validate(validationContext)) { yield return result; }
@@ -49,6 +54,8 @@ namespace TotalDTO.Helpers
 
             if (this.TotalVATAmount != this.GetTotalVATAmount()) yield return new ValidationResult("Lỗi tổng tiền thuế", new[] { "TotalVATAmount" });
             if (this.TotalGrossAmount != this.GetTotalGrossAmount()) yield return new ValidationResult("Lỗi tổng tiền sau thuế", new[] { "TotalGrossAmount" });
+
+            if (this.SumGrossAmount != this.GetSumGrossAmount()) yield return new ValidationResult("Lỗi cộng từng row tiền sau thuế", new[] { "SumGrossAmount" });
         }
 
 
@@ -76,5 +83,7 @@ namespace TotalDTO.Helpers
             else
                 return Math.Round(this.TotalTaxableAmount + this.GetTotalVATAmount(), GlobalEnums.rndAmount, MidpointRounding.AwayFromZero);
         }
+
+        protected virtual decimal GetSumGrossAmount() { return this.DtoDetails().Select(o => o.GrossAmount).Sum(); }
     }
 }

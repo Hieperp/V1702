@@ -13,9 +13,11 @@ namespace TotalDTO.Helpers
 
         decimal ListedTradeDiscountAmount { get; set; }
         decimal TotalListedTaxableAmount { get; set; }
-        
+
         decimal TotalListedVATAmount { get; set; }
         decimal TotalListedGrossAmount { get; set; }
+
+        decimal SumListedGrossAmount { get; set; } //SumListedGrossAmount = SUM(ListedGrossAmount OF ALL DETAILS). WHEN VATbyRow == true THEN SumListedGrossAmount IS THE SAME TotalListedGrossAmount. SEE: GetSumListedGrossAmount, GetTotalListedGrossAmount, gridDatasourceListedAmount.js FOR MORE DETAIL
     }
 
     public abstract class ListedAmountDiscountVATAmountDTO<TListedAmountDiscountVATAmountDetailDTO> : DiscountVATAmountDTO<TListedAmountDiscountVATAmountDetailDTO>, IListedAmountDiscountVATAmountDTO
@@ -32,7 +34,9 @@ namespace TotalDTO.Helpers
         [Display(Name = "Tổng cộng")]
         public decimal TotalListedGrossAmount { get; set; }
 
-        
+        [Display(Name = "Tổng cộng")]
+        public decimal SumListedGrossAmount { get; set; }
+
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             foreach (var result in base.Validate(validationContext)) { yield return result; }
@@ -44,6 +48,8 @@ namespace TotalDTO.Helpers
 
             if (this.TotalListedVATAmount != this.GetTotalListedVATAmount()) yield return new ValidationResult("Lỗi tổng tiền thuế giá gốc", new[] { "TotalListedVATAmount" });
             if (this.TotalListedGrossAmount != this.GetTotalListedGrossAmount()) yield return new ValidationResult("Lỗi tổng tiền sau thuế giá gốc", new[] { "TotalListedGrossAmount" });
+
+            if (this.SumListedGrossAmount != this.GetSumListedGrossAmount()) yield return new ValidationResult("Lỗi cộng từng row tiền sau thuế giá gốc", new[] { "SumListedGrossAmount" });
         }
 
         protected virtual decimal GetTotalListedAmount() { return this.DtoDetails().Select(o => o.ListedAmount).Sum(); }
@@ -72,6 +78,7 @@ namespace TotalDTO.Helpers
                 return Math.Round(this.TotalListedTaxableAmount + this.GetTotalListedVATAmount(), GlobalEnums.rndAmount, MidpointRounding.AwayFromZero);
         }
 
+        protected virtual decimal GetSumListedGrossAmount() { return this.DtoDetails().Select(o => o.ListedGrossAmount).Sum(); }
     }
 
 }
