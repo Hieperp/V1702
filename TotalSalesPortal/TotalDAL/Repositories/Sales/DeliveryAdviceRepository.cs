@@ -18,12 +18,15 @@ namespace TotalDAL.Repositories.Sales
         //3-Add two Store procedure (Update balance/ WH journal)
         //4-Modify to VB Project, verify report 1280.rpt (-> create new report in SSRS -> publish to server)
 
+
+        //31/03/18: CHU Y: SalesReturnSaveRelative CO NEN LAM GIONG NHU GoodsIssueSaveRelative? NHAM EXECUTE SPSKUBalanceUpdate TO UPDATE ???
+
         public DeliveryAdviceRepository(TotalSalesPortalEntities totalSalesPortalEntities)
             : base(totalSalesPortalEntities, "DeliveryAdviceEditable", "DeliveryAdviceApproved", null, "DeliveryAdviceVoidable")
         {
 
-            return;
-            return;
+            //return;
+            //return;
 
             Helpers.SqlProgrammability.Sales.SalesOrder salesOrder = new Helpers.SqlProgrammability.Sales.SalesOrder(totalSalesPortalEntities);
             salesOrder.RestoreProcedure();
