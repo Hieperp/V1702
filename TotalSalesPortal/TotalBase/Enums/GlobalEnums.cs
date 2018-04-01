@@ -10,7 +10,7 @@
         //TÚM LẠI: CalculatingTypeID = [0] HAY [1] KHI VATbyRow = false: THÌ GIÁ TRỊ TỔNG CỦA TotalListedVATAmount, TotalVATAmount, TotalListedGrossAmount, TotalGrossAmount LÀ KHÔNG ĐỔI [DO: VATbyRow = false: CÁCH TÍNH VAT 1 DÒNG]
 
         public static bool VATbyRow = false;
-        public static decimal VATPercent = 10; 
+        public static decimal VATPercent = 10;
 
         public static int rndQuantity = 0;
         public static int rndAmount = 0;
@@ -138,6 +138,16 @@
             DeliveryAdvice = 8035,
             SalesReturn = 8038
         };
+
+        public enum WarehouseClassID
+        {
+            L1 = 1,//Loại 1
+            L2 = 2,//Loại 2
+            L3 = 3,//Loại 3
+            L4 = 4,//Thiếu
+            L5 = 5,//Dư
+            LD = 9 //Lên Đời
+        }
 
         public enum ReceiptTypeID
         {

@@ -828,7 +828,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             return queryString;
         }
 
-        public string GET_WarehouseJournal_BUILD_SQL(string commoditiesBalanceTable, string fromDate, string toDate, string warehouseIDList, string commodityIDList, string isFullJournal, string isAmountIncluded)
+        public string GET_WarehouseJournal_BUILD_SQL(string commoditiesBalanceTable, string fromDate, string toDate, string warehouseIDList, string commodityIDList, string isFullJournal, string isAmountIncluded, string warehouseClassIDs)
         {
             string queryString = "                  DECLARE " + commoditiesBalanceTable + " TABLE (EntryDate datetime NULL, WarehouseID int NULL, CommodityID int NULL, QuantityBalance decimal(18, 2) NULL) " + "\r\n";
 
@@ -844,7 +844,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
                 queryString = queryString + "       INSERT INTO @SPSKUInventoryJournalTable EXEC ERmgrVCP.dbo.SPSKUInventoryJournal " + fromDate + ", " + toDate + ", " + commodityIDList + ", N'', N'', N'', N'', " + warehouseIDList + "\r\n";
 
-                queryString = queryString + "       INSERT INTO " + commoditiesBalanceTable + " SELECT " + toDate + ", WarehouseID, CommodityID, SUM(QuantityBegin + QuantityInput - QuantityOutput - QuantityOnAdvice) AS QuantityBalance FROM @SPSKUInventoryJournalTable GROUP BY WarehouseID, CommodityID " + "\r\n";
+                queryString = queryString + "       INSERT INTO " + commoditiesBalanceTable + " SELECT " + toDate + ", WarehouseID, CommodityID, SUM(QuantityBegin + QuantityInput - QuantityOutput + QuantityOnTransfer - QuantityOnAdvice - QuantityOnTransferAdviceOut + QuantityOnTransferAdviceIn) AS QuantityBalance FROM @SPSKUInventoryJournalTable " + (warehouseClassIDs != null && warehouseClassIDs != "" ? " WHERE WarehouseClassID IN (" + warehouseClassIDs + ")" : "") + " GROUP BY WarehouseID, CommodityID " + "\r\n";
             }
             else //NO USE WAREHOUSE INVENTORY: THIS CODE IS FOR USE WHEN THERE IS NO WAREHOUSE BALANCE
             {
