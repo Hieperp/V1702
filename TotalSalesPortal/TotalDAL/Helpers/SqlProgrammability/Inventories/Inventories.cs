@@ -17,7 +17,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
         public void RestoreProcedure()
         {
-            this.UpdateSKUBalance();
+            this.SPSKUBalanceUpdate();
             this.SPSKUInventoryJournal();
 
             //this.VWCommodityCategories();
@@ -35,7 +35,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
 
 
-        private void UpdateSKUBalance()
+        private void SPSKUBalanceUpdate()
         {
             //////****************************UPDATE BALANCEDATE        TO         23:59:59
             ////--DECLARE @BalanceDate Datetime
