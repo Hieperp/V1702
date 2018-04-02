@@ -2,6 +2,7 @@
 
 using TotalModel.Models;
 using TotalDTO.Inventories;
+using TotalCore.Services.Helpers;
 
 namespace TotalCore.Services.Inventories
 {
@@ -11,4 +12,9 @@ namespace TotalCore.Services.Inventories
 
         List<PendingDeliveryAdviceDescription> GetDescriptions(int locationID, int customerID, int receiverID, int warehouseID, string shippingAddress, string addressee, int? tradePromotionID, decimal? vatPercent);
     }
+
+    public interface IGoodsIssueHelperService : IHelperService<GoodsIssue, GoodsIssueDetail, GoodsIssueDTO, GoodsIssueDetailDTO>
+    {
+    }
+
 }

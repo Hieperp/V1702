@@ -1728,5 +1728,15 @@ namespace TotalModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RemovePromotionCustomerCategories", promotionIDParameter, customerCategoryIDParameter);
         }
+    
+        [DbFunction("TotalSalesPortalEntities", "GetOverStockItems")]
+        public virtual IQueryable<OverStockItem> GetOverStockItems(Nullable<System.DateTime> lSKUActionDate)
+        {
+            var lSKUActionDateParameter = lSKUActionDate.HasValue ?
+                new ObjectParameter("lSKUActionDate", lSKUActionDate) :
+                new ObjectParameter("lSKUActionDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<OverStockItem>("[TotalSalesPortalEntities].[GetOverStockItems](@lSKUActionDate)", lSKUActionDateParameter);
+        }
     }
 }

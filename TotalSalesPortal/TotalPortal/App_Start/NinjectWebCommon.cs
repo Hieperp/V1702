@@ -120,6 +120,7 @@ namespace TotalPortal.App_Start
                 kernel.Bind<IGoodsIssueService>().To<GoodsIssueService>();
                 kernel.Bind<IGoodsIssueRepository>().To<GoodsIssueRepository>();
                 kernel.Bind<IGoodsIssueAPIRepository>().To<GoodsIssueAPIRepository>();
+                kernel.Bind<IGoodsIssueHelperService>().To<GoodsIssueHelperService>();
                 kernel.Bind<IGoodsIssueViewModelSelectListBuilder>().To<GoodsIssueViewModelSelectListBuilder>();
 
                 kernel.Bind<IHandlingUnitService>().To<HandlingUnitService>();

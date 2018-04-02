@@ -19,6 +19,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
         {
             this.SPSKUBalanceUpdate();
             this.SPSKUInventoryJournal();
+            this.GetFNSKUOverStock();
 
             //this.VWCommodityCategories();
             //this.UpdateWarehouseBalance();
@@ -187,11 +188,15 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
             DateTime pfLockedDate = new DateTime();
 
-            string SQW = " ((@lSKUInputID = 0 AND @lSKUTransferID = 0 AND @lSKUAdjustID = 0 AND @lSKUTransferAdviceID = 0 AND @lSKUOutputID = 0) OR CommodityID IN (SELECT CommodityID FROM @lListItemCommodityAction))" + "\r\n";
+            string SQW = " ((@lSKUInputID = 0 AND @lSKUTransferID = 0 AND @lSKUAdjustID = 0 AND @lSKUTransferAdviceID = 0 AND @lDeliveryAdviceID = 0 AND @lGoodsIssueID = 0 AND @lSKUOutputID = 0) OR CommodityID IN (SELECT CommodityID FROM @lListItemCommodityAction))" + "\r\n";
 
-            SQW = " 1 = 1 "; //05.04.2011---TAM THOI KHONG XAI DIEU KIEN TREN, NHAM MUC DICH GIUP FUNCTION CHAY NHANH HON RAT NHIEU. SAU NAY KHI DA CODE HOAN CHINH RANGE FOR COMMODITIES DUA VAO @lSKUInputID, @lSKUTransferID, @lSKUAdjustID, @lSKUTransferAdviceID, @lSKUOutputID THI NEN SU DUNG LAI CAU LENH TREN
+            SQW = " 1 = 1 "; //05.04.2011---TAM THOI KHONG XAI DIEU KIEN TREN, NHAM MUC DICH GIUP FUNCTION CHAY NHANH HON RAT NHIEU. SAU NAY KHI DA CODE HOAN CHINH RANGE FOR COMMODITIES DUA VAO @lSKUInputID, @lSKUTransferID, @lSKUAdjustID, @lSKUTransferAdviceID, @lDeliveryAdviceID, @lGoodsIssueID, @lSKUOutputID THI NEN SU DUNG LAI CAU LENH TREN
 
-            string queryString = " (@lSKUActionDate DateTime, @lSKUInputID Int, @lSKUTransferID Int, @lSKUAdjustID Int, @lSKUTransferAdviceID Int, @lSKUOutputID Int) " + "\r\n";
+
+            string queryString = " DROP FUNCTION FNSKUOverStock " + "\r\n";
+            queryString = queryString + " CREATE FUNCTION FNSKUOverStock " + "\r\n";
+
+            queryString = queryString + " (@lSKUActionDate DateTime, @lSKUInputID Int, @lSKUTransferID Int, @lSKUAdjustID Int, @lSKUTransferAdviceID Int, @lSKUOutputID Int) " + "\r\n"; //THUC TẾ CÁC ID NÀY KHÔNG CÓ SỬ DỤNG, NÊN KHÔNG CẦN PHẢI THÊM PARRAMETER Ở ĐÂY, SẼ KHỎI PHẢI SỬA TRONG VBPROJECT ERmgrVCP @lDeliveryAdviceID Int, @lGoodsIssueID Int, 
             queryString = queryString + " RETURNS @lTableOverStock TABLE (DateOverStock DateTime NOT NULL, WarehouseID int NOT NULL, WarehouseName nvarchar(100) NOT NULL, CommodityID int NOT NULL, Description nvarchar(50) NOT NULL, DescriptionOfficial nvarchar(200) NOT NULL, Quantity float NOT NULL) " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
@@ -224,25 +229,19 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             //'            queryString = queryString + "           INSERT @lListItemCommodityAction SELECT CommodityID FROM SKUAdjustDetail WHERE SKUAdjustID = @lSKUAdjustID "
             //'            queryString = queryString + "       IF @lSKUTransferAdviceID <> 0 "
             //'            queryString = queryString + "           INSERT @lListItemCommodityAction SELECT CommodityID FROM SKUTransferAdviceDetail WHERE SKUTransferAdviceID = @lSKUTransferAdviceID "
+
+            //'            queryString = queryString + "       IF @lDeliveryAdviceID <> 0 "
+            //'            queryString = queryString + "           INSERT @lListItemCommodityAction SELECT CommodityID FROM DeliveryAdviceDetails WHERE DeliveryAdviceID = @lDeliveryAdviceID "
+
+            //'            queryString = queryString + "       IF @lGoodsIssueID <> 0 "
+            //'            queryString = queryString + "           INSERT @lListItemCommodityAction SELECT CommodityID FROM GoodsIssueDetails WHERE GoodsIssueID = @lGoodsIssueID "
+
             //'            queryString = queryString + "       IF @lSKUOutputID <> 0 "
             //'            queryString = queryString + "           INSERT @lListItemCommodityAction SELECT CommodityID FROM SKUOutputDetail WHERE SKUOutputID = @lSKUOutputID "
             //TAM THOI: KTRA TAT CA.END
 
 
 
-            queryString = queryString + "       DECLARE @lDateTemp DateTime " + "\r\n";
-            queryString = queryString + "       DECLARE @lDateBackLogMax DateTime " + "\r\n";
-            // --GET THE FIRST DATE NEED TO CHECK OVER STOCK.END
-            // --THE FIRST DATE IS: THE @lSKUActionDate OR THE DATE OF BACKLOG COLLECTION
-            // --OPEN THE BACKLOG COLLECTION TO GET THE MIN(DATE)
-            // --LATER: IF THERE IS MORE BACKLOG, LIKE DELIVERYADVICE: ADD HERE
-
-            queryString = queryString + "       DECLARE CursorBacklog CURSOR LOCAL FOR SELECT MIN(DeliveryDate) AS DeliveryDateMIN, MAX(DeliveryDate) AS DeliveryDateMAX FROM SKUTransferAdviceDetail WHERE (ROUND(Quantity - QuantityInput, " + (int)GlobalEnums.rndQuantity + ") > 0)" + "\r\n";
-            queryString = queryString + "       OPEN CursorBacklog" + "\r\n";
-            queryString = queryString + "       FETCH NEXT FROM CursorBacklog INTO @lDateTemp, @lDateBackLogMax " + "\r\n";
-            queryString = queryString + "       CLOSE CursorBacklog DEALLOCATE CursorBacklog" + "\r\n";
-
-            queryString = queryString + "       IF @lSKUActionDate > @lDateTemp SET @lSKUActionDate = @lDateTemp" + "\r\n";
 
 
             //**************TAM THOI SU DUNG KHAI BAO NHU THE NAY 2 CHO: DANH SACH MAT HANG CAN KTRA VA THOI DIEM CAN KIEM TRA
@@ -260,7 +259,44 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             //                     DIEU NAY TUONG TU DOI VOI DANH SACH MAT HANG CAN KTRA O PHAN TREN
             //TAM THOI: KTRA TU 31/05/2009
 
-            queryString = queryString + "       SET @lSKUActionDate = CONVERT(smalldatetime, '" + pfLockedDate.ToString("dd/MM/yyyy") + "',103) " + "\r\n";
+            //queryString = queryString + "       SET @lSKUActionDate = CONVERT(smalldatetime, '" + pfLockedDate.ToString("dd/MM/yyyy") + "',103) " + "\r\n";
+            queryString = queryString + "       SELECT @lSKUActionDate = LockedDate FROM PublicMasterProfile " + "\r\n";
+
+
+
+
+            queryString = queryString + "       DECLARE @lDateTemp DateTime " + "\r\n";
+            queryString = queryString + "       DECLARE @lDateBackLogMax DateTime " + "\r\n";
+            // --GET THE FIRST DATE NEED TO CHECK OVER STOCK.END
+            // --THE FIRST DATE IS: THE @lSKUActionDate OR THE DATE OF BACKLOG COLLECTION
+            // --OPEN THE BACKLOG COLLECTION TO GET THE MIN(DATE)
+            // --LATER: IF THERE IS MORE BACKLOG, LIKE DELIVERYADVICE: ADD HERE
+
+            queryString = queryString + "       DECLARE CursorBacklog CURSOR LOCAL FOR SELECT MIN(DeliveryDate) AS DeliveryDateMIN, MAX(DeliveryDate) AS DeliveryDateMAX FROM SKUTransferAdviceDetail WHERE InActive = 0 AND (ROUND(Quantity - QuantityInput, " + (int)GlobalEnums.rndQuantity + ") > 0)" + "\r\n";
+            queryString = queryString + "       OPEN CursorBacklog" + "\r\n";
+            queryString = queryString + "       FETCH NEXT FROM CursorBacklog INTO @lDateTemp, @lDateBackLogMax " + "\r\n";
+            queryString = queryString + "       CLOSE CursorBacklog DEALLOCATE CursorBacklog" + "\r\n";
+
+            queryString = queryString + "       IF (NOT @lDateTemp IS NULL AND @lSKUActionDate > @lDateTemp) SET @lSKUActionDate = @lDateTemp" + "\r\n";
+
+
+
+            queryString = queryString + "       DECLARE @lDateTempNEW DateTime " + "\r\n";
+            queryString = queryString + "       DECLARE @lDateBackLogMaxNEW DateTime " + "\r\n";
+
+            queryString = queryString + "       DECLARE CursorBacklogNEW CURSOR LOCAL FOR SELECT MIN(EntryDate) AS EntryDateMIN, MAX(EntryDate) AS EntryDateMAX FROM DeliveryAdviceDetails WHERE InActive = 0 AND InActivePartial = 0 AND InActiveIssue = 0 AND ROUND(Quantity + FreeQuantity - QuantityIssue - FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0" + "\r\n";
+            queryString = queryString + "       OPEN CursorBacklogNEW" + "\r\n";
+            queryString = queryString + "       FETCH NEXT FROM CursorBacklogNEW INTO @lDateTempNEW, @lDateBackLogMaxNEW " + "\r\n";
+            queryString = queryString + "       CLOSE CursorBacklogNEW DEALLOCATE CursorBacklogNEW" + "\r\n";
+
+            queryString = queryString + "       IF (NOT @lDateTempNEW IS NULL AND @lSKUActionDate > @lDateTempNEW) SET @lSKUActionDate = @lDateTempNEW" + "\r\n";
+            queryString = queryString + "       IF @lDateBackLogMax < @lDateBackLogMaxNEW SET @lDateBackLogMax = @lDateBackLogMaxNEW" + "\r\n";
+
+
+
+
+
+            
 
 
 
@@ -331,9 +367,24 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
             queryString = queryString + "                           UNION ALL" + "\r\n";
             // --OUTPUT: Output
+            queryString = queryString + "                           SELECT      WarehouseID, CommodityID, SUM(-Quantity - FreeQuantity) AS Quantity" + "\r\n";
+            queryString = queryString + "                           FROM        GoodsIssueDetails " + "\r\n";
+            queryString = queryString + "                           WHERE       EntryDate > @lSKUBalanceDateBEGIN AND EntryDate <= @lDateTemp AND " + SQW + "\r\n";
+            queryString = queryString + "                           GROUP BY    WarehouseID, CommodityID" + "\r\n";
+
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+            // --OUTPUT: Output
             queryString = queryString + "                           SELECT      WarehouseID, CommodityID, SUM(-Quantity) AS Quantity" + "\r\n";
             queryString = queryString + "                           FROM        SKUOutputDetail " + "\r\n";
             queryString = queryString + "                           WHERE       SKUOutputDate > @lSKUBalanceDateBEGIN AND SKUOutputDate <= @lDateTemp AND " + SQW + "\r\n";
+            queryString = queryString + "                           GROUP BY    WarehouseID, CommodityID" + "\r\n";
+
+            queryString = queryString + "                           UNION ALL" + "\r\n";
+
+            // --BACKLOG: DeliveryAdvice
+            queryString = queryString + "                           SELECT      WarehouseID, CommodityID, SUM(-Quantity - FreeQuantity + QuantityIssue + FreeQuantityIssue) AS Quantity" + "\r\n";
+            queryString = queryString + "                           FROM        DeliveryAdviceDetails " + "\r\n";
+            queryString = queryString + "                           WHERE       EntryDate > @lSKUBalanceDateBEGIN AND EntryDate <= @lDateTemp AND " + SQW + " AND InActive = 0 AND InActivePartial = 0 AND InActiveIssue = 0 AND ROUND(Quantity + FreeQuantity - QuantityIssue - FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0" + "\r\n";
             queryString = queryString + "                           GROUP BY    WarehouseID, CommodityID" + "\r\n";
 
             queryString = queryString + "                           UNION ALL" + "\r\n";
@@ -367,8 +418,25 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "       RETURN " + "\r\n";
             queryString = queryString + "   END " + "\r\n";
 
+            System.Diagnostics.Debug.WriteLine("---");
+            System.Diagnostics.Debug.WriteLine(queryString);
+
             //If Not pfFN_CREATEFN(DFormConn, "FNSKUOverStock", SQL) Then GoTo ERR_HANDLER
 
+            queryString = " (@lSKUActionDate DateTime) " + "\r\n";
+            queryString = queryString + " RETURNS @lTableOverStock TABLE (DateOverStock DateTime NOT NULL, WarehouseID int NOT NULL, WarehouseName nvarchar(100) NOT NULL, CommodityID int NOT NULL, Description nvarchar(50) NOT NULL, DescriptionOfficial nvarchar(200) NOT NULL, Quantity float NOT NULL) " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "   BEGIN " + "\r\n";
+
+            queryString = queryString + "       INSERT INTO @lTableOverStock" + "\r\n";
+            queryString = queryString + "       SELECT * FROM ERmgrVCP.dbo.FNSKUOverStock(@lSKUActionDate, 0, 0, 0, 0, 0) " + "\r\n";
+
+            queryString = queryString + "       RETURN " + "\r\n";
+            queryString = queryString + "   END " + "\r\n";
+
+
+            this.totalSalesPortalEntities.CreateUserDefinedFunction("GetOverStockItems", queryString);
         }
 
         private void UpdateWarehouseBalance()
@@ -844,7 +912,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
                 queryString = queryString + "       INSERT INTO @SPSKUInventoryJournalTable EXEC ERmgrVCP.dbo.SPSKUInventoryJournal " + fromDate + ", " + toDate + ", " + commodityIDList + ", N'', N'', N'', N'', " + warehouseIDList + "\r\n";
 
-                queryString = queryString + "       INSERT INTO " + commoditiesBalanceTable + " SELECT " + toDate + ", WarehouseID, CommodityID, SUM(QuantityBegin + QuantityInput - QuantityOutput + QuantityOnTransfer - QuantityOnAdvice - QuantityOnTransferAdviceOut + QuantityOnTransferAdviceIn) AS QuantityBalance FROM @SPSKUInventoryJournalTable " + (warehouseClassIDs != null && warehouseClassIDs != "" ? " WHERE WarehouseClassID IN (" + warehouseClassIDs + ")" : "") + " GROUP BY WarehouseID, CommodityID " + "\r\n";
+                //QuantityBalance = + QuantityOnTransfer + QuantityOnTransferAdviceIn??? QuantityBalance: SHOULD NOT INCLUDE + QuantityOnTransfer + QuantityOnTransferAdviceIn. BECAUSE: GetFNSKUOverStock DOES NOT INCLUDE THIS WHEN CHECK OVERSTOCK!!!
+                queryString = queryString + "       INSERT INTO " + commoditiesBalanceTable + " SELECT " + toDate + ", WarehouseID, CommodityID, SUM(QuantityBegin + QuantityInput - QuantityOutput - QuantityOnAdvice - QuantityOnTransferAdviceOut) AS QuantityBalance FROM @SPSKUInventoryJournalTable " + (warehouseClassIDs != null && warehouseClassIDs != "" ? " WHERE WarehouseClassID IN (" + warehouseClassIDs + ")" : "") + " GROUP BY WarehouseID, CommodityID " + "\r\n";
             }
             else //NO USE WAREHOUSE INVENTORY: THIS CODE IS FOR USE WHEN THERE IS NO WAREHOUSE BALANCE
             {
@@ -1440,7 +1509,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "                                       0 AS QuantityOnTransfer, ROUND(DeliveryAdviceDetails.Quantity + DeliveryAdviceDetails.FreeQuantity - DeliveryAdviceDetails.QuantityIssue - DeliveryAdviceDetails.FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") AS QuantityOnAdvice, 0 AS QuantityOnTransferAdviceOut, 0 AS QuantityOnTransferAdviceIn, 0 AS QuantityOnProduction " + "\r\n";
             queryString = queryString + "                           FROM        DeliveryAdviceDetails INNER JOIN " + "\r\n";
             queryString = queryString + "                                       ListWarehouseName ON DeliveryAdviceDetails.WarehouseID = ListWarehouseName.WarehouseID " + "\r\n";
-            queryString = queryString + "                           WHERE       DeliveryAdviceDetails.EntryDate <= @LocalDateTo AND DeliveryAdviceDetails.Approved = 1 AND DeliveryAdviceDetails.InActive = 0 AND DeliveryAdviceDetails.InActivePartial = 0 AND DeliveryAdviceDetails.InActiveIssue = 0 AND ROUND(DeliveryAdviceDetails.Quantity + DeliveryAdviceDetails.FreeQuantity - DeliveryAdviceDetails.QuantityIssue - DeliveryAdviceDetails.FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0 " + this.SPSKUInventoryJournalWarehouseFilter("ListWarehouseName", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("DeliveryAdviceDetails", isCommodityFilter) + "\r\n";
+            queryString = queryString + "                           WHERE       DeliveryAdviceDetails.EntryDate <= @LocalDateTo AND DeliveryAdviceDetails.InActive = 0 AND DeliveryAdviceDetails.InActivePartial = 0 AND DeliveryAdviceDetails.InActiveIssue = 0 AND ROUND(DeliveryAdviceDetails.Quantity + DeliveryAdviceDetails.FreeQuantity - DeliveryAdviceDetails.QuantityIssue - DeliveryAdviceDetails.FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0 " + this.SPSKUInventoryJournalWarehouseFilter("ListWarehouseName", isWarehouseFilter) + this.SPSKUInventoryJournalCommodityFilter("DeliveryAdviceDetails", isCommodityFilter) + "\r\n";
 
             queryString = queryString + "                           UNION ALL" + "\r\n";
 

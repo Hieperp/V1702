@@ -2770,6 +2770,22 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         <Function Name="GetHandlingUnitViewDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="HandlingUnitID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetOverStockItems" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="lSKUActionDate" Type="datetime" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="DateOverStock" Type="datetime" Nullable="false" />
+                <Property Name="WarehouseID" Type="int" Nullable="false" />
+                <Property Name="WarehouseName" Type="nvarchar" MaxLength="100" Nullable="false" />
+                <Property Name="CommodityID" Type="int" Nullable="false" />
+                <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+                <Property Name="DescriptionOfficial" Type="nvarchar" MaxLength="200" Nullable="false" />
+                <Property Name="Quantity" Type="float" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="GetPendingCustomerCredits" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
           <Parameter Name="CustomerID" Type="int" Mode="In" />
@@ -4593,6 +4609,9 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="Promotion" EntitySet="Promotions" />
             <End Role="AccountInvoice" EntitySet="AccountInvoices" />
           </AssociationSet>
+          <FunctionImport Name="GetOverStockItems" IsComposable="true" ReturnType="Collection(TotalSalesPortalModel.OverStockItem)">
+            <Parameter Name="lSKUActionDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -8246,6 +8265,15 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="OverStockItem">
+          <Property Type="DateTime" Name="DateOverStock" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="WarehouseID" Nullable="false" />
+          <Property Type="String" Name="WarehouseName" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="CommodityID" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DescriptionOfficial" Nullable="false" MaxLength="200" />
+          <Property Type="Double" Name="Quantity" Nullable="false" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10717,6 +10745,19 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetOverStockItems" FunctionName="TotalSalesPortalModel.Store.GetOverStockItems">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalSalesPortalModel.OverStockItem">
+                <ScalarProperty Name="DateOverStock" ColumnName="DateOverStock" />
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+                <ScalarProperty Name="WarehouseName" ColumnName="WarehouseName" />
+                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DescriptionOfficial" ColumnName="DescriptionOfficial" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -225,6 +225,9 @@
     <Compile Include="Models\OrganizationalUnitUser.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OverStockItem.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PackingMaterial.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>

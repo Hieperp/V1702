@@ -63,7 +63,7 @@ namespace TotalService.Sales
 
         protected override void PostSaveValidate(SalesOrder entity)
         {
-            this.inventoryRepository.CheckOverStock(this.checkedDate, this.warehouseIDList, this.commodityIDList);
+            //this.inventoryRepository.CheckOverStock(this.checkedDate, this.warehouseIDList, this.commodityIDList);
             base.PostSaveValidate(entity);
         }
 
