@@ -564,6 +564,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + "                   LEFT JOIN VoidTypes ON DeliveryAdviceDetails.VoidTypeID = VoidTypes.VoidTypeID " + "\r\n";
             queryString = queryString + "                   LEFT JOIN @CommoditiesBalance CommoditiesBalance ON DeliveryAdviceDetails.WarehouseID = CommoditiesBalance.WarehouseID AND DeliveryAdviceDetails.CommodityID = CommoditiesBalance.CommodityID " + "\r\n";
 
+            queryString = queryString + "       ORDER BY    Commodities.CommodityTypeID, DeliveryAdviceDetails.DeliveryAdviceID, DeliveryAdviceDetails.DeliveryAdviceDetailID " + "\r\n";
+
             queryString = queryString + "    END " + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetDeliveryAdviceViewDetails", queryString);

@@ -172,14 +172,14 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "       IF (@GoodsIssueID <= 0) " + "\r\n";
             queryString = queryString + "           BEGIN " + "\r\n";
             queryString = queryString + "               " + this.BuildSQLNew(isDeliveryAdviceID) + "\r\n";
-            queryString = queryString + "               ORDER BY Commodities.CommodityTypeID, Commodities.Code, DeliveryAdviceDetails.EntryDate, DeliveryAdviceDetails.DeliveryAdviceID, DeliveryAdviceDetails.DeliveryAdviceDetailID " + "\r\n";
+            queryString = queryString + "               ORDER BY Commodities.CommodityTypeID, DeliveryAdviceDetails.DeliveryAdviceID, DeliveryAdviceDetails.DeliveryAdviceDetailID " + "\r\n";
             queryString = queryString + "           END " + "\r\n";
             queryString = queryString + "       ELSE " + "\r\n";
 
             queryString = queryString + "           IF (@IsReadonly = 1) " + "\r\n";
             queryString = queryString + "               BEGIN " + "\r\n";
             queryString = queryString + "                   " + this.BuildSQLEdit(isDeliveryAdviceID) + "\r\n";
-            queryString = queryString + "                   ORDER BY Commodities.CommodityTypeID, Commodities.Code, DeliveryAdviceDetails.EntryDate, DeliveryAdviceDetails.DeliveryAdviceID, DeliveryAdviceDetails.DeliveryAdviceDetailID " + "\r\n";
+            queryString = queryString + "                   ORDER BY Commodities.CommodityTypeID, DeliveryAdviceDetails.DeliveryAdviceID, DeliveryAdviceDetails.DeliveryAdviceDetailID " + "\r\n";
             queryString = queryString + "               END " + "\r\n";
 
             queryString = queryString + "           ELSE " + "\r\n"; //FULL SELECT FOR EDIT MODE
@@ -188,7 +188,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "                   " + this.BuildSQLNew(isDeliveryAdviceID) + " WHERE DeliveryAdviceDetails.DeliveryAdviceDetailID NOT IN (SELECT DeliveryAdviceDetailID FROM GoodsIssueDetails WHERE GoodsIssueID = @GoodsIssueID) " + "\r\n";
             queryString = queryString + "                   UNION ALL " + "\r\n";
             queryString = queryString + "                   " + this.BuildSQLEdit(isDeliveryAdviceID) + "\r\n";
-            queryString = queryString + "                   ORDER BY Commodities.CommodityTypeID, Commodities.Code, DeliveryAdviceDetails.EntryDate, DeliveryAdviceDetails.DeliveryAdviceID, DeliveryAdviceDetails.DeliveryAdviceDetailID " + "\r\n";
+            queryString = queryString + "                   ORDER BY Commodities.CommodityTypeID, DeliveryAdviceDetails.DeliveryAdviceID, DeliveryAdviceDetails.DeliveryAdviceDetailID " + "\r\n";
             queryString = queryString + "               END " + "\r\n";
 
             queryString = queryString + "   END " + "\r\n";
@@ -365,7 +365,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
         private void GoodsIssueSheet()
         {
             string queryString = " @GoodsIssueID int " + "\r\n";
-            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
@@ -383,7 +383,9 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "                       INNER JOIN Warehouses ON GoodsIssueDetails.WarehouseID = Warehouses.WarehouseID " + "\r\n";
             queryString = queryString + "                       INNER JOIN Customers ON GoodsIssues.CustomerID = Customers.CustomerID " + "\r\n";
             queryString = queryString + "                       INNER JOIN Customers AS Receivers ON GoodsIssues.ReceiverID = Receivers.CustomerID " + "\r\n";
-            queryString = queryString + "       ORDER BY        GoodsIssueDetails.DeliveryAdviceID, GoodsIssueDetails.DeliveryAdviceDetailID " + "\r\n"; 
+            
+            queryString = queryString + "       ORDER BY        Commodities.CommodityTypeID, GoodsIssueDetails.DeliveryAdviceID, GoodsIssueDetails.DeliveryAdviceDetailID " + "\r\n";
+            
 
             queryString = queryString + "    END " + "\r\n";
 
