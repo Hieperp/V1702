@@ -23,7 +23,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             
 
             //this.GetCommoditiesInWarehouses("GetVehicleAvailables", true, false, false, false);
-            this.GetCommoditiesInWarehouses("GetCommodityAvailables", false, true, true, false, true, false); //GetPartAvailables
+            this.GetCommoditiesInWarehouses("GetCommodityAvailables", false, true, true, false, false, false); //GetPartAvailables
             //this.GetCommoditiesInWarehouses("GetCommoditiesInWarehouses", false, true, true, false);
             //this.GetCommoditiesInWarehouses("GetCommoditiesAvailables", true, true, false, false);
 
@@ -304,6 +304,11 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
 
                 queryString = queryString + "               " + inventories.GET_WarehouseJournal_BUILD_SQL("@CommoditiesBalance", "@EntryDate", "@EntryDate", "@WarehouseIDList", "@CommodityIDList", "0", "0", (int)GlobalEnums.WarehouseClassID.L1 + "," + (int)GlobalEnums.WarehouseClassID.L5 + "," + (int)GlobalEnums.WarehouseClassID.LD) + "\r\n";
+
+                //---BEGIN: ADD CommodityID DOES NOT HAVE BALANCE. JUST THIS QUERY STATEMENT HERE ONLY. LATER: MAY BE ADD NEW PARAMETER TO DECIDE WHETHER TO ADD / OR NOT. THIS PARAMETER SHOULD PASS FROM THE USER CONTEXT WHEN NEEDED
+                queryString = queryString + "               IF (NOT @WarehouseID IS NULL) " + "\r\n";
+                queryString = queryString + "                   INSERT INTO @CommoditiesBalance (EntryDate, WarehouseID, CommodityID, QuantityBalance) SELECT @EntryDate, @WarehouseID, CommodityID, 0 FROM @Commodities WHERE CommodityID NOT IN (SELECT CommodityID FROM @CommoditiesBalance) " + "\r\n";
+                //---END
 
                 queryString = queryString + "               INSERT INTO     @CommoditiesAvailable (WarehouseID, CommodityID, QuantityAvailable) " + "\r\n";
                 queryString = queryString + "               SELECT          WarehouseID, CommodityID, QuantityBalance " + "\r\n";
