@@ -299,7 +299,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
                 SqlProgrammability.Inventories.Inventories inventories = new Inventories.Inventories(this.totalSalesPortalEntities);
 
                 queryString = queryString + "               DECLARE @WarehouseIDList varchar(555)        DECLARE @CommodityIDList varchar(3999) " + "\r\n";
-                queryString = queryString + "               SELECT  @WarehouseIDList = STUFF((SELECT ',' + CAST(WarehouseID AS varchar) FROM Warehouses WHERE LocationID = @LocationID AND (WarehouseID = @WarehouseID OR @WarehouseID IS NULL) AND IsBook = 1 FOR XML PATH('')) ,1,1,'') " + "\r\n";
+                queryString = queryString + "               SELECT  @WarehouseIDList = STUFF((SELECT ',' + CAST(WarehouseID AS varchar) FROM Warehouses WHERE LocationID = @LocationID AND IsBook = 1 FOR XML PATH('')) ,1,1,'') " + "\r\n"; // AND (WarehouseID = @WarehouseID OR @WarehouseID IS NULL): COMMENT OUT APR-2018: TO ALLOW TO GET ALL WAREHOUSE: TO SEE ALL AVAILABLE BALANCE AT ALL WAREHOUSE. THIS MAY BE CHECK THIS COMMENT OUT AGAIN WHEN NEEDED!!!
                 queryString = queryString + "               SELECT  @CommodityIDList = STUFF((SELECT ',' + CAST(CommodityID AS varchar) FROM @Commodities FOR XML PATH('')) ,1,1,'') " + "\r\n";
 
 
