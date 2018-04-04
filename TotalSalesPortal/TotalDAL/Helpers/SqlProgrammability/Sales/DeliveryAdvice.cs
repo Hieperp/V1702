@@ -23,7 +23,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             
 
             //this.GetCommoditiesInWarehouses("GetVehicleAvailables", true, false, false, false);
-            this.GetCommoditiesInWarehouses("GetCommodityAvailables", false, true, true, false, false, false); //GetPartAvailables
+            this.GetCommoditiesInWarehouses("GetCommodityAvailables", false, true, true, false, true, false); //GetPartAvailables
             //this.GetCommoditiesInWarehouses("GetCommoditiesInWarehouses", false, true, true, false);
             //this.GetCommoditiesInWarehouses("GetCommoditiesAvailables", true, true, false, false);
 

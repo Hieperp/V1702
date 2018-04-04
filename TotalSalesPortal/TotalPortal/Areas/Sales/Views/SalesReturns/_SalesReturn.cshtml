@@ -130,6 +130,10 @@
                         .ClientTemplate("#= kendo.format('{0:n0}', FreeQuantity) #" + "<input type='hidden' name='SalesReturnViewDetails[#= index(data) #].FreeQuantity' value='#= FreeQuantity #' />");
 
 
+                    columns.Bound(p => p.ListedGrossPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(50).Hidden(@Model.ShowListedGrossPrice ? false : true)
+                        .Format("{0:n0}")
+                        .ClientTemplate("#= kendo.format('{0:n0}', ListedGrossPrice) #" + "<input type='hidden' name='SalesReturnViewDetails[#= index(data) #].ListedGrossPrice' value='#= ListedGrossPrice #' />");
+                    
                     columns.Bound(p => p.ListedPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).EditorTemplateName(@Model.HasGoodsIssue || !@Model.ShowDiscount ? "DecimalReadonly" : "Decimal").Width(70)
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}', ListedPrice) #" + "<input type='hidden' name='SalesReturnViewDetails[#= index(data) #].ListedPrice' value='#= ListedPrice #' />");
@@ -171,9 +175,6 @@
                         .ClientTemplate("#= kendo.format('{0:n0}', VATAmount) #" + "<input type='hidden' name='SalesReturnViewDetails[#= index(data) #].VATAmount' value='#= VATAmount #' />");
 
 
-                    columns.Bound(p => p.ListedGrossPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(90).Hidden()
-                        .Format("{0:n0}")
-                        .ClientTemplate("#= kendo.format('{0:n0}', ListedGrossPrice) #" + "<input type='hidden' name='SalesReturnViewDetails[#= index(data) #].ListedGrossPrice' value='#= ListedGrossPrice #' />");
                     columns.Bound(p => p.GrossPrice).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(90).Hidden()
                         .Format("{0:n0}")
                         .ClientTemplate("#= kendo.format('{0:n0}', GrossPrice) #" + "<input type='hidden' name='SalesReturnViewDetails[#= index(data) #].GrossPrice' value='#= GrossPrice #' />");

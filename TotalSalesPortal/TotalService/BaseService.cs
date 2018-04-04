@@ -74,10 +74,10 @@ namespace TotalService
         public virtual bool GetShowDiscount()
         { return false; }
 
-        public bool GetShowListedPrice(int? priceCategoryID)
+        public virtual bool GetShowListedPrice(int? priceCategoryID)
         { return false; }
 
-        public bool GetShowListedGrossPrice(int? priceCategoryID)
+        public virtual bool GetShowListedGrossPrice(int? priceCategoryID)
         { return false; }
 
     }

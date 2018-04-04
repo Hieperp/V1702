@@ -17,7 +17,7 @@ namespace TotalDTO.Helpers
 
     public abstract class ListedAmountDiscountVATAmountDetailDTO : DiscountVATAmountDetailDTO, IListedAmountDiscountVATAmountDetailDTO
     {
-        [Display(Name = "Giá sau thuế")]
+        [Display(Name = "Giá gốc sau thuế")]
         [UIHint("DecimalReadonly")]
         public virtual decimal ListedGrossPrice { get; set; }
 
