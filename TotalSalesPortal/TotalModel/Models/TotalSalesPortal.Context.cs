@@ -41,7 +41,6 @@ namespace TotalModel.Models
         public virtual DbSet<EntireTerritory> EntireTerritories { get; set; }
         public virtual DbSet<PaymentTerm> PaymentTerms { get; set; }
         public virtual DbSet<Territory> Territories { get; set; }
-        public virtual DbSet<PriceCategory> PriceCategories { get; set; }
         public virtual DbSet<AccessControl> AccessControls { get; set; }
         public virtual DbSet<VoidType> VoidTypes { get; set; }
         public virtual DbSet<AccountInvoiceDetail> AccountInvoiceDetails { get; set; }
@@ -73,6 +72,7 @@ namespace TotalModel.Models
         public virtual DbSet<Promotion> Promotions { get; set; }
         public virtual DbSet<PromotionCommodityCodePart> PromotionCommodityCodeParts { get; set; }
         public virtual DbSet<AccountInvoice> AccountInvoices { get; set; }
+        public virtual DbSet<PriceCategory> PriceCategories { get; set; }
     
         public virtual ObjectResult<Nullable<int>> GetAccessLevel(Nullable<int> userID, Nullable<int> nMVNTaskID, Nullable<int> organizationalUnitID)
         {

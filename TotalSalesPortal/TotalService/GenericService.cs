@@ -117,6 +117,16 @@ namespace TotalService
             return this.genericRepository.GetShowDiscount(this.UserID, this.nmvnTaskID);
         }
 
+        public override bool GetShowListedPrice(int? priceCategoryID)
+        {
+            return this.genericRepository.GetShowListedPrice(priceCategoryID);
+        }
+
+        public override bool GetShowListedGrossPrice(int? priceCategoryID)
+        {
+            return this.genericRepository.GetShowListedGrossPrice(priceCategoryID);
+        }
+
         public virtual bool Approvable(TDto dto)
         {
             if (this.GlobalLocked(dto)) return false;

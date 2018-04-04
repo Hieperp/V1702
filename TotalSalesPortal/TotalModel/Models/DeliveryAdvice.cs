@@ -85,7 +85,6 @@ namespace TotalModel.Models
         public virtual Employee Employee { get; set; }
         public virtual Location Location { get; set; }
         public virtual PaymentTerm PaymentTerm { get; set; }
-        public virtual PriceCategory PriceCategory { get; set; }
         public virtual VoidType VoidType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GoodsIssue> GoodsIssues { get; set; }
@@ -93,5 +92,6 @@ namespace TotalModel.Models
         public virtual Warehouse Warehouse { get; set; }
         public virtual Promotion Promotion { get; set; }
         public virtual Promotion Promotion1 { get; set; }
+        public virtual PriceCategory PriceCategory { get; set; }
     }
 }

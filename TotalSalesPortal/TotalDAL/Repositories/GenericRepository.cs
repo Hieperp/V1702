@@ -194,6 +194,22 @@ namespace TotalDAL.Repositories
             return showDiscount == null ? false : (bool)showDiscount;
         }
 
+        public bool GetShowListedPrice(int? priceCategoryID)
+        {
+            if (priceCategoryID == null || priceCategoryID <= 0) return false;
+
+            bool? showListedPrice = this.TotalSalesPortalEntities.PriceCategories.Where(w => w.PriceCategoryID == priceCategoryID).FirstOrDefault().ShowListedPrice;
+            return showListedPrice == null ? false : (bool)showListedPrice;
+        }
+
+        public bool GetShowListedGrossPrice(int? priceCategoryID)
+        {
+            if (priceCategoryID == null || priceCategoryID <= 0) return false;
+
+            bool? showGrossPrice = this.TotalSalesPortalEntities.PriceCategories.Where(w => w.PriceCategoryID == priceCategoryID).FirstOrDefault().ShowListedGrossPrice;
+            return showGrossPrice == null ? false : (bool)showGrossPrice;
+        }
+
         public bool GetApproved(int id)
         {
             return this.CheckExisting(id, this.functionNameApproved);

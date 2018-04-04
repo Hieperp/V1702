@@ -55,6 +55,15 @@ namespace TotalPortal.Areas.Sales.Controllers
             return base.GetShowDiscount(simpleViewModel) || this.customerRepository.GetShowDiscount(simpleViewModel == null ? 0 : simpleViewModel.CustomerID);
         }
 
+        protected override bool GetShowListedPrice(DeliveryAdviceViewModel simpleViewModel)
+        {
+            return base.BaseService.GetShowListedPrice(simpleViewModel.PriceCategoryID);
+        }
+
+        protected override bool GetShowListedGrossPrice(DeliveryAdviceViewModel simpleViewModel)
+        {
+            return base.BaseService.GetShowListedGrossPrice(simpleViewModel.PriceCategoryID);
+        }
 
         public virtual ActionResult GetPendingSalesOrderDetails()
         {

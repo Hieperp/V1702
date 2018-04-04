@@ -592,6 +592,9 @@ namespace TotalPortal.Controllers
 
             simpleViewModel.ShowDiscount = this.GetShowDiscount(simpleViewModel);
 
+            simpleViewModel.ShowListedPrice = this.GetShowListedPrice(simpleViewModel);
+            simpleViewModel.ShowListedGrossPrice = this.GetShowListedGrossPrice(simpleViewModel);
+
             RequireJsOptions.Add("Editable", simpleViewModel.Editable, RequireJsOptionsScope.Page);
             RequireJsOptions.Add("Deletable", simpleViewModel.Deletable, RequireJsOptionsScope.Page);
 
@@ -610,6 +613,16 @@ namespace TotalPortal.Controllers
         protected virtual bool GetShowDiscount(TSimpleViewModel simpleViewModel)
         {
             return this.GenericService.GetShowDiscount();
+        }
+
+        protected virtual bool GetShowListedPrice(TSimpleViewModel simpleViewModel)
+        {
+            return this.GenericService.GetShowListedPrice(0);
+        }
+
+        protected virtual bool GetShowListedGrossPrice(TSimpleViewModel simpleViewModel)
+        {
+            return this.GenericService.GetShowListedGrossPrice(0);
         }
 
         #region GetViewModel

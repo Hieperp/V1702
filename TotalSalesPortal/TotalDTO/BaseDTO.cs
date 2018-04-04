@@ -56,6 +56,9 @@ namespace TotalDTO
 
         public bool ShowDiscount { get; set; }
 
+        public bool ShowListedPrice { get; set; }
+        public bool ShowListedGrossPrice { get; set; }
+
 
         //These properties are used as an implementation preservation of ISimpleViewModel for these ________ViewModel class (Those class ________ViewModel which is BOTH inheritance from this BaseDTO AND implementation of ISimpleViewModel)
         public virtual bool PrintAfterClosedSubmit { get; set; }

@@ -73,5 +73,12 @@ namespace TotalService
 
         public virtual bool GetShowDiscount()
         { return false; }
+
+        public bool GetShowListedPrice(int? priceCategoryID)
+        { return false; }
+
+        public bool GetShowListedGrossPrice(int? priceCategoryID)
+        { return false; }
+
     }
 }

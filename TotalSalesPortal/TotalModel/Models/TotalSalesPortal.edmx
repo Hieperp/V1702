@@ -775,6 +775,8 @@
           <Property Name="PriceCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ShowListedPrice" Type="bit" Nullable="false" />
+          <Property Name="ShowListedGrossPrice" Type="bit" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="InActive" Type="bit" Nullable="false" />
         </EntityType>
@@ -3719,7 +3721,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="CustomerID" Mode="In" Type="Int32" />
             <Parameter Name="FilterApplyToTradeDiscount" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="PriceCategories" EntityType="TotalSalesPortalModel.PriceCategory" />
           <FunctionImport Name="GetGoodsIssueIndexes" ReturnType="Collection(TotalSalesPortalModel.GoodsIssueIndex)">
             <Parameter Name="AspUserID" Mode="In" Type="String" />
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
@@ -3957,10 +3958,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="EntireTerritory" EntitySet="EntireTerritories" />
             <End Role="Customer" EntitySet="Customers" />
           </AssociationSet>
-          <AssociationSet Name="FK_Customers_PriceCategories" Association="TotalSalesPortalModel.FK_Customers_PriceCategories">
-            <End Role="PriceCategory" EntitySet="PriceCategories" />
-            <End Role="Customer" EntitySet="Customers" />
-          </AssociationSet>
           <AssociationSet Name="FK_DeliveryAdvices_Customers" Association="TotalSalesPortalModel.FK_DeliveryAdvices_Customers">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="DeliveryAdvice" EntitySet="DeliveryAdvices" />
@@ -4003,10 +4000,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           </AssociationSet>
           <AssociationSet Name="FK_DeliveryAdvices_PaymentTerms" Association="TotalSalesPortalModel.FK_DeliveryAdvices_PaymentTerms">
             <End Role="PaymentTerm" EntitySet="PaymentTerms" />
-            <End Role="DeliveryAdvice" EntitySet="DeliveryAdvices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DeliveryAdvices_PriceCategories" Association="TotalSalesPortalModel.FK_DeliveryAdvices_PriceCategories">
-            <End Role="PriceCategory" EntitySet="PriceCategories" />
             <End Role="DeliveryAdvice" EntitySet="DeliveryAdvices" />
           </AssociationSet>
           <AssociationSet Name="FK_DeliveryAdvices_VoidTypes" Association="TotalSalesPortalModel.FK_DeliveryAdvices_VoidTypes">
@@ -4185,10 +4178,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           </AssociationSet>
           <AssociationSet Name="FK_SalesOrders_PaymentTerms" Association="TotalSalesPortalModel.FK_SalesOrders_PaymentTerms">
             <End Role="PaymentTerm" EntitySet="PaymentTerms" />
-            <End Role="SalesOrder" EntitySet="SalesOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SalesOrders_PriceCategories" Association="TotalSalesPortalModel.FK_SalesOrders_PriceCategories">
-            <End Role="PriceCategory" EntitySet="PriceCategories" />
             <End Role="SalesOrder" EntitySet="SalesOrders" />
           </AssociationSet>
           <AssociationSet Name="FK_SalesOrders_VoidTypes" Association="TotalSalesPortalModel.FK_SalesOrders_VoidTypes">
@@ -4379,10 +4368,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           </AssociationSet>
           <AssociationSet Name="FK_SalesReturns_Locations" Association="TotalSalesPortalModel.FK_SalesReturns_Locations">
             <End Role="Location" EntitySet="Locations" />
-            <End Role="SalesReturn" EntitySet="SalesReturns" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SalesReturns_PriceCategories" Association="TotalSalesPortalModel.FK_SalesReturns_PriceCategories">
-            <End Role="PriceCategory" EntitySet="PriceCategories" />
             <End Role="SalesReturn" EntitySet="SalesReturns" />
           </AssociationSet>
           <AssociationSet Name="FK_Receipts_SalesReturns" Association="TotalSalesPortalModel.FK_Receipts_SalesReturns">
@@ -4610,8 +4595,25 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="AccountInvoice" EntitySet="AccountInvoices" />
           </AssociationSet>
           <FunctionImport Name="GetOverStockItems" IsComposable="true" ReturnType="Collection(TotalSalesPortalModel.OverStockItem)">
-            <Parameter Name="lSKUActionDate" Mode="In" Type="DateTime" />
+          <Parameter Name="lSKUActionDate" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <EntitySet Name="PriceCategories" EntityType="TotalSalesPortalModel.PriceCategory" />
+          <AssociationSet Name="FK_Customers_PriceCategories" Association="TotalSalesPortalModel.FK_Customers_PriceCategories">
+            <End Role="PriceCategory" EntitySet="PriceCategories" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryAdvices_PriceCategories" Association="TotalSalesPortalModel.FK_DeliveryAdvices_PriceCategories">
+            <End Role="PriceCategory" EntitySet="PriceCategories" />
+            <End Role="DeliveryAdvice" EntitySet="DeliveryAdvices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesOrders_PriceCategories" Association="TotalSalesPortalModel.FK_SalesOrders_PriceCategories">
+            <End Role="PriceCategory" EntitySet="PriceCategories" />
+            <End Role="SalesOrder" EntitySet="SalesOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesReturns_PriceCategories" Association="TotalSalesPortalModel.FK_SalesReturns_PriceCategories">
+            <End Role="PriceCategory" EntitySet="PriceCategories" />
+            <End Role="SalesReturn" EntitySet="SalesReturns" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -4938,20 +4940,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Decimal" Name="ListedPrice" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="TradeDiscountRate" Nullable="false" Precision="1" Scale="1" />
         </ComplexType>
-        <EntityType Name="PriceCategory">
-          <Key>
-            <PropertyRef Name="PriceCategoryID" />
-          </Key>
-          <Property Name="PriceCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="InActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Customers" Relationship="TotalSalesPortalModel.FK_Customers_PriceCategories" FromRole="PriceCategory" ToRole="Customer" />
-          <NavigationProperty Name="DeliveryAdvices" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_PriceCategories" FromRole="PriceCategory" ToRole="DeliveryAdvice" />
-          <NavigationProperty Name="SalesOrders" Relationship="TotalSalesPortalModel.FK_SalesOrders_PriceCategories" FromRole="PriceCategory" ToRole="SalesOrder" />
-          <NavigationProperty Name="SalesReturns" Relationship="TotalSalesPortalModel.FK_SalesReturns_PriceCategories" FromRole="PriceCategory" ToRole="SalesReturn" />
-        </EntityType>
         <ComplexType Name="GoodsIssueIndex">
           <Property Type="Int32" Name="GoodsIssueID" Nullable="false" />
           <Property Type="DateTime" Name="EntryDate" Nullable="true" />
@@ -5708,7 +5696,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="IsFemale" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Employee" Relationship="TotalSalesPortalModel.FK_Customers_Employees" FromRole="Customer" ToRole="Employee" />
           <NavigationProperty Name="EntireTerritory" Relationship="TotalSalesPortalModel.FK_Customers_EntireTerritories" FromRole="Customer" ToRole="EntireTerritory" />
-          <NavigationProperty Name="PriceCategory" Relationship="TotalSalesPortalModel.FK_Customers_PriceCategories" FromRole="Customer" ToRole="PriceCategory" />
           <NavigationProperty Name="DeliveryAdvices" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Customers" FromRole="Customer" ToRole="DeliveryAdvice" />
           <NavigationProperty Name="DeliveryAdvices1" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Customers1" FromRole="Customer" ToRole="DeliveryAdvice" />
           <NavigationProperty Name="GoodsDeliveries" Relationship="TotalSalesPortalModel.FK_GoodsDeliveries_Customers1" FromRole="Customer" ToRole="GoodsDelivery" />
@@ -5730,6 +5717,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="AccountInvoices" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers" FromRole="Customer" ToRole="AccountInvoice" />
           <NavigationProperty Name="AccountInvoices1" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers1" FromRole="Customer" ToRole="AccountInvoice" />
           <NavigationProperty Name="AccountInvoices2" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers2" FromRole="Customer" ToRole="AccountInvoice" />
+          <NavigationProperty Name="PriceCategory" Relationship="TotalSalesPortalModel.FK_Customers_PriceCategories" FromRole="Customer" ToRole="PriceCategory" />
         </EntityType>
         <EntityType Name="DeliveryAdviceDetail">
           <Key>
@@ -5829,7 +5817,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="Employee" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Employees" FromRole="DeliveryAdvice" ToRole="Employee" />
           <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_Locations" FromRole="DeliveryAdvice" ToRole="Location" />
           <NavigationProperty Name="PaymentTerm" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_PaymentTerms" FromRole="DeliveryAdvice" ToRole="PaymentTerm" />
-          <NavigationProperty Name="PriceCategory" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_PriceCategories" FromRole="DeliveryAdvice" ToRole="PriceCategory" />
           <NavigationProperty Name="VoidType" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_VoidTypes" FromRole="DeliveryAdvice" ToRole="VoidType" />
           <NavigationProperty Name="GoodsIssues" Relationship="TotalSalesPortalModel.FK_GoodsIssues_DeliveryAdvices" FromRole="DeliveryAdvice" ToRole="GoodsIssue" />
           <Property Name="TotalListedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
@@ -5855,6 +5842,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="Addressee" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="SumListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="SumGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="PriceCategory" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_PriceCategories" FromRole="DeliveryAdvice" ToRole="PriceCategory" />
         </EntityType>
         <EntityType Name="GoodsIssueDetail">
           <Key>
@@ -6015,18 +6003,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Customers_PriceCategories">
-          <End Type="TotalSalesPortalModel.PriceCategory" Role="PriceCategory" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PriceCategory">
-              <PropertyRef Name="PriceCategoryID" />
-            </Principal>
-            <Dependent Role="Customer">
-              <PropertyRef Name="PriceCategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DeliveryAdvices_Customers">
           <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
           <End Type="TotalSalesPortalModel.DeliveryAdvice" Role="DeliveryAdvice" Multiplicity="*" />
@@ -6156,18 +6132,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Principal>
             <Dependent Role="DeliveryAdvice">
               <PropertyRef Name="PaymentTermID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DeliveryAdvices_PriceCategories">
-          <End Type="TotalSalesPortalModel.PriceCategory" Role="PriceCategory" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.DeliveryAdvice" Role="DeliveryAdvice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PriceCategory">
-              <PropertyRef Name="PriceCategoryID" />
-            </Principal>
-            <Dependent Role="DeliveryAdvice">
-              <PropertyRef Name="PriceCategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6797,7 +6761,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="Employee" Relationship="TotalSalesPortalModel.FK_SalesOrders_Employees" FromRole="SalesOrder" ToRole="Employee" />
           <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_SalesOrders_Locations" FromRole="SalesOrder" ToRole="Location" />
           <NavigationProperty Name="PaymentTerm" Relationship="TotalSalesPortalModel.FK_SalesOrders_PaymentTerms" FromRole="SalesOrder" ToRole="PaymentTerm" />
-          <NavigationProperty Name="PriceCategory" Relationship="TotalSalesPortalModel.FK_SalesOrders_PriceCategories" FromRole="SalesOrder" ToRole="PriceCategory" />
           <NavigationProperty Name="VoidType" Relationship="TotalSalesPortalModel.FK_SalesOrders_VoidTypes" FromRole="SalesOrder" ToRole="VoidType" />
           <NavigationProperty Name="SalesOrderDetails" Relationship="TotalSalesPortalModel.FK_SalesOrderDetails_SalesOrders" FromRole="SalesOrder" ToRole="SalesOrderDetail" />
           <Property Name="Code" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
@@ -6815,6 +6778,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="Addressee" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="SumListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="SumGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="PriceCategory" Relationship="TotalSalesPortalModel.FK_SalesOrders_PriceCategories" FromRole="SalesOrder" ToRole="PriceCategory" />
         </EntityType>
         <Association Name="FK_SalesOrders_Customers">
           <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
@@ -6885,18 +6849,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Principal>
             <Dependent Role="SalesOrder">
               <PropertyRef Name="PaymentTermID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SalesOrders_PriceCategories">
-          <End Type="TotalSalesPortalModel.PriceCategory" Role="PriceCategory" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.SalesOrder" Role="SalesOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PriceCategory">
-              <PropertyRef Name="PriceCategoryID" />
-            </Principal>
-            <Dependent Role="SalesOrder">
-              <PropertyRef Name="PriceCategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7518,7 +7470,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="Employee" Relationship="TotalSalesPortalModel.FK_SalesReturns_Employees" FromRole="SalesReturn" ToRole="Employee" />
           <NavigationProperty Name="GoodsIssue" Relationship="TotalSalesPortalModel.FK_SalesReturns_GoodsIssues" FromRole="SalesReturn" ToRole="GoodsIssue" />
           <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_SalesReturns_Locations" FromRole="SalesReturn" ToRole="Location" />
-          <NavigationProperty Name="PriceCategory" Relationship="TotalSalesPortalModel.FK_SalesReturns_PriceCategories" FromRole="SalesReturn" ToRole="PriceCategory" />
           <NavigationProperty Name="Receipts" Relationship="TotalSalesPortalModel.FK_Receipts_SalesReturns" FromRole="SalesReturn" ToRole="Receipt" />
           <NavigationProperty Name="SalesReturnDetails" Relationship="TotalSalesPortalModel.FK_SalesReturnDetails_SalesReturns" FromRole="SalesReturn" ToRole="SalesReturnDetail" />
           <NavigationProperty Name="Warehouse" Relationship="TotalSalesPortalModel.FK_SalesReturns_Warehouses" FromRole="SalesReturn" ToRole="Warehouse" />
@@ -7536,6 +7487,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="Addressee" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="SumListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="SumGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="PriceCategory" Relationship="TotalSalesPortalModel.FK_SalesReturns_PriceCategories" FromRole="SalesReturn" ToRole="PriceCategory" />
         </EntityType>
         <Association Name="FK_SalesReturnDetails_Commodities">
           <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
@@ -7618,18 +7570,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </Principal>
             <Dependent Role="SalesReturn">
               <PropertyRef Name="LocationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SalesReturns_PriceCategories">
-          <End Type="TotalSalesPortalModel.PriceCategory" Role="PriceCategory" Multiplicity="1" />
-          <End Type="TotalSalesPortalModel.SalesReturn" Role="SalesReturn" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PriceCategory">
-              <PropertyRef Name="PriceCategoryID" />
-            </Principal>
-            <Dependent Role="SalesReturn">
-              <PropertyRef Name="PriceCategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8274,6 +8214,70 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="DescriptionOfficial" Nullable="false" MaxLength="200" />
           <Property Type="Double" Name="Quantity" Nullable="false" />
         </ComplexType>
+        <EntityType Name="PriceCategory">
+          <Key>
+            <PropertyRef Name="PriceCategoryID" />
+          </Key>
+          <Property Name="PriceCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ShowListedPrice" Type="Boolean" Nullable="false" />
+          <Property Name="ShowListedGrossPrice" Type="Boolean" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="InActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Customers" Relationship="TotalSalesPortalModel.FK_Customers_PriceCategories" FromRole="PriceCategory" ToRole="Customer" />
+          <NavigationProperty Name="DeliveryAdvices" Relationship="TotalSalesPortalModel.FK_DeliveryAdvices_PriceCategories" FromRole="PriceCategory" ToRole="DeliveryAdvice" />
+          <NavigationProperty Name="SalesOrders" Relationship="TotalSalesPortalModel.FK_SalesOrders_PriceCategories" FromRole="PriceCategory" ToRole="SalesOrder" />
+          <NavigationProperty Name="SalesReturns" Relationship="TotalSalesPortalModel.FK_SalesReturns_PriceCategories" FromRole="PriceCategory" ToRole="SalesReturn" />
+        </EntityType>
+        <Association Name="FK_Customers_PriceCategories">
+          <End Type="TotalSalesPortalModel.PriceCategory" Role="PriceCategory" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriceCategory">
+              <PropertyRef Name="PriceCategoryID" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="PriceCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryAdvices_PriceCategories">
+          <End Type="TotalSalesPortalModel.PriceCategory" Role="PriceCategory" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.DeliveryAdvice" Role="DeliveryAdvice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriceCategory">
+              <PropertyRef Name="PriceCategoryID" />
+            </Principal>
+            <Dependent Role="DeliveryAdvice">
+              <PropertyRef Name="PriceCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesOrders_PriceCategories">
+          <End Type="TotalSalesPortalModel.PriceCategory" Role="PriceCategory" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.SalesOrder" Role="SalesOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriceCategory">
+              <PropertyRef Name="PriceCategoryID" />
+            </Principal>
+            <Dependent Role="SalesOrder">
+              <PropertyRef Name="PriceCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesReturns_PriceCategories">
+          <End Type="TotalSalesPortalModel.PriceCategory" Role="PriceCategory" Multiplicity="1" />
+          <End Type="TotalSalesPortalModel.SalesReturn" Role="SalesReturn" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriceCategory">
+              <PropertyRef Name="PriceCategoryID" />
+            </Principal>
+            <Dependent Role="SalesReturn">
+              <PropertyRef Name="PriceCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8571,17 +8575,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetPromotionByCustomers" FunctionName="TotalSalesPortalModel.Store.GetPromotionByCustomers">
           </FunctionImportMapping>
-          <EntitySetMapping Name="PriceCategories">
-            <EntityTypeMapping TypeName="TotalSalesPortalModel.PriceCategory">
-              <MappingFragment StoreEntitySet="PriceCategories">
-                <ScalarProperty Name="InActive" ColumnName="InActive" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="PriceCategoryID" ColumnName="PriceCategoryID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetGoodsIssueIndexes" FunctionName="TotalSalesPortalModel.Store.GetGoodsIssueIndexes">
             <ResultMapping>
               <ComplexTypeMapping TypeName="TotalSalesPortalModel.GoodsIssueIndex">
@@ -10758,6 +10751,19 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="PriceCategories">
+            <EntityTypeMapping TypeName="TotalSalesPortalModel.PriceCategory">
+              <MappingFragment StoreEntitySet="PriceCategories">
+                <ScalarProperty Name="InActive" ColumnName="InActive" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ShowListedGrossPrice" ColumnName="ShowListedGrossPrice" />
+                <ScalarProperty Name="ShowListedPrice" ColumnName="ShowListedPrice" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="PriceCategoryID" ColumnName="PriceCategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

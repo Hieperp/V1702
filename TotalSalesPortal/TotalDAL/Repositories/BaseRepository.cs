@@ -22,7 +22,7 @@ namespace TotalDAL.Repositories
             this.totalSalesPortalEntities = totalSalesPortalEntities;
         }
 
-        private ObjectContext TotalBikePortalsObjectContext
+        private ObjectContext TotalSalesPortalObjectContext
         {
             get { return ((IObjectContextAdapter)this.totalSalesPortalEntities).ObjectContext; }
         }
@@ -64,22 +64,22 @@ namespace TotalDAL.Repositories
 
         public virtual ICollection<TElement> ExecuteFunction<TElement>(string functionName, params ObjectParameter[] parameters)
         {
-            this.TotalBikePortalsObjectContext.CommandTimeout = 300;
-            var objectResult = this.TotalBikePortalsObjectContext.ExecuteFunction<TElement>(functionName, parameters);
+            this.TotalSalesPortalObjectContext.CommandTimeout = 300;
+            var objectResult = this.TotalSalesPortalObjectContext.ExecuteFunction<TElement>(functionName, parameters);
 
             return objectResult.ToList<TElement>();
         }
 
         public virtual int ExecuteFunction(string functionName, params ObjectParameter[] parameters)
         {
-            this.TotalBikePortalsObjectContext.CommandTimeout = 300;
-            return this.TotalBikePortalsObjectContext.ExecuteFunction(functionName, parameters);
+            this.TotalSalesPortalObjectContext.CommandTimeout = 300;
+            return this.TotalSalesPortalObjectContext.ExecuteFunction(functionName, parameters);
         }
 
         public virtual int ExecuteStoreCommand(string commandText, params Object[] parameters)
         {
-            this.TotalBikePortalsObjectContext.CommandTimeout = 300;
-            return this.TotalBikePortalsObjectContext.ExecuteStoreCommand(commandText, parameters);
+            this.TotalSalesPortalObjectContext.CommandTimeout = 300;
+            return this.TotalSalesPortalObjectContext.ExecuteStoreCommand(commandText, parameters);
         }
 
 

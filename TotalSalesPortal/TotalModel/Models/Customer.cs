@@ -64,7 +64,6 @@ namespace TotalModel.Models
     
         public virtual Employee Employee { get; set; }
         public virtual EntireTerritory EntireTerritory { get; set; }
-        public virtual PriceCategory PriceCategory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DeliveryAdvice> DeliveryAdvices { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -99,5 +98,6 @@ namespace TotalModel.Models
         public virtual ICollection<AccountInvoice> AccountInvoices1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountInvoice> AccountInvoices2 { get; set; }
+        public virtual PriceCategory PriceCategory { get; set; }
     }
 }

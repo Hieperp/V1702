@@ -26,6 +26,8 @@ namespace TotalModel.Models
         public int PriceCategoryID { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
+        public bool ShowListedPrice { get; set; }
+        public bool ShowListedGrossPrice { get; set; }
         public string Remarks { get; set; }
         public bool InActive { get; set; }
     

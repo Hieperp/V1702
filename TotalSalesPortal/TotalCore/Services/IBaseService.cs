@@ -24,9 +24,11 @@ namespace TotalCore.Services
 
         bool GetUnVoidablePermitted();
         bool GetUnVoidablePermitted(int? organizationalUnitID);
-
         
         bool GetShowDiscount();
+
+        bool GetShowListedPrice(int? priceCategoryID);
+        bool GetShowListedGrossPrice(int? priceCategoryID);
 
     }
 }
