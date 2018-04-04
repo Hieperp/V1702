@@ -293,22 +293,22 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
         private void SalesReturnEditable()
         {
-            string[] queryArray = new string[2];
+            string[] queryArray = new string[3];
 
             queryArray[0] = " SELECT TOP 1 @FoundEntity = SalesReturnID FROM SalesReturns WHERE SalesReturnID = @EntityID AND (InActive = 1 OR InActivePartial = 1)"; //Don't allow approve after void
             queryArray[1] = " SELECT TOP 1 @FoundEntity = SalesReturnID FROM Receipts WHERE SalesReturnID = @EntityID ";
-            //NEED TO CHECK WH INPUT: queryArray[2] = " SELECT TOP 1 @FoundEntity = SalesReturnID FROM SKUInput!!!! WHERE SalesReturnID = @EntityID ";
+            queryArray[2] = " SELECT TOP 1 @FoundEntity = SKUInputID FROM ERmgrVCP.dbo.SKUInputMaster SKUInputMaster WHERE SKUInputVoucherTypeID = " + (int)TotalDAL.Helpers.SqlProgrammability.Inventories.Inventories.ENMVNTaskID.EsReturn + " AND SKUInputVoucherID = @EntityID ";
 
             this.totalSalesPortalEntities.CreateProcedureToCheckExisting("SalesReturnEditable", queryArray);
         }
 
         private void SalesReturnVoidable()
         {
-            string[] queryArray = new string[2];
+            string[] queryArray = new string[3];
 
             queryArray[0] = " SELECT TOP 1 @FoundEntity = SalesReturnID FROM SalesReturns WHERE SalesReturnID = @EntityID AND Approved = 0"; //Must approve in order to allow void
             queryArray[1] = " SELECT TOP 1 @FoundEntity = SalesReturnID FROM Receipts WHERE SalesReturnID = @EntityID ";
-            //NEED TO CHECK WH INPUT: queryArray[2] = " SELECT TOP 1 @FoundEntity = SalesReturnID FROM SKUInput!!!! WHERE SalesReturnID = @EntityID ";
+            queryArray[2] = " SELECT TOP 1 @FoundEntity = SKUInputID FROM ERmgrVCP.dbo.SKUInputMaster SKUInputMaster WHERE SKUInputVoucherTypeID = " + (int)TotalDAL.Helpers.SqlProgrammability.Inventories.Inventories.ENMVNTaskID.EsReturn + " AND SKUInputVoucherID = @EntityID ";
 
             this.totalSalesPortalEntities.CreateProcedureToCheckExisting("SalesReturnVoidable", queryArray);
         }
