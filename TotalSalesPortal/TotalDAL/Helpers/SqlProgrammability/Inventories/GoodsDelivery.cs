@@ -18,7 +18,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             this.GetGoodsDeliveryIndexes();
 
             this.GetGoodsDeliveryViewDetails();
-            
+
             this.GetPendingHandlingUnitReceivers();
             this.GetPendingHandlingUnits();
 
@@ -70,6 +70,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "                   INNER JOIN Customers ON HandlingUnits.CustomerID = Customers.CustomerID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Customers Receivers ON HandlingUnits.ReceiverID = Receivers.CustomerID " + "\r\n";
             queryString = queryString + "                   INNER JOIN PackingMaterials ON HandlingUnits.PackingMaterialID = PackingMaterials.PackingMaterialID " + "\r\n";
+
+            queryString = queryString + "       ORDER BY    GoodsDeliveryDetails.GoodsDeliveryDetailID " + "\r\n";
 
             queryString = queryString + "       " + "\r\n";
 
@@ -222,7 +224,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
         private void GoodsDeliveryPostSaveValidate()
         {
             string[] queryArray = new string[1];
-            
+
             queryArray[0] = " SELECT TOP 1 @FoundEntity = N'Ngày đóng hàng: ' + CAST(HandlingUnits.EntryDate AS nvarchar) FROM GoodsDeliveryDetails INNER JOIN HandlingUnits ON GoodsDeliveryDetails.GoodsDeliveryID = @EntityID AND GoodsDeliveryDetails.HandlingUnitID = HandlingUnits.HandlingUnitID AND GoodsDeliveryDetails.EntryDate < HandlingUnits.EntryDate ";
 
             this.totalSalesPortalEntities.CreateProcedureToCheckExisting("GoodsDeliveryPostSaveValidate", queryArray);
@@ -254,15 +256,21 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
             queryString = queryString + "       DECLARE     @LocalGoodsDeliveryID int      SET @LocalGoodsDeliveryID = @GoodsDeliveryID" + "\r\n";
 
-            queryString = queryString + "       SELECT      GoodsDeliveries.GoodsDeliveryID, GoodsDeliveries.EntryDate, GoodsDeliveries.Reference, Vehicles.Name AS VehicleName, Drivers.Name AS DriverName, Collectors.Name AS CollectorName, HandlingUnits.CustomerID, Customers.Name AS CustomerName, HandlingUnits.ReceiverID, Receivers.Name AS ReceiverName, IIF(HandlingUnits.Addressee <> '', HandlingUnits.Addressee, Receivers.Name) AS Addressee, HandlingUnits.ShippingAddress, " + "\r\n";
+            queryString = queryString + "       SELECT      GoodsDeliveries.GoodsDeliveryID, GoodsDeliveryDetails.GoodsDeliveryDetailID, GoodsDeliveries.EntryDate, GoodsDeliveries.Reference, Vehicles.Name AS VehicleName, Drivers.Name AS DriverName, Collectors.Name AS CollectorName, HandlingUnits.CustomerID, Customers.Name AS CustomerName, HandlingUnits.ReceiverID, Receivers.Name AS ReceiverName, IIF(HandlingUnits.Addressee <> '', HandlingUnits.Addressee, Receivers.Name) AS Addressee, HandlingUnits.ShippingAddress, MINGoodsDeliveryDetails.MINGoodsDeliveryDetailID, " + "\r\n";
             queryString = queryString + "                   HandlingUnits.Code, HandlingUnits.GoodsIssueReferences, HandlingUnits.PackingMaterialID, HandlingUnits.TotalQuantity AS Quantity, HandlingUnits.TotalWeight AS Weight, HandlingUnits.RealWeight " + "\r\n";
+
             queryString = queryString + "       FROM        GoodsDeliveries " + "\r\n";
-            queryString = queryString + "                   INNER JOIN HandlingUnits ON GoodsDeliveries.GoodsDeliveryID = @LocalGoodsDeliveryID AND GoodsDeliveries.GoodsDeliveryID = HandlingUnits.GoodsDeliveryID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN GoodsDeliveryDetails ON GoodsDeliveries.GoodsDeliveryID = @LocalGoodsDeliveryID AND GoodsDeliveries.GoodsDeliveryID = GoodsDeliveryDetails.GoodsDeliveryID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN HandlingUnits ON GoodsDeliveryDetails.HandlingUnitID = HandlingUnits.HandlingUnitID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Customers ON HandlingUnits.CustomerID = Customers.CustomerID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Customers AS Receivers ON HandlingUnits.ReceiverID = Receivers.CustomerID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Vehicles ON GoodsDeliveries.VehicleID = Vehicles.VehicleID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Employees AS Drivers ON GoodsDeliveries.DriverID = Drivers.EmployeeID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Employees AS Collectors ON GoodsDeliveries.CollectorID = Collectors.EmployeeID " + "\r\n";
+
+            queryString = queryString + "                   LEFT JOIN (SELECT MIN(GoodsDeliveryDetails.GoodsDeliveryDetailID) AS MINGoodsDeliveryDetailID, HandlingUnits.ShippingAddress FROM GoodsDeliveryDetails INNER JOIN HandlingUnits ON GoodsDeliveryDetails.GoodsDeliveryID = @LocalGoodsDeliveryID AND GoodsDeliveryDetails.HandlingUnitID = HandlingUnits.HandlingUnitID GROUP BY HandlingUnits.ShippingAddress) MINGoodsDeliveryDetails ON HandlingUnits.ShippingAddress = MINGoodsDeliveryDetails.ShippingAddress " + "\r\n"; //FOR SORT PURPOSE ONLY. MUST USE 'LEFT JOIN' BECAUSE: IF HandlingUnits.ShippingAddress IS NULL, CAN NOT RUN 'INNER JOIN'             
+
+            queryString = queryString + "       ORDER BY    GoodsDeliveryDetails.GoodsDeliveryDetailID " + "\r\n";
 
             queryString = queryString + "       SET NOCOUNT OFF" + "\r\n";
 
