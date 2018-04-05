@@ -29,6 +29,11 @@ namespace TotalDAL.Repositories.Sales
 
             //return;
 
+            Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);
+            saleReports.RestoreProcedure();
+
+            return;
+
             Helpers.SqlProgrammability.Inventories.GoodsIssue goodsIssue = new Helpers.SqlProgrammability.Inventories.GoodsIssue(totalSalesPortalEntities);
             goodsIssue.RestoreProcedure();
 
@@ -90,10 +95,7 @@ namespace TotalDAL.Repositories.Sales
             customer.RestoreProcedure();
 
 
-            //return;
 
-            Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);
-            saleReports.RestoreProcedure();
 
 
             

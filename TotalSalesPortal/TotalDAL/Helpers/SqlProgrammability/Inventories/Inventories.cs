@@ -296,7 +296,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
 
 
-            
+
 
 
 
@@ -898,7 +898,10 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
         public string GET_WarehouseJournal_BUILD_SQL(string commoditiesBalanceTable, string fromDate, string toDate, string warehouseIDList, string commodityIDList, string isFullJournal, string isAmountIncluded, string warehouseClassIDs)
         {
-            string queryString = "                  DECLARE " + commoditiesBalanceTable + " TABLE (EntryDate datetime NULL, WarehouseID int NULL, CommodityID int NULL, QuantityBalance decimal(18, 2) NULL) " + "\r\n";
+            string queryString = "";
+
+            if (commoditiesBalanceTable != null && commoditiesBalanceTable != "")
+                queryString = queryString + "       DECLARE " + commoditiesBalanceTable + " TABLE (EntryDate datetime NULL, WarehouseID int NULL, CommodityID int NULL, QuantityBalance decimal(18, 2) NULL) " + "\r\n";
 
             if (GlobalEnums.ERPConnected)
             {
@@ -910,19 +913,45 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
                 queryString = queryString + "       QuantityOutputINV float NULL, QuantityOutputGoodsIssue float NULL, QuantityOutputTRF float NULL, QuantityOutputADJ float NULL, QuantityOutputBLD float NULL, QuantityOutputUBL float NULL, QuantityOutput float NULL, QuantityOnTransfer float NULL, QuantityOnReturn float NULL, QuantityOnAdvice float NULL, QuantityOnTransferAdviceOut float NULL, QuantityOnTransferAdviceIn float NULL, QuantityOnProduction float NULL, UPriceNMDInventory float NULL," + "\r\n";
                 queryString = queryString + "       ItemCategoryID int NULL, Description1 nvarchar(100) NULL, Description2 nvarchar(100) NULL, Description3 nvarchar(100) NULL, Description4 nvarchar(100) NULL, Description5 nvarchar(100) NULL, Description6 nvarchar(100) NULL, Description7 nvarchar(100) NULL, Description8 nvarchar(100) NULL, Description9 nvarchar(100) NULL, MaxTransferOutputDate  datetime NULL) " + "\r\n";
 
-                queryString = queryString + "       INSERT INTO @SPSKUInventoryJournalTable EXEC ERmgrVCP.dbo.SPSKUInventoryJournal " + fromDate + ", " + toDate + ", " + commodityIDList + ", N'', N'', N'', N'', " + warehouseIDList + "\r\n";
+                queryString = queryString + "       INSERT INTO @SPSKUInventoryJournalTable EXEC ERmgrVCP.dbo.SPSKUInventoryJournal " + fromDate + ", " + toDate + ", " + (commodityIDList != null && commodityIDList != "" ? commodityIDList : "N''") + ", N'', N'', N'', N'" + warehouseClassIDs + "', " + (warehouseIDList != null && warehouseIDList != "" ? warehouseIDList : "N''") + "\r\n";
 
-                //QuantityBalance = + QuantityOnTransfer + QuantityOnReturn + QuantityOnTransferAdviceIn??? QuantityBalance: SHOULD NOT INCLUDE + QuantityOnTransfer + QuantityOnReturn + QuantityOnTransferAdviceIn. BECAUSE: GetFNSKUOverStock DOES NOT INCLUDE THIS WHEN CHECK OVERSTOCK!!!
-                queryString = queryString + "       INSERT INTO " + commoditiesBalanceTable + " SELECT " + toDate + ", WarehouseID, CommodityID, SUM(QuantityBegin + QuantityInput - QuantityOutput - QuantityOnAdvice - QuantityOnTransferAdviceOut) AS QuantityBalance FROM @SPSKUInventoryJournalTable " + (warehouseClassIDs != null && warehouseClassIDs != "" ? " WHERE WarehouseClassID IN (" + warehouseClassIDs + ")" : "") + " GROUP BY WarehouseID, CommodityID " + "\r\n";
+                if (commoditiesBalanceTable != null && commoditiesBalanceTable != "")
+                    //QuantityBalance = + QuantityOnTransfer + QuantityOnReturn + QuantityOnTransferAdviceIn??? QuantityBalance: SHOULD NOT INCLUDE + QuantityOnTransfer + QuantityOnReturn + QuantityOnTransferAdviceIn. BECAUSE: GetFNSKUOverStock DOES NOT INCLUDE THIS WHEN CHECK OVERSTOCK!!!
+                    queryString = queryString + "   INSERT INTO " + commoditiesBalanceTable + " SELECT " + toDate + ", WarehouseID, CommodityID, SUM(QuantityBegin + QuantityInput - QuantityOutput - QuantityOnAdvice - QuantityOnTransferAdviceOut) AS QuantityBalance FROM @SPSKUInventoryJournalTable GROUP BY WarehouseID, CommodityID " + "\r\n"; //" + (warehouseClassIDs != null && warehouseClassIDs != "" ? " WHERE WarehouseClassID IN (" + warehouseClassIDs + ")" : "") + " 
+
             }
             else //NO USE WAREHOUSE INVENTORY: THIS CODE IS FOR USE WHEN THERE IS NO WAREHOUSE BALANCE
             {
                 queryString = queryString + "       DECLARE @My01JAN2017Commodities TABLE (CommodityID int NOT NULL) INSERT INTO @My01JAN2017Commodities SELECT DISTINCT Id FROM dbo.SplitToIntList (" + commodityIDList + ") " + "\r\n";
-                queryString = queryString + "       INSERT INTO " + commoditiesBalanceTable + " SELECT " + toDate + ", Warehouses.WarehouseID, Commodities.CommodityID, 6 AS QuantityBalance FROM @My01JAN2017Commodities Commodities CROSS JOIN Warehouses WHERE Warehouses.WarehouseID IN (SELECT WarehouseID FROM CustomerWarehouses WHERE CustomerID = @CustomerID AND InActive = 0) " + "\r\n";
+
+                if (commoditiesBalanceTable != null && commoditiesBalanceTable != "")
+                    queryString = queryString + "   INSERT INTO " + commoditiesBalanceTable + " SELECT " + toDate + ", Warehouses.WarehouseID, Commodities.CommodityID, 6 AS QuantityBalance FROM @My01JAN2017Commodities Commodities CROSS JOIN Warehouses WHERE Warehouses.WarehouseID IN (SELECT WarehouseID FROM CustomerWarehouses WHERE CustomerID = @CustomerID AND InActive = 0) " + "\r\n";
             }
 
             return queryString;
         }
+
+        public string GET_SPProductionOrderJournalTable(string fromDate, string toDate, string warehouseClassIDs)
+        {
+            string queryString = "";
+
+            queryString = queryString + "       DECLARE @SPProductionOrderJournalTable TABLE " + "\r\n";
+            queryString = queryString + "      (WarehouseGroupID int NULL, WarehouseGroupName nvarchar(60) NULL, CommodityID int NULL, Description nvarchar(50) NULL, DescriptionPartA nvarchar(20) NULL, DescriptionPartB nvarchar(20) NULL, DescriptionPartC nvarchar(20) NULL, DescriptionPartD nvarchar(20) NULL, DescriptionOfficial nvarchar(200) NULL, UnitSales nvarchar(50) NULL, Weight float NULL, LeadTime float NULL, SellLife int NULL, " + "\r\n";
+            queryString = queryString + "       ProductionOrderID int NULL, ProductionOrderDate datetime NULL, ProductionOrderReference nvarchar(30) NULL, SerialID int NULL, Quantity float NULL, QuantityOrder float NULL, QuantityDifferent float NULL, Remarks nvarchar(250) NULL, DeliveryDate datetime NULL, ProductionPlanID int NULL, ProductionPlanSerialID int NULL, ProductionPlanReference nvarchar(30) NULL, ProductionPlanDate datetime NULL, RequestedDate datetime NULL, ProductionSemiDate datetime NULL, ProductionSemiReference nvarchar(30) NULL, " + "\r\n";
+            queryString = queryString + "       QuantityBeginOrderPlan float NULL, QuantityBeginOrder float NULL, QuantityBeginPlan float NULL, QuantityBeginSemi float NULL, QuantityBeginImprove float NULL, QuantityBeginPack float NULL, QuantityBeginRefine float NULL, QuantityBeginRank float NULL, QuantityBeginFinish float NULL, " + "\r\n";
+            queryString = queryString + "       QuantityProductionOrder float NULL, QuantityProductionOrderOriginal float NULL, QuantityProductionOrderDifferent float NULL, QuantityProductionPlan float NULL, QuantityProductionSemi float NULL, QuantityProductionSemiL2 float NULL, QuantityProductionSemiL3L4 float NULL, QuantityProductionPack float NULL, QuantityProductionPackL2L3 float NULL, QuantityProductionPackL4 float NULL, QuantityProductionPackL1LD float NULL, QuantityProductionPackL5 float NULL, " + "\r\n";
+            queryString = queryString + "       QuantityProductionRank float NULL, QuantityProductionRankL2L3 float NULL, QuantityProductionRankL4 float NULL, QuantityProductionRankL1LD float NULL, QuantityProductionRankL5 float NULL, QuantitySKUInput float NULL, " + "\r\n";
+            queryString = queryString + "       QuantityEndOrderPlan float NULL, QuantityEndOrder float NULL, QuantityEndPlan float NULL, QuantityEndSemi float NULL, QuantityEndImprove float NULL, QuantityEndPack float NULL, QuantityEndRefine float NULL, QuantityEndRank float NULL, QuantityEndFinish float NULL, EntryDate datetime NULL, " + "\r\n";
+            queryString = queryString + "       ItemCategoryID int NULL, ItemCategoryName1 nvarchar(50) NULL, ItemCategoryName2 nvarchar(50) NULL, ItemCategoryName3 nvarchar(50) NULL, ItemCategoryName4 nvarchar(50) NULL, ItemCategoryName5 nvarchar(50) NULL, ItemCategoryName6 nvarchar(50) NULL, ItemCategoryName7 nvarchar(50) NULL, ItemCategoryName8 nvarchar(50) NULL, ItemCategoryName9  nvarchar(50) NULL) " + "\r\n";
+            
+            queryString = queryString + "       INSERT INTO @SPProductionOrderJournalTable EXEC ERmgrVCP.dbo.SPProductionOrderJournal " + fromDate + ", " + toDate + ", N'" + warehouseClassIDs + "' " + "\r\n";
+
+            return queryString;
+        }
+
+
+
+
 
         private enum EWarehouseClassID
         {
