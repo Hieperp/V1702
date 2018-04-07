@@ -896,7 +896,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             return queryString;
         }
 
-        public string GET_WarehouseJournal_BUILD_SQL(string commoditiesBalanceTable, string fromDate, string toDate, string warehouseIDList, string commodityIDList, string isFullJournal, string isAmountIncluded, string warehouseClassIDs)
+        public string GET_WarehouseJournal_BUILD_SQL(string commoditiesBalanceTable, string fromDate, string toDate, string warehouseIDList, string commodityIDList, string isFullJournal, string isAmountIncluded, string warehouseClassIDs, string warehouseGroupIDs)
         {
             string queryString = "";
 
@@ -913,7 +913,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
                 queryString = queryString + "       QuantityOutputINV float NULL, QuantityOutputGoodsIssue float NULL, QuantityOutputTRF float NULL, QuantityOutputADJ float NULL, QuantityOutputBLD float NULL, QuantityOutputUBL float NULL, QuantityOutput float NULL, QuantityOnTransfer float NULL, QuantityOnReturn float NULL, QuantityOnAdvice float NULL, QuantityOnTransferAdviceOut float NULL, QuantityOnTransferAdviceIn float NULL, QuantityOnProduction float NULL, UPriceNMDInventory float NULL," + "\r\n";
                 queryString = queryString + "       ItemCategoryID int NULL, Description1 nvarchar(100) NULL, Description2 nvarchar(100) NULL, Description3 nvarchar(100) NULL, Description4 nvarchar(100) NULL, Description5 nvarchar(100) NULL, Description6 nvarchar(100) NULL, Description7 nvarchar(100) NULL, Description8 nvarchar(100) NULL, Description9 nvarchar(100) NULL, MaxTransferOutputDate  datetime NULL) " + "\r\n";
 
-                queryString = queryString + "       INSERT INTO @SPSKUInventoryJournalTable EXEC ERmgrVCP.dbo.SPSKUInventoryJournal " + fromDate + ", " + toDate + ", " + (commodityIDList != null && commodityIDList != "" ? commodityIDList : "N''") + ", N'', N'', N'', N'" + warehouseClassIDs + "', " + (warehouseIDList != null && warehouseIDList != "" ? warehouseIDList : "N''") + "\r\n";
+                queryString = queryString + "       INSERT INTO @SPSKUInventoryJournalTable EXEC ERmgrVCP.dbo.SPSKUInventoryJournal " + fromDate + ", " + toDate + ", " + (commodityIDList != null && commodityIDList != "" ? commodityIDList : "N''") + ", N'" + (warehouseGroupIDs != null && warehouseGroupIDs != "" ? warehouseGroupIDs : "") + "', N'', N'', N'" + warehouseClassIDs + "', " + (warehouseIDList != null && warehouseIDList != "" ? warehouseIDList : "N''") + "\r\n";
 
                 if (commoditiesBalanceTable != null && commoditiesBalanceTable != "")
                     //QuantityBalance = + QuantityOnTransfer + QuantityOnReturn + QuantityOnTransferAdviceIn??? QuantityBalance: SHOULD NOT INCLUDE + QuantityOnTransfer + QuantityOnReturn + QuantityOnTransferAdviceIn. BECAUSE: GetFNSKUOverStock DOES NOT INCLUDE THIS WHEN CHECK OVERSTOCK!!!

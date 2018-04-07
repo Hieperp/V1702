@@ -149,6 +149,18 @@
             LD = 9 //Lên Đời
         }
 
+        public enum WarehouseGroupID
+        {
+            CO = 1,
+            HD = 2,
+            MT = 3,
+            TT = 4,
+            XK = 5,
+            ST = 6,
+            BC = 7
+        }
+
+
         public enum ReceiptTypeID
         {
             ReceiveMoney = 1,
