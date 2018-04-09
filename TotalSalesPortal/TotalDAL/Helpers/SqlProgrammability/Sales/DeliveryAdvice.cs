@@ -117,7 +117,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
 
             string queryString = " @LocationID int, @CustomerID int, @WarehouseID int, @PriceCategoryID int, @PromotionID int, @EntryDate DateTime, @SearchText nvarchar(60) " + (getSavedData ? ", @GoodsIssueID int, @StockTransferID int, @InventoryAdjustmentID int " : "") + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
             queryString = queryString + "       SET NOCOUNT ON " + "\r\n";
@@ -307,7 +307,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
                 //---BEGIN: ADD CommodityID DOES NOT HAVE BALANCE. JUST THIS QUERY STATEMENT HERE ONLY. LATER: MAY BE ADD NEW PARAMETER TO DECIDE WHETHER TO ADD / OR NOT. THIS PARAMETER SHOULD PASS FROM THE USER CONTEXT WHEN NEEDED
                 queryString = queryString + "               IF (NOT @WarehouseID IS NULL) " + "\r\n";
-                queryString = queryString + "                   INSERT INTO @CommoditiesBalance (EntryDate, WarehouseID, CommodityID, QuantityBalance) SELECT @EntryDate, @WarehouseID, CommodityID, 0 FROM @Commodities WHERE CommodityID NOT IN (SELECT CommodityID FROM @CommoditiesBalance) " + "\r\n";
+                queryString = queryString + "                   INSERT INTO @CommoditiesBalance (EntryDate, WarehouseID, CommodityID, QuantityBalance) SELECT @EntryDate, @WarehouseID, CommodityID, 0 FROM @Commodities WHERE CommodityID NOT IN (SELECT CommodityID FROM @CommoditiesBalance WHERE QuantityBalance > 0) " + "\r\n";
                 //---END
 
                 queryString = queryString + "               INSERT INTO     @CommoditiesAvailable (WarehouseID, CommodityID, QuantityAvailable) " + "\r\n";
