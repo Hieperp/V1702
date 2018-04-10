@@ -26,14 +26,19 @@ namespace TotalDAL.Repositories.Sales
         {
 
 
-            return;
+            //return;
             Helpers.SqlProgrammability.Inventories.Inventories inventories = new Helpers.SqlProgrammability.Inventories.Inventories(totalSalesPortalEntities);
             inventories.RestoreProcedure();
 
+            //return;
 
-            return;
 
-            return;
+            Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
+            deliveryAdvice.RestoreProcedure();
+
+            //return;
+
+            //return;
 
             Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);
             saleReports.RestoreProcedure();
@@ -55,11 +60,7 @@ namespace TotalDAL.Repositories.Sales
             salesReturn.RestoreProcedure();
 
 
-            //return;
-
-
-            Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
-            deliveryAdvice.RestoreProcedure();
+            
 
 
             //return;
@@ -126,13 +127,13 @@ namespace TotalDAL.Repositories.Sales
             //return;
 
 
-            
 
 
-            
-            
 
-            
+
+
+
+
 
 
             //return;
@@ -208,6 +209,20 @@ namespace TotalDAL.Repositories.Sales
         public DeliveryAdviceAPIRepository(TotalSalesPortalEntities totalSalesPortalEntities)
             : base(totalSalesPortalEntities, "GetDeliveryAdviceIndexes")
         {
+        }
+
+        protected override ObjectParameter[] GetEntityIndexParameters(string aspUserID, DateTime fromDate, DateTime toDate)
+        {
+
+            ObjectParameter[] baseParameters = base.GetEntityIndexParameters(aspUserID, fromDate, toDate);
+            ObjectParameter[] objectParameters = new ObjectParameter[] { baseParameters[0], baseParameters[1], baseParameters[2], new ObjectParameter("PendingOnly", this.RepositoryBag.ContainsKey("PendingOnly") && this.RepositoryBag["PendingOnly"] != null ? this.RepositoryBag["PendingOnly"] : false) };
+
+            this.RepositoryBag.Remove("PendingOnly");
+
+            return objectParameters;
+
+
+            
         }
 
         public IEnumerable<DeliveryAdvicePendingCustomer> GetCustomers(int? locationID)

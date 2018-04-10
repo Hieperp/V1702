@@ -16,6 +16,8 @@ using TotalCore.Services;
 using TotalPortal.Builders;
 using TotalPortal.ViewModels.Helpers;
 using TotalDTO.Commons;
+using TotalPortal.ViewModels.Home;
+using TotalPortal.APIs.Sessions;
 
 
 namespace TotalPortal.Controllers
@@ -66,7 +68,9 @@ namespace TotalPortal.Controllers
             ViewBag.SelectedEntityID = id == null ? -1 : (int)id;
             ViewBag.ShowDiscount = this.GenericService.GetShowDiscount();
 
-            return View();
+            OptionViewModel optionViewModel = new OptionViewModel { GlobalFromDate = HomeSession.GetGlobalFromDate(this.HttpContext), GlobalToDate = HomeSession.GetGlobalToDate(this.HttpContext) };
+
+            return View(optionViewModel);
         }
 
 

@@ -156,7 +156,7 @@ namespace TotalModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeliveryAdviceSaveRelative", entityIDParameter, saveRelativeOptionParameter);
         }
     
-        public virtual ObjectResult<DeliveryAdviceIndex> GetDeliveryAdviceIndexes(string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        public virtual ObjectResult<DeliveryAdviceIndex> GetDeliveryAdviceIndexes(string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, Nullable<bool> pendingOnly)
         {
             var aspUserIDParameter = aspUserID != null ?
                 new ObjectParameter("AspUserID", aspUserID) :
@@ -170,7 +170,11 @@ namespace TotalModel.Models
                 new ObjectParameter("ToDate", toDate) :
                 new ObjectParameter("ToDate", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DeliveryAdviceIndex>("GetDeliveryAdviceIndexes", aspUserIDParameter, fromDateParameter, toDateParameter);
+            var pendingOnlyParameter = pendingOnly.HasValue ?
+                new ObjectParameter("PendingOnly", pendingOnly) :
+                new ObjectParameter("PendingOnly", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DeliveryAdviceIndex>("GetDeliveryAdviceIndexes", aspUserIDParameter, fromDateParameter, toDateParameter, pendingOnlyParameter);
         }
     
         public virtual ObjectResult<DeliveryAdviceViewDetail> GetDeliveryAdviceViewDetails(Nullable<int> deliveryAdviceID)

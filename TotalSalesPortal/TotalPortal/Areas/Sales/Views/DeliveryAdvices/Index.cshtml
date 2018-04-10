@@ -1,5 +1,7 @@
 ﻿@using TotalPortal.Configuration
 
+@model TotalPortal.ViewModels.Home.OptionViewModel
+
 <div id="popupWindow"></div>
 
 <div>
@@ -33,6 +35,34 @@
                     <div class="toolbar" style="float: right;">
                         <label>Nhập số phiếu ĐNGH, số đơn hàng hoặc tên khách hàng để tìm</label>
                         <input id="indexFilterText" class="k-textbox" style="text-align: center; " onkeyup="indexFilterText_KeyUp()" />
+                        
+                        
+                        @*<div style="text-align: right; margin-top: 4px;">*@
+                        
+                            <span id="filterExtended">
+                                @Html.Kendo().DatePicker().Name("ExtendedFromDate").Value(Model.GlobalFromDate).Events(e => e.Change("indexFilterText_KeyUp")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" }) 
+                                @Html.Kendo().DatePicker().Name("ExtendedToDate").Value(Model.GlobalToDate).Events(e => e.Change("indexFilterText_KeyUp")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" }) 
+
+                                @(Html.Kendo().DropDownList()
+                                    .Name("ShowPendingOnly")
+                                    .DataTextField("Text")
+                                    .DataValueField("Value")
+                                    .HtmlAttributes(new { @style = "width: 268px; text-align: center; " })
+                                    .BindTo(new List<SelectListItem>()
+                                      {
+                                            new SelectListItem { Text = "[Tất cả]", Value = "0"},
+                                            new SelectListItem { Text = "Liệt kê danh sách đơn hàng chưa giao", Value = "1"},
+                                      })
+                                    .Events(e => e.Change("indexFilterText_KeyUp"))
+                                    //.HtmlAttributes(new { @style = "padding-right: 13px;" })
+                                )
+                            </span>
+
+
+                        @*</div>*@
+
+
+
                     </div>
                 </text>);
             })
@@ -47,7 +77,7 @@
             })
             .DataSource(dataSource => dataSource
                 .Ajax()
-                .Read(read => read.Action("GetDeliveryAdviceIndexes", "DeliveryAdviceAPIs", new { area = "Sales" }))
+                .Read(read => read.Action("GetDeliveryAdviceIndexes", "DeliveryAdviceAPIs", new { area = "Sales" }).Data("onGetDeliveryAdviceIndexes"))
                 .Sort(sort =>
                     {
                         sort.Add(p => p.EntryDate).Descending();
@@ -71,6 +101,17 @@
 
 
 <script type="text/javascript">
+
+    function onGetDeliveryAdviceIndexes(e) {
+        var indexFilterText = $("#indexFilterText").val();
+        return {
+            withExtendedSearch: indexFilterText && indexFilterText.length >= "@SettingsManager.AutoCompleteMinLenght"? true: false,
+            extendedFromDate: $("#ExtendedFromDate").val(),
+            extendedToDate: $("#ExtendedToDate").val(),
+            pendingOnly: $("#ShowPendingOnly").val() === "0" ? false : true
+        };
+    }
+
     function hightLightSelectedRow(e) {
         require(["kindexGrid"], function (kindexGrid) {
             var kindexGridInstance = new kindexGrid("kendoGridIndex");
@@ -107,7 +148,7 @@
     function indexFilterText_KeyUp() {
         var indexFilterText = $("#indexFilterText").val(), gridDetails = $("#kendoGridIndex").data("kendoGrid");
 
-        if (indexFilterText && indexFilterText.length >= "@SettingsManager.AutoCompleteMinLenght") {
+        if ((indexFilterText && indexFilterText.length >= "@SettingsManager.AutoCompleteMinLenght") || $("#ShowPendingOnly").val() != "0") {
             gridDetails.dataSource.filter({
                 logic: "or",
                 filters: [

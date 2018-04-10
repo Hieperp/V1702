@@ -20,6 +20,8 @@ namespace TotalDAL.Repositories
         public BaseRepository(TotalSalesPortalEntities totalSalesPortalEntities)
         {
             this.totalSalesPortalEntities = totalSalesPortalEntities;
+
+            this.RepositoryBag = new Dictionary<string, object>();
         }
 
         private ObjectContext TotalSalesPortalObjectContext
@@ -61,6 +63,7 @@ namespace TotalDAL.Repositories
             return false;
         }
 
+        public Dictionary<string, object> RepositoryBag { get; set; }
 
         public virtual ICollection<TElement> ExecuteFunction<TElement>(string functionName, params ObjectParameter[] parameters)
         {

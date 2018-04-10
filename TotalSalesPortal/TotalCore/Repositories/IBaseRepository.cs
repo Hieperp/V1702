@@ -11,6 +11,8 @@ namespace TotalCore.Repositories
     {
         bool IsDirty();
 
+        Dictionary<string, object> RepositoryBag { get; set; }
+
         int GetModuleID(GlobalEnums.NmvnTaskID nmvnTaskID);
 
         ICollection<TElement> ExecuteFunction<TElement>(string functionName, params ObjectParameter[] parameters);

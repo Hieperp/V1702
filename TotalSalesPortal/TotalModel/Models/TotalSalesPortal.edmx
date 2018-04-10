@@ -2687,6 +2687,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
           <Parameter Name="FromDate" Type="datetime" Mode="In" />
           <Parameter Name="ToDate" Type="datetime" Mode="In" />
+          <Parameter Name="PendingOnly" Type="bit" Mode="In" />
         </Function>
         <Function Name="GetDeliveryAdvicePendingCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationID" Type="int" Mode="In" />
@@ -3704,6 +3705,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="AspUserID" Mode="In" Type="String" />
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+            <Parameter Name="PendingOnly" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="GetDeliveryAdviceViewDetails" ReturnType="Collection(TotalSalesPortalModel.DeliveryAdviceViewDetail)">
           <Parameter Name="DeliveryAdviceID" Mode="In" Type="Int32" />
@@ -4877,7 +4879,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Decimal" Name="TotalListedGrossAmount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="String" Name="VoidTypeName" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="ReceiverDescription" Nullable="false" MaxLength="302" />
+          <Property Type="String" Name="ReceiverDescription" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Code" Nullable="true" MaxLength="60" />
         </ComplexType>

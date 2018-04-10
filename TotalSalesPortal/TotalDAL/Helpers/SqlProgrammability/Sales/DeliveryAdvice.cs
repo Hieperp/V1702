@@ -20,7 +20,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
         {
             this.GetDeliveryAdviceIndexes();
 
-            
+
 
             //this.GetCommoditiesInWarehouses("GetVehicleAvailables", true, false, false, false);
             this.GetCommoditiesInWarehouses("GetCommodityAvailables", false, true, true, false, false, false); //GetPartAvailables
@@ -61,25 +61,34 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
         {
             string queryString;
 
-            queryString = " @AspUserID nvarchar(128), @FromDate DateTime, @ToDate DateTime " + "\r\n";
+            queryString = " @AspUserID nvarchar(128), @FromDate DateTime, @ToDate DateTime, @PendingOnly bit " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      DeliveryAdvices.DeliveryAdviceID, CAST(DeliveryAdvices.EntryDate AS DATE) AS EntryDate, DeliveryAdvices.Reference, Locations.Code AS LocationCode, Customers.Name AS CustomerName, CASE WHEN DeliveryAdvices.Addressee <> '' OR DeliveryAdvices.CustomerID <> DeliveryAdvices.ReceiverID THEN IIF(DeliveryAdvices.Addressee <> '', DeliveryAdvices.Addressee, Receivers.Name) ELSE '' END AS ReceiverDescription, DeliveryAdvices.Code, ISNULL(VoidTypes.Name, CASE DeliveryAdvices.InActivePartial WHEN 1 THEN N'Hủy một phần đh' ELSE N'' END) AS VoidTypeName, DeliveryAdvices.Description, DeliveryAdvices.TotalQuantity, DeliveryAdvices.TotalQuantityIssue, DeliveryAdvices.TotalFreeQuantity, DeliveryAdvices.TotalFreeQuantityIssue, DeliveryAdvices.TotalListedGrossAmount, DeliveryAdvices.TotalGrossAmount, DeliveryAdvices.Approved, DeliveryAdvices.InActive, DeliveryAdvices.InActivePartial " + "\r\n";
-            queryString = queryString + "       FROM        DeliveryAdvices " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Locations ON DeliveryAdvices.EntryDate >= @FromDate AND DeliveryAdvices.EntryDate <= @ToDate AND DeliveryAdvices.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)TotalBase.Enums.GlobalEnums.NmvnTaskID.DeliveryAdvice + " AND AccessControls.AccessLevel > 0) AND Locations.LocationID = DeliveryAdvices.LocationID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Customers ON DeliveryAdvices.CustomerID = Customers.CustomerID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Customers Receivers ON DeliveryAdvices.ReceiverID = Receivers.CustomerID " + "\r\n";            
-            queryString = queryString + "                   LEFT JOIN VoidTypes ON DeliveryAdvices.VoidTypeID = VoidTypes.VoidTypeID" + "\r\n";
-            queryString = queryString + "       " + "\r\n";
+            queryString = queryString + "       IF  (@PendingOnly = 1) " + "\r\n";
+            queryString = queryString + "           " + this.GetDeliveryAdviceIndexSQL(true) + "\r\n";
+            queryString = queryString + "       ELSE " + "\r\n";
+            queryString = queryString + "           " + this.GetDeliveryAdviceIndexSQL(false) + "\r\n";
 
             queryString = queryString + "    END " + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetDeliveryAdviceIndexes", queryString);
         }
 
+        private string GetDeliveryAdviceIndexSQL(bool pendingOnly)
+        {
+            string queryString = "";
 
+            queryString = queryString + "       SELECT      DeliveryAdvices.DeliveryAdviceID, CAST(DeliveryAdvices.EntryDate AS DATE) AS EntryDate, DeliveryAdvices.Reference, Locations.Code AS LocationCode, Customers.Name AS CustomerName, CASE WHEN DeliveryAdvices.Addressee <> '' OR DeliveryAdvices.CustomerID <> DeliveryAdvices.ReceiverID THEN IIF(DeliveryAdvices.Addressee <> '', DeliveryAdvices.Addressee, Receivers.Name) ELSE '' END AS ReceiverDescription, DeliveryAdvices.Code, ISNULL(VoidTypes.Name, CASE DeliveryAdvices.InActivePartial WHEN 1 THEN N'Hủy một phần đh' ELSE N'' END) AS VoidTypeName, DeliveryAdvices.Description, DeliveryAdvices.TotalQuantity, DeliveryAdvices.TotalQuantityIssue, DeliveryAdvices.TotalFreeQuantity, DeliveryAdvices.TotalFreeQuantityIssue, DeliveryAdvices.TotalListedGrossAmount, DeliveryAdvices.TotalGrossAmount, DeliveryAdvices.Approved, DeliveryAdvices.InActive, DeliveryAdvices.InActivePartial " + "\r\n";
+            queryString = queryString + "       FROM        DeliveryAdvices " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Locations ON " + (pendingOnly ? "DeliveryAdvices.DeliveryAdviceID IN (SELECT DeliveryAdviceID FROM DeliveryAdviceDetails WHERE InActive = 0 AND InActivePartial = 0 AND InActiveIssue = 0 AND (ROUND(Quantity - QuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0 OR ROUND(FreeQuantity - FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0))" : "DeliveryAdvices.EntryDate >= @FromDate AND DeliveryAdvices.EntryDate <= @ToDate") + " AND DeliveryAdvices.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)TotalBase.Enums.GlobalEnums.NmvnTaskID.DeliveryAdvice + " AND AccessControls.AccessLevel > 0) AND Locations.LocationID = DeliveryAdvices.LocationID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers ON DeliveryAdvices.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers Receivers ON DeliveryAdvices.ReceiverID = Receivers.CustomerID " + "\r\n";
+            queryString = queryString + "                   LEFT JOIN VoidTypes ON DeliveryAdvices.VoidTypeID = VoidTypes.VoidTypeID" + "\r\n";
+
+            return queryString;
+        }
 
         public static string whereCodePart()
         {
@@ -130,7 +139,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
 
             queryString = queryString + "       IF (@@ROWCOUNT > 0) " + "\r\n";
-            {                
+            {
                 string queryPriority = "          CASE " + "\r\n"; //We set PriorityIndex for each case (1, 2, 3, ...) to implement the priority for EACH MATCH CASE (REASON: most of case, it will match some cases: for example: [CodePartA = A106 AND CodePartC = A3] -> PriorityIndex = 4  versus [CodePartC = A3] only -> PriorityIndex = 7)
                 queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB IS NULL AND PromotionCommodityCodeParts.CodePartC IS NULL) THEN 4 " + "\r\n";
                 queryPriority = queryPriority + " WHEN (PromotionCommodityCodeParts.CommodityBrandID = Commodities.CommodityBrandID AND PromotionCommodityCodeParts.CodePartA = Commodities.CodePartA AND PromotionCommodityCodeParts.CodePartB IS NULL AND PromotionCommodityCodeParts.CodePartC = Commodities.CodePartC) THEN 2 " + "\r\n";
@@ -494,13 +503,13 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
                 case GlobalEnums.NmvnTaskID.SalesOrder:
                     nameEntities = "SalesOrders"; nameEntityDetails = "SalesOrderDetails"; nameEntityID = "SalesOrderID"; break;
                 case GlobalEnums.NmvnTaskID.DeliveryAdvice:
-                    nameEntities = "DeliveryAdvices" ; nameEntityDetails = "DeliveryAdviceDetails"; nameEntityID = "DeliveryAdviceID"; break;
+                    nameEntities = "DeliveryAdvices"; nameEntityDetails = "DeliveryAdviceDetails"; nameEntityID = "DeliveryAdviceID"; break;
                 case GlobalEnums.NmvnTaskID.SalesReturn:
                     nameEntities = "SalesReturns"; nameEntityDetails = "SalesReturnDetails"; nameEntityID = "SalesReturnID"; break;
                 default:
                     nameEntities = ""; nameEntityDetails = ""; nameEntityID = ""; break;
-            } 
-           
+            }
+
             queryString = queryString + "   DECLARE     @PromotionID int, @ApplyToAllCommodities bit, @Specs nvarchar(200) ";
             queryString = queryString + "   SELECT      @PromotionID = TradePromotionID FROM " + nameEntities + " WHERE " + nameEntityID + " = @EntityID ";
 
@@ -817,7 +826,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryArray[1] = " SELECT TOP 1 @FoundEntity = N'Số lượng xuất vượt quá số lượng đặt hàng: ' + CAST(ROUND(Quantity - QuantityAdvice, " + (int)GlobalEnums.rndQuantity + ") AS nvarchar) + ' OR free quantity: ' + CAST(ROUND(FreeQuantity - FreeQuantityAdvice, " + (int)GlobalEnums.rndQuantity + ") AS nvarchar) FROM SalesOrderDetails WHERE (ROUND(Quantity - QuantityAdvice, " + (int)GlobalEnums.rndQuantity + ") < 0) OR (ROUND(FreeQuantity - FreeQuantityAdvice, " + (int)GlobalEnums.rndQuantity + ") < 0) ";
             queryArray[2] = TotalDAL.Helpers.SqlProgrammability.Sales.DeliveryAdvice.postSaveValidateTradePromotion(GlobalEnums.NmvnTaskID.DeliveryAdvice);
 
-            this.totalSalesPortalEntities.CreateProcedureToCheckExisting("DeliveryAdvicePostSaveValidate", queryArray);            
+            this.totalSalesPortalEntities.CreateProcedureToCheckExisting("DeliveryAdvicePostSaveValidate", queryArray);
         }
 
 

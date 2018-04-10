@@ -33,9 +33,10 @@ namespace TotalPortal.Areas.Sales.APIs
         }
 
 
-        public JsonResult GetDeliveryAdviceIndexes([DataSourceRequest] DataSourceRequest request)
+        public JsonResult GetDeliveryAdviceIndexes([DataSourceRequest] DataSourceRequest request, bool withExtendedSearch, DateTime extendedFromDate, DateTime extendedToDate, bool pendingOnly)
         {
-            ICollection<DeliveryAdviceIndex> deliveryAdviceIndexes = this.deliveryAdviceAPIRepository.GetEntityIndexes<DeliveryAdviceIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext));
+            this.deliveryAdviceAPIRepository.RepositoryBag["PendingOnly"] = pendingOnly;
+            ICollection<DeliveryAdviceIndex> deliveryAdviceIndexes = this.deliveryAdviceAPIRepository.GetEntityIndexes<DeliveryAdviceIndex>(User.Identity.GetUserId(), (withExtendedSearch? extendedFromDate: HomeSession.GetGlobalFromDate(this.HttpContext)), (withExtendedSearch? extendedToDate: HomeSession.GetGlobalToDate(this.HttpContext)));
 
             DataSourceResult response = deliveryAdviceIndexes.ToDataSourceResult(request);
 
