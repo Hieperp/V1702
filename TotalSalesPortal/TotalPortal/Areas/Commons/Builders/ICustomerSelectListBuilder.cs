@@ -24,7 +24,10 @@ namespace TotalPortal.Areas.Commons.Builders
         private readonly IPriceCategorySelectListBuilder priceCategorySelectListBuilder;
         private readonly IPriceCategoryRepository priceCategoryRepository;
 
-        public CustomerSelectListBuilder(ICustomerTypeSelectListBuilder customerTypeSelectListBuilder, ICustomerTypeRepository customerTypeRepository, ICustomerCategorySelectListBuilder customerCategorySelectListBuilder, ICustomerCategoryRepository customerCategoryRepository, ITerritorySelectListBuilder territorySelectListBuilder, ITerritoryRepository territoryRepository, IPriceCategorySelectListBuilder priceCategorySelectListBuilder, IPriceCategoryRepository priceCategoryRepository)
+        private readonly IPaymentTermSelectListBuilder paymentTermSelectListBuilder;
+        private readonly IPaymentTermRepository paymentTermRepository;
+
+        public CustomerSelectListBuilder(ICustomerTypeSelectListBuilder customerTypeSelectListBuilder, ICustomerTypeRepository customerTypeRepository, ICustomerCategorySelectListBuilder customerCategorySelectListBuilder, ICustomerCategoryRepository customerCategoryRepository, ITerritorySelectListBuilder territorySelectListBuilder, ITerritoryRepository territoryRepository, IPriceCategorySelectListBuilder priceCategorySelectListBuilder, IPriceCategoryRepository priceCategoryRepository, IPaymentTermSelectListBuilder paymentTermSelectListBuilder, IPaymentTermRepository paymentTermRepository)
         {
             this.customerTypeSelectListBuilder = customerTypeSelectListBuilder;
             this.customerTypeRepository = customerTypeRepository;
@@ -37,6 +40,9 @@ namespace TotalPortal.Areas.Commons.Builders
 
             this.priceCategorySelectListBuilder = priceCategorySelectListBuilder;
             this.priceCategoryRepository = priceCategoryRepository;
+
+            this.paymentTermSelectListBuilder = paymentTermSelectListBuilder;
+            this.paymentTermRepository = paymentTermRepository;
         }
 
         public virtual void BuildSelectLists(CustomerViewModel customerViewModel)
@@ -45,6 +51,7 @@ namespace TotalPortal.Areas.Commons.Builders
             customerViewModel.CustomerCategorySelectList = this.customerCategorySelectListBuilder.BuildSelectListItemsForCustomerCategorys(this.customerCategoryRepository.GetAllCustomerCategories());
             customerViewModel.TerritorySelectList = this.territorySelectListBuilder.BuildSelectListItemsForTerritorys(this.territoryRepository.GetAllTerritories());
             customerViewModel.PriceCategorySelectList = this.priceCategorySelectListBuilder.BuildSelectListItemsForPriceCategorys(this.priceCategoryRepository.GetAllPriceCategories());
+            customerViewModel.PaymentTermSelectList = this.paymentTermSelectListBuilder.BuildSelectListItemsForPaymentTerms(this.paymentTermRepository.GetAllPaymentTerms());
         }
     }
 }

@@ -51,6 +51,7 @@
 
         @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/CustomerCategory.cshtml")
         @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PriceCategory.cshtml")
+        @Html.Partial("~/Views/Shared/EditorTemplates/DropDowns/PaymentTerm.cshtml", @Model, new ViewDataDictionary { { "SingleColumn", true } })
 
         <div class="form-group">
             @Html.EditorFor(d => d.Salesperson, new { EmployeeDisplayName = @Model.GetDisplayName(m => m.Salesperson) })

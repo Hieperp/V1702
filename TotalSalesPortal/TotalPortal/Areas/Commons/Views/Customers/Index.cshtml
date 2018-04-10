@@ -12,8 +12,9 @@
             columns.Bound(p => p.Code).Title("Mã KH").Width(10).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Commons/Customers", action = "Edit" }) + "/#= CustomerID #'>#=Code#</a>");
             columns.Bound(p => p.OfficialName).Title("Tên khách hàng").Width(300);
             columns.Bound(p => p.PriceCategoryCode).Title("Giá bán").Width(20);
+            columns.Bound(p => p.PaymentTermName).Title("PTTT").Width(80);
             columns.Bound(p => p.VATCode).Title("MST").Width(20);
-            columns.Bound(p => p.BillingAddress).Title("Địa chỉ").Width(250);
+            columns.Bound(p => p.BillingAddress).Title("Địa chỉ").Width(230);
             columns.Bound(p => p.SalespersonName).Title("Tiếp thị").Width(20);
             columns.Bound(p => p.TerritoryName).Title("Địa bàn").Width(20);
 
