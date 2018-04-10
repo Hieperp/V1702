@@ -29,6 +29,7 @@ namespace TotalDTO.Commons
         int SalespersonID { get; set; }
         string SalespersonName { get; set; }
         int PaymentTermID { get; set; }
+        string PaymentTermCode { get; set; }
         int PriceCategoryID { get; set; }
         string PriceCategoryCode { get; set; }
         bool ShowDiscount { get; set; }
@@ -80,9 +81,13 @@ namespace TotalDTO.Commons
         public virtual int SalespersonID { get; set; }
         [Display(Name = "Nhân viên tiếp thị")]
         public virtual string SalespersonName { get; set; }
-
+               
         [Display(Name = "Phương thức thanh toán")]
+        [Required(ErrorMessage = "Vui lòng chọn phương thức thanh toán")]
         public int PaymentTermID { get; set; }
+        [Display(Name = "Phương thức thanh toán")]
+        public string PaymentTermCode { get; set; }
+
 
         [Display(Name = "Bảng giá")]
         [Required(ErrorMessage = "Vui lòng chọn bảng giá")]

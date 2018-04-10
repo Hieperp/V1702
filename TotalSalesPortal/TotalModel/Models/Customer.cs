@@ -61,6 +61,7 @@ namespace TotalModel.Models
         public string VendorCode { get; set; }
         public string VendorCategory { get; set; }
         public Nullable<int> MonetaryAccountID { get; set; }
+        public int PaymentTermID { get; set; }
     
         public virtual Employee Employee { get; set; }
         public virtual EntireTerritory EntireTerritory { get; set; }

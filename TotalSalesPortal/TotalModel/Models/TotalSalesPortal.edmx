@@ -308,6 +308,7 @@
           <Property Name="VendorCode" Type="nvarchar" MaxLength="50" />
           <Property Name="VendorCategory" Type="nvarchar" MaxLength="80" />
           <Property Name="PriceCategoryID" Type="int" Nullable="false" />
+          <Property Name="PaymentTermID" Type="int" Nullable="false" />
           <Property Name="MonetaryAccountID" Type="int" />
           <Property Name="SalespersonID" Type="int" Nullable="false" />
           <Property Name="CustomerCategoryID" Type="int" Nullable="false" />
@@ -5720,6 +5721,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="AccountInvoices1" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers1" FromRole="Customer" ToRole="AccountInvoice" />
           <NavigationProperty Name="AccountInvoices2" Relationship="TotalSalesPortalModel.FK_AccountInvoices_Customers2" FromRole="Customer" ToRole="AccountInvoice" />
           <NavigationProperty Name="PriceCategory" Relationship="TotalSalesPortalModel.FK_Customers_PriceCategories" FromRole="Customer" ToRole="PriceCategory" />
+          <Property Name="PaymentTermID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DeliveryAdviceDetail">
           <Key>
@@ -7794,6 +7796,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="SalespersonName" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="TerritoryName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Category" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="PaymentTermName" Nullable="false" MaxLength="100" />
         </ComplexType>
         <ComplexType Name="EmployeeIndex">
           <Property Type="Int32" Name="EmployeeID" Nullable="false" />
@@ -9344,6 +9347,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.Customer">
               <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
                 <ScalarProperty Name="MonetaryAccountID" ColumnName="MonetaryAccountID" />
                 <ScalarProperty Name="VendorCategory" ColumnName="VendorCategory" />
                 <ScalarProperty Name="VendorCode" ColumnName="VendorCode" />
@@ -10527,6 +10531,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="SalespersonName" ColumnName="SalespersonName" />
                 <ScalarProperty Name="TerritoryName" ColumnName="TerritoryName" />
                 <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="PaymentTermName" ColumnName="PaymentTermName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

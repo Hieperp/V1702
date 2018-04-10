@@ -25,5 +25,6 @@ namespace TotalModel.Models
         public string SalespersonName { get; set; }
         public string TerritoryName { get; set; }
         public string Category { get; set; }
+        public string PaymentTermName { get; set; }
     }
 }

@@ -34,10 +34,11 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      CustomerCategories.CustomerCategoryID, CustomerCategories.Name AS Category, Customers.CustomerID, Customers.Code, Customers.Name, Customers.OfficialName, Customers.VATCode, Customers.BillingAddress, Customers.ShippingAddress, PriceCategories.Code AS PriceCategoryCode, Employees.Name AS SalespersonName, Territories.Name AS TerritoryName " + "\r\n";
+            queryString = queryString + "       SELECT      CustomerCategories.CustomerCategoryID, CustomerCategories.Name AS Category, Customers.CustomerID, Customers.Code, Customers.Name, Customers.OfficialName, Customers.VATCode, Customers.BillingAddress, Customers.ShippingAddress, PriceCategories.Code AS PriceCategoryCode, PaymentTerms.Name AS PaymentTermName, Employees.Name AS SalespersonName, Territories.Name AS TerritoryName " + "\r\n";
             queryString = queryString + "       FROM        CustomerCategories " + "\r\n";
             queryString = queryString + "                   INNER JOIN Customers ON CustomerCategories.CustomerCategoryID = Customers.CustomerCategoryID " + "\r\n";
             queryString = queryString + "                   INNER JOIN PriceCategories ON Customers.PriceCategoryID = PriceCategories.PriceCategoryID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN PaymentTerms ON Customers.PaymentTermID = PaymentTerms.PaymentTermID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Employees ON Customers.SalespersonID = Employees.EmployeeID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Territories ON Customers.TerritoryID = Territories.TerritoryID " + "\r\n";
             queryString = queryString + "       ORDER BY    Customers.Code DESC " + "\r\n";
