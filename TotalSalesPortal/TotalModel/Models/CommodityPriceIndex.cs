@@ -23,5 +23,6 @@ namespace TotalModel.Models
         public string PriceCategory { get; set; }
         public string Remarks { get; set; }
         public string CodePartABC { get; set; }
+        public double Weight { get; set; }
     }
 }

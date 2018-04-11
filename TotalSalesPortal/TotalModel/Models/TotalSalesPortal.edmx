@@ -7832,7 +7832,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Int32" Name="CommodityPriceID" Nullable="false" />
           <Property Type="String" Name="PriceCategory" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="CodePartABC" Nullable="false" MaxLength="62" />
+          <Property Type="String" Name="CodePartABC" Nullable="false" MaxLength="113" />
+          <Property Type="Double" Name="Weight" Nullable="false" />
         </ComplexType>
         <ComplexType Name="CommodityCodePart">
           <Property Type="String" Name="CodePart" Nullable="false" MaxLength="20" />
@@ -10580,6 +10581,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="PriceCategory" ColumnName="PriceCategory" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="CodePartABC" ColumnName="CodePartABC" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

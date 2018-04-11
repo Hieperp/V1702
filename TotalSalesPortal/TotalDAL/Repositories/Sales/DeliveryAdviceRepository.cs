@@ -25,6 +25,11 @@ namespace TotalDAL.Repositories.Sales
             : base(totalSalesPortalEntities, "DeliveryAdviceEditable", "DeliveryAdviceApproved", null, "DeliveryAdviceVoidable")
         {
 
+            //return;
+
+            Helpers.SqlProgrammability.Commons.CommodityPrice commodityPrice = new Helpers.SqlProgrammability.Commons.CommodityPrice(totalSalesPortalEntities);
+            commodityPrice.RestoreProcedure();
+
             return;
 
             Helpers.SqlProgrammability.Commons.Customer customer = new Helpers.SqlProgrammability.Commons.Customer(totalSalesPortalEntities);
@@ -80,10 +85,7 @@ namespace TotalDAL.Repositories.Sales
             Helpers.SqlProgrammability.Accounts.AccountInvoice accountInvoice = new Helpers.SqlProgrammability.Accounts.AccountInvoice(totalSalesPortalEntities);
             accountInvoice.RestoreProcedure();
 
-            //return;
-
-            Helpers.SqlProgrammability.Commons.CommodityPrice commodityPrice = new Helpers.SqlProgrammability.Commons.CommodityPrice(totalSalesPortalEntities);
-            commodityPrice.RestoreProcedure();
+            
 
             //return;
 

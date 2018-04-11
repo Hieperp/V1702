@@ -12,6 +12,7 @@
             columns.Bound(p => p.CodePartA).Title("Mã SP").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(20).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Commons/CommodityPrices", action = "Edit" }) + "/#= CommodityPriceID #'>#=CodePartA#</a>");
             columns.Bound(p => p.CodePartB).Title("Mã bông").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(20);
             columns.Bound(p => p.CodePartC).Title("Nguyên liệu").HtmlAttributes(new { @class = "grid-column-center" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(20);
+            columns.Bound(p => p.Weight).Title("Trọng lượng").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).Width(30);
             columns.Bound(p => p.ListedPrice).Title("ĐG chưa thuế").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).Width(30);
             columns.Bound(p => p.GrossPrice).Title("ĐG bao gồm VAT").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).Width(30);
             columns.Bound(p => p.Remarks).Title("Ghi chú").Width(180);
