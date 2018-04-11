@@ -84,7 +84,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             string queryString = " @LocationID int " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
-            queryString = queryString + "       SELECT          CustomerCategories.PaymentTermID, CustomerReceiverPENDING.WarehouseID, Warehouses.Code AS WarehouseCode, Warehouses.Name AS WarehouseName, CustomerReceiverPENDING.ShippingAddress, CustomerReceiverPENDING.Addressee, CustomerReceiverPENDING.TradePromotionID, TradePromotions.Specs AS TradePromotionSpecs, CustomerReceiverPENDING.TradeDiscountRate, CustomerReceiverPENDING.VATPercent, " + "\r\n";
+            queryString = queryString + "       SELECT          CASE WHEN Customers.PaymentTermID <> -1 THEN Customers.PaymentTermID ELSE CustomerCategories.PaymentTermID END AS PaymentTermID, CustomerReceiverPENDING.WarehouseID, Warehouses.Code AS WarehouseCode, Warehouses.Name AS WarehouseName, CustomerReceiverPENDING.ShippingAddress, CustomerReceiverPENDING.Addressee, CustomerReceiverPENDING.TradePromotionID, TradePromotions.Specs AS TradePromotionSpecs, CustomerReceiverPENDING.TradeDiscountRate, CustomerReceiverPENDING.VATPercent, " + "\r\n";
             queryString = queryString + "                       Customers.CustomerID AS CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.VATCode AS CustomerVATCode, Customers.AttentionName AS CustomerAttentionName, Customers.Telephone AS CustomerTelephone, Customers.BillingAddress AS CustomerBillingAddress, CustomerEntireTerritories.EntireName AS CustomerEntireTerritoryEntireName, " + "\r\n";
             queryString = queryString + "                       Receivers.CustomerID AS ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Receivers.VATCode AS ReceiverVATCode, Receivers.AttentionName AS ReceiverAttentionName, Receivers.Telephone AS ReceiverTelephone, Receivers.BillingAddress AS ReceiverBillingAddress, ReceiverEntireTerritories.EntireName AS ReceiverEntireTerritoryEntireName " + "\r\n";
 
@@ -371,7 +371,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
             queryString = queryString + "       DECLARE         @LocalGoodsIssueID int    SET @LocalGoodsIssueID = @GoodsIssueID" + "\r\n";
 
-            queryString = queryString + "       SELECT          GoodsIssues.GoodsIssueID, GoodsIssues.EntryDate, GoodsIssues.Reference, GoodsIssues.Description, GoodsIssues.Remarks, " + "\r\n";
+            queryString = queryString + "       SELECT          GoodsIssues.GoodsIssueID, GoodsIssues.EntryDate, GoodsIssues.Reference, GoodsIssues.PaymentTermID, PaymentTerms.Name AS PaymentTermName, GoodsIssues.Description, GoodsIssues.Remarks, " + "\r\n";
             queryString = queryString + "                       Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.Telephone AS CustomerTelephone, Customers.BillingAddress AS CustomerBillingAddress, Receivers.CustomerID AS ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Receivers.Telephone AS ReceiverTelephone, Receivers.AttentionName AS ReceiverAttentionName, Receivers.BillingAddress AS ReceiverBillingAddress, GoodsIssues.ShippingAddress, GoodsIssues.Addressee, " + "\r\n";
             queryString = queryString + "                       Commodities.CommodityID, Commodities.Code AS CommodityCode, Commodities.CodePartA, Commodities.CodePartB, Commodities.CodePartC, Commodities.CodePartD, Commodities.Name AS CommodityName, GoodsIssueDetails.WarehouseID, Warehouses.Code AS WarehouseCode, " + "\r\n";
             queryString = queryString + "                       GoodsIssueDetails.Quantity, GoodsIssueDetails.FreeQuantity, GoodsIssueDetails.ListedGrossPrice, GoodsIssueDetails.GrossPrice, GoodsIssueDetails.ListedGrossAmount, GoodsIssueDetails.GrossAmount, " + "\r\n";
@@ -383,7 +383,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "                       INNER JOIN Warehouses ON GoodsIssueDetails.WarehouseID = Warehouses.WarehouseID " + "\r\n";
             queryString = queryString + "                       INNER JOIN Customers ON GoodsIssues.CustomerID = Customers.CustomerID " + "\r\n";
             queryString = queryString + "                       INNER JOIN Customers AS Receivers ON GoodsIssues.ReceiverID = Receivers.CustomerID " + "\r\n";
-            
+            queryString = queryString + "                       INNER JOIN PaymentTerms ON GoodsIssues.PaymentTermID = PaymentTerms.PaymentTermID " + "\r\n";
+
             queryString = queryString + "       ORDER BY        Commodities.CommodityTypeID, GoodsIssueDetails.DeliveryAdviceID, GoodsIssueDetails.DeliveryAdviceDetailID " + "\r\n";
             
 
