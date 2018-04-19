@@ -27,6 +27,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             this.StatementOfAccount();
 
             this.StatementOfWarehouses();
+
+            this.SearchWarehouseEntries();
         }
 
 
@@ -450,5 +452,56 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             this.totalSalesPortalEntities.CreateStoredProcedure("StatementOfWarehouses", queryString);
         }
 
+
+        private void SearchWarehouseEntries()
+        {
+            string queryString;
+
+            queryString = " @FromDate DateTime, @ToDate DateTime, @CodePartA nvarchar(20), @CodePartB nvarchar(20) " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SET NOCOUNT ON" + "\r\n";
+
+            queryString = queryString + "       IF  (@CodePartA <> '') " + "\r\n";
+            queryString = queryString + "           " + this.SearchWarehouseEntrySQL(true) + "\r\n";
+            queryString = queryString + "       ELSE " + "\r\n";
+            queryString = queryString + "           " + this.SearchWarehouseEntrySQL(false) + "\r\n";
+
+            queryString = queryString + "       SET NOCOUNT OFF" + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("SearchWarehouseEntries", queryString);
+        }
+
+        private string SearchWarehouseEntrySQL(bool isCodePartA)
+        {
+            string queryString = "";
+            queryString = queryString + "   BEGIN " + "\r\n";
+            queryString = queryString + "       IF  (@CodePartB <> '') " + "\r\n";
+            queryString = queryString + "           " + this.SearchWarehouseEntrySQL(isCodePartA, true) + "\r\n";
+            queryString = queryString + "       ELSE " + "\r\n";
+            queryString = queryString + "           " + this.SearchWarehouseEntrySQL(isCodePartA, false) + "\r\n";
+            queryString = queryString + "   END " + "\r\n";
+
+            return queryString;
+        }
+        private string SearchWarehouseEntrySQL(bool isCodePartA, bool isCodePartB)
+        {
+            string queryString = "";
+
+            queryString = queryString + "       SELECT      GoodsIssues.GoodsIssueID, 'Inventories/GoodsIssues' AS TaskAction, GoodsIssues.EntryDate, GoodsIssues.Reference, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, GoodsIssues.Description, GoodsIssues.DeliveryAdviceReferences, " + "\r\n";
+            queryString = queryString + "                   GoodsIssueDetails.GoodsIssueDetailID, GoodsIssueDetails.CommodityID, Commodities.Code AS CommodityCode, Commodities.CodePartA, Commodities.CodePartB, Commodities.CodePartC, Commodities.CodePartD, Commodities.Name AS CommodityName, " + "\r\n";
+            queryString = queryString + "                   GoodsIssueDetails.Quantity, GoodsIssueDetails.FreeQuantity, GoodsIssueDetails.ListedPrice, GoodsIssueDetails.ListedGrossPrice, GoodsIssueDetails.DiscountPercent, GoodsIssueDetails.UnitPrice, GoodsIssueDetails.ListedAmount, GoodsIssueDetails.Amount, ROUND(GoodsIssueDetails.ListedAmount - GoodsIssueDetails.Amount, " + (int)GlobalEnums.rndAmount + ") AS DiscountAmount, GoodsIssues.TotalQuantity, GoodsIssues.TotalAmount, GoodsIssues.TradeDiscountAmount, GoodsIssues.TotalTaxableAmount, GoodsIssues.TotalVATAmount, GoodsIssues.TotalGrossAmount " + "\r\n";
+
+            queryString = queryString + "       FROM        GoodsIssues " + "\r\n";
+            queryString = queryString + "                   INNER JOIN GoodsIssueDetails ON GoodsIssues.EntryDate >= @FromDate AND GoodsIssues.EntryDate <= @ToDate AND GoodsIssues.GoodsIssueID = GoodsIssueDetails.GoodsIssueID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Commodities ON " + (isCodePartA ? " Commodities.CodePartA LIKE '%' + @CodePartA +'%' AND" : "") + (isCodePartB ? " Commodities.CodePartB LIKE '%' + @CodePartB +'%' AND" : "") + " GoodsIssueDetails.CommodityID = Commodities.CommodityID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers ON GoodsIssues.CustomerID = Customers.CustomerID " + "\r\n";
+
+            return queryString;
+        }
     }
 }

@@ -57,6 +57,7 @@
     <Compile Include="Repositories\Commons\IMonetaryAccountRepository.cs" />
     <Compile Include="Repositories\Commons\IPackingMaterialRepository.cs" />
     <Compile Include="Repositories\Commons\IPriceCategoryRepository.cs" />
+    <Compile Include="Repositories\Commons\ISearchRepository.cs" />
     <Compile Include="Repositories\Commons\ITerritoryRepository.cs" />
     <Compile Include="Repositories\Commons\IVehicleRepository.cs" />
     <Compile Include="Repositories\Commons\IVoidTypeRepository.cs" />

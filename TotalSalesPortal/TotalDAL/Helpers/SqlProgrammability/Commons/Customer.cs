@@ -72,6 +72,9 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             queryString = queryString + "       ELSE " + "\r\n"; //(@SaveRelativeOption = -1) 
             queryString = queryString + "           DELETE      CustomerWarehouses WHERE CustomerID = @EntityID " + "\r\n";
 
+            queryString = queryString + "       INSERT INTO     ERmgrVCP.dbo.Customers (CustomerID, Code, Name, OfficialName, VendorCode, VendorCategory, PriceCategoryID, MonetaryAccountID, SalespersonID, CustomerCategoryID, CustomerTypeID, TerritoryID, BillingAddress, ShippingAddress, VATCode, Telephone, Facsimile, AttentionName, AttentionTitle, Birthday, LimitAmount, Remarks, InActive, IsCustomer, IsSupplier, IsFemale) " + "\r\n";
+            queryString = queryString + "       SELECT          CustomerID, Code, Name, OfficialName, VendorCode, VendorCategory, PriceCategoryID, MonetaryAccountID, SalespersonID, CustomerCategoryID, CustomerTypeID, TerritoryID, BillingAddress, ShippingAddress, VATCode, Telephone, Facsimile, AttentionName, AttentionTitle, Birthday, LimitAmount, Remarks, InActive, IsCustomer, IsSupplier, IsFemale     FROM    Customers WHERE CustomerID NOT IN (SELECT CustomerID FROM ERmgrVCP.dbo.Customers) " + "\r\n";
+
             queryString = queryString + "    END " + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("CustomerSaveRelative", queryString);

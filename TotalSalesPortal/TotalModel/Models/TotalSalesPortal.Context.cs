@@ -1742,5 +1742,26 @@ namespace TotalModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<OverStockItem>("[TotalSalesPortalEntities].[GetOverStockItems](@lSKUActionDate)", lSKUActionDateParameter);
         }
+    
+        public virtual ObjectResult<WarehouseEntry> SearchWarehouseEntries(Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, string codePartA, string codePartB)
+        {
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            var codePartAParameter = codePartA != null ?
+                new ObjectParameter("CodePartA", codePartA) :
+                new ObjectParameter("CodePartA", typeof(string));
+    
+            var codePartBParameter = codePartB != null ?
+                new ObjectParameter("CodePartB", codePartB) :
+                new ObjectParameter("CodePartB", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<WarehouseEntry>("SearchWarehouseEntries", fromDateParameter, toDateParameter, codePartAParameter, codePartBParameter);
+        }
     }
 }

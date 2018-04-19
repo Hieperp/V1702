@@ -39,7 +39,7 @@ namespace TotalDAL.Repositories.Sales
             Helpers.SqlProgrammability.Inventories.Inventories inventories = new Helpers.SqlProgrammability.Inventories.Inventories(totalSalesPortalEntities);
             inventories.RestoreProcedure();
 
-            return;
+            //return;
 
 
             Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
@@ -49,10 +49,10 @@ namespace TotalDAL.Repositories.Sales
 
             //return;
 
-            //Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);
-            //saleReports.RestoreProcedure();
+            Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);
+            saleReports.RestoreProcedure();
 
-            //return;
+            return;
 
             Helpers.SqlProgrammability.Inventories.GoodsIssue goodsIssue = new Helpers.SqlProgrammability.Inventories.GoodsIssue(totalSalesPortalEntities);
             goodsIssue.RestoreProcedure();

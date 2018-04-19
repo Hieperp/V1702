@@ -350,6 +350,9 @@
     <Compile Include="Models\Warehouse.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\WarehouseEntry.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validations\DatabaseConcurrencyException.cs" />
     <Compile Include="Validations\DatabaseValidationErrors.cs" />
