@@ -54,7 +54,15 @@ namespace TotalPortal.Controllers
         }
 
 
+        public ActionResult Searches()
+        {
+            //ViewBag.SelectedEntityID = id == null ? -1 : (int)id;
+            //ViewBag.ShowDiscount = this.GenericService.GetShowDiscount();
 
+            OptionViewModel optionViewModel = new OptionViewModel { GlobalFromDate = HomeSession.GetGlobalFromDate(this.HttpContext), GlobalToDate = HomeSession.GetGlobalToDate(this.HttpContext) };
+
+            return View(optionViewModel);
+        }
 
 
 

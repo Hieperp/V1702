@@ -45,5 +45,6 @@ namespace TotalModel.Models
         public decimal TotalTaxableAmount { get; set; }
         public decimal TotalVATAmount { get; set; }
         public decimal TotalGrossAmount { get; set; }
+        public string WarehouseCode { get; set; }
     }
 }

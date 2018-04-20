@@ -223,6 +223,7 @@
     <Compile Include="Areas\Commons\APIs\CommodityPriceAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\CustomerAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\EmployeeAPIsController.cs" />
+    <Compile Include="Areas\Commons\APIs\SearchAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\VoidTypeAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\PromotionAPIsController.cs" />
     <Compile Include="Areas\Commons\APIs\WarehouseAPIsController.cs" />
@@ -537,6 +538,12 @@
     <Content Include="Content\Images\New\menu\delivery-truck.png" />
     <Content Include="Content\Images\New\menu\financial-document.png" />
     <Content Include="Content\Images\New\menu\handshake.png" />
+    <Content Include="Content\Images\New\menu\HomeLookup32.png" />
+    <Content Include="Content\Images\New\menu\HomeLookup32A.png" />
+    <Content Include="Content\Images\New\menu\HomeLookup32B.png" />
+    <Content Include="Content\Images\New\menu\HomeLookup32C.png" />
+    <Content Include="Content\Images\New\menu\HomeSearch.png" />
+    <Content Include="Content\Images\New\menu\HomeSearch32.png" />
     <Content Include="Content\Images\New\menu\icon_suachua.png" />
     <Content Include="Content\Images\New\menu\identification-for-delivery-with-bars.png" />
     <Content Include="Content\Images\New\menu\invoice.png" />
@@ -1127,6 +1134,7 @@
     <Content Include="Scripts\Controllers\Root\Home\Index.js" />
     <Content Include="Scripts\Controllers\Root\Home\LockedDate.js" />
     <Content Include="Scripts\Controllers\Root\Home\Options.js" />
+    <Content Include="Scripts\Controllers\Root\Home\Searches.js" />
     <Content Include="Scripts\Controllers\Root\Reports\Index.js" />
     <Content Include="Scripts\Controllers\Root\Reports\Open.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Commons\kendoWidgetReadonly.js" />
@@ -1978,6 +1986,7 @@
     <Content Include="Views\Shared\EditorTemplates\AutoCompletes\CodePart.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Commons\Addressee.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Commons\SOCode.cshtml" />
+    <Content Include="Views\Home\Searches.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

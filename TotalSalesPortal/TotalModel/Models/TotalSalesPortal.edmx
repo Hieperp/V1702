@@ -3058,6 +3058,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="EntityID" Type="int" Mode="In" />
         </Function>
         <Function Name="SearchWarehouseEntries" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
           <Parameter Name="FromDate" Type="datetime" Mode="In" />
           <Parameter Name="ToDate" Type="datetime" Mode="In" />
           <Parameter Name="CodePartA" Type="nvarchar" Mode="In" />
@@ -4624,6 +4625,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <End Role="SalesReturn" EntitySet="SalesReturns" />
           </AssociationSet>
           <FunctionImport Name="SearchWarehouseEntries" ReturnType="Collection(TotalSalesPortalModel.WarehouseEntry)">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
             <Parameter Name="CodePartA" Mode="In" Type="String" />
@@ -8329,6 +8331,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Decimal" Name="TotalTaxableAmount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="TotalVATAmount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="WarehouseCode" Nullable="false" MaxLength="10" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -10854,6 +10857,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="TotalTaxableAmount" ColumnName="TotalTaxableAmount" />
                 <ScalarProperty Name="TotalVATAmount" ColumnName="TotalVATAmount" />
                 <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
+                <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -7,6 +7,6 @@ namespace TotalCore.Repositories.Commons
 {
     public interface ISearchAPIRepository : IGenericAPIRepository
     {
-        IEnumerable<WarehouseEntry> SearchWarehouseEntries(DateTime fromDate, DateTime toDate, String codePartA, String codePartB);
+        IList<WarehouseEntry> SearchWarehouseEntries(string aspUserID, DateTime fromDate, DateTime toDate, String codePartA, String codePartB);
     }
 }

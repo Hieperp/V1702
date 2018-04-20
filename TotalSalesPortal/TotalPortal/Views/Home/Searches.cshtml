@@ -1,0 +1,86 @@
+﻿@using TotalPortal.Configuration
+
+@model TotalPortal.ViewModels.Home.OptionViewModel
+
+<div id="popupWindow"></div>
+
+<div>
+    @(Html.Kendo().Grid<TotalModel.Models.WarehouseEntry>()
+            .Name("kendoGridIndex")
+            .Columns(columns =>
+            {
+                columns.Bound(p => p.GoodsIssueDetailID).DisplayNameTitle().Hidden();
+                columns.Bound(p => p.EntryDate).Title("Ngày").Format("{0:dd/MM/yyyy}").Width(50).Filterable(false);
+
+                columns.Bound(p => p.WarehouseCode).Title("Kho").Hidden().Width(10);
+
+                columns.Bound(p => p.Reference).Title("PXK").Width(10).Filterable(false).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Inventories/GoodsIssues", action = "Edit" }) + "/#= GoodsIssueID #' target='_blank'>#=Reference#</a>");
+                columns.Bound(p => p.DeliveryAdviceReferences).Title("ĐNGH").Width(128).Filterable(false);
+                columns.Bound(p => p.CustomerCode).Title("Mã KH").Width(60);
+                columns.Bound(p => p.CustomerName).Title("Tên KH").Width(218);
+                columns.Bound(p => p.Description).Title("Diễn giải").Width(130);
+                columns.Bound(p => p.CodePartA).Title("Mã SP").Width(60);
+                columns.Bound(p => p.CodePartB).Title("Mã Bông").Width(60);
+
+                columns.Bound(p => p.Quantity).Title("SL").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).Width(50).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
+                columns.Bound(p => p.FreeQuantity).Title("QT").Format("{0:n0}").HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).Width(50).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
+
+                columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(92)
+                    .ClientTemplate("<a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Inventories/GoodsIssues", action = "Edit" }) + "/#= GoodsIssueID #' target='_blank'><span class='k-icon k-i-folder-add'></span></a>");
+            })
+            .ToolBar(toolbar =>
+            {
+                toolbar.Template(@<text>
+                    <div class="toolbar" style="float: right;">
+                        <label>Nhập ít nhất 3 ký tự mã sản phẩm, mã bông</label>
+                        <input id="searchCodePartA" class="k-textbox" style="text-align: center; " onkeyup="callSearchWarehouseEntries()" />
+                        <input id="searchCodePartB" class="k-textbox" style="text-align: center; " onkeyup="callSearchWarehouseEntries()" />
+
+                        <span id="filterExtended">
+                            @Html.Kendo().DatePicker().Name("ExtendedFromDate").Value(Model.GlobalFromDate).Events(e => e.Change("callSearchWarehouseEntries")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" })
+                            @Html.Kendo().DatePicker().Name("ExtendedToDate").Value(Model.GlobalToDate).Events(e => e.Change("callSearchWarehouseEntries")).HtmlAttributes(new { @class = "input-class", style = "text-align: center; width:118px" })
+                        </span>
+
+                    </div>
+                </text>);
+            })
+            .Pageable()
+            .Groupable(g => g.Enabled(false))
+            .Filterable(g => g.Enabled(false))
+            .Selectable()
+            .Sortable(g => g.Enabled(false))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(read => read.Action("SearchWarehouseEntries", "SearchAPIs", new { area = "Commons" }).Data("onSearchWarehouseEntries"))
+                .PageSize(20)
+                .Model(model =>
+                {
+                    model.Id(x => x.GoodsIssueDetailID);
+                })
+                .ServerOperation(false)
+                .Aggregates(a => a.Add(x => x.Quantity).Sum())
+                .Aggregates(a => a.Add(x => x.FreeQuantity).Sum())
+                )
+            .HtmlAttributes(new { @class = "grid-class" }))
+</div>
+
+<script type="text/javascript">
+    function onSearchWarehouseEntries(e) {
+        return {
+            fromDate: $("#ExtendedFromDate").val(),
+            toDate: $("#ExtendedToDate").val(),
+            codePartA: $("#searchCodePartA").val(),
+            codePartB: $("#searchCodePartB").val(),
+        };
+    }
+
+    function callSearchWarehouseEntries() {
+        var searchCodePartA = $("#searchCodePartA").val(), gridIndexs = $("#kendoGridIndex").data("kendoGrid");
+        if ((searchCodePartA && searchCodePartA.length >= 3)) {
+            gridIndexs.dataSource.read();
+        }
+    }
+</script>
+
+
+
