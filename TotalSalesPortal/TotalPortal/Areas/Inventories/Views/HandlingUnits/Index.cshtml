@@ -53,7 +53,7 @@
                 .Read(read => read.Action("GetHandlingUnitIndexes", "HandlingUnitAPIs", new { area = "Inventories" }))
                 .Sort(sort =>
                     {
-                        sort.Add(p => p.GoodsIssueID);
+                        //sort.Add(p => p.GoodsIssueID);
                         sort.Add(p => p.LotNo);
                         sort.Add(p => p.Identification);
                     })

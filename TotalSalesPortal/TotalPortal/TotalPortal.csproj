@@ -537,7 +537,17 @@
     <Content Include="Content\Images\New\menu\delivery-packing.png" />
     <Content Include="Content\Images\New\menu\delivery-truck.png" />
     <Content Include="Content\Images\New\menu\financial-document.png" />
+    <Content Include="Content\Images\New\menu\Find-icon-32.png" />
+    <Content Include="Content\Images\New\menu\Find-icon-32A.png" />
+    <Content Include="Content\Images\New\menu\Find-icon-32B.png" />
+    <Content Include="Content\Images\New\menu\Find-icon-32C.png" />
     <Content Include="Content\Images\New\menu\handshake.png" />
+    <Content Include="Content\Images\New\menu\Home-Search-32A.png" />
+    <Content Include="Content\Images\New\menu\Home-Search-32B.png" />
+    <Content Include="Content\Images\New\menu\Home-Search-32C.png" />
+    <Content Include="Content\Images\New\menu\Home-Search-32D.png" />
+    <Content Include="Content\Images\New\menu\Home-Search-32E.png" />
+    <Content Include="Content\Images\New\menu\Home-Search-32F.png" />
     <Content Include="Content\Images\New\menu\HomeLookup32.png" />
     <Content Include="Content\Images\New\menu\HomeLookup32A.png" />
     <Content Include="Content\Images\New\menu\HomeLookup32B.png" />

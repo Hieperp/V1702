@@ -458,7 +458,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             string queryString;
 
             queryString = " @AspUserID nvarchar(128), @FromDate DateTime, @ToDate DateTime, @CodePartA nvarchar(20), @CodePartB nvarchar(20) " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
@@ -497,8 +497,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             queryString = queryString + "                   GoodsIssueDetails.Quantity, GoodsIssueDetails.FreeQuantity, GoodsIssueDetails.ListedPrice, GoodsIssueDetails.ListedGrossPrice, GoodsIssueDetails.DiscountPercent, GoodsIssueDetails.UnitPrice, GoodsIssueDetails.ListedAmount, GoodsIssueDetails.Amount, ROUND(GoodsIssueDetails.ListedAmount - GoodsIssueDetails.Amount, " + (int)GlobalEnums.rndAmount + ") AS DiscountAmount, GoodsIssues.TotalQuantity, GoodsIssues.TotalAmount, GoodsIssues.TradeDiscountAmount, GoodsIssues.TotalTaxableAmount, GoodsIssues.TotalVATAmount, GoodsIssues.TotalGrossAmount " + "\r\n";
 
             queryString = queryString + "       FROM        GoodsIssues " + "\r\n";
-            queryString = queryString + "                   INNER JOIN GoodsIssueDetails ON GoodsIssues.EntryDate >= @FromDate AND GoodsIssues.EntryDate <= @ToDate AND GoodsIssues.OrganizationalUnitID IN (SELECT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)TotalBase.Enums.GlobalEnums.NmvnTaskID.GoodsIssue + " AND AccessControls.AccessLevel > 0) AND GoodsIssues.GoodsIssueID = GoodsIssueDetails.GoodsIssueID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Commodities ON " + (isCodePartA ? " Commodities.CodePartA LIKE '%' + @CodePartA +'%' AND" : "") + (isCodePartB ? " Commodities.CodePartB LIKE '%' + @CodePartB +'%' AND" : "") + " GoodsIssueDetails.CommodityID = Commodities.CommodityID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN GoodsIssueDetails ON GoodsIssues.EntryDate >= @FromDate AND GoodsIssues.EntryDate <= @ToDate " + (isCodePartA || isCodePartB ? "AND GoodsIssueDetails.CommodityID IN (SELECT CommodityID FROM Commodities WHERE " + (isCodePartA ? " CodePartA LIKE '%' + @CodePartA +'%'" : "") + (isCodePartA && isCodePartB ? " AND " : "") + (isCodePartB ? " CodePartB LIKE '%' + @CodePartB +'%'" : "") + ")" : "") + " AND GoodsIssues.OrganizationalUnitID IN (SELECT DISTINCT AccessControls.OrganizationalUnitID FROM AccessControls INNER JOIN AspNetUsers ON AccessControls.UserID = AspNetUsers.UserID WHERE AspNetUsers.Id = @AspUserID AND AccessControls.NMVNTaskID = " + (int)TotalBase.Enums.GlobalEnums.NmvnTaskID.GoodsIssue + " AND AccessControls.AccessLevel > 0) AND GoodsIssues.GoodsIssueID = GoodsIssueDetails.GoodsIssueID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Commodities ON GoodsIssueDetails.CommodityID = Commodities.CommodityID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Warehouses ON GoodsIssueDetails.WarehouseID = Warehouses.WarehouseID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Customers ON GoodsIssues.CustomerID = Customers.CustomerID " + "\r\n";
 

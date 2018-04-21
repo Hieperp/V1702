@@ -307,7 +307,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             string queryString;
 
             queryString = " @HandlingUnitID int " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
@@ -315,10 +315,15 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
             queryString = queryString + "       DECLARE     @LocalHandlingUnitID int      SET @LocalHandlingUnitID = @HandlingUnitID" + "\r\n";
 
+            queryString = queryString + "       DECLARE     @GoodsIssueID int, @EntryDate DateTime, @CustomerID int, @ReceiverID int, @ShippingAddress nvarchar(200), @Addressee nvarchar(200), @LotNo int; " + "\r\n";
+            queryString = queryString + "       SELECT      @GoodsIssueID = GoodsIssueID, @EntryDate = EntryDate, @CustomerID = CustomerID, @ReceiverID = ReceiverID, @ShippingAddress = ShippingAddress, @Addressee = Addressee, @LotNo = LotNo FROM HandlingUnits WHERE HandlingUnitID = @LocalHandlingUnitID; " + "\r\n";
+
+
+
             queryString = queryString + "       SELECT      HandlingUnits.HandlingUnitID, HandlingUnits.EntryDate, HandlingUnits.Code AS HandlingUnitCode, HandlingUnits.GoodsIssueReferences, HandlingUnits.Identification, HandlingUnits.CountIdentification, HandlingUnits.TotalWeight, HandlingUnits.RealWeight, PackingMaterials.PrintedLabel AS PackingMaterialPrintedLabel, HandlingUnits.Description, HandlingUnits.Remarks, " + "\r\n";
             queryString = queryString + "                   HandlingUnits.ShippingAddress, HandlingUnits.Addressee, Customers.Name AS ReceiverName, Customers.CustomerCategoryID AS ReceiverCategoryID, CustomerCategories.Code AS ReceiverCategoryCode, Customers.VendorCode, Customers.VendorCategory, PackagingStaffs.Name AS PackagingStaffName, Commodities.Code, Commodities.CodePartA, Commodities.CodePartB, Commodities.CodePartC, Commodities.CodePartD, Commodities.Name AS CommodityName, HandlingUnitDetails.Quantity " + "\r\n";
             queryString = queryString + "       FROM        HandlingUnits " + "\r\n";
-            queryString = queryString + "                   INNER JOIN HandlingUnitDetails ON HandlingUnits.HandlingUnitID = @LocalHandlingUnitID AND HandlingUnits.HandlingUnitID = HandlingUnitDetails.HandlingUnitID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN HandlingUnitDetails ON HandlingUnits.HandlingUnitID IN (SELECT HandlingUnitID FROM HandlingUnits WHERE (GoodsIssueID = @GoodsIssueID OR (GoodsIssueID IS NULL AND @GoodsIssueID IS NULL)) AND YEAR(EntryDate) = YEAR(@EntryDate) AND MONTH(EntryDate) = MONTH(@EntryDate) AND DAY(EntryDate) = DAY(@EntryDate) AND CustomerID = @CustomerID AND ReceiverID = @ReceiverID AND ShippingAddress = @ShippingAddress AND Addressee = @Addressee AND LotNo = @LotNo) AND HandlingUnits.HandlingUnitID = HandlingUnitDetails.HandlingUnitID " + "\r\n";
             queryString = queryString + "                   INNER JOIN GoodsIssueDetails ON HandlingUnitDetails.GoodsIssueDetailID = GoodsIssueDetails.GoodsIssueDetailID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Commodities ON GoodsIssueDetails.CommodityID = Commodities.CommodityID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Customers ON HandlingUnits.ReceiverID = Customers.CustomerID " + "\r\n";

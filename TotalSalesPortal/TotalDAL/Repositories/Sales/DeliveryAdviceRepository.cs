@@ -27,6 +27,16 @@ namespace TotalDAL.Repositories.Sales
 
             //return;
 
+            Helpers.SqlProgrammability.Inventories.HandlingUnit handlingUnit = new Helpers.SqlProgrammability.Inventories.HandlingUnit(totalSalesPortalEntities);
+            handlingUnit.RestoreProcedure();
+
+            //return;
+
+            Helpers.SqlProgrammability.Inventories.GoodsIssue goodsIssue = new Helpers.SqlProgrammability.Inventories.GoodsIssue(totalSalesPortalEntities);
+            goodsIssue.RestoreProcedure();
+
+            //return;
+
             Helpers.SqlProgrammability.Commons.CommodityPrice commodityPrice = new Helpers.SqlProgrammability.Commons.CommodityPrice(totalSalesPortalEntities);
             commodityPrice.RestoreProcedure();
 
@@ -35,9 +45,7 @@ namespace TotalDAL.Repositories.Sales
             Helpers.SqlProgrammability.Commons.Customer customer = new Helpers.SqlProgrammability.Commons.Customer(totalSalesPortalEntities);
             customer.RestoreProcedure();
 
-            //return;
-            Helpers.SqlProgrammability.Inventories.Inventories inventories = new Helpers.SqlProgrammability.Inventories.Inventories(totalSalesPortalEntities);
-            inventories.RestoreProcedure();
+           
 
             //return;
 
@@ -45,17 +53,17 @@ namespace TotalDAL.Repositories.Sales
             Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
             deliveryAdvice.RestoreProcedure();
 
-            //return;
+            return;
 
-            //return;
+            return;
 
             Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);
             saleReports.RestoreProcedure();
 
-            return;
-
-            Helpers.SqlProgrammability.Inventories.GoodsIssue goodsIssue = new Helpers.SqlProgrammability.Inventories.GoodsIssue(totalSalesPortalEntities);
-            goodsIssue.RestoreProcedure();
+            //return;
+            Helpers.SqlProgrammability.Inventories.Inventories inventories = new Helpers.SqlProgrammability.Inventories.Inventories(totalSalesPortalEntities);
+            inventories.RestoreProcedure();
+            
 
             //return;
 
@@ -139,10 +147,7 @@ namespace TotalDAL.Repositories.Sales
 
 
 
-            //return;
 
-            Helpers.SqlProgrammability.Inventories.HandlingUnit handlingUnit = new Helpers.SqlProgrammability.Inventories.HandlingUnit(totalSalesPortalEntities);
-            handlingUnit.RestoreProcedure();
 
 
 
