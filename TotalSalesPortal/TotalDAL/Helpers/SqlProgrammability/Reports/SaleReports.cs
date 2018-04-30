@@ -18,17 +18,17 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
 
         public void RestoreProcedure()
         {
-            this.GoodsIssueJournal();
+            //this.GoodsIssueJournal();
             //this.AccountInvoiceJournal();
 
             //this.GoodsIssueBalance();
 
-            //this.SalesJournal();
+            this.SalesJournal();
             //this.StatementOfAccount();
 
             //this.StatementOfWarehouses();
 
-            this.SearchWarehouseEntries();
+            //this.SearchWarehouseEntries();
         }
 
 
@@ -284,7 +284,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             queryString = queryString + "       UNION ALL " + "\r\n";
 
             queryString = queryString + "       SELECT      " + (int)GlobalEnums.NmvnTaskID.SalesReturn + " AS NmvnTaskID, 'Sales/SalesReturns' AS TaskAction, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Customers.BillingAddress, Customers.CustomerCategoryID, CustomerCategories.Name AS CustomerCategoryName, " + "\r\n";
-            queryString = queryString + "                   SalesReturns.SalesReturnID AS EntryID, SalesReturns.EntryDate, SalesReturns.Reference, 0 AS BeginningAmount, 0 AS SumListedGrossAmount, 0 AS TotalGrossAmount, 0 AS TotalDiscountAmount, SalesReturns.TotalGrossAmount AS TotalReturnAmount, 0 AS TotalCreditAmount, 0 AS TotalCashReceiptAmount, 0 AS TotalBankTransferAmount, 0 AS TotalCashDiscount, 0 AS TotalFluctuationAmount, -SalesReturns.TotalGrossAmount AS EndingAmount " + "\r\n";
+            queryString = queryString + "                   SalesReturns.SalesReturnID AS EntryID, SalesReturns.EntryDate, SalesReturns.Reference, 0 AS BeginningAmount, 0 AS SumListedGrossAmount, 0 AS TotalGrossAmount, -ROUND(SalesReturns.SumListedGrossAmount - SalesReturns.TotalGrossAmount, " + (int)GlobalEnums.rndAmount + ") AS TotalDiscountAmount, SalesReturns.SumListedGrossAmount AS TotalReturnAmount, 0 AS TotalCreditAmount, 0 AS TotalCashReceiptAmount, 0 AS TotalBankTransferAmount, 0 AS TotalCashDiscount, 0 AS TotalFluctuationAmount, -SalesReturns.TotalGrossAmount AS EndingAmount " + "\r\n";
 
             queryString = queryString + "       FROM        SalesReturns " + "\r\n";
             queryString = queryString + "                   INNER JOIN Customers ON " + (isCustomerID ? "SalesReturns.CustomerID = @LocalCustomerID AND" : "") + (isCustomerCategoryID ? " Customers.CustomerCategoryID = @LocalCustomerCategoryID AND" : "") + " SalesReturns.EntryDate >= @LocalFromDate AND SalesReturns.EntryDate <= @LocalToDate AND SalesReturns.CustomerID = Customers.CustomerID " + "\r\n";
