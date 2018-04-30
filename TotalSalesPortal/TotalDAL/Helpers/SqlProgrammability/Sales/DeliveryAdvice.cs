@@ -316,7 +316,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
                 //---BEGIN: ADD CommodityID DOES NOT HAVE BALANCE. JUST THIS QUERY STATEMENT HERE ONLY. LATER: MAY BE ADD NEW PARAMETER TO DECIDE WHETHER TO ADD / OR NOT. THIS PARAMETER SHOULD PASS FROM THE USER CONTEXT WHEN NEEDED
                 queryString = queryString + "               IF (NOT @WarehouseID IS NULL) " + "\r\n";
-                queryString = queryString + "                   INSERT INTO @CommoditiesBalance (EntryDate, WarehouseID, CommodityID, QuantityBalance) SELECT @EntryDate, @WarehouseID, CommodityID, 0 FROM @Commodities WHERE CommodityID NOT IN (SELECT CommodityID FROM @CommoditiesBalance WHERE QuantityBalance > 0) " + "\r\n";
+                queryString = queryString + "                   INSERT INTO @CommoditiesBalance (EntryDate, WarehouseID, CommodityID, QuantityBalance) SELECT @EntryDate, @WarehouseID, CommodityID, 0 FROM @Commodities WHERE CommodityID NOT IN (SELECT CommodityID FROM @CommoditiesBalance WHERE QuantityBalance > 0 AND WarehouseID = @WarehouseID) " + "\r\n";
                 //---END
 
                 queryString = queryString + "               INSERT INTO     @CommoditiesAvailable (WarehouseID, CommodityID, QuantityAvailable) " + "\r\n";

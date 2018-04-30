@@ -18,7 +18,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
 
         public void RestoreProcedure()
         {
-            //this.GoodsIssueJournal();
+            this.GoodsIssueJournal();
             //this.AccountInvoiceJournal();
 
             //this.GoodsIssueBalance();
@@ -47,17 +47,33 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             queryString = queryString + "       DECLARE     @LocalFromDate DateTime         SET @LocalFromDate = @FromDate" + "\r\n";
             queryString = queryString + "       DECLARE     @LocalToDate DateTime           SET @LocalToDate = @ToDate" + "\r\n";
 
-            queryString = queryString + "       SELECT      GoodsIssues.GoodsIssueID, 'Inventories/GoodsIssues' AS TaskAction, GoodsIssues.EntryDate, DATEADD(Month, DateDiff(Month, 0, GoodsIssues.EntryDate), 0) AS EntryMonth, GoodsIssues.Reference, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, CustomerCategories.Name AS CustomerCategoryName, Employees.Name AS SalespersonName, GoodsIssues.Description, GoodsIssues.DeliveryAdviceReferences, DeliveryAdvices.Reference AS DeliveryAdviceReference, " + "\r\n";
+            queryString = queryString + "       SELECT      GoodsIssues.GoodsIssueID, 'Inventories/GoodsIssues' AS TaskAction, GoodsIssues.EntryDate, DATEADD(Month, DateDiff(Month, 0, GoodsIssues.EntryDate), 0) AS EntryMonth, GoodsIssues.Reference, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, CustomerCategories.Name AS CustomerCategoryName, Receivers.CustomerID AS ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Employees.Name AS SalespersonName, GoodsIssues.Description, GoodsIssues.DeliveryAdviceReferences, DeliveryAdvices.Reference AS DeliveryAdviceReference, " + "\r\n";
             queryString = queryString + "                   GoodsIssueDetails.GoodsIssueDetailID, GoodsIssueDetails.CommodityID, Commodities.Code AS CommodityCode, Commodities.CodePartA, Commodities.CodePartB, Commodities.CodePartC, Commodities.CodePartD, Commodities.Name AS CommodityName, Commodities.Weight AS UnitWeight, " + "\r\n";
             queryString = queryString + "                   GoodsIssueDetails.Quantity, GoodsIssueDetails.FreeQuantity, GoodsIssueDetails.Quantity + GoodsIssueDetails.FreeQuantity AS LineQuantity, GoodsIssueDetails.ListedPrice, GoodsIssueDetails.ListedGrossPrice, GoodsIssueDetails.DiscountPercent, GoodsIssueDetails.UnitPrice, GoodsIssueDetails.ListedAmount, GoodsIssueDetails.Amount, ROUND(GoodsIssueDetails.ListedAmount - GoodsIssueDetails.Amount, " + (int)GlobalEnums.rndAmount + ") AS DiscountAmount, GoodsIssues.TotalQuantity, GoodsIssues.TotalAmount, GoodsIssues.TradeDiscountAmount, GoodsIssues.TotalTaxableAmount, GoodsIssues.TotalVATAmount, GoodsIssues.TotalGrossAmount " + "\r\n";
 
             queryString = queryString + "       FROM        GoodsIssues " + "\r\n";
             queryString = queryString + "                   INNER JOIN GoodsIssueDetails ON GoodsIssues.EntryDate >= @LocalFromDate AND GoodsIssues.EntryDate <= @LocalToDate AND GoodsIssues.GoodsIssueID = GoodsIssueDetails.GoodsIssueID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Customers ON GoodsIssues.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers AS Receivers ON GoodsIssues.ReceiverID = Receivers.CustomerID " + "\r\n";
             queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Commodities ON GoodsIssueDetails.CommodityID = Commodities.CommodityID " + "\r\n";
             queryString = queryString + "                   INNER JOIN DeliveryAdvices ON GoodsIssueDetails.DeliveryAdviceID = DeliveryAdvices.DeliveryAdviceID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Employees ON DeliveryAdvices.SalespersonID = Employees.EmployeeID " + "\r\n";
+
+            queryString = queryString + "       UNION ALL   " + "\r\n";
+
+            queryString = queryString + "       SELECT      SalesReturns.SalesReturnID AS GoodsIssueID, 'Inventories/SalesReturns' AS TaskAction, SalesReturns.EntryDate, DATEADD(Month, DateDiff(Month, 0, SalesReturns.EntryDate), 0) AS EntryMonth, SalesReturns.Reference, Customers.CustomerID, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, CustomerCategories.Name AS CustomerCategoryName, Receivers.CustomerID AS ReceiverID, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Employees.Name AS SalespersonName, SalesReturns.Description, SalesReturns.GoodsIssueReferences AS DeliveryAdviceReferences, SalesReturns.GoodsIssueReferences AS DeliveryAdviceReference, " + "\r\n";
+            queryString = queryString + "                   SalesReturnDetails.SalesReturnDetailID AS GoodsIssueDetailID, SalesReturnDetails.CommodityID, Commodities.Code AS CommodityCode, Commodities.CodePartA, Commodities.CodePartB, Commodities.CodePartC, Commodities.CodePartD, Commodities.Name AS CommodityName, Commodities.Weight AS UnitWeight, " + "\r\n";
+            queryString = queryString + "                   -SalesReturnDetails.Quantity, -SalesReturnDetails.FreeQuantity, -SalesReturnDetails.Quantity - SalesReturnDetails.FreeQuantity AS LineQuantity, SalesReturnDetails.ListedPrice, SalesReturnDetails.ListedGrossPrice, SalesReturnDetails.DiscountPercent, SalesReturnDetails.UnitPrice, -SalesReturnDetails.ListedAmount, -SalesReturnDetails.Amount, ROUND(-SalesReturnDetails.ListedAmount + SalesReturnDetails.Amount, " + (int)GlobalEnums.rndAmount + ") AS DiscountAmount, -SalesReturns.TotalQuantity, -SalesReturns.TotalAmount, -SalesReturns.TradeDiscountAmount, -SalesReturns.TotalTaxableAmount, -SalesReturns.TotalVATAmount, -SalesReturns.TotalGrossAmount " + "\r\n";
+
+            queryString = queryString + "       FROM        SalesReturns " + "\r\n";
+            queryString = queryString + "                   INNER JOIN SalesReturnDetails ON SalesReturns.EntryDate >= @LocalFromDate AND SalesReturns.EntryDate <= @LocalToDate AND SalesReturns.SalesReturnID = SalesReturnDetails.SalesReturnID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers ON SalesReturns.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers AS Receivers ON SalesReturns.ReceiverID = Receivers.CustomerID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN CustomerCategories ON Customers.CustomerCategoryID = CustomerCategories.CustomerCategoryID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Commodities ON SalesReturnDetails.CommodityID = Commodities.CommodityID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Employees ON SalesReturns.SalespersonID = Employees.EmployeeID " + "\r\n";
+
 
             queryString = queryString + "       SET NOCOUNT OFF" + "\r\n";
 
