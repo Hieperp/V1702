@@ -5,6 +5,7 @@ using TotalModel;
 using TotalModel.Helpers;
 using TotalDTO.Helpers;
 using System.Collections.Generic;
+using TotalBase.Enums;
 
 namespace TotalDTO.Sales
 {
@@ -25,7 +26,7 @@ namespace TotalDTO.Sales
         {
             foreach (var result in base.Validate(validationContext)) { yield return result; }
 
-            if (this.WarehouseID != null && this.QuantityAvailable < (this.Quantity + this.FreeQuantity)) yield return new ValidationResult("Số lượng xuất không được lớn hơn số lượng tồn kho [" + this.CommodityName + "]", new[] { "Quantity" });
+            if (this.WarehouseID != null && this.CommodityTypeID != (int)GlobalEnums.CommodityTypeID.Services && this.QuantityAvailable < (this.Quantity + this.FreeQuantity)) yield return new ValidationResult("Số lượng xuất không được lớn hơn số lượng tồn kho [" + this.CommodityName + "]", new[] { "Quantity" });
         }
     }
 

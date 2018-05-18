@@ -20,6 +20,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
         {
             this.GetCommodityPriceIndexes();
             this.GetCommodityCodePart();
+
+            this.InportCommodities();
         }
 
 
@@ -79,6 +81,37 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
             queryString = queryString + "    END " + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetCommodityCodePartC", queryString);
+        }
+
+
+        private void InportCommodities()
+        {
+            string queryString;
+
+            queryString = "  " + "\r\n";
+            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       INSERT INTO     Commodities (CommodityID, Code, OfficialCode, CodePartA, CodePartB, CodePartC, CodePartD, Name, OfficialName, OriginalName, PreviousCommodityID, CommodityBrandID, CommodityCategoryID, CommodityTypeID, SupplierID, PiecePerPack, QuantityAlert, ListedPrice, GrossPrice, PurchaseUnit, SalesUnit, Packing, Origin, Weight, LeadTime, HSCode, IsRegularCheckUps, Discontinue, Specifycation, Remarks, InActive) " + "\r\n";
+            queryString = queryString + "       SELECT          CommodityID, Description AS Code, Description AS OfficialCode, DescriptionPartA AS CodePartA, DescriptionPartB AS CodePartB, DescriptionPartC AS CodePartC, DescriptionPartD AS CodePartD, Description AS Name, Description AS OfficialName, Description AS OriginalName, NULL AS PreviousCommodityID, 1 AS CommodityBrandID, ItemCategoryID AS CommodityCategoryID, 2 AS CommodityTypeID, 1 AS SupplierID, PiecePerPack, QuantityAlert, 0 AS ListedPrice, 0 AS GrossPrice, UnitSales AS PurchaseUnit, UnitSales AS SalesUnit, Packing, Origin, Weight, LeadTime, HSCode, 0 AS IsRegularCheckUps, Discontinue, Specifycation, Remarks, InActive  " + "\r\n";
+            queryString = queryString + "       FROM            ERmgrVCP.dbo.ListItemCommodity " + "\r\n";
+            queryString = queryString + "       WHERE           CommodityID NOT IN (SELECT CommodityID FROM Commodities) " + "\r\n";
+
+//------UPDATE CommodityBrandID = 2: LVC
+            queryString = queryString + "       UPDATE          Commodities " + "\r\n";
+            queryString = queryString + "       SET             Commodities.CommodityBrandID = 2 " + "\r\n";
+            queryString = queryString + "       FROM            Commodities INNER JOIN " + "\r\n";
+            queryString = queryString + "                       TotalSalesPortal_Brand_LVC.dbo.PromotionCommodityCodeParts PromotionCommodityCodeParts ON Commodities.CodePartA = PromotionCommodityCodeParts.CodePartA AND Commodities.CodePartC = PromotionCommodityCodeParts.CodePartC AND PromotionCommodityCodeParts.PromotionID = 48 " + "\r\n";
+
+//------UPDATE Weight
+            queryString = queryString + "       UPDATE	        Commodities  " + "\r\n";
+            queryString = queryString + "       SET		        Commodities.Weight =  ERP_Commodities.Weight " + "\r\n";
+            queryString = queryString + "       FROM	        Commodities INNER JOIN ERmgrVCP.dbo.ListItemCommodity ERP_Commodities ON Commodities.CommodityID = ERP_Commodities.CommodityID  " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("InportCommodities", queryString);
         }
 
     }
