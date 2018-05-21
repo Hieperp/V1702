@@ -42,7 +42,7 @@
         function _getCommoditiesByCode(dataRow, excelRow) {
             return $.ajax({
                 url: window.urlCommoditiesApi,
-                data: JSON.stringify({ "locationID": requireConfig.pageOptions.LocationID, "customerID": $("#Customer_CustomerID").val(), "warehouseID": $("#Warehouse_WarehouseID").val(), "priceCategoryID": $("#PriceCategoryID").val(), "applyToSalesVersusReturns": window.parent.requireConfig.pageOptions.ApplyToSalesVersusReturns, "promotionID": $("#Promotion_PromotionID").val(), "entryDate": $("#EntryDate").data("kendoDateTimePicker").value().toUTCString(), "searchText": excelRow["CommodityCode"] }),
+                data: JSON.stringify({ "locationID": requireConfig.pageOptions.LocationID, "customerID": $("#Customer_CustomerID").val(), "warehouseID": $("#Warehouse_WarehouseID").val(), "priceCategoryID": $("#PriceCategoryID").val(), "applyToSalesVersusReturns": requireConfig.pageOptions.ApplyToSalesVersusReturns, "promotionID": $("#Promotion_PromotionID").val(), "entryDate": $("#EntryDate").data("kendoDateTimePicker").value().toUTCString(), "searchText": excelRow["CommodityCode"] }),
 
                 type: 'POST',
                 contentType: 'application/json;',
