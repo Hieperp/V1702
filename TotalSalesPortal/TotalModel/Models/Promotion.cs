@@ -50,6 +50,8 @@ namespace TotalModel.Models
         public int UserID { get; set; }
         public int OrganizationalUnitID { get; set; }
         public string Specs { get; set; }
+        public Nullable<bool> ApplyToSales { get; set; }
+        public Nullable<bool> ApplyToReturns { get; set; }
     
         public virtual CommodityBrand CommodityBrand { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

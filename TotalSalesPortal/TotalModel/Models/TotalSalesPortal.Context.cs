@@ -186,7 +186,7 @@ namespace TotalModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DeliveryAdviceViewDetail>("GetDeliveryAdviceViewDetails", deliveryAdviceIDParameter);
         }
     
-        public virtual ObjectResult<CommodityAvailable> GetCommodityAvailables(Nullable<int> locationID, Nullable<int> customerID, Nullable<int> warehouseID, Nullable<int> priceCategoryID, Nullable<int> promotionID, Nullable<System.DateTime> entryDate, string searchText)
+        public virtual ObjectResult<CommodityAvailable> GetCommodityAvailables(Nullable<int> locationID, Nullable<int> customerID, Nullable<int> warehouseID, Nullable<int> priceCategoryID, Nullable<int> applyToSalesVersusReturns, Nullable<int> promotionID, Nullable<System.DateTime> entryDate, string searchText)
         {
             var locationIDParameter = locationID.HasValue ?
                 new ObjectParameter("LocationID", locationID) :
@@ -204,6 +204,10 @@ namespace TotalModel.Models
                 new ObjectParameter("PriceCategoryID", priceCategoryID) :
                 new ObjectParameter("PriceCategoryID", typeof(int));
     
+            var applyToSalesVersusReturnsParameter = applyToSalesVersusReturns.HasValue ?
+                new ObjectParameter("ApplyToSalesVersusReturns", applyToSalesVersusReturns) :
+                new ObjectParameter("ApplyToSalesVersusReturns", typeof(int));
+    
             var promotionIDParameter = promotionID.HasValue ?
                 new ObjectParameter("PromotionID", promotionID) :
                 new ObjectParameter("PromotionID", typeof(int));
@@ -216,33 +220,41 @@ namespace TotalModel.Models
                 new ObjectParameter("SearchText", searchText) :
                 new ObjectParameter("SearchText", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommodityAvailable>("GetCommodityAvailables", locationIDParameter, customerIDParameter, warehouseIDParameter, priceCategoryIDParameter, promotionIDParameter, entryDateParameter, searchTextParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CommodityAvailable>("GetCommodityAvailables", locationIDParameter, customerIDParameter, warehouseIDParameter, priceCategoryIDParameter, applyToSalesVersusReturnsParameter, promotionIDParameter, entryDateParameter, searchTextParameter);
         }
     
-        public virtual ObjectResult<Promotion> GetPromotionByCustomers(Nullable<int> customerID, Nullable<int> filterApplyToTradeDiscount)
+        public virtual ObjectResult<Promotion> GetPromotionByCustomers(Nullable<int> customerID, Nullable<int> applyToSalesVersusReturns, Nullable<int> filterApplyToTradeDiscount)
         {
             var customerIDParameter = customerID.HasValue ?
                 new ObjectParameter("CustomerID", customerID) :
                 new ObjectParameter("CustomerID", typeof(int));
     
+            var applyToSalesVersusReturnsParameter = applyToSalesVersusReturns.HasValue ?
+                new ObjectParameter("ApplyToSalesVersusReturns", applyToSalesVersusReturns) :
+                new ObjectParameter("ApplyToSalesVersusReturns", typeof(int));
+    
             var filterApplyToTradeDiscountParameter = filterApplyToTradeDiscount.HasValue ?
                 new ObjectParameter("FilterApplyToTradeDiscount", filterApplyToTradeDiscount) :
                 new ObjectParameter("FilterApplyToTradeDiscount", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Promotion>("GetPromotionByCustomers", customerIDParameter, filterApplyToTradeDiscountParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Promotion>("GetPromotionByCustomers", customerIDParameter, applyToSalesVersusReturnsParameter, filterApplyToTradeDiscountParameter);
         }
     
-        public virtual ObjectResult<Promotion> GetPromotionByCustomers(Nullable<int> customerID, Nullable<int> filterApplyToTradeDiscount, MergeOption mergeOption)
+        public virtual ObjectResult<Promotion> GetPromotionByCustomers(Nullable<int> customerID, Nullable<int> applyToSalesVersusReturns, Nullable<int> filterApplyToTradeDiscount, MergeOption mergeOption)
         {
             var customerIDParameter = customerID.HasValue ?
                 new ObjectParameter("CustomerID", customerID) :
                 new ObjectParameter("CustomerID", typeof(int));
     
+            var applyToSalesVersusReturnsParameter = applyToSalesVersusReturns.HasValue ?
+                new ObjectParameter("ApplyToSalesVersusReturns", applyToSalesVersusReturns) :
+                new ObjectParameter("ApplyToSalesVersusReturns", typeof(int));
+    
             var filterApplyToTradeDiscountParameter = filterApplyToTradeDiscount.HasValue ?
                 new ObjectParameter("FilterApplyToTradeDiscount", filterApplyToTradeDiscount) :
                 new ObjectParameter("FilterApplyToTradeDiscount", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Promotion>("GetPromotionByCustomers", mergeOption, customerIDParameter, filterApplyToTradeDiscountParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Promotion>("GetPromotionByCustomers", mergeOption, customerIDParameter, applyToSalesVersusReturnsParameter, filterApplyToTradeDiscountParameter);
         }
     
         public virtual ObjectResult<GoodsIssueIndex> GetGoodsIssueIndexes(string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)

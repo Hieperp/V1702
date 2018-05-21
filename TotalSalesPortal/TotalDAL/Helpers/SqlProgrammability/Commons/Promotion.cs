@@ -71,9 +71,9 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
         {
             string queryString;
 
-            string queryWhere = "Promotions.InActive = 0 AND (Promotions.ApplyToTradeDiscount = @FilterApplyToTradeDiscount OR @FilterApplyToTradeDiscount IS NULL) AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate ";
+            string queryWhere = "((@ApplyToSalesVersusReturns >= 0 AND Promotions.ApplyToSales = 1) OR (@ApplyToSalesVersusReturns < 0 AND Promotions.ApplyToReturns = 1)) AND Promotions.InActive = 0 AND (Promotions.ApplyToTradeDiscount = @FilterApplyToTradeDiscount OR @FilterApplyToTradeDiscount IS NULL) AND GetDate() >= Promotions.StartDate AND GetDate() <= Promotions.EndDate ";
 
-            queryString = " @CustomerID int, @FilterApplyToTradeDiscount int " + "\r\n";
+            queryString = " @CustomerID int, @ApplyToSalesVersusReturns int, @FilterApplyToTradeDiscount int " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";

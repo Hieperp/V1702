@@ -812,6 +812,8 @@
           <Property Name="OrganizationalUnitID" Type="int" Nullable="false" />
           <Property Name="LocationID" Type="int" Nullable="false" />
           <Property Name="CommodityBrandID" Type="int" Nullable="false" />
+          <Property Name="ApplyToSales" Type="bit" />
+          <Property Name="ApplyToReturns" Type="bit" />
           <Property Name="ApplyToAllCustomers" Type="bit" Nullable="false" />
           <Property Name="ApplyToAllCommodities" Type="bit" Nullable="false" />
           <Property Name="ApplyToTradeDiscount" Type="bit" Nullable="false" />
@@ -2645,6 +2647,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="CustomerID" Type="int" Mode="In" />
           <Parameter Name="WarehouseID" Type="int" Mode="In" />
           <Parameter Name="PriceCategoryID" Type="int" Mode="In" />
+          <Parameter Name="ApplyToSalesVersusReturns" Type="int" Mode="In" />
           <Parameter Name="PromotionID" Type="int" Mode="In" />
           <Parameter Name="EntryDate" Type="datetime" Mode="In" />
           <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
@@ -2845,6 +2848,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         </Function>
         <Function Name="GetPromotionByCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CustomerID" Type="int" Mode="In" />
+          <Parameter Name="ApplyToSalesVersusReturns" Type="int" Mode="In" />
           <Parameter Name="FilterApplyToTradeDiscount" Type="int" Mode="In" />
         </Function>
         <Function Name="GetPromotionCustomerCategories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -3723,12 +3727,14 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="CustomerID" Mode="In" Type="Int32" />
             <Parameter Name="WarehouseID" Mode="In" Type="Int32" />
             <Parameter Name="PriceCategoryID" Mode="In" Type="Int32" />
+            <Parameter Name="ApplyToSalesVersusReturns" Mode="In" Type="Int32" />
             <Parameter Name="PromotionID" Mode="In" Type="Int32" />
             <Parameter Name="EntryDate" Mode="In" Type="DateTime" />
             <Parameter Name="SearchText" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetPromotionByCustomers" EntitySet="Promotions" ReturnType="Collection(TotalSalesPortalModel.Promotion)">
             <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+            <Parameter Name="ApplyToSalesVersusReturns" Mode="In" Type="Int32" />
             <Parameter Name="FilterApplyToTradeDiscount" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetGoodsIssueIndexes" ReturnType="Collection(TotalSalesPortalModel.GoodsIssueIndex)">
@@ -7945,6 +7951,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="SalesReturns1" Relationship="TotalSalesPortalModel.FK_SalesReturns_TradePromotions" FromRole="Promotion" ToRole="SalesReturn" />
           <NavigationProperty Name="GoodsIssues" Relationship="TotalSalesPortalModel.FK_GoodsIssues_TradePromotions" FromRole="Promotion" ToRole="GoodsIssue" />
           <NavigationProperty Name="AccountInvoices" Relationship="TotalSalesPortalModel.FK_AccountInvoices_TradePromotions" FromRole="Promotion" ToRole="AccountInvoice" />
+          <Property Name="ApplyToSales" Type="Boolean" />
+          <Property Name="ApplyToReturns" Type="Boolean" />
         </EntityType>
         <Association Name="FK_Promotions_CommodityBrands">
           <End Type="TotalSalesPortalModel.CommodityBrand" Role="CommodityBrand" Multiplicity="1" />
@@ -10692,6 +10700,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="Promotions">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.Promotion">
               <MappingFragment StoreEntitySet="Promotions">
+                <ScalarProperty Name="ApplyToReturns" ColumnName="ApplyToReturns" />
+                <ScalarProperty Name="ApplyToSales" ColumnName="ApplyToSales" />
                 <ScalarProperty Name="Specs" ColumnName="Specs" />
                 <ScalarProperty Name="OrganizationalUnitID" ColumnName="OrganizationalUnitID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
