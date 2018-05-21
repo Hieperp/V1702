@@ -190,8 +190,9 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
             string SQW = " ((@lSKUInputID = 0 AND @lSKUTransferID = 0 AND @lSKUAdjustID = 0 AND @lSKUTransferAdviceID = 0 AND @lDeliveryAdviceID = 0 AND @lGoodsIssueID = 0 AND @lSKUOutputID = 0) OR CommodityID IN (SELECT CommodityID FROM @lListItemCommodityAction))" + "\r\n";
 
-            SQW = " 1 = 1 "; //05.04.2011---TAM THOI KHONG XAI DIEU KIEN TREN, NHAM MUC DICH GIUP FUNCTION CHAY NHANH HON RAT NHIEU. SAU NAY KHI DA CODE HOAN CHINH RANGE FOR COMMODITIES DUA VAO @lSKUInputID, @lSKUTransferID, @lSKUAdjustID, @lSKUTransferAdviceID, @lDeliveryAdviceID, @lGoodsIssueID, @lSKUOutputID THI NEN SU DUNG LAI CAU LENH TREN
+            SQW = ""; //1 = 1  //05.04.2011---TAM THOI KHONG XAI DIEU KIEN TREN, NHAM MUC DICH GIUP FUNCTION CHAY NHANH HON RAT NHIEU. SAU NAY KHI DA CODE HOAN CHINH RANGE FOR COMMODITIES DUA VAO @lSKUInputID, @lSKUTransferID, @lSKUAdjustID, @lSKUTransferAdviceID, @lDeliveryAdviceID, @lGoodsIssueID, @lSKUOutputID THI NEN SU DUNG LAI CAU LENH TREN
 
+            string SQT = " AND CommodityTypeID <> " + (int)GlobalEnums.CommodityTypeID.Services + " AND CommodityTypeID <> " + (int)GlobalEnums.CommodityTypeID.CreditNote + " ";
 
             string queryString = " DROP FUNCTION FNSKUOverStock " + "\r\n";
             queryString = queryString + " CREATE FUNCTION FNSKUOverStock " + "\r\n";
@@ -284,7 +285,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "       DECLARE @lDateTempNEW DateTime " + "\r\n";
             queryString = queryString + "       DECLARE @lDateBackLogMaxNEW DateTime " + "\r\n";
 
-            queryString = queryString + "       DECLARE CursorBacklogNEW CURSOR LOCAL FOR SELECT MIN(EntryDate) AS EntryDateMIN, MAX(EntryDate) AS EntryDateMAX FROM DeliveryAdviceDetails WHERE InActive = 0 AND InActivePartial = 0 AND InActiveIssue = 0 AND ROUND(Quantity + FreeQuantity - QuantityIssue - FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0" + "\r\n";
+            queryString = queryString + "       DECLARE CursorBacklogNEW CURSOR LOCAL FOR SELECT MIN(EntryDate) AS EntryDateMIN, MAX(EntryDate) AS EntryDateMAX FROM DeliveryAdviceDetails WHERE InActive = 0 AND InActivePartial = 0 AND InActiveIssue = 0 AND ROUND(Quantity + FreeQuantity - QuantityIssue - FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0" + SQT + "\r\n";
             queryString = queryString + "       OPEN CursorBacklogNEW" + "\r\n";
             queryString = queryString + "       FETCH NEXT FROM CursorBacklogNEW INTO @lDateTempNEW, @lDateBackLogMaxNEW " + "\r\n";
             queryString = queryString + "       CLOSE CursorBacklogNEW DEALLOCATE CursorBacklogNEW" + "\r\n";
@@ -314,7 +315,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
 
             queryString = queryString + "       IF NOT @lSKUBalanceDateBEGIN IS NULL" + "\r\n";
-            queryString = queryString + "           INSERT  @lTableBalance SELECT WarehouseID, CommodityID, Quantity FROM SKUBalanceDetail WHERE SKUBalanceDate = @lSKUBalanceDateBEGIN AND " + SQW + "\r\n";
+            queryString = queryString + "           INSERT  @lTableBalance SELECT WarehouseID, CommodityID, Quantity FROM SKUBalanceDetail WHERE SKUBalanceDate = @lSKUBalanceDateBEGIN " + SQW + "\r\n";
             queryString = queryString + "       ELSE " + "\r\n";
             queryString = queryString + "           SET @lSKUBalanceDateBEGIN = CONVERT(smalldatetime, '" + new DateTime(1990, 1, 1).ToString("dd/MM/yyyy") + "',103) " + "\r\n";
             // --GET THE BEGIN BALANCE IF AVAILABLE.END
@@ -348,35 +349,35 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             // --INPUT
             queryString = queryString + "                           SELECT      WarehouseID, CommodityID, SUM(Quantity) AS Quantity" + "\r\n";
             queryString = queryString + "                           FROM        SKUInputDetail " + "\r\n";
-            queryString = queryString + "                           WHERE       SKUInputDate > @lSKUBalanceDateBEGIN AND SKUInputDate <= @lDateTemp AND " + SQW + "\r\n";
+            queryString = queryString + "                           WHERE       SKUInputDate > @lSKUBalanceDateBEGIN AND SKUInputDate <= @lDateTemp " + SQW + "\r\n";
             queryString = queryString + "                           GROUP BY    WarehouseID, CommodityID" + "\r\n";
 
             queryString = queryString + "                           UNION ALL" + "\r\n";
             // --OUTPUT: TRANSFER
             queryString = queryString + "                           SELECT      WarehouseID, CommodityID, SUM(-Quantity) AS Quantity" + "\r\n";
             queryString = queryString + "                           FROM        SKUTransferDetail " + "\r\n";
-            queryString = queryString + "                           WHERE       SKUTransferDate > @lSKUBalanceDateBEGIN AND SKUTransferDate <= @lDateTemp AND " + SQW + "\r\n";
+            queryString = queryString + "                           WHERE       SKUTransferDate > @lSKUBalanceDateBEGIN AND SKUTransferDate <= @lDateTemp " + SQW + "\r\n";
             queryString = queryString + "                           GROUP BY    WarehouseID, CommodityID" + "\r\n";
 
             queryString = queryString + "                           UNION ALL" + "\r\n";
             // --OUTPUT: Adjust
             queryString = queryString + "                           SELECT      WarehouseID, CommodityID, SUM(Quantity) AS Quantity" + "\r\n"; //LUU Y: Quantity < 0: XUAT KHO
             queryString = queryString + "                           FROM        SKUAdjustDetail " + "\r\n";
-            queryString = queryString + "                           WHERE       SKUAdjustDate > @lSKUBalanceDateBEGIN AND SKUAdjustDate <= @lDateTemp AND Quantity < 0 AND " + SQW + "\r\n";
+            queryString = queryString + "                           WHERE       SKUAdjustDate > @lSKUBalanceDateBEGIN AND SKUAdjustDate <= @lDateTemp AND Quantity < 0 " + SQW + "\r\n";
             queryString = queryString + "                           GROUP BY    WarehouseID, CommodityID" + "\r\n";
 
             queryString = queryString + "                           UNION ALL" + "\r\n";
             // --OUTPUT: Output
             queryString = queryString + "                           SELECT      WarehouseID, CommodityID, SUM(-Quantity - FreeQuantity) AS Quantity" + "\r\n";
             queryString = queryString + "                           FROM        GoodsIssueDetails " + "\r\n";
-            queryString = queryString + "                           WHERE       EntryDate > @lSKUBalanceDateBEGIN AND EntryDate <= @lDateTemp AND " + SQW + "\r\n";
+            queryString = queryString + "                           WHERE       EntryDate > @lSKUBalanceDateBEGIN AND EntryDate <= @lDateTemp " + SQW + SQT + "\r\n";
             queryString = queryString + "                           GROUP BY    WarehouseID, CommodityID" + "\r\n";
 
             queryString = queryString + "                           UNION ALL" + "\r\n";
             // --OUTPUT: Output
             queryString = queryString + "                           SELECT      WarehouseID, CommodityID, SUM(-Quantity) AS Quantity" + "\r\n";
             queryString = queryString + "                           FROM        SKUOutputDetail " + "\r\n";
-            queryString = queryString + "                           WHERE       SKUOutputDate > @lSKUBalanceDateBEGIN AND SKUOutputDate <= @lDateTemp AND " + SQW + "\r\n";
+            queryString = queryString + "                           WHERE       SKUOutputDate > @lSKUBalanceDateBEGIN AND SKUOutputDate <= @lDateTemp " + SQW + "\r\n";
             queryString = queryString + "                           GROUP BY    WarehouseID, CommodityID" + "\r\n";
 
             queryString = queryString + "                           UNION ALL" + "\r\n";
@@ -384,7 +385,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             // --BACKLOG: DeliveryAdvice
             queryString = queryString + "                           SELECT      WarehouseID, CommodityID, SUM(-Quantity - FreeQuantity + QuantityIssue + FreeQuantityIssue) AS Quantity" + "\r\n";
             queryString = queryString + "                           FROM        DeliveryAdviceDetails " + "\r\n";
-            queryString = queryString + "                           WHERE       EntryDate > @lSKUBalanceDateBEGIN AND EntryDate <= @lDateTemp AND " + SQW + " AND InActive = 0 AND InActivePartial = 0 AND InActiveIssue = 0 AND ROUND(Quantity + FreeQuantity - QuantityIssue - FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0" + "\r\n";
+            queryString = queryString + "                           WHERE       EntryDate > @lSKUBalanceDateBEGIN AND EntryDate <= @lDateTemp " + SQW + SQT + " AND InActive = 0 AND InActivePartial = 0 AND InActiveIssue = 0 AND ROUND(Quantity + FreeQuantity - QuantityIssue - FreeQuantityIssue, " + (int)GlobalEnums.rndQuantity + ") > 0" + "\r\n";
             queryString = queryString + "                           GROUP BY    WarehouseID, CommodityID" + "\r\n";
 
             queryString = queryString + "                           UNION ALL" + "\r\n";
@@ -392,7 +393,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             // --BACKLOG: TRANSFERADVICE
             queryString = queryString + "                           SELECT      WarehouseID, CommodityID, SUM(-Quantity + QuantityInput) AS Quantity" + "\r\n";
             queryString = queryString + "                           FROM        SKUTransferAdviceDetail " + "\r\n";
-            queryString = queryString + "                           WHERE       DeliveryDate > @lSKUBalanceDateBEGIN AND DeliveryDate <= @lDateTemp AND " + SQW + " AND InActive = 0 AND ROUND(Quantity - QuantityInput, " + (int)GlobalEnums.rndQuantity + ") > 0" + "\r\n";
+            queryString = queryString + "                           WHERE       DeliveryDate > @lSKUBalanceDateBEGIN AND DeliveryDate <= @lDateTemp " + SQW + " AND InActive = 0 AND ROUND(Quantity - QuantityInput, " + (int)GlobalEnums.rndQuantity + ") > 0" + "\r\n";
             queryString = queryString + "                           GROUP BY    WarehouseID, CommodityID" + "\r\n";
 
             queryString = queryString + "                           )TableOverStock" + "\r\n";
@@ -418,7 +419,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "       RETURN " + "\r\n";
             queryString = queryString + "   END " + "\r\n";
 
-            System.Diagnostics.Debug.WriteLine("---");
+            System.Diagnostics.Debug.WriteLine("---FNSKUOverStock----");
             System.Diagnostics.Debug.WriteLine(queryString);
 
             //If Not pfFN_CREATEFN(DFormConn, "FNSKUOverStock", SQL) Then GoTo ERR_HANDLER
