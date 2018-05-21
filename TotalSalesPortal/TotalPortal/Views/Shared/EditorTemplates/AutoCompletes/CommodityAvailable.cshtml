@@ -32,6 +32,7 @@
                     customerID: $("#Customer_CustomerID").val(),
                     warehouseID: $("#Warehouse_WarehouseID").val(),                    
                     priceCategoryID: $("#PriceCategoryID").val(),
+                    applyToSalesVersusReturns: window.parent.requireConfig.pageOptions.ApplyToSalesVersusReturns,
                     promotionID: $("#Promotion_PromotionID").val(),
                     entryDate: $("#EntryDate").data("kendoDateTimePicker").value().toUTCString(),
                     searchText: $("#CommodityCode").data("kendoAutoComplete").value()

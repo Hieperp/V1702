@@ -168,6 +168,12 @@
         };
 
 
+        public enum ApplyToSalesVersusReturns
+        {
+            ApplyToSales = 1,
+            ApplyToReturns = -1
+        };
+
         public enum UpdateWarehouseBalanceOption
         {
             Add = 1,

@@ -40,7 +40,7 @@ namespace TotalPortal.Areas.Commons.Controllers
             CustomerViewModel customerViewModel = this.GetViewModel(id, GlobalEnums.AccessLevel.Readable);
             if (customerViewModel == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            ViewBag.Promotions = promotionAPIRepository.GetPromotionByCustomers(null, null).Select(pt => new SelectListItem { Text = pt.Specs + " => " + pt.EndDate.ToString(), Value = pt.PromotionID.ToString() }).ToList();
+            ViewBag.Promotions = promotionAPIRepository.GetPromotionByCustomers(null, null, null).Select(pt => new SelectListItem { Text = pt.Specs + " => " + pt.EndDate.ToString(), Value = pt.PromotionID.ToString() }).ToList();
 
             return View(customerViewModel);
         }

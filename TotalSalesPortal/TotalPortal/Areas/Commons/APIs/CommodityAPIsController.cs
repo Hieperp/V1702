@@ -83,13 +83,13 @@ namespace TotalPortal.Areas.Commons.APIs
         /// <param name="name"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult GetCommodityImport(int? locationID, int? customerID, int? warehouseID, int? priceCategoryID, int? promotionID, DateTime? entryDate, string searchText)
+        public JsonResult GetCommodityImport(int? locationID, int? customerID, int? warehouseID, int? priceCategoryID, int? applyToSalesVersusReturns, int? promotionID, DateTime? entryDate, string searchText)
         {
             try
             {
                 var commodityResult = new { CommodityID = 0, CommodityCode = "", CommodityName = "", CommodityTypeID = 0, WarehouseID = 0, WarehouseCode = "", QuantityAvailable = new decimal(0), ControlFreeQuantity = new decimal(0), ListedPrice = new decimal(0), GrossPrice = new decimal(0), DiscountPercent = new decimal(0), TradeDiscountRate = new decimal(0), VATPercent = new decimal(0) };
 
-                var result = commodityRepository.GetCommodityAvailables(locationID, customerID, warehouseID, priceCategoryID, promotionID, entryDate, searchText).Select(s => new { s.CommodityID, s.CommodityCode, s.CommodityName, s.CommodityTypeID, s.WarehouseID, s.WarehouseCode, s.QuantityAvailable, s.ControlFreeQuantity, s.ListedPrice, s.GrossPrice, s.DiscountPercent, s.TradeDiscountRate, s.VATPercent, s.Bookable });
+                var result = commodityRepository.GetCommodityAvailables(locationID, customerID, warehouseID, priceCategoryID, applyToSalesVersusReturns, promotionID, entryDate, searchText).Select(s => new { s.CommodityID, s.CommodityCode, s.CommodityName, s.CommodityTypeID, s.WarehouseID, s.WarehouseCode, s.QuantityAvailable, s.ControlFreeQuantity, s.ListedPrice, s.GrossPrice, s.DiscountPercent, s.TradeDiscountRate, s.VATPercent, s.Bookable });
                 if (result.Count() > 0 && (bool)result.First().Bookable)
                     commodityResult = new { CommodityID = result.First().CommodityID, CommodityCode = result.First().CommodityCode, CommodityName = result.First().CommodityName, CommodityTypeID = result.First().CommodityTypeID, WarehouseID = result.First().WarehouseID, WarehouseCode = result.First().WarehouseCode, QuantityAvailable = (decimal)result.First().QuantityAvailable, ControlFreeQuantity = (decimal)result.First().ControlFreeQuantity, ListedPrice = (decimal)result.First().ListedPrice, GrossPrice = (decimal)result.First().GrossPrice, DiscountPercent = (decimal)result.First().DiscountPercent, TradeDiscountRate = (decimal)result.First().TradeDiscountRate, VATPercent = (decimal)result.First().VATPercent };
 
@@ -102,9 +102,9 @@ namespace TotalPortal.Areas.Commons.APIs
         }
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public JsonResult GetCommodityAvailables(int? locationID, int? customerID, int? warehouseID, int? priceCategoryID, int? promotionID, DateTime? entryDate, string searchText)
+        public JsonResult GetCommodityAvailables(int? locationID, int? customerID, int? warehouseID, int? priceCategoryID, int? applyToSalesVersusReturns, int? promotionID, DateTime? entryDate, string searchText)
         {
-            var result = commodityRepository.GetCommodityAvailables(locationID, customerID, warehouseID, priceCategoryID, promotionID, entryDate, searchText).Select(s => new { s.CommodityID, s.CommodityCode, s.CommodityName, s.CommodityTypeID, s.WarehouseID, s.WarehouseCode, s.QuantityAvailable, s.ControlFreeQuantity, s.ListedPrice, s.GrossPrice, s.DiscountPercent, s.VATPercent, s.Bookable });
+            var result = commodityRepository.GetCommodityAvailables(locationID, customerID, warehouseID, priceCategoryID, applyToSalesVersusReturns, promotionID, entryDate, searchText).Select(s => new { s.CommodityID, s.CommodityCode, s.CommodityName, s.CommodityTypeID, s.WarehouseID, s.WarehouseCode, s.QuantityAvailable, s.ControlFreeQuantity, s.ListedPrice, s.GrossPrice, s.DiscountPercent, s.VATPercent, s.Bookable });
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

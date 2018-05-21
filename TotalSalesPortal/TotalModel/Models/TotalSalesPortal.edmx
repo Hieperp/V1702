@@ -812,8 +812,8 @@
           <Property Name="OrganizationalUnitID" Type="int" Nullable="false" />
           <Property Name="LocationID" Type="int" Nullable="false" />
           <Property Name="CommodityBrandID" Type="int" Nullable="false" />
-          <Property Name="ApplyToSales" Type="bit" />
-          <Property Name="ApplyToReturns" Type="bit" />
+          <Property Name="ApplyToSales" Type="bit" Nullable="false" />
+          <Property Name="ApplyToReturns" Type="bit" Nullable="false" />
           <Property Name="ApplyToAllCustomers" Type="bit" Nullable="false" />
           <Property Name="ApplyToAllCommodities" Type="bit" Nullable="false" />
           <Property Name="ApplyToTradeDiscount" Type="bit" Nullable="false" />
@@ -7914,6 +7914,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Boolean" Name="InActive" Nullable="false" />
           <Property Type="DateTime" Name="EntryDate" Nullable="true" />
           <Property Type="Boolean" Name="Approved" Nullable="false" />
+          <Property Type="Boolean" Name="ApplyToSales" Nullable="false" />
+          <Property Type="Boolean" Name="ApplyToReturns" Nullable="false" />
         </ComplexType>
         <EntityType Name="Promotion">
           <Key>
@@ -7951,8 +7953,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="SalesReturns1" Relationship="TotalSalesPortalModel.FK_SalesReturns_TradePromotions" FromRole="Promotion" ToRole="SalesReturn" />
           <NavigationProperty Name="GoodsIssues" Relationship="TotalSalesPortalModel.FK_GoodsIssues_TradePromotions" FromRole="Promotion" ToRole="GoodsIssue" />
           <NavigationProperty Name="AccountInvoices" Relationship="TotalSalesPortalModel.FK_AccountInvoices_TradePromotions" FromRole="Promotion" ToRole="AccountInvoice" />
-          <Property Name="ApplyToSales" Type="Boolean" />
-          <Property Name="ApplyToReturns" Type="Boolean" />
+          <Property Name="ApplyToSales" Type="Boolean" Nullable="false" />
+          <Property Name="ApplyToReturns" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Promotions_CommodityBrands">
           <End Type="TotalSalesPortalModel.CommodityBrand" Role="CommodityBrand" Multiplicity="1" />
@@ -10694,6 +10696,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="InActive" ColumnName="InActive" />
                 <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
                 <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="ApplyToSales" ColumnName="ApplyToSales" />
+                <ScalarProperty Name="ApplyToReturns" ColumnName="ApplyToReturns" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

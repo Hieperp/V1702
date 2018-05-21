@@ -51,6 +51,11 @@ namespace TotalDTO.Commons
         [Range(0, 999999, ErrorMessage = "Số lượng mua hàng phải >= 0")]
         public decimal ControlFreeQuantity { get; set; }
 
+        [Display(Name = "Áp dụng cho bán hàng")]
+        public bool ApplyToSales { get; set; }
+        [Display(Name = "Áp dụng cho hàng trả lại")]
+        public bool ApplyToReturns { get; set; }
+
         public bool ApplyToAllCustomers { get; set; }
         [Display(Name = "Áp dụng tất cả mặt hàng")]
         public bool ApplyToAllCommodities { get; set; }

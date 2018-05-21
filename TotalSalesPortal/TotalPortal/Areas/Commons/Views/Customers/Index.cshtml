@@ -80,7 +80,7 @@
     function indexFilterText_KeyUp() {
         var indexFilterText = $("#indexFilterText").val(), gridDetails = $("#kendoGridIndex").data("kendoGrid");
 
-        if (indexFilterText && indexFilterText.length >= "@SettingsManager.AutoCompleteMinLenght") {
+        if (indexFilterText && indexFilterText.length >= "@SettingsManager.MinLenght2") {
             gridDetails.dataSource.filter({
                 logic: "or",
                 filters: [

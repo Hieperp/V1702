@@ -31,5 +31,7 @@ namespace TotalModel.Models
         public bool InActive { get; set; }
         public Nullable<System.DateTime> EntryDate { get; set; }
         public bool Approved { get; set; }
+        public bool ApplyToSales { get; set; }
+        public bool ApplyToReturns { get; set; }
     }
 }

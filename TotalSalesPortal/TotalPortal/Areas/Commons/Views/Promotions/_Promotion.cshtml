@@ -124,6 +124,9 @@
                             
                             @Html.CheckBoxFor(model => model.ApplyToAllCommodities, Model.Editable ? (object)new { @style = "margin-left: 25px; margin-right: 3px; " } : (object)new { @style = "margin-left: 25px; margin-right: 3px; ", @disabled = "disabled" }) @Html.LabelFor(model => model.ApplyToAllCommodities)            
                             @Html.CheckBoxFor(model => model.ApplyToTradeDiscount, Model.Editable ? (object)new { @style = "margin-left: 25px; margin-right: 3px; " } : (object)new { @style = "margin-left: 65px; margin-right: 3px; ", @disabled = "disabled" }) @Html.LabelFor(model => model.ApplyToTradeDiscount)                            
+            
+                            @Html.CheckBoxFor(model => model.ApplyToSales, Model.Editable ? (object)new { @style = "margin-left: 25px; margin-right: 3px; " } : (object)new { @style = "margin-left: 65px; margin-right: 3px; ", @disabled = "disabled" }) @Html.LabelFor(model => model.ApplyToSales)
+                            @Html.CheckBoxFor(model => model.ApplyToReturns, Model.Editable ? (object)new { @style = "margin-left: 25px; margin-right: 3px; " } : (object)new { @style = "margin-left: 65px; margin-right: 3px; ", @disabled = "disabled" }) @Html.LabelFor(model => model.ApplyToReturns)            
                         </text>);
                     })
 

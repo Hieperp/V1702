@@ -11,6 +11,7 @@ namespace TotalPortal.Configuration
             get { return ConfigurationManager.AppSettings["BaseServiceUrl"]; }
         }
 
+        public static int MinLenght2 = 2;
         public static int AutoCompleteMinLenght = 3;
 
         public static string DateFormat = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;

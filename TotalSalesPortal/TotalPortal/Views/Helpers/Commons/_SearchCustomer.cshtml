@@ -72,6 +72,7 @@
     function onGetPromotionByCustomers(e) {
         return {
             customerID: (($("#ShowDiscount").val() == 'True' || $("#Customer_ShowDiscount").val() == 'true') ? $("#Customer_CustomerID").val() : 0),
+            applyToSalesVersusReturns: window.parent.requireConfig.pageOptions.ApplyToSalesVersusReturns,
             filterApplyToTradeDiscount: 0
         };
     }
@@ -80,6 +81,7 @@
         return {
             customerID: ($("#Customer_CustomerID").val()),
             filterApplyToTradeDiscount: 1,
+            applyToSalesVersusReturns: window.parent.requireConfig.pageOptions.ApplyToSalesVersusReturns,
             forDropDownList: true
         };
     }

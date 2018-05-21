@@ -45,11 +45,11 @@ namespace TotalPortal.Areas.Commons.APIs
 
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public JsonResult GetPromotionByCustomers([DataSourceRequest] DataSourceRequest dataSourceRequest, int? customerID, int? filterApplyToTradeDiscount, bool? forDropDownList)
+        public JsonResult GetPromotionByCustomers([DataSourceRequest] DataSourceRequest dataSourceRequest, int? customerID, int? applyToSalesVersusReturns, int? filterApplyToTradeDiscount, bool? forDropDownList)
         {
             if (customerID == null) return Json(null);
 
-            IList<Promotion> result = promotionAPIRepository.GetPromotionByCustomers(customerID, filterApplyToTradeDiscount); //filterApplyToTradeDiscount == 0 || 1 || -1 => WHERE: -1 MEAN: SELECT ALL
+            IList<Promotion> result = promotionAPIRepository.GetPromotionByCustomers(customerID, applyToSalesVersusReturns, filterApplyToTradeDiscount); //filterApplyToTradeDiscount == 0 || 1 || -1 => WHERE: -1 MEAN: SELECT ALL
             if (forDropDownList != null && (bool)forDropDownList)
             {
                 if (result.Count() > 0 && result.FirstOrDefault(w => w.ApplyToAllCommodities) == null)

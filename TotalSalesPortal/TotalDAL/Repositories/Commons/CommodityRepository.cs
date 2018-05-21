@@ -86,9 +86,9 @@ namespace TotalDAL.Repositories.Commons
             return commodityBases;
         }
 
-        public IList<CommodityAvailable> GetCommodityAvailables(int? locationID, int? customerID, int? warehouseID, int? priceCategoryID, int? promotionID, DateTime? entryDate, string searchText)
+        public IList<CommodityAvailable> GetCommodityAvailables(int? locationID, int? customerID, int? warehouseID, int? priceCategoryID, int? applyToSalesVersusReturns, int? promotionID, DateTime? entryDate, string searchText)
         {
-            List<CommodityAvailable> commodityAvailables = this.TotalSalesPortalEntities.GetCommodityAvailables(locationID, customerID, warehouseID, priceCategoryID, promotionID, entryDate, searchText).ToList();
+            List<CommodityAvailable> commodityAvailables = this.TotalSalesPortalEntities.GetCommodityAvailables(locationID, customerID, warehouseID, priceCategoryID, applyToSalesVersusReturns, promotionID, entryDate, searchText).ToList();
 
             return commodityAvailables;
         }
