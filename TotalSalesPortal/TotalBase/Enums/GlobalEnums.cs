@@ -168,11 +168,17 @@
         };
 
 
+
+
+        public static int ApplyToSalesVersusReturns_ApplyToAll = (int)GlobalEnums.ApplyToSalesVersusReturns.ApplyToAll;
         public enum ApplyToSalesVersusReturns
         {
+            ApplyToAll = 0,
             ApplyToSales = 1,
             ApplyToReturns = -1
         };
+
+
 
         public enum UpdateWarehouseBalanceOption
         {
