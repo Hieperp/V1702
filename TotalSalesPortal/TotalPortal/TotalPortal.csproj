@@ -567,6 +567,7 @@
     <Content Include="Content\Images\New\menu\percentageNew.png" />
     <Content Include="Content\Images\New\menu\refresh-left-arrow.png" />
     <Content Include="Content\Images\New\menu\sale-sticker.png" />
+    <Content Include="Content\Images\New\menu\SearchOrange32.png" />
     <Content Include="Content\Images\New\menu\transportation-truck.png" />
     <Content Include="Content\Images\New\menu\truck-iconX.png" />
     <Content Include="Content\Images\New\menu\verification-symbol.png" />
