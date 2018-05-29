@@ -47,6 +47,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
             //lAddOrSubtraction: 1 ADD, -1-SUBTRACTION
 
+            string SQT = " AND CommodityTypeID <> " + (int)GlobalEnums.CommodityTypeID.Services + " AND CommodityTypeID <> " + (int)GlobalEnums.CommodityTypeID.CreditNote + " ";
 
             string queryString = " DROP PROC SPSKUBalanceUpdate " + "\r\n";
             queryString = queryString + " CREATE PROC SPSKUBalanceUpdate " + "\r\n";
@@ -87,7 +88,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
             queryString = queryString + "           INSERT @lTableAction " + "\r\n";
             queryString = queryString + "           SELECT MIN(GoodsIssueID), CommodityID, WarehouseID, MIN(EntryDate), SUM(CASE @lAddOrSubtraction WHEN 1 THEN -(Quantity + FreeQuantity) ELSE (Quantity + FreeQuantity) END), 0 AS AmountCostCUR, 0 AS AmountCostUSD, 0 AS AmountCostVND, '' AS Remarks " + "\r\n"; //IF @lAddOrSubtraction = 1 THEN SAVE ELSE UNDO
             queryString = queryString + "           FROM GoodsIssueDetails " + "\r\n";
-            queryString = queryString + "           WHERE GoodsIssueID = @GoodsIssueID " + "\r\n";
+            queryString = queryString + "           WHERE GoodsIssueID = @GoodsIssueID " + SQT + "\r\n";
             queryString = queryString + "           GROUP BY    WarehouseID, CommodityID" + "\r\n";
 
             queryString = queryString + "       IF @lSKUTransferID > 0 " + "\r\n";
@@ -174,7 +175,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Inventories
 
             queryString = queryString + "   END " + "\r\n";
 
-            System.Diagnostics.Debug.WriteLine("---");
+            System.Diagnostics.Debug.WriteLine("---SPSKUBalanceUpdate");
             System.Diagnostics.Debug.WriteLine(queryString);
 
             //this.totalSalesPortalEntities.CreateStoredProcedure("SPSKUBalanceUpdate", queryString);
