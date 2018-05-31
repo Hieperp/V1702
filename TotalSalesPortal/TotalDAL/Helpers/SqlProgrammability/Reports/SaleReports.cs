@@ -28,7 +28,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
 
             //this.StatementOfWarehouses();
 
-            this.SearchWarehouseEntries();
+            //this.SearchWarehouseEntries();
         }
 
 
