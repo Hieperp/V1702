@@ -56,7 +56,7 @@
 
         protected virtual string QueryWhere()
         {
-            return " WHERE LocationID = @LocationID AND YEAR(EntryDate) = YEAR(@EntryDate) " + "\r\n";
+            return " WHERE LocationID = @LocationID AND YEAR(EntryDate) = YEAR(@EntryDate) AND MONTH(EntryDate) = MONTH(@EntryDate) " + "\r\n";
         }
 
     }
