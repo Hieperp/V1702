@@ -49,7 +49,7 @@ namespace TotalDTO.Accounts
         public decimal TotalReceiptAmount { get; set; }
         [Display(Name = "Tổng chiết khấu thanh toán")]
         public decimal TotalCashDiscount { get; set; }
-        [Display(Name = "Tổng số tiền chênh lệch tỷ giá")]
+        [Display(Name = "Tổng thu (+) hoặc CK khác (-)")]
         public decimal TotalFluctuationAmount { get; set; }
 
         protected virtual decimal GetReceiptAmount() { return this.DtoDetails().Select(o => o.ReceiptAmount).Sum(); }
@@ -63,7 +63,7 @@ namespace TotalDTO.Accounts
 
             if (this.TotalReceiptAmount != this.GetReceiptAmount()) yield return new ValidationResult("Lỗi tổng số tiền cấn trừ công nợ", new[] { "TotalReceiptAmount" });
             if (this.TotalCashDiscount != this.GetCashDiscount()) yield return new ValidationResult("Lỗi tổng số tiền chiết khấu thanh toán", new[] { "TotalCashDiscount" });
-            if (this.TotalFluctuationAmount != this.GetFluctuationAmount()) yield return new ValidationResult("Lỗi tổng tiền chênh lệch tỷ giá", new[] { "TotalFluctuationAmount" });
+            if (this.TotalFluctuationAmount != this.GetFluctuationAmount()) yield return new ValidationResult("Lỗi tổng tiền thu (+) hoặc CK khác (-)", new[] { "TotalFluctuationAmount" });
         }
 
         public override void PerformPresaveRule()
@@ -171,7 +171,7 @@ namespace TotalDTO.Accounts
         Nullable<decimal> TotalDepositAmount { get; set; }
         [Display(Name = "Tổng số tiền cấn trừ công nợ")]
         Nullable<decimal> TotalReceiptAmount { get; set; }
-        [Display(Name = "Tổng số tiền chênh lệch tỷ giá")]
+        [Display(Name = "Tổng thu (+) hoặc CK khác (-)")]
         Nullable<decimal> TotalFluctuationAmount { get; set; }
 
         [Display(Name = "Số tiền đã cấn trừ")]

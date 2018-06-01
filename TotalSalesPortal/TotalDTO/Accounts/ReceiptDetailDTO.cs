@@ -49,7 +49,7 @@ namespace TotalDTO.Accounts
         [Display(Name = "CK thanh toán")]
         public decimal CashDiscount { get; set; }
 
-        [Display(Name = "Chênh lệch tỷ giá")]
+        [Display(Name = "Thu (+) hoặc CK khác (-)")]
         public decimal FluctuationAmount { get; set; }
 
         [Display(Name = "Số tiền thu")]

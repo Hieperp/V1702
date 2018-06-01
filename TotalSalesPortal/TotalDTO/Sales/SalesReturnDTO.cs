@@ -143,7 +143,7 @@ namespace TotalDTO.Sales
         Nullable<decimal> TotalGrossAmount { get; set; }
         [Display(Name = "Tổng số tiền cấn trừ công nợ")]
         Nullable<decimal> TotalReceiptAmount { get; set; }
-        [Display(Name = "Tổng số tiền chênh lệch tỷ giá")]
+        [Display(Name = "Tổng thu (+) hoặc CK khác (-)")]
         Nullable<decimal> TotalFluctuationAmount { get; set; }
 
         [Display(Name = "Số tiền đã cấn trừ")]
