@@ -305,13 +305,13 @@
 
     function Bxx() {
         if (($("#TotalReceiptAmount").val() == 0 && $("#TotalFluctuationAmount").val() == 0) || ($("#TotalDepositAmount").val() != -(-$("#TotalReceiptAmount").val() - $("#TotalFluctuationAmount").val()) && confirm("Vui lòng nhấn OK để phần mềm phân bổ lại số tiền thu được vô chi tiết công nợ, hoặc nhấn Cancel để bỏ qua.")))
-            copyAmountDueToReceiptAmount($("#TotalDepositAmount").val()); //COPY copyAmountDueToReceiptAmount IN TWO CASE: There is no detail row receipted before (TotalReceiptAmount + TotalFluctuationAmount) OR WHEN input new TotalDepositAmount value:  TotalDepositAmount <> (TotalReceiptAmount + TotalFluctuationAmount)
+            copyAmountDueToReceiptAmount($("#TotalDepositAmount").val() - $("#TotalFluctuationAmount").val()); //COPY copyAmountDueToReceiptAmount IN TWO CASE: There is no detail row receipted before (TotalReceiptAmount + TotalFluctuationAmount) OR WHEN input new TotalDepositAmount value:  TotalDepositAmount <> (TotalReceiptAmount + TotalFluctuationAmount)
 
         updateTotalAmountDifference();
     }
     function A() {
         //COPY AmountDueToReceiptAmount, WITH a parameter: a pre-defined totalReceiptAmount value. There are two case of totalReceiptAmount: IF GlobalReceiptTypeID.ReceiveMoney THEN TotalDepositAmount ELSE CreditAmountPending
-        copyAmountDueToReceiptAmount($("#ReceiptTypeID").val() == "@GlobalReceiptTypeID.ReceiveMoney" ? ($("#TotalDepositAmount").val() == 0 ? undefined : $("#TotalDepositAmount").val()) : $("#CreditAmountPending").val());
+        copyAmountDueToReceiptAmount($("#ReceiptTypeID").val() == "@GlobalReceiptTypeID.ReceiveMoney" ? ($("#TotalDepositAmount").val() == 0 ? undefined : ($("#TotalDepositAmount").val() - $("#TotalFluctuationAmount").val())) : ($("#CreditAmountPending").val() - $("#TotalFluctuationAmount").val()));
 
         if ($("#ReceiptTypeID").val() == "@GlobalReceiptTypeID.ReceiveMoney" && $("#TotalDepositAmount").val() == 0) { //UPDATE TotalDepositAmount ONLY WHEN GlobalReceiptTypeID.ReceiveMoney
             $("#TotalDepositAmount").data("kendoNumericTextBox").value(DoRound(-(-$("#TotalReceiptAmount").val() - $("#TotalFluctuationAmount").val()), requireConfig.websiteOptions.rndAmount));

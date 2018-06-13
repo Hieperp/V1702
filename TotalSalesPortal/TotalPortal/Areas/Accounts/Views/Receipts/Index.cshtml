@@ -20,8 +20,8 @@
             columns.Bound(p => p.TotalDepositAmount).Title("Thanh toán").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
             columns.Bound(p => p.TotalReceiptAmount).Title("Cấn trừ").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
             columns.Bound(p => p.TotalCashDiscount).Title("Ck TT").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
-            //columns.Bound(p => p.TotalOtherDiscount).Title("Ck TT").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
-            //columns.Bound(p => p.TotalFluctuationAmount).Title("Ck TT").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
+            columns.Bound(p => p.TotalOtherDiscount).Title("Ck khác").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
+            columns.Bound(p => p.TotalFluctuationAmount).Title("Thu khác").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
             columns.Bound(p => p.TotalDepositAmountPending).Title("Còn lại").Format("{0:n0}").Width(60).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Filterable(false).ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #").FooterHtmlAttributes(new { @class = "grid-number-column" });
 
             columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(90)
@@ -58,8 +58,8 @@
                 .Aggregates(a => a.Add(x => x.TotalDepositAmount).Sum())
                 .Aggregates(a => a.Add(x => x.TotalReceiptAmount).Sum())
                 .Aggregates(a => a.Add(x => x.TotalCashDiscount).Sum())
-                //.Aggregates(a => a.Add(x => x.TotalOtherDiscount).Sum())
-                //.Aggregates(a => a.Add(x => x.TotalFluctuationAmount).Sum())
+                .Aggregates(a => a.Add(x => x.TotalOtherDiscount).Sum())
+                .Aggregates(a => a.Add(x => x.TotalFluctuationAmount).Sum())
                 .Aggregates(a => a.Add(x => x.TotalDepositAmountPending).Sum())
                 )
                 .HtmlAttributes(new { @class = "grid-class" })
