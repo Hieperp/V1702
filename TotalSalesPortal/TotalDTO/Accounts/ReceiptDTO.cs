@@ -49,11 +49,14 @@ namespace TotalDTO.Accounts
         public decimal TotalReceiptAmount { get; set; }
         [Display(Name = "Tổng chiết khấu thanh toán")]
         public decimal TotalCashDiscount { get; set; }
-        [Display(Name = "Tổng thu (+) hoặc CK khác (-)")]
+        [Display(Name = "Tổng chiết khấu khác")]
+        public decimal TotalOtherDiscount { get; set; }
+        [Display(Name = "Tổng thu khác")]
         public decimal TotalFluctuationAmount { get; set; }
 
         protected virtual decimal GetReceiptAmount() { return this.DtoDetails().Select(o => o.ReceiptAmount).Sum(); }
         protected virtual decimal GetCashDiscount() { return this.DtoDetails().Select(o => o.CashDiscount).Sum(); }
+        protected virtual decimal GetOtherDiscount() { return this.DtoDetails().Select(o => o.OtherDiscount).Sum(); }
         protected virtual decimal GetFluctuationAmount() { return this.DtoDetails().Select(o => o.FluctuationAmount).Sum(); }
 
 
@@ -63,6 +66,7 @@ namespace TotalDTO.Accounts
 
             if (this.TotalReceiptAmount != this.GetReceiptAmount()) yield return new ValidationResult("Lỗi tổng số tiền cấn trừ công nợ", new[] { "TotalReceiptAmount" });
             if (this.TotalCashDiscount != this.GetCashDiscount()) yield return new ValidationResult("Lỗi tổng số tiền chiết khấu thanh toán", new[] { "TotalCashDiscount" });
+            if (this.TotalOtherDiscount != this.GetOtherDiscount()) yield return new ValidationResult("Lỗi tổng số tiền chiết khấu khác", new[] { "TotalOtherDiscount" });
             if (this.TotalFluctuationAmount != this.GetFluctuationAmount()) yield return new ValidationResult("Lỗi tổng tiền thu (+) hoặc CK khác (-)", new[] { "TotalFluctuationAmount" });
         }
 
@@ -71,7 +75,7 @@ namespace TotalDTO.Accounts
             base.PerformPresaveRule();
 
             string goodsIssueReferences = ""; int i = 0;
-            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; if ((e.CashDiscount != 0 || e.ReceiptAmount != 0) && i <= 6) goodsIssueReferences = goodsIssueReferences + (goodsIssueReferences != "" ? ", " : "") + (i++ < 6 ? e.GoodsIssueReference : "..."); });
+            this.DtoDetails().ToList().ForEach(e => { e.CustomerID = this.CustomerID; if ((e.CashDiscount != 0 || e.OtherDiscount != 0 || e.ReceiptAmount != 0) && i <= 6) goodsIssueReferences = goodsIssueReferences + (goodsIssueReferences != "" ? ", " : "") + (i++ < 6 ? e.GoodsIssueReference : "..."); });
             this.GoodsIssueReferences = goodsIssueReferences;
         }
     }

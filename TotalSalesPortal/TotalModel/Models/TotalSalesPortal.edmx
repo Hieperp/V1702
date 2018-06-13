@@ -275,6 +275,7 @@
           <Property Name="TotalGrossAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalReceiptAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalCashDiscount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalOtherDiscount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalFluctuationAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="100" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
@@ -611,6 +612,7 @@
           <Property Name="AverageDiscountPercent" Type="decimal" Precision="18" Scale="5" Nullable="false" />
           <Property Name="TotalReceiptAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalCashDiscount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalOtherDiscount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="100" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -835,6 +837,7 @@
           <Property Name="GoodsIssueID" Type="int" Nullable="false" />
           <Property Name="ReceiptAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="CashDiscount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="OtherDiscount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="FluctuationAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
         </EntityType>
@@ -863,6 +866,7 @@
           <Property Name="TotalDepositAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalReceiptAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalCashDiscount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalOtherDiscount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalFluctuationAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="100" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
@@ -1085,6 +1089,7 @@
           <Property Name="TotalReceiptAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalFluctuationAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="TotalCashDiscount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalOtherDiscount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="100" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -1135,6 +1140,8 @@
           <Property Name="Code" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="WarehouseCategoryID" Type="int" Nullable="false" />
+          <Property Name="WarehouseGroupID" Type="int" Nullable="false" />
+          <Property Name="WarehouseClassID" Type="int" Nullable="false" />
           <Property Name="LocationID" Type="int" Nullable="false" />
           <Property Name="IsBook" Type="bit" Nullable="false" />
           <Property Name="IsInvoice" Type="bit" Nullable="false" />
@@ -5166,7 +5173,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
           <Property Type="Int32" Name="MonetaryAccountID" Nullable="true" />
           <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="AmountDue" Nullable="true" Precision="20" Scale="2" />
+          <Property Type="Decimal" Name="AmountDue" Nullable="true" Precision="21" Scale="2" />
         </ComplexType>
         <ComplexType Name="ReceiptIndex">
           <Property Type="Int32" Name="ReceiptID" Nullable="false" />
@@ -5189,6 +5196,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Decimal" Name="TotalCashDiscount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="TotalDepositAmountPending" Nullable="true" Precision="20" Scale="2" />
           <Property Type="Int32" Name="ReceiptTypeID" Nullable="false" />
+          <Property Type="Decimal" Name="TotalOtherDiscount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TotalFluctuationAmount" Nullable="false" Precision="18" Scale="2" />
         </ComplexType>
         <ComplexType Name="ReceiptViewDetail">
           <Property Type="Int32" Name="GoodsIssueID" Nullable="false" />
@@ -5196,7 +5205,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Int32" Name="ReceiptID" Nullable="false" />
           <Property Type="Int32" Name="CustomerID" Nullable="false" />
           <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="100" />
-          <Property Type="Decimal" Name="AmountDue" Nullable="true" Precision="20" Scale="2" />
+          <Property Type="Decimal" Name="AmountDue" Nullable="true" Precision="21" Scale="2" />
           <Property Type="Decimal" Name="ReceiptAmount" Nullable="false" Precision="1" Scale="1" />
           <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="String" Name="Remarks" Nullable="false" MaxLength="1" />
@@ -5207,6 +5216,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Decimal" Name="FluctuationAmount" Nullable="false" Precision="1" Scale="1" />
           <Property Type="Int32" Name="ReceiverID" Nullable="false" />
           <Property Type="String" Name="ReceiverName" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="OtherDiscount" Nullable="false" Precision="1" Scale="1" />
         </ComplexType>
         <EntityType Name="AccessControl">
           <Key>
@@ -5990,6 +6000,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="AccountInvoices" Relationship="TotalSalesPortalModel.FK_AccountInvoices_GoodsIssues" FromRole="GoodsIssue" ToRole="AccountInvoice" />
           <Property Name="SumListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="SumGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="TotalOtherDiscount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         <Association Name="FK_AccountInvoiceDetails_GoodsIssueDetails">
           <End Type="TotalSalesPortalModel.GoodsIssueDetail" Role="GoodsIssueDetail" Multiplicity="1" />
@@ -6568,6 +6579,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="GoodsIssue" Relationship="TotalSalesPortalModel.FK_ReceiptDetails_GoodsIssues" FromRole="ReceiptDetail" ToRole="GoodsIssue" />
           <NavigationProperty Name="Receipt" Relationship="TotalSalesPortalModel.FK_ReceiptDetails_Receipts" FromRole="ReceiptDetail" ToRole="Receipt" />
+          <Property Name="OtherDiscount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="Receipt">
           <Key>
@@ -6613,6 +6625,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="GoodsIssueReferences" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SalesReturn" Relationship="TotalSalesPortalModel.FK_Receipts_SalesReturns" FromRole="Receipt" ToRole="SalesReturn" />
           <NavigationProperty Name="CreditNote" Relationship="TotalSalesPortalModel.FK_Receipts_CreditNotes" FromRole="Receipt" ToRole="CreditNote" />
+          <Property Name="TotalOtherDiscount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         <Association Name="FK_Receipts_Customers">
           <End Type="TotalSalesPortalModel.Customer" Role="Customer" Multiplicity="1" />
@@ -7203,6 +7216,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="SalesOrders" Relationship="TotalSalesPortalModel.FK_SalesOrders_Warehouses" FromRole="Warehouse" ToRole="SalesOrder" />
           <NavigationProperty Name="GoodsIssues" Relationship="TotalSalesPortalModel.FK_GoodsIssues_Warehouses" FromRole="Warehouse" ToRole="GoodsIssue" />
           <NavigationProperty Name="SalesReturns" Relationship="TotalSalesPortalModel.FK_SalesReturns_Warehouses" FromRole="Warehouse" ToRole="SalesReturn" />
+          <Property Name="WarehouseGroupID" Type="Int32" Nullable="false" />
+          <Property Name="WarehouseClassID" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_GoodsIssueDetails_Warehouses">
           <End Type="TotalSalesPortalModel.Warehouse" Role="Warehouse" Multiplicity="0..1" />
@@ -7512,6 +7527,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="SumListedGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="SumGrossAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <NavigationProperty Name="PriceCategory" Relationship="TotalSalesPortalModel.FK_SalesReturns_PriceCategories" FromRole="SalesReturn" ToRole="PriceCategory" />
+          <Property Name="TotalOtherDiscount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         <Association Name="FK_SalesReturnDetails_Commodities">
           <End Type="TotalSalesPortalModel.Commodity" Role="Commodity" Multiplicity="1" />
@@ -7731,6 +7747,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_CreditNotes_Locations" FromRole="CreditNote" ToRole="Location" />
           <NavigationProperty Name="Receipts" Relationship="TotalSalesPortalModel.FK_Receipts_CreditNotes" FromRole="CreditNote" ToRole="Receipt" />
           <Property Name="PaymentTermID" Type="Int32" Nullable="false" />
+          <Property Name="TotalOtherDiscount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         <Association Name="FK_CreditNoteDetails_CreditNotes">
           <End Type="TotalSalesPortalModel.CreditNote" Role="CreditNote" Multiplicity="1" />
@@ -8905,6 +8922,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="TotalCashDiscount" ColumnName="TotalCashDiscount" />
                 <ScalarProperty Name="TotalDepositAmountPending" ColumnName="TotalDepositAmountPending" />
                 <ScalarProperty Name="ReceiptTypeID" ColumnName="ReceiptTypeID" />
+                <ScalarProperty Name="TotalOtherDiscount" ColumnName="TotalOtherDiscount" />
+                <ScalarProperty Name="TotalFluctuationAmount" ColumnName="TotalFluctuationAmount" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -8927,6 +8946,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="FluctuationAmount" ColumnName="FluctuationAmount" />
                 <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
                 <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
+                <ScalarProperty Name="OtherDiscount" ColumnName="OtherDiscount" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9598,6 +9618,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="GoodsIssues">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.GoodsIssue">
               <MappingFragment StoreEntitySet="GoodsIssues">
+                <ScalarProperty Name="TotalOtherDiscount" ColumnName="TotalOtherDiscount" />
                 <ScalarProperty Name="SumGrossAmount" ColumnName="SumGrossAmount" />
                 <ScalarProperty Name="SumListedGrossAmount" ColumnName="SumListedGrossAmount" />
                 <ScalarProperty Name="Addressee" ColumnName="Addressee" />
@@ -9766,6 +9787,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="ReceiptDetails">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.ReceiptDetail">
               <MappingFragment StoreEntitySet="ReceiptDetails">
+                <ScalarProperty Name="OtherDiscount" ColumnName="OtherDiscount" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="FluctuationAmount" ColumnName="FluctuationAmount" />
                 <ScalarProperty Name="CashDiscount" ColumnName="CashDiscount" />
@@ -9782,6 +9804,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="Receipts">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.Receipt">
               <MappingFragment StoreEntitySet="Receipts">
+                <ScalarProperty Name="TotalOtherDiscount" ColumnName="TotalOtherDiscount" />
                 <ScalarProperty Name="GoodsIssueReferences" ColumnName="GoodsIssueReferences" />
                 <ScalarProperty Name="MonetaryAccountID" ColumnName="MonetaryAccountID" />
                 <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
@@ -10192,6 +10215,8 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="Warehouses">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.Warehouse">
               <MappingFragment StoreEntitySet="Warehouses">
+                <ScalarProperty Name="WarehouseClassID" ColumnName="WarehouseClassID" />
+                <ScalarProperty Name="WarehouseGroupID" ColumnName="WarehouseGroupID" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
                 <ScalarProperty Name="IsInvoice" ColumnName="IsInvoice" />
@@ -10411,6 +10436,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="SalesReturns">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.SalesReturn">
               <MappingFragment StoreEntitySet="SalesReturns">
+                <ScalarProperty Name="TotalOtherDiscount" ColumnName="TotalOtherDiscount" />
                 <ScalarProperty Name="SumGrossAmount" ColumnName="SumGrossAmount" />
                 <ScalarProperty Name="SumListedGrossAmount" ColumnName="SumListedGrossAmount" />
                 <ScalarProperty Name="Addressee" ColumnName="Addressee" />
@@ -10524,6 +10550,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="CreditNotes">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.CreditNote">
               <MappingFragment StoreEntitySet="CreditNotes">
+                <ScalarProperty Name="TotalOtherDiscount" ColumnName="TotalOtherDiscount" />
                 <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
                 <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
                 <ScalarProperty Name="Approved" ColumnName="Approved" />

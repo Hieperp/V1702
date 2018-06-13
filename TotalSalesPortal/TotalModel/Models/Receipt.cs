@@ -52,6 +52,7 @@ namespace TotalModel.Models
         public Nullable<System.DateTime> InActiveDate { get; set; }
         public Nullable<int> MonetaryAccountID { get; set; }
         public string GoodsIssueReferences { get; set; }
+        public decimal TotalOtherDiscount { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Employee Employee { get; set; }

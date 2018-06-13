@@ -33,6 +33,8 @@ namespace TotalModel.Models
         public bool IsInvoice { get; set; }
         public bool IsDefault { get; set; }
         public string Remarks { get; set; }
+        public int WarehouseGroupID { get; set; }
+        public int WarehouseClassID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GoodsIssueDetail> GoodsIssueDetails { get; set; }

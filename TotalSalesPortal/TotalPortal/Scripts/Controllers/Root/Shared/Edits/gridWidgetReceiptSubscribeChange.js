@@ -16,11 +16,11 @@
             var dataItem = allDataRows[i];
 
             if (totalReceiptAmount != undefined) {
-                receiptAmount = DoRound(totalReceiptAmount > (dataItem["AmountDue"] - dataItem["CashDiscount"]) ? dataItem["AmountDue"] - dataItem["CashDiscount"] : totalReceiptAmount, requireConfig.websiteOptions.rndAmount);
+                receiptAmount = DoRound(totalReceiptAmount > (dataItem["AmountDue"] - dataItem["CashDiscount"] - dataItem["OtherDiscount"] + dataItem["FluctuationAmount"]) ? dataItem["AmountDue"] - dataItem["CashDiscount"] - dataItem["OtherDiscount"] + dataItem["FluctuationAmount"]: totalReceiptAmount, requireConfig.websiteOptions.rndAmount);
                 totalReceiptAmount = DoRound(totalReceiptAmount - receiptAmount, requireConfig.websiteOptions.rndAmount);
             }
             else
-                receiptAmount = DoRound(dataItem["AmountDue"] - dataItem["CashDiscount"], requireConfig.websiteOptions.rndAmount);
+                receiptAmount = DoRound(dataItem["AmountDue"] - dataItem["CashDiscount"] - dataItem["OtherDiscount"] + dataItem["FluctuationAmount"], requireConfig.websiteOptions.rndAmount);
 
             dataItem.set("ReceiptAmount", receiptAmount);
         }

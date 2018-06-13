@@ -15,6 +15,7 @@
     definedExemplar.prototype._removeTotalToModelProperty = function (dataRow) {
         this._updateTotalToModelProperty("TotalReceiptAmount", "ReceiptAmount", "sum", requireConfig.websiteOptions.rndAmount, false);
         this._updateTotalToModelProperty("TotalCashDiscount", "CashDiscount", "sum", requireConfig.websiteOptions.rndAmount, false);
+        this._updateTotalToModelProperty("TotalOtherDiscount", "OtherDiscount", "sum", requireConfig.websiteOptions.rndAmount, false);
         this._updateTotalToModelProperty("TotalFluctuationAmount", "FluctuationAmount", "sum", requireConfig.websiteOptions.rndAmount, false);
 
         definedExemplar._super._removeTotalToModelProperty.call(this, dataRow);
@@ -36,6 +37,9 @@
         this._updateTotalToModelProperty("TotalCashDiscount", "CashDiscount", "sum", requireConfig.websiteOptions.rndAmount);
     }
 
+    definedExemplar.prototype._changeOtherDiscount = function (dataRow) {
+        this._updateTotalToModelProperty("TotalOtherDiscount", "OtherDiscount", "sum", requireConfig.websiteOptions.rndAmount);
+    }
 
     definedExemplar.prototype._changeFluctuationAmount = function (dataRow) {
         this._updateTotalToModelProperty("TotalFluctuationAmount", "FluctuationAmount", "sum", requireConfig.websiteOptions.rndAmount);

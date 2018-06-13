@@ -29,5 +29,6 @@ namespace TotalModel.Models
         public decimal FluctuationAmount { get; set; }
         public int ReceiverID { get; set; }
         public string ReceiverName { get; set; }
+        public decimal OtherDiscount { get; set; }
     }
 }

@@ -24,6 +24,7 @@ namespace TotalModel.Models
         public decimal CashDiscount { get; set; }
         public decimal FluctuationAmount { get; set; }
         public string Remarks { get; set; }
+        public decimal OtherDiscount { get; set; }
     
         public virtual GoodsIssue GoodsIssue { get; set; }
         public virtual Receipt Receipt { get; set; }

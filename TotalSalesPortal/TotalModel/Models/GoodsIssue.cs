@@ -74,6 +74,7 @@ namespace TotalModel.Models
         public string Addressee { get; set; }
         public decimal SumListedGrossAmount { get; set; }
         public decimal SumGrossAmount { get; set; }
+        public decimal TotalOtherDiscount { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Customer Customer1 { get; set; }

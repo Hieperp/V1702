@@ -35,7 +35,7 @@ namespace TotalService.Accounts
 
         public override bool Save(ReceiptDTO receiptDTO)
         {
-            receiptDTO.ReceiptViewDetails.RemoveAll(x => (x.ReceiptAmount == 0 && x.CashDiscount == 0 && x.FluctuationAmount == 0));
+            receiptDTO.ReceiptViewDetails.RemoveAll(x => (x.ReceiptAmount == 0 && x.CashDiscount == 0 && x.OtherDiscount == 0 && x.FluctuationAmount == 0));
             return base.Save(receiptDTO);
         }        
     }

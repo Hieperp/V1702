@@ -14,6 +14,7 @@
 
     @Html.HiddenFor(model => model.TotalReceiptAmount)
     @Html.HiddenFor(model => model.TotalCashDiscount)
+    @Html.HiddenFor(model => model.TotalOtherDiscount)
     @Html.HiddenFor(model => model.TotalFluctuationAmount)
 
     @Html.HiddenFor(model => model.TotalReceiptAmountSaved)
@@ -153,6 +154,10 @@
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', CashDiscount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].CashDiscount' value='#= CashDiscount #' />");
+                    columns.Bound(p => p.OtherDiscount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(90)
+                        .Format("{0:n0}")
+                        .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
+                        .ClientTemplate("#= kendo.format('{0:n0}', OtherDiscount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].OtherDiscount' value='#= OtherDiscount #' />");
                     columns.Bound(p => p.ReceiptAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(100)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
@@ -213,6 +218,7 @@
                     .Aggregates(a => a.Add(x => x.TotalGrossAmount).Sum())
                     .Aggregates(a => a.Add(x => x.AmountDue).Sum())
                     .Aggregates(a => a.Add(x => x.CashDiscount).Sum())
+                    .Aggregates(a => a.Add(x => x.OtherDiscount).Sum())
                     .Aggregates(a => a.Add(x => x.FluctuationAmount).Sum())
                     .Aggregates(a => a.Add(x => x.ReceiptAmount).Sum())
                 )

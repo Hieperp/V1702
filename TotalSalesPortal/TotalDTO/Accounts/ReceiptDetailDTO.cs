@@ -49,6 +49,9 @@ namespace TotalDTO.Accounts
         [Display(Name = "CK thanh toán")]
         public decimal CashDiscount { get; set; }
 
+        [Display(Name = "CK khác")]
+        public decimal OtherDiscount { get; set; }
+
         [Display(Name = "Thu (+) hoặc CK khác (-)")]
         [UIHint("DecimalWithMinus")]
         public decimal FluctuationAmount { get; set; }
@@ -57,6 +60,6 @@ namespace TotalDTO.Accounts
         public decimal ReceiptAmount { get; set; }
 
         [GenericCompare(CompareToPropertyName = "AmountDue", OperatorName = GenericCompareOperator.LessThanOrEqual, ErrorMessage = "Số tiền cấn trừ không vượt số lượng phải thu")]
-        public decimal ApplyAmount { get { return (this.ReceiptAmount + this.CashDiscount); } }
+        public decimal ApplyAmount { get { return (this.ReceiptAmount + this.CashDiscount + this.OtherDiscount); } }
     }
 }
