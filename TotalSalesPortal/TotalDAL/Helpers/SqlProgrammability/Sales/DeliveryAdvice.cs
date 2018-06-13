@@ -307,12 +307,17 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
                 //GET QuantityEndREC IN WarehouseJournal
                 SqlProgrammability.Inventories.Inventories inventories = new Inventories.Inventories(this.totalSalesPortalEntities);
 
-                queryString = queryString + "               DECLARE @WarehouseIDList varchar(555)        DECLARE @CommodityIDList varchar(3999) " + "\r\n";
+                queryString = queryString + "               DECLARE @WarehouseIDList varchar(555)        DECLARE @CommodityIDList varchar(3999)     DECLARE @WarehouseClassList varchar(555) " + "\r\n";
                 queryString = queryString + "               SELECT  @WarehouseIDList = STUFF((SELECT ',' + CAST(WarehouseID AS varchar) FROM Warehouses WHERE LocationID = @LocationID AND IsBook = 1 FOR XML PATH('')) ,1,1,'') " + "\r\n"; // AND (WarehouseID = @WarehouseID OR @WarehouseID IS NULL): COMMENT OUT APR-2018: TO ALLOW TO GET ALL WAREHOUSE: TO SEE ALL AVAILABLE BALANCE AT ALL WAREHOUSE. THIS MAY BE CHECK THIS COMMENT OUT AGAIN WHEN NEEDED!!!
                 queryString = queryString + "               SELECT  @CommodityIDList = STUFF((SELECT ',' + CAST(CommodityID AS varchar) FROM @Commodities FOR XML PATH('')) ,1,1,'') " + "\r\n";
 
+                queryString = queryString + "               IF (NOT @WarehouseID IS NULL) " + "\r\n";
+                queryString = queryString + "                   SELECT  @WarehouseClassList = STUFF((SELECT ',' + CAST(WarehouseClassID AS varchar) FROM Warehouses WHERE WarehouseID = @WarehouseID                                           FOR XML PATH('')) ,1,1,'') " + "\r\n";
+                queryString = queryString + "               ELSE " + "\r\n";
+                queryString = queryString + "                   SELECT  @WarehouseClassList = STUFF((SELECT ',' + CAST(WarehouseClassID AS varchar) FROM Warehouses WHERE WarehouseID IN (SELECT * FROM FNSplitUpIds(@WarehouseIDList))        FOR XML PATH('')) ,1,1,'') " + "\r\n";
 
-                queryString = queryString + "               " + inventories.GET_WarehouseJournal_BUILD_SQL("@CommoditiesBalance", "@EntryDate", "@EntryDate", "@WarehouseIDList", "@CommodityIDList", "0", "0", (int)GlobalEnums.WarehouseClassID.L1 + "," + (int)GlobalEnums.WarehouseClassID.L5 + "," + (int)GlobalEnums.WarehouseClassID.LD, null) + "\r\n";
+
+                queryString = queryString + "               " + inventories.GET_WarehouseJournal_BUILD_SQL("@CommoditiesBalance", "@EntryDate", "@EntryDate", "@WarehouseIDList", "@CommodityIDList", "0", "0", "@WarehouseClassList", null) + "\r\n";
 
                 //---BEGIN: ADD CommodityID DOES NOT HAVE BALANCE. JUST THIS QUERY STATEMENT HERE ONLY. LATER: MAY BE ADD NEW PARAMETER TO DECIDE WHETHER TO ADD / OR NOT. THIS PARAMETER SHOULD PASS FROM THE USER CONTEXT WHEN NEEDED
                 queryString = queryString + "               IF (NOT @WarehouseID IS NULL) " + "\r\n";
@@ -557,13 +562,14 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       DECLARE     @EntryDate DateTime       DECLARE @LocationID varchar(35)       DECLARE @CustomerID int         DECLARE @WarehouseIDList varchar(555)         DECLARE @CommodityIDList varchar(3999) " + "\r\n";
+            queryString = queryString + "       DECLARE     @EntryDate DateTime       DECLARE @LocationID varchar(35)       DECLARE @CustomerID int         DECLARE @WarehouseIDList varchar(555)         DECLARE @CommodityIDList varchar(3999)        DECLARE @WarehouseClassList varchar(555) " + "\r\n";
             queryString = queryString + "       SELECT      @EntryDate = EntryDate, @LocationID = LocationID, @CustomerID = CustomerID FROM DeliveryAdvices WHERE DeliveryAdviceID = @DeliveryAdviceID " + "\r\n";
             queryString = queryString + "       IF          @EntryDate IS NULL          SET @EntryDate = CONVERT(Datetime, '31/12/2000', 103)" + "\r\n";
             queryString = queryString + "       SELECT      @WarehouseIDList = STUFF((SELECT ',' + CAST(WarehouseID AS varchar)  FROM DeliveryAdviceDetails WHERE DeliveryAdviceID = @DeliveryAdviceID FOR XML PATH('')) ,1,1,'') " + "\r\n";
             queryString = queryString + "       SELECT      @CommodityIDList = STUFF((SELECT ',' + CAST(CommodityID AS varchar)  FROM DeliveryAdviceDetails WHERE DeliveryAdviceID = @DeliveryAdviceID FOR XML PATH('')) ,1,1,'') " + "\r\n";
+            queryString = queryString + "       SELECT      @WarehouseClassList = STUFF((SELECT ',' + CAST(WarehouseClassID AS varchar) FROM Warehouses WHERE WarehouseID IN (SELECT * FROM FNSplitUpIds(@WarehouseIDList))        FOR XML PATH('')) ,1,1,'') " + "\r\n";
 
-            queryString = queryString + "       " + inventories.GET_WarehouseJournal_BUILD_SQL("@CommoditiesBalance", "@EntryDate", "@EntryDate", "@WarehouseIDList", "@CommodityIDList", "0", "0", (int)GlobalEnums.WarehouseClassID.L1 + "," + (int)GlobalEnums.WarehouseClassID.L5 + "," + (int)GlobalEnums.WarehouseClassID.LD, null) + "\r\n";
+            queryString = queryString + "       " + inventories.GET_WarehouseJournal_BUILD_SQL("@CommoditiesBalance", "@EntryDate", "@EntryDate", "@WarehouseIDList", "@CommodityIDList", "0", "0", "@WarehouseClassList", null) + "\r\n";
 
             queryString = queryString + "       SELECT      DeliveryAdviceDetails.DeliveryAdviceDetailID, DeliveryAdviceDetails.DeliveryAdviceID, DeliveryAdviceDetails.SalesOrderID, DeliveryAdviceDetails.SalesOrderDetailID, SalesOrders.Reference AS SalesOrderReference, SalesOrders.Code AS SalesOrderCode, SalesOrders.EntryDate AS SalesOrderEntryDate, " + "\r\n";
             queryString = queryString + "                   Commodities.CommodityID, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, DeliveryAdviceDetails.CommodityTypeID, Warehouses.WarehouseID, Warehouses.Code AS WarehouseCode, VoidTypes.VoidTypeID, VoidTypes.Code AS VoidTypeCode, VoidTypes.Name AS VoidTypeName, VoidTypes.VoidClassID, DeliveryAdviceDetails.CalculatingTypeID, " + "\r\n";
@@ -652,7 +658,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
             queryString = queryString + "   BEGIN " + "\r\n";
 
-            queryString = queryString + "       DECLARE @WarehouseIDList varchar(35)         DECLARE @CommodityIDList varchar(3999) " + "\r\n";
+            queryString = queryString + "       DECLARE @WarehouseIDList varchar(35)         DECLARE @CommodityIDList varchar(3999)             DECLARE @WarehouseClassList varchar(555) " + "\r\n";
 
             queryString = queryString + "       IF (@SalesOrderID > 0) ";
             queryString = queryString + "           BEGIN " + "\r\n";
@@ -669,8 +675,9 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + "               SELECT      @CommodityIDList = STUFF((SELECT ',' + CAST(CommodityID AS varchar)  FROM (SELECT DISTINCT CommodityID FROM @WarehouseCommodities) PendingCommodities FOR XML PATH('')) ,1,1,'') " + "\r\n";
             queryString = queryString + "           END " + "\r\n";
 
+            queryString = queryString + "       SELECT      @WarehouseClassList = STUFF((SELECT ',' + CAST(WarehouseClassID AS varchar) FROM Warehouses WHERE WarehouseID IN (SELECT * FROM FNSplitUpIds(@WarehouseIDList))        FOR XML PATH('')) ,1,1,'') " + "\r\n";
 
-            queryString = queryString + "       " + inventories.GET_WarehouseJournal_BUILD_SQL("@CommoditiesBalance", "@EntryDate", "@EntryDate", "@WarehouseIDList", "@CommodityIDList", "0", "0", (int)GlobalEnums.WarehouseClassID.L1 + "," + (int)GlobalEnums.WarehouseClassID.L5 + "," + (int)GlobalEnums.WarehouseClassID.LD, null) + "\r\n";
+            queryString = queryString + "       " + inventories.GET_WarehouseJournal_BUILD_SQL("@CommoditiesBalance", "@EntryDate", "@EntryDate", "@WarehouseIDList", "@CommodityIDList", "0", "0", "@WarehouseClassList", null) + "\r\n";
 
 
             queryString = queryString + "       IF  (@SalesOrderID <> 0) " + "\r\n";

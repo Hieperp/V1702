@@ -50,9 +50,10 @@ namespace TotalDTO.Accounts
         public decimal CashDiscount { get; set; }
 
         [Display(Name = "Thu (+) hoặc CK khác (-)")]
+        [UIHint("DecimalWithMinus")]
         public decimal FluctuationAmount { get; set; }
 
-        [Display(Name = "Số tiền thu")]
+        [Display(Name = "Số tiền cấn trừ")]
         public decimal ReceiptAmount { get; set; }
 
         [GenericCompare(CompareToPropertyName = "AmountDue", OperatorName = GenericCompareOperator.LessThanOrEqual, ErrorMessage = "Số tiền cấn trừ không vượt số lượng phải thu")]

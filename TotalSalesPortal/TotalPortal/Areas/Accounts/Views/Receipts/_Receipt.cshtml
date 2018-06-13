@@ -145,7 +145,7 @@
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', AmountDue) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].AmountDue' value='#= AmountDue #' />");
-                    columns.Bound(p => p.FluctuationAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(50).Hidden()
+                    columns.Bound(p => p.FluctuationAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(50)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', FluctuationAmount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].FluctuationAmount' value='#= FluctuationAmount #' />");
@@ -289,6 +289,10 @@
     $("#TotalReceiptAmount").change(function (e) {
         updateTotalAmountDifference();
     })
+    $("#TotalFluctuationAmount").change(function (e) {
+        updateTotalAmountDifference();
+    })
+
     function updateTotalAmountDifference() {
         $("#TotalAmountDifference").data("kendoNumericTextBox").value(DoRound(($("#ReceiptTypeID").val() == "@GlobalReceiptTypeID.ReceiveMoney" ? $("#TotalDepositAmount").val() : $("#CreditAmountPending").val()) - $("#TotalReceiptAmount").val() - $("#TotalFluctuationAmount").val(), requireConfig.websiteOptions.rndAmount))
     }
