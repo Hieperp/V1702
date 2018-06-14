@@ -103,9 +103,9 @@
                     @Html.DisplayFor(d => d.SalesReturn)
                     @Html.DisplayFor(d => d.CreditNote)
                     <div class="form-group">
-                        <div class="right-panel-label"> <img src="~/Content/Images/Mains/Size24/money-bag-icon-16.png" /> @Html.Label(@Model.CreditTypeName) </div>
+                        <div class="right-panel-label"> <img src="~/Content/Images/Mains/Size24/money-bag-icon-16.png" /> Cấn trừ @Html.Label(@Model.CreditTypeName) </div>
                         <div class="div-input">
-                            @Html.Kendo().MaskedTextBox().Name("PromotionA.Name").Value("Số phiếu thu: " + @Model.CreditTypeReference + ", ngày: " + @Model.CreditTypeDate.ToString(SettingsManager.DateFormat)).HtmlAttributes(new { @class = "right-panel-input", @readonly = "readonly" })
+                            @Html.Kendo().MaskedTextBox().Name("PromotionA.Name").Value("Số phiếu " + @Model.CreditTypeName + ": " + @Model.CreditTypeReference + ", ngày: " + @Model.CreditTypeDate.ToString(SettingsManager.DateFormat)).HtmlAttributes(new { @class = "right-panel-input", @readonly = "readonly" })
                         </div>
                     </div>
                 }
@@ -129,40 +129,39 @@
                         .ClientTemplate("#= GoodsIssueID #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].GoodsIssueID' value='#= GoodsIssueID #' />");
 
 
-                    columns.Bound(p => p.GoodsIssueReference).DisplayNameTitle().Filterable(false).Width(90)
+                    columns.Bound(p => p.GoodsIssueReference).DisplayNameTitle().Filterable(false).Width(60)
                         .ClientTemplate("#= GoodsIssueReference #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].GoodsIssueReference' value='#= GoodsIssueReference #' />");
-                    columns.Bound(p => p.GoodsIssueEntryDate).DisplayNameTitle().Filterable(false).Width(160)
-                        .ClientFooterTemplate("TC (#= kendo.format('{0:n0}', count) # dòng)")
-                        .ClientTemplate("#= GoodsIssueEntryDate ? kendo.toString(kendo.parseDate(GoodsIssueEntryDate), '" + SettingsManager.DateTimeFormat + "') : '' #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].GoodsIssueEntryDate' value='#= kendo.toString(GoodsIssueEntryDate, '" + SettingsManager.DateTimeFormat + "') #' />");
+                    columns.Bound(p => p.GoodsIssueEntryDate).DisplayNameTitle().Filterable(false).Width(60)                        
+                        .ClientTemplate("#= GoodsIssueEntryDate ? kendo.toString(kendo.parseDate(GoodsIssueEntryDate), '" + SettingsManager.DateFormat + "') : '' #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].GoodsIssueEntryDate' value='#= kendo.toString(GoodsIssueEntryDate, '" + SettingsManager.DateTimeFormat + "') #' />");
 
-                    columns.Bound(p => p.ReceiverDescription).DisplayNameTitle().Filterable(false)                        
+                    columns.Bound(p => p.ReceiverDescription).DisplayNameTitle().Filterable(false)
+                        .ClientFooterTemplate("TC (#= kendo.format('{0:n0}', count) # dòng)")
                         .ClientTemplate("#= (ReceiverDescription == null)? '' : ReceiverDescription #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].ReceiverDescription' value='#= (ReceiverDescription == null) ? '' : ReceiverDescription #' />");
 
-                    columns.Bound(p => p.TotalGrossAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(100)
+                    columns.Bound(p => p.TotalGrossAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(85)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', TotalGrossAmount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].TotalGrossAmount' value='#= TotalGrossAmount #' />");
-                    columns.Bound(p => p.AmountDue).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(100)
+                    columns.Bound(p => p.AmountDue).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(85)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', AmountDue) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].AmountDue' value='#= AmountDue #' />");
-                    columns.Bound(p => p.FluctuationAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(50)
-                        .Format("{0:n0}")
-                        .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
-                        .ClientTemplate("#= kendo.format('{0:n0}', FluctuationAmount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].FluctuationAmount' value='#= FluctuationAmount #' />");
-                    columns.Bound(p => p.CashDiscount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(90)
+                    columns.Bound(p => p.CashDiscount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(60)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', CashDiscount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].CashDiscount' value='#= CashDiscount #' />");
-                    columns.Bound(p => p.OtherDiscount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(90)
+                    columns.Bound(p => p.OtherDiscount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(60)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', OtherDiscount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].OtherDiscount' value='#= OtherDiscount #' />");
-                    columns.Bound(p => p.ReceiptAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right"}).Width(100)
+                    columns.Bound(p => p.ReceiptAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(85)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', ReceiptAmount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].ReceiptAmount' value='#= ReceiptAmount #' />");
-
+                    columns.Bound(p => p.FluctuationAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(60)
+                        .Format("{0:n0}")
+                        .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
+                        .ClientTemplate("#= kendo.format('{0:n0}', FluctuationAmount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].FluctuationAmount' value='#= FluctuationAmount #' />");
 
 
                     columns.Command(command => { command.Destroy().Text("<span class='command' ></span>"); }).Width(50).HtmlAttributes(new { @class = "grid-column-center" });
@@ -175,7 +174,7 @@
                     if (Model.Editable)
                     {
                         toolbar.Template(@<text>
-                            <button type="button" class="k-button" onclick="A()"> <img src="~/Content/Images/Mains/Size24/Borderlands-Select-icon-24.png" /> @(Model.ReceiptTypeID == GlobalReceiptTypeID.ReceiveMoney? "Cấn trừ số tiền thanh toán": Model.CreditTypeName) vào chi tiết công nợ</button>
+                            <button type="button" class="k-button" onclick="A()"> <img src="~/Content/Images/Mains/Size24/Borderlands-Select-icon-24.png" /> Cấn trừ số tiền @(Model.ReceiptTypeID == GlobalReceiptTypeID.ReceiveMoney ? "thanh toán" : Model.CreditTypeName) vào chi tiết công nợ</button>
                         </text>);
                     }
                     else
@@ -214,7 +213,7 @@
                     {
                         events.Error("kendGrid_ErrorHandler");
                     })
-                    .Aggregates(a => a.Add(x => x.GoodsIssueEntryDate).Count())
+                    .Aggregates(a => a.Add(x => x.ReceiverDescription).Count())
                     .Aggregates(a => a.Add(x => x.TotalGrossAmount).Sum())
                     .Aggregates(a => a.Add(x => x.AmountDue).Sum())
                     .Aggregates(a => a.Add(x => x.CashDiscount).Sum())

@@ -67,7 +67,7 @@ namespace TotalDTO.Accounts
             if (this.TotalReceiptAmount != this.GetReceiptAmount()) yield return new ValidationResult("Lỗi tổng số tiền cấn trừ công nợ", new[] { "TotalReceiptAmount" });
             if (this.TotalCashDiscount != this.GetCashDiscount()) yield return new ValidationResult("Lỗi tổng số tiền chiết khấu thanh toán", new[] { "TotalCashDiscount" });
             if (this.TotalOtherDiscount != this.GetOtherDiscount()) yield return new ValidationResult("Lỗi tổng số tiền chiết khấu khác", new[] { "TotalOtherDiscount" });
-            if (this.TotalFluctuationAmount != this.GetFluctuationAmount()) yield return new ValidationResult("Lỗi tổng tiền thu (+) hoặc CK khác (-)", new[] { "TotalFluctuationAmount" });
+            if (this.TotalFluctuationAmount != this.GetFluctuationAmount()) yield return new ValidationResult("Lỗi tổng số tiền thu khác (-)", new[] { "TotalFluctuationAmount" });
         }
 
         public override void PerformPresaveRule()
@@ -102,7 +102,7 @@ namespace TotalDTO.Accounts
         public decimal TotalReceiptAmountSaved { get; set; }
         public decimal TotalFluctuationAmountSaved { get; set; }
 
-        public string CreditTypeName { get { return (this.AdvanceReceipt != null && this.AdvanceReceipt.ReceiptID > 0 ? "Cấn trừ tiền trả trước" : (this.SalesReturn != null && this.SalesReturn.SalesReturnID > 0 ? "Cấn trừ tiền hàng trả lại" : (this.CreditNote != null && this.CreditNote.CreditNoteID > 0 ? "Cấn trừ chiết khấu" : null))); } }
+        public string CreditTypeName { get { return (this.AdvanceReceipt != null && this.AdvanceReceipt.ReceiptID > 0 ? "trả trước" : (this.SalesReturn != null && this.SalesReturn.SalesReturnID > 0 ? "trả hàng" : (this.CreditNote != null && this.CreditNote.CreditNoteID > 0 ? "chiết khấu" : null))); } }
         public string CreditTypeReference { get { return (this.AdvanceReceipt != null && this.AdvanceReceipt.ReceiptID > 0 ? this.AdvanceReceipt.Reference : (this.SalesReturn != null && this.SalesReturn.SalesReturnID > 0 ? this.SalesReturn.Reference : (this.CreditNote != null && this.CreditNote.CreditNoteID > 0 ? this.CreditNote.Reference : null))); } }
         public System.DateTime CreditTypeDate { get { return ((System.DateTime)(this.AdvanceReceipt != null && this.AdvanceReceipt.ReceiptID > 0 ? this.AdvanceReceipt.EntryDate : (this.SalesReturn != null && this.SalesReturn.SalesReturnID > 0 ? this.SalesReturn.EntryDate : (this.CreditNote != null && this.CreditNote.CreditNoteID > 0 ? this.CreditNote.EntryDate : DateTime.Today)))); } }
 
@@ -143,7 +143,7 @@ namespace TotalDTO.Accounts
         public EmployeeBaseDTO Cashier { get; set; }
 
 
-        [Display(Name = "Số tiền chưa cấn trừ chuyển kỳ sau")]
+        [Display(Name = "Số tiền chuyển kỳ sau")]
         public decimal TotalAmountDifference { get { return this.GetAmountDifference(); } }
 
         protected decimal GetAmountDifference() { return (this.ReceiptTypeID == GlobalReceiptTypeID.ReceiveMoney ? this.TotalDepositAmount : (decimal)(this.CreditAmountPending != null ? this.CreditAmountPending : 0)) - this.TotalReceiptAmount - this.TotalFluctuationAmount; }
