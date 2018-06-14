@@ -26,6 +26,9 @@ namespace TotalDAL.Repositories.Sales
         {
 
             return;
+            return;
+
+            return;
 
             Helpers.SqlProgrammability.Accounts.Receipt receipt = new Helpers.SqlProgrammability.Accounts.Receipt(totalSalesPortalEntities);
             receipt.RestoreProcedure();

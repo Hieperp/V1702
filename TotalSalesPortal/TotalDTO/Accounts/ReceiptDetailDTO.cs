@@ -69,7 +69,7 @@ namespace TotalDTO.Accounts
         public decimal ApplyAmount { get { return (this.ReceiptAmount + this.CashDiscount + this.OtherDiscount); } }
 
         [Display(Name = "Còn lại")]
-        [UIHint("DecimalReadonly")] //Remains value after receipt
-        public decimal AmountRemains { get; set; }
+        [UIHint("DecimalReadonly")] //REMAINS Invoice Value (AmountDue) AFTER APPLY ReceiptAmount + CashDiscount + OtherDiscount
+        public decimal AmountRemains { get; set; } //AmountRemains = this.AmountDue - this.ApplyAmount. AT INITIALIZE, THIS VALUE WILL BE GET FROM GetReceiptViewDetail(), THEN LATER: THIS VALUE WILL BE CALCULATED BY JS: definedExemplar.prototype._updateRowAmountRemains
     }
 }
