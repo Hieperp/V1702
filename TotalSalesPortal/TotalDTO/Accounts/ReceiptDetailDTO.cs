@@ -67,5 +67,9 @@ namespace TotalDTO.Accounts
 
         [GenericCompare(CompareToPropertyName = "AmountDue", OperatorName = GenericCompareOperator.LessThanOrEqual, ErrorMessage = "Số tiền cấn trừ không vượt số lượng phải thu")]
         public decimal ApplyAmount { get { return (this.ReceiptAmount + this.CashDiscount + this.OtherDiscount); } }
+
+        [Display(Name = "Còn lại")]
+        [UIHint("DecimalReadonly")] //Remains value after receipt
+        public decimal AmountRemains { get; set; }
     }
 }

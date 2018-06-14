@@ -216,6 +216,8 @@ namespace TotalModel.Models
 
     public partial class ReceiptViewDetail
     {
+        public decimal AmountRemains { get { return (decimal)this.AmountDue - this.ReceiptAmount - this.CashDiscount - this.OtherDiscount; } }
+
         public string ReceiverDescription { get { return (this.CustomerID != this.ReceiverID ? this.ReceiverName + ", " : "") + this.Description; } }
     }
 

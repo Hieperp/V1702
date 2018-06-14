@@ -158,6 +158,10 @@
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
                         .ClientTemplate("#= kendo.format('{0:n0}', ReceiptAmount) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].ReceiptAmount' value='#= ReceiptAmount #' />");
+                    columns.Bound(p => p.AmountRemains).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(80)
+                        .Format("{0:n0}")
+                        .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
+                        .ClientTemplate("#= kendo.format('{0:n0}', AmountRemains) #" + "<input type='hidden' name='ReceiptViewDetails[#= index(data) #].AmountRemains' value='#= AmountRemains #' />");
                     columns.Bound(p => p.FluctuationAmount).DisplayNameTitle().Filterable(false).HtmlAttributes(new { @class = "grid-number-column" }).HeaderHtmlAttributes(new { @style = "text-align: right" }).Width(60)
                         .Format("{0:n0}")
                         .ClientFooterTemplate("#= kendo.format('{0:n0}', sum) #")
@@ -218,8 +222,9 @@
                     .Aggregates(a => a.Add(x => x.AmountDue).Sum())
                     .Aggregates(a => a.Add(x => x.CashDiscount).Sum())
                     .Aggregates(a => a.Add(x => x.OtherDiscount).Sum())
-                    .Aggregates(a => a.Add(x => x.FluctuationAmount).Sum())
                     .Aggregates(a => a.Add(x => x.ReceiptAmount).Sum())
+                    .Aggregates(a => a.Add(x => x.AmountRemains).Sum())
+                    .Aggregates(a => a.Add(x => x.FluctuationAmount).Sum())
                 )
             )
 
