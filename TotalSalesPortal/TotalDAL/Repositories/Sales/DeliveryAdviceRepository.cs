@@ -26,6 +26,15 @@ namespace TotalDAL.Repositories.Sales
         {
 
             return;
+
+            Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);
+            saleReports.RestoreProcedure();
+
+            //return;
+
+            Helpers.SqlProgrammability.Generals.UserReference userReference = new Helpers.SqlProgrammability.Generals.UserReference(totalSalesPortalEntities);
+            userReference.RestoreProcedure();
+
             return;
 
             return;
@@ -33,10 +42,7 @@ namespace TotalDAL.Repositories.Sales
             Helpers.SqlProgrammability.Accounts.Receipt receipt = new Helpers.SqlProgrammability.Accounts.Receipt(totalSalesPortalEntities);
             receipt.RestoreProcedure();
 
-            //return;
 
-            Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);
-            saleReports.RestoreProcedure();
 
             return;
 
@@ -175,7 +181,6 @@ namespace TotalDAL.Repositories.Sales
 
 
 
-            
 
 
 
@@ -189,7 +194,8 @@ namespace TotalDAL.Repositories.Sales
 
 
 
-            Helpers.SqlProgrammability.Commons.AccessControl accessControl = new Helpers.SqlProgrammability.Commons.AccessControl(totalSalesPortalEntities);
+
+            Helpers.SqlProgrammability.Generals.AccessControl accessControl = new Helpers.SqlProgrammability.Generals.AccessControl(totalSalesPortalEntities);
             accessControl.RestoreProcedure();
 
 

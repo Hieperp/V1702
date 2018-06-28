@@ -50,11 +50,12 @@
   <ItemGroup>
     <Compile Include="EntityFrameworkExtension.cs" />
     <Compile Include="Helpers\SqlProgrammability\Accounts\CreditNote.cs" />
-    <Compile Include="Helpers\SqlProgrammability\Commons\AccessControl.cs" />
+    <Compile Include="Helpers\SqlProgrammability\Generals\AccessControl.cs" />
     <Compile Include="Helpers\SqlProgrammability\Commons\CommodityPrice.cs" />
     <Compile Include="Helpers\SqlProgrammability\Commons\Customer.cs" />
     <Compile Include="Helpers\SqlProgrammability\Commons\Employee.cs" />
     <Compile Include="Helpers\SqlProgrammability\Commons\Promotion.cs" />
+    <Compile Include="Helpers\SqlProgrammability\Generals\UserReference.cs" />
     <Compile Include="Helpers\SqlProgrammability\Inventories\GoodsDelivery.cs" />
     <Compile Include="Helpers\SqlProgrammability\Inventories\HandlingUnit.cs" />
     <Compile Include="Helpers\SqlProgrammability\Reports\SaleReports.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Repositories\Commons\VehicleRepository.cs" />
     <Compile Include="Repositories\Commons\VoidTypeRepository.cs" />
     <Compile Include="Repositories\Commons\WarehouseRepository.cs" />
+    <Compile Include="Repositories\Generals\UserReferenceRepository.cs" />
     <Compile Include="Repositories\Inventories\GoodsDeliveryRepository.cs" />
     <Compile Include="Repositories\Inventories\HandlingUnitRepository.cs" />
     <Compile Include="Repositories\Sales\SalesOrderRepository.cs" />

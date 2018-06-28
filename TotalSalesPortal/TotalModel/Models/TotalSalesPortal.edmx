@@ -2931,6 +2931,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="NMVNTaskID" Type="int" Mode="In" />
           <Parameter Name="OrganizationalUnitID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetUserTrees" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="ActiveOption" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetVoidablePermitted" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="NMVNTaskID" Type="int" Mode="In" />
@@ -4643,6 +4647,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
             <Parameter Name="CodePartA" Mode="In" Type="String" />
             <Parameter Name="CodePartB" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetUserTrees" ReturnType="Collection(TotalSalesPortalModel.UserTree)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="ActiveOption" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
@@ -8360,6 +8368,12 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="String" Name="WarehouseCode" Nullable="false" MaxLength="10" />
         </ComplexType>
+        <ComplexType Name="UserTree">
+          <Property Type="Int32" Name="id" Nullable="true" />
+          <Property Type="Int32" Name="PrimaryID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="hasChildren" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10899,6 +10913,16 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="TotalVATAmount" ColumnName="TotalVATAmount" />
                 <ScalarProperty Name="TotalGrossAmount" ColumnName="TotalGrossAmount" />
                 <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetUserTrees" FunctionName="TotalSalesPortalModel.Store.GetUserTrees">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalSalesPortalModel.UserTree">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="PrimaryID" ColumnName="PrimaryID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="hasChildren" ColumnName="hasChildren" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

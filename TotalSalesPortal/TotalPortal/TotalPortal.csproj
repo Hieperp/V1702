@@ -252,6 +252,8 @@
     <Compile Include="Areas\Commons\ViewModels\Helpers\ITerritoryDropDownViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\Helpers\IVehicleDropDownViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\PromotionViewModel.cs" />
+    <Compile Include="Areas\Generals\APIs\UserReferenceAPIsController.cs" />
+    <Compile Include="Areas\Generals\GeneralsAreaRegistration.cs" />
     <Compile Include="Areas\Inventories\APIs\GoodsDeliveryAPIsController.cs" />
     <Compile Include="Areas\Inventories\APIs\GoodsIssueAPIsController.cs" />
     <Compile Include="Areas\Inventories\APIs\HandlingUnitAPIsController.cs" />
@@ -1077,6 +1079,8 @@
     <Content Include="Areas\Commons\Views\Promotions\CreateWizard.cshtml" />
     <Content Include="Areas\Commons\Views\Promotions\GetCommodityCodeParts.cshtml" />
     <Content Include="Areas\Commons\Views\Promotions\PromotionCustomerCategories.cshtml" />
+    <Content Include="Areas\Generals\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Generals\Views\web.config" />
     <None Include="Properties\PublishProfiles\VCP.pubxml">
       <SubType>Designer</SubType>
     </None>
@@ -1146,6 +1150,7 @@
     <Content Include="Scripts\Controllers\Root\Home\LockedDate.js" />
     <Content Include="Scripts\Controllers\Root\Home\Options.js" />
     <Content Include="Scripts\Controllers\Root\Home\Searches.js" />
+    <Content Include="Scripts\Controllers\Root\Home\UserReferences.js" />
     <Content Include="Scripts\Controllers\Root\Reports\Index.js" />
     <Content Include="Scripts\Controllers\Root\Reports\Open.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Commons\kendoWidgetReadonly.js" />
@@ -1998,6 +2003,7 @@
     <Content Include="Views\Shared\EditorTemplates\Commons\Addressee.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Commons\SOCode.cshtml" />
     <Content Include="Views\Home\Searches.cshtml" />
+    <Content Include="Views\Home\UserReferences.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

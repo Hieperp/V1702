@@ -120,6 +120,18 @@ namespace TotalPortal.Controllers
         }
 
 
+        public ActionResult UserReferences()
+        {
+            return View();
+        }
+
+        public JsonResult GetUserTrees(int? id)
+        {
+            return null;
+
+            //IList<UserTree> userTrees = this.userReferenceAPIRepository.GetUserTrees(id, (int)GlobalEnums.ActiveOption.Both);
+            //return Json(userTrees, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

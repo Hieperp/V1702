@@ -2,9 +2,9 @@
 using TotalBase.Enums;
 using TotalModel.Models;
 
-namespace TotalDAL.Helpers.SqlProgrammability.Commons
+namespace TotalDAL.Helpers.SqlProgrammability.Generals
 {
-    class AccessControl
+    public class AccessControl
     {
         private readonly TotalSalesPortalEntities totalSalesPortalEntities;
 

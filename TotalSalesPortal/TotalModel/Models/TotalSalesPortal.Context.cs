@@ -1779,5 +1779,18 @@ namespace TotalModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<WarehouseEntry>("SearchWarehouseEntries", aspUserIDParameter, fromDateParameter, toDateParameter, codePartAParameter, codePartBParameter);
         }
+    
+        public virtual ObjectResult<UserTree> GetUserTrees(Nullable<int> id, Nullable<int> activeOption)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var activeOptionParameter = activeOption.HasValue ?
+                new ObjectParameter("ActiveOption", activeOption) :
+                new ObjectParameter("ActiveOption", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserTree>("GetUserTrees", idParameter, activeOptionParameter);
+        }
     }
 }

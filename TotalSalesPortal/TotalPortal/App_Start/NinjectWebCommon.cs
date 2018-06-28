@@ -15,6 +15,7 @@ namespace TotalPortal.App_Start
     using TotalModel.Models;
 
     using TotalCore.Repositories;
+    using TotalCore.Repositories.Generals;
     using TotalCore.Repositories.Commons;
     using TotalCore.Repositories.Sales;
     using TotalCore.Repositories.Inventories;
@@ -29,6 +30,7 @@ namespace TotalPortal.App_Start
 
 
     using TotalDAL.Repositories;
+    using TotalDAL.Repositories.Generals;
     using TotalDAL.Repositories.Commons;
     using TotalDAL.Repositories.Sales;
     using TotalDAL.Repositories.Inventories;
@@ -47,6 +49,8 @@ namespace TotalPortal.App_Start
     using TotalPortal.Areas.Inventories.Builders;
     using TotalPortal.Areas.Commons.Builders;
     using TotalPortal.Areas.Accounts.Builders;
+    
+    
         
         
 
@@ -191,6 +195,9 @@ namespace TotalPortal.App_Start
 
 
                 kernel.Bind<IAspNetUserRepository>().To<AspNetUserRepository>();
+                kernel.Bind<IUserReferenceRepository>().To<UserReferenceRepository>();
+                kernel.Bind<IUserReferenceAPIRepository>().To<UserReferenceAPIRepository>();
+
                 kernel.Bind<ICommodityRepository>().To<CommodityRepository>();                
                 kernel.Bind<IWarehouseRepository>().To<WarehouseRepository>();                
                 kernel.Bind<IVoidTypeRepository>().To<VoidTypeRepository>();

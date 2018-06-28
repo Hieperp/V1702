@@ -1,3 +1,18 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+
+<div class="demo-section k-content">
+    @(Html.Kendo().TreeView()
+        .Name("treeview")
+        .DataTextField("Name")
+        .DataSource(dataSource => dataSource
+            .Read(read => read.Action("GetUserTrees", "UserReferenceAPIs", new { area = "Generals" })
+            )
+            //.Events(e => e.RequestEnd("requestEndHandler"))
+        )
+    )
+</div>
+
+
+

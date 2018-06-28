@@ -62,6 +62,7 @@
     <Compile Include="Repositories\Commons\IVehicleRepository.cs" />
     <Compile Include="Repositories\Commons\IVoidTypeRepository.cs" />
     <Compile Include="Repositories\Commons\IWarehouseRepository.cs" />
+    <Compile Include="Repositories\Generals\IUserReferenceRepository.cs" />
     <Compile Include="Repositories\Inventories\IGoodsDeliveryRepository.cs" />
     <Compile Include="Repositories\Inventories\IHandlingUnitRepository.cs" />
     <Compile Include="Repositories\Sales\ISalesOrderRepository.cs" />

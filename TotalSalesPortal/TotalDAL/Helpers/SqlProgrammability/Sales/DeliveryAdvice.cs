@@ -489,7 +489,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      WarehouseID, Code, Name, WarehouseCategoryID, LocationID, IsBook, IsInvoice, IsDefault, Remarks " + "\r\n";
+            queryString = queryString + "       SELECT      WarehouseID, Code, Name, WarehouseCategoryID, WarehouseGroupID, WarehouseClassID, LocationID, IsBook, IsInvoice, IsDefault, Remarks " + "\r\n";
             queryString = queryString + "       FROM        Warehouses " + "\r\n";
             queryString = queryString + "       WHERE      (@SearchText = '' OR Code LIKE '%' + @SearchText + '%' OR Name LIKE '%' + @SearchText + '%') AND WarehouseID IN (SELECT WarehouseID FROM CustomerWarehouses WHERE CustomerID = @CustomerID AND InActive = 0 AND WarehouseTaskID IN (SELECT Id FROM dbo.SplitToIntList (@WarehouseTaskIDList)) )  " + "\r\n";
 
