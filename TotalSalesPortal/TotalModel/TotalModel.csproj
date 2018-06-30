@@ -341,6 +341,9 @@
     </Compile>
     <Compile Include="Models\TotalSalesPortalEntities.cs" />
     <Compile Include="Models\TotalSalesPortalExtensions.cs" />
+    <Compile Include="Models\UserIndex.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserTree.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>

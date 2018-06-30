@@ -26,7 +26,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             this.SalesJournal();
             this.StatementOfAccount();
 
-            //this.StatementOfWarehouses();
+            this.StatementOfWarehouses();
 
             //this.SearchWarehouseEntries();
         }
@@ -422,39 +422,42 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
         {
             string queryString;
 
-            queryString = " @ToDate DateTime " + "\r\n";
+            queryString = " @WarehouseGroupIDList varchar(60), @ToDate DateTime " + "\r\n";
             //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
             queryString = queryString + "       SET NOCOUNT ON" + "\r\n";
 
-            queryString = queryString + "       DECLARE     @LocalFromDate DateTime         SET @LocalFromDate = DATEADD(Month, DateDiff(Month, 0, @ToDate) - 12, 0) " + "\r\n"; //BACKWARD 12 MONTHS
+            queryString = queryString + "       DECLARE     @LocalFromDate DateTime         SET @LocalFromDate = DATEADD(Month, DateDiff(Month, 0, @ToDate) - 12, 0)        IF (@LocalFromDate < CONVERT(DATETIME, '2018-04-01 00:00:00', 102)) SET @LocalFromDate = CONVERT(DATETIME, '2018-04-01 00:00:00', 102) " + "\r\n"; //BACKWARD 12 MONTHS
             queryString = queryString + "       DECLARE     @LocalToDate DateTime           SET @LocalToDate = @ToDate" + "\r\n";
+
+            queryString = queryString + "       DECLARE     @InventoryFromDate DateTime     SET @InventoryFromDate = DATEADD(Month, DateDiff(Month, 0, @ToDate), 0) " + "\r\n"; //START OF MONTHS
+            queryString = queryString + "       DECLARE     @DefaultWarehouseID int         SET @DefaultWarehouseID = ISNULL((SELECT TOP 1 WarehouseID FROM Warehouses WHERE WarehouseGroupID = CAST(@WarehouseGroupIDList AS int) AND IsDefault = 1), 0) " + "\r\n";
 
             SqlProgrammability.Inventories.Inventories inventories = new SqlProgrammability.Inventories.Inventories(this.totalSalesPortalEntities);
 
-            queryString = queryString + "       " + inventories.GET_WarehouseJournal_BUILD_SQL(null, "@LocalToDate", "@LocalToDate", "", "", "0", "0", (int)GlobalEnums.WarehouseClassID.L1 + "," + (int)GlobalEnums.WarehouseClassID.L5 + "," + (int)GlobalEnums.WarehouseClassID.LD, (int)GlobalEnums.WarehouseGroupID.TT + "") + "\r\n";
+            queryString = queryString + "       " + inventories.GET_WarehouseJournal_BUILD_SQL(null, "@InventoryFromDate", "@LocalToDate", "", "", "0", "0", (int)GlobalEnums.WarehouseClassID.L1 + "," + (int)GlobalEnums.WarehouseClassID.L5 + "," + (int)GlobalEnums.WarehouseClassID.LD, "@WarehouseGroupIDList") + "\r\n";
             queryString = queryString + "       " + inventories.GET_SPProductionOrderJournalTable("@LocalToDate", "@LocalToDate", (int)GlobalEnums.WarehouseClassID.L1 + "," + (int)GlobalEnums.WarehouseClassID.L5 + "," + (int)GlobalEnums.WarehouseClassID.LD) + "\r\n";
             //TAM THOI: (int)GlobalEnums.WarehouseGroupID.TT + ""  --- CHI LAY HANG THI TRUONGC
 
-            queryString = queryString + "       SELECT      Commodities.CommodityID, MIN(Commodities.Code) AS CommodityCode, MIN(Commodities.Name) AS CommodityName, WarehouseRawData.EntryMonth, SUM(QuantityGoodsIssue) AS QuantityGoodsIssue, SUM (QuantityBalance) AS QuantityBalance, SUM(QuantityOnProduction) AS QuantityOnProduction, SUM(QuantityEndSemi) AS QuantityEndSemi, SUM(QuantityEndImprove) AS QuantityEndImprove, SUM(QuantityEndPack) AS QuantityEndPack, SUM(QuantityEndRefine) AS QuantityEndRefine, SUM(QuantityEndRank) AS QuantityEndRank, SUM(QuantityEndFinish) AS QuantityEndFinish " + "\r\n";
+            queryString = queryString + "       SELECT      Commodities.CommodityID, MIN(Commodities.Code) AS CommodityCode, MIN(Commodities.Name) AS CommodityName, MIN(Commodities.Weight) AS Weight, WarehouseRawData.EntryMonth, SUM(QuantityGoodsIssue) AS QuantityGoodsIssue, SUM (QuantityBegin) AS QuantityBegin, SUM (QuantityInput) AS QuantityInput, SUM (QuantityOutput) AS QuantityOutput, SUM (QuantityOnOutput) AS QuantityOnOutput, SUM (QuantityBalance) AS QuantityBalance, SUM(QuantityOnProduction) AS QuantityOnProduction, SUM(QuantityEndSemi) AS QuantityEndSemi, SUM(QuantityEndImprove) AS QuantityEndImprove, SUM(QuantityEndPack) AS QuantityEndPack, SUM(QuantityEndRefine) AS QuantityEndRefine, SUM(QuantityEndRank) AS QuantityEndRank, SUM(QuantityEndFinish) AS QuantityEndFinish " + "\r\n";
 
             queryString = queryString + "       FROM        (" + "\r\n";
 
-            queryString = queryString + "                   SELECT      CommodityID, DATEADD(Month, DateDiff(Month, 0, EntryDate), 0) AS EntryMonth, Quantity + FreeQuantity AS QuantityGoodsIssue, 0 AS QuantityBalance, 0 AS QuantityOnProduction, 0 AS QuantityEndSemi, 0 AS QuantityEndImprove, 0 AS QuantityEndPack, 0 AS QuantityEndRefine, 0 AS QuantityEndRank, 0 AS QuantityEndFinish " + "\r\n";
-            queryString = queryString + "                   FROM        GoodsIssueDetails WHERE WarehouseID = 34 AND EntryDate >= @LocalFromDate AND EntryDate <= @LocalToDate " + "\r\n";
+            queryString = queryString + "                   SELECT      CommodityID, DATEADD(Month, DateDiff(Month, 0, EntryDate), 0) AS EntryMonth, Quantity + FreeQuantity AS QuantityGoodsIssue, 0 AS QuantityBegin, 0 AS QuantityInput, 0 AS QuantityOutput, 0 AS QuantityOnOutput, 0 AS QuantityBalance, 0 AS QuantityOnProduction, 0 AS QuantityEndSemi, 0 AS QuantityEndImprove, 0 AS QuantityEndPack, 0 AS QuantityEndRefine, 0 AS QuantityEndRank, 0 AS QuantityEndFinish " + "\r\n";
+            queryString = queryString + "                   FROM        GoodsIssueDetails WHERE WarehouseID = @DefaultWarehouseID AND EntryDate >= @LocalFromDate AND EntryDate <= @LocalToDate " + "\r\n";
             //TAM THOI: WarehouseID = 34  --- CHI LAY HANG THI TRUONGC
 
             queryString = queryString + "                   UNION ALL   " + "\r\n";
 
-            queryString = queryString + "                   SELECT      CommodityID, DATEADD(Month, DateDiff(Month, 0, @LocalToDate), 0) AS EntryMonth, 0  AS QuantityGoodsIssue, SUM(QuantityBegin + QuantityInput - QuantityOutput - QuantityOnAdvice - QuantityOnTransferAdviceOut) AS QuantityBalance, 0 AS QuantityOnProduction, 0 AS QuantityEndSemi, 0 AS QuantityEndImprove, 0 AS QuantityEndPack, 0 AS QuantityEndRefine, 0 AS QuantityEndRank, 0 AS QuantityEndFinish " + "\r\n";
-            queryString = queryString + "                   FROM        @SPSKUInventoryJournalTable WHERE WHLocationID = 90 AND (QuantityBegin + QuantityInput - QuantityOutput - QuantityOnAdvice - QuantityOnTransferAdviceOut) <> 0 GROUP BY CommodityID " + "\r\n"; ////Phân Xưởng ONLY
+            queryString = queryString + "                   SELECT      CommodityID, DATEADD(Month, DateDiff(Month, 0, @LocalToDate), 0) AS EntryMonth, 0  AS QuantityGoodsIssue, SUM(QuantityBegin) AS QuantityBegin, SUM(QuantityInput) AS QuantityInput, SUM(QuantityOutput) AS QuantityOutput, SUM(QuantityOnAdvice - QuantityOnTransferAdviceOut) AS QuantityOnOutput, SUM(QuantityBegin + QuantityInput - QuantityOutput - QuantityOnAdvice - QuantityOnTransferAdviceOut) AS QuantityBalance, 0 AS QuantityOnProduction, 0 AS QuantityEndSemi, 0 AS QuantityEndImprove, 0 AS QuantityEndPack, 0 AS QuantityEndRefine, 0 AS QuantityEndRank, 0 AS QuantityEndFinish " + "\r\n";
+            queryString = queryString + "                   FROM        @SPSKUInventoryJournalTable WHERE WHLocationID = 90 AND (QuantityBegin <> 0 OR QuantityInput <> 0 OR QuantityOutput <> 0 OR QuantityOnAdvice <> 0 OR QuantityOnTransferAdviceOut <> 0) GROUP BY CommodityID " + "\r\n"; ////Phân Xưởng ONLY
 
             queryString = queryString + "                   UNION ALL   " + "\r\n";
 
-            queryString = queryString + "                   SELECT      CommodityID, DATEADD(Month, DateDiff(Month, 0, @LocalToDate), 0) AS EntryMonth, 0  AS QuantityGoodsIssue, 0 AS QuantityBalance, SUM(QuantityEndOrder) AS QuantityOnProduction, SUM(QuantityEndSemi) AS QuantityEndSemi, SUM(QuantityEndImprove) AS QuantityEndImprove, SUM(QuantityEndPack) AS QuantityEndPack, SUM(QuantityEndRefine) AS QuantityEndRefine, SUM(QuantityEndRank) AS QuantityEndRank, SUM(QuantityEndFinish) AS QuantityEndFinish " + "\r\n";
-            queryString = queryString + "                   FROM        @SPProductionOrderJournalTable WHERE WarehouseGroupID = 4 AND (QuantityEndSemi <> 0 OR QuantityEndImprove <> 0 OR QuantityEndPack <> 0 OR QuantityEndRefine <> 0 OR QuantityEndRank <> 0 OR QuantityEndFinish <> 0 OR QuantityEndOrder <> 0) GROUP BY CommodityID " + "\r\n";
+            queryString = queryString + "                   SELECT      CommodityID, DATEADD(Month, DateDiff(Month, 0, @LocalToDate), 0) AS EntryMonth, 0  AS QuantityGoodsIssue, 0 AS QuantityBegin, 0 AS QuantityInput, 0 AS QuantityOutput, 0 AS QuantityOnOutput, 0 AS QuantityBalance, SUM(QuantityEndOrder) AS QuantityOnProduction, SUM(QuantityEndSemi) AS QuantityEndSemi, SUM(QuantityEndImprove) AS QuantityEndImprove, SUM(QuantityEndPack) AS QuantityEndPack, SUM(QuantityEndRefine) AS QuantityEndRefine, SUM(QuantityEndRank) AS QuantityEndRank, SUM(QuantityEndFinish) AS QuantityEndFinish " + "\r\n";
+            queryString = queryString + "                   FROM        @SPProductionOrderJournalTable WHERE WarehouseGroupID = CAST(@WarehouseGroupIDList AS int) AND (QuantityEndSemi <> 0 OR QuantityEndImprove <> 0 OR QuantityEndPack <> 0 OR QuantityEndRefine <> 0 OR QuantityEndRank <> 0 OR QuantityEndFinish <> 0 OR QuantityEndOrder <> 0) GROUP BY CommodityID " + "\r\n";
             //TAM THOI: WarehouseGroupID = 4  --- CHI LAY HANG THI TRUONGC
             queryString = queryString + "                   ) WarehouseRawData " + "\r\n";
             queryString = queryString + "                   INNER JOIN Commodities ON WarehouseRawData.CommodityID = Commodities.CommodityID " + "\r\n";

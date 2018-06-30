@@ -15,7 +15,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
 
         public void RestoreProcedure()
         {
-            //this.GetUserIndexes();
+            this.GetUserIndexes();
 
             //this.GetActiveUsers();
 
@@ -35,14 +35,14 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
         {
             string queryString;
 
-            queryString = " @UserID Int, @FromDate DateTime, @ToDate DateTime, @ActiveOption int " + "\r\n";
+            queryString = " @AspUserID nvarchar(128), @FromDate DateTime, @ToDate DateTime, @ActiveOption int " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      Users.UserID, Users.FirstName, Users.LastName, Users.UserName, Users.SecurityIdentifier, Users.IsDatabaseAdmin, OrganizationalUnits.Name AS OrganizationalUnitName, OrganizationalUnits.LocationID, Locations.Name AS LocationName, OrganizationalUnitUsers.InActive " + "\r\n";
-            queryString = queryString + "       FROM        Users " + "\r\n";
-            queryString = queryString + "                   INNER JOIN OrganizationalUnitUsers ON Users.UserID = OrganizationalUnitUsers.UserID AND (@ActiveOption = " + (int)GlobalEnums.ActiveOption.Both + " OR Users.InActive = @ActiveOption) " + "\r\n";
+            queryString = queryString + "       SELECT      AspNetUsers.UserID, AspNetUsers.FirstName, AspNetUsers.LastName, AspNetUsers.UserName, OrganizationalUnits.Name AS OrganizationalUnitName, OrganizationalUnits.LocationID, Locations.Name AS LocationName, OrganizationalUnitUsers.InActive " + "\r\n";
+            queryString = queryString + "       FROM        AspNetUsers " + "\r\n";
+            queryString = queryString + "                   INNER JOIN OrganizationalUnitUsers ON AspNetUsers.UserID = OrganizationalUnitUsers.UserID AND (@ActiveOption = " + (int)GlobalEnums.ActiveOption.Both + " OR OrganizationalUnitUsers.InActive = @ActiveOption) " + "\r\n";
             queryString = queryString + "                   INNER JOIN OrganizationalUnits ON OrganizationalUnitUsers.OrganizationalUnitID = OrganizationalUnits.OrganizationalUnitID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Locations ON OrganizationalUnits.LocationID = Locations.LocationID " + "\r\n";
 

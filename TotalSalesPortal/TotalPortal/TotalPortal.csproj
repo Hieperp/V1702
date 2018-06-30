@@ -252,7 +252,7 @@
     <Compile Include="Areas\Commons\ViewModels\Helpers\ITerritoryDropDownViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\Helpers\IVehicleDropDownViewModel.cs" />
     <Compile Include="Areas\Commons\ViewModels\PromotionViewModel.cs" />
-    <Compile Include="Areas\Generals\APIs\UserReferenceAPIsController.cs" />
+    <Compile Include="Areas\Generals\APIs\UserAPIsController.cs" />
     <Compile Include="Areas\Generals\GeneralsAreaRegistration.cs" />
     <Compile Include="Areas\Inventories\APIs\GoodsDeliveryAPIsController.cs" />
     <Compile Include="Areas\Inventories\APIs\GoodsIssueAPIsController.cs" />
