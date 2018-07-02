@@ -321,6 +321,9 @@
     <Compile Include="Models\SalesReturnViewDetail.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TaskIndex.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Territory.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
@@ -341,6 +344,9 @@
     </Compile>
     <Compile Include="Models\TotalSalesPortalEntities.cs" />
     <Compile Include="Models\TotalSalesPortalExtensions.cs" />
+    <Compile Include="Models\UserAccessControl.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserIndex.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>

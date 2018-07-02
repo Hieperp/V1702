@@ -1,0 +1,172 @@
+﻿@using TotalBase.Enums;
+@using TotalPortal.Configuration
+
+@*@model TotalPortal.Areas.Generals.ViewModels.CustomerViewModel*@
+
+<div id="popupWindow"></div>
+<div class="x">
+
+    @(Html.Kendo().TabStrip()
+    .Name("tabstrip")
+    .Items(tabstrip =>
+    {
+        tabstrip.Add().Text("Paris")
+            .Selected(true)
+            .Content(@<text>
+                <div class="weather">
+                    <h2>17<span>&ordm;C</span></h2>
+                    <p>Rainy weather in Paris.</p>
+                </div>
+                <span class="rainy">&nbsp;</span>
+            </text>);
+
+        tabstrip.Add().Text("New York")
+            .Content(@<text>
+                <div class="weather">
+                    <h2>29<span>&ordm;C</span></h2>
+                    <p>Sunny weather in New York.</p>
+                </div>
+                <span class="sunny">&nbsp;</span>
+            </text>);
+
+        tabstrip.Add().Text("London")
+            .Content(@<text>
+                <div class="weather">
+                    <h2>21<span>&ordm;C</span></h2>
+                    <p>Sunny weather in London.</p>
+                </div>
+                <span class="sunny">&nbsp;</span>
+            </text>);
+
+        tabstrip.Add().Text("Moscow")
+            .Content(@<text>
+                <div class="weather">
+                    <h2>16<span>&ordm;C</span></h2>
+                    <p>Cloudy weather in Moscow.</p>
+                </div>
+                <span class="cloudy">&nbsp;</span>
+            </text>);
+    })
+    )
+</div>
+
+<div class="demo-section k-content">
+    @(Html.Kendo().TreeView()
+        .Name("treeview")
+        .DataTextField("Name")
+        .DataSource(dataSource => dataSource
+                    .Read(read => read.Action("GetUserTrees", "UserAPIs", new { area = "Generals" })
+            )
+                    .Events(e => e.RequestEnd("requestEndHandler"))
+        )
+    )
+</div>
+
+
+
+
+
+@*<div>
+    @(Html.Kendo().Grid<TotalModel.Models.UserIndex>()
+        .Name("kendoGridIndex")
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.UserID).DisplayNameTitle().Hidden();
+
+            columns.Bound(p => p.UserName).Title("Mã KH").Width(10).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Generals/Users", action = "Edit" }) + "/#= UserID #'>#=UserName#</a>");
+
+            columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(80)
+                .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Generals/Users", action = "Edit" }) + "/#= UserID #'><span class='k-icon k-edit'></span></a>"); // <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Generals/Users", action = "Delete" }) + "/#= UserID #'><span class='k-icon k-delete'></span></a>
+        })
+        .ToolBar(toolbar =>
+        {
+            toolbar.Template(@<text>
+                <button type="button" class="k-button" onclick="location.href='@Url.Action("Create", "Users")'"> <img src="~/Content/Images/Mains/Customer Blue 24.png" /> Thêm khách hàng mới </button>
+                <div class="toolbar" style="float: right;">
+                    <label>Nhập mã hoặc tên khách hàng để tìm</label>
+                    <input id="indexFilterText" class="k-textbox" style="text-align: center; " onkeyup="indexFilterText_KeyUp()" />
+                </div>
+            </text>);
+        })
+                .Pageable()
+                .Groupable()
+            //.Filterable()
+                .Selectable()
+                .Sortable()
+                .Events(e =>
+                {
+                    e.DataBound("hightLightSelectedRow");
+                })
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .Group(group => group.AddDescending(p => p.LocationName)).Group(g => g.Add(f => f.OrganizationalUnitName))
+                    .Read(read => read.Action("GetUserIndexes", "UserAPIs", new { area = "Generals" }))
+                    //.Sort(sort =>
+                    //    {
+                    //        sort.Add(p => p.Code).Descending();
+                    //    })
+                    .PageSize(20)
+                    .Model(model =>
+                    {
+                        model.Id(x => x.UserID);
+                        model.Field(m => m.UserID).DefaultValue(0);
+                    })
+                    .ServerOperation(true)
+                )
+                .HtmlAttributes(new { @class = "grid-class" }))
+</div>*@
+
+
+
+<script type="text/javascript">
+        @*function ShowPromotions() {
+            require(["kpopupWindow"], function (kpopupWindow) {
+                var createWizardWindow = new kpopupWindow();
+                createWizardWindow.openWindow($("#popupWindow"), "@Url.Action("Promotion", "Users", new { area = "Generals", id = @Model.UserID })", "Quản lý chiết khấu, khuyến mãi", "@SettingsManager.PopupWidth", "@SettingsManager.PopupHeightWithTab");
+            });
+        }*@
+
+
+
+    function hightLightSelectedRow(e) {
+        require(["kindexGrid"], function (kindexGrid) {
+            var kindexGridInstance = new kindexGrid("kendoGridIndex");
+            kindexGridInstance.setSelectedRow("UserID", '@ViewBag.SelectedEntityID');
+        });
+    }
+
+        function requestEndHandler() {
+            setTimeout("expandNodes()");
+        }
+
+        function expandNodes() {
+            $("#treeview").data("kendoTreeView").expand(".k-item");
+        }
+
+
+
+</script>
+
+
+
+<style>
+    /*#kendoGridIndex  {
+        width: 100%;
+    }*/
+    #kendoGridIndex.k-grid, #kendoGridIndex.k-grid * {
+        /*background: white !important;*/
+        border: 0 !important;
+    }
+
+    .k-pager-wrap {
+        display: none;
+    }
+
+    .k-widget.k-tabstrip.k-header, .k-content.k-state-active, .k-item.k-state-default, .k-loading.k-complete {
+        border: none;
+    }
+
+        .k-widget.k-tabstrip.k-header, .k-tabstrip .k-content.k-state-active, .k-item.k-state-default.k-state-active.k-tab-on-top, .k-item.k-state-default.k-state-hover {
+            background-color: transparent;
+        }
+</style>

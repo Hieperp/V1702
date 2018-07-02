@@ -2004,6 +2004,7 @@
     <Content Include="Views\Shared\EditorTemplates\Commons\SOCode.cshtml" />
     <Content Include="Views\Home\Searches.cshtml" />
     <Content Include="Views\Home\UserReferences.cshtml" />
+    <Content Include="Views\Home\Backup.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -5,70 +5,177 @@
 
 <div id="popupWindow"></div>
 
-<div class="demo-section k-content">
-    @(Html.Kendo().TreeView()
-        .Name("treeview")
-        .DataTextField("Name")
-        .DataSource(dataSource => dataSource
-                    .Read(read => read.Action("GetUserTrees", "UserAPIs", new { area = "Generals" })
-            )
-                    .Events(e => e.RequestEnd("requestEndHandler"))
-        )
-    )
-</div>
 
 
-
-
-
-<div>
-    @(Html.Kendo().Grid<TotalModel.Models.UserIndex>()
-        .Name("kendoGridIndex")
-        .Columns(columns =>
+<div class="div-k-panel">
+    @(Html.Kendo().PanelBar()
+        .Name("IntroPanelBar")
+        .ExpandMode(PanelBarExpandMode.Single)
+        .Items(items =>
         {
-            columns.Bound(p => p.UserID).DisplayNameTitle().Hidden();
+            items.Add()
+                .Text("Thông tin khác")
+                .Selected(true)
+                .Expanded(false)
+                .Content(@<text>
 
-            columns.Bound(p => p.UserName).Title("Mã KH").Width(10).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Generals/Users", action = "Edit" }) + "/#= UserID #'>#=UserName#</a>");
+                    @(Html.Kendo().Grid<TotalModel.Models.UserIndex>()
+                        .Name("kendoGridIndex")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(p => p.UserID).DisplayNameTitle().Hidden();
 
-            columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(80)
-                .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Generals/Users", action = "Edit" }) + "/#= UserID #'><span class='k-icon k-edit'></span></a>"); // <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Generals/Users", action = "Delete" }) + "/#= UserID #'><span class='k-icon k-delete'></span></a>
+                            columns.Bound(p => p.UserName).Title("Mã KH").Width(10).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Generals/Users", action = "Edit" }) + "/#= UserID #'>#=UserName#</a>");
+
+                            columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(80)
+                                .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Generals/Users", action = "Edit" }) + "/#= UserID #'><span class='k-icon k-edit'></span></a>"); // <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Generals/Users", action = "Delete" }) + "/#= UserID #'><span class='k-icon k-delete'></span></a>
+                        })
+                            .Groupable()
+                            .Selectable()
+                            .Events(e =>
+                            {
+                                e.DataBound("hightLightSelectedRow");
+                            })
+                            .DataSource(dataSource => dataSource
+                                .Ajax()
+                                .Group(group => group.AddDescending(p => p.LocationName)).Group(g => g.Add(f => f.OrganizationalUnitName))
+                                .Read(read => read.Action("GetUserIndexes", "UserAPIs", new { area = "Generals" }))
+                                //.Sort(sort =>
+                                //    {
+                                //        sort.Add(p => p.Code).Descending();
+                                //    })
+                                .PageSize(20)
+                                .Model(model =>
+                                {
+                                    model.Id(x => x.UserID);
+                                    model.Field(m => m.UserID).DefaultValue(0);
+                                })
+                                .ServerOperation(true)
+                            )
+                            .HtmlAttributes(new { @class = "grid-class" }))
+                </text>).HtmlAttributes(new { @class = "panel-class" });
+
+            items.Add()
+                .Text("Thông tin khácaa")
+                .Expanded(false)
+                .Content(@<text>
+                    <div class="first-panel">
+
+                        @(Html.Kendo().Grid<TotalModel.Models.TaskIndex>()
+                        .Name("kendoGridTaskIndex")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(p => p.TaskID).DisplayNameTitle().Hidden();
+
+                            columns.Bound(p => p.TaskName).Title("Mã KH").Width(10).ClientTemplate("<a href='" + Url.RouteUrl("Default", new { controller = "Generals/Users", action = "Edit" }) + "/#= TaskID #'>#=TaskName#</a>");
+
+                            columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(80)
+                                .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Generals/Users", action = "Edit" }) + "/#= TaskID #'><span class='k-icon k-edit'></span></a>"); // <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Generals/Users", action = "Delete" }) + "/#= UserID #'><span class='k-icon k-delete'></span></a>
+                        }
+                        
+                        )
+                        
+                            .Groupable()
+                            .Selectable()
+                            .Events(e =>
+                            {
+                                e.DataBound("hightLightSelectedRow");
+                            })
+                            .DataSource(dataSource => dataSource
+                                .Ajax()
+                                .Group(group => group.AddDescending(p => p.ModuleName))
+                                        .Read(read => read.Action("GetTaskIndexes", "UserAPIs", new { area = "Generals" }))
+                                //.Sort(sort =>
+                                //    {
+                                //        sort.Add(p => p.Code).Descending();
+                                //    })
+                                .PageSize(20)
+                                .Model(model =>
+                                {
+                                    model.Id(x => x.TaskID);
+                                    model.Field(m => m.TaskID).DefaultValue(0);
+                                })
+                                .ServerOperation(true)
+                            )
+                            .HtmlAttributes(new { @class = "grid-class" }))
+                        </div>
+
+
+                    <div class="second-panel">
+
+                        @(Html.Kendo().Grid<TotalModel.Models.UserAccessControl>()
+                        .Name("kendoGridUserAccessControl")
+                        .Columns(g => {
+                            g.Bound(p => p.AccessControlID).DisplayNameTitle().Hidden();
+                        g.Group(gr => gr
+                            .Title("Organizational Units").HeaderHtmlAttributes(new { style = "text-align:center" })
+                            .Columns(
+
+                            columns =>
+                            {
+                                columns.Bound(p => p.AccessControlID).DisplayNameTitle().Hidden();
+
+                                columns.Bound(p => p.LocationName).Title("Mã KH").Width(10);
+                                columns.Bound(p => p.OrganizationalUnitName).Title("Mã KH").Width(10);
+
+                                //columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(80)
+                                //    .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Generals/Users", action = "Edit" }) + "/#= TaskID #'><span class='k-icon k-edit'></span></a>"); // <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Generals/Users", action = "Delete" }) + "/#= UserID #'><span class='k-icon k-delete'></span></a>
+                            }
+                        ))
+
+                        .Group(gr => gr
+                                    .Title("Access Controls").HeaderHtmlAttributes(new { style = "text-align:center" })
+                                    .Columns(columns =>
+                                        {
+                                            columns.Template(t => { }).Title("Verify").ClientTemplate("<input class='ApprovalPermitted' #= ApprovalPermitted ? checked='checked':'' #  type='checkbox' />").HeaderHtmlAttributes(new { style = "text-align:center" }).HtmlAttributes(new { @class = "grid-column-center" }).Width(10);
+                                            columns.Template(t => { }).Title("Unverify").ClientTemplate("<input class='UnApprovalPermitted' #= UnApprovalPermitted ? checked='checked':'' #  type='checkbox' />").HeaderHtmlAttributes(new { style = "text-align:center" }).HtmlAttributes(new { @class = "grid-column-center" }).Width(10);
+                                        }
+                        ))
+
+                        .Group(gr => gr
+                                    .Title("Verify Permissions").HeaderHtmlAttributes(new { style = "text-align:center" })
+                                    .Columns(columns =>
+                                        {
+                                            columns.Template(t => { }).Title("Verify").ClientTemplate("<input class='ApprovalPermitted' #= ApprovalPermitted ? checked='checked':'' #  type='checkbox' />").HeaderHtmlAttributes(new { style = "text-align:center" }).HtmlAttributes(new { @class = "grid-column-center" }).Width(10);
+                                            columns.Template(t => { }).Title("Unverify").ClientTemplate("<input class='UnApprovalPermitted' #= UnApprovalPermitted ? checked='checked':'' #  type='checkbox' />").HeaderHtmlAttributes(new { style = "text-align:center" }).HtmlAttributes(new { @class = "grid-column-center" }).Width(10);
+                                        }
+                        ))
+
+                        .Group(gr => gr
+                                    .Title("Void Permissions").HeaderHtmlAttributes(new { style = "text-align:center" })
+                                    .Columns(columns =>
+                                        {
+                                            columns.Template(t => { }).Title("Void").ClientTemplate("<input class='VoidablePermitted' #= VoidablePermitted ? checked='checked':'' #  type='checkbox' />").HeaderHtmlAttributes(new { style = "text-align:center" }).HtmlAttributes(new { @class = "grid-column-center" }).Width(10);
+                                            columns.Template(t => { }).Title("Unvoid").ClientTemplate("<input class='UnVoidablePermitted' #= UnVoidablePermitted ? checked='checked':'' #  type='checkbox' />").HeaderHtmlAttributes(new { style = "text-align:center" }).HtmlAttributes(new { @class = "grid-column-center" }).Width(10);
+                                        }
+                        ));
+                        }
+                        )
+                            .Selectable()
+                            .Events(e =>
+                            {
+                                e.DataBound("hightLightSelectedRow");
+                            })
+                            .DataSource(dataSource => dataSource
+                                .Ajax()
+                                .Read(read => read.Action("GetUserAccessControls", "UserAPIs", new { area = "Generals" }).Data("onGetUserAccessControls"))
+                                //.Sort(sort =>
+                                //    {
+                                //        sort.Add(p => p.Code).Descending();
+                                //    })
+                                .PageSize(20)
+                                .Model(model =>
+                                {
+                                    model.Id(x => x.AccessControlID);
+                                    model.Field(m => m.AccessControlID).DefaultValue(0);
+                                })
+                                .ServerOperation(true)
+                            )
+                            .HtmlAttributes(new { @class = "grid-class" }))
+                        </div>
+                    </text>).HtmlAttributes(new { @class = "panel-class" });
         })
-        .ToolBar(toolbar =>
-        {
-            toolbar.Template(@<text>
-                <button type="button" class="k-button" onclick="location.href='@Url.Action("Create", "Users")'"> <img src="~/Content/Images/Mains/Customer Blue 24.png" /> Thêm khách hàng mới </button>
-                <div class="toolbar" style="float: right;">
-                    <label>Nhập mã hoặc tên khách hàng để tìm</label>
-                    <input id="indexFilterText" class="k-textbox" style="text-align: center; " onkeyup="indexFilterText_KeyUp()" />
-                </div>
-            </text>);
-        })
-            .Pageable()
-            .Groupable()
-            //.Filterable()
-            .Selectable()
-            .Sortable()
-            .Events(e =>
-            {
-                e.DataBound("hightLightSelectedRow");
-            })
-            .DataSource(dataSource => dataSource
-                .Ajax()
-                .Group(group => group.AddDescending(p => p.LocationName)).Group(g => g.Add(f => f.OrganizationalUnitName))
-                .Read(read => read.Action("GetUserIndexes", "UserAPIs", new { area = "Generals" }))
-                //.Sort(sort =>
-                //    {
-                //        sort.Add(p => p.Code).Descending();
-                //    })
-                .PageSize(20)
-                .Model(model =>
-                {
-                    model.Id(x => x.UserID);
-                    model.Field(m => m.UserID).DefaultValue(0);
-                })
-                .ServerOperation(true)
-            )
-            .HtmlAttributes(new { @class = "grid-class" }))
+)
 </div>
 
 
@@ -82,6 +189,13 @@
         }*@
 
 
+    function onGetUserAccessControls(e) {
+        return {
+            userID: 1,
+            nmvnTaskID: 8035
+        };
+    }
+
 
     function hightLightSelectedRow(e) {
         require(["kindexGrid"], function (kindexGrid) {
@@ -90,17 +204,17 @@
         });
     }
 
-        function requestEndHandler() {
-            setTimeout("expandNodes()");
-        }
+    function requestEndHandler() {
+        setTimeout("expandNodes()");
+    }
 
-        function expandNodes() {
-            $("#treeview").data("kendoTreeView").expand(".k-item");
-        }
+    function expandNodes() {
+        $("#treeview").data("kendoTreeView").expand(".k-item");
+    }
 
 
 
-    </script>
+</script>
 
 
 
@@ -109,12 +223,33 @@
         width: 100%;
     }*/
     #kendoGridIndex.k-grid, #kendoGridIndex.k-grid * {
-    /*background: white !important;*/
-    border: 0 !important;
-
-}
+        /*background: white !important;*/
+        border: 0 !important;
+    }
 
     .k-pager-wrap {
         display: none;
     }
+
+    
+    /*.k-grid .k-header .k-link{
+       text-align: center;
+    }*/
+
+
+    
+    .first-panel {
+        float: left;
+        width: 25%;
+        box-sizing: border-box;
+    }
+
+    .second-panel {
+        float: left;
+        width: 75%;
+        padding-left: 9px;
+        box-sizing: border-box;
+    }
+
+
 </style>

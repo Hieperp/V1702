@@ -295,6 +295,7 @@
           <Property Name="PriceCategoryID" Type="int" Nullable="false" />
           <Property Name="PaymentTermID" Type="int" Nullable="false" />
           <Property Name="MonetaryAccountID" Type="int" Nullable="false" />
+          <Property Name="WarehouseCategoryID" Type="int" Nullable="false" />
           <Property Name="ShowDiscount" Type="bit" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
         </EntityType>
@@ -711,6 +712,7 @@
           <Property Name="SerialID" Type="float" Nullable="false" />
           <Property Name="ImageIndex" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="InActive" Type="float" Nullable="false" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Modules">
           <Key>
@@ -2910,6 +2912,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         <Function Name="GetShowDiscountByCustomer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CustomerID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetTaskIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetUnApprovalPermitted" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="NMVNTaskID" Type="int" Mode="In" />
@@ -2919,6 +2922,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="NMVNTaskID" Type="int" Mode="In" />
           <Parameter Name="OrganizationalUnitID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetUserAccessControls" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="NMVNTaskID" Type="int" Mode="In" />
         </Function>
         <Function Name="GetUserIndexes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
@@ -3066,6 +3073,15 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         </Function>
         <Function Name="SalesReturnVoidable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SaveUserAccessControls" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AccessControlID" Type="int" Mode="In" />
+          <Parameter Name="AccessLevel" Type="int" Mode="In" />
+          <Parameter Name="ApprovalPermitted" Type="bit" Mode="In" />
+          <Parameter Name="UnApprovalPermitted" Type="bit" Mode="In" />
+          <Parameter Name="VoidablePermitted" Type="bit" Mode="In" />
+          <Parameter Name="UnVoidablePermitted" Type="bit" Mode="In" />
+          <Parameter Name="ShowDiscount" Type="bit" Mode="In" />
         </Function>
         <Function Name="SearchWarehouseEntries" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
@@ -3631,6 +3647,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="SerialID" Type="Double" Nullable="false" />
           <Property Name="ImageIndex" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="InActive" Type="Double" Nullable="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Module">
           <Key>
@@ -4649,6 +4666,20 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
             <Parameter Name="ActiveOption" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="GetTaskIndexes" ReturnType="Collection(TotalSalesPortalModel.TaskIndex)" />
+          <FunctionImport Name="GetUserAccessControls" ReturnType="Collection(TotalSalesPortalModel.UserAccessControl)">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="NMVNTaskID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SaveUserAccessControls">
+            <Parameter Name="AccessControlID" Mode="In" Type="Int32" />
+            <Parameter Name="AccessLevel" Mode="In" Type="Int32" />
+            <Parameter Name="ApprovalPermitted" Mode="In" Type="Boolean" />
+            <Parameter Name="UnApprovalPermitted" Mode="In" Type="Boolean" />
+            <Parameter Name="VoidablePermitted" Mode="In" Type="Boolean" />
+            <Parameter Name="UnVoidablePermitted" Mode="In" Type="Boolean" />
+            <Parameter Name="ShowDiscount" Mode="In" Type="Boolean" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
           <Key>
@@ -4744,6 +4775,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="PaymentTermID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="PaymentTerm" Relationship="TotalSalesPortalModel.FK_CustomerCategories_PaymentTerms" FromRole="CustomerCategory" ToRole="PaymentTerm" />
           <Property Name="MonetaryAccountID" Type="Int32" Nullable="false" />
+          <Property Name="WarehouseCategoryID" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="CustomerType">
           <Key>
@@ -8382,6 +8414,24 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="LocationName" Nullable="false" MaxLength="50" />
           <Property Type="Boolean" Name="InActive" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="TaskIndex">
+          <Property Type="Int32" Name="TaskID" Nullable="false" />
+          <Property Type="String" Name="ModuleName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TaskName" Nullable="false" MaxLength="50" />
+          </ComplexType>
+        <ComplexType Name="UserAccessControl">
+          <Property Type="Int32" Name="AccessControlID" Nullable="false" />
+          <Property Type="Int32" Name="LocationID" Nullable="false" />
+          <Property Type="String" Name="LocationName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="OrganizationalUnitName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="OrganizationalUnitID" Nullable="false" />
+          <Property Type="Int32" Name="AccessLevel" Nullable="false" />
+          <Property Type="Boolean" Name="ApprovalPermitted" Nullable="false" />
+          <Property Type="Boolean" Name="UnApprovalPermitted" Nullable="false" />
+          <Property Type="Boolean" Name="VoidablePermitted" Nullable="false" />
+          <Property Type="Boolean" Name="UnVoidablePermitted" Nullable="false" />
+          <Property Type="Boolean" Name="ShowDiscount" Nullable="false" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8429,6 +8479,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="ModuleDetails">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.ModuleDetail">
               <MappingFragment StoreEntitySet="ModuleDetails">
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
                 <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
                 <ScalarProperty Name="SoftDescription" ColumnName="SoftDescription" />
@@ -8509,6 +8560,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="CustomerCategories">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.CustomerCategory">
               <MappingFragment StoreEntitySet="CustomerCategories">
+                <ScalarProperty Name="WarehouseCategoryID" ColumnName="WarehouseCategoryID" />
                 <ScalarProperty Name="MonetaryAccountID" ColumnName="MonetaryAccountID" />
                 <ScalarProperty Name="PaymentTermID" ColumnName="PaymentTermID" />
                 <ScalarProperty Name="ShowDiscount" ColumnName="ShowDiscount" />
@@ -10949,6 +11001,33 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTaskIndexes" FunctionName="TotalSalesPortalModel.Store.GetTaskIndexes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalSalesPortalModel.TaskIndex">
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetUserAccessControls" FunctionName="TotalSalesPortalModel.Store.GetUserAccessControls">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalSalesPortalModel.UserAccessControl">
+                <ScalarProperty Name="AccessControlID" ColumnName="AccessControlID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="OrganizationalUnitName" ColumnName="OrganizationalUnitName" />
+                <ScalarProperty Name="OrganizationalUnitID" ColumnName="OrganizationalUnitID" />
+                <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
+                <ScalarProperty Name="ApprovalPermitted" ColumnName="ApprovalPermitted" />
+                <ScalarProperty Name="UnApprovalPermitted" ColumnName="UnApprovalPermitted" />
+                <ScalarProperty Name="VoidablePermitted" ColumnName="VoidablePermitted" />
+                <ScalarProperty Name="UnVoidablePermitted" ColumnName="UnVoidablePermitted" />
+                <ScalarProperty Name="ShowDiscount" ColumnName="ShowDiscount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SaveUserAccessControls" FunctionName="TotalSalesPortalModel.Store.SaveUserAccessControls" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

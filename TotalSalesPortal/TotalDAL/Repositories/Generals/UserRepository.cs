@@ -47,6 +47,16 @@ namespace TotalDAL.Repositories.Generals
             return objectParameters;
         }
 
+        public IList<TaskIndex> GetTaskIndexes()
+        {
+            return this.TotalSalesPortalEntities.GetTaskIndexes().ToList();
+        }
+
+        public IList<UserAccessControl> GetUserAccessControls(int? userID, int? nmvnTaskID)
+        {
+            return this.TotalSalesPortalEntities.GetUserAccessControls(userID, nmvnTaskID).ToList();
+        }
+
         public IList<UserTree> GetUserTrees(int? id, int? activeOption)
         {
             return this.TotalSalesPortalEntities.GetUserTrees(id, activeOption).ToList();

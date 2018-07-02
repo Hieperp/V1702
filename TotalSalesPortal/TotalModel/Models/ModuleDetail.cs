@@ -25,5 +25,6 @@ namespace TotalModel.Models
         public double SerialID { get; set; }
         public string ImageIndex { get; set; }
         public double InActive { get; set; }
+        public bool Enabled { get; set; }
     }
 }

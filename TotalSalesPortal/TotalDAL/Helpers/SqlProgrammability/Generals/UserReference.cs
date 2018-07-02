@@ -15,6 +15,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
 
         public void RestoreProcedure()
         {
+            this.GetModuleDetailIndexes();
+
             this.GetUserIndexes();
 
             //this.GetActiveUsers();
@@ -24,12 +26,30 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
             //this.UserUnregister();
             //this.UserToggleVoid();
 
-            //this.GetUserAccessControls();
-            //this.SaveUserAccessControls();
+            this.GetUserAccessControls();
+            this.SaveUserAccessControls();
 
             this.GetUserTrees();
         }
 
+        private void GetModuleDetailIndexes()
+        {
+            string queryString;
+
+            queryString = " " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      ModuleDetails.TaskID, Modules.Description AS ModuleName, ModuleDetails.Description AS TaskName " + "\r\n";
+            queryString = queryString + "       FROM        Modules INNER JOIN ModuleDetails ON Modules.ModuleID = ModuleDetails.ModuleID " + "\r\n";
+            queryString = queryString + "       WHERE       Modules.InActive = 0 AND ModuleDetails.Enabled = 1 " + "\r\n";
+            queryString = queryString + "       ORDER BY    Modules.SerialID, ModuleDetails.SerialID " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("GetTaskIndexes", queryString);
+        }
 
         private void GetUserIndexes()
         {
@@ -201,7 +221,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
 
             queryString = queryString + "           IF @@ROWCOUNT <> 1 " + "\r\n";
             queryString = queryString + "               BEGIN " + "\r\n";
-            queryString = queryString + "                   DECLARE     @msg NVARCHAR(300) = N'Unknow error: SaveUserAccessControls. Please exit then open and try again.' ; " + "\r\n";
+            queryString = queryString + "                   DECLARE     @msg NVARCHAR(300) = N'Unknow error: Update AccessControls. Please exit then open and try again.' ; " + "\r\n";
             queryString = queryString + "                   THROW       61001,  @msg, 1; " + "\r\n";
             queryString = queryString + "               END " + "\r\n";
             queryString = queryString + "       END " + "\r\n";
@@ -271,6 +291,9 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetUserTrees", queryString);
         }
+
+
+        
 
     }
 }

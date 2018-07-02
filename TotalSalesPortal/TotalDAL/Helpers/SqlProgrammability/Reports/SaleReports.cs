@@ -417,17 +417,18 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             return queryString;
         }
 
-
         private void StatementOfWarehouses()
         {
             string queryString;
 
-            queryString = " @WarehouseGroupIDList varchar(60), @ToDate DateTime " + "\r\n";
+            queryString = " @WarehouseGroupIDList varchar(60), @PriceCategoryIDList varchar(60), @ToDate DateTime " + "\r\n";
             //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
             queryString = queryString + "       SET NOCOUNT ON" + "\r\n";
+
+            queryString = queryString + "       DECLARE     @LocalPriceCategoryIDList varchar(60)   SET @LocalPriceCategoryIDList = @PriceCategoryIDList " + "\r\n";
 
             queryString = queryString + "       DECLARE     @LocalFromDate DateTime         SET @LocalFromDate = DATEADD(Month, DateDiff(Month, 0, @ToDate) - 12, 0)        IF (@LocalFromDate < CONVERT(DATETIME, '2018-04-01 00:00:00', 102)) SET @LocalFromDate = CONVERT(DATETIME, '2018-04-01 00:00:00', 102) " + "\r\n"; //BACKWARD 12 MONTHS
             queryString = queryString + "       DECLARE     @LocalToDate DateTime           SET @LocalToDate = @ToDate" + "\r\n";
@@ -435,14 +436,28 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             queryString = queryString + "       DECLARE     @InventoryFromDate DateTime     SET @InventoryFromDate = DATEADD(Month, DateDiff(Month, 0, @ToDate), 0) " + "\r\n"; //START OF MONTHS
             queryString = queryString + "       DECLARE     @DefaultWarehouseID int         SET @DefaultWarehouseID = ISNULL((SELECT TOP 1 WarehouseID FROM Warehouses WHERE WarehouseGroupID = CAST(@WarehouseGroupIDList AS int) AND IsDefault = 1), 0) " + "\r\n";
 
+
+            queryString = queryString + "       DECLARE         @Commodities    TABLE (CommodityID int NOT NULL PRIMARY KEY, Code nvarchar(50) NOT NULL, CodePartA nvarchar(20) NOT NULL, CodePartB nvarchar(20) NOT NULL, CodePartC nvarchar(20) NOT NULL, Name nvarchar(200) NOT NULL, ListedPrice decimal(18, 2) NOT NULL, GrossPrice decimal(18, 2) NOT NULL, Weight float NULL)" + "\r\n";
+            queryString = queryString + "       INSERT INTO     @Commodities    SELECT CommodityID, Code, CodePartA, CodePartB, CodePartC, Name, 0 AS ListedPrice, 0 AS GrossPrice, Weight FROM Commodities " + "\r\n";
+
+            queryString = queryString + "       IF (CHARINDEX(',', @LocalPriceCategoryIDList) = 0) ";
+            queryString = queryString + "       " + this.StatementOfWarehousesBUILDSQL("", "");
+            queryString = queryString + "       ELSE ";
+            queryString = queryString + "       " + this.StatementOfWarehousesBUILDSQL("(SELECT CodePartA, CodePartC, ROUND(AVG(ListedPrice), " + (int)GlobalEnums.rndAmount + ") AS ListedPrice, ROUND(AVG(GrossPrice), " + (int)GlobalEnums.rndAmount + ") AS GrossPrice FROM CommodityPrices WHERE PriceCategoryID IN (SELECT * FROM FNSplitUpIds(@LocalPriceCategoryIDList)) AND CodePartB IS NULL GROUP BY CodePartA, CodePartC) AS ", "(SELECT CodePartA, CodePartC, CodePartB, ROUND(AVG(ListedPrice), " + (int)GlobalEnums.rndAmount + ") AS ListedPrice, ROUND(AVG(GrossPrice), " + (int)GlobalEnums.rndAmount + ") AS GrossPrice FROM CommodityPrices WHERE PriceCategoryID IN (SELECT * FROM FNSplitUpIds(@LocalPriceCategoryIDList)) GROUP BY CodePartA, CodePartC, CodePartB) AS ");
+
+
             SqlProgrammability.Inventories.Inventories inventories = new SqlProgrammability.Inventories.Inventories(this.totalSalesPortalEntities);
 
             queryString = queryString + "       " + inventories.GET_WarehouseJournal_BUILD_SQL(null, "@InventoryFromDate", "@LocalToDate", "", "", "0", "0", (int)GlobalEnums.WarehouseClassID.L1 + "," + (int)GlobalEnums.WarehouseClassID.L5 + "," + (int)GlobalEnums.WarehouseClassID.LD, "@WarehouseGroupIDList") + "\r\n";
             queryString = queryString + "       " + inventories.GET_SPProductionOrderJournalTable("@LocalToDate", "@LocalToDate", (int)GlobalEnums.WarehouseClassID.L1 + "," + (int)GlobalEnums.WarehouseClassID.L5 + "," + (int)GlobalEnums.WarehouseClassID.LD) + "\r\n";
             //TAM THOI: (int)GlobalEnums.WarehouseGroupID.TT + ""  --- CHI LAY HANG THI TRUONGC
 
-            queryString = queryString + "       SELECT      Commodities.CommodityID, MIN(Commodities.Code) AS CommodityCode, MIN(Commodities.Name) AS CommodityName, MIN(Commodities.Weight) AS Weight, WarehouseRawData.EntryMonth, SUM(QuantityGoodsIssue) AS QuantityGoodsIssue, SUM (QuantityBegin) AS QuantityBegin, SUM (QuantityInput) AS QuantityInput, SUM (QuantityOutput) AS QuantityOutput, SUM (QuantityOnOutput) AS QuantityOnOutput, SUM (QuantityBalance) AS QuantityBalance, SUM(QuantityOnProduction) AS QuantityOnProduction, SUM(QuantityEndSemi) AS QuantityEndSemi, SUM(QuantityEndImprove) AS QuantityEndImprove, SUM(QuantityEndPack) AS QuantityEndPack, SUM(QuantityEndRefine) AS QuantityEndRefine, SUM(QuantityEndRank) AS QuantityEndRank, SUM(QuantityEndFinish) AS QuantityEndFinish " + "\r\n";
 
+            queryString = queryString + "       DECLARE @WarehouseCollection TABLE (CommodityID int NULL, EntryMonth datetime NULL, QuantityGoodsIssue float NULL, QuantityBegin float NULL, QuantityInput float NULL, QuantityOutput float NULL, QuantityOnOutput float NULL, QuantityBalance float NULL, QuantityOnProduction float NULL, QuantityEndSemi float NULL, QuantityEndImprove float NULL, QuantityEndPack float NULL, QuantityEndRefine float NULL, QuantityEndRank float NULL, QuantityEndFinish float NULL) " + "\r\n";
+
+            queryString = queryString + "       INSERT INTO @WarehouseCollection (CommodityID, EntryMonth, QuantityGoodsIssue, QuantityBegin, QuantityInput, QuantityOutput, QuantityOnOutput, QuantityBalance, QuantityOnProduction, QuantityEndSemi, QuantityEndImprove, QuantityEndPack, QuantityEndRefine, QuantityEndRank, QuantityEndFinish) " + "\r\n";
+
+            queryString = queryString + "       SELECT      WarehouseRawData.CommodityID, WarehouseRawData.EntryMonth, SUM(QuantityGoodsIssue) AS QuantityGoodsIssue, SUM(QuantityBegin) AS QuantityBegin, SUM(QuantityInput) AS QuantityInput, SUM(QuantityOutput) AS QuantityOutput, SUM(QuantityOnOutput) AS QuantityOnOutput, SUM(QuantityBalance) AS QuantityBalance, SUM(QuantityOnProduction) AS QuantityOnProduction, SUM(QuantityEndSemi) AS QuantityEndSemi, SUM(QuantityEndImprove) AS QuantityEndImprove, SUM(QuantityEndPack) AS QuantityEndPack, SUM(QuantityEndRefine) AS QuantityEndRefine, SUM(QuantityEndRank) AS QuantityEndRank, SUM(QuantityEndFinish) AS QuantityEndFinish " + "\r\n";
             queryString = queryString + "       FROM        (" + "\r\n";
 
             queryString = queryString + "                   SELECT      CommodityID, DATEADD(Month, DateDiff(Month, 0, EntryDate), 0) AS EntryMonth, Quantity + FreeQuantity AS QuantityGoodsIssue, 0 AS QuantityBegin, 0 AS QuantityInput, 0 AS QuantityOutput, 0 AS QuantityOnOutput, 0 AS QuantityBalance, 0 AS QuantityOnProduction, 0 AS QuantityEndSemi, 0 AS QuantityEndImprove, 0 AS QuantityEndPack, 0 AS QuantityEndRefine, 0 AS QuantityEndRank, 0 AS QuantityEndFinish " + "\r\n";
@@ -460,9 +475,13 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             queryString = queryString + "                   FROM        @SPProductionOrderJournalTable WHERE WarehouseGroupID = CAST(@WarehouseGroupIDList AS int) AND (QuantityEndSemi <> 0 OR QuantityEndImprove <> 0 OR QuantityEndPack <> 0 OR QuantityEndRefine <> 0 OR QuantityEndRank <> 0 OR QuantityEndFinish <> 0 OR QuantityEndOrder <> 0) GROUP BY CommodityID " + "\r\n";
             //TAM THOI: WarehouseGroupID = 4  --- CHI LAY HANG THI TRUONGC
             queryString = queryString + "                   ) WarehouseRawData " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Commodities ON WarehouseRawData.CommodityID = Commodities.CommodityID " + "\r\n";
+            queryString = queryString + "       GROUP BY    WarehouseRawData.CommodityID, WarehouseRawData.EntryMonth " + "\r\n";
 
-            queryString = queryString + "       GROUP BY    Commodities.CommodityID, WarehouseRawData.EntryMonth " + "\r\n";
+
+            queryString = queryString + "       SELECT      Commodities.CommodityID, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, Commodities.Weight, Commodities.ListedPrice, Commodities.GrossPrice, WarehouseCollection.EntryMonth, WarehouseCollection.QuantityGoodsIssue, WarehouseCollection.QuantityBegin, WarehouseCollection.QuantityInput, WarehouseCollection.QuantityOutput, WarehouseCollection.QuantityOnOutput, WarehouseCollection.QuantityBalance, WarehouseCollection.QuantityOnProduction, WarehouseCollection.QuantityEndSemi, WarehouseCollection.QuantityEndImprove, WarehouseCollection.QuantityEndPack, WarehouseCollection.QuantityEndRefine, WarehouseCollection.QuantityEndRank, WarehouseCollection.QuantityEndFinish " + "\r\n";
+            queryString = queryString + "       FROM        @WarehouseCollection AS WarehouseCollection" + "\r\n";
+            queryString = queryString + "                   INNER JOIN @Commodities AS Commodities ON WarehouseCollection.CommodityID = Commodities.CommodityID " + "\r\n";
+
 
             queryString = queryString + "       SET NOCOUNT OFF" + "\r\n";
 
@@ -471,6 +490,15 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             this.totalSalesPortalEntities.CreateStoredProcedure("StatementOfWarehouses", queryString);
         }
 
+        private string StatementOfWarehousesBUILDSQL(string tableCommodityPrices1, string tableCommodityPrices2)
+        {
+            string queryString = "" + "\r\n";
+            queryString = queryString + "           BEGIN " + "\r\n";
+            queryString = queryString + "               UPDATE          Commodities     SET Commodities.ListedPrice = CommodityPrices.ListedPrice, Commodities.GrossPrice = CommodityPrices.GrossPrice FROM @Commodities Commodities INNER JOIN " + tableCommodityPrices1 + " CommodityPrices ON " + (tableCommodityPrices1 == "" ? "CommodityPrices.PriceCategoryID = CAST(@LocalPriceCategoryIDList AS int) AND " : "") + " Commodities.CodePartA = CommodityPrices.CodePartA AND Commodities.CodePartC = CommodityPrices.CodePartC  " + (tableCommodityPrices1 == "" ? " AND CommodityPrices.CodePartB IS NULL " : "") + "\r\n"; //UPDATE ListedPrice, GrossPrice BY @PriceCategoryID
+            queryString = queryString + "               UPDATE          Commodities     SET Commodities.ListedPrice = CommodityPrices.ListedPrice, Commodities.GrossPrice = CommodityPrices.GrossPrice FROM @Commodities Commodities INNER JOIN " + tableCommodityPrices2 + " CommodityPrices ON " + (tableCommodityPrices2 == "" ? "CommodityPrices.PriceCategoryID = CAST(@LocalPriceCategoryIDList AS int) AND " : "") + " Commodities.CodePartA = CommodityPrices.CodePartA AND Commodities.CodePartC = CommodityPrices.CodePartC AND Commodities.CodePartB = CommodityPrices.CodePartB " + "\r\n"; //UPDATE ListedPrice, GrossPrice BY @PriceCategoryID
+            queryString = queryString + "           END " + "\r\n";
+            return queryString;
+        }
 
         private void SearchWarehouseEntries()
         {

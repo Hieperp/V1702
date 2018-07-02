@@ -24,6 +24,10 @@ namespace TotalDAL.Repositories.Sales
         public DeliveryAdviceRepository(TotalSalesPortalEntities totalSalesPortalEntities)
             : base(totalSalesPortalEntities, "DeliveryAdviceEditable", "DeliveryAdviceApproved", null, "DeliveryAdviceVoidable")
         {
+            //return;
+
+            Helpers.SqlProgrammability.Generals.UserReference userReference = new Helpers.SqlProgrammability.Generals.UserReference(totalSalesPortalEntities);
+            userReference.RestoreProcedure();
 
             //return;
 
@@ -35,10 +39,7 @@ namespace TotalDAL.Repositories.Sales
             Helpers.SqlProgrammability.Commons.Customer customer = new Helpers.SqlProgrammability.Commons.Customer(totalSalesPortalEntities);
             customer.RestoreProcedure();
 
-            return;
-
-            Helpers.SqlProgrammability.Generals.UserReference userReference = new Helpers.SqlProgrammability.Generals.UserReference(totalSalesPortalEntities);
-            userReference.RestoreProcedure();
+            
 
             
 

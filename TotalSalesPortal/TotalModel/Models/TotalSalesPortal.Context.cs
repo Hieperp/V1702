@@ -1813,5 +1813,56 @@ namespace TotalModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserIndex>("GetUserIndexes", aspUserIDParameter, fromDateParameter, toDateParameter, activeOptionParameter);
         }
+    
+        public virtual ObjectResult<TaskIndex> GetTaskIndexes()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TaskIndex>("GetTaskIndexes");
+        }
+    
+        public virtual ObjectResult<UserAccessControl> GetUserAccessControls(Nullable<int> userID, Nullable<int> nMVNTaskID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var nMVNTaskIDParameter = nMVNTaskID.HasValue ?
+                new ObjectParameter("NMVNTaskID", nMVNTaskID) :
+                new ObjectParameter("NMVNTaskID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserAccessControl>("GetUserAccessControls", userIDParameter, nMVNTaskIDParameter);
+        }
+    
+        public virtual int SaveUserAccessControls(Nullable<int> accessControlID, Nullable<int> accessLevel, Nullable<bool> approvalPermitted, Nullable<bool> unApprovalPermitted, Nullable<bool> voidablePermitted, Nullable<bool> unVoidablePermitted, Nullable<bool> showDiscount)
+        {
+            var accessControlIDParameter = accessControlID.HasValue ?
+                new ObjectParameter("AccessControlID", accessControlID) :
+                new ObjectParameter("AccessControlID", typeof(int));
+    
+            var accessLevelParameter = accessLevel.HasValue ?
+                new ObjectParameter("AccessLevel", accessLevel) :
+                new ObjectParameter("AccessLevel", typeof(int));
+    
+            var approvalPermittedParameter = approvalPermitted.HasValue ?
+                new ObjectParameter("ApprovalPermitted", approvalPermitted) :
+                new ObjectParameter("ApprovalPermitted", typeof(bool));
+    
+            var unApprovalPermittedParameter = unApprovalPermitted.HasValue ?
+                new ObjectParameter("UnApprovalPermitted", unApprovalPermitted) :
+                new ObjectParameter("UnApprovalPermitted", typeof(bool));
+    
+            var voidablePermittedParameter = voidablePermitted.HasValue ?
+                new ObjectParameter("VoidablePermitted", voidablePermitted) :
+                new ObjectParameter("VoidablePermitted", typeof(bool));
+    
+            var unVoidablePermittedParameter = unVoidablePermitted.HasValue ?
+                new ObjectParameter("UnVoidablePermitted", unVoidablePermitted) :
+                new ObjectParameter("UnVoidablePermitted", typeof(bool));
+    
+            var showDiscountParameter = showDiscount.HasValue ?
+                new ObjectParameter("ShowDiscount", showDiscount) :
+                new ObjectParameter("ShowDiscount", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SaveUserAccessControls", accessControlIDParameter, accessLevelParameter, approvalPermittedParameter, unApprovalPermittedParameter, voidablePermittedParameter, unVoidablePermittedParameter, showDiscountParameter);
+        }
     }
 }

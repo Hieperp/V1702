@@ -37,6 +37,22 @@ namespace TotalPortal.Areas.Generals.APIs
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetTaskIndexes([DataSourceRequest] DataSourceRequest request)
+        {
+            IList<TaskIndex> taskIndexes = this.userAPIRepository.GetTaskIndexes();
+            DataSourceResult response = taskIndexes.ToDataSourceResult(request);
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetUserAccessControls([DataSourceRequest] DataSourceRequest request, int? userID, int? nmvnTaskID)
+        {
+            IList<UserAccessControl> userAccessControls = this.userAPIRepository.GetUserAccessControls(userID, nmvnTaskID);
+            DataSourceResult response = userAccessControls.ToDataSourceResult(request);
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult GetUserTrees(int? id)
         {
             IList<UserTree> userTrees = this.userAPIRepository.GetUserTrees(id, (int)GlobalEnums.ActiveOption.Both);
