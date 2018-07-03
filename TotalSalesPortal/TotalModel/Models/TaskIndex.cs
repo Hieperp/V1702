@@ -14,7 +14,8 @@ namespace TotalModel.Models
     public partial class TaskIndex
     {
         public int TaskID { get; set; }
-        public string ModuleName { get; set; }
         public string TaskName { get; set; }
+        public string ModuleName { get; set; }
+        public string SoftTaskName { get; set; }
     }
 }

@@ -5,6 +5,29 @@ using TotalModel.Helpers;
 
 namespace TotalModel.Models
 {
+    public partial class UserIndex
+    {
+        public string LocationOU { get { return this.LocationName + "\\" + this.OrganizationalUnitName; } }
+    }
+
+    public partial class UserAccessControl
+    {
+        public bool NoAccess
+        {
+            get { return this.AccessLevel == 0; }
+            set { if (this.NoAccess != value) { this.AccessLevel = 0; } }
+        }
+        public bool ReadOnly
+        {
+            get { return this.AccessLevel == 1; }
+            set { if (this.ReadOnly != value) { this.AccessLevel = 1; } }
+        }
+        public bool Editable
+        {
+            get { return this.AccessLevel == 2; }
+            set { if (this.Editable != value) { this.AccessLevel = 2; } }
+        }
+    }
 
     public partial class SalesOrder : IPrimitiveEntity, IBaseEntity, IBaseDetailEntity<SalesOrderDetail>
     {

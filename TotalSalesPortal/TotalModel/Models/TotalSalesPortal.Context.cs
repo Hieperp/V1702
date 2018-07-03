@@ -1864,5 +1864,27 @@ namespace TotalModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SaveUserAccessControls", accessControlIDParameter, accessLevelParameter, approvalPermittedParameter, unApprovalPermittedParameter, voidablePermittedParameter, unVoidablePermittedParameter, showDiscountParameter);
         }
+    
+        public virtual ObjectResult<UserReportControl> GetUserReportControls(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserReportControl>("GetUserReportControls", userIDParameter);
+        }
+    
+        public virtual int SaveUserReportControls(Nullable<int> reportControlID, Nullable<bool> enabled)
+        {
+            var reportControlIDParameter = reportControlID.HasValue ?
+                new ObjectParameter("ReportControlID", reportControlID) :
+                new ObjectParameter("ReportControlID", typeof(int));
+    
+            var enabledParameter = enabled.HasValue ?
+                new ObjectParameter("Enabled", enabled) :
+                new ObjectParameter("Enabled", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SaveUserReportControls", reportControlIDParameter, enabledParameter);
+        }
     }
 }

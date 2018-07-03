@@ -52,10 +52,28 @@ namespace TotalDAL.Repositories.Generals
             return this.TotalSalesPortalEntities.GetTaskIndexes().ToList();
         }
 
+
         public IList<UserAccessControl> GetUserAccessControls(int? userID, int? nmvnTaskID)
         {
             return this.TotalSalesPortalEntities.GetUserAccessControls(userID, nmvnTaskID).ToList();
         }
+
+        public int SaveUserAccessControls(int? accessControlID, int? accessLevel, bool? approvalPermitted, bool? unApprovalPermitted, bool? voidablePermitted, bool? unVoidablePermitted, bool? showDiscount)
+        {
+            return this.TotalSalesPortalEntities.SaveUserAccessControls(accessControlID, accessLevel, approvalPermitted, unApprovalPermitted, voidablePermitted, unVoidablePermitted, showDiscount);
+        }
+
+
+        public IList<UserReportControl> GetUserReportControls(int? userID)
+        {
+            return this.TotalSalesPortalEntities.GetUserReportControls(userID).ToList();
+        }
+
+        public int SaveUserReportControls(int? reportControlID, bool? enabled)
+        {
+            return this.TotalSalesPortalEntities.SaveUserReportControls(reportControlID, enabled);
+        }
+
 
         public IList<UserTree> GetUserTrees(int? id, int? activeOption)
         {

@@ -29,6 +29,9 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
             this.GetUserAccessControls();
             this.SaveUserAccessControls();
 
+            this.GetUserReportControls();
+            this.SaveUserReportControls();
+
             this.GetUserTrees();
         }
 
@@ -41,7 +44,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      ModuleDetails.TaskID, Modules.Description AS ModuleName, ModuleDetails.Description AS TaskName " + "\r\n";
+            queryString = queryString + "       SELECT      ModuleDetails.TaskID, Modules.Description AS ModuleName, ModuleDetails.Description AS TaskName, ModuleDetails.SoftDescription AS SoftTaskName " + "\r\n";
             queryString = queryString + "       FROM        Modules INNER JOIN ModuleDetails ON Modules.ModuleID = ModuleDetails.ModuleID " + "\r\n";
             queryString = queryString + "       WHERE       Modules.InActive = 0 AND ModuleDetails.Enabled = 1 " + "\r\n";
             queryString = queryString + "       ORDER BY    Modules.SerialID, ModuleDetails.SerialID " + "\r\n";
@@ -229,6 +232,49 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
             this.totalSalesPortalEntities.CreateStoredProcedure("SaveUserAccessControls", queryString);
         }
 
+
+
+
+
+        private void GetUserReportControls()
+        {
+            string queryString;
+
+            queryString = " @UserID int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      ReportControls.ReportControlID, ReportControls.ReportID, Reports.ReportGroupName, Reports.ReportName, ReportControls.Enabled " + "\r\n";
+            queryString = queryString + "       FROM        ReportControls INNER JOIN Reports ON ReportControls.UserID = @UserID AND ReportControls.ReportID = Reports.ReportID " + "\r\n";
+            queryString = queryString + "       ORDER BY    Reports.ReportGroupName, Reports.ReportName " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("GetUserReportControls", queryString);
+        }
+
+        private void SaveUserReportControls()
+        {
+            string queryString = " @ReportControlID int, @Enabled bit " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+
+            queryString = queryString + "       BEGIN " + "\r\n";
+
+            queryString = queryString + "           UPDATE          ReportControls " + "\r\n";
+            queryString = queryString + "           SET             Enabled = @Enabled " + "\r\n";
+            queryString = queryString + "           WHERE           ReportControlID = @ReportControlID " + "\r\n";
+
+            queryString = queryString + "           IF @@ROWCOUNT <> 1 " + "\r\n";
+            queryString = queryString + "               BEGIN " + "\r\n";
+            queryString = queryString + "                   DECLARE     @msg NVARCHAR(300) = N'Unknow error: Update ReportControls. Please exit then open and try again.' ; " + "\r\n";
+            queryString = queryString + "                   THROW       61001,  @msg, 1; " + "\r\n";
+            queryString = queryString + "               END " + "\r\n";
+            queryString = queryString + "       END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("SaveUserReportControls", queryString);
+        }
 
         //private void GetUserTrees()
         //{
