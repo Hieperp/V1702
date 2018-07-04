@@ -8,6 +8,10 @@
         <ul class="nav navbar-nav navbar-right">
             <li>@Html.ActionLink("User Guide", "UserGuide", "Home", new { area = "" }, null)</li>
             <li>@Html.ActionLink("Lock Data", "LockedDate", "Home", new { area = "" }, null)</li>
+
+            <li>@*@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })*@</li>
+            <li>@Html.ActionLink("Admin", "Index", "Account")</li>
+
             <li>
                 @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", new { area = "" }, htmlAttributes: new { title = "Manage" })
             </li>
@@ -18,8 +22,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@*@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })*@</li>
-        <li>@Html.ActionLink("Admin", "Index", "Account")</li>
+        @*Admin here*@
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }

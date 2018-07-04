@@ -131,10 +131,12 @@ namespace TotalPortal.Models
 
             currentRoles.AddRange(user.Roles);
 
+            var rm = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+
             foreach (var role in currentRoles)
             {
-
-                um.RemoveFromRole(userId, role.RoleId);
+                var identityRole = rm.FindById(role.RoleId);
+                if (identityRole != null) um.RemoveFromRole(userId, identityRole.Name);
 
             }
 

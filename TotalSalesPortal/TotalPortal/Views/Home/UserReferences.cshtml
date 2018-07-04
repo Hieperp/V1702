@@ -145,15 +145,7 @@
 
 
 
-@(Html.Kendo().PanelBar()
-        .Name("XXX")
-        .ExpandMode(PanelBarExpandMode.Single)
-        .Items(i =>
-        {
-            i.Add()
-                .Text("Users")
-                .Selected(true);
-        }))
+                        <div style="background: radial-gradient(#428bca, #3980bd); color: yellow; margin-top: 1px; padding: 8px 8px 7px 12px; border-radius: 4px; "> Permission settings for reports </div>
 
                         @(Html.Kendo().Grid<TotalModel.Models.UserReportControl>()
                             .Name("kendoGridUserReportControl")
@@ -336,13 +328,5 @@
         padding-left: 1px;
         box-sizing: border-box;
     }
-
-    
-#XXX.k-panelbar .k-header
-{
-    margin-top: 1px;
-         background-color: #428bca;
-}
-
 
 </style>

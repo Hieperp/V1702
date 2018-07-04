@@ -48,7 +48,7 @@ namespace TotalPortal.APIs.Sessions
 
 
             //var moduleDetail = moduleDetailRepository.GetModuleDetailByID((int)moduleID);
-            var moduleDetail = moduleDetailRepository.GetAllModuleDetails().ToList().Where(w => w.ModuleID == moduleID && w.InActive == 0).OrderBy(o => o.SerialID);
+            var moduleDetail = moduleDetailRepository.GetAllModuleDetails().ToList().Where(w => (w.ModuleID == moduleID || (w.ModuleID == 2 && moduleID == 0)) && w.InActive == 0).OrderBy(o => o.SerialID);
             return PartialView(moduleDetail);
         }
 
