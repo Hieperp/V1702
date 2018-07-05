@@ -28,9 +28,9 @@ namespace TotalPortal.Areas.Generals.APIs
             this.userAPIRepository = userAPIRepository;
         }
 
-        public JsonResult GetUserIndexes([DataSourceRequest] DataSourceRequest request, int? activeOption)
+        public JsonResult GetUserIndexes([DataSourceRequest] DataSourceRequest request, bool showInActiveUsers)
         {
-            this.userAPIRepository.RepositoryBag["ActiveOption"] = -1;
+            this.userAPIRepository.RepositoryBag["ActiveOption"] = showInActiveUsers ? -1 : 0;
             ICollection<UserIndex> userIndexes = this.userAPIRepository.GetEntityIndexes<UserIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext));
 
             DataSourceResult response = userIndexes.ToDataSourceResult(request);
@@ -112,6 +112,6 @@ namespace TotalPortal.Areas.Generals.APIs
             }
         }
 
-        
+
     }
 }

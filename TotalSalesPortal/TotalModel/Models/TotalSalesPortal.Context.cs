@@ -1946,5 +1946,22 @@ namespace TotalModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UserUnregister", userIDParameter, userNameParameter, organizationalUnitNameParameter);
         }
+    
+        public virtual int UpdateLockedDate(string aspUserID, Nullable<int> locationID, Nullable<System.DateTime> lockedDate)
+        {
+            var aspUserIDParameter = aspUserID != null ?
+                new ObjectParameter("AspUserID", aspUserID) :
+                new ObjectParameter("AspUserID", typeof(string));
+    
+            var locationIDParameter = locationID.HasValue ?
+                new ObjectParameter("LocationID", locationID) :
+                new ObjectParameter("LocationID", typeof(int));
+    
+            var lockedDateParameter = lockedDate.HasValue ?
+                new ObjectParameter("LockedDate", lockedDate) :
+                new ObjectParameter("LockedDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateLockedDate", aspUserIDParameter, locationIDParameter, lockedDateParameter);
+        }
     }
 }

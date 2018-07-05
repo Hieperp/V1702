@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Net;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using System.Collections.Generic;
 using Microsoft.AspNet.Identity;
 
 using TotalModel.Models;
@@ -48,7 +49,7 @@ namespace TotalPortal.APIs.Sessions
 
 
             //var moduleDetail = moduleDetailRepository.GetModuleDetailByID((int)moduleID);
-            var moduleDetail = moduleDetailRepository.GetAllModuleDetails().ToList().Where(w => (w.ModuleID == moduleID || (w.ModuleID == 2 && moduleID == 0)) && w.InActive == 0).OrderBy(o => o.SerialID);
+            var moduleDetail = moduleDetailRepository.GetAllModuleDetails().ToList().Where(w => (w.ModuleID == moduleID || (w.ModuleID == 2 && moduleID == 0 && MenuSession.GetUserLocked(this.HttpContext) == 0)) && w.InActive == 0).OrderBy(o => o.SerialID);
             return PartialView(moduleDetail);
         }
 
@@ -56,31 +57,41 @@ namespace TotalPortal.APIs.Sessions
         //[OutputCache(NoStore = true, Location = OutputCacheLocation.Server, Duration = 100)]
         public ActionResult MainMenu()
         {
-            string moduleName = MenuSession.GetModuleName(this.HttpContext);
-            string taskName = MenuSession.GetTaskName(this.HttpContext);
-            string taskController = MenuSession.GetTaskController(this.HttpContext);
-            ViewBag.ModuleName = moduleName;
-            ViewBag.TaskName = taskName;
-            ViewBag.TaskController = taskController;
+            try
+            {
+                string moduleName = MenuSession.GetModuleName(this.HttpContext);
+                string taskName = MenuSession.GetTaskName(this.HttpContext);
+                string taskController = MenuSession.GetTaskController(this.HttpContext);
+                ViewBag.ModuleName = moduleName;
+                ViewBag.TaskName = taskName;
+                ViewBag.TaskController = taskController;
 
-            ViewBag.GlobalFromDate = HomeSession.GetGlobalFromDate(this.HttpContext);
-            ViewBag.GlobalToDate = HomeSession.GetGlobalToDate(this.HttpContext);
-
-
-
-            //BEGIN: Cho nay: sau nay can phai bo di, vi lam nhu the nay khong hay ho gi ca. Thay vao do, se thua ke tu base controller -> de lay userid, locationid, location official name
-            var Db = new ApplicationDbContext();
-
-            string aspUserID = User.Identity.GetUserId();
-            int userID = Db.Users.Where(w => w.Id == aspUserID).FirstOrDefault().UserID;
-            ViewBag.LocationName = this.moduleRepository.GetLocationName(userID);
-            //BEGIN: Cho nay: sau nay can phai bo di, vi lam nhu the nay khong hay ho gi ca. Thay vao do, se thua ke tu base controller -> de lay userid, locationid, location official name
+                ViewBag.GlobalFromDate = HomeSession.GetGlobalFromDate(this.HttpContext);
+                ViewBag.GlobalToDate = HomeSession.GetGlobalToDate(this.HttpContext);
 
 
 
-            var moduleMaster = moduleRepository.GetAllModules().OrderByDescending(p => p.SerialID);
+                //BEGIN: Cho nay: sau nay can phai bo di, vi lam nhu the nay khong hay ho gi ca. Thay vao do, se thua ke tu base controller -> de lay userid, locationid, location official name
+                var Db = new ApplicationDbContext();
 
-            return PartialView(moduleMaster);
+                string aspUserID = User.Identity.GetUserId();
+                int userID = Db.Users.Where(w => w.Id == aspUserID).FirstOrDefault().UserID;
+                ViewBag.LocationName = this.moduleRepository.GetLocationName(userID);
+                //BEGIN: Cho nay: sau nay can phai bo di, vi lam nhu the nay khong hay ho gi ca. Thay vao do, se thua ke tu base controller -> de lay userid, locationid, location official name
+
+
+
+                var moduleMaster = moduleRepository.GetAllModules().OrderByDescending(p => p.SerialID);
+
+                MenuSession.SetUserLocked(this.HttpContext, 0);
+                return PartialView(moduleMaster);
+            }
+            catch
+            {
+                ViewBag.LocationName = "[USER LOCKED]";
+                MenuSession.SetUserLocked(this.HttpContext, 1);
+                return PartialView(new List<Module>());
+            }
         }
 
         public ActionResult SetTask(int? taskID, string taskName, string taskController)

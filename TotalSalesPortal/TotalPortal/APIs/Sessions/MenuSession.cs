@@ -119,6 +119,20 @@ namespace TotalPortal.APIs.Sessions
 
     public class MenuSession
     {
+        public static int GetUserLocked(HttpContextBase context)
+        {
+            if (context.Session["UserLocked"] == null)
+                return 0;
+            else
+                return (int)context.Session["UserLocked"];
+        }
+
+        public static void SetUserLocked(HttpContextBase context, int UserLocked)
+        {
+            context.Session["UserLocked"] = UserLocked;
+        }
+
+
         public static int GetModuleID(HttpContextBase context)
         {
             if (context.Session["ModuleID"] == null)

@@ -3098,6 +3098,11 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="CodePartA" Type="nvarchar" Mode="In" />
           <Parameter Name="CodePartB" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="UpdateLockedDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AspUserID" Type="nvarchar" Mode="In" />
+          <Parameter Name="LocationID" Type="int" Mode="In" />
+          <Parameter Name="LockedDate" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="UserEditable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EntityID" Type="int" Mode="In" />
         </Function>
@@ -4731,6 +4736,11 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="UserName" Mode="In" Type="String" />
             <Parameter Name="OrganizationalUnitName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateLockedDate">
+            <Parameter Name="AspUserID" Mode="In" Type="String" />
+            <Parameter Name="LocationID" Mode="In" Type="Int32" />
+            <Parameter Name="LockedDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
@@ -11107,6 +11117,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <FunctionImportMapping FunctionImportName="UserRegister" FunctionName="TotalSalesPortalModel.Store.UserRegister" />
           <FunctionImportMapping FunctionImportName="UserToggleVoid" FunctionName="TotalSalesPortalModel.Store.UserToggleVoid" />
           <FunctionImportMapping FunctionImportName="UserUnregister" FunctionName="TotalSalesPortalModel.Store.UserUnregister" />
+          <FunctionImportMapping FunctionImportName="UpdateLockedDate" FunctionName="TotalSalesPortalModel.Store.UpdateLockedDate" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

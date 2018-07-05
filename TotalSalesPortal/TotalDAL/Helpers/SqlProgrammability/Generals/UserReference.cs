@@ -132,9 +132,8 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
             queryString = queryString + "           WHERE           ModuleDetails.InActive = 0; " + "\r\n";
 
             queryString = queryString + "           INSERT INTO     ReportControls (UserID, ReportID, Enabled) " + "\r\n";
-            queryString = queryString + "           SELECT          AspNetUsers.UserID, Reports.ReportID, 0 AS Enabled " + "\r\n";
-            queryString = queryString + "           FROM            AspNetUsers CROSS JOIN Reports " + "\r\n";
-            queryString = queryString + "           ORDER BY        AspNetUsers.UserID, Reports.ReportID; " + "\r\n";
+            queryString = queryString + "           SELECT          @UserID, ReportID, 0 AS Enabled " + "\r\n";
+            queryString = queryString + "           FROM            Reports     ORDER BY ReportID; " + "\r\n";
 
             queryString = queryString + "       END " + "\r\n";
 
