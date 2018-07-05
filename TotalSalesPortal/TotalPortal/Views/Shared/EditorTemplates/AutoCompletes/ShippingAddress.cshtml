@@ -14,7 +14,7 @@
         {
             source.Read(read =>
             {
-                read.Action("GetShippingAddress", "CustomerAPIs", new { area = "Commons" }).Data(@<text> function(e) {return {customerID: 306, searchText: e.filter.filters[0].value};} </text>);//Send parameter to controller search action
+                read.Action("GetShippingAddress", "CustomerAPIs", new { area = "Commons" }).Data(@<text> function(e) {return {customerID: $("#Receiver_CustomerID").val(), searchText: e.filter.filters[0].value};} </text>);//Send parameter to controller search action
             })
             .ServerFiltering(true);
         })

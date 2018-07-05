@@ -56,7 +56,7 @@ namespace TotalDTO.Sales
         public Nullable<System.DateTime> ReceivedDate { get; set; }
         [Display(Name = "Địa chỉ giao hàng")]
         [Required(ErrorMessage = "Vui lòng nhập địa chỉ giao hàng")]
-        [UIHint("Commons/ShippingAddress")]
+        [UIHint("AutoCompletes/ShippingAddress")]
         public string ShippingAddress { get; set; }
 
         [Display(Name = "Tên người nhận hàng")]
