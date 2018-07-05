@@ -32,6 +32,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             this.GetCommodityBases();
             this.GetCustomerBases();
             this.GetShippingAddress();
+            this.GetAddressees();
             this.GetWarehouses();
 
             this.GetDeliveryAdviceViewDetails();
@@ -490,15 +491,38 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      TOP 30 ShippingAddress " + "\r\n";
-            queryString = queryString + "       FROM        DeliveryAdvices " + "\r\n";
-            queryString = queryString + "       WHERE       ReceiverID = @CustomerID AND EntryDate >= DATEADD(day, -60, getdate()) AND (@SearchText = '' OR ShippingAddress LIKE '%' + @SearchText + '%') " + "\r\n";
-            queryString = queryString + "       GROUP BY    ShippingAddress " + "\r\n";
-            queryString = queryString + "       ORDER BY    MAX(EntryDate) DESC " + "\r\n";
+            queryString = queryString + "       SELECT      ISNULL(ShippingAddress, BillingAddress) AS ShippingAddress FROM Customers WHERE CustomerID = @CustomerID " + "\r\n";
+            queryString = queryString + "       UNION ALL   " + "\r\n";
+            queryString = queryString + "       SELECT      ShippingAddress FROM (" + "\r\n";
+            queryString = queryString + "                   SELECT      TOP 30 ShippingAddress " + "\r\n";
+            queryString = queryString + "                   FROM        DeliveryAdvices " + "\r\n";
+            queryString = queryString + "                   WHERE       ReceiverID = @CustomerID AND EntryDate >= DATEADD(day, -60, getdate()) AND (@SearchText = '' OR ShippingAddress LIKE '%' + @SearchText + '%') " + "\r\n";
+            queryString = queryString + "                   GROUP BY    ShippingAddress " + "\r\n";
+            queryString = queryString + "                   ORDER BY    MAX(EntryDate) DESC) TopShippingAddresses " + "\r\n";
 
             queryString = queryString + "    END " + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("GetShippingAddress", queryString);
+        }
+
+        private void GetAddressees()
+        {
+            string queryString;
+
+            queryString = " @CustomerID int, @SearchText nvarchar(60) " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      TOP 30 Addressee " + "\r\n";
+            queryString = queryString + "       FROM        DeliveryAdvices " + "\r\n";
+            queryString = queryString + "       WHERE       ReceiverID = @CustomerID AND EntryDate >= DATEADD(day, -60, getdate()) AND (@SearchText = '' OR Addressee LIKE '%' + @SearchText + '%') " + "\r\n";
+            queryString = queryString + "       GROUP BY    Addressee " + "\r\n";
+            queryString = queryString + "       ORDER BY    MAX(EntryDate) DESC " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("GetAddressees", queryString);
         }
 
         private void GetWarehouses()
