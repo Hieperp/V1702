@@ -516,7 +516,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Sales
 
             queryString = queryString + "       SELECT      TOP 30 Addressee " + "\r\n";
             queryString = queryString + "       FROM        DeliveryAdvices " + "\r\n";
-            queryString = queryString + "       WHERE       ReceiverID = @CustomerID AND EntryDate >= DATEADD(day, -60, getdate()) AND (@SearchText = '' OR Addressee LIKE '%' + @SearchText + '%') " + "\r\n";
+            queryString = queryString + "       WHERE       ReceiverID = @CustomerID AND EntryDate >= DATEADD(day, -60, getdate()) AND Addressee <> N'' AND (@SearchText = '' OR Addressee LIKE '%' + @SearchText + '%') " + "\r\n";
             queryString = queryString + "       GROUP BY    Addressee " + "\r\n";
             queryString = queryString + "       ORDER BY    MAX(EntryDate) DESC " + "\r\n";
 

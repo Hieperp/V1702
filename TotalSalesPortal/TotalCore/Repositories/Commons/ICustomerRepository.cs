@@ -8,6 +8,7 @@ namespace TotalCore.Repositories.Commons
     {
         IList<CustomerBase> GetCustomerBases(string searchText, int warehouseTaskID);
         IList<string> GetShippingAddress(int? customerID, string searchText);
+        IList<string> GetAddressees(int? customerID, string searchText);
 
         IList<Customer> SearchSuppliers(string searchText);
         IList<Customer> SearchCustomersByIndex(int customerCategoryID, int customerTypeID, int territoryID);

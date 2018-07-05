@@ -2637,6 +2637,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         <Function Name="GetAccountInvoiceViewDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AccountInvoiceID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetAddressees" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CustomerID" Type="int" Mode="In" />
+          <Parameter Name="SearchText" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="GetApprovalPermitted" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="NMVNTaskID" Type="int" Mode="In" />
@@ -4747,6 +4751,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="LockedDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="GetShippingAddress" ReturnType="Collection(String)">
+            <Parameter Name="CustomerID" Mode="In" Type="Int32" />
+            <Parameter Name="SearchText" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetAddressees" ReturnType="Collection(String)">
             <Parameter Name="CustomerID" Mode="In" Type="Int32" />
             <Parameter Name="SearchText" Mode="In" Type="String" />
           </FunctionImport>
@@ -11127,6 +11135,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <FunctionImportMapping FunctionImportName="UserUnregister" FunctionName="TotalSalesPortalModel.Store.UserUnregister" />
           <FunctionImportMapping FunctionImportName="UpdateLockedDate" FunctionName="TotalSalesPortalModel.Store.UpdateLockedDate" />
           <FunctionImportMapping FunctionImportName="GetShippingAddress" FunctionName="TotalSalesPortalModel.Store.GetShippingAddress" />
+          <FunctionImportMapping FunctionImportName="GetAddressees" FunctionName="TotalSalesPortalModel.Store.GetAddressees" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

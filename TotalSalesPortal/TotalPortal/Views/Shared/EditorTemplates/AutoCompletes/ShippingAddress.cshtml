@@ -5,20 +5,19 @@
 <div class="form-group">
     <div class="right-panel-label right-panel-label-whole-width"> <img src="~/Content/Images/Mains/Size24/Map-pin-20.png" /> @Html.LabelFor(model => model) </div>
     <div class="div-input">
-
         @(Html.Kendo().AutoCompleteFor(model => model)
-        .Filter("contains")
-        .MinLength(0)
-        .Placeholder("Vui lòng nhập ít nhất 1 ký tự...")
-        .DataSource(source =>
-        {
-            source.Read(read =>
+            .Filter("contains")
+            .MinLength(0)
+            .Placeholder("Vui lòng nhập ít nhất 1 ký tự...")
+            .DataSource(source =>
             {
-                read.Action("GetShippingAddress", "CustomerAPIs", new { area = "Commons" }).Data(@<text> function(e) {return {customerID: $("#Receiver_CustomerID").val(), searchText: e.filter.filters[0].value};} </text>);//Send parameter to controller search action
+                source.Read(read =>
+                {
+                    read.Action("GetShippingAddress", "CustomerAPIs", new { area = "Commons" }).Data(@<text> function(e) {return {customerID: $("#Receiver_CustomerID").val(), searchText: e.filter.filters[0].value};} </text>);//Send parameter to controller search action
+                })
+                .ServerFiltering(true);
             })
-            .ServerFiltering(true);
-        })
-        .HtmlAttributes((ViewData["ShippingAddressReadonly"] != null && (bool)ViewData["ShippingAddressReadonly"] == true ? (object)new { @class = "right-panel-input right-panel-input-whole-width", @readonly = "readonly" } : (object)new { @class = "right-panel-input right-panel-input-whole-width" }))
+            .HtmlAttributes((ViewData["ShippingAddressReadonly"] != null && (bool)ViewData["ShippingAddressReadonly"] == true ? (object)new { @class = "right-panel-input right-panel-input-whole-width", @readonly = "readonly" } : (object)new { @class = "right-panel-input right-panel-input-whole-width" }))
         )
     </div>
     <div class="div-validation-message">

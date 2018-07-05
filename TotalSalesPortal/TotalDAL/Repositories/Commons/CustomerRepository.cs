@@ -45,6 +45,11 @@ namespace TotalDAL.Repositories.Commons
             return this.TotalSalesPortalEntities.GetShippingAddress(customerID, searchText).ToList();
         }
 
+        public IList<string> GetAddressees(int? customerID, string searchText)
+        {
+            return this.TotalSalesPortalEntities.GetAddressees(customerID, searchText).ToList();
+        }
+
         public IList<Customer> GetAllCustomers()
         {
             this.TotalSalesPortalEntities.Configuration.ProxyCreationEnabled = false;

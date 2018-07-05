@@ -1976,5 +1976,18 @@ namespace TotalModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetShippingAddress", customerIDParameter, searchTextParameter);
         }
+    
+        public virtual ObjectResult<string> GetAddressees(Nullable<int> customerID, string searchText)
+        {
+            var customerIDParameter = customerID.HasValue ?
+                new ObjectParameter("CustomerID", customerID) :
+                new ObjectParameter("CustomerID", typeof(int));
+    
+            var searchTextParameter = searchText != null ?
+                new ObjectParameter("SearchText", searchText) :
+                new ObjectParameter("SearchText", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetAddressees", customerIDParameter, searchTextParameter);
+        }
     }
 }

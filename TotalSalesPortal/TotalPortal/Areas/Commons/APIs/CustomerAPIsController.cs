@@ -106,5 +106,11 @@ namespace TotalPortal.Areas.Commons.APIs
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetAddressees(int? customerID, string searchText)
+        {
+            var result = customerRepository.GetAddressees(customerID, searchText);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

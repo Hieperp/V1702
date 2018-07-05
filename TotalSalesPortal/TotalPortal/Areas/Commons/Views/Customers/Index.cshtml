@@ -26,7 +26,7 @@
             toolbar.Template(@<text> 
                 <button type="button" class="k-button" onclick="location.href='@Url.Action("Create", "Customers")'"> <img src="~/Content/Images/Mains/Customer Blue 24.png" /> Thêm khách hàng mới </button> 
                 <div class="toolbar" style="float: right;">
-                    <label>Nhập mã hoặc tên khách hàng để tìm</label>
+                    <label>Nhập mã, tên hoặc MST khách hàng để tìm</label>
                     <input id="indexFilterText" class="k-textbox" style="text-align: center; " onkeyup="indexFilterText_KeyUp()" />
                 </div>
             </text>);
@@ -86,7 +86,8 @@
                 filters: [
                     { field: "Code", operator: "contains", value: indexFilterText },
                     { field: "Name", operator: "contains", value: indexFilterText },
-                    { field: "OfficialName", operator: "contains", value: indexFilterText }
+                    { field: "OfficialName", operator: "contains", value: indexFilterText },
+                    { field: "VATCode", operator: "contains", value: indexFilterText }
                 ]
             });
 

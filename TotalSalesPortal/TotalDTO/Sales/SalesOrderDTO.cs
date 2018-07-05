@@ -62,7 +62,7 @@ namespace TotalDTO.Sales
         public string ShippingAddress { get; set; }
 
         [Display(Name = "Tên người nhận hàng")]
-        [UIHint("Commons/Addressee")]
+        [UIHint("AutoCompletes/Addressee")]
         public string Addressee { get; set; }
 
         public virtual int SalespersonID { get; set; }

@@ -20,7 +20,7 @@ namespace TotalDTO.Helpers.Interfaces
         string ShippingAddress { get; set; }
 
         [Display(Name = "Tên người nhận hàng")]
-        [UIHint("Commons/Addressee")]
+        [UIHint("AutoCompletes/Addressee")]
         string Addressee { get; set; }
 
         [Display(Name = "Kho hàng")]
