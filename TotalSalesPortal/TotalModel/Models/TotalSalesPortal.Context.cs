@@ -1886,5 +1886,14 @@ namespace TotalModel.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SaveUserReportControls", reportControlIDParameter, enabledParameter);
         }
+    
+        public virtual ObjectResult<LocationOrganizationalUnit> GetLocationOrganizationalUnits(Nullable<int> nothing)
+        {
+            var nothingParameter = nothing.HasValue ?
+                new ObjectParameter("Nothing", nothing) :
+                new ObjectParameter("Nothing", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LocationOrganizationalUnit>("GetLocationOrganizationalUnits", nothingParameter);
+        }
     }
 }

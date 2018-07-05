@@ -2775,6 +2775,9 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         <Function Name="GetHandlingUnitViewDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="HandlingUnitID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetLocationOrganizationalUnits" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nothing" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetOverStockItems" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="lSKUActionDate" Type="datetime" Mode="In" />
           <ReturnType>
@@ -4688,11 +4691,14 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="ShowDiscount" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="GetUserReportControls" ReturnType="Collection(TotalSalesPortalModel.UserReportControl)">
-            <Parameter Name="UserID" Mode="In" Type="Int32" />
+          <Parameter Name="UserID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SaveUserReportControls">
             <Parameter Name="ReportControlID" Mode="In" Type="Int32" />
             <Parameter Name="Enabled" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="GetLocationOrganizationalUnits" ReturnType="Collection(TotalSalesPortalModel.LocationOrganizationalUnit)" >
+            <Parameter Name="Nothing" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
@@ -8433,6 +8439,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="TaskName" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="ModuleName" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="SoftTaskName" Nullable="false" MaxLength="20" />
+          <Property Type="Int32" Name="ModuleSerialID" Nullable="false" />
           </ComplexType>
         <ComplexType Name="UserAccessControl">
           <Property Type="Int32" Name="AccessControlID" Nullable="false" />
@@ -8453,6 +8460,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="String" Name="ReportGroupName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="ReportName" Nullable="false" MaxLength="100" />
           <Property Type="Boolean" Name="Enabled" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="LocationOrganizationalUnit">
+          <Property Type="Int32" Name="OrganizationalUnitID" Nullable="false" />
+          <Property Type="String" Name="LocationOrganizationalUnitCode" Nullable="false" MaxLength="61" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -11030,6 +11041,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
                 <ScalarProperty Name="TaskName" ColumnName="TaskName" />
                 <ScalarProperty Name="ModuleName" ColumnName="ModuleName" />
                 <ScalarProperty Name="SoftTaskName" ColumnName="SoftTaskName" />
+                <ScalarProperty Name="ModuleSerialID" ColumnName="ModuleSerialID" />
                 </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -11063,6 +11075,14 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SaveUserReportControls" FunctionName="TotalSalesPortalModel.Store.SaveUserReportControls" />
+          <FunctionImportMapping FunctionImportName="GetLocationOrganizationalUnits" FunctionName="TotalSalesPortalModel.Store.GetLocationOrganizationalUnits">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TotalSalesPortalModel.LocationOrganizationalUnit">
+                <ScalarProperty Name="OrganizationalUnitID" ColumnName="OrganizationalUnitID" />
+                <ScalarProperty Name="LocationOrganizationalUnitCode" ColumnName="LocationOrganizationalUnitCode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

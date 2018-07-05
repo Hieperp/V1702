@@ -210,6 +210,9 @@
     <Compile Include="Models\Location.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LocationOrganizationalUnit.cs">
+      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Module.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>

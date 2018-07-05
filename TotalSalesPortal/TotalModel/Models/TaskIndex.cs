@@ -17,5 +17,6 @@ namespace TotalModel.Models
         public string TaskName { get; set; }
         public string ModuleName { get; set; }
         public string SoftTaskName { get; set; }
+        public int ModuleSerialID { get; set; }
     }
 }

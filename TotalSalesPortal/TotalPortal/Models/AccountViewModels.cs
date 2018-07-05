@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using System.Web.Mvc;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -65,6 +66,11 @@ namespace TotalPortal.Models
 
     public class RegisterViewModel
     {
+        public RegisterViewModel()
+        {
+            this.OrganizationalUnitSelectList = new List<SelectListItem>();
+        }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -78,7 +84,7 @@ namespace TotalPortal.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         // New Fields added to extend Application User class:
@@ -90,6 +96,12 @@ namespace TotalPortal.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+
+        [Required]
+        [Display(Name = "Division")]
+        [Range(1, 999999, ErrorMessage = "Vui lòng chọn division")]
+        public int OrganizationalUnitID { get; set; }
+        public List<SelectListItem> OrganizationalUnitSelectList { get; set; }
 
         // Return a pre-poulated instance of AppliationUser:
         public ApplicationUser GetUser()
@@ -283,7 +295,7 @@ namespace TotalPortal.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

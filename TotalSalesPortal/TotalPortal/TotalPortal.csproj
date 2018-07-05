@@ -354,6 +354,10 @@
     <Content Include="Content\Images\Mains\Actions-bookmark-add-icon-32.png" />
     <Content Include="Content\Images\Mains\Actions-ok-icon32.png" />
     <Content Include="Content\Images\Mains\Actions-ok-icon64.png" />
+    <Content Include="Content\Images\Mains\add-contact-blue.png" />
+    <Content Include="Content\Images\Mains\add-contact-darkblue.png" />
+    <Content Include="Content\Images\Mains\add-contact-yellow.png" />
+    <Content Include="Content\Images\Mains\add-contact.png" />
     <Content Include="Content\Images\Mains\Arrow-right.png" />
     <Content Include="Content\Images\Mains\Blowout-Sale-icon-48.png" />
     <Content Include="Content\Images\Mains\Blowout-Sale-icon.png" />
@@ -1146,11 +1150,12 @@
     <Content Include="Scripts\Controllers\Inventories\HandlingUnits\Edit.js" />
     <Content Include="Scripts\Controllers\Inventories\HandlingUnits\Index.js" />
     <Content Include="Scripts\Controllers\Inventories\HandlingUnits\Open.js" />
+    <Content Include="Scripts\Controllers\Root\Account\Register.js" />
     <Content Include="Scripts\Controllers\Root\Home\Index.js" />
     <Content Include="Scripts\Controllers\Root\Home\LockedDate.js" />
     <Content Include="Scripts\Controllers\Root\Home\Options.js" />
     <Content Include="Scripts\Controllers\Root\Home\Searches.js" />
-    <Content Include="Scripts\Controllers\Root\Home\UserReferences.js" />
+    <Content Include="Scripts\Controllers\Root\Account\UserReferences.js" />
     <Content Include="Scripts\Controllers\Root\Reports\Index.js" />
     <Content Include="Scripts\Controllers\Root\Reports\Open.js" />
     <Content Include="Scripts\Controllers\Root\Shared\Commons\kendoWidgetReadonly.js" />
@@ -2003,9 +2008,9 @@
     <Content Include="Views\Shared\EditorTemplates\Commons\Addressee.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Commons\SOCode.cshtml" />
     <Content Include="Views\Home\Searches.cshtml" />
-    <Content Include="Views\Home\UserReferences.cshtml" />
     <Content Include="Views\Home\Backup.cshtml" />
     <Content Include="Views\Account\UserRoles.cshtml" />
+    <Content Include="Views\Account\UserReferences.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

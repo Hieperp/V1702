@@ -11,7 +11,18 @@ using Microsoft.Owin.Security;
 using System.Collections.Generic;
 using Owin;
 
+
+
+
+using TotalCore.Repositories.Sales;
 using TotalPortal.Models;
+using TotalPortal.ViewModels.Home;
+using TotalPortal.APIs.Sessions;
+using TotalModel.Models;
+using System.Data.Entity.Core.Objects;
+using TotalCore.Repositories;
+
+
 
 namespace TotalPortal.Controllers
 {
@@ -21,11 +32,13 @@ namespace TotalPortal.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        private readonly IBaseRepository baseRepository;
+        public AccountController(IBaseRepository baseRepository)
         {
+            this.baseRepository = baseRepository;
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -37,9 +50,9 @@ namespace TotalPortal.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -61,7 +74,7 @@ namespace TotalPortal.Controllers
 
 
         [Authorize(Roles = "Admin")]
-
+        [Authorize(Roles = "Vendor")]
         public ActionResult Index()
         {
 
@@ -315,7 +328,7 @@ namespace TotalPortal.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -331,16 +344,19 @@ namespace TotalPortal.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")] //[AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            RegisterViewModel registerViewModel = new RegisterViewModel();
+            this.GetOrganizationalUnitSelectList(registerViewModel);
+
+            return View(registerViewModel);
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")] //[AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -350,8 +366,8 @@ namespace TotalPortal.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -364,7 +380,18 @@ namespace TotalPortal.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+            this.GetOrganizationalUnitSelectList(model);
             return View(model);
+        }
+
+        private void GetOrganizationalUnitSelectList(RegisterViewModel registerViewModel)
+        {
+            if (this.baseRepository != null)
+            {
+                ICollection<LocationOrganizationalUnit> locationOrganizationalUnits = this.baseRepository.ExecuteFunction<LocationOrganizationalUnit>("GetLocationOrganizationalUnits", new ObjectParameter[] { new ObjectParameter("Nothing", 0) });
+                registerViewModel.OrganizationalUnitSelectList = locationOrganizationalUnits.Select(pt => new SelectListItem { Text = pt.LocationOrganizationalUnitCode, Value = pt.OrganizationalUnitID.ToString() }).ToList();
+            }
+            registerViewModel.OrganizationalUnitSelectList.Add(new SelectListItem { Text = "[Vui lòng chọn division]", Value = "0" });
         }
 
         //
@@ -676,5 +703,201 @@ namespace TotalPortal.Controllers
             }
         }
         #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region Smart Biztech
+        [Authorize(Roles = "Admin")]
+        public ActionResult UserReferences()
+        {
+            this.AddUserAndRoles();
+
+            return View();
+        }
+        #endregion Smart Biztech
+
+        #region AddUserAndRoles: Run only one
+        private bool AddUserAndRoles()
+        {
+            return true;
+
+            bool success = false;
+            var idManager = new IdentityManager();
+
+
+            success = idManager.CreateRole("Admin");
+            if (!success == true) return success; //NEED Admin FOR ACCOUNT MANAGEMENT
+
+            success = idManager.AddUserToRole("dade9d9f-2a76-4d5d-9322-f4d47a12e50a", "Admin");
+            if (!success) return success; //ADD ROLE Admin TO hieperp@gmail.com
+
+
+
+
+            return true;
+            return true;
+            success = idManager.CreateRole("Vendor");
+            if (!success == true) return success; //NEED Vendor FOR SPECIAL TASK ONLY FOR VENDOR
+
+            success = idManager.AddUserToRole("dade9d9f-2a76-4d5d-9322-f4d47a12e50a", "Vendor");
+            if (!success) return success; //ADD ROLE Vendor TO hieperp@gmail.com
+
+
+            return true; //AT VCP: JUST RUN AS ABOVE
+
+
+
+
+
+
+
+
+
+
+            success = idManager.CreateRole("Admin");
+
+            if (!success == true) return success;
+
+
+
+            success = idManager.CreateRole("CanEdit");
+
+            if (!success == true) return success;
+
+
+
+            success = idManager.CreateRole("User");
+
+            if (!success) return success;
+
+
+
+
+
+
+
+
+            success = idManager.AddUserToRole("11bf0c11-cc6d-4d78-8d24-c226c11cf89d", "Admin");
+
+            if (!success) return success;
+
+
+
+            success = idManager.AddUserToRole("11bf0c11-cc6d-4d78-8d24-c226c11cf89d", "CanEdit");
+
+            if (!success) return success;
+
+
+
+            success = idManager.AddUserToRole("11bf0c11-cc6d-4d78-8d24-c226c11cf89d", "User");
+
+            if (!success) return success;
+
+
+
+            return success;
+
+        }
+
+
+        private bool AddUserAndRoles2()
+        {
+
+            bool success = false;
+
+
+
+            var idManager = new IdentityManager();
+
+
+            success = idManager.CreateRole("Admin");
+
+            if (!success == true) return success;
+
+
+
+            success = idManager.CreateRole("CanEdit");
+
+            if (!success == true) return success;
+
+
+
+            success = idManager.CreateRole("User");
+
+            if (!success) return success;
+
+
+
+
+
+            var newUser = new ApplicationUser()
+
+            {
+                Email = "tanthanhhotel@gmail.com",
+
+                FirstName = "Tan Thanh",
+
+                LastName = "Admin"
+
+            };
+
+
+
+            // Be careful here - you  will need to use a password which will 
+
+            // be valid under the password rules for the application, 
+
+            // or the process will abort:
+
+            success = idManager.CreateUser(newUser, "TanThanh@014");
+
+            if (!success) return success;
+
+
+
+            success = idManager.AddUserToRole(newUser.Id, "Admin");
+
+            if (!success) return success;
+
+
+
+            success = idManager.AddUserToRole(newUser.Id, "CanEdit");
+
+            if (!success) return success;
+
+
+
+            success = idManager.AddUserToRole(newUser.Id, "User");
+
+            if (!success) return success;
+
+
+
+            return success;
+
+        }
+
+        #endregion AddUserAndRoles: Run only one
+
+
+
     }
 }

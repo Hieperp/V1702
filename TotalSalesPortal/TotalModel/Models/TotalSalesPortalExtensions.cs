@@ -5,6 +5,11 @@ using TotalModel.Helpers;
 
 namespace TotalModel.Models
 {
+    public partial class TaskIndex
+    {
+        public string ModuleSerialName { get { return this.ModuleSerialID + "." + this.ModuleName; } }
+    }
+
     public partial class UserIndex
     {
         public string LocationOU { get { return this.LocationName + "\\" + this.OrganizationalUnitName; } }

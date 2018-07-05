@@ -21,10 +21,12 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
 
             //this.GetActiveUsers();
 
-            //this.UserEditable();
-            //this.UserRegister();
-            //this.UserUnregister();
-            //this.UserToggleVoid();
+            this.UserEditable();
+            this.UserRegister();
+            this.UserUnregister();
+            this.UserToggleVoid();
+
+            this.GetLocationOrganizationalUnits();
 
             this.GetUserAccessControls();
             this.SaveUserAccessControls();
@@ -44,7 +46,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
-            queryString = queryString + "       SELECT      ModuleDetails.TaskID, Modules.Description AS ModuleName, ModuleDetails.Description AS TaskName, ModuleDetails.SoftDescription AS SoftTaskName " + "\r\n";
+            queryString = queryString + "       SELECT      ModuleDetails.TaskID, Modules.SerialID AS ModuleSerialID, Modules.Description AS ModuleName, ModuleDetails.Description AS TaskName, ModuleDetails.SoftDescription AS SoftTaskName " + "\r\n";
             queryString = queryString + "       FROM        Modules INNER JOIN ModuleDetails ON Modules.ModuleID = ModuleDetails.ModuleID " + "\r\n";
             queryString = queryString + "       WHERE       Modules.InActive = 0 AND ModuleDetails.Enabled = 1 " + "\r\n";
             queryString = queryString + "       ORDER BY    Modules.SerialID, ModuleDetails.SerialID " + "\r\n";
@@ -93,26 +95,44 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
             this.totalSalesPortalEntities.CreateStoredProcedure("GetActiveUsers", queryString);
         }
 
+        private void GetLocationOrganizationalUnits()
+        {
+            string queryString;
+
+            queryString = " @Nothing int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      OrganizationalUnits.OrganizationalUnitID, Locations.Code + '\\' + OrganizationalUnits.Code AS LocationOrganizationalUnitCode " + "\r\n";
+            queryString = queryString + "       FROM        OrganizationalUnits INNER JOIN Locations ON OrganizationalUnits.LocationID = Locations.LocationID " + "\r\n";
+            queryString = queryString + "       ORDER BY    LocationOrganizationalUnitCode " + "\r\n";
+
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("GetLocationOrganizationalUnits", queryString);
+        }
+
         private void UserEditable()
         {
-            string[] queryArray = new string[8];
+            string[] queryArray = new string[9];
 
-            queryArray[0] = " SELECT TOP 1 @FoundEntity = UserID FROM BinLocations WHERE UserID = @EntityID ";
-            queryArray[1] = " SELECT TOP 1 @FoundEntity = UserID FROM SalesOrders WHERE UserID = @EntityID ";
-            queryArray[2] = " SELECT TOP 1 @FoundEntity = UserID FROM DeliveryAdvices WHERE UserID = @EntityID ";
-            queryArray[3] = " SELECT TOP 1 @FoundEntity = UserID FROM TransferOrders WHERE UserID = @EntityID ";
-            queryArray[4] = " SELECT TOP 1 @FoundEntity = UserID FROM GoodsIssues WHERE UserID = @EntityID ";
-            queryArray[5] = " SELECT TOP 1 @FoundEntity = UserID FROM Pickups WHERE UserID = @EntityID ";
-            queryArray[6] = " SELECT TOP 1 @FoundEntity = UserID FROM GoodsReceipts WHERE UserID = @EntityID ";
-            queryArray[7] = " SELECT TOP 1 @FoundEntity = UserID FROM WarehouseAdjustments WHERE UserID = @EntityID ";
-
+            queryArray[0] = " SELECT TOP 1 @FoundEntity = UserID FROM SalesOrders WHERE UserID = @EntityID OR PreparedPersonID = @EntityID OR ApproverID = @EntityID ";
+            queryArray[1] = " SELECT TOP 1 @FoundEntity = UserID FROM DeliveryAdvices WHERE UserID = @EntityID OR PreparedPersonID = @EntityID OR ApproverID = @EntityID ";
+            queryArray[2] = " SELECT TOP 1 @FoundEntity = UserID FROM SalesReturns WHERE UserID = @EntityID OR PreparedPersonID = @EntityID OR ApproverID = @EntityID ";
+            queryArray[3] = " SELECT TOP 1 @FoundEntity = UserID FROM GoodsIssues WHERE UserID = @EntityID OR PreparedPersonID = @EntityID OR ApproverID = @EntityID ";
+            queryArray[4] = " SELECT TOP 1 @FoundEntity = UserID FROM HandlingUnits WHERE UserID = @EntityID OR PreparedPersonID = @EntityID OR ApproverID = @EntityID ";
+            queryArray[5] = " SELECT TOP 1 @FoundEntity = UserID FROM GoodsDeliveries WHERE UserID = @EntityID OR PreparedPersonID = @EntityID OR ApproverID = @EntityID ";
+            queryArray[6] = " SELECT TOP 1 @FoundEntity = UserID FROM AccountInvoices WHERE UserID = @EntityID OR PreparedPersonID = @EntityID OR ApproverID = @EntityID ";
+            queryArray[7] = " SELECT TOP 1 @FoundEntity = UserID FROM Receipts WHERE UserID = @EntityID OR PreparedPersonID = @EntityID OR ApproverID = @EntityID ";
+            queryArray[8] = " SELECT TOP 1 @FoundEntity = UserID FROM CreditNotes WHERE UserID = @EntityID OR PreparedPersonID = @EntityID OR ApproverID = @EntityID ";
 
             this.totalSalesPortalEntities.CreateProcedureToCheckExisting("UserEditable", queryArray);
         }
 
         private void UserRegister()
         {
-            string queryString = " @LocationID int, @OrganizationalUnitID int, @FirstName nvarchar(60), @LastName nvarchar(60), @UserName nvarchar(256), @SecurityIdentifier nvarchar(256), @SameOUAccessLevel int, @SameLocationAccessLevel int, @OtherOUAccessLevel int " + "\r\n";
+            string queryString = " @UserID Int, @OrganizationalUnitID int, @SameOUAccessLevel int, @SameLocationAccessLevel int, @OtherOUAccessLevel int " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             //LUU Y RAT QUAN TRONG - VERY IMPORTANT
@@ -126,24 +146,17 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
             //--->KHI ĐÓ: UserToggleVoid: CẦN PHẢI XEM XÉT LẠI --> NHẰM ĐẢM BẢO RẰNG: NẾU ĐÃ CÓ 1 InActive THÌ SẼ KHÔNG THỂ ENABLE CÙNG 1 USER-LOCATION
             //--->TỨC LÀ: CÓ THỂ CẢI TIẾN --> CHO PHÉP TRÙNG USER-LOCATION, TUY NHIÊN: PHẢI ĐẢM BẢO CHỈ CÓ 1 USER-LOCATION LÀ InActive = 0
             //--->NHU CẦU ĐĂMG KÝ TRÙNG USER-LOCATION LÀ CÓ: NÓ GIẢI QUYẾT VẤN ĐỀ CẤP LẠI OrganizationalUnits CHO USER TRONG CÙNG LOCATION (VÍ DỤ: CẦN CHIA OrganizationalUnits => DO ĐÓ: PHẢI ĐĂNG KÝ LẠI USER-LOCATION CHO MỘT OrganizationalUnits KHÁC)
-            queryString = queryString + "           IF (SELECT COUNT(Users.UserID) FROM Users INNER JOIN OrganizationalUnits ON Users.OrganizationalUnitID = OrganizationalUnits.OrganizationalUnitID WHERE OrganizationalUnits.LocationID = @LocationID AND Users.SecurityIdentifier = @SecurityIdentifier) <= 0 " + "\r\n";
-            queryString = queryString + "               BEGIN " + "\r\n";
-            queryString = queryString + "                   DECLARE         @UserID Int" + "\r\n";
-            queryString = queryString + "                   INSERT INTO     Users (OrganizationalUnitID, FirstName, LastName, UserName, SecurityIdentifier, IsDatabaseAdmin, InActive) VALUES (@OrganizationalUnitID, @FirstName, @LastName, @UserName, @SecurityIdentifier, 0, 0); " + "\r\n";
-            queryString = queryString + "                   SELECT          @UserID = SCOPE_IDENTITY(); " + "\r\n";
-            queryString = queryString + "                   INSERT INTO     OrganizationalUnitUsers (OrganizationalUnitID, UserID, InActive, InActiveDate) VALUES (@OrganizationalUnitID, @UserID, 0, NULL); " + "\r\n";
+            queryString = queryString + "           INSERT INTO     OrganizationalUnitUsers (OrganizationalUnitID, UserID, InActive, InActiveDate) VALUES (@OrganizationalUnitID, @UserID, 0, NULL); " + "\r\n";
 
-            queryString = queryString + "                   INSERT INTO     AccessControls (UserID, NMVNTaskID, OrganizationalUnitID, AccessLevel, ApprovalPermitted, UnApprovalPermitted, VoidablePermitted, UnVoidablePermitted, ShowDiscount, InActive) " + "\r\n";
-            queryString = queryString + "                   SELECT          @UserID, ModuleDetails.ModuleDetailID, OrganizationalUnits.OrganizationalUnitID, CASE WHEN OrganizationalUnits.OrganizationalUnitID = @OrganizationalUnitID THEN @SameOUAccessLevel WHEN OrganizationalUnits.LocationID = @LocationID THEN @SameLocationAccessLevel ELSE @OtherOUAccessLevel END AS AccessLevel, CASE WHEN OrganizationalUnits.OrganizationalUnitID = @OrganizationalUnitID AND @SameOUAccessLevel = " + (int)GlobalEnums.AccessLevel.Editable + " THEN 1 ELSE 0 END AS ApprovalPermitted, CASE WHEN OrganizationalUnits.OrganizationalUnitID = @OrganizationalUnitID AND @SameOUAccessLevel = " + (int)GlobalEnums.AccessLevel.Editable + " THEN 1 ELSE 0 END AS UnApprovalPermitted, CASE WHEN OrganizationalUnits.OrganizationalUnitID = @OrganizationalUnitID AND @SameOUAccessLevel = " + (int)GlobalEnums.AccessLevel.Editable + " THEN 1 ELSE 0 END AS VoidablePermitted, CASE WHEN OrganizationalUnits.OrganizationalUnitID = @OrganizationalUnitID AND @SameOUAccessLevel = " + (int)GlobalEnums.AccessLevel.Editable + " THEN 1 ELSE 0 END AS UnVoidablePermitted, 0 AS ShowDiscount, 0 AS InActive " + "\r\n";
-            queryString = queryString + "                   FROM            ModuleDetails CROSS JOIN OrganizationalUnits" + "\r\n";
-            queryString = queryString + "                   WHERE           ModuleDetails.InActive = 0; " + "\r\n";
-            queryString = queryString + "               END " + "\r\n";
+            queryString = queryString + "           INSERT INTO     AccessControls (UserID, NMVNTaskID, OrganizationalUnitID, AccessLevel, ApprovalPermitted, UnApprovalPermitted, VoidablePermitted, UnVoidablePermitted, ShowDiscount, InActive) " + "\r\n";
+            queryString = queryString + "           SELECT          @UserID, ModuleDetails.TaskID, OrganizationalUnits.OrganizationalUnitID, CASE WHEN OrganizationalUnits.OrganizationalUnitID = @OrganizationalUnitID THEN @SameOUAccessLevel WHEN OrganizationalUnits.LocationID = (SELECT LocationID FROM OrganizationalUnits WHERE OrganizationalUnitID = @OrganizationalUnitID) THEN @SameLocationAccessLevel ELSE @OtherOUAccessLevel END AS AccessLevel, CASE WHEN OrganizationalUnits.OrganizationalUnitID = @OrganizationalUnitID AND @SameOUAccessLevel = " + (int)GlobalEnums.AccessLevel.Editable + " THEN 1 ELSE 0 END AS ApprovalPermitted, CASE WHEN OrganizationalUnits.OrganizationalUnitID = @OrganizationalUnitID AND @SameOUAccessLevel = " + (int)GlobalEnums.AccessLevel.Editable + " THEN 1 ELSE 0 END AS UnApprovalPermitted, CASE WHEN OrganizationalUnits.OrganizationalUnitID = @OrganizationalUnitID AND @SameOUAccessLevel = " + (int)GlobalEnums.AccessLevel.Editable + " THEN 1 ELSE 0 END AS VoidablePermitted, CASE WHEN OrganizationalUnits.OrganizationalUnitID = @OrganizationalUnitID AND @SameOUAccessLevel = " + (int)GlobalEnums.AccessLevel.Editable + " THEN 1 ELSE 0 END AS UnVoidablePermitted, 0 AS ShowDiscount, 0 AS InActive " + "\r\n";
+            queryString = queryString + "           FROM            ModuleDetails CROSS JOIN OrganizationalUnits" + "\r\n";
+            queryString = queryString + "           WHERE           ModuleDetails.InActive = 0; " + "\r\n";
 
-            queryString = queryString + "           ELSE " + "\r\n";
-            queryString = queryString + "               BEGIN " + "\r\n";
-            queryString = queryString + "                   DECLARE     @msg NVARCHAR(300) = N'Đăng ký user trùng location.' ; " + "\r\n";
-            queryString = queryString + "                   THROW       61001,  @msg, 1; " + "\r\n";
-            queryString = queryString + "               END " + "\r\n";
+            queryString = queryString + "           INSERT INTO     ReportControls (UserID, ReportID, Enabled) " + "\r\n";
+            queryString = queryString + "           SELECT          AspNetUsers.UserID, Reports.ReportID, 0 AS Enabled " + "\r\n";
+            queryString = queryString + "           FROM            AspNetUsers CROSS JOIN Reports " + "\r\n";
+            queryString = queryString + "           ORDER BY        AspNetUsers.UserID, Reports.ReportID; " + "\r\n";
 
             queryString = queryString + "       END " + "\r\n";
 
@@ -164,7 +177,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
             queryString = queryString + "               BEGIN " + "\r\n";
             queryString = queryString + "                   DELETE FROM     AccessControls WHERE UserID = @UserID " + "\r\n";
             queryString = queryString + "                   DELETE FROM     OrganizationalUnitUsers WHERE UserID = @UserID " + "\r\n";
-            queryString = queryString + "                   DELETE FROM     Users WHERE UserID = @UserID " + "\r\n";
+            queryString = queryString + "                   DELETE FROM     ReportControls WHERE UserID = @UserID " + "\r\n";
             queryString = queryString + "               END " + "\r\n";
 
             queryString = queryString + "           ELSE " + "\r\n";
@@ -184,7 +197,6 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
-            queryString = queryString + "       UPDATE      Users                       SET InActive = @InActive                            WHERE UserID = @EntityID AND InActive = ~@InActive" + "\r\n";
             queryString = queryString + "       UPDATE      AccessControls              SET InActive = @InActive                            WHERE UserID = @EntityID AND InActive = ~@InActive" + "\r\n";
             queryString = queryString + "       UPDATE      OrganizationalUnitUsers     SET InActive = @InActive, InActiveDate = GetDate()  WHERE UserID = @EntityID AND InActive = ~@InActive" + "\r\n";
 
