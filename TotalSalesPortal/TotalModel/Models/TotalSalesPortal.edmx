@@ -19,6 +19,7 @@
           <Property Name="VoidablePermitted" Type="bit" Nullable="false" />
           <Property Name="UnVoidablePermitted" Type="bit" Nullable="false" />
           <Property Name="ShowDiscount" Type="bit" Nullable="false" />
+          <Property Name="InActive" Type="bit" Nullable="false" />
           <Property Name="AccessLevelBACKUP" Type="int" />
           <Property Name="ApprovalPermittedBACKUP" Type="bit" />
           <Property Name="UnApprovalPermittedBACKUP" Type="bit" />
@@ -751,6 +752,7 @@
           <Property Name="OrganizationalUnitID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="InActive" Type="bit" Nullable="false" />
+          <Property Name="InActiveDate" Type="datetime" />
         </EntityType>
         <EntityType Name="PackingMaterials">
           <Key>
@@ -2939,10 +2941,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
         <Function Name="GetUserReportControls" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
         </Function>
-        <Function Name="GetUserTrees" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Id" Type="int" Mode="In" />
-          <Parameter Name="ActiveOption" Type="int" Mode="In" />
-        </Function>
         <Function Name="GetVoidablePermitted" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="NMVNTaskID" Type="int" Mode="In" />
@@ -3099,6 +3097,25 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Parameter Name="ToDate" Type="datetime" Mode="In" />
           <Parameter Name="CodePartA" Type="nvarchar" Mode="In" />
           <Parameter Name="CodePartB" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UserEditable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UserRegister" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="OrganizationalUnitID" Type="int" Mode="In" />
+          <Parameter Name="SameOUAccessLevel" Type="int" Mode="In" />
+          <Parameter Name="SameLocationAccessLevel" Type="int" Mode="In" />
+          <Parameter Name="OtherOUAccessLevel" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UserToggleVoid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EntityID" Type="int" Mode="In" />
+          <Parameter Name="InActive" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="UserUnregister" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+          <Parameter Name="OrganizationalUnitName" Type="nvarchar" Mode="In" />
         </Function>
         <EntityContainer Name="TotalSalesPortalModelStoreContainer">
           <EntitySet Name="AccessControls" EntityType="Self.AccessControls" Schema="dbo" store:Type="Tables" />
@@ -4666,10 +4683,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="CodePartA" Mode="In" Type="String" />
             <Parameter Name="CodePartB" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="GetUserTrees" ReturnType="Collection(TotalSalesPortalModel.UserTree)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
-            <Parameter Name="ActiveOption" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="GetUserIndexes" ReturnType="Collection(TotalSalesPortalModel.UserIndex)">
             <Parameter Name="AspUserID" Mode="In" Type="String" />
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
@@ -4698,7 +4711,26 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
             <Parameter Name="Enabled" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="GetLocationOrganizationalUnits" ReturnType="Collection(TotalSalesPortalModel.LocationOrganizationalUnit)" >
-            <Parameter Name="Nothing" Mode="In" Type="Int32" />
+          <Parameter Name="Nothing" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UserEditable" ReturnType="Collection(String)">
+          <Parameter Name="EntityID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UserRegister">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="OrganizationalUnitID" Mode="In" Type="Int32" />
+            <Parameter Name="SameOUAccessLevel" Mode="In" Type="Int32" />
+            <Parameter Name="SameLocationAccessLevel" Mode="In" Type="Int32" />
+            <Parameter Name="OtherOUAccessLevel" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UserToggleVoid">
+            <Parameter Name="EntityID" Mode="In" Type="Int32" />
+            <Parameter Name="InActive" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="UserUnregister">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="OrganizationalUnitName" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="OrganizationalUnit">
@@ -4721,6 +4753,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="InActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="OrganizationalUnit" Relationship="TotalSalesPortalModel.FK_OrganizationalUnitIUsers_OrganizationalUnits" FromRole="OrganizationalUnitUser" ToRole="OrganizationalUnit" />
+          <Property Name="InActiveDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_OrganizationalUnits_Locations">
           <End Type="TotalSalesPortalModel.Location" Role="Location" Multiplicity="1" />
@@ -5293,6 +5326,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Name="ApprovalPermittedBACKUP" Type="Boolean" />
           <Property Name="UnApprovalPermittedBACKUP" Type="Boolean" />
           <Property Name="ShowDiscount" Type="Boolean" Nullable="false" />
+          <Property Name="InActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="VoidType">
           <Key>
@@ -8418,12 +8452,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <Property Type="Decimal" Name="TotalGrossAmount" Nullable="false" Precision="18" Scale="2" />
           <Property Type="String" Name="WarehouseCode" Nullable="false" MaxLength="10" />
         </ComplexType>
-        <ComplexType Name="UserTree">
-          <Property Type="Int32" Name="id" Nullable="true" />
-          <Property Type="Int32" Name="PrimaryID" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
-          <Property Type="Boolean" Name="hasChildren" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="UserIndex">
           <Property Type="Int32" Name="UserID" Nullable="false" />
           <Property Type="String" Name="FirstName" Nullable="false" MaxLength="60" />
@@ -8552,6 +8580,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="OrganizationalUnitUsers">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.OrganizationalUnitUser">
               <MappingFragment StoreEntitySet="OrganizationalUnitUsers">
+                <ScalarProperty Name="InActiveDate" ColumnName="InActiveDate" />
                 <ScalarProperty Name="InActive" ColumnName="InActive" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="OrganizationalUnitID" ColumnName="OrganizationalUnitID" />
@@ -9066,6 +9095,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <EntitySetMapping Name="AccessControls">
             <EntityTypeMapping TypeName="TotalSalesPortalModel.AccessControl">
               <MappingFragment StoreEntitySet="AccessControls">
+                <ScalarProperty Name="InActive" ColumnName="InActive" />
                 <ScalarProperty Name="ShowDiscount" ColumnName="ShowDiscount" />
                 <ScalarProperty Name="UnApprovalPermittedBACKUP" ColumnName="UnApprovalPermittedBACKUP" />
                 <ScalarProperty Name="ApprovalPermittedBACKUP" ColumnName="ApprovalPermittedBACKUP" />
@@ -11010,16 +11040,6 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetUserTrees" FunctionName="TotalSalesPortalModel.Store.GetUserTrees">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="TotalSalesPortalModel.UserTree">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="PrimaryID" ColumnName="PrimaryID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="hasChildren" ColumnName="hasChildren" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetUserIndexes" FunctionName="TotalSalesPortalModel.Store.GetUserIndexes">
             <ResultMapping>
               <ComplexTypeMapping TypeName="TotalSalesPortalModel.UserIndex">
@@ -11083,6 +11103,10 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UserEditable" FunctionName="TotalSalesPortalModel.Store.UserEditable" />
+          <FunctionImportMapping FunctionImportName="UserRegister" FunctionName="TotalSalesPortalModel.Store.UserRegister" />
+          <FunctionImportMapping FunctionImportName="UserToggleVoid" FunctionName="TotalSalesPortalModel.Store.UserToggleVoid" />
+          <FunctionImportMapping FunctionImportName="UserUnregister" FunctionName="TotalSalesPortalModel.Store.UserUnregister" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -1780,19 +1780,6 @@ namespace TotalModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<WarehouseEntry>("SearchWarehouseEntries", aspUserIDParameter, fromDateParameter, toDateParameter, codePartAParameter, codePartBParameter);
         }
     
-        public virtual ObjectResult<UserTree> GetUserTrees(Nullable<int> id, Nullable<int> activeOption)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("Id", id) :
-                new ObjectParameter("Id", typeof(int));
-    
-            var activeOptionParameter = activeOption.HasValue ?
-                new ObjectParameter("ActiveOption", activeOption) :
-                new ObjectParameter("ActiveOption", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserTree>("GetUserTrees", idParameter, activeOptionParameter);
-        }
-    
         public virtual ObjectResult<UserIndex> GetUserIndexes(string aspUserID, Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, Nullable<int> activeOption)
         {
             var aspUserIDParameter = aspUserID != null ?
@@ -1894,6 +1881,70 @@ namespace TotalModel.Models
                 new ObjectParameter("Nothing", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LocationOrganizationalUnit>("GetLocationOrganizationalUnits", nothingParameter);
+        }
+    
+        public virtual ObjectResult<string> UserEditable(Nullable<int> entityID)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("UserEditable", entityIDParameter);
+        }
+    
+        public virtual int UserRegister(Nullable<int> userID, Nullable<int> organizationalUnitID, Nullable<int> sameOUAccessLevel, Nullable<int> sameLocationAccessLevel, Nullable<int> otherOUAccessLevel)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var organizationalUnitIDParameter = organizationalUnitID.HasValue ?
+                new ObjectParameter("OrganizationalUnitID", organizationalUnitID) :
+                new ObjectParameter("OrganizationalUnitID", typeof(int));
+    
+            var sameOUAccessLevelParameter = sameOUAccessLevel.HasValue ?
+                new ObjectParameter("SameOUAccessLevel", sameOUAccessLevel) :
+                new ObjectParameter("SameOUAccessLevel", typeof(int));
+    
+            var sameLocationAccessLevelParameter = sameLocationAccessLevel.HasValue ?
+                new ObjectParameter("SameLocationAccessLevel", sameLocationAccessLevel) :
+                new ObjectParameter("SameLocationAccessLevel", typeof(int));
+    
+            var otherOUAccessLevelParameter = otherOUAccessLevel.HasValue ?
+                new ObjectParameter("OtherOUAccessLevel", otherOUAccessLevel) :
+                new ObjectParameter("OtherOUAccessLevel", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UserRegister", userIDParameter, organizationalUnitIDParameter, sameOUAccessLevelParameter, sameLocationAccessLevelParameter, otherOUAccessLevelParameter);
+        }
+    
+        public virtual int UserToggleVoid(Nullable<int> entityID, Nullable<bool> inActive)
+        {
+            var entityIDParameter = entityID.HasValue ?
+                new ObjectParameter("EntityID", entityID) :
+                new ObjectParameter("EntityID", typeof(int));
+    
+            var inActiveParameter = inActive.HasValue ?
+                new ObjectParameter("InActive", inActive) :
+                new ObjectParameter("InActive", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UserToggleVoid", entityIDParameter, inActiveParameter);
+        }
+    
+        public virtual int UserUnregister(Nullable<int> userID, string userName, string organizationalUnitName)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var organizationalUnitNameParameter = organizationalUnitName != null ?
+                new ObjectParameter("OrganizationalUnitName", organizationalUnitName) :
+                new ObjectParameter("OrganizationalUnitName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UserUnregister", userIDParameter, userNameParameter, organizationalUnitNameParameter);
         }
     }
 }

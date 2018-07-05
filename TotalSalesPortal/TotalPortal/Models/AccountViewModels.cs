@@ -103,6 +103,14 @@ namespace TotalPortal.Models
         public int OrganizationalUnitID { get; set; }
         public List<SelectListItem> OrganizationalUnitSelectList { get; set; }
 
+        [Display(Name = "Access right applies to my own division")]
+        public int SameOUAccessLevel { get; set; }
+        [Display(Name = "Access right applies to my own location")]
+        public int SameLocationAccessLevel { get; set; }
+        [Display(Name = "Access right applies to other location")]
+        public int OtherOUAccessLevel { get; set; }
+        public List<SelectListItem> AccessLevelSelectList { get; set; }
+
         // Return a pre-poulated instance of AppliationUser:
         public ApplicationUser GetUser()
         {

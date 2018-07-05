@@ -18,6 +18,7 @@ namespace TotalModel.Models
         public int OrganizationalUnitID { get; set; }
         public int UserID { get; set; }
         public bool InActive { get; set; }
+        public Nullable<System.DateTime> InActiveDate { get; set; }
     
         public virtual OrganizationalUnit OrganizationalUnit { get; set; }
     }

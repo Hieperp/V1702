@@ -1,26 +1,25 @@
 ﻿using System;
-using System.Globalization;
+using System.Net;
 using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Globalization;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+using Owin;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using System.Collections.Generic;
-using Owin;
 
 
-
-
-using TotalCore.Repositories.Sales;
+using TotalBase.Enums;
+using TotalModel.Models;
+using TotalCore.Repositories.Generals;
 using TotalPortal.Models;
 using TotalPortal.ViewModels.Home;
 using TotalPortal.APIs.Sessions;
-using TotalModel.Models;
-using System.Data.Entity.Core.Objects;
-using TotalCore.Repositories;
 
 
 
@@ -32,10 +31,10 @@ namespace TotalPortal.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        private readonly IBaseRepository baseRepository;
-        public AccountController(IBaseRepository baseRepository)
+        private readonly IUserAPIRepository userAPIRepository;
+        public AccountController(IUserAPIRepository userAPIRepository)
         {
-            this.baseRepository = baseRepository;
+            this.userAPIRepository = userAPIRepository;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -166,11 +165,10 @@ namespace TotalPortal.Controllers
             var model = new EditUserViewModel(user);
 
             if (user == null)
-            {
-
                 return HttpNotFound();
-
-            }
+            else
+                if (!this.userAPIRepository.UserEditable(user.UserID))
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Sorry " + user.UserName + " is not deletable!");
 
             return View(model);
 
@@ -245,17 +243,24 @@ namespace TotalPortal.Controllers
 
         public ActionResult DeleteConfirmed(string id)
         {
+            try
+            {
+                var Db = new ApplicationDbContext();
 
-            var Db = new ApplicationDbContext();
+                var user = Db.Users.First(u => u.Id == id);
 
-            var user = Db.Users.First(u => u.Id == id);
+                this.userAPIRepository.UserUnregister(user.UserID, user.UserName, "[CURRENT OU]");
 
-            Db.Users.Remove(user);
+                Db.Users.Remove(user);
 
-            Db.SaveChanges();
+                Db.SaveChanges();
 
-            return RedirectToAction("Index");
-
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Delete", new { id = id });
+            }
         }
 
         #endregion Added by HIEP
@@ -348,6 +353,11 @@ namespace TotalPortal.Controllers
         public ActionResult Register()
         {
             RegisterViewModel registerViewModel = new RegisterViewModel();
+
+            registerViewModel.SameOUAccessLevel = (int)GlobalEnums.AccessLevel.Editable;
+            registerViewModel.SameLocationAccessLevel = (int)GlobalEnums.AccessLevel.Readable;
+            registerViewModel.OtherOUAccessLevel = (int)GlobalEnums.AccessLevel.Deny;
+
             this.GetOrganizationalUnitSelectList(registerViewModel);
 
             return View(registerViewModel);
@@ -374,6 +384,9 @@ namespace TotalPortal.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+
+                    this.userAPIRepository.UserRegister(user.UserID, model.OrganizationalUnitID, model.SameOUAccessLevel, model.SameLocationAccessLevel, model.OtherOUAccessLevel);
+
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -386,12 +399,14 @@ namespace TotalPortal.Controllers
 
         private void GetOrganizationalUnitSelectList(RegisterViewModel registerViewModel)
         {
-            if (this.baseRepository != null)
+            if (this.userAPIRepository != null)
             {
-                ICollection<LocationOrganizationalUnit> locationOrganizationalUnits = this.baseRepository.ExecuteFunction<LocationOrganizationalUnit>("GetLocationOrganizationalUnits", new ObjectParameter[] { new ObjectParameter("Nothing", 0) });
+                IList<LocationOrganizationalUnit> locationOrganizationalUnits = this.userAPIRepository.GetLocationOrganizationalUnits(0);
                 registerViewModel.OrganizationalUnitSelectList = locationOrganizationalUnits.Select(pt => new SelectListItem { Text = pt.LocationOrganizationalUnitCode, Value = pt.OrganizationalUnitID.ToString() }).ToList();
             }
             registerViewModel.OrganizationalUnitSelectList.Add(new SelectListItem { Text = "[Vui lòng chọn division]", Value = "0" });
+
+            registerViewModel.AccessLevelSelectList = new List<SelectListItem>() { new SelectListItem { Text = "No Access", Value = ((int)GlobalEnums.AccessLevel.Deny).ToString() }, new SelectListItem { Text = GlobalEnums.AccessLevel.Readable.ToString(), Value = ((int)GlobalEnums.AccessLevel.Readable).ToString() }, new SelectListItem { Text = GlobalEnums.AccessLevel.Editable.ToString(), Value = ((int)GlobalEnums.AccessLevel.Editable).ToString() } };
         }
 
         //

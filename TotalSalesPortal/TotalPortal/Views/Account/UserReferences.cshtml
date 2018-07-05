@@ -15,7 +15,7 @@
                 .Selected(true)
                 .Expanded(true)
                 .Content(@<text>
-                    
+
                     <div style="background: radial-gradient(#f6f5f5, #e9e8e8); color: #428bca; margin-bottom: 1px; padding: 1px 1px 0px 16px; border-radius: 4px; "> <img src="~/Content/Images/Mains/add-contact-darkblue.png" /> @Html.ActionLink("Register new user", "Register", "Account") </div>
 
                     @(Html.Kendo().Grid<TotalModel.Models.UserIndex>()
@@ -28,10 +28,13 @@
                             columns.Bound(p => p.FirstName).Title("").Width(100);
                             columns.Bound(p => p.UserName).Title("").Width(600);
 
+                            columns.Template(t => { }).Title("InActive").ClientTemplate("<input id = 'InActive' class='UserIndex-GridCheckbox' #= InActive ? checked='checked':'' #  type='checkbox' />").HeaderHtmlAttributes(new { style = "text-align:center" }).HtmlAttributes(new { @class = "grid-column-center" }).Width(10);
+
                             columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(80)
-                                .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Generals/Users", action = "Edit" }) + "/#= UserID #'><span class='k-icon k-edit'></span></a>"); // <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Generals/Users", action = "Delete" }) + "/#= UserID #'><span class='k-icon k-delete'></span></a>
+                                .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' onclick='UserToggleVoid(#= UserID #)'><span class='k-icon k-edit'></span></a>");
                         })
                         .Selectable()
+                        .Editable(e => e.Enabled(false))
                         .Events(e => { e.Change("UserTask_OnChange"); e.DataBound("onDataBoundUserIndex"); })
                         .DataSource(dataSource => dataSource
                             .Ajax()
@@ -273,7 +276,7 @@
 
         return $.ajax({
             url: '@Url.Action("SaveUserReportControls", "UserAPIs", new { area = "Generals" })',
-            data: JSON.stringify({ "reportControlID": dataItem.ReportControlID, "enabled": (this.id === "Enabled" ? checked : dataItem.Enabled)}),
+            data: JSON.stringify({ "reportControlID": dataItem.ReportControlID, "enabled": (this.id === "Enabled" ? checked : dataItem.Enabled) }),
 
             type: 'POST',
             contentType: 'application/json;',
@@ -290,6 +293,36 @@
             }
         });
     })
+
+
+
+    function UserToggleVoid(userID) {
+        var grid = $('#kendoGridUserIndex').data().kendoGrid;
+        var dataItem = grid.dataItem(grid.select());
+
+        if (userID == dataItem.UserID) //Check to ensure: User click the button of current select row
+            if (confirm((dataItem.InActive == true ? "Phục hồi" : "Tạm ngưng") + " cấp quyền sử dụng cho: " + "\r\n\r\n" + dataItem.UserName)) {
+                return $.ajax({
+                    url: '@Url.Action("UserToggleVoid", "UserAPIs", new { area = "Generals" })',
+                    data: JSON.stringify({ "userID": dataItem.UserID, "inActive": (dataItem.InActive? false: true) }),
+
+                    type: 'POST',
+                    contentType: 'application/json;',
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.SaveResult == "Successfully") {
+                            $("#kendoGridUserIndex").data("kendoGrid").dataSource.read();
+                        }
+                        else
+                            alert(result.SaveResult);
+                    },
+                    error: function (jqXHR, textStatus) {
+                        alert(textStatus);
+                    }
+                });
+            }
+    }
+
 
 </script>
 

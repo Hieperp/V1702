@@ -62,9 +62,31 @@
     </div>
 
 
+    <div class="form-group">
+        @Html.LabelFor(model => model.SameOUAccessLevel, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.Kendo().DropDownListFor(m => m.SameOUAccessLevel).BindTo(Model.AccessLevelSelectList).HtmlAttributes(new { @class = "form-controlxx" })
+        </div>
+    </div>
 
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
+        @Html.LabelFor(model => model.SameLocationAccessLevel, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.Kendo().DropDownListFor(m => m.SameLocationAccessLevel).BindTo(Model.AccessLevelSelectList).HtmlAttributes(new { @class = "form-controlxx" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.OtherOUAccessLevel, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.Kendo().DropDownListFor(m => m.OtherOUAccessLevel).BindTo(Model.AccessLevelSelectList).HtmlAttributes(new { @class = "form-controlxx" })
+        </div>
+    </div>
+
+    
+    <div class="form-group">
+        @Html.Label(" ", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
             <input type="submit" class="btn btn-default" value="Register" />
         </div>
     </div>
@@ -75,6 +97,14 @@
     }*@
 
 <style>
+    .col-md-2
+    {
+        width: 35%;
+    }
+    .col-md-10
+    {
+         width: 65%;
+    }
     .form-controlxx {
         width: 280px;
     }

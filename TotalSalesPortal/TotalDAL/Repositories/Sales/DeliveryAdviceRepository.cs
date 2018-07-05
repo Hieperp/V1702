@@ -29,6 +29,11 @@ namespace TotalDAL.Repositories.Sales
             Helpers.SqlProgrammability.Generals.UserReference userReference = new Helpers.SqlProgrammability.Generals.UserReference(totalSalesPortalEntities);
             userReference.RestoreProcedure();
 
+
+            //return;
+            Helpers.SqlProgrammability.Generals.AccessControl accessControl = new Helpers.SqlProgrammability.Generals.AccessControl(totalSalesPortalEntities);
+            accessControl.RestoreProcedure();
+
             //return;
 
             Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);
@@ -200,10 +205,6 @@ namespace TotalDAL.Repositories.Sales
 
 
 
-
-
-            Helpers.SqlProgrammability.Generals.AccessControl accessControl = new Helpers.SqlProgrammability.Generals.AccessControl(totalSalesPortalEntities);
-            accessControl.RestoreProcedure();
 
 
 

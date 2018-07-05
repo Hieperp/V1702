@@ -9,12 +9,12 @@
             <li>@Html.ActionLink("User Guide", "UserGuide", "Home", new { area = "" }, null)</li>
             <li>@Html.ActionLink("Lock Data", "LockedDate", "Home", new { area = "" }, null)</li>
 
-            <li>@Html.ActionLink("User References", "UserReferences", "Account")</li>
+            <li>@Html.ActionLink("User References", "UserReferences", "Account", new { area = "" }, null)</li>
 
             @if (User.Identity.GetUserName() == "hieperp@gmail.com")
             {
                 <li>@*@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })*@</li>
-                <li>@Html.ActionLink("Admin", "Index", "Account")</li>
+                <li>@Html.ActionLink("Admin", "Index", "Account", new { area = "" }, null)</li>
             }
 
             <li>

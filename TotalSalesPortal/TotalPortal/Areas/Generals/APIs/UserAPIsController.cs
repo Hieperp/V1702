@@ -30,7 +30,7 @@ namespace TotalPortal.Areas.Generals.APIs
 
         public JsonResult GetUserIndexes([DataSourceRequest] DataSourceRequest request, int? activeOption)
         {
-            this.userAPIRepository.RepositoryBag["ActiveOption"] = 0;
+            this.userAPIRepository.RepositoryBag["ActiveOption"] = -1;
             ICollection<UserIndex> userIndexes = this.userAPIRepository.GetEntityIndexes<UserIndex>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext));
 
             DataSourceResult response = userIndexes.ToDataSourceResult(request);
@@ -46,6 +46,20 @@ namespace TotalPortal.Areas.Generals.APIs
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+
+        [HttpPost]
+        public JsonResult UserToggleVoid(int? userID, bool? inActive)
+        {
+            try
+            {
+                this.userAPIRepository.UserToggleVoid(userID, inActive);
+                return Json(new { SaveResult = "Successfully" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { SaveResult = "Lỗi. Vui lòng đóng phần mềm và thử lại. " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
 
         public JsonResult GetUserAccessControls([DataSourceRequest] DataSourceRequest request, int? userID, int? nmvnTaskID)
@@ -98,12 +112,6 @@ namespace TotalPortal.Areas.Generals.APIs
             }
         }
 
-
-
-        public JsonResult GetUserTrees(int? id)
-        {
-            IList<UserTree> userTrees = this.userAPIRepository.GetUserTrees(id, (int)GlobalEnums.ActiveOption.Both);
-            return Json(userTrees, JsonRequestBehavior.AllowGet);
-        }
+        
     }
 }

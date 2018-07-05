@@ -1,4 +1,41 @@
-﻿@using TotalBase.Enums;
+﻿@*private void GetUserTrees()
+        {
+            string queryString;
+
+            queryString = " @Id int, @ActiveOption int " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       IF @Id IS NULL " + "\r\n";
+
+            queryString = queryString + "           SELECT      " + GlobalEnums.RootNode + " + LocationID AS id, LocationID AS PrimaryID, Name, CAST(1 AS bit) AS hasChildren " + "\r\n";
+            queryString = queryString + "           FROM        Locations " + "\r\n";
+            queryString = queryString + "           WHERE       LocationID IN (SELECT LocationID FROM OrganizationalUnits) " + "\r\n";
+
+            queryString = queryString + "       ELSE " + "\r\n";
+            queryString = queryString + "           BEGIN " + "\r\n";
+            queryString = queryString + "               IF @Id >= " + GlobalEnums.RootNode + " AND @Id <= " + GlobalEnums.AncestorNode + "\r\n";
+
+            queryString = queryString + "                   SELECT      " + GlobalEnums.AncestorNode + " + OrganizationalUnitID AS id, OrganizationalUnitID AS PrimaryID, Code AS Name, CAST(1 AS bit) AS hasChildren " + "\r\n";
+            queryString = queryString + "                   FROM        OrganizationalUnits " + "\r\n";
+            queryString = queryString + "                   WHERE       OrganizationalUnitID IN (SELECT OrganizationalUnitUsers.OrganizationalUnitID FROM AspNetUsers INNER JOIN OrganizationalUnitUsers ON AspNetUsers.UserID = OrganizationalUnitUsers.UserID AND (@ActiveOption = " + (int)GlobalEnums.ActiveOption.Both + " OR OrganizationalUnitUsers.InActive = @ActiveOption)) AND " + GlobalEnums.RootNode + " + LocationID = @Id " + "\r\n";
+
+            queryString = queryString + "                   " + "\r\n";
+
+            queryString = queryString + "               ELSE " + "\r\n";
+
+            queryString = queryString + "                   SELECT      AspNetUsers.UserID AS id, AspNetUsers.UserID AS PrimaryID, AspNetUsers.UserName AS Name, CAST(0 AS bit) AS hasChildren " + "\r\n";
+            queryString = queryString + "                   FROM        AspNetUsers INNER JOIN OrganizationalUnitUsers ON AspNetUsers.UserID = OrganizationalUnitUsers.UserID " + "\r\n";
+            queryString = queryString + "                   WHERE       " + GlobalEnums.AncestorNode + " + OrganizationalUnitUsers.OrganizationalUnitID = @Id AND (@ActiveOption = " + (int)GlobalEnums.ActiveOption.Both + " OR OrganizationalUnitUsers.InActive = @ActiveOption) " + "\r\n";
+
+            queryString = queryString + "           END " + "\r\n";
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("GetUserTrees", queryString);
+            }*@
+
+@using TotalBase.Enums;
 @using TotalPortal.Configuration
 
 @*@model TotalPortal.Areas.Generals.ViewModels.CustomerViewModel*@

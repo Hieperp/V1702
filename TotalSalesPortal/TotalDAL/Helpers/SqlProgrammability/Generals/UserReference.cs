@@ -19,8 +19,6 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
 
             this.GetUserIndexes();
 
-            //this.GetActiveUsers();
-
             this.UserEditable();
             this.UserRegister();
             this.UserUnregister();
@@ -33,8 +31,6 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
 
             this.GetUserReportControls();
             this.SaveUserReportControls();
-
-            this.GetUserTrees();
         }
 
         private void GetModuleDetailIndexes()
@@ -76,24 +72,6 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
             this.totalSalesPortalEntities.CreateStoredProcedure("GetUserIndexes", queryString);
         }
 
-        private void GetActiveUsers()
-        {
-            string queryString;
-
-            queryString = " @SecurityIdentifier nvarchar(256) " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
-            queryString = queryString + " AS " + "\r\n";
-            queryString = queryString + "    BEGIN " + "\r\n";
-
-            queryString = queryString + "       SELECT      Users.UserID, Users.FirstName, Users.LastName, Users.UserName, Users.SecurityIdentifier, Users.IsDatabaseAdmin, Users.OrganizationalUnitID, OrganizationalUnits.Name AS OrganizationalUnitName, OrganizationalUnits.LocationID, Locations.Name AS LocationName " + "\r\n";
-            queryString = queryString + "       FROM        Users " + "\r\n";
-            queryString = queryString + "                   INNER JOIN OrganizationalUnits ON Users.SecurityIdentifier = @SecurityIdentifier AND Users.InActive = 0 AND Users.OrganizationalUnitID = OrganizationalUnits.OrganizationalUnitID " + "\r\n";
-            queryString = queryString + "                   INNER JOIN Locations ON OrganizationalUnits.LocationID = Locations.LocationID " + "\r\n";
-
-            queryString = queryString + "    END " + "\r\n";
-
-            this.totalSalesPortalEntities.CreateStoredProcedure("GetActiveUsers", queryString);
-        }
 
         private void GetLocationOrganizationalUnits()
         {
@@ -193,12 +171,15 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
 
         private void UserToggleVoid()
         {
+            string SQW = " AND UserID NOT IN (SELECT AspNetUsers.UserID FROM AspNetUsers INNER JOIN AspNetUserRoles ON AspNetUsers.Id = AspNetUserRoles.UserId INNER JOIN AspNetRoles ON AspNetUserRoles.RoleId = AspNetRoles.Id WHERE AspNetRoles.Name = N'Admin' OR AspNetRoles.Name = N'Vendor')";
+            
+
             string queryString = " @EntityID int, @InActive bit " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
-            queryString = queryString + "       UPDATE      AccessControls              SET InActive = @InActive                            WHERE UserID = @EntityID AND InActive = ~@InActive" + "\r\n";
-            queryString = queryString + "       UPDATE      OrganizationalUnitUsers     SET InActive = @InActive, InActiveDate = GetDate()  WHERE UserID = @EntityID AND InActive = ~@InActive" + "\r\n";
+            queryString = queryString + "       UPDATE      AccessControls              SET InActive = @InActive                            WHERE UserID = @EntityID AND InActive = ~@InActive" + SQW + "\r\n";
+            queryString = queryString + "       UPDATE      OrganizationalUnitUsers     SET InActive = @InActive, InActiveDate = GetDate()  WHERE UserID = @EntityID AND InActive = ~@InActive" + SQW + "\r\n";
 
             this.totalSalesPortalEntities.CreateStoredProcedure("UserToggleVoid", queryString);
         }
@@ -288,70 +269,6 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
             this.totalSalesPortalEntities.CreateStoredProcedure("SaveUserReportControls", queryString);
         }
 
-        //private void GetUserTrees()
-        //{
-        //    string queryString;
-
-        //    queryString = " @ActiveOption int " + "\r\n";
-        //    queryString = queryString + " WITH ENCRYPTION " + "\r\n";
-        //    queryString = queryString + " AS " + "\r\n";
-        //    queryString = queryString + "    BEGIN " + "\r\n";
-
-        //    queryString = queryString + "       SELECT      " + GlobalEnums.RootNode + " + LocationID AS NodeID, 0 AS ParentNodeID, LocationID AS PrimaryID, NULL AS AncestorID, Code, Name, 'LocationID' AS ParameterName, CAST(0 AS bit) AS Selected " + "\r\n";
-        //    queryString = queryString + "       FROM        Locations " + "\r\n";
-
-        //    queryString = queryString + "       UNION ALL " + "\r\n";
-        //    queryString = queryString + "       SELECT      " + GlobalEnums.AncestorNode + " + OrganizationalUnitID AS NodeID, " + GlobalEnums.RootNode + " + LocationID AS ParentNodeID, OrganizationalUnitID AS PrimaryID, LocationID AS AncestorID, Code, Name, 'OrganizationalUnitID' AS ParameterName, CAST(0 AS bit) AS Selected " + "\r\n";
-        //    queryString = queryString + "       FROM        OrganizationalUnits " + "\r\n";
-        //    queryString = queryString + "       UNION ALL " + "\r\n";
-        //    queryString = queryString + "       SELECT      UserID AS NodeID, " + GlobalEnums.AncestorNode + " + OrganizationalUnitID AS ParentNodeID, UserID AS PrimaryID, OrganizationalUnitID AS AncestorID, SecurityIdentifier AS Code, UserName AS Name, 'UserID' AS ParameterName, InActive AS Selected " + "\r\n";
-        //    queryString = queryString + "       FROM        Users " + "\r\n";
-        //    queryString = queryString + "       WHERE       (@ActiveOption = " + (int)GlobalEnums.ActiveOption.Both + " OR Users.InActive = @ActiveOption) " + "\r\n";
-
-        //    queryString = queryString + "    END " + "\r\n";
-
-        //    this.totalSalesPortalEntities.CreateStoredProcedure("GetUserTrees", queryString);
-        //}
-
-        private void GetUserTrees()
-        {
-            string queryString;
-
-            queryString = " @Id int, @ActiveOption int " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
-            queryString = queryString + " AS " + "\r\n";
-            queryString = queryString + "    BEGIN " + "\r\n";
-
-            queryString = queryString + "       IF @Id IS NULL " + "\r\n";
-
-            queryString = queryString + "           SELECT      " + GlobalEnums.RootNode + " + LocationID AS id, LocationID AS PrimaryID, Name, CAST(1 AS bit) AS hasChildren " + "\r\n";
-            queryString = queryString + "           FROM        Locations " + "\r\n";
-            queryString = queryString + "           WHERE       LocationID IN (SELECT LocationID FROM OrganizationalUnits) " + "\r\n";
-
-            queryString = queryString + "       ELSE " + "\r\n";
-            queryString = queryString + "           BEGIN " + "\r\n";
-            queryString = queryString + "               IF @Id >= " + GlobalEnums.RootNode + " AND @Id <= " + GlobalEnums.AncestorNode + "\r\n";
-
-            queryString = queryString + "                   SELECT      " + GlobalEnums.AncestorNode + " + OrganizationalUnitID AS id, OrganizationalUnitID AS PrimaryID, Code AS Name, CAST(1 AS bit) AS hasChildren " + "\r\n";
-            queryString = queryString + "                   FROM        OrganizationalUnits " + "\r\n";
-            queryString = queryString + "                   WHERE       OrganizationalUnitID IN (SELECT OrganizationalUnitUsers.OrganizationalUnitID FROM AspNetUsers INNER JOIN OrganizationalUnitUsers ON AspNetUsers.UserID = OrganizationalUnitUsers.UserID AND (@ActiveOption = " + (int)GlobalEnums.ActiveOption.Both + " OR OrganizationalUnitUsers.InActive = @ActiveOption)) AND " + GlobalEnums.RootNode + " + LocationID = @Id " + "\r\n";
-
-            queryString = queryString + "                   " + "\r\n";
-
-            queryString = queryString + "               ELSE " + "\r\n";
-
-            queryString = queryString + "                   SELECT      AspNetUsers.UserID AS id, AspNetUsers.UserID AS PrimaryID, AspNetUsers.UserName AS Name, CAST(0 AS bit) AS hasChildren " + "\r\n";
-            queryString = queryString + "                   FROM        AspNetUsers INNER JOIN OrganizationalUnitUsers ON AspNetUsers.UserID = OrganizationalUnitUsers.UserID " + "\r\n";
-            queryString = queryString + "                   WHERE       " + GlobalEnums.AncestorNode + " + OrganizationalUnitUsers.OrganizationalUnitID = @Id AND (@ActiveOption = " + (int)GlobalEnums.ActiveOption.Both + " OR OrganizationalUnitUsers.InActive = @ActiveOption) " + "\r\n";
-            
-            queryString = queryString + "           END " + "\r\n";
-            queryString = queryString + "    END " + "\r\n";
-
-            this.totalSalesPortalEntities.CreateStoredProcedure("GetUserTrees", queryString);
-        }
-
-
-        
 
     }
 }

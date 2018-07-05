@@ -356,9 +356,6 @@
     <Compile Include="Models\UserReportControl.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\UserTree.cs">
-      <DependentUpon>TotalSalesPortal.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Vehicle.cs">
       <DependentUpon>TotalSalesPortal.tt</DependentUpon>
     </Compile>

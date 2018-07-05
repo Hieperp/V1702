@@ -40,7 +40,7 @@ namespace TotalDAL.Repositories.Generals
         {
 
             ObjectParameter[] baseParameters = base.GetEntityIndexParameters(aspUserID, fromDate, toDate);
-            ObjectParameter[] objectParameters = new ObjectParameter[] { new ObjectParameter("ActiveOption", 0), baseParameters[0], baseParameters[1], baseParameters[2] };
+            ObjectParameter[] objectParameters = new ObjectParameter[] { new ObjectParameter("ActiveOption", this.RepositoryBag.ContainsKey("ActiveOption") && this.RepositoryBag["ActiveOption"] != null ? this.RepositoryBag["ActiveOption"] : false), baseParameters[0], baseParameters[1], baseParameters[2] };
 
             this.RepositoryBag.Remove("ActiveOption");
 
@@ -52,6 +52,25 @@ namespace TotalDAL.Repositories.Generals
             return this.TotalSalesPortalEntities.GetTaskIndexes().ToList();
         }
 
+        public int UserRegister(int? userID, int? organizationalUnitID, int? sameOUAccessLevel, int? sameLocationAccessLevel, int? otherOUAccessLevel)
+        {
+            return this.totalSalesPortalEntities.UserRegister(userID, organizationalUnitID, sameOUAccessLevel, sameLocationAccessLevel, otherOUAccessLevel);
+        }
+
+        public int UserUnregister(int? userID, string userName, string organizationalUnitName)
+        {
+            return this.totalSalesPortalEntities.UserUnregister(userID, userName, organizationalUnitName);
+        }
+
+        public int UserToggleVoid(int? userID, bool? inActive)
+        {
+            return this.totalSalesPortalEntities.UserToggleVoid(userID, inActive);
+        }
+
+        public bool UserEditable(int? userID)
+        {
+            return this.totalSalesPortalEntities.UserEditable(userID).FirstOrDefault() == null;
+        }
 
         public IList<UserAccessControl> GetUserAccessControls(int? userID, int? nmvnTaskID)
         {
@@ -74,11 +93,11 @@ namespace TotalDAL.Repositories.Generals
             return this.TotalSalesPortalEntities.SaveUserReportControls(reportControlID, enabled);
         }
 
-
-        public IList<UserTree> GetUserTrees(int? id, int? activeOption)
+        public IList<LocationOrganizationalUnit> GetLocationOrganizationalUnits(int? nothing)
         {
-            return this.TotalSalesPortalEntities.GetUserTrees(id, activeOption).ToList();
+            return this.TotalSalesPortalEntities.GetLocationOrganizationalUnits(nothing).ToList();
         }
+        
 
     }
 
