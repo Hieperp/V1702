@@ -16,7 +16,7 @@ namespace TotalDTO.Helpers.Interfaces
 
         [Display(Name = "Địa chỉ giao hàng")]
         [Required(ErrorMessage = "Vui lòng nhập địa chỉ giao hàng")]
-        [UIHint("Commons/ShippingAddress")]
+        [UIHint("AutoCompletes/ShippingAddress")]
         string ShippingAddress { get; set; }
 
         [Display(Name = "Tên người nhận hàng")]

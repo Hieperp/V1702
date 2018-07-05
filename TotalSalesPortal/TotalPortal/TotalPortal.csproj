@@ -2011,6 +2011,7 @@
     <Content Include="Views\Home\Backup.cshtml" />
     <Content Include="Views\Account\UserRoles.cshtml" />
     <Content Include="Views\Account\UserReferences.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AutoCompletes\ShippingAddress.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

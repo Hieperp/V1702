@@ -66,7 +66,7 @@ namespace TotalPortal.Areas.Commons.APIs
                 Birthday = o.Birthday,
                 BillingAddress = o.BillingAddress,
                 Telephone = o.Telephone,
-                Facsimile = o.Facsimile,                
+                Facsimile = o.Facsimile,
                 Remarks = o.Remarks
             });
             return Json(response, JsonRequestBehavior.AllowGet);
@@ -98,5 +98,13 @@ namespace TotalPortal.Areas.Commons.APIs
 
             return Json(new JsonResult(), JsonRequestBehavior.AllowGet);
         }
+
+
+        public JsonResult GetShippingAddress(int? customerID, string searchText)
+        {
+            var result = customerRepository.GetShippingAddress(customerID, searchText);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
