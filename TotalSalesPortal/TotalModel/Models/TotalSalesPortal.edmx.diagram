@@ -164,6 +164,7 @@
         <AssociationConnector Association="TotalSalesPortalModel.FK_DeliveryAdvices_PriceCategories" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesOrders_PriceCategories" />
         <AssociationConnector Association="TotalSalesPortalModel.FK_SalesReturns_PriceCategories" />
+        <AssociationConnector Association="TotalSalesPortalModel.FK_AccessControls_OrganizationalUnits" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

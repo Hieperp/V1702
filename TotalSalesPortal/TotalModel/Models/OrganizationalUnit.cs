@@ -18,15 +18,19 @@ namespace TotalModel.Models
         public OrganizationalUnit()
         {
             this.OrganizationalUnitUsers = new HashSet<OrganizationalUnitUser>();
+            this.AccessControls = new HashSet<AccessControl>();
         }
     
         public int OrganizationalUnitID { get; set; }
         public string Code { get; set; }
         public int LocationID { get; set; }
         public string Name { get; set; }
+        public Nullable<bool> InActive { get; set; }
     
         public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrganizationalUnitUser> OrganizationalUnitUsers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccessControl> AccessControls { get; set; }
     }
 }

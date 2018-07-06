@@ -18,17 +18,19 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
 
         public void RestoreProcedure()
         {
-            this.GoodsIssueJournal();
-            //this.AccountInvoiceJournal();
+            //this.GoodsIssueJournal();
+            ////this.AccountInvoiceJournal();
 
-            this.GoodsIssueBalance();
+            //this.GoodsIssueBalance();
 
-            this.SalesJournal();
-            this.StatementOfAccount();
+            //this.SalesJournal();
+            //this.StatementOfAccount();
 
-            this.StatementOfWarehouses();
+            //this.StatementOfWarehouses();
 
-            //this.SearchWarehouseEntries();
+            ////this.SearchWarehouseEntries();
+
+            this.SalesReturnJournal();
         }
 
 
@@ -554,5 +556,27 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
 
             return queryString;
         }
+
+        private void SalesReturnJournal()
+        {
+            string queryString;
+
+            queryString = " @FromDate DateTime, @ToDate DateTime " + "\r\n";
+            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            queryString = queryString + " AS " + "\r\n";
+            queryString = queryString + "    BEGIN " + "\r\n";
+
+            queryString = queryString + "       SELECT      SalesReturns.EntryDate, SalesReturns.Reference, Customers.Code AS CustomerCode, Customers.Name AS CustomerName, Receivers.Code AS ReceiverCode, Receivers.Name AS ReceiverName, Commodities.Code AS CommodityCode, Commodities.Name AS CommodityName, Commodities.CodePartA, Commodities.CodePartB, Commodities.CodePartC, Commodities.CodePartD, SalesReturnDetails.Quantity, SalesReturnDetails.FreeQuantity, SalesReturnDetails.UnitPrice, SalesReturns.Description " + "\r\n";
+            queryString = queryString + "       FROM        SalesReturns " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers ON SalesReturns.EntryDate >= @FromDate AND SalesReturns.EntryDate <= @ToDate AND SalesReturns.CustomerID = Customers.CustomerID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Customers AS Receivers ON SalesReturns.ReceiverID = Receivers.CustomerID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN SalesReturnDetails ON SalesReturns.SalesReturnID = SalesReturnDetails.SalesReturnID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN Commodities ON SalesReturnDetails.CommodityID = Commodities.CommodityID " + "\r\n";
+            queryString = queryString + "    END " + "\r\n";
+
+            this.totalSalesPortalEntities.CreateStoredProcedure("SalesReturnJournal", queryString);
+        }
+        
+
     }
 }

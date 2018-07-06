@@ -28,5 +28,7 @@ namespace TotalModel.Models
         public Nullable<bool> UnApprovalPermittedBACKUP { get; set; }
         public bool ShowDiscount { get; set; }
         public bool InActive { get; set; }
+    
+        public virtual OrganizationalUnit OrganizationalUnit { get; set; }
     }
 }

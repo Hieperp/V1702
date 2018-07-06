@@ -39,7 +39,7 @@ namespace TotalPortal.Controllers
             RequireJsOptions.Add("NmvnModuleID", 9, RequireJsOptionsScope.Page);
             RequireJsOptions.Add("NmvnTaskID", 0, RequireJsOptionsScope.Page);
 
-            return View(this.reportRepository.GetReports());
+            return View(this.reportRepository.GetEntityIndexes<Report>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext)));
         }
 
 
@@ -49,7 +49,7 @@ namespace TotalPortal.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Report report = this.reportRepository.GetReports().Where(w => w.ReportUniqueID == id).FirstOrDefault();
+            Report report = this.reportRepository.GetEntityIndexes<Report>(User.Identity.GetUserId(), HomeSession.GetGlobalFromDate(this.HttpContext), HomeSession.GetGlobalToDate(this.HttpContext)).Where(w => w.ReportUniqueID == id).FirstOrDefault();
             if (report == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
