@@ -30,11 +30,11 @@ namespace TotalDAL.Repositories.Sales
             userReference.RestoreProcedure();
 
 
-            //return;
+            return;
             Helpers.SqlProgrammability.Generals.AccessControl accessControl = new Helpers.SqlProgrammability.Generals.AccessControl(totalSalesPortalEntities);
             accessControl.RestoreProcedure();
 
-            //return;
+            return;
 
 
             Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
