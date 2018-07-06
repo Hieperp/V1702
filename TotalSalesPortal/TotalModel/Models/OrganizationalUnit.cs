@@ -25,7 +25,7 @@ namespace TotalModel.Models
         public string Code { get; set; }
         public int LocationID { get; set; }
         public string Name { get; set; }
-        public Nullable<bool> InActive { get; set; }
+        public bool InActive { get; set; }
     
         public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

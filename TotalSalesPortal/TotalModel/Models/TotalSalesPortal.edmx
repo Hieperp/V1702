@@ -743,7 +743,7 @@
           <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LocationID" Type="int" Nullable="false" />
-          <Property Name="InActive" Type="bit" />
+          <Property Name="InActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="OrganizationalUnitUsers">
           <Key>
@@ -4803,7 +4803,7 @@ warning 6035: The relationship 'FK_SalesReturns_AspNetUsers2' has columns that a
           <NavigationProperty Name="Location" Relationship="TotalSalesPortalModel.FK_OrganizationalUnits_Locations" FromRole="OrganizationalUnit" ToRole="Location" />
           <NavigationProperty Name="OrganizationalUnitUsers" Relationship="TotalSalesPortalModel.FK_OrganizationalUnitIUsers_OrganizationalUnits" FromRole="OrganizationalUnit" ToRole="OrganizationalUnitUser" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="InActive" Type="Boolean" />
+          <Property Name="InActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="AccessControls" Relationship="TotalSalesPortalModel.FK_AccessControls_OrganizationalUnits" FromRole="OrganizationalUnit" ToRole="AccessControl" />
         </EntityType>
         <EntityType Name="OrganizationalUnitUser">
