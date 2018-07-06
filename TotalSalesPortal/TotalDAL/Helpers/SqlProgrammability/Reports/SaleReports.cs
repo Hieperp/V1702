@@ -21,10 +21,10 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             //this.GoodsIssueJournal();
             ////this.AccountInvoiceJournal();
 
-            //this.GoodsIssueBalance();
+            this.GoodsIssueBalance();
 
-            //this.SalesJournal();
-            //this.StatementOfAccount();
+            this.SalesJournal();
+            this.StatementOfAccount();
 
             //this.StatementOfWarehouses();
 
@@ -122,7 +122,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
         {
             string queryString = " (@ToDate DateTime, @CustomerCategoryID int, @CustomerID int) " + "\r\n";
             queryString = queryString + " RETURNS @GoodsIssueBalances TABLE (NmvnTaskID int NOT NULL, TaskAction varchar(60) NOT NULL, EntryID int NOT NULL, EntryDate datetime NOT NULL, Reference nvarchar(10) NULL, CustomerID int NOT NULL, CustomerCode nvarchar(50) NOT NULL, CustomerName nvarchar(100) NOT NULL, BillingAddress nvarchar(200) NOT NULL, CustomerCategoryID int NOT NULL, CustomerCategoryName nvarchar(100) NOT NULL, TradePromotionID int NULL, EntryAmount decimal(18, 2) NOT NULL, BalanceAmount decimal(18, 2) NOT NULL) " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "   BEGIN " + "\r\n";
 
@@ -240,7 +240,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             string queryString;
 
             queryString = " @FromDate DateTime, @ToDate DateTime, @CustomerCategoryID int, @CustomerID int " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
@@ -326,7 +326,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
             string queryString;
 
             queryString = " @FromDate DateTime, @ToDate DateTime, @CustomerCategoryID int, @CustomerID int " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
             queryString = queryString + "    BEGIN " + "\r\n";
 
@@ -334,7 +334,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Reports
 
             queryString = queryString + "       DECLARE     @LocalFromDate DateTime, @LocalToDate DateTime, @LocalCustomerCategoryID int, @LocalCustomerID int         SET @LocalFromDate = @FromDate         SET @LocalToDate = @ToDate          SET @LocalCustomerCategoryID = @CustomerCategoryID            SET @LocalCustomerID = @CustomerID " + "\r\n";
 
-            queryString = queryString + "       DECLARE         @StatementTable TABLE (NmvnTaskID int NULL, TaskAction nvarchar(50) NULL, CustomerID int NOT NULL, CustomerCode nvarchar(50) NOT NULL, CustomerName nvarchar(100) NOT NULL, BillingAddress nvarchar(200) NOT NULL, CustomerCategoryID int NOT NULL, CustomerCategoryName nvarchar(100) NOT NULL, EntryID int NULL, EntryDate datetime NULL, GoodsIssueID int NULL, GoodsIssueReference nvarchar(30) NULL, CountGoodsIssueID int, GoodsIssueListedGrossAmount float NOT NULL, GoodsIssueGrossAmount float NOT NULL, GoodsIssueDiscountAmount float NOT NULL, AccountInvoiceID int NULL, AccountInvoiceReference nvarchar(30) NULL, VATInvoiceNo nvarchar(30) NULL, GoodsIssueReferences nvarchar(200) NULL, SerialID int NULL, AccountInvoiceListedGrossAmount float NOT NULL, AccountInvoiceGrossAmount float NOT NULL, AccountInvoiceDiscountAmount float NOT NULL, BeginningAmount float NOT NULL, SumListedGrossAmount float NOT NULL, TotalGrossAmount float NOT NULL, TotalDiscountAmount float NOT NULL, TotalReturnAmount float NOT NULL, TotalReturnDiscountAmount float NOT NULL, TotalCreditAmount float NOT NULL, TotalCashReceiptAmount float NOT NULL, TotalBankTransferAmount float NOT NULL, TotalCashDiscount float NOT NULL, TotalOtherDiscount float NOT NULL, TotalFluctuationAmount float NOT NULL, EndingAmount float NOT NULL, EndingAmountInWords nvarchar(100) NULL) " + "\r\n";
+            queryString = queryString + "       DECLARE         @StatementTable TABLE (NmvnTaskID int NULL, TaskAction nvarchar(50) NULL, CustomerID int NOT NULL, CustomerCode nvarchar(50) NOT NULL, CustomerName nvarchar(100) NOT NULL, BillingAddress nvarchar(200) NOT NULL, CustomerCategoryID int NOT NULL, CustomerCategoryName nvarchar(100) NOT NULL, EntryID int NULL, EntryDate datetime NULL, GoodsIssueID int NULL, GoodsIssueReference nvarchar(30) NULL, TradePromotionID int NULL, CountGoodsIssueID int, GoodsIssueListedGrossAmount float NOT NULL, GoodsIssueGrossAmount float NOT NULL, GoodsIssueDiscountAmount float NOT NULL, AccountInvoiceID int NULL, AccountInvoiceReference nvarchar(30) NULL, VATInvoiceNo nvarchar(30) NULL, GoodsIssueReferences nvarchar(200) NULL, SerialID int NULL, AccountInvoiceListedGrossAmount float NOT NULL, AccountInvoiceGrossAmount float NOT NULL, AccountInvoiceDiscountAmount float NOT NULL, BeginningAmount float NOT NULL, SumListedGrossAmount float NOT NULL, TotalGrossAmount float NOT NULL, TotalDiscountAmount float NOT NULL, TotalReturnAmount float NOT NULL, TotalReturnDiscountAmount float NOT NULL, TotalCreditAmount float NOT NULL, TotalCashReceiptAmount float NOT NULL, TotalBankTransferAmount float NOT NULL, TotalCashDiscount float NOT NULL, TotalOtherDiscount float NOT NULL, TotalFluctuationAmount float NOT NULL, EndingAmount float NOT NULL, EndingAmountInWords nvarchar(100) NULL) " + "\r\n";
             queryString = queryString + "       DECLARE         @SalesJournalTable TABLE (NmvnTaskID int NULL, TaskAction nvarchar(50) NULL, CustomerID int NOT NULL, CustomerCode nvarchar(50) NOT NULL, CustomerName nvarchar(100) NOT NULL, BillingAddress nvarchar(200) NOT NULL, CustomerCategoryID int NOT NULL, CustomerCategoryName nvarchar(100) NOT NULL, EntryID int NULL, EntryDate datetime NOT NULL, Reference nvarchar(30) NULL, TradePromotionID int NULL, BeginningAmount float NOT NULL, SumListedGrossAmount float NOT NULL, TotalGrossAmount float NOT NULL, TotalDiscountAmount float NOT NULL, TotalReturnAmount float NOT NULL, TotalReturnDiscountAmount float NOT NULL, TotalCreditAmount float NOT NULL, TotalCashReceiptAmount float NOT NULL, TotalBankTransferAmount float NOT NULL, TotalCashDiscount float NOT NULL, TotalOtherDiscount float NOT NULL, TotalFluctuationAmount float NOT NULL, EndingAmount float NOT NULL) " + "\r\n";
 
             queryString = queryString + "       IF (@LocalCustomerID > 0) " + "\r\n";
