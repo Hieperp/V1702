@@ -26,32 +26,32 @@ namespace TotalDAL.Repositories.Sales
         {
             //return;
 
-            ////Helpers.SqlProgrammability.Analysis.Report report = new Helpers.SqlProgrammability.Analysis.Report(totalSalesPortalEntities);
-            ////report.RestoreProcedure();
+            Helpers.SqlProgrammability.Analysis.Report report = new Helpers.SqlProgrammability.Analysis.Report(totalSalesPortalEntities);
+            report.RestoreProcedure();
 
 
-            ////return;
+            //return;
 
-            ////Helpers.SqlProgrammability.Generals.UserReference userReference = new Helpers.SqlProgrammability.Generals.UserReference(totalSalesPortalEntities);
-            ////userReference.RestoreProcedure();
-
-
-            ////return;
-            ////Helpers.SqlProgrammability.Generals.AccessControl accessControl = new Helpers.SqlProgrammability.Generals.AccessControl(totalSalesPortalEntities);
-            ////accessControl.RestoreProcedure();
-
-            ////return;
+            Helpers.SqlProgrammability.Generals.UserReference userReference = new Helpers.SqlProgrammability.Generals.UserReference(totalSalesPortalEntities);
+            userReference.RestoreProcedure();
 
 
-            ////Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
-            ////deliveryAdvice.RestoreProcedure();
+            //return;
+            Helpers.SqlProgrammability.Generals.AccessControl accessControl = new Helpers.SqlProgrammability.Generals.AccessControl(totalSalesPortalEntities);
+            accessControl.RestoreProcedure();
+
+            //return;
+
+
+            Helpers.SqlProgrammability.Sales.DeliveryAdvice deliveryAdvice = new Helpers.SqlProgrammability.Sales.DeliveryAdvice(totalSalesPortalEntities);
+            deliveryAdvice.RestoreProcedure();
 
             //return;
 
             Helpers.SqlProgrammability.Reports.SaleReports saleReports = new Helpers.SqlProgrammability.Reports.SaleReports(totalSalesPortalEntities);
             saleReports.RestoreProcedure();
 
-            return;
+            //return;
 
             Helpers.SqlProgrammability.Commons.Customer customer = new Helpers.SqlProgrammability.Commons.Customer(totalSalesPortalEntities);
             customer.RestoreProcedure();
