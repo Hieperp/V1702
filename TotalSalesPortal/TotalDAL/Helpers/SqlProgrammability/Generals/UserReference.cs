@@ -64,7 +64,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
             queryString = queryString + "       SELECT      AspNetUsers.UserID, AspNetUsers.FirstName, AspNetUsers.LastName, AspNetUsers.UserName, OrganizationalUnits.Name AS OrganizationalUnitName, OrganizationalUnits.LocationID, Locations.Name AS LocationName, OrganizationalUnitUsers.InActive " + "\r\n";
             queryString = queryString + "       FROM        AspNetUsers " + "\r\n";
             queryString = queryString + "                   INNER JOIN OrganizationalUnitUsers ON AspNetUsers.UserID = OrganizationalUnitUsers.UserID AND (@ActiveOption = " + (int)GlobalEnums.ActiveOption.Both + " OR OrganizationalUnitUsers.InActive = @ActiveOption) " + "\r\n";
-            queryString = queryString + "                   INNER JOIN OrganizationalUnits ON OrganizationalUnitUsers.OrganizationalUnitID = OrganizationalUnits.OrganizationalUnitID " + "\r\n";
+            queryString = queryString + "                   INNER JOIN OrganizationalUnits ON OrganizationalUnits.InActive = 0 AND OrganizationalUnitUsers.OrganizationalUnitID = OrganizationalUnits.OrganizationalUnitID " + "\r\n";
             queryString = queryString + "                   INNER JOIN Locations ON OrganizationalUnits.LocationID = Locations.LocationID " + "\r\n";
 
             queryString = queryString + "    END " + "\r\n";
@@ -83,7 +83,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
             queryString = queryString + "    BEGIN " + "\r\n";
 
             queryString = queryString + "       SELECT      OrganizationalUnits.OrganizationalUnitID, Locations.Code + '\\' + OrganizationalUnits.Code AS LocationOrganizationalUnitCode " + "\r\n";
-            queryString = queryString + "       FROM        OrganizationalUnits INNER JOIN Locations ON OrganizationalUnits.LocationID = Locations.LocationID " + "\r\n";
+            queryString = queryString + "       FROM        OrganizationalUnits INNER JOIN Locations ON OrganizationalUnits.InActive = 0 AND OrganizationalUnits.LocationID = Locations.LocationID " + "\r\n";
             queryString = queryString + "       ORDER BY    LocationOrganizationalUnitCode " + "\r\n";
 
             queryString = queryString + "    END " + "\r\n";
@@ -193,7 +193,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Generals
             queryString = queryString + "    BEGIN " + "\r\n";
 
             queryString = queryString + "       SELECT      AccessControls.AccessControlID, OrganizationalUnits.LocationID, Locations.Name AS LocationName, OrganizationalUnits.Name AS OrganizationalUnitName, AccessControls.OrganizationalUnitID, AccessControls.AccessLevel, AccessControls.ApprovalPermitted, AccessControls.UnApprovalPermitted, AccessControls.VoidablePermitted, AccessControls.UnVoidablePermitted, AccessControls.ShowDiscount " + "\r\n";
-            queryString = queryString + "       FROM        AccessControls INNER JOIN OrganizationalUnits ON AccessControls.OrganizationalUnitID = OrganizationalUnits.OrganizationalUnitID INNER JOIN Locations ON OrganizationalUnits.LocationID = Locations.LocationID " + "\r\n";
+            queryString = queryString + "       FROM        AccessControls INNER JOIN OrganizationalUnits ON OrganizationalUnits.InActive = 0 AND AccessControls.OrganizationalUnitID = OrganizationalUnits.OrganizationalUnitID INNER JOIN Locations ON OrganizationalUnits.LocationID = Locations.LocationID " + "\r\n";
             queryString = queryString + "       WHERE       AccessControls.UserID = @UserID AND AccessControls.NMVNTaskID = @NMVNTaskID " + "\r\n";
             queryString = queryString + "       ORDER BY    Locations.Name, OrganizationalUnits.Name " + "\r\n";
 

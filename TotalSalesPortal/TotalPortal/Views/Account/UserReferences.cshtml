@@ -38,9 +38,9 @@
                         .Events(e => { e.Change("UserTask_OnChange"); e.DataBound("onDataBoundUserIndex"); })
                         .DataSource(dataSource => dataSource
                             .Ajax()
-                            .Group(group => group.AddDescending(p => p.LocationOU))
+                            .Group(group => group.Add(p => p.LocationOU))
                             .Read(read => read.Action("GetUserIndexes", "UserAPIs", new { area = "Generals" }).Data("onGetUserIndexes"))
-                            .Sort(sort => { sort.Add(p => p.UserName).Descending(); })
+                            .Sort(sort => { sort.Add(p => p.UserName); })
                             .Model(model =>
                             {
                                 model.Id(x => x.UserID);

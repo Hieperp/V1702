@@ -24,8 +24,8 @@ namespace TotalPortal.Controllers
     {
         private readonly IModuleRepository moduleRepository;
 
-        private IReportRepository reportRepository;
-        public ReportsController(IModuleRepository moduleRepository, IReportRepository reportRepository)
+        private IReportAPIRepository reportRepository;
+        public ReportsController(IModuleRepository moduleRepository, IReportAPIRepository reportRepository)
         {
             this.moduleRepository = moduleRepository;
             this.reportRepository = reportRepository;

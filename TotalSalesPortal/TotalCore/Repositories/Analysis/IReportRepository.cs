@@ -4,8 +4,7 @@ using TotalModel.Models;
 
 namespace TotalCore.Repositories.Analysis
 {
-    public interface IReportRepository
+    public interface IReportAPIRepository : IGenericAPIRepository
     {
-        List<Report> GetReports();
     }
 }

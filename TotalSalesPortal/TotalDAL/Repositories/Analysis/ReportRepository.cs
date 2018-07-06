@@ -6,11 +6,11 @@ using TotalCore.Repositories.Analysis;
 
 namespace TotalDAL.Repositories.Analysis
 {
-    public class ReportRepository : IReportRepository
+    public class ReportAPIRepository : IReportAPIRepository
     {
         private readonly TotalSalesPortalEntities totalSalesPortalEntities;
 
-        public ReportRepository(TotalSalesPortalEntities totalSalesPortalEntities)
+        public ReportAPIRepository(TotalSalesPortalEntities totalSalesPortalEntities)
         {
             this.totalSalesPortalEntities = totalSalesPortalEntities;
         }

@@ -98,7 +98,7 @@ namespace TotalPortal.App_Start
                 kernel.Bind<IModuleRepository>().To<ModuleRepository>();
                 kernel.Bind<IModuleDetailRepository>().To<ModuleDetailRepository>();
 
-                kernel.Bind<IReportRepository>().To<ReportRepository>();
+                kernel.Bind<IReportAPIRepository>().To<ReportAPIRepository>();
 
 
                 kernel.Bind<ISalesOrderService>().To<SalesOrderService>();
