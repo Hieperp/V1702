@@ -7,8 +7,10 @@ namespace TotalCore.Helpers
     {
         public static bool Validate()
         {
-            string systemInfos = SystemInfos.GetSystemInfos();
-            if (systemInfos == "")
+            string systemInfos = SystemInfos.GetSystemInfos(true);
+            //string systemInfoDecrypt = SecureEncoding.Decrypt("9AjMX2WmdH1+f1gY28KOSIrnL3TmPUpAWOsRtqiPRqvMGh2ghwBv2xaZX73H9J2HdhsEjFDPEREvvqZWNMhmNZnwzIpQM0n+8sSgl7GDLB7KbU7rEjaLkIMwkLnkPwloByCwe9AtKMRrK1iCQ+dYyd4imAny4UmhqsMVIsnK207HIOLx4f+6gtGCtXzQTaZ+Rwk/zUdHfrcaJ9//o4GZ8g==");
+
+            if (systemInfos == "9AjMX2WmdH1+f1gY28KOSIrnL3TmPUpAWOsRtqiPRqvMGh2ghwBv2xaZX73H9J2HdhsEjFDPEREvvqZWNMhmNZnwzIpQM0n+8sSgl7GDLB7KbU7rEjaLkIMwkLnkPwloByCwe9AtKMRrK1iCQ+dYyd4imAny4UmhqsMVIsnK207HIOLx4f+6gtGCtXzQTaZ+Rwk/zUdHfrcaJ9//o4GZ8g==")
                 return true;
             else
                 throw new SystemException("Copyright " + DateTime.Now.Year + ". All rights reserved." + "\r\n" + "\r\n" + "Please contact via: Tel: 0903 880 501, 0919 878 329, Skype: hieperp, Email: hieperp@gmail.com");
@@ -16,15 +18,20 @@ namespace TotalCore.Helpers
 
         public static String GetSystemInfos()
         {
-            string processorAllInfos = SystemInfos.GetProcessorAllInfos();
+            return SystemInfos.GetSystemInfos(false);
+        }
 
-            string processorId = SystemInfos.GetProcessorId();
-            string processorInformation = SystemInfos.GetProcessorInformation();
+        public static String GetSystemInfos(bool secureEncoding)
+        {
+            string processorAllInfos = SystemInfos.GetProcessorAllInfos();
             string hddSerialNo = SystemInfos.GetHDDSerialNo();
             string macAddress = SystemInfos.GetMACAddress();
             string boardMaker = SystemInfos.GetBoardMaker();
 
-            return processorId + processorInformation + boardMaker + macAddress + hddSerialNo;
+            string systemInfos = processorAllInfos + boardMaker + macAddress + hddSerialNo;
+            if (secureEncoding) systemInfos = SecureEncoding.Encrypt(systemInfos);
+
+            return systemInfos;
         }
 
         /// <summary>

@@ -33,6 +33,7 @@ namespace TotalCore.Repositories
 
 
         String GetSystemInfos();
+        String GetSystemInfos(bool secureEncoding);
         bool SystemInfoValidate();
     }
 }

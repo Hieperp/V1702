@@ -24,9 +24,6 @@ namespace TotalPortal.Controllers
             this.baseRepository = baseRepository;
         }
 
-        //public HomeController(IDeliveryAdviceRepository deliveryAdviceRepository)
-        //{
-        //}
 
         public ActionResult Index()
         {
@@ -35,7 +32,9 @@ namespace TotalPortal.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "This software is licensed to Vinh Cơ Company Limited." + "\r\n\r\n" + this.baseRepository.GetSystemInfos();
+            ViewBag.Message = "This software is licensed to Vinh Cơ Company Limited.";
+            ViewBag.SystemInfos = "";// this.baseRepository.GetSystemInfos();
+            ViewBag.SecureSystemInfos = "[@@" + this.baseRepository.GetSystemInfos(true) + "@@]";
 
             return View();
         }

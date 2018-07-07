@@ -178,7 +178,12 @@ namespace TotalDAL.Repositories
 
         public String GetSystemInfos()
         {
-            return SystemInfos.GetSystemInfos();
+            return this.GetSystemInfos(false);
+        }
+
+        public String GetSystemInfos(bool secureEncoding)
+        {
+            return SystemInfos.GetSystemInfos(secureEncoding);
         }
 
         public bool SystemInfoValidate()
