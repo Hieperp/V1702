@@ -35,7 +35,7 @@ namespace TotalPortal.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "This software is licensed to Vinh Cơ Company Limited." + "\r\n\r\n" + this.baseRepository.GetSystemInfos();
 
             return View();
         }

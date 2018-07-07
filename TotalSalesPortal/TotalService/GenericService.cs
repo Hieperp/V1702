@@ -206,6 +206,8 @@ namespace TotalService
         /// <returns></returns>
         protected virtual bool Save(TDto dto, bool useExistingTransaction)
         {
+            this.genericRepository.SystemInfoValidate();
+
             TEntity entity;
             if (useExistingTransaction)
                 entity = this.SaveThis(dto);
@@ -236,7 +238,7 @@ namespace TotalService
                 try
                 {
                     if ((!dto.Approved && !this.Approvable(dto)) || (dto.Approved && !this.UnApprovable(dto))) throw new System.ArgumentException("Lỗi " + (dto.Approved ? "hủy " : "") + "duyệt dữ liệu", "Bạn không có quyền hoặc dữ liệu này đã bị khóa.");
-                                        
+
                     this.ToggleApprovedMe(dto);
 
                     this.genericRepository.SaveChanges();
@@ -339,7 +341,7 @@ namespace TotalService
                 }
             }
         }
-       
+
 
 
         public virtual void PreSaveRoutines(TDto dto)

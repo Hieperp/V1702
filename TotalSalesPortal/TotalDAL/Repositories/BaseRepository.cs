@@ -8,6 +8,7 @@ using System.Collections.Generic;
 
 using TotalBase.Enums;
 using TotalModel.Models;
+using TotalCore.Helpers;
 using TotalCore.Repositories;
 
 
@@ -174,6 +175,16 @@ namespace TotalDAL.Repositories
             return this.GetEntities<T>(null, includes);
         }
 
+
+        public String GetSystemInfos()
+        {
+            return SystemInfos.GetSystemInfos();
+        }
+
+        public bool SystemInfoValidate()
+        {
+            return SystemInfos.Validate();
+        }
 
     }
 }

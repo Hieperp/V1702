@@ -32,6 +32,7 @@ namespace TotalCore.Repositories
         ICollection<T> GetEntities<T>(bool proxyCreationEnabled, Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes) where T : class;
 
 
-
+        String GetSystemInfos();
+        bool SystemInfoValidate();
     }
 }
