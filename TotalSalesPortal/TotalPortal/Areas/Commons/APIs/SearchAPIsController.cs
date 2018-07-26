@@ -28,7 +28,7 @@ namespace TotalPortal.Areas.Commons.APIs
 
         public JsonResult SearchWarehouseEntries([DataSourceRequest] DataSourceRequest request, DateTime fromDate, DateTime toDate, String codePartA, String codePartB)
         {
-            if (codePartA.Trim().Length >= 3)
+            if (codePartA.Trim().Length >= 2)
             {
                 IList<WarehouseEntry> warehouseEntries = this.searchAPIRepository.SearchWarehouseEntries(User.Identity.GetUserId(), fromDate, toDate, codePartA, codePartB);
 

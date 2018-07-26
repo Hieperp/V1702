@@ -32,7 +32,7 @@
             {
                 toolbar.Template(@<text>
                     <div class="toolbar" style="float: right;">
-                        <label>Nhập ít nhất 3 ký tự mã sản phẩm, mã bông</label>
+                        <label>Nhập ít nhất 2 ký tự mã sản phẩm, mã bông</label>
                         <input id="searchCodePartA" class="k-textbox" style="text-align: center; " onkeyup="callSearchWarehouseEntries()" />
                         <input id="searchCodePartB" class="k-textbox" style="text-align: center; " onkeyup="callSearchWarehouseEntries()" />
 
@@ -76,7 +76,7 @@
 
     function callSearchWarehouseEntries() {
         var searchCodePartA = $("#searchCodePartA").val(), gridIndexs = $("#kendoGridIndex").data("kendoGrid");
-        if ((searchCodePartA && searchCodePartA.length >= 3)) {
+        if ((searchCodePartA && searchCodePartA.length >= 2)) {
             gridIndexs.dataSource.read();
         }
     }
