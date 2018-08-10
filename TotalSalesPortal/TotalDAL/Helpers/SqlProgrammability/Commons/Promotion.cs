@@ -237,9 +237,9 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
 
         private void PromotionVoidable()
         {
-            string[] queryArray = new string[1];
+            string[] queryArray = new string[0];
 
-            queryArray[0] = " SELECT TOP 1 @FoundEntity = PromotionID FROM Promotions WHERE PromotionID = @EntityID AND Approved = 0"; //Must approve in order to allow void
+            //queryArray[0] = " SELECT TOP 1 @FoundEntity = PromotionID FROM Promotions WHERE PromotionID = @EntityID AND Approved = 0"; //Must approve in order to allow void
 
             this.totalSalesPortalEntities.CreateProcedureToCheckExisting("PromotionVoidable", queryArray);
         }
