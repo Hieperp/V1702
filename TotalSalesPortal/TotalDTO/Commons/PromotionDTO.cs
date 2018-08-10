@@ -63,6 +63,7 @@ namespace TotalDTO.Commons
         public bool ApplyToTradeDiscount { get; set; }
 
         public override int PreparedPersonID { get { return 1; } }
+        public override Nullable<int> VoidTypeID { get { return 1; } }
 
         public string Specs { get { return this.Code + " [" + this.DiscountPercent.ToString("N1") + "%" + (this.ControlFreeQuantity > 0 ? ", " + this.ControlFreeQuantity.ToString("N0") + "/1QT" : "") + "] "; } }
 
