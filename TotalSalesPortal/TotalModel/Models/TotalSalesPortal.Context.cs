@@ -1657,7 +1657,7 @@ namespace TotalModel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PromotionToggleApproved", entityIDParameter, approvedParameter);
         }
     
-        public virtual int PromotionToggleVoid(Nullable<int> entityID, Nullable<bool> inActive)
+        public virtual int PromotionToggleVoid(Nullable<int> entityID, Nullable<bool> inActive, Nullable<int> voidTypeID)
         {
             var entityIDParameter = entityID.HasValue ?
                 new ObjectParameter("EntityID", entityID) :
@@ -1667,7 +1667,11 @@ namespace TotalModel.Models
                 new ObjectParameter("InActive", inActive) :
                 new ObjectParameter("InActive", typeof(bool));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PromotionToggleVoid", entityIDParameter, inActiveParameter);
+            var voidTypeIDParameter = voidTypeID.HasValue ?
+                new ObjectParameter("VoidTypeID", voidTypeID) :
+                new ObjectParameter("VoidTypeID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PromotionToggleVoid", entityIDParameter, inActiveParameter, voidTypeIDParameter);
         }
     
         public virtual ObjectResult<string> PromotionVoidable(Nullable<int> entityID)

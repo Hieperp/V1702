@@ -264,7 +264,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
 
         private void PromotionToggleVoid()
         {
-            string queryString = " @EntityID int, @InActive bit " + "\r\n";
+            string queryString = " @EntityID int, @InActive bit, @VoidTypeID int " + "\r\n";
             queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
