@@ -26,7 +26,7 @@ namespace TotalDAL.Repositories.Sales
         {
 
 
-            //return;
+            return;
 
             Helpers.SqlProgrammability.Commons.Promotion promotion = new Helpers.SqlProgrammability.Commons.Promotion(totalSalesPortalEntities);
             promotion.RestoreProcedure();
