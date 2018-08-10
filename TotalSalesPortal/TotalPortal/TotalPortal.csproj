@@ -1086,6 +1086,7 @@
     <Content Include="Areas\Generals\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Generals\Views\web.config" />
     <Content Include="Areas\Commons\Views\Promotions\Delete.cshtml" />
+    <Content Include="Areas\Commons\Views\Promotions\Void.cshtml" />
     <None Include="Properties\PublishProfiles\VCP.pubxml">
       <SubType>Designer</SubType>
     </None>
@@ -1131,6 +1132,7 @@
     <Content Include="Scripts\Controllers\Commons\Promotions\Delete.js" />
     <Content Include="Scripts\Controllers\Commons\Promotions\Edit.js" />
     <Content Include="Scripts\Controllers\Commons\Promotions\Index.js" />
+    <Content Include="Scripts\Controllers\Commons\Promotions\Void.js" />
     <Content Include="Scripts\Controllers\Inventories\GoodsDeliveries\AddPendingHandlingUnit.js" />
     <Content Include="Scripts\Controllers\Inventories\GoodsDeliveries\CreateWizard.js" />
     <Content Include="Scripts\Controllers\Inventories\GoodsDeliveries\Delete.js" />
