@@ -25,7 +25,7 @@
             columns.Template(t => { }).Title("Trả hàng").ClientTemplate("<input class='IsSelected' #= ApplyToReturns ? checked='checked':'' #  type='checkbox' />").HtmlAttributes(new { @class = "grid-column-center", @readonly = "readonly" }).HeaderHtmlAttributes(new { @style = "text-align: center" }).Width(5);
 
             columns.Template(model => null).HtmlAttributes(new { @class = "grid-column-center" }).Width(92)
-                .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Commons/Promotions", action = "Void" }) + "/#= PromotionID #'><span class='k-icon k-edit'></span></a> <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Commons/Promotions", action = "Print" }) + "/#= PromotionID #'><span class='k-icon k-i-folder-add'></span></a>");
+                .ClientTemplate("<a class='k-button' style='padding-left:5px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Commons/Promotions", action = "Void" }) + "/#= PromotionID #'><span class='k-icon k-edit'></span></a> <a class='k-button' style='padding-left:0px; padding-right:0px; min-width:28px; width:28px' href='" + Url.RouteUrl("Default", new { controller = "Commons/Promotions", action = "Delete" }) + "/#= PromotionID #'><span class='k-icon k-delete'></span></a>");
         })
         .ToolBar(toolbar =>
         {
