@@ -217,7 +217,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Commons
         {
             string[] queryArray = new string[6];
 
-            queryArray[0] = " SELECT TOP 1 @FoundEntity = PromotionID FROM Promotions WHERE PromotionID = @EntityID AND InActive = 1"; //Don't allow approve after void
+            queryArray[0] = " SELECT TOP 1 @FoundEntity = PromotionID FROM Promotions WHERE PromotionID = @EntityID AND (InActive = 1 OR StartDate <= GETDATE()) "; //Don't allow approve after void
 
             queryArray[1] = " SELECT TOP 1 @FoundEntity = SalesOrderID FROM SalesOrders WHERE PromotionID = @EntityID OR TradePromotionID = @EntityID ";
             queryArray[2] = " SELECT TOP 1 @FoundEntity = DeliveryAdviceID FROM DeliveryAdvices WHERE PromotionID = @EntityID OR TradePromotionID = @EntityID ";

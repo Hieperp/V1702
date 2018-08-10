@@ -1085,6 +1085,7 @@
     <Content Include="Areas\Commons\Views\Promotions\PromotionCustomerCategories.cshtml" />
     <Content Include="Areas\Generals\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Generals\Views\web.config" />
+    <Content Include="Areas\Commons\Views\Promotions\Delete.cshtml" />
     <None Include="Properties\PublishProfiles\VCP.pubxml">
       <SubType>Designer</SubType>
     </None>
