@@ -111,7 +111,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
             string queryString;
             
             queryString = " @ReceiptID Int, @LocationID Int, @GoodsIssueID Int, @CustomerID Int, @IsReadonly bit " + "\r\n";
-            queryString = queryString + " WITH ENCRYPTION " + "\r\n";
+            //queryString = queryString + " WITH ENCRYPTION " + "\r\n";
             queryString = queryString + " AS " + "\r\n";
 
             queryString = queryString + "   BEGIN " + "\r\n";
@@ -163,7 +163,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
         {
             string queryString;
 
-            queryString = "                     SELECT          GoodsIssues.GoodsIssueID, GoodsIssues.EntryDate AS GoodsIssueEntryDate, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.CustomerID, Customers.Name AS CustomerName, GoodsIssues.ReceiverID, Receivers.Name AS ReceiverName, GoodsIssues.Description, 0 AS ReceiptDetailID, 0 AS ReceiptID, '' AS Remarks, " + "\r\n";
+            queryString = "                     SELECT          TOP 200 GoodsIssues.GoodsIssueID, GoodsIssues.EntryDate AS GoodsIssueEntryDate, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.CustomerID, Customers.Name AS CustomerName, GoodsIssues.ReceiverID, Receivers.Name AS ReceiverName, GoodsIssues.Description, 0 AS ReceiptDetailID, 0 AS ReceiptID, '' AS Remarks, " + "\r\n";
             queryString = queryString + "                       GoodsIssues.TotalGrossAmount, ROUND(GoodsIssues.TotalGrossAmount - GoodsIssues.TotalReceiptAmount - GoodsIssues.TotalCashDiscount - GoodsIssues.TotalOtherDiscount, " + (int)GlobalEnums.rndAmount + ") AS AmountDue, 0.0 AS ReceiptAmount, 0.0 AS CashDiscount, 0.0 AS OtherDiscount, 0.0 AS FluctuationAmount " + "\r\n";
 
             queryString = queryString + "       FROM            GoodsIssues " + "\r\n";
@@ -177,7 +177,7 @@ namespace TotalDAL.Helpers.SqlProgrammability.Accounts
         {
             string queryString;
 
-            queryString = "                     SELECT          GoodsIssues.GoodsIssueID, GoodsIssues.EntryDate AS GoodsIssueEntryDate, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.CustomerID, Customers.Name AS CustomerName, GoodsIssues.ReceiverID, Receivers.Name AS ReceiverName, GoodsIssues.Description, ReceiptDetails.ReceiptDetailID, ReceiptDetails.ReceiptID, ReceiptDetails.Remarks, " + "\r\n";
+            queryString = "                     SELECT          TOP 200 GoodsIssues.GoodsIssueID, GoodsIssues.EntryDate AS GoodsIssueEntryDate, GoodsIssues.Reference AS GoodsIssueReference, GoodsIssues.CustomerID, Customers.Name AS CustomerName, GoodsIssues.ReceiverID, Receivers.Name AS ReceiverName, GoodsIssues.Description, ReceiptDetails.ReceiptDetailID, ReceiptDetails.ReceiptID, ReceiptDetails.Remarks, " + "\r\n";
             queryString = queryString + "                       GoodsIssues.TotalGrossAmount, ROUND(GoodsIssues.TotalGrossAmount - GoodsIssues.TotalReceiptAmount - GoodsIssues.TotalCashDiscount - GoodsIssues.TotalOtherDiscount + ReceiptDetails.ReceiptAmount + ReceiptDetails.CashDiscount + ReceiptDetails.OtherDiscount, " + (int)GlobalEnums.rndAmount + ") AS AmountDue, ReceiptDetails.ReceiptAmount, ReceiptDetails.CashDiscount, ReceiptDetails.OtherDiscount, ReceiptDetails.FluctuationAmount " + "\r\n";
 
             queryString = queryString + "       FROM            ReceiptDetails " + "\r\n";
